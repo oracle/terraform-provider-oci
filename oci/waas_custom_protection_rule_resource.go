@@ -175,7 +175,7 @@ func (s *WaasCustomProtectionRuleResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if template, ok := s.D.GetOkExists("template"); ok {
@@ -183,7 +183,7 @@ func (s *WaasCustomProtectionRuleResourceCrud) Create() error {
 		request.Template = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.CreateCustomProtectionRule(context.Background(), request)
 	if err != nil {
@@ -200,7 +200,7 @@ func (s *WaasCustomProtectionRuleResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CustomProtectionRuleId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.GetCustomProtectionRule(context.Background(), request)
 	if err != nil {
@@ -245,7 +245,7 @@ func (s *WaasCustomProtectionRuleResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if template, ok := s.D.GetOkExists("template"); ok {
@@ -253,7 +253,7 @@ func (s *WaasCustomProtectionRuleResourceCrud) Update() error {
 		request.Template = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.UpdateCustomProtectionRule(context.Background(), request)
 	if err != nil {
@@ -270,7 +270,7 @@ func (s *WaasCustomProtectionRuleResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CustomProtectionRuleId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	_, err := s.Client.DeleteCustomProtectionRule(context.Background(), request)
 	return err
@@ -319,7 +319,7 @@ func (s *WaasCustomProtectionRuleResourceCrud) updateCompartment(compartment int
 	idTmp := s.D.Id()
 	changeCompartmentRequest.CustomProtectionRuleId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	_, err := s.Client.ChangeCustomProtectionRuleCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

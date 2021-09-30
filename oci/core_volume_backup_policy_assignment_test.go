@@ -19,20 +19,20 @@ import (
 
 var (
 	volumeBackupPolicyAssignmentDataSourceRepresentation = map[string]interface{}{
-		"asset_id": Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
+		"asset_id": Representation{RepType: Required, Create: `${oci_core_volume.test_volume.id}`},
 		"filter":   RepresentationGroup{Required, volumeBackupPolicyAssignmentDataSourceFilterRepresentation}}
 	volumeBackupPolicyAssignmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_volume_backup_policy_assignment.test_volume_backup_policy_assignment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_volume_backup_policy_assignment.test_volume_backup_policy_assignment.id}`}},
 	}
 
 	volumeBackupPolicyAssignmentRepresentation = map[string]interface{}{
-		"asset_id":  Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
-		"policy_id": Representation{repType: Required, create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
+		"asset_id":  Representation{RepType: Required, Create: `${oci_core_volume.test_volume.id}`},
+		"policy_id": Representation{RepType: Required, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
 	}
 
 	VolumeBackupPolicyAssignmentResourceDependencies = VolumeBackupPolicyDependency +
-		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -50,23 +50,23 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_volume_backup_policy_assignments.test_volume_backup_policy_assignments"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+VolumeBackupPolicyAssignmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Required, Create, volumeBackupPolicyAssignmentRepresentation), "core", "volumeBackupPolicyAssignment", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+VolumeBackupPolicyAssignmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Required, Create, volumeBackupPolicyAssignmentRepresentation), "core", "volumeBackupPolicyAssignment", t)
 
 	ResourceTest(t, testAccCheckCoreVolumeBackupPolicyAssignmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeBackupPolicyAssignmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Required, Create, volumeBackupPolicyAssignmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Required, Create, volumeBackupPolicyAssignmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "asset_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "policy_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -78,9 +78,9 @@ func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_volume_backup_policy_assignments", "test_volume_backup_policy_assignments", Optional, Update, volumeBackupPolicyAssignmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_volume_backup_policy_assignments", "test_volume_backup_policy_assignments", Optional, Update, volumeBackupPolicyAssignmentDataSourceRepresentation) +
 				compartmentIdVariableStr + VolumeBackupPolicyAssignmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Optional, Update, volumeBackupPolicyAssignmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy_assignment", "test_volume_backup_policy_assignment", Optional, Update, volumeBackupPolicyAssignmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "asset_id"),
 
@@ -113,7 +113,7 @@ func testAccCheckCoreVolumeBackupPolicyAssignmentDestroy(s *terraform.State) err
 			tmp := rs.Primary.ID
 			request.PolicyAssignmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			_, err := client.GetVolumeBackupPolicyAssignment(context.Background(), request)
 

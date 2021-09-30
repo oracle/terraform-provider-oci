@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_artifacts.ArtifactsClient", &OracleClient{initClientFn: initArtifactsArtifactsClient})
+	RegisterOracleClient("oci_artifacts.ArtifactsClient", &OracleClient{InitClientFn: initArtifactsArtifactsClient})
 }
 
 func initArtifactsArtifactsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

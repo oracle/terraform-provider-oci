@@ -18,7 +18,7 @@ func DatascienceJobShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatascienceJobShapes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -82,7 +82,7 @@ func (s *DatascienceJobShapesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	response, err := s.Client.ListJobShapes(context.Background(), request)
 	if err != nil {

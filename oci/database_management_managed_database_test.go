@@ -14,15 +14,15 @@ import (
 
 var (
 	managedDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": Representation{repType: Required, create: `${var.tenancy_ocid}testManagedDatabase0`},
+		"managed_database_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}testManagedDatabase0`},
 	}
 
 	managedDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
-		"deployment_type":   Representation{repType: Optional, create: `ONPREMISE`},
-		"id":                Representation{repType: Optional, create: `${oci_database_management_managed_database.test_managed_database.id}`},
-		"management_option": Representation{repType: Optional, create: `BASIC`},
-		"name":              Representation{repType: Optional, create: `name`},
+		"compartment_id":    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"deployment_type":   Representation{RepType: Optional, Create: `ONPREMISE`},
+		"id":                Representation{RepType: Optional, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
+		"management_option": Representation{RepType: Optional, Create: `BASIC`},
+		"name":              Representation{RepType: Optional, Create: `name`},
 	}
 
 	ManagedDatabaseResourceConfig = ""
@@ -41,13 +41,13 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_management_managed_databases.test_managed_databases"
 	singularDatasourceName := "data.oci_database_management_managed_database.test_managed_database"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", Required, Create, managedDatabaseDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", Required, Create, managedDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagedDatabaseResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -62,7 +62,7 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_management_managed_database", "test_managed_database", Required, Create, managedDatabaseSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database", "test_managed_database", Required, Create, managedDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagedDatabaseResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),

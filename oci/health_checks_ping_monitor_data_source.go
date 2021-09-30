@@ -49,7 +49,7 @@ func (s *HealthChecksPingMonitorDataSourceCrud) Get() error {
 		request.MonitorId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "health_checks")
 
 	response, err := s.Client.GetPingMonitor(context.Background(), request)
 	if err != nil {

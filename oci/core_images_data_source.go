@@ -20,7 +20,7 @@ func CoreImagesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreImages,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -128,7 +128,7 @@ func (s *CoreImagesDataSourceCrud) Get() error {
 		request.SortOrder = oci_core.ListImagesSortOrderEnum(sortOrder.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListImages(context.Background(), request)
 	if err != nil {

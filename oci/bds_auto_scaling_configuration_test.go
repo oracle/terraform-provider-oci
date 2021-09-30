@@ -16,69 +16,69 @@ import (
 
 var (
 	BdsAutoScalingConfigurationRequiredOnlyResource = BdsAutoScalingConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationRepresentation)
 
 	BdsAutoScalingConfigurationResourceConfig = BdsAutoScalingConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation)
 
 	bdsAutoScalingConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"auto_scaling_configuration_id": Representation{repType: Required, create: `${oci_bds_auto_scaling_configuration.test_auto_scaling_configuration.id}`},
-		"bds_instance_id":               Representation{repType: Required, create: `${oci_bds_bds_instance.test_bds_instance.id}`},
+		"auto_scaling_configuration_id": Representation{RepType: Required, Create: `${oci_bds_auto_scaling_configuration.test_auto_scaling_configuration.id}`},
+		"bds_instance_id":               Representation{RepType: Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 	}
 
 	bdsAutoScalingConfigurationDataSourceRepresentation = map[string]interface{}{
-		"bds_instance_id": Representation{repType: Required, create: `${oci_bds_bds_instance.test_bds_instance.id}`},
-		"compartment_id":  Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":    Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":           Representation{repType: Optional, create: `ACTIVE`},
+		"bds_instance_id": Representation{RepType: Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
+		"compartment_id":  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":    Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":           Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":          RepresentationGroup{Required, bdsAutoScalingConfigurationDataSourceFilterRepresentation}}
 	bdsAutoScalingConfigurationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_bds_auto_scaling_configuration.test_auto_scaling_configuration.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_bds_auto_scaling_configuration.test_auto_scaling_configuration.id}`}},
 	}
 
 	bdsAutoScalingConfigurationRepresentation = map[string]interface{}{
-		"bds_instance_id":        Representation{repType: Required, create: `${oci_bds_bds_instance.test_bds_instance.id}`},
-		"cluster_admin_password": Representation{repType: Required, create: `V2VsY29tZTE=`},
-		"is_enabled":             Representation{repType: Required, create: `true`},
-		"node_type":              Representation{repType: Required, create: `WORKER`},
+		"bds_instance_id":        Representation{RepType: Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
+		"cluster_admin_password": Representation{RepType: Required, Create: `V2VsY29tZTE=`},
+		"is_enabled":             Representation{RepType: Required, Create: `true`},
+		"node_type":              Representation{RepType: Required, Create: `WORKER`},
 		"policy":                 RepresentationGroup{Required, autoScalingConfigurationPolicyRepresentation},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"display_name":           Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 	}
 	autoScalingConfigurationPolicyRepresentation = map[string]interface{}{
-		"policy_type": Representation{repType: Required, create: `THRESHOLD_BASED`, update: `THRESHOLD_BASED`},
+		"policy_type": Representation{RepType: Required, Create: `THRESHOLD_BASED`, Update: `THRESHOLD_BASED`},
 		"rules":       []RepresentationGroup{{Required, autoScalingConfigurationPolicyScaleUpRulesRepresentation}, {Required, autoScalingConfigurationPolicyScaleDownRulesRepresentation}},
 	}
 	autoScalingConfigurationPolicyScaleUpRulesRepresentation = map[string]interface{}{
-		"action": Representation{repType: Required, create: `CHANGE_SHAPE_SCALE_UP`, update: `CHANGE_SHAPE_SCALE_UP`},
+		"action": Representation{RepType: Required, Create: `CHANGE_SHAPE_SCALE_UP`, Update: `CHANGE_SHAPE_SCALE_UP`},
 		"metric": RepresentationGroup{Required, autoScalingConfigurationPolicyScaleUpRulesMetricRepresentation},
 	}
 	autoScalingConfigurationPolicyScaleUpRulesMetricRepresentation = map[string]interface{}{
-		"metric_type": Representation{repType: Required, create: `CPU_UTILIZATION`, update: `CPU_UTILIZATION`},
+		"metric_type": Representation{RepType: Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
 		"threshold":   RepresentationGroup{Required, autoScalingConfigurationPolicyScaleUpRulesMetricThresholdRepresentation},
 	}
 	autoScalingConfigurationPolicyScaleUpRulesMetricThresholdRepresentation = map[string]interface{}{
-		"duration_in_minutes": Representation{repType: Required, create: `25`, update: `50`},
-		"operator":            Representation{repType: Required, create: `GT`, update: `GT`},
-		"value":               Representation{repType: Required, create: `80`, update: `90`},
+		"duration_in_minutes": Representation{RepType: Required, Create: `25`, Update: `50`},
+		"operator":            Representation{RepType: Required, Create: `GT`, Update: `GT`},
+		"value":               Representation{RepType: Required, Create: `80`, Update: `90`},
 	}
 	autoScalingConfigurationPolicyScaleDownRulesRepresentation = map[string]interface{}{
-		"action": Representation{repType: Required, create: `CHANGE_SHAPE_SCALE_DOWN`, update: `CHANGE_SHAPE_SCALE_DOWN`},
+		"action": Representation{RepType: Required, Create: `CHANGE_SHAPE_SCALE_DOWN`, Update: `CHANGE_SHAPE_SCALE_DOWN`},
 		"metric": RepresentationGroup{Required, autoScalingConfigurationPolicyScaleDownRulesMetricRepresentation},
 	}
 	autoScalingConfigurationPolicyScaleDownRulesMetricRepresentation = map[string]interface{}{
-		"metric_type": Representation{repType: Required, create: `CPU_UTILIZATION`, update: `CPU_UTILIZATION`},
+		"metric_type": Representation{RepType: Required, Create: `CPU_UTILIZATION`, Update: `CPU_UTILIZATION`},
 		"threshold":   RepresentationGroup{Required, autoScalingConfigurationPolicyScaleDownRulesMetricThresholdRepresentation},
 	}
 	autoScalingConfigurationPolicyScaleDownRulesMetricThresholdRepresentation = map[string]interface{}{
-		"duration_in_minutes": Representation{repType: Required, create: `25`, update: `50`},
-		"operator":            Representation{repType: Required, create: `LT`, update: `LT`},
-		"value":               Representation{repType: Required, create: `15`, update: `20`},
+		"duration_in_minutes": Representation{RepType: Required, Create: `25`, Update: `50`},
+		"operator":            Representation{RepType: Required, Create: `LT`, Update: `LT`},
+		"value":               Representation{RepType: Required, Create: `15`, Update: `20`},
 	}
 
-	BdsAutoScalingConfigurationResourceDependencies = generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+	BdsAutoScalingConfigurationResourceDependencies = GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 // issue-routing-tag: bds/default
@@ -96,15 +96,15 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_bds_auto_scaling_configuration.test_auto_scaling_configuration"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AutoScalingConfigurationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation), "bds", "autoScalingConfiguration", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AutoScalingConfigurationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation), "bds", "autoScalingConfiguration", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
@@ -135,20 +135,20 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 					[]string{}),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, bdsAutoScalingConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, bdsAutoScalingConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
@@ -184,9 +184,9 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -198,7 +198,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
@@ -234,7 +234,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -245,9 +245,9 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configurations", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configurations", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, bdsAutoScalingConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -264,7 +264,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, bdsAutoScalingConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + BdsAutoScalingConfigurationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),

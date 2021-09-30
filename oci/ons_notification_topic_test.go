@@ -20,45 +20,45 @@ import (
 )
 
 var (
-	topicNameRequiredOnly                 = `t` + randomString(10, charset)
-	topicName                             = `t` + randomString(10, charset)
+	topicNameRequiredOnly                 = `t` + RandomString(10, charset)
+	topicName                             = `t` + RandomString(10, charset)
 	NotificationTopicRequiredOnlyResource = NotificationTopicResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
-			"name": Representation{repType: Required, create: topicNameRequiredOnly},
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, RepresentationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
+			"name": Representation{RepType: Required, Create: topicNameRequiredOnly},
 		}))
 
 	NotificationTopicResourceConfig = NotificationTopicResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation)
 
 	notificationTopicSingularDataSourceRepresentation = map[string]interface{}{
-		"topic_id": Representation{repType: Required, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"topic_id": Representation{RepType: Required, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 	}
 
 	notificationTopicDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"id":             Representation{repType: Optional, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
-		"name":           Representation{repType: Optional, create: topicName},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"id":             Representation{RepType: Optional, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"name":           Representation{RepType: Optional, Create: topicName},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, notificationTopicDataSourceFilterRepresentation}}
 	notificationTopicDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `topic_id`},
-		"values": Representation{repType: Required, create: []string{`${oci_ons_notification_topic.test_notification_topic.id}`}},
+		"name":   Representation{RepType: Required, Create: `topic_id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_ons_notification_topic.test_notification_topic.id}`}},
 	}
 
 	notificationTopicRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: topicName},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `Channel for admin messages`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Required, Create: topicName},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `Channel for admin messages`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	NotificationTopicResourceDependencies = DefinedTagsDependencies
 )
 
 func getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(length int, charset string, httpReplayValue string) map[string]interface{} {
-	return representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
-		"name": Representation{repType: Required, create: randomStringOrHttpReplayValue(length, charset, httpReplayValue)},
+	return RepresentationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
+		"name": Representation{RepType: Required, Create: RandomStringOrHttpReplayValue(length, charset, httpReplayValue)},
 	})
 }
 
@@ -80,12 +80,12 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ons_notification_topic.test_notification_topic"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+NotificationTopicResourceDependencies+
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create, notificationTopicRepresentation), "ons", "notificationTopic", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+NotificationTopicResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create, notificationTopicRepresentation), "ons", "notificationTopic", t)
 
 	ResourceTest(t, testAccCheckOnsNotificationTopicDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + NotificationTopicRequiredOnlyResource,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -93,20 +93,20 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", topicNameRequiredOnly),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create, notificationTopicRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create, notificationTopicRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -119,9 +119,9 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -130,12 +130,12 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NotificationTopicResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create,
-					representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Create,
+					RepresentationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
@@ -149,7 +149,7 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -161,7 +161,7 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -174,7 +174,7 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -185,9 +185,9 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ons_notification_topics", "test_notification_topics", Optional, Update, notificationTopicDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ons_notification_topics", "test_notification_topics", Optional, Update, notificationTopicDataSourceRepresentation) +
 				compartmentIdVariableStr + NotificationTopicResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -209,7 +209,7 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NotificationTopicResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
@@ -251,7 +251,7 @@ func testAccCheckOnsNotificationTopicDestroy(s *terraform.State) error {
 				request.TopicId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ons")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ons")
 
 			response, err := client.GetTopic(context.Background(), request)
 
@@ -280,7 +280,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OnsNotificationTopic") {
+	if !InSweeperExcludeList("OnsNotificationTopic") {
 		resource.AddTestSweepers("OnsNotificationTopic", &resource.Sweeper{
 			Name:         "OnsNotificationTopic",
 			Dependencies: DependencyGraph["notificationTopic"],
@@ -299,13 +299,13 @@ func sweepOnsNotificationTopicResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[notificationTopicId]; !ok {
 			deleteTopicRequest := oci_ons.DeleteTopicRequest{}
 
-			deleteTopicRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ons")
+			deleteTopicRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ons")
 			_, error := notificationControlPlaneClient.DeleteTopic(context.Background(), deleteTopicRequest)
 			if error != nil {
 				fmt.Printf("Error deleting NotificationTopic %s %s, It is possible that the resource is already deleted. Please verify manually \n", notificationTopicId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &notificationTopicId, topicSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &notificationTopicId, topicSweepWaitCondition, time.Duration(3*time.Minute),
 				topicSweepResponseFetchOperation, "ons", true)
 		}
 	}
@@ -313,7 +313,7 @@ func sweepOnsNotificationTopicResource(compartment string) error {
 }
 
 func getNotificationTopicIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "NotificationTopicId")
+	ids := GetResourceIdsToSweep(compartment, "NotificationTopicId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -332,7 +332,7 @@ func getNotificationTopicIds(compartment string) ([]string, error) {
 		if notificationTopic.LifecycleState != oci_ons.NotificationTopicSummaryLifecycleStateDeleting {
 			id := *notificationTopic.TopicId
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "NotificationTopicId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "NotificationTopicId", id)
 		}
 	}
 	return resourceIds, nil

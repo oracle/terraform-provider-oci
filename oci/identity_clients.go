@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_identity.IdentityClient", &OracleClient{initClientFn: initIdentityIdentityClient})
+	RegisterOracleClient("oci_identity.IdentityClient", &OracleClient{InitClientFn: initIdentityIdentityClient})
 }
 
 func initIdentityIdentityClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

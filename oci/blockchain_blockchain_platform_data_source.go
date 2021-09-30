@@ -49,7 +49,7 @@ func (s *BlockchainBlockchainPlatformDataSourceCrud) Get() error {
 		request.BlockchainPlatformId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "blockchain")
 
 	response, err := s.Client.GetBlockchainPlatform(context.Background(), request)
 	if err != nil {

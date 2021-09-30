@@ -14,87 +14,87 @@ import (
 
 var (
 	autonomousContainerDatabaseDataguardAssociationSingularDataSourceRepresentation = map[string]interface{}{
-		"autonomous_container_database_dataguard_association_id": Representation{repType: Required, create: `${data.oci_database_autonomous_container_database_dataguard_associations.test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["id"]}`},
-		"autonomous_container_database_id":                       Representation{repType: Required, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+		"autonomous_container_database_dataguard_association_id": Representation{RepType: Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["id"]}`},
+		"autonomous_container_database_id":                       Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 	}
 
 	exaccAutonomousContainerDatabaseDataguardAssociationSingularDataSourceRepresentation = map[string]interface{}{
-		"autonomous_container_database_dataguard_association_id": Representation{repType: Required, create: `${data.oci_database_autonomous_container_database_dataguard_associations.exacc_test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["id"]}`},
-		"autonomous_container_database_id":                       Representation{repType: Required, create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
+		"autonomous_container_database_dataguard_association_id": Representation{RepType: Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.exacc_test_autonomous_container_database_dataguard_associations.autonomous_container_database_dataguard_associations[0]["id"]}`},
+		"autonomous_container_database_id":                       Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
 	}
 
 	autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation = map[string]interface{}{
-		"autonomous_container_database_id": Representation{repType: Required, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+		"autonomous_container_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 	}
 
 	exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation = map[string]interface{}{
-		"autonomous_container_database_id": Representation{repType: Required, create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
+		"autonomous_container_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
 	}
 
-	AutonomousContainerDatabaseDataguardAssociationResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(autonomousContainerDatabaseRepresentation, []string{"vault_id", "kms_key_id", "peer_autonomous_container_database_backup_config", "peer_autonomous_container_database_compartment_id", "peer_autonomous_vm_cluster_id"}), map[string]interface{}{
-			"service_level_agreement_type":              Representation{repType: Optional, create: `AUTONOMOUS_DATAGUARD`},
-			"protection_mode":                           Representation{repType: Optional, create: `MAXIMUM_AVAILABILITY`},
-			"peer_autonomous_exadata_infrastructure_id": Representation{repType: Optional, create: `${oci_database_autonomous_exadata_infrastructure.peer_autonomous_exadata_infrastructure.id}`},
+	AutonomousContainerDatabaseDataguardAssociationResourceConfig = GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
+		RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(autonomousContainerDatabaseRepresentation, []string{"vault_id", "kms_key_id", "peer_autonomous_container_database_backup_config", "peer_autonomous_container_database_compartment_id", "peer_autonomous_vm_cluster_id"}), map[string]interface{}{
+			"service_level_agreement_type":              Representation{RepType: Optional, Create: `AUTONOMOUS_DATAGUARD`},
+			"protection_mode":                           Representation{RepType: Optional, Create: `MAXIMUM_AVAILABILITY`},
+			"peer_autonomous_exadata_infrastructure_id": Representation{RepType: Optional, Create: `${oci_database_autonomous_exadata_infrastructure.peer_autonomous_exadata_infrastructure.id}`},
 		})) +
 		AutonomousExadataInfrastructureResourceConfig +
-		generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "peer_autonomous_exadata_infrastructure", Optional, Create, autonomousExadataInfrastructureRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "peer_autonomous_exadata_infrastructure", Optional, Create, autonomousExadataInfrastructureRepresentation)
 
-	ExaCCACDResourceDependencies = generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
-		representationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": Representation{repType: Required, create: activationFilePath}})) +
-		generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
-			representationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{repType: Required, create: "true"}}))
+	ExaCCACDResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
+		RepresentationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": Representation{RepType: Required, Create: activationFilePath}})) +
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
+			RepresentationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{RepType: Required, Create: "true"}}))
 
 	peerExadataInfraNewProperties = map[string]interface{}{
-		"activation_file": Representation{repType: Required, create: activationFilePath},
-		"display_name":    Representation{repType: Required, create: `PeerExadataInfra`},
+		"activation_file": Representation{RepType: Required, Create: activationFilePath},
+		"display_name":    Representation{RepType: Required, Create: `PeerExadataInfra`},
 	}
-	peerExadataInfraRepresentation = representationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, peerExadataInfraNewProperties)
+	peerExadataInfraRepresentation = RepresentationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, peerExadataInfraNewProperties)
 
 	peerVmClusterNetworkNewProperties = map[string]interface{}{
-		"validate_vm_cluster_network": Representation{repType: Required, create: "true"},
-		"display_name":                Representation{repType: Required, create: `peerVmClusterNw`},
-		"exadata_infrastructure_id":   Representation{repType: Required, create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
+		"validate_vm_cluster_network": Representation{RepType: Required, Create: "true"},
+		"display_name":                Representation{RepType: Required, Create: `peerVmClusterNw`},
+		"exadata_infrastructure_id":   Representation{RepType: Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
 	}
 
-	peerVmClusterNetworkRepresentation = representationCopyWithNewProperties(vmClusterNetworkRepresentation, peerVmClusterNetworkNewProperties)
+	peerVmClusterNetworkRepresentation = RepresentationCopyWithNewProperties(vmClusterNetworkRepresentation, peerVmClusterNetworkNewProperties)
 
 	peerAutonomousVmClusterNewProperties = map[string]interface{}{
-		"display_name":              Representation{repType: Required, create: `peerAutonomousVmCluster`},
-		"exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
-		"is_local_backup_enabled":   Representation{repType: Optional, create: `true`},
-		"vm_cluster_network_id":     Representation{repType: Required, create: `${oci_database_vm_cluster_network.peer_vm_cluster_network.id}`},
+		"display_name":              Representation{RepType: Required, Create: `peerAutonomousVmCluster`},
+		"exadata_infrastructure_id": Representation{RepType: Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
+		"is_local_backup_enabled":   Representation{RepType: Optional, Create: `true`},
+		"vm_cluster_network_id":     Representation{RepType: Required, Create: `${oci_database_vm_cluster_network.peer_vm_cluster_network.id}`},
 	}
 
-	peerAutonomousVmClusterRepresentation = representationCopyWithNewProperties(autonomousVmClusterRepresentation, peerAutonomousVmClusterNewProperties)
+	peerAutonomousVmClusterRepresentation = RepresentationCopyWithNewProperties(autonomousVmClusterRepresentation, peerAutonomousVmClusterNewProperties)
 
 	ExaccACDWithDataGuardResourceDependencies = ExaCCACDResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "peer_exadata_infrastructure", Required, Create, peerExadataInfraRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "peer_vm_cluster_network", Required, Create, peerVmClusterNetworkRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "peer_autonomous_vm_cluster", Required, Create, peerAutonomousVmClusterRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "peer_exadata_infrastructure", Required, Create, peerExadataInfraRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "peer_vm_cluster_network", Required, Create, peerVmClusterNetworkRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "peer_autonomous_vm_cluster", Required, Create, peerAutonomousVmClusterRepresentation) +
 		DefinedTagsDependencies
 
 	ExaccACDWithDataGuardRepresentation = map[string]interface{}{
-		"display_name":                 Representation{repType: Required, create: `ACD-DG-TF-TEST`},
-		"patch_model":                  Representation{repType: Required, create: `RELEASE_UPDATES`, update: `RELEASE_UPDATE_REVISIONS`},
-		"autonomous_vm_cluster_id":     Representation{repType: Required, create: `${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}`},
+		"display_name":                 Representation{RepType: Required, Create: `ACD-DG-TF-TEST`},
+		"patch_model":                  Representation{RepType: Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
+		"autonomous_vm_cluster_id":     Representation{RepType: Required, Create: `${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}`},
 		"backup_config":                RepresentationGroup{Required, acdBackupConfigLocalRepresentation},
-		"compartment_id":               Representation{repType: Optional, create: `${var.compartment_id}`},
-		"db_unique_name":               Representation{repType: Optional, create: dgDbUniqueName},
-		"freeform_tags":                Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":               Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"db_unique_name":               Representation{RepType: Optional, Create: dgDbUniqueName},
+		"freeform_tags":                Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"maintenance_window_details":   RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
-		"service_level_agreement_type": Representation{repType: Optional, create: `AUTONOMOUS_DATAGUARD`},
+		"service_level_agreement_type": Representation{RepType: Optional, Create: `AUTONOMOUS_DATAGUARD`},
 		"peer_autonomous_container_database_backup_config":  RepresentationGroup{Optional, acdBackupConfigLocalRepresentation},
-		"peer_autonomous_container_database_compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"peer_autonomous_vm_cluster_id":                     Representation{repType: Optional, create: `${oci_database_autonomous_vm_cluster.peer_autonomous_vm_cluster.id}`},
-		"peer_autonomous_container_database_display_name":   Representation{repType: Optional, create: `PEER-ACD-DG`},
-		"protection_mode": Representation{repType: Optional, create: `MAXIMUM_PERFORMANCE`},
+		"peer_autonomous_container_database_compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"peer_autonomous_vm_cluster_id":                     Representation{RepType: Optional, Create: `${oci_database_autonomous_vm_cluster.peer_autonomous_vm_cluster.id}`},
+		"peer_autonomous_container_database_display_name":   Representation{RepType: Optional, Create: `PEER-ACD-DG`},
+		"protection_mode": Representation{RepType: Optional, Create: `MAXIMUM_PERFORMANCE`},
 	}
 
 	ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig = ExaccACDWithDataGuardResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "exacc_test_autonomous_container_database", Optional, Create,
-			getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, ExaccACDWithDataGuardRepresentation))
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "exacc_test_autonomous_container_database", Optional, Create,
+			GetUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, ExaccACDWithDataGuardRepresentation))
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -110,13 +110,13 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t
 	datasourceName := "data.oci_database_autonomous_container_database_dataguard_associations.test_autonomous_container_database_dataguard_associations"
 	singularDatasourceName := "data.oci_database_autonomous_container_database_dataguard_association.test_autonomous_container_database_dataguard_association"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
@@ -137,8 +137,8 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "test_autonomous_container_database_dataguard_association", Optional, Create, autonomousContainerDatabaseDataguardAssociationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test_autonomous_container_database_dataguard_associations", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "test_autonomous_container_database_dataguard_association", Optional, Create, autonomousContainerDatabaseDataguardAssociationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_dataguard_association_id"),
@@ -175,7 +175,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationResource_ba
 		//exacc dg ds
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 				compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
@@ -197,8 +197,8 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationResource_ba
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "exacc_test_autonomous_container_database_dataguard_association", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "exacc_test_autonomous_container_database_dataguard_associations", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association", "exacc_test_autonomous_container_database_dataguard_association", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_dataguard_association_id"),

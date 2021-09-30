@@ -61,7 +61,7 @@ func (s *CoreVcnDnsResolverAssociationDataSourceCrud) Get() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetVcnDnsResolverAssociation(context.Background(), request)
 	if err != nil {

@@ -142,7 +142,7 @@ func (s *ManagementAgentManagementAgentCountDataSourceCrud) Get() error {
 		request.InstallType = oci_management_agent.SummarizeManagementAgentCountsInstallTypeEnum(installType.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.SummarizeManagementAgentCounts(context.Background(), request)
 	if err != nil {

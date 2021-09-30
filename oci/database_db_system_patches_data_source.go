@@ -18,7 +18,7 @@ func DatabaseDbSystemPatchesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbSystemPatches,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -101,7 +101,7 @@ func (s *DatabaseDbSystemPatchesDataSourceCrud) Get() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDbSystemPatches(context.Background(), request)
 	if err != nil {

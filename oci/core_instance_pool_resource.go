@@ -32,9 +32,9 @@ func CoreInstancePoolResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createCoreInstancePool,
 		Read:   readCoreInstancePool,
@@ -305,7 +305,7 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceConfigurationId, ok := s.D.GetOkExists("instance_configuration_id"); ok {
@@ -352,7 +352,7 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 		request.Size = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateInstancePool(context.Background(), request)
 	if err != nil {
@@ -369,7 +369,7 @@ func (s *CoreInstancePoolResourceCrud) setInstancePoolDesiredState(instancePoolI
 	case instancePoolRunningState:
 		startRequest := oci_core.StartInstancePoolRequest{}
 		startRequest.InstancePoolId = instancePoolId
-		startRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		startRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 		startResponse, err := s.Client.StartInstancePool(context.Background(), startRequest)
 
@@ -377,7 +377,7 @@ func (s *CoreInstancePoolResourceCrud) setInstancePoolDesiredState(instancePoolI
 	case instancePoolStoppedState:
 		stopRequest := oci_core.StopInstancePoolRequest{}
 		stopRequest.InstancePoolId = instancePoolId
-		stopRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		stopRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 		stopResponse, err := s.Client.StopInstancePool(context.Background(), stopRequest)
 
@@ -394,7 +394,7 @@ func (s *CoreInstancePoolResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.InstancePoolId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetInstancePool(context.Background(), request)
 	if err != nil {
@@ -439,7 +439,7 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceConfigurationId, ok := s.D.GetOkExists("instance_configuration_id"); ok {
@@ -472,7 +472,7 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 		request.Size = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateInstancePool(context.Background(), request)
 	if err != nil {
@@ -506,7 +506,7 @@ func (s *CoreInstancePoolResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.InstancePoolId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.TerminateInstancePool(context.Background(), request)
 	return err
@@ -545,13 +545,13 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 	}
 	s.D.Set("placement_configurations", placementConfigurations)
 
-	// We update value of size in state file only if the size of the
+	// We Update value of size in state file only if the size of the
 	// instance pool is modified in the TF config by the user.
 	// As there could a scenario where the instance pool size on the cloud could be different due to autoscaling configuration.
-	// Then we do not update the size but instead update the actual_size in the state file.
+	// Then we do not Update the size but instead Update the actual_size in the state file.
 	if s.Res.Size != nil {
 		_, ok := s.D.GetOk("size") // This checks if size is in the state or not. If not and size in response is not nil it could be that user is importing and hence we need to updated the size
-		// s.D.HasChange("size"): This checks if the value in config is different from state. Which is an update by the user and hence we need to updated the size
+		// s.D.HasChange("size"): This checks if the value in config is different from state. Which is an Update by the user and hence we need to updated the size
 		if !ok {
 			log.Printf("[DEBUG] size does not exists in state, hence assuming user is importing resource")
 		}
@@ -781,7 +781,7 @@ func (s *CoreInstancePoolResourceCrud) updateCompartment(compartment interface{}
 	idTmp := s.D.Id()
 	changeCompartmentRequest.InstancePoolId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeInstancePoolCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -843,7 +843,7 @@ func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, n
 	if operation == "attach" {
 		attachLoadBalancerRequest := oci_core.AttachLoadBalancerRequest{}
 		attachLoadBalancerRequest.InstancePoolId = &id
-		attachLoadBalancerRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		attachLoadBalancerRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		attachLoadBalancerRequest.AttachLoadBalancerDetails = newLoadBalancer
 		_, err := s.Client.AttachLoadBalancer(context.Background(), attachLoadBalancerRequest)
 
@@ -861,7 +861,7 @@ func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, n
 	if operation == "detach" {
 		detachLoadBalancerRequest := oci_core.DetachLoadBalancerRequest{}
 		detachLoadBalancerRequest.LoadBalancerId = oldLoadbalancer.LoadBalancerId
-		detachLoadBalancerRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		detachLoadBalancerRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		detachLoadBalancerRequest.InstancePoolId = &id
 		detachLoadBalancerRequest.BackendSetName = oldLoadbalancer.BackendSetName
 		_, err := s.Client.DetachLoadBalancer(context.Background(), detachLoadBalancerRequest)

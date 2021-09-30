@@ -18,7 +18,7 @@ func DataSafeListUserGrantsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataSafeListUserGrants,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"depth_level": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -158,7 +158,7 @@ func (s *DataSafeListUserGrantsDataSourceCrud) Get() error {
 		request.UserKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListGrants(context.Background(), request)
 	if err != nil {

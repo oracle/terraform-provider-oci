@@ -18,7 +18,7 @@ func DatabaseVmClusterNetworksDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseVmClusterNetworks,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *DatabaseVmClusterNetworksDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.VmClusterNetworkSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListVmClusterNetworks(context.Background(), request)
 	if err != nil {

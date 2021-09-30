@@ -15,9 +15,9 @@ var (
 	tagResourceNames      = [2]string{"oci_identity_tag.test-tag1", "oci_identity_tag.test-tag2"}
 	costTagResourceNames  = [2]string{"oci_identity_tag.test-cost-tag1", "oci_identity_tag.test-cost-tag2"}
 
-	namespaceResourceValue = randomString(5, charsetWithoutDigits) + "-delete-namespace"
-	tagResourceValues      = [2]string{randomString(5, charsetWithoutDigits) + "-tag-1", randomString(5, charsetWithoutDigits) + "-tag-2"}
-	costTagResourceValues  = [2]string{randomString(5, charsetWithoutDigits) + "-cost-tag-1", randomString(5, charsetWithoutDigits) + "-cost-tag-2"}
+	namespaceResourceValue = RandomString(5, charsetWithoutDigits) + "-delete-namespace"
+	tagResourceValues      = [2]string{RandomString(5, charsetWithoutDigits) + "-tag-1", RandomString(5, charsetWithoutDigits) + "-tag-2"}
+	costTagResourceValues  = [2]string{RandomString(5, charsetWithoutDigits) + "-cost-tag-1", RandomString(5, charsetWithoutDigits) + "-cost-tag-2"}
 )
 
 // This test will be executed in a separate suite with 'tags_import_if_exists = false'

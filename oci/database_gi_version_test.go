@@ -14,8 +14,8 @@ import (
 
 var (
 	giVersionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape":          Representation{repType: Required, create: `ExadataCC.Quarter3.100`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"shape":          Representation{RepType: Required, Create: `ExadataCC.Quarter3.100`},
 	}
 
 	GiVersionResourceConfig = ""
@@ -33,13 +33,13 @@ func TestDatabaseGiVersionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_gi_versions.test_gi_versions"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_gi_versions", "test_gi_versions", Required, Create, giVersionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_gi_versions", "test_gi_versions", Required, Create, giVersionDataSourceRepresentation) +
 				compartmentIdVariableStr + GiVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

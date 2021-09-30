@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_blockchain.BlockchainPlatformClient", &OracleClient{initClientFn: initBlockchainBlockchainPlatformClient})
+	RegisterOracleClient("oci_blockchain.BlockchainPlatformClient", &OracleClient{InitClientFn: initBlockchainBlockchainPlatformClient})
 }
 
 func initBlockchainBlockchainPlatformClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -17,94 +17,94 @@ import (
 
 var (
 	ManagedInstanceManagementRequiredOnlyResource = ManagedInstanceGroupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupRepresentation)
 
 	ManagedInstanceManagementResourceConfig = ManagedInstanceGroupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation)
 
 	ManagedInstanceManagementRepresentation = map[string]interface{}{
-		"managed_instance_id":    Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"managed_instance_id":    Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
 		"parent_software_source": RepresentationGroup{Optional, parentSoftwareSourceRepresentation},
 	}
 
 	parentSoftwareSourceRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `${oci_osmanagement_software_source.test_parent_software_source.display_name}`},
-		"id":   Representation{repType: Required, create: `${oci_osmanagement_software_source.test_parent_software_source.id}`},
+		"name": Representation{RepType: Required, Create: `${oci_osmanagement_software_source.test_parent_software_source.display_name}`},
+		"id":   Representation{RepType: Required, Create: `${oci_osmanagement_software_source.test_parent_software_source.id}`},
 	}
 
 	childSoftwareSourceRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `${oci_osmanagement_software_source.test_child_software_source.display_name}`},
-		"id":   Representation{repType: Required, create: `${oci_osmanagement_software_source.test_child_software_source.id}`},
+		"name": Representation{RepType: Required, Create: `${oci_osmanagement_software_source.test_child_software_source.display_name}`},
+		"id":   Representation{RepType: Required, Create: `${oci_osmanagement_software_source.test_child_software_source.id}`},
 	}
 
 	osmsInstanceAgentConfigRepresentation = map[string]interface{}{
-		"are_all_plugins_disabled": Representation{repType: Required, create: `false`, update: `false`},
-		"is_management_disabled":   Representation{repType: Required, create: `false`, update: `false`},
-		"is_monitoring_disabled":   Representation{repType: Required, create: `false`, update: `false`},
+		"are_all_plugins_disabled": Representation{RepType: Required, Create: `false`, Update: `false`},
+		"is_management_disabled":   Representation{RepType: Required, Create: `false`, Update: `false`},
+		"is_monitoring_disabled":   Representation{RepType: Required, Create: `false`, Update: `false`},
 		"plugins_config":           RepresentationGroup{Required, autonomousInstanceAgentConfigPluginsConfigRepresentation},
 	}
 
 	autonomousInstanceAgentConfigPluginsConfigRepresentation = map[string]interface{}{
-		"desired_state": Representation{repType: Required, create: `ENABLED`},
-		"name":          Representation{repType: Required, create: `Oracle Autonomous Linux`},
+		"desired_state": Representation{RepType: Required, Create: `ENABLED`},
+		"name":          Representation{RepType: Required, Create: `Oracle Autonomous Linux`},
 	}
 
 	managedInstanceGroupsRepresentation = map[string]interface{}{
-		"display_name": Representation{repType: Required, create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.display_name}`},
-		"id":           Representation{repType: Required, create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`},
+		"display_name": Representation{RepType: Required, Create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.display_name}`},
+		"id":           Representation{RepType: Required, Create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`},
 	}
 
 	vnicDetailsRepresentation = map[string]interface{}{
-		"assign_public_ip": Representation{repType: Required, create: `true`},
-		"subnet_id":        Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"assign_public_ip": Representation{RepType: Required, Create: `true`},
+		"subnet_id":        Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 
 	routeTablesRepresentation = map[string]interface{}{
-		"manage_default_resource_id": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.default_route_table_id}`},
+		"manage_default_resource_id": Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`},
 		"route_rules":                RepresentationGroup{Required, routeRulesRepresentation},
 	}
 
 	routeRulesRepresentation = map[string]interface{}{
-		"cidr_block":        Representation{repType: Required, create: `0.0.0.0/0`},
-		"network_entity_id": Representation{repType: Required, create: `${oci_core_internet_gateway.test_internet_gateway.id}`},
+		"cidr_block":        Representation{RepType: Required, Create: `0.0.0.0/0`},
+		"network_entity_id": Representation{RepType: Required, Create: `${oci_core_internet_gateway.test_internet_gateway.id}`},
 	}
 
 	sourceDetailsRepresentation = map[string]interface{}{
-		"source_type": Representation{repType: Required, create: `image`},
-		"source_id":   Representation{repType: Required, create: `${var.OsManagedImageOCID[var.region]}`},
+		"source_type": Representation{RepType: Required, Create: `image`},
+		"source_id":   Representation{RepType: Required, Create: `${var.OsManagedImageOCID[var.region]}`},
 	}
 
-	parentSourceDisplayName = randomString(10, charsetWithoutDigits)
-	childSourceDisplayName  = randomString(10, charsetWithoutDigits)
-	groupDisplayName        = randomString(10, charsetWithoutDigits)
+	parentSourceDisplayName = RandomString(10, charsetWithoutDigits)
+	childSourceDisplayName  = RandomString(10, charsetWithoutDigits)
+	groupDisplayName        = RandomString(10, charsetWithoutDigits)
 
-	osmanagementSoftwareSourceRepresentation = generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_parent_software_source", Required, Create, getMultipleUpdatedRepresenationCopy([]string{"arch_type", "display_name"},
+	osmanagementSoftwareSourceRepresentation = GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_parent_software_source", Required, Create, GetMultipleUpdatedRepresenationCopy([]string{"arch_type", "display_name"},
 		[]interface{}{
-			Representation{repType: Required, create: `X86_64`},
-			Representation{repType: Required, create: parentSourceDisplayName},
+			Representation{RepType: Required, Create: `X86_64`},
+			Representation{RepType: Required, Create: parentSourceDisplayName},
 		}, softwareSourceRepresentation)) +
-		generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_child_software_source", Required, Create, representationCopyWithNewProperties(getMultipleUpdatedRepresenationCopy([]string{"arch_type", "display_name"},
+		GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_child_software_source", Required, Create, RepresentationCopyWithNewProperties(GetMultipleUpdatedRepresenationCopy([]string{"arch_type", "display_name"},
 			[]interface{}{
-				Representation{repType: Required, create: `X86_64`},
-				Representation{repType: Required, create: childSourceDisplayName},
+				Representation{RepType: Required, Create: `X86_64`},
+				Representation{RepType: Required, Create: childSourceDisplayName},
 			}, softwareSourceRepresentation),
 			map[string]interface{}{
-				"parent_id": Representation{repType: Required, create: `${oci_osmanagement_software_source.test_parent_software_source.id}`},
-			})) + generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, getUpdatedRepresentationCopy("display_name", Representation{repType: Required, create: groupDisplayName}, managedInstanceGroupRepresentation))
+				"parent_id": Representation{RepType: Required, Create: `${oci_osmanagement_software_source.test_parent_software_source.id}`},
+			})) + GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, GetUpdatedRepresentationCopy("display_name", Representation{RepType: Required, Create: groupDisplayName}, managedInstanceGroupRepresentation))
 
-	ManagedInstanceManagementResourceDependencies = generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+	ManagedInstanceManagementResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
 		"create_vnic_details": RepresentationGroup{Required, vnicDetailsRepresentation},
 		"source_details":      RepresentationGroup{Required, sourceDetailsRepresentation},
 		"agent_config":        RepresentationGroup{Required, osmsInstanceAgentConfigRepresentation},
-		"image":               Representation{repType: Required, create: `${var.OsManagedImageOCID[var.region]}`},
+		"image":               Representation{RepType: Required, Create: `${var.OsManagedImageOCID[var.region]}`},
 	})) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label":  Representation{repType: Required, create: `testvcn`},
-			"cidr_block": Representation{repType: Required, create: `10.1.0.0/16`},
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label":  Representation{RepType: Required, Create: `testvcn`},
+			"cidr_block": Representation{RepType: Required, Create: `10.1.0.0/16`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_default_route_table", "default_route_table", Required, Create, routeTablesRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.1.20.0/24`}, "dns_label": Representation{repType: Required, create: `testsubnet`}, "route_table_id": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.default_route_table_id}`}})) +
+		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_default_route_table", "default_route_table", Required, Create, routeTablesRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{RepType: Required, Create: `10.1.20.0/24`}, "dns_label": Representation{RepType: Required, Create: `testsubnet`}, "route_table_id": Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`}})) +
 		AvailabilityDomainConfig + OsManagedImageIdsVariable
 )
 
@@ -120,12 +120,12 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 
 	resourceName := "oci_osmanagement_managed_instance_management.test_managed_instance_management"
 
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ManagedInstanceManagementResourceDependencies+
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation), "osmanagement", "managedInstanceManagement", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ManagedInstanceManagementResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation), "osmanagement", "managedInstanceManagement", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create dependencies
+		// Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation,
 			Check: func(s *terraform.State) (err error) {
@@ -134,35 +134,35 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 				return nil
 			},
 		},
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
 
 				func(s *terraform.State) (err error) {
-					_, err = fromInstanceState(s, resourceName, "id")
+					_, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Optional, Create, ManagedInstanceManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Optional, Create, ManagedInstanceManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
 			),
 		},
-		// verify update with optionals
+		// verify Update with optionals
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies + osmanagementSoftwareSourceRepresentation +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Optional, Create, representationCopyWithNewProperties(ManagedInstanceManagementRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Optional, Create, RepresentationCopyWithNewProperties(ManagedInstanceManagementRepresentation, map[string]interface{}{
 					"child_software_sources":  RepresentationGroup{Optional, childSoftwareSourceRepresentation},
 					"managed_instance_groups": RepresentationGroup{Optional, managedInstanceGroupsRepresentation},
 				})),

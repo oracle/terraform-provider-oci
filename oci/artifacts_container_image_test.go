@@ -28,15 +28,15 @@ var (
 	compartmentId = getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	containerImageSingularDataSourceRepresentation = map[string]interface{}{
-		"image_id": Representation{repType: Required, create: imageId},
+		"image_id": Representation{RepType: Required, Create: imageId},
 	}
 
 	containerImageDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: compartmentId},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
-		"image_id":                  Representation{repType: Optional, create: imageId},
-		"is_versioned":              Representation{repType: Optional, create: `true`},
-		"state":                     Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id":            Representation{RepType: Required, Create: compartmentId},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"image_id":                  Representation{RepType: Optional, Create: imageId},
+		"is_versioned":              Representation{RepType: Optional, Create: `true`},
+		"state":                     Representation{RepType: Optional, Create: `AVAILABLE`},
 	}
 
 	ContainerImageResourceConfig = ""
@@ -52,13 +52,13 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 	datasourceName := "data.oci_artifacts_container_images.test_container_images"
 	singularDatasourceName := "data.oci_artifacts_container_image.test_container_image"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_artifacts_container_images", "test_container_images", Optional, Create, containerImageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_container_images", "test_container_images", Optional, Create, containerImageDataSourceRepresentation) +
 				ContainerImageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -76,7 +76,7 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", Required, Create, containerImageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", Required, Create, containerImageSingularDataSourceRepresentation) +
 				ContainerImageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
@@ -103,7 +103,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ArtifactsContainerImage") {
+	if !InSweeperExcludeList("ArtifactsContainerImage") {
 		resource.AddTestSweepers("ArtifactsContainerImage", &resource.Sweeper{
 			Name:         "ArtifactsContainerImage",
 			Dependencies: DependencyGraph["containerImage"],
@@ -122,13 +122,13 @@ func sweepArtifactsContainerImageResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[containerImageId]; !ok {
 			deleteContainerImageRequest := oci_artifacts.DeleteContainerImageRequest{}
 
-			deleteContainerImageRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "artifacts")
+			deleteContainerImageRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "artifacts")
 			_, error := artifactsClient.DeleteContainerImage(context.Background(), deleteContainerImageRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ContainerImage %s %s, It is possible that the resource is already deleted. Please verify manually \n", containerImageId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &containerImageId, containerImageSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &containerImageId, containerImageSweepWaitCondition, time.Duration(3*time.Minute),
 				containerImageSweepResponseFetchOperation, "artifacts", true)
 		}
 	}
@@ -136,7 +136,7 @@ func sweepArtifactsContainerImageResource(compartment string) error {
 }
 
 func getContainerImageIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ContainerImageId")
+	ids := GetResourceIdsToSweep(compartment, "ContainerImageId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -156,7 +156,7 @@ func getContainerImageIds(compartment string) ([]string, error) {
 	for _, containerImage := range listContainerImagesResponse.Items {
 		id := *containerImage.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ContainerImageId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ContainerImageId", id)
 	}
 	return resourceIds, nil
 }

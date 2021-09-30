@@ -21,41 +21,41 @@ import (
 
 var (
 	CustomProtectionRuleRequiredOnlyResource = CustomProtectionRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleRepresentation)
 
-	CustomProtectionRuleRequiredResourceWithoutDependencies = generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleRepresentation) +
-		generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule2", Optional, Update, customProtectionRuleRepresentation)
+	CustomProtectionRuleRequiredResourceWithoutDependencies = GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule2", Optional, Update, customProtectionRuleRepresentation)
 
 	CustomProtectionRuleResourceConfig = CustomProtectionRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Update, customProtectionRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Update, customProtectionRuleRepresentation)
 
 	customProtectionRuleSingularDataSourceRepresentation = map[string]interface{}{
-		"custom_protection_rule_id": Representation{repType: Required, create: `${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`},
+		"custom_protection_rule_id": Representation{RepType: Required, Create: `${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`},
 	}
 
 	customProtectionRuleDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                        Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_names":                         Representation{repType: Optional, create: []string{`displayName`, `displayName2`}, update: []string{`displayName2`, `displayName3`}},
-		"ids":                                   Representation{repType: Optional, create: []string{`${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`}},
-		"states":                                Representation{repType: Optional, create: []string{`ACTIVE`}},
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
-		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
+		"compartment_id":                        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_names":                         Representation{RepType: Optional, Create: []string{`displayName`, `displayName2`}, Update: []string{`displayName2`, `displayName3`}},
+		"ids":                                   Representation{RepType: Optional, Create: []string{`${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`}},
+		"states":                                Representation{RepType: Optional, Create: []string{`ACTIVE`}},
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"time_created_less_than":                Representation{RepType: Optional, Create: `2038-01-01T00:00:00.000Z`},
 		"filter":                                RepresentationGroup{Required, customProtectionRuleDataSourceFilterRepresentation}}
 	customProtectionRuleDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`}},
 	}
 
 	template1 = `SecRule REQUEST_URI / \"phase:2,   t:none,   capture,   msg:'Custom (XSS) Attack. Matched Data: %%{TX.0}   found within %%{MATCHED_VAR_NAME}: %%{MATCHED_VAR}',   id:{{id_1}},   ctl:ruleEngine={{mode}},   tag:'Custom',   severity:'2'\"`
 	template2 = `SecRule REQUEST_COOKIES / \"phase:2,   t:none,   capture,   msg:'Custom (XSS) Attack. Matched Data: %%{TX.0}   found within %%{MATCHED_VAR_NAME}: %%{MATCHED_VAR}',   id:{{id_1}},   ctl:ruleEngine={{mode}},   tag:'Custom',   severity:'2'\"`
 
 	customProtectionRuleRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"template":       Representation{repType: Required, create: template1, update: template2},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"template":       Representation{RepType: Required, Create: template1, Update: template2},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	CustomProtectionRuleResourceDependencies = DefinedTagsDependencies
@@ -79,35 +79,35 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_waas_custom_protection_rule.test_custom_protection_rule"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CustomProtectionRuleResourceDependencies+
-		generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Create, customProtectionRuleRepresentation), "waas", "customProtectionRule", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CustomProtectionRuleResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Create, customProtectionRuleRepresentation), "waas", "customProtectionRule", t)
 
 	ResourceTest(t, testAccCheckWaasCustomProtectionRuleDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "template"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Create, customProtectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Create, customProtectionRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -117,9 +117,9 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "template"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -128,12 +128,12 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CustomProtectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Create,
-					representationCopyWithNewProperties(customProtectionRuleRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Create,
+					RepresentationCopyWithNewProperties(customProtectionRuleRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -144,7 +144,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "template"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -156,7 +156,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Update, customProtectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Update, customProtectionRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -166,7 +166,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "template"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -177,9 +177,9 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_custom_protection_rules", "test_custom_protection_rules", Optional, Update, customProtectionRuleDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_custom_protection_rules", "test_custom_protection_rules", Optional, Update, customProtectionRuleDataSourceRepresentation) +
 				compartmentIdVariableStr + CustomProtectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Update, customProtectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Update, customProtectionRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "2"),
@@ -202,7 +202,7 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Required, Create, customProtectionRuleSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CustomProtectionRuleResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_protection_rule_id"),
@@ -245,7 +245,7 @@ func testAccCheckWaasCustomProtectionRuleDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CustomProtectionRuleId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 
 			response, err := client.GetCustomProtectionRule(context.Background(), request)
 
@@ -278,7 +278,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("WaasCustomProtectionRule") {
+	if !InSweeperExcludeList("WaasCustomProtectionRule") {
 		resource.AddTestSweepers("WaasCustomProtectionRule", &resource.Sweeper{
 			Name:         "WaasCustomProtectionRule",
 			Dependencies: DependencyGraph["customProtectionRule"],
@@ -299,13 +299,13 @@ func sweepWaasCustomProtectionRuleResource(compartment string) error {
 
 			deleteCustomProtectionRuleRequest.CustomProtectionRuleId = &customProtectionRuleId
 
-			deleteCustomProtectionRuleRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			deleteCustomProtectionRuleRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 			_, error := waasClient.DeleteCustomProtectionRule(context.Background(), deleteCustomProtectionRuleRequest)
 			if error != nil {
 				fmt.Printf("Error deleting CustomProtectionRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", customProtectionRuleId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &customProtectionRuleId, customProtectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &customProtectionRuleId, customProtectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
 				customProtectionRuleSweepResponseFetchOperation, "waas", true)
 		}
 	}
@@ -313,7 +313,7 @@ func sweepWaasCustomProtectionRuleResource(compartment string) error {
 }
 
 func getCustomProtectionRuleIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "CustomProtectionRuleId")
+	ids := GetResourceIdsToSweep(compartment, "CustomProtectionRuleId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -332,7 +332,7 @@ func getCustomProtectionRuleIds(compartment string) ([]string, error) {
 	for _, customProtectionRule := range listCustomProtectionRulesResponse.Items {
 		id := *customProtectionRule.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "CustomProtectionRuleId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "CustomProtectionRuleId", id)
 	}
 	return resourceIds, nil
 }

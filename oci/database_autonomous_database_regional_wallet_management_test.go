@@ -16,12 +16,12 @@ import (
 
 var (
 	AutonomousDatabaseRegionalWalletManagementResourceConfig = AutonomousDatabaseRegionalWalletManagementResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Optional, Update, autonomousDatabaseRegionalWalletManagementRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Optional, Update, autonomousDatabaseRegionalWalletManagementRepresentation)
 
 	autonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation = map[string]interface{}{}
 
 	autonomousDatabaseRegionalWalletManagementRepresentation = map[string]interface{}{
-		"should_rotate": Representation{repType: Optional, create: `false`, update: `true`},
+		"should_rotate": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
 	AutonomousDatabaseRegionalWalletManagementResourceDependencies = ""
@@ -42,21 +42,21 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 	singularDatasourceName := "data.oci_database_autonomous_database_regional_wallet_management.test_autonomous_database_regional_wallet_management"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseRegionalWalletManagementResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Optional, Create, autonomousDatabaseRegionalWalletManagementRepresentation), "database", "autonomousDatabaseRegionalWalletManagement", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseRegionalWalletManagementResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Optional, Create, autonomousDatabaseRegionalWalletManagementRepresentation), "database", "autonomousDatabaseRegionalWalletManagement", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Required, Create, autonomousDatabaseRegionalWalletManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Required, Create, autonomousDatabaseRegionalWalletManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -68,12 +68,12 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Optional, Update, autonomousDatabaseRegionalWalletManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Optional, Update, autonomousDatabaseRegionalWalletManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_rotated"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -84,7 +84,7 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Required, Create, autonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", Required, Create, autonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDatabaseRegionalWalletManagementResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

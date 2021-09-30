@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_ai_anomaly_detection.AnomalyDetectionClient", &OracleClient{initClientFn: initAianomalydetectionAnomalyDetectionClient})
+	RegisterOracleClient("oci_ai_anomaly_detection.AnomalyDetectionClient", &OracleClient{InitClientFn: initAianomalydetectionAnomalyDetectionClient})
 }
 
 func initAianomalydetectionAnomalyDetectionClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -192,7 +192,7 @@ func (s *CoreDrgRouteTableResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if importDrgRouteDistributionId, ok := s.D.GetOkExists("import_drg_route_distribution_id"); ok {
@@ -205,7 +205,7 @@ func (s *CoreDrgRouteTableResourceCrud) Create() error {
 		request.IsEcmpEnabled = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateDrgRouteTable(context.Background(), request)
 	if err != nil {
@@ -222,7 +222,7 @@ func (s *CoreDrgRouteTableResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DrgRouteTableId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetDrgRouteTable(context.Background(), request)
 	if err != nil {
@@ -253,7 +253,7 @@ func (s *CoreDrgRouteTableResourceCrud) Update() error {
 	request.DrgRouteTableId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if importDrgRouteDistributionId, ok := s.D.GetOkExists("import_drg_route_distribution_id"); ok {
@@ -268,7 +268,7 @@ func (s *CoreDrgRouteTableResourceCrud) Update() error {
 		request.IsEcmpEnabled = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateDrgRouteTable(context.Background(), request)
 	if err != nil {
@@ -285,7 +285,7 @@ func (s *CoreDrgRouteTableResourceCrud) RemoveImportRouteDistribution() error {
 	tmp := s.D.Id()
 	request.DrgRouteTableId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.RemoveImportDrgRouteDistribution(context.Background(), request)
 	if err != nil {
@@ -308,7 +308,7 @@ func (s *CoreDrgRouteTableResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DrgRouteTableId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.DeleteDrgRouteTable(context.Background(), request)
 	if response.HTTPResponse().StatusCode == 400 {

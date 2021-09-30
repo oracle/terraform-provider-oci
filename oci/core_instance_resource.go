@@ -33,9 +33,9 @@ func CoreInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("45m"),
-			Update: getTimeoutDuration("45m"),
-			Delete: getTimeoutDuration("75m"),
+			Create: GetTimeoutDuration("45m"),
+			Update: GetTimeoutDuration("45m"),
+			Delete: GetTimeoutDuration("75m"),
 		},
 		Create: createCoreInstance,
 		Read:   readCoreInstance,
@@ -206,7 +206,7 @@ func CoreInstanceResource() *schema.Resource {
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
-							Set:      literalTypeHashCodeForSets,
+							Set:      LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -260,7 +260,7 @@ func CoreInstanceResource() *schema.Resource {
 			"extended_metadata": {
 				Type:             schema.TypeMap,
 				Optional:         true,
-				DiffSuppressFunc: jsonStringDiffSuppressFunction,
+				DiffSuppressFunc: JsonStringDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
 			"fault_domain": {
@@ -576,8 +576,8 @@ func CoreInstanceResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
@@ -650,8 +650,8 @@ func CoreInstanceResource() *schema.Resource {
 		// Updates of 'ssh_authorized_keys' and 'user_data' in Instance 'metadata' should result in Force New
 		CustomizeDiff: customdiff.All(
 			customdiff.ForceNewIfChange("metadata", func(old, new, meta interface{}) bool {
-				oldMetadataMap := objectMapToStringMap(old.(map[string]interface{}))
-				newMetadataMap := objectMapToStringMap(new.(map[string]interface{}))
+				oldMetadataMap := ObjectMapToStringMap(old.(map[string]interface{}))
+				newMetadataMap := ObjectMapToStringMap(new.(map[string]interface{}))
 				return (oldMetadataMap["ssh_authorized_keys"] != newMetadataMap["ssh_authorized_keys"]) || (oldMetadataMap["user_data"] != newMetadataMap["user_data"])
 			}),
 		),
@@ -877,7 +877,7 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok {
@@ -923,7 +923,7 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
-		request.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
+		request.Metadata = ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
 	if platformConfig, ok := s.D.GetOkExists("platform_config"); ok {
@@ -980,7 +980,7 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.LaunchInstance(context.Background(), request)
 	if err != nil {
@@ -1005,7 +1005,7 @@ func (s *CoreInstanceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.InstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetInstance(context.Background(), request)
 	if err != nil {
@@ -1037,7 +1037,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
-	// update shape, shape config, fault domain and launch options
+	// Update shape, shape config, fault domain and launch options
 	err := s.updateOptionsViaWorkRequest()
 
 	if err != nil {
@@ -1095,7 +1095,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -1113,10 +1113,10 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
-		request.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
+		request.Metadata = ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateInstance(context.Background(), request)
 	if err != nil {
@@ -1125,7 +1125,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 
 	s.Res = &response.Instance
 
-	// Check for changes in the create_vnic_details sub resource and separately update the vnic
+	// Check for changes in the create_vnic_details sub resource and separately Update the vnic
 
 	_, ok := s.D.GetOkExists("create_vnic_details")
 	if !s.D.HasChange("create_vnic_details") || !ok {
@@ -1135,7 +1135,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 
 	vnic, err := s.getPrimaryVnic()
 	if err != nil {
-		log.Printf("[ERROR] Primary VNIC could not be found during instance update: %q (Instance ID: \"%v\", State: %q)", err, s.Res.Id, s.Res.LifecycleState)
+		log.Printf("[ERROR] Primary VNIC could not be found during instance Update: %q (Instance ID: \"%v\", State: %q)", err, s.Res.Id, s.Res.LifecycleState)
 		return err
 	}
 
@@ -1154,14 +1154,14 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		VnicId:            vnic.Id,
 		UpdateVnicDetails: updateVnicDetails,
 		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+			RetryPolicy: GetRetryPolicy(s.DisableNotFoundRetries, "core"),
 		},
 	}
 
 	_, err = s.VirtualNetworkClient.UpdateVnic(context.Background(), vnicOpts)
 
 	if err != nil {
-		log.Printf("[ERROR] Primary VNIC could not be updated during instance update: %q (Instance ID: \"%v\", State: %q)", err, s.Res.Id, s.Res.LifecycleState)
+		log.Printf("[ERROR] Primary VNIC could not be updated during instance Update: %q (Instance ID: \"%v\", State: %q)", err, s.Res.Id, s.Res.LifecycleState)
 		return err
 	}
 
@@ -1175,7 +1175,7 @@ func (s *CoreInstanceResourceCrud) InstanceAction(action oci_core.InstanceAction
 	tmp := s.D.Id()
 	request.InstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.InstanceAction(context.Background(), request)
 	if err != nil {
@@ -1198,7 +1198,7 @@ func (s *CoreInstanceResourceCrud) Delete() error {
 		request.PreserveBootVolume = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.TerminateInstance(context.Background(), request)
 	return err
@@ -1242,7 +1242,7 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 	}
 
 	if s.Res.ExtendedMetadata != nil {
-		s.D.Set("extended_metadata", genericMapToJsonMap(s.Res.ExtendedMetadata))
+		s.D.Set("extended_metadata", GenericMapToJsonMap(s.Res.ExtendedMetadata))
 	}
 
 	if s.Res.FaultDomain != nil {
@@ -1420,7 +1420,7 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
@@ -1472,7 +1472,7 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 		result["assign_private_dns_record"] = createVnicDetails["assign_private_dns_record"]
 	}
 	// "assign_public_ip" isn't part of the VNIC's state & is only useful at creation time (and
-	// subsequent force-new creations). So persist the user-defined value in the config & update it
+	// subsequent force-new creations). So persist the user-defined value in the config & Update it
 	// when the user changes that value.
 	if createVnicDetails != nil {
 		assignPublicIP, _ := NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
@@ -1503,7 +1503,7 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateIp != nil {
@@ -1568,7 +1568,7 @@ func (s *CoreInstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok && hostnameLabel != "" {
@@ -1622,7 +1622,7 @@ func (s *CoreInstanceResourceCrud) updateVnicAssignPublicIp(vnic *oci_core.Vnic,
 			listPrivateIpsResponse, err := s.VirtualNetworkClient.ListPrivateIps(context.Background(), oci_core.ListPrivateIpsRequest{
 				VnicId: vnic.Id,
 				RequestMetadata: common.RequestMetadata{
-					RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+					RetryPolicy: GetRetryPolicy(s.DisableNotFoundRetries, "core"),
 				},
 			})
 
@@ -1639,7 +1639,7 @@ func (s *CoreInstanceResourceCrud) updateVnicAssignPublicIp(vnic *oci_core.Vnic,
 							PrivateIpId:   privateIp.Id,
 						},
 						RequestMetadata: common.RequestMetadata{
-							RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+							RetryPolicy: GetRetryPolicy(s.DisableNotFoundRetries, "core"),
 						},
 					})
 					return err
@@ -1654,7 +1654,7 @@ func (s *CoreInstanceResourceCrud) updateVnicAssignPublicIp(vnic *oci_core.Vnic,
 					IpAddress: vnic.PublicIp,
 				},
 				RequestMetadata: common.RequestMetadata{
-					RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+					RetryPolicy: GetRetryPolicy(s.DisableNotFoundRetries, "core"),
 				},
 			})
 
@@ -1662,7 +1662,7 @@ func (s *CoreInstanceResourceCrud) updateVnicAssignPublicIp(vnic *oci_core.Vnic,
 				_, err = s.VirtualNetworkClient.DeletePublicIp(context.Background(), oci_core.DeletePublicIpRequest{
 					PublicIpId: publicIpByIpAddressResponse.Id,
 					RequestMetadata: common.RequestMetadata{
-						RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+						RetryPolicy: GetRetryPolicy(s.DisableNotFoundRetries, "core"),
 					},
 				})
 
@@ -2196,7 +2196,7 @@ func (s *CoreInstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 		CompartmentId: s.Res.CompartmentId,
 		InstanceId:    s.Res.Id,
 		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+			RetryPolicy: GetRetryPolicy(s.DisableNotFoundRetries, "core"),
 		},
 	}
 	var attachments []oci_core.VnicAttachment
@@ -2224,7 +2224,7 @@ func (s *CoreInstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 			request := oci_core.GetVnicRequest{
 				VnicId: attachment.VnicId,
 				RequestMetadata: common.RequestMetadata{
-					RetryPolicy: getRetryPolicy(true, "core"),
+					RetryPolicy: GetRetryPolicy(true, "core"),
 				},
 			}
 			response, _ := s.VirtualNetworkClient.GetVnic(context.Background(), request)
@@ -2246,7 +2246,7 @@ func (s *CoreInstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error)
 		CompartmentId:      s.Res.CompartmentId,
 		InstanceId:         s.Res.Id,
 		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+			RetryPolicy: GetRetryPolicy(s.DisableNotFoundRetries, "core"),
 		},
 	}
 
@@ -2267,7 +2267,7 @@ func (s *CoreInstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error)
 	bootVolumeRequest := oci_core.GetBootVolumeRequest{
 		BootVolumeId: bootVolumeId,
 		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+			RetryPolicy: GetRetryPolicy(s.DisableNotFoundRetries, "core"),
 		},
 	}
 	bootVolumeResponse, err := s.BlockStorageClient.GetBootVolume(context.Background(), bootVolumeRequest)
@@ -2359,7 +2359,7 @@ func (s *CoreInstanceResourceCrud) updateCompartment(compartment interface{}) er
 	idTmp := s.D.Id()
 	changeCompartmentRequest.InstanceId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -2394,7 +2394,7 @@ func (s *CoreInstanceResourceCrud) updateBootVolumeSizeInGbs(bootVolumeSizeInGBs
 	bootVolumeSizeInGBsTmp := bootVolumeSizeInGBs.(int64)
 	changeBootVolumeDetailsRequest.SizeInGBs = &bootVolumeSizeInGBsTmp
 
-	changeBootVolumeDetailsRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeBootVolumeDetailsRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.BlockStorageClient.UpdateBootVolume(context.Background(), changeBootVolumeDetailsRequest)
 	if err != nil {
@@ -2485,7 +2485,7 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 	idTmp := s.D.Id()
 	request.InstanceId = &idTmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateInstance(context.Background(), request)
 	if err != nil {

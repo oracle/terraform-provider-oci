@@ -364,7 +364,7 @@ func (s *CoreClusterNetworkResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instancePools, ok := s.D.GetOkExists("instance_pools"); ok {
@@ -395,7 +395,7 @@ func (s *CoreClusterNetworkResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateClusterNetwork(context.Background(), request)
 	if err != nil {
@@ -412,7 +412,7 @@ func (s *CoreClusterNetworkResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ClusterNetworkId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetClusterNetwork(context.Background(), request)
 	if err != nil {
@@ -452,7 +452,7 @@ func (s *CoreClusterNetworkResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instancePools, ok := s.D.GetOkExists("instance_pools"); ok {
@@ -472,7 +472,7 @@ func (s *CoreClusterNetworkResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateClusterNetwork(context.Background(), request)
 	if err != nil {
@@ -489,7 +489,7 @@ func (s *CoreClusterNetworkResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ClusterNetworkId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.TerminateClusterNetwork(context.Background(), request)
 	return err
@@ -610,7 +610,7 @@ func (s *CoreClusterNetworkResourceCrud) mapToCreateClusterNetworkInstancePoolDe
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceConfigurationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_configuration_id")); ok {
@@ -644,7 +644,7 @@ func (s *CoreClusterNetworkResourceCrud) mapToUpdateClusterNetworkInstancePoolDe
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
@@ -747,7 +747,7 @@ func (s *CoreClusterNetworkResourceCrud) updateCompartment(compartment interface
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeClusterNetworkCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

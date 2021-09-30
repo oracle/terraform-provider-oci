@@ -14,9 +14,9 @@ import (
 
 var (
 	vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation = map[string]interface{}{
-		"exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
-		"vm_cluster_network_id":     Representation{repType: Required, create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
-		"base64_encode_content":     Representation{repType: Optional, create: `true`},
+		"exadata_infrastructure_id": Representation{RepType: Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"vm_cluster_network_id":     Representation{RepType: Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
+		"base64_encode_content":     Representation{RepType: Optional, Create: `true`},
 	}
 
 	VmClusterNetworkDownloadConfigFileResourceConfig = VmClusterNetworkValidatedResourceConfig
@@ -34,13 +34,13 @@ func TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic(t *testing.T) 
 
 	singularDatasourceName := "data.oci_database_vm_cluster_network_download_config_file.test_vm_cluster_network_download_config_file"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", Required, Create, vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", Required, Create, vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VmClusterNetworkDownloadConfigFileResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
@@ -52,7 +52,7 @@ func TestDatabaseVmClusterNetworkDownloadConfigFileResource_basic(t *testing.T) 
 
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", Optional, Create, vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_network_download_config_file", "test_vm_cluster_network_download_config_file", Optional, Create, vmClusterNetworkDownloadConfigFileSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VmClusterNetworkDownloadConfigFileResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),

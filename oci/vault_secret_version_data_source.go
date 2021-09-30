@@ -99,7 +99,7 @@ func (s *VaultSecretVersionDataSourceCrud) Get() error {
 		request.SecretVersionNumber = &tmpInt64
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "vault")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "vault")
 
 	response, err := s.Client.GetSecretVersion(context.Background(), request)
 	if err != nil {

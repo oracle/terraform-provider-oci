@@ -49,7 +49,7 @@ func (s *MysqlChannelDataSourceCrud) Get() error {
 		request.ChannelId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.GetChannel(context.Background(), request)
 	if err != nil {

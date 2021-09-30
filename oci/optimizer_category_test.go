@@ -14,19 +14,19 @@ import (
 
 var (
 	categorySingularDataSourceRepresentation = map[string]interface{}{
-		"category_id": Representation{repType: Required, create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
+		"category_id": Representation{RepType: Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
 	}
 
 	optimizerCategoryDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Required, create: `true`},
-		"name":                      Representation{repType: Optional, create: `name`},
-		"state":                     Representation{repType: Optional, create: `CREATED`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Required, Create: `true`},
+		"name":                      Representation{RepType: Optional, Create: `name`},
+		"state":                     Representation{RepType: Optional, Create: `CREATED`},
 		"filter":                    RepresentationGroup{Required, categoryDataSourceFilterRepresentation},
 	}
 	categoryDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`cost-management-name`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`cost-management-name`}},
 	}
 
 	OptimizerCategoryResourceConfig = ""
@@ -45,13 +45,13 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 	datasourceName := "data.oci_optimizer_categories.test_categories"
 	singularDatasourceName := "data.oci_optimizer_category.test_category"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
 				compartmentIdVariableStr + OptimizerCategoryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -65,8 +65,8 @@ func TestOptimizerCategoryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_optimizer_category", "test_category", Required, Create, categorySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_category", "test_category", Required, Create, categorySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + OptimizerCategoryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "category_id"),

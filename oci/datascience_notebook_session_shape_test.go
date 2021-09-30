@@ -14,7 +14,7 @@ import (
 
 var (
 	notebookSessionShapeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	NotebookSessionShapeResourceConfig = ""
@@ -32,13 +32,13 @@ func TestDatascienceNotebookSessionShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_datascience_notebook_session_shapes.test_notebook_session_shapes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_notebook_session_shapes", "test_notebook_session_shapes", Required, Create, notebookSessionShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_notebook_session_shapes", "test_notebook_session_shapes", Required, Create, notebookSessionShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + NotebookSessionShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

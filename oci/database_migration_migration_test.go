@@ -21,32 +21,32 @@ import (
 
 var (
 	MigrationRequiredOnlyResource = MigrationResourceDependenciesMig +
-		generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationRepresentationMig)
+		GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationRepresentationMig)
 
 	MigrationResourceConfig = MigrationResourceDependenciesMig +
-		generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig)
+		GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig)
 
 	migrationSingularDataSourceRepresentation = map[string]interface{}{
-		"migration_id": Representation{repType: Required, create: `${oci_database_migration_migration.test_migration.id}`},
+		"migration_id": Representation{RepType: Required, Create: `${oci_database_migration_migration.test_migration.id}`},
 	}
 
 	migrationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, migrationDataSourceFilterRepresentation}}
 	migrationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_migration_migration.test_migration.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_migration_migration.test_migration.id}`}},
 	}
 
 	migrationRepresentationMig = map[string]interface{}{
-		"compartment_id":                Representation{repType: Required, create: `${var.compartment_id}`},
-		"source_database_connection_id": Representation{repType: Required, create: `${oci_database_migration_connection.test_connection_source.id}`},
-		"target_database_connection_id": Representation{repType: Required, create: `${oci_database_migration_connection.test_connection.id}`},
-		"type":                          Representation{repType: Required, create: `ONLINE`},
+		"compartment_id":                Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"source_database_connection_id": Representation{RepType: Required, Create: `${oci_database_migration_connection.test_connection_source.id}`},
+		"target_database_connection_id": Representation{RepType: Required, Create: `${oci_database_migration_connection.test_connection.id}`},
+		"type":                          Representation{RepType: Required, Create: `ONLINE`},
 		"datapump_settings":             RepresentationGroup{Required, migrationDatapumpSettingsRepresentation},
-		"display_name":                  Representation{repType: Optional, create: `TF_ONLINE_MIG`, update: `TF_ONLINE_MIG`},
+		"display_name":                  Representation{RepType: Optional, Create: `TF_ONLINE_MIG`, Update: `TF_ONLINE_MIG`},
 		"golden_gate_details":           RepresentationGroup{Required, migrationGoldenGateDetailsRepresentation},
 		"vault_details":                 RepresentationGroup{Required, migrationVaultDetailsRepresentation},
 	}
@@ -59,90 +59,90 @@ var (
 		"metadata_remaps":         RepresentationGroup{Required, migrationDatapumpSettingsMetadataRemapsRepresentation},
 	}
 	migrationExcludeObjectsRepresentation = map[string]interface{}{
-		"object": Representation{repType: Required, create: `object`, update: `object2`},
-		"owner":  Representation{repType: Required, create: `owner`, update: `owner2`},
+		"object": Representation{RepType: Required, Create: `object`, Update: `object2`},
+		"owner":  Representation{RepType: Required, Create: `owner`, Update: `owner2`},
 	}
 	migrationGoldenGateDetailsRepresentation = map[string]interface{}{
 		"hub":      RepresentationGroup{Required, migrationGoldenGateDetailsHubRepresentation},
 		"settings": RepresentationGroup{Optional, migrationGoldenGateDetailsSettingsRepresentation},
 	}
 	migrationVaultDetailsRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"key_id":         Representation{repType: Required, create: `${var.kms_key_id}`},
-		"vault_id":       Representation{repType: Required, create: `${var.kms_vault_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"key_id":         Representation{RepType: Required, Create: `${var.kms_key_id}`},
+		"vault_id":       Representation{RepType: Required, Create: `${var.kms_vault_id}`},
 	}
 	migrationDataTransferMediumDetailsDatabaseLinkDetailsRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `name`, update: `name2`},
+		"name": Representation{RepType: Required, Create: `name`, Update: `name2`},
 	}
 	migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation = map[string]interface{}{
-		"bucket":    Representation{repType: Required, create: `bucket`, update: `bucket2`},
-		"namespace": Representation{repType: Required, create: `namespace`, update: `namespace2`},
+		"bucket":    Representation{RepType: Required, Create: `bucket`, Update: `bucket2`},
+		"namespace": Representation{RepType: Required, Create: `namespace`, Update: `namespace2`},
 	}
 	migrationDatapumpSettingsDataPumpParametersRepresentation = map[string]interface{}{
-		"estimate":                  Representation{repType: Optional, create: `BLOCKS`, update: `STATISTICS`},
-		"exclude_parameters":        Representation{repType: Optional, create: []string{`excludeParameters`}, update: []string{`excludeParameters2`}},
-		"export_parallelism_degree": Representation{repType: Optional, create: `10`, update: `11`},
-		"import_parallelism_degree": Representation{repType: Optional, create: `10`, update: `11`},
-		"is_cluster":                Representation{repType: Optional, create: `false`, update: `true`},
-		"table_exists_action":       Representation{repType: Optional, create: `TRUNCATE`, update: `REPLACE`},
+		"estimate":                  Representation{RepType: Optional, Create: `BLOCKS`, Update: `STATISTICS`},
+		"exclude_parameters":        Representation{RepType: Optional, Create: []string{`excludeParameters`}, Update: []string{`excludeParameters2`}},
+		"export_parallelism_degree": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"import_parallelism_degree": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"is_cluster":                Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"table_exists_action":       Representation{RepType: Optional, Create: `TRUNCATE`, Update: `REPLACE`},
 	}
 	migrationDatapumpSettingsExportDirectoryObjectRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `test_export_dir`, update: `test_export_dir`},
-		"path": Representation{repType: Required, create: `/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log`, update: `/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log`},
+		"name": Representation{RepType: Required, Create: `test_export_dir`, Update: `test_export_dir`},
+		"path": Representation{RepType: Required, Create: `/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log`, Update: `/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log`},
 	}
 	migrationDatapumpSettingsImportDirectoryObjectRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `name`, update: `name2`},
-		"path": Representation{repType: Required, create: `path`, update: `path2`},
+		"name": Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"path": Representation{RepType: Required, Create: `path`, Update: `path2`},
 	}
 	migrationDatapumpSettingsMetadataRemapsRepresentation = map[string]interface{}{
-		"new_value": Representation{repType: Required, create: `DATA`, update: `DATA`},
-		"old_value": Representation{repType: Required, create: `USERS`, update: `USERS`},
-		"type":      Representation{repType: Required, create: `TABLESPACE`, update: `TABLESPACE`},
+		"new_value": Representation{RepType: Required, Create: `DATA`, Update: `DATA`},
+		"old_value": Representation{RepType: Required, Create: `USERS`, Update: `USERS`},
+		"type":      Representation{RepType: Required, Create: `TABLESPACE`, Update: `TABLESPACE`},
 	}
 	migrationGoldenGateDetailsHubRepresentation = map[string]interface{}{
 		"rest_admin_credentials":               RepresentationGroup{Required, migrationGoldenGateDetailsHubRestAdminCredentialsRepresentation},
 		"source_db_admin_credentials":          RepresentationGroup{Required, migrationGoldenGateDetailsHubSourceDbAdminCredentialsRepresentation},
-		"source_microservices_deployment_name": Representation{repType: Required, create: `Target`},
+		"source_microservices_deployment_name": Representation{RepType: Required, Create: `Target`},
 		"target_db_admin_credentials":          RepresentationGroup{Required, migrationGoldenGateDetailsHubTargetDbAdminCredentialsRepresentation},
-		"target_microservices_deployment_name": Representation{repType: Required, create: `Target`},
-		"url":                                  Representation{repType: Required, create: `https://130.35.83.125`, update: `https://130.35.83.125`},
+		"target_microservices_deployment_name": Representation{RepType: Required, Create: `Target`},
+		"url":                                  Representation{RepType: Required, Create: `https://130.35.83.125`, Update: `https://130.35.83.125`},
 		//"source_container_db_admin_credentials": RepresentationGroup{Required, migrationGoldenGateDetailsHubSourceContainerDbAdminCredentialsRepresentation},
 	}
 	migrationGoldenGateDetailsSettingsRepresentation = map[string]interface{}{
-		"acceptable_lag": Representation{repType: Optional, create: `10`, update: `11`},
+		"acceptable_lag": Representation{RepType: Optional, Create: `10`, Update: `11`},
 		"extract":        RepresentationGroup{Optional, migrationGoldenGateDetailsSettingsExtractRepresentation},
 		"replicat":       RepresentationGroup{Optional, migrationGoldenGateDetailsSettingsReplicatRepresentation},
 	}
 	migrationGoldenGateDetailsHubRestAdminCredentialsRepresentation = map[string]interface{}{
-		"password": Representation{repType: Required, create: `n5j2LRy0X%A2VRxY`, update: `n5j2LRy0X%A2VRxY`},
-		"username": Representation{repType: Required, create: `oggadmin`, update: `oggadmin`},
+		"password": Representation{RepType: Required, Create: `n5j2LRy0X%A2VRxY`, Update: `n5j2LRy0X%A2VRxY`},
+		"username": Representation{RepType: Required, Create: `oggadmin`, Update: `oggadmin`},
 	}
 	migrationGoldenGateDetailsHubSourceDbAdminCredentialsRepresentation = map[string]interface{}{
-		"password": Representation{repType: Required, create: `GG$$admin128`, update: `GG$$admin128`},
-		"username": Representation{repType: Required, create: `ggadmin`, update: `ggadmin`},
+		"password": Representation{RepType: Required, Create: `GG$$admin128`, Update: `GG$$admin128`},
+		"username": Representation{RepType: Required, Create: `ggadmin`, Update: `ggadmin`},
 	}
 	migrationGoldenGateDetailsHubTargetDbAdminCredentialsRepresentation = map[string]interface{}{
-		"password": Representation{repType: Required, create: `ORcl##4567890`, update: `ORcl##4567890`},
-		"username": Representation{repType: Required, create: `ggadmin`, update: `ggadmin`},
+		"password": Representation{RepType: Required, Create: `ORcl##4567890`, Update: `ORcl##4567890`},
+		"username": Representation{RepType: Required, Create: `ggadmin`, Update: `ggadmin`},
 	}
 	migrationGoldenGateDetailsHubSourceContainerDbAdminCredentialsRepresentation = map[string]interface{}{
-		"password": Representation{repType: Required, create: `GG$$admin128`, update: `GG$$admin128`},
-		"username": Representation{repType: Required, create: `c##ggadmin`, update: `c##ggadmin`},
+		"password": Representation{RepType: Required, Create: `GG$$admin128`, Update: `GG$$admin128`},
+		"username": Representation{RepType: Required, Create: `c##ggadmin`, Update: `c##ggadmin`},
 	}
 	migrationGoldenGateDetailsSettingsExtractRepresentation = map[string]interface{}{
-		"long_trans_duration": Representation{repType: Optional, create: `10`, update: `11`},
-		"performance_profile": Representation{repType: Optional, create: `LOW`, update: `MEDIUM`},
+		"long_trans_duration": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"performance_profile": Representation{RepType: Optional, Create: `LOW`, Update: `MEDIUM`},
 	}
 	migrationGoldenGateDetailsSettingsReplicatRepresentation = map[string]interface{}{
-		"map_parallelism":       Representation{repType: Optional, create: `10`, update: `11`},
-		"max_apply_parallelism": Representation{repType: Optional, create: `10`, update: `11`},
-		"min_apply_parallelism": Representation{repType: Optional, create: `10`, update: `11`},
+		"map_parallelism":       Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"max_apply_parallelism": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"min_apply_parallelism": Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 
 	MigrationResourceDependenciesMig = ConnectionResourceDependenciesTargetCommon +
-		generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionRepresentationTarget) +
+		GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionRepresentationTarget) +
 		ConnectionResourceDependenciesSource +
-		generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_source", Required, Create, connectionRepresentationSource)
+		GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_source", Required, Create, connectionRepresentationSource)
 )
 
 // issue-routing-tag: database_migration/default
@@ -163,35 +163,35 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_migration_migration.test_migration"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+MigrationResourceDependenciesMig+
-		generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create, migrationRepresentationMig), "databasemigration", "migration", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+MigrationResourceDependenciesMig+
+		GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create, migrationRepresentationMig), "databasemigration", "migration", t)
 
 	ResourceTest(t, testAccCheckDatabaseMigrationMigrationDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
-				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationRepresentationMig),
+				GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationRepresentationMig),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr, //+ MigrationResourceDependenciesMig,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
-				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create, migrationRepresentationMig),
+				GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create, migrationRepresentationMig),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
@@ -239,9 +239,9 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -250,12 +250,12 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MigrationResourceDependenciesMig +
-				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create,
-					representationCopyWithNewProperties(migrationRepresentationMig, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Create,
+					RepresentationCopyWithNewProperties(migrationRepresentationMig, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -306,7 +306,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -318,7 +318,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + MigrationResourceDependenciesMig +
-				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
+				GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
@@ -370,7 +370,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -381,9 +381,9 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", Optional, Update, migrationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", Optional, Update, migrationDataSourceRepresentation) +
 				compartmentIdVariableStr + MigrationResourceDependenciesMig +
-				generateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
+				GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Optional, Update, migrationRepresentationMig),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -395,7 +395,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + MigrationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -468,7 +468,7 @@ func testAccCheckDatabaseMigrationMigrationDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.MigrationId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database_migration")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database_migration")
 
 			response, err := client.GetMigration(context.Background(), request)
 
@@ -501,7 +501,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseMigrationMigration") {
+	if !InSweeperExcludeList("DatabaseMigrationMigration") {
 		resource.AddTestSweepers("DatabaseMigrationMigration", &resource.Sweeper{
 			Name:         "DatabaseMigrationMigration",
 			Dependencies: DependencyGraph["migration"],
@@ -522,13 +522,13 @@ func sweepDatabaseMigrationMigrationResource(compartment string) error {
 
 			deleteMigrationRequest.MigrationId = &migrationId
 
-			deleteMigrationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database_migration")
+			deleteMigrationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database_migration")
 			_, error := databaseMigrationClient.DeleteMigration(context.Background(), deleteMigrationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Migration %s %s, It is possible that the resource is already deleted. Please verify manually \n", migrationId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &migrationId, migrationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &migrationId, migrationSweepWaitCondition, time.Duration(3*time.Minute),
 				migrationSweepResponseFetchOperation, "database_migration", true)
 		}
 	}
@@ -536,7 +536,7 @@ func sweepDatabaseMigrationMigrationResource(compartment string) error {
 }
 
 func getMigrationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "MigrationId")
+	ids := GetResourceIdsToSweep(compartment, "MigrationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -555,7 +555,7 @@ func getMigrationIds(compartment string) ([]string, error) {
 	for _, migration := range listMigrationsResponse.Items {
 		id := *migration.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "MigrationId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "MigrationId", id)
 	}
 	return resourceIds, nil
 }

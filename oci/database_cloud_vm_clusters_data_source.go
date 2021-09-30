@@ -19,7 +19,7 @@ func DatabaseCloudVmClustersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseCloudVmClusters,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"cloud_exadata_infrastructure_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,7 +85,7 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.CloudVmClusterSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListCloudVmClusters(context.Background(), request)
 	if err != nil {

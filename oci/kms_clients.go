@@ -10,9 +10,9 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_kms.KmsCryptoClient", &OracleClient{initClientFn: initKeymanagementKmsCryptoClient})
-	RegisterOracleClient("oci_kms.KmsManagementClient", &OracleClient{initClientFn: initKeymanagementKmsManagementClient})
-	RegisterOracleClient("oci_kms.KmsVaultClient", &OracleClient{initClientFn: initKeymanagementKmsVaultClient})
+	RegisterOracleClient("oci_kms.KmsCryptoClient", &OracleClient{InitClientFn: initKeymanagementKmsCryptoClient})
+	RegisterOracleClient("oci_kms.KmsManagementClient", &OracleClient{InitClientFn: initKeymanagementKmsManagementClient})
+	RegisterOracleClient("oci_kms.KmsVaultClient", &OracleClient{InitClientFn: initKeymanagementKmsVaultClient})
 }
 
 func initKeymanagementKmsCryptoClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

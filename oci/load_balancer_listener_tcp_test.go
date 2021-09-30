@@ -15,19 +15,19 @@ import (
 
 var (
 	ListenerTcpRequiredOnlyResource = ListenerResourceDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_tcp", Required, Create, listenerTcpRepresentation)
+		GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_tcp", Required, Create, listenerTcpRepresentation)
 	listenerTcpRepresentation = map[string]interface{}{
-		"default_backend_set_name": Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
-		"load_balancer_id":         Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":                     Representation{repType: Required, create: `mylistener`},
-		"port":                     Representation{repType: Required, create: `10`, update: `11`},
-		"protocol":                 Representation{repType: Required, create: `TCP`},
+		"default_backend_set_name": Representation{RepType: Required, Create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"load_balancer_id":         Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":                     Representation{RepType: Required, Create: `mylistener`},
+		"port":                     Representation{RepType: Required, Create: `10`, Update: `11`},
+		"protocol":                 Representation{RepType: Required, Create: `TCP`},
 		"connection_configuration": RepresentationGroup{Optional, listenerTcpConnectionConfigurationRepresentation},
-		"rule_set_names":           Representation{repType: Optional, create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
+		"rule_set_names":           Representation{RepType: Optional, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
 	}
 	listenerTcpConnectionConfigurationRepresentation = map[string]interface{}{
-		"idle_timeout_in_seconds":            Representation{repType: Required, create: `10`, update: `11`},
-		"backend_tcp_proxy_protocol_version": Representation{repType: Optional, create: `1`, update: `2`},
+		"idle_timeout_in_seconds":            Representation{RepType: Required, Create: `10`, Update: `11`},
+		"backend_tcp_proxy_protocol_version": Representation{RepType: Optional, Create: `1`, Update: `2`},
 	}
 )
 
@@ -51,10 +51,10 @@ func TestLoadBalancerListenerTcpResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckLoadBalancerListenerDestroy,
 		Steps: []resource.TestStep{
-			// verify create with TCP optional
+			// verify Create with TCP optional
 			{
 				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_tcp", Optional, Create, listenerTcpRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_tcp", Optional, Create, listenerTcpRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.backend_tcp_proxy_protocol_version", "1"),
@@ -67,10 +67,10 @@ func TestLoadBalancerListenerTcpResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify update with TCP optional
+			// verify Update with TCP optional
 			{
 				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_tcp", Optional, Update, listenerTcpRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_tcp", Optional, Update, listenerTcpRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.backend_tcp_proxy_protocol_version", "2"),

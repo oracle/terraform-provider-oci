@@ -10,8 +10,8 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_computeinstanceagent.PluginClient", &OracleClient{initClientFn: initComputeinstanceagentPluginClient})
-	RegisterOracleClient("oci_computeinstanceagent.PluginconfigClient", &OracleClient{initClientFn: initComputeinstanceagentPluginconfigClient})
+	RegisterOracleClient("oci_computeinstanceagent.PluginClient", &OracleClient{InitClientFn: initComputeinstanceagentPluginClient})
+	RegisterOracleClient("oci_computeinstanceagent.PluginconfigClient", &OracleClient{InitClientFn: initComputeinstanceagentPluginconfigClient})
 }
 
 func initComputeinstanceagentPluginClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

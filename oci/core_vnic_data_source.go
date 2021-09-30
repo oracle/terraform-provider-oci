@@ -122,7 +122,7 @@ func (s *CoreVnicDataSourceCrud) Get() error {
 		request.VnicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetVnic(context.Background(), request)
 	if err != nil {

@@ -49,7 +49,7 @@ func (s *MarketplacePublicationDataSourceCrud) Get() error {
 		request.PublicationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.GetPublication(context.Background(), request)
 	if err != nil {

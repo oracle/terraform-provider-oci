@@ -20,19 +20,19 @@ import (
 
 var (
 	authTokenDataSourceRepresentation = map[string]interface{}{
-		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"user_id": Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 		"filter":  RepresentationGroup{Required, authTokenDataSourceFilterRepresentation}}
 	authTokenDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_auth_token.test_auth_token.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_auth_token.test_auth_token.id}`}},
 	}
 
 	authTokenRepresentation = map[string]interface{}{
-		"description": Representation{repType: Required, create: `description`, update: `description2`},
-		"user_id":     Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"description": Representation{RepType: Required, Create: `description`, Update: `description2`},
+		"user_id":     Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	AuthTokenResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+	AuthTokenResourceDependencies = GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -51,26 +51,26 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 	var resId, resId2 string
 	var compositeId string
 
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AuthTokenResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Required, Create, authTokenRepresentation), "identity", "authToken", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AuthTokenResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Required, Create, authTokenRepresentation), "identity", "authToken", t)
 
 	ResourceTest(t, testAccCheckIdentityAuthTokenDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Required, Create, authTokenRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Required, Create, authTokenRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
-					userId, _ := fromInstanceState(s, resourceName, "user_id")
+					resId, err = FromInstanceState(s, resourceName, "id")
+					userId, _ := FromInstanceState(s, resourceName, "user_id")
 					compositeId = "users/" + userId + "/authTokens/" + resId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -82,13 +82,13 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Optional, Update, authTokenRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Optional, Update, authTokenRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -99,9 +99,9 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_auth_tokens", "test_auth_tokens", Optional, Update, authTokenDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_auth_tokens", "test_auth_tokens", Optional, Update, authTokenDataSourceRepresentation) +
 				compartmentIdVariableStr + AuthTokenResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Optional, Update, authTokenRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Optional, Update, authTokenRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
@@ -149,7 +149,7 @@ func testAccCheckIdentityAuthTokenDestroy(s *terraform.State) error {
 				request.UserId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 			response, err := client.ListAuthTokens(context.Background(), request)
 
 			if err == nil {

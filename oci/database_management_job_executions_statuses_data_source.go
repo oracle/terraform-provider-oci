@@ -18,7 +18,7 @@ func DatabaseManagementJobExecutionsStatusesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseManagementJobExecutionsStatuses,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -136,7 +136,7 @@ func (s *DatabaseManagementJobExecutionsStatusesDataSourceCrud) Get() error {
 		request.StartTime = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_management")
 
 	response, err := s.Client.SummarizeJobExecutionsStatuses(context.Background(), request)
 	if err != nil {

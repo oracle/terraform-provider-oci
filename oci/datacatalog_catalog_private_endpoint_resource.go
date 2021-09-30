@@ -200,7 +200,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -208,7 +208,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.CreateCatalogPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -216,7 +216,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCatalogPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCatalogPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DatacatalogCatalogPrivateEndpointResourceCrud) getCatalogPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -259,7 +259,7 @@ func catalogPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) fun
 
 func catalogPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datacatalog.DataCatalogClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "datacatalog")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "datacatalog")
 	retryPolicy.ShouldRetryOperation = catalogPrivateEndpointWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_datacatalog.GetWorkRequestResponse{}
@@ -340,7 +340,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CatalogPrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.GetCatalogPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -393,10 +393,10 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.UpdateCatalogPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -404,7 +404,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCatalogPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCatalogPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Delete() error {
@@ -413,7 +413,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CatalogPrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.DeleteCatalogPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -476,7 +476,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) updateCompartment(compar
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.ChangeCatalogPrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -484,7 +484,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) updateCompartment(compar
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCatalogPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "catalogPrivateEndpoint"), oci_datacatalog.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCatalogPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "catalogPrivateEndpoint"), oci_datacatalog.WorkRequestResourceActionTypeMoved, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatacatalogCatalogPrivateEndpointResourceCrud) detachCatalog(detachCatalogs []interface{}) error {
@@ -494,7 +494,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) detachCatalog(detachCata
 		request := oci_datacatalog.DetachCatalogPrivateEndpointRequest{}
 		request.CatalogPrivateEndpointId = &catalogPrivateEndpointId
 		request.CatalogId = &detachCatalogId
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 		response, err := s.Client.DetachCatalogPrivateEndpoint(context.Background(), request)
 		if err != nil {

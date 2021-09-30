@@ -49,7 +49,7 @@ func (s *DatabasePluggableDatabaseDataSourceCrud) Get() error {
 		request.PluggableDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetPluggableDatabase(context.Background(), request)
 	if err != nil {

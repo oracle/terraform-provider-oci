@@ -17,52 +17,52 @@ import (
 
 var (
 	govSpecificVirtualCircuitRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
-		"bandwidth_shape_name":   Representation{repType: Optional, create: `10 Gbps`, update: `20 Gbps`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"type":                   Representation{RepType: Required, Create: `${var.virtual_circuit_type}`},
+		"bandwidth_shape_name":   Representation{RepType: Optional, Create: `10 Gbps`, Update: `20 Gbps`},
 		"cross_connect_mappings": RepresentationGroup{Required, govSpecificCrossConnectMappingsRequiredOnlyRepresentation},
-		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"gateway_id":             Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
-		"region":                 Representation{repType: Optional, create: `us-phoenix-1`},
+		"customer_bgp_asn":       Representation{RepType: Required, Create: `10`, Update: `11`},
+		"display_name":           Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"gateway_id":             Representation{RepType: Optional, Create: `${oci_core_drg.test_drg.id}`},
+		"region":                 Representation{RepType: Optional, Create: `us-phoenix-1`},
 	}
 
 	govSpecificVirtualCircuitWithProviderRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
-		"bandwidth_shape_name":   Representation{repType: Optional, create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes.virtual_circuit_bandwidth_shapes.0.name}"},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"type":                   Representation{RepType: Required, Create: `${var.virtual_circuit_type}`},
+		"bandwidth_shape_name":   Representation{RepType: Optional, Create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes.virtual_circuit_bandwidth_shapes.0.name}"},
 		"cross_connect_mappings": RepresentationGroup{Required, govSpecificVirtualCircuitCrossConnectMappingsRepresentation},
-		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"gateway_id":             Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
-		"provider_service_id":    Representation{repType: Optional, create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
+		"customer_bgp_asn":       Representation{RepType: Required, Create: `10`, Update: `11`},
+		"display_name":           Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"gateway_id":             Representation{RepType: Optional, Create: `${oci_core_drg.test_drg.id}`},
+		"provider_service_id":    Representation{RepType: Optional, Create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
 		// provider_service_key_name can only be updated by a Fast Connect Service Provider
-		// "provider_service_key_name": Representation{repType: Optional, create: `d8f7a443-28c2-4dcf-996c-286351908c58`},
-		"region": Representation{repType: Optional, create: `us-phoenix-1`},
+		// "provider_service_key_name": Representation{RepType: Optional, Create: `d8f7a443-28c2-4dcf-996c-286351908c58`},
+		"region": Representation{RepType: Optional, Create: `us-phoenix-1`},
 	}
 
 	govSpecificVirtualCircuitRequiredOnlyRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"type":                   Representation{RepType: Required, Create: `${var.virtual_circuit_type}`},
 		"cross_connect_mappings": RepresentationGroup{Required, govSpecificCrossConnectMappingsRequiredOnlyRepresentation},
-		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
-		"gateway_id":             Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"customer_bgp_asn":       Representation{RepType: Required, Create: `10`, Update: `11`},
+		"gateway_id":             Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
 	}
 
 	govSpecificCrossConnectMappingsRequiredOnlyRepresentation = map[string]interface{}{
-		"cross_connect_or_cross_connect_group_id": Representation{repType: Required, create: `${oci_core_cross_connect.test_cross_connect.cross_connect_group_id}`},
-		"customer_bgp_peering_ip":                 Representation{repType: Required, create: `10.0.0.18/31`, update: `10.0.0.20/31`},
-		"oracle_bgp_peering_ip":                   Representation{repType: Required, create: `10.0.0.19/31`, update: `10.0.0.21/31`},
-		"customer_bgp_peering_ipv6":               Representation{repType: Required, create: `fd00:aaaa:0123::4/64`, update: `fd00:aaaa:0124::4/64`},
-		"oracle_bgp_peering_ipv6":                 Representation{repType: Required, create: `fd00:aaaa:0123::5/64`, update: `fd00:aaaa:0124::5/64`},
-		"vlan":                                    Representation{repType: Required, create: `200`, update: `300`},
+		"cross_connect_or_cross_connect_group_id": Representation{RepType: Required, Create: `${oci_core_cross_connect.test_cross_connect.cross_connect_group_id}`},
+		"customer_bgp_peering_ip":                 Representation{RepType: Required, Create: `10.0.0.18/31`, Update: `10.0.0.20/31`},
+		"oracle_bgp_peering_ip":                   Representation{RepType: Required, Create: `10.0.0.19/31`, Update: `10.0.0.21/31`},
+		"customer_bgp_peering_ipv6":               Representation{RepType: Required, Create: `fd00:aaaa:0123::4/64`, Update: `fd00:aaaa:0124::4/64`},
+		"oracle_bgp_peering_ipv6":                 Representation{RepType: Required, Create: `fd00:aaaa:0123::5/64`, Update: `fd00:aaaa:0124::5/64`},
+		"vlan":                                    Representation{RepType: Required, Create: `200`, Update: `300`},
 	}
 
 	govSpecificVirtualCircuitCrossConnectMappingsRepresentation = map[string]interface{}{
-		"customer_bgp_peering_ip":   Representation{repType: Required, create: `10.0.0.18/31`, update: `10.0.0.20/31`},
-		"oracle_bgp_peering_ip":     Representation{repType: Required, create: `10.0.0.19/31`, update: `10.0.0.21/31`},
-		"customer_bgp_peering_ipv6": Representation{repType: Required, create: `fd00:aaaa:0123::4/64`, update: `fd00:aaaa:0124::4/64`},
-		"oracle_bgp_peering_ipv6":   Representation{repType: Required, create: `fd00:aaaa:0123::5/64`, update: `fd00:aaaa:0124::5/64`},
+		"customer_bgp_peering_ip":   Representation{RepType: Required, Create: `10.0.0.18/31`, Update: `10.0.0.20/31`},
+		"oracle_bgp_peering_ip":     Representation{RepType: Required, Create: `10.0.0.19/31`, Update: `10.0.0.21/31`},
+		"customer_bgp_peering_ipv6": Representation{RepType: Required, Create: `fd00:aaaa:0123::4/64`, Update: `fd00:aaaa:0124::4/64`},
+		"oracle_bgp_peering_ipv6":   Representation{RepType: Required, Create: `fd00:aaaa:0123::5/64`, Update: `fd00:aaaa:0124::5/64`},
 	}
 )
 
@@ -86,10 +86,10 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckCoreVirtualCircuitDestroy, []resource.TestStep{
-		// verify create - PUBLIC Virtual Circuit
+		// verify Create - PUBLIC Virtual Circuit
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -104,15 +104,15 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// verify update - PUBLIC Virtual Circuit
+		// verify Update - PUBLIC Virtual Circuit
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -127,7 +127,7 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -135,20 +135,20 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
 		},
-		// verify create - PRIVATE Virtual Circuit with Provider
+		// verify Create - PRIVATE Virtual Circuit with Provider
 		{
 			PreConfig: func() {
 				log.Printf("%s", config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPrivatePropertyVariables+VirtualCircuitWithProviderResourceConfigFilter+
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, getUpdatedRepresentationCopy("cross_connect_mappings", govSpecificVirtualCircuitCrossConnectMappingsRepresentation, virtualCircuitWithProviderRepresentation)))
+					GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, GetUpdatedRepresentationCopy("cross_connect_mappings", govSpecificVirtualCircuitCrossConnectMappingsRepresentation, virtualCircuitWithProviderRepresentation)))
 				fmt.Printf("%s", config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPrivatePropertyVariables+VirtualCircuitWithProviderResourceConfigFilter+
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, getUpdatedRepresentationCopy("cross_connect_mappings", govSpecificVirtualCircuitCrossConnectMappingsRepresentation, virtualCircuitWithProviderRepresentation)))
+					GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, GetUpdatedRepresentationCopy("cross_connect_mappings", govSpecificVirtualCircuitCrossConnectMappingsRepresentation, virtualCircuitWithProviderRepresentation)))
 			},
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, govSpecificVirtualCircuitWithProviderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, govSpecificVirtualCircuitWithProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -163,15 +163,15 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// verify update - PRIVATE Virtual Circuit with Provider
+		// verify Update - PRIVATE Virtual Circuit with Provider
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitWithProviderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitWithProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -186,7 +186,7 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -194,15 +194,15 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
 		},
 
-		// verify create - PRIVATE Virtual Circuit
+		// verify Create - PRIVATE Virtual Circuit
 		{
 			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, govSpecificVirtualCircuitRequiredOnlyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, govSpecificVirtualCircuitRequiredOnlyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -217,21 +217,21 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
 		},
 
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, govSpecificVirtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, govSpecificVirtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -249,7 +249,7 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -258,7 +258,7 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "20 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -276,7 +276,7 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -286,9 +286,9 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config + generateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", Optional, Update, virtualCircuitDataSourceRepresentation) +
+			Config: config + GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", Optional, Update, virtualCircuitDataSourceRepresentation) +
 				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -319,9 +319,9 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + generateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitSingularDataSourceRepresentation) +
+			Config: config + GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_circuit_id"),
@@ -352,7 +352,7 @@ func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, govSpecificVirtualCircuitRepresentation),
 		},
 		// verify resource import
 		{

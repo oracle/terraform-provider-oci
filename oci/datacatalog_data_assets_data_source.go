@@ -20,7 +20,7 @@ func DatacatalogDataAssetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatacatalogDataAssets,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"catalog_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -44,7 +44,7 @@ func DatacatalogDataAssetsDataSource() *schema.Resource {
 			"fields": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -170,7 +170,7 @@ func (s *DatacatalogDataAssetsDataSourceCrud) Get() error {
 		request.UpdatedById = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datacatalog")
 
 	response, err := s.Client.ListDataAssets(context.Background(), request)
 	if err != nil {

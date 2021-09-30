@@ -223,7 +223,7 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
@@ -236,7 +236,7 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Create() error {
 		request.ObjectName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.CreateDeploymentBackup(context.Background(), request)
 	if err != nil {
@@ -244,7 +244,7 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentBackupFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeploymentBackupFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *GoldenGateDeploymentBackupResourceCrud) getDeploymentBackupFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -289,7 +289,7 @@ func deploymentBackupWorkRequestShouldRetryFunc(timeout time.Duration) func(resp
 
 func goldenGateDeploymentBackupWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "golden_gate")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = deploymentBackupWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_golden_gate.GetWorkRequestResponse{}
@@ -369,7 +369,7 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DeploymentBackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.GetDeploymentBackup(context.Background(), request)
 	if err != nil {
@@ -404,10 +404,10 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Update() error {
 	request.DeploymentBackupId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.UpdateDeploymentBackup(context.Background(), request)
 	if err != nil {
@@ -424,7 +424,7 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DeploymentBackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.DeleteDeploymentBackup(context.Background(), request)
 	if err != nil {
@@ -585,7 +585,7 @@ func (s *GoldenGateDeploymentBackupResourceCrud) updateCompartment(compartment i
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DeploymentBackupId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	_, err := s.Client.ChangeDeploymentBackupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

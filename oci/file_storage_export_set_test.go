@@ -16,30 +16,30 @@ import (
 
 var (
 	ExportSetRequiredOnlyResource = ExportSetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation)
 
 	exportSetDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":                  Representation{repType: Optional, create: `${oci_file_storage_export_set.test_export_set.id}`},
-		"state":               Representation{repType: Optional, create: `ACTIVE`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":                  Representation{RepType: Optional, Create: `${oci_file_storage_export_set.test_export_set.id}`},
+		"state":               Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":              RepresentationGroup{Required, exportSetDataSourceFilterRepresentation}}
 	exportSetDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_file_storage_export_set.test_export_set.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_file_storage_export_set.test_export_set.id}`}},
 	}
 
 	exportSetRepresentation = map[string]interface{}{
-		"mount_target_id":   Representation{repType: Required, create: `${oci_file_storage_mount_target.test_mount_target.id}`},
-		"display_name":      Representation{repType: Optional, create: `export set display name`},
-		"max_fs_stat_bytes": Representation{repType: Optional, create: `23843202333`},
-		"max_fs_stat_files": Representation{repType: Optional, create: `9223372036854775807`},
+		"mount_target_id":   Representation{RepType: Required, Create: `${oci_file_storage_mount_target.test_mount_target.id}`},
+		"display_name":      Representation{RepType: Optional, Create: `export set display name`},
+		"max_fs_stat_bytes": Representation{RepType: Optional, Create: `23843202333`},
+		"max_fs_stat_files": Representation{RepType: Optional, Create: `9223372036854775807`},
 	}
 
-	ExportSetResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation) +
+	ExportSetResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -57,15 +57,15 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 	datasourceName := "data.oci_file_storage_export_sets.test_export_sets"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ExportSetResourceDependencies+
-		generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation), "filestorage", "exportSet", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ExportSetResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation), "filestorage", "exportSet", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -76,9 +76,9 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -90,7 +90,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ExportSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -102,7 +102,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -113,9 +113,9 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_file_storage_export_sets", "test_export_sets", Optional, Update, exportSetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_file_storage_export_sets", "test_export_sets", Optional, Update, exportSetDataSourceRepresentation) +
 				compartmentIdVariableStr + ExportSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Optional, Update, exportSetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

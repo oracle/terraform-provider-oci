@@ -18,7 +18,7 @@ func DatabaseAutonomousDatabaseBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseAutonomousDatabaseBackups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"autonomous_database_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -84,7 +84,7 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.AutonomousDatabaseBackupSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListAutonomousDatabaseBackups(context.Background(), request)
 	if err != nil {

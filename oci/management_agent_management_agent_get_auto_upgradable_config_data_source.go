@@ -57,7 +57,7 @@ func (s *ManagementAgentManagementAgentGetAutoUpgradableConfigDataSourceCrud) Ge
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.GetAutoUpgradableConfig(context.Background(), request)
 	if err != nil {

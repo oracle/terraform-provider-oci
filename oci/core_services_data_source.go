@@ -18,7 +18,7 @@ func CoreServicesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreServices,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"services": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -73,7 +73,7 @@ func (s *CoreServicesDataSourceCrud) VoidState() {
 func (s *CoreServicesDataSourceCrud) Get() error {
 	request := oci_core.ListServicesRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListServices(context.Background(), request)
 	if err != nil {

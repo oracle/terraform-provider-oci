@@ -14,13 +14,13 @@ import (
 
 var (
 	secretSingularDataSourceRepresentation = map[string]interface{}{
-		"secret_id": Representation{repType: Required, create: `${oci_vault_secret.test_secret.id}`},
+		"secret_id": Representation{RepType: Required, Create: `${oci_vault_secret.test_secret.id}`},
 	}
 
 	secretDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Optional, create: `${oci_vault_secret.test_secret.name}`},
-		"vault_id":       Representation{repType: Optional, create: `${oci_kms_vault.test_vault.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Optional, Create: `${oci_vault_secret.test_secret.name}`},
+		"vault_id":       Representation{RepType: Optional, Create: `${oci_kms_vault.test_vault.id}`},
 	}
 
 	SecretResourceDependencies = DefinedTagsDependencies
@@ -40,13 +40,13 @@ func TestVaultSecretResource_basic(t *testing.T) {
 	datasourceName := "data.oci_vault_secrets.test_secrets"
 	singularDatasourceName := "data.oci_vault_secret.test_secret"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", Optional, Update, secretDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", Optional, Update, secretDataSourceRepresentation) +
 				compartmentIdVariableStr + SecretResourceDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -70,7 +70,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_vault_secret", "test_secret", Required, Create, secretSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_vault_secret", "test_secret", Required, Create, secretSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),

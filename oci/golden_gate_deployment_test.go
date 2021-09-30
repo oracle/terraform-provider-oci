@@ -21,57 +21,57 @@ import (
 
 var (
 	goldenGateDeploymentRequiredOnlyResource = GoldenGateDeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Required, Create, goldenGateDeploymentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Required, Create, goldenGateDeploymentRepresentation)
 
 	goldenGateDeploymentResourceConfig = GoldenGateDeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation)
 
 	goldenGateDeploymentSingularDataSourceRepresentation = map[string]interface{}{
-		"deployment_id": Representation{repType: Required, create: `${oci_golden_gate_deployment.depl_test_ggs_deployment.id}`},
+		"deployment_id": Representation{RepType: Required, Create: `${oci_golden_gate_deployment.depl_test_ggs_deployment.id}`},
 	}
 
 	goldenGateDeploymentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`},
-		"fqdn":           Representation{repType: Optional, create: ``},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`},
+		"fqdn":           Representation{RepType: Optional, Create: ``},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, goldenGateDeploymentDataSourceFilterRepresentation}}
 	goldenGateDeploymentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_golden_gate_deployment.depl_test_ggs_deployment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_golden_gate_deployment.depl_test_ggs_deployment.id}`}},
 	}
 
 	goldenGateDeploymentRepresentation = map[string]interface{}{
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"cpu_core_count":          Representation{repType: Required, create: `1`},
-		"deployment_type":         Representation{repType: Required, create: `OGG`},
-		"display_name":            Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"is_auto_scaling_enabled": Representation{repType: Required, create: `false`},
-		"subnet_id":               Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"license_model":           Representation{repType: Required, create: `LICENSE_INCLUDED`},
-		"description":             Representation{repType: Optional, create: `description`, update: `description2`},
-		"fqdn":                    Representation{repType: Optional, create: ``},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"is_public":               Representation{repType: Optional, create: `false`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"cpu_core_count":          Representation{RepType: Required, Create: `1`},
+		"deployment_type":         Representation{RepType: Required, Create: `OGG`},
+		"display_name":            Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"is_auto_scaling_enabled": Representation{RepType: Required, Create: `false`},
+		"subnet_id":               Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"license_model":           Representation{RepType: Required, Create: `LICENSE_INCLUDED`},
+		"description":             Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"fqdn":                    Representation{RepType: Optional, Create: ``},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_public":               Representation{RepType: Optional, Create: `false`},
 		"ogg_data":                RepresentationGroup{Required, goldenGateDeploymentOggDataRepresentation},
 		"lifecycle":               RepresentationGroup{Required, ignoreGGSDefinedTagsChangesRepresentation1},
 	}
 
 	ignoreGGSDefinedTagsChangesRepresentation1 = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
 	goldenGateDeploymentOggDataRepresentation = map[string]interface{}{
-		"admin_password":  Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
-		"admin_username":  Representation{repType: Required, create: `adminUsername`, update: `adminUsername2`},
-		"deployment_name": Representation{repType: Required, create: `depl_test_ggs_deployment_name`},
-		"certificate":     Representation{repType: Optional, create: ``, update: `-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCEpaMjTCJ8WzANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yMTAxMTkyMTI2MjRaFw0yNDAxMTkyMTI2MjRaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo83kaUQXpCcSoEuRVFX3\njztWDNKtWpjNG240f0RpERI1NnZtHH0qnZqfaWAQQa8kx3+W1LOeFbkkRnkJz19g\neIXR6TeavT+W5iRh4goK+N7gubYkSMa2shVf+XsoHKERSbhdhrtX+GqvKzAvplCt\nCgd4MDlsvLv/YHCLvJL4JgRxKyevjlnE1rqrICJMCLbbZMrIKTzwb/K13hGrm6Bc\n+Je9EC3MWWxd5jBwXu3vgIYRuGR4DPg/yfMKPZr2xFDLpBsv5jaqULS9t6GwoEBJ\nKN0NXp5obaQToYqMsvAZyHoEyfCBDka16Bm5hGF60FwqgUT3p/+qlBn61cAJe9t5\n8QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAX1rxV2hai02Pb4Cf8U44zj+1aY6wV\nLvOMWiL3zl53up4/X7PDcmWcPM9UMVCGTISZD6A6IPvNlkvbtvYCzgjhtGxDmrj7\nwTRV5gO9j3bAhxBO7XgTmwmD/9hpykM58nbhLFnkGf+Taja8qsy0U8H74Tr9w1M8\n8E5kghgGzBElNquM8AUuDakC1JL4aLO/VDMxe/1BLtmBHLZy3XTzVycjP9ZFPh6h\nT+cWJcVOjQSYY2U75sDnKD2Sg1cmK54HauA6SPh4kAkpmxyLyDZZjPBQe2sLFmmS\naZSE+g16yMR9TVHo3pTpRkxJwDEH0LePwYXA4vUIK3HHS6zgLe0ody8g\n-----END CERTIFICATE-----`},
-		"key":             Representation{repType: Optional, create: ``, update: `${var.golden_gate_deployment_ogg_key}`},
+		"admin_password":  Representation{RepType: Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"admin_username":  Representation{RepType: Required, Create: `adminUsername`, Update: `adminUsername2`},
+		"deployment_name": Representation{RepType: Required, Create: `depl_test_ggs_deployment_name`},
+		"certificate":     Representation{RepType: Optional, Create: ``, Update: `-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCEpaMjTCJ8WzANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yMTAxMTkyMTI2MjRaFw0yNDAxMTkyMTI2MjRaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo83kaUQXpCcSoEuRVFX3\njztWDNKtWpjNG240f0RpERI1NnZtHH0qnZqfaWAQQa8kx3+W1LOeFbkkRnkJz19g\neIXR6TeavT+W5iRh4goK+N7gubYkSMa2shVf+XsoHKERSbhdhrtX+GqvKzAvplCt\nCgd4MDlsvLv/YHCLvJL4JgRxKyevjlnE1rqrICJMCLbbZMrIKTzwb/K13hGrm6Bc\n+Je9EC3MWWxd5jBwXu3vgIYRuGR4DPg/yfMKPZr2xFDLpBsv5jaqULS9t6GwoEBJ\nKN0NXp5obaQToYqMsvAZyHoEyfCBDka16Bm5hGF60FwqgUT3p/+qlBn61cAJe9t5\n8QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAX1rxV2hai02Pb4Cf8U44zj+1aY6wV\nLvOMWiL3zl53up4/X7PDcmWcPM9UMVCGTISZD6A6IPvNlkvbtvYCzgjhtGxDmrj7\nwTRV5gO9j3bAhxBO7XgTmwmD/9hpykM58nbhLFnkGf+Taja8qsy0U8H74Tr9w1M8\n8E5kghgGzBElNquM8AUuDakC1JL4aLO/VDMxe/1BLtmBHLZy3XTzVycjP9ZFPh6h\nT+cWJcVOjQSYY2U75sDnKD2Sg1cmK54HauA6SPh4kAkpmxyLyDZZjPBQe2sLFmmS\naZSE+g16yMR9TVHo3pTpRkxJwDEH0LePwYXA4vUIK3HHS6zgLe0ody8g\n-----END CERTIFICATE-----`},
+		"key":             Representation{RepType: Optional, Create: ``, Update: `${var.golden_gate_deployment_ogg_key}`},
 	}
 
-	GoldenGateDeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+	GoldenGateDeploymentResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 // issue-routing-tag: golden_gate/default
@@ -95,15 +95,15 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_golden_gate_deployment.depl_test_ggs_deployment"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeploymentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Create, goldenGateDeploymentRepresentation), "goldengate", "deployment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeploymentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Create, goldenGateDeploymentRepresentation), "goldengate", "deployment", t)
 
 	ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + GoldenGateDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Required, Create, goldenGateDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Required, Create, goldenGateDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -117,20 +117,20 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + GoldenGateDeploymentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Create, goldenGateDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Create, goldenGateDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -149,9 +149,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -160,12 +160,12 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Create,
-					representationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Create,
+					RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -185,7 +185,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -197,7 +197,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -217,7 +217,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -228,8 +228,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_golden_gate_deployments", "depl_test_ggs_deployments", Required, Update, goldenGateDeploymentDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployments", "depl_test_ggs_deployments", Required, Update, goldenGateDeploymentDataSourceRepresentation),
 
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "deployment_collection.#", "1"),
@@ -239,8 +239,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Required, Create, goldenGateDeploymentSingularDataSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Required, Create, goldenGateDeploymentSingularDataSourceRepresentation),
 
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
@@ -296,7 +296,7 @@ func testAccCheckGoldenGateDeploymentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DeploymentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "golden_gate")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "golden_gate")
 
 			response, err := client.GetDeployment(context.Background(), request)
 
@@ -329,7 +329,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("GoldenGateDeployment") {
+	if !InSweeperExcludeList("GoldenGateDeployment") {
 		resource.AddTestSweepers("GoldenGateDeployment", &resource.Sweeper{
 			Name:         "GoldenGateDeployment",
 			Dependencies: DependencyGraph["deployment"],
@@ -350,13 +350,13 @@ func sweepGoldenGateDeploymentResource(compartment string) error {
 
 			deleteDeploymentRequest.DeploymentId = &deploymentId
 
-			deleteDeploymentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "golden_gate")
+			deleteDeploymentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "golden_gate")
 			_, error := goldenGateClient.DeleteDeployment(context.Background(), deleteDeploymentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Deployment %s %s, It is possible that the resource is already deleted. Please verify manually \n", deploymentId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &deploymentId, goldenGateDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &deploymentId, goldenGateDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
 				goldenGateDeploymentSweepResponseFetchOperation, "golden_gate", true)
 		}
 	}
@@ -364,7 +364,7 @@ func sweepGoldenGateDeploymentResource(compartment string) error {
 }
 
 func getGoldenGateDeploymentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DeploymentId")
+	ids := GetResourceIdsToSweep(compartment, "DeploymentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -383,7 +383,7 @@ func getGoldenGateDeploymentIds(compartment string) ([]string, error) {
 	for _, deployment := range listDeploymentsResponse.Items {
 		id := *deployment.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DeploymentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DeploymentId", id)
 	}
 	return resourceIds, nil
 }

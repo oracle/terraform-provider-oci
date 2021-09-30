@@ -20,46 +20,46 @@ import (
 )
 
 var (
-	AgentRequiredOnlyResource = generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentRepresentation2)
+	AgentRequiredOnlyResource = GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentRepresentation2)
 
-	AgentResourceConfig = generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Update, agentRepresentation2)
+	AgentResourceConfig = GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Update, agentRepresentation2)
 
 	agentSingularDataSourceRepresentation = map[string]interface{}{
-		"agent_id": Representation{repType: Required, create: `${oci_database_migration_agent.test_agent.id}`},
+		"agent_id": Representation{RepType: Required, Create: `${oci_database_migration_agent.test_agent.id}`},
 	}
 
 	agentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `TF_displayName`, update: `TF_displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, agentDataSourceFilterRepresentation}}
 	agentDataSourceRepresentation2 = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"filter":         RepresentationGroup{Required, agentDataSourceFilterRepresentation}}
 	agentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `agent_id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_migration_agent.test_agent.id}`}},
+		"name":   Representation{RepType: Required, Create: `agent_id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_migration_agent.test_agent.id}`}},
 	}
 
 	agentRepresentation = map[string]interface{}{
-		"agent_id":       Representation{repType: Required, create: `${oci_database_migration_agent.test_agent.id}`},
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `TF_displayName`, update: `TF_displayName2`},
-		"stream_id":      Representation{repType: Optional, create: `${oci_streaming_stream.test_stream.id}`},
-		"version":        Representation{repType: Optional, create: `version`, update: `version2`},
+		"agent_id":       Representation{RepType: Required, Create: `${oci_database_migration_agent.test_agent.id}`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
+		"stream_id":      Representation{RepType: Optional, Create: `${oci_streaming_stream.test_stream.id}`},
+		"version":        Representation{RepType: Optional, Create: `version`, Update: `version2`},
 	}
 
 	agentRepresentation2 = map[string]interface{}{
-		"agent_id":       Representation{repType: Required, create: `${oci_database_migration_agent.test_agent.id}`},
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `TF_displayName`, update: `TF_displayName2`},
-		"stream_id":      Representation{repType: Optional, create: `${oci_streaming_stream.test_stream.id}`},
-		"version":        Representation{repType: Optional, create: `version`, update: `version2`},
+		"agent_id":       Representation{RepType: Required, Create: `${oci_database_migration_agent.test_agent.id}`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
+		"stream_id":      Representation{RepType: Optional, Create: `${oci_streaming_stream.test_stream.id}`},
+		"version":        Representation{RepType: Optional, Create: `version`, Update: `version2`},
 	}
 
-	AgentResourceDependencies = generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentRepresentation) +
+	AgentResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentRepresentation) +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
+		GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
 )
 
 // issue-routing-tag: database_migration/default
@@ -81,33 +81,33 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_migration_agent.test_agent"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ //AgentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Create, agentRepresentation), "databasemigration", "agent", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ //AgentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Create, agentRepresentation), "databasemigration", "agent", t)
 
 	ResourceTest(t, testAccCheckDatabaseMigrationAgentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "agent_id")
+					resId, err = FromInstanceState(s, resourceName, "agent_id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Create, agentRepresentation2),
+				GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Create, agentRepresentation2),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -120,9 +120,9 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "version", "version"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "agent_id")
+					resId, err = FromInstanceState(s, resourceName, "agent_id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -131,12 +131,12 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr +
-				generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Create,
-					representationCopyWithNewProperties(agentRepresentation2, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Create,
+					RepresentationCopyWithNewProperties(agentRepresentation2, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
@@ -150,7 +150,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "version", "version"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "agent_id")
+					resId2, err = FromInstanceState(s, resourceName, "agent_id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -162,7 +162,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Update, agentRepresentation2),
+				GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Update, agentRepresentation2),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -175,7 +175,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "version", "version2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "agent_id")
+					resId2, err = FromInstanceState(s, resourceName, "agent_id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -186,9 +186,9 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_migration_agents", "test_agents", Optional, Update, agentDataSourceRepresentation2) +
+				GenerateDataSourceFromRepresentationMap("oci_database_migration_agents", "test_agents", Optional, Update, agentDataSourceRepresentation2) +
 				compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Update, agentRepresentation2),
+				GenerateResourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Optional, Update, agentRepresentation2),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "agent_collection.#", "1"),
@@ -198,7 +198,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_migration_agent", "test_agent", Required, Create, agentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AgentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "agent_id"),
@@ -237,7 +237,7 @@ func testAccCheckDatabaseMigrationAgentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.AgentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database_migration")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database_migration")
 
 			response, err := client.GetAgent(context.Background(), request)
 
@@ -270,7 +270,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseMigrationAgent") {
+	if !InSweeperExcludeList("DatabaseMigrationAgent") {
 		resource.AddTestSweepers("DatabaseMigrationAgent", &resource.Sweeper{
 			Name:         "DatabaseMigrationAgent",
 			Dependencies: DependencyGraph["agent"],
@@ -291,13 +291,13 @@ func sweepDatabaseMigrationAgentResource(compartment string) error {
 
 			deleteAgentRequest.AgentId = &agentId
 
-			deleteAgentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database_migration")
+			deleteAgentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database_migration")
 			_, error := databaseMigrationClient.DeleteAgent(context.Background(), deleteAgentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Agent %s %s, It is possible that the resource is already deleted. Please verify manually \n", agentId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &agentId, agentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &agentId, agentSweepWaitCondition, time.Duration(3*time.Minute),
 				agentSweepResponseFetchOperation, "database_migration", true)
 		}
 	}
@@ -305,7 +305,7 @@ func sweepDatabaseMigrationAgentResource(compartment string) error {
 }
 
 func getAgentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AgentId")
+	ids := GetResourceIdsToSweep(compartment, "AgentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -324,7 +324,7 @@ func getAgentIds(compartment string) ([]string, error) {
 	for _, agent := range listAgentsResponse.Items {
 		id := *agent.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AgentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "AgentId", id)
 	}
 	return resourceIds, nil
 }

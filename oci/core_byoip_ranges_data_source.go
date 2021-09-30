@@ -18,7 +18,7 @@ func CoreByoipRangesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreByoipRanges,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -149,7 +149,7 @@ func (s *CoreByoipRangesDataSourceCrud) Get() error {
 		request.LifecycleState = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListByoipRanges(context.Background(), request)
 	if err != nil {

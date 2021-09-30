@@ -29,7 +29,7 @@ func OcvpSddcResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("6h"),
+			Create: GetTimeoutDuration("6h"),
 		},
 		Create: createOcvpSddc,
 		Read:   readOcvpSddc,
@@ -401,7 +401,7 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
@@ -502,7 +502,7 @@ func (s *OcvpSddcResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.CreateSddc(context.Background(), request)
 	if err != nil {
@@ -510,7 +510,7 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	creationError := s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	creationError := s.getSddcFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 
 	if creationError != nil {
 		return creationError
@@ -566,7 +566,7 @@ func sddcWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_com
 
 func sddcWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ocvp.WorkRequestClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "ocvp")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "ocvp")
 	retryPolicy.ShouldRetryOperation = sddcWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_ocvp.GetWorkRequestResponse{}
@@ -647,7 +647,7 @@ func (s *OcvpSddcResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SddcId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.GetSddc(context.Background(), request)
 	if err != nil {
@@ -684,7 +684,7 @@ func (s *OcvpSddcResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
@@ -750,7 +750,7 @@ func (s *OcvpSddcResourceCrud) Update() error {
 		request.VsphereVlanId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.UpdateSddc(context.Background(), request)
 	if err != nil {
@@ -786,7 +786,7 @@ func (s *OcvpSddcResourceCrud) Update() error {
 				return hcxErr
 			}
 			workId := hcxRes.OpcWorkRequestId
-			updateHcxError = s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			updateHcxError = s.getSddcFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 			if updateHcxError == nil {
 				s.D.Set("hcx_action", hcxAction)
 			}
@@ -805,7 +805,7 @@ func (s *OcvpSddcResourceCrud) Update() error {
 				return hcxErr
 			}
 			workId := hcxRes.OpcWorkRequestId
-			updateHcxError = s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			updateHcxError = s.getSddcFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 			if updateHcxError == nil {
 				s.D.Set("hcx_action", hcxAction)
 			}
@@ -817,7 +817,7 @@ func (s *OcvpSddcResourceCrud) Update() error {
 				return hcxErr
 			}
 			workId := hcxRes.OpcWorkRequestId
-			updateHcxError = s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			updateHcxError = s.getSddcFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 			if updateHcxError == nil {
 				s.D.Set("hcx_action", hcxAction)
 			}
@@ -846,7 +846,7 @@ func (s *OcvpSddcResourceCrud) refreshHcxLicenseStatus(sddcId *string, refresh i
 		return hcxErr
 	}
 	workId := hcxRes.OpcWorkRequestId
-	err := s.getSddcFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err := s.getSddcFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err == nil {
 		s.D.Set("refresh_hcx_license_status", refresh)
 	}
@@ -859,7 +859,7 @@ func (s *OcvpSddcResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SddcId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.DeleteSddc(context.Background(), request)
 	if err != nil {
@@ -890,10 +890,10 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	// We update value of esxi_hosts_count in state file only if the esxi_hosts_count of the
+	// We Update value of esxi_hosts_count in state file only if the esxi_hosts_count of the
 	// SDDC is modified in the TF config by the user.
 	// As there could a scenario where the SDDC esxi_hosts_count on the cloud could be different as esxi host can be attached to the SDDC
-	// Then we do not update the size but instead update the actual_esxi_hosts_count in the state file.
+	// Then we do not Update the size but instead Update the actual_esxi_hosts_count in the state file.
 	if s.Res.EsxiHostsCount != nil {
 		_, ok := s.D.GetOk("esxi_hosts_count") // This checks if size is in the state or not. If not and size in response is not nil it could be that user is importing and hence we need to updated the size
 		if !ok {
@@ -1154,7 +1154,7 @@ func (s *OcvpSddcResourceCrud) updateCompartment(compartment interface{}) error 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.SddcId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	_, err := s.Client.ChangeSddcCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

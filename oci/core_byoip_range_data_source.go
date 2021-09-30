@@ -103,7 +103,7 @@ func (s *CoreByoipRangeDataSourceCrud) Get() error {
 		request.ByoipRangeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetByoipRange(context.Background(), request)
 	if err != nil {

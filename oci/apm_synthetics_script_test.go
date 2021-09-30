@@ -20,43 +20,43 @@ import (
 
 var (
 	ScriptRequiredOnlyResource = ScriptResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptRepresentation)
 
 	ScriptResourceConfig = ScriptResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation)
 
 	scriptSingularDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"script_id":     Representation{repType: Required, create: `${oci_apm_synthetics_script.test_script.id}`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"script_id":     Representation{RepType: Required, Create: `${oci_apm_synthetics_script.test_script.id}`},
 	}
 
 	scriptDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"content_type":  Representation{repType: Optional, create: `SIDE`},
-		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"content_type":  Representation{RepType: Optional, Create: `SIDE`},
+		"display_name":  Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"filter":        RepresentationGroup{Required, scriptDataSourceFilterRepresentation}}
 	scriptDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `display_name`},
-		"values": Representation{repType: Required, create: []string{`${oci_apm_synthetics_script.test_script.display_name}`}},
+		"name":   Representation{RepType: Required, Create: `display_name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_apm_synthetics_script.test_script.display_name}`}},
 	}
 
 	scriptRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"content":       Representation{repType: Required, create: `{ \"id\":\"f672ea8c-9508-483e-a123-878920eee73c\", \"version\":\"2.0\", \"name\":\"Sample Project\", \"url\":\"https://console.us-ashburn-1.oraclecloud.com\", \"tests\": [  { \"id\":\"b4522766-e382-40c2-ab01-452cf62e1cec\", \"name\":\"<ORAP><ON>testName</ON><OV>myTest</OV><OS>false</OS></ORAP>\", \"commands\":[ { \"id\":\"d1bc2093-bb61-4919-a554-38ef2653ac02\", \"comment\":\"comment\", \"command\":\"open\", \"target\":\"/\", \"targets\":[[\"css=td.bodytext\",\"css\"]], \"value\":\"xyz\"  } ] } ], \"suites\": [ { \"id\":\"a86b2934-7aa3-4838-b389-93c8aea2af05\",  \"name\":\"Default Suite\",  \"persistSession\":false, \"parallel\":false, \"timeout\":600,  \"tests\":  [  \"b4522766-e382-40c2-ab01-452cf62e1cec\" ] } ], \"urls\": [ \"https://console.us-ashburn-1.oraclecloud.com/\"  ], \"plugins\":[\"xxx\"] }`, update: `{ \"id\":\"f672ea8c-9508-483e-a123-878920eee73c\", \"version\":\"2.0\", \"name\":\"Sample Project 1\", \"url\":\"https://console.us-phoenix-1.oraclecloud.com\", \"tests\": [  { \"id\":\"b4522766-e382-40c2-ab01-452cf62e1cec\", \"name\":\"<ORAP><ON>testName</ON><OV>myTest1</OV><OS>false</OS></ORAP>\", \"commands\":[ { \"id\":\"d1bc2093-bb61-4919-a554-38ef2653ac02\", \"comment\":\"comment\", \"command\":\"open\", \"target\":\"/\", \"targets\":[[\"css=td.bodytext\",\"css\"]], \"value\":\"xyz\"  } ] } ], \"suites\": [ { \"id\":\"a86b2934-7aa3-4838-b389-93c8aea2af05\",  \"name\":\"Default Suite\",  \"persistSession\":false, \"parallel\":false, \"timeout\":600,  \"tests\":  [  \"b4522766-e382-40c2-ab01-452cf62e1cec\" ] } ], \"urls\": [ \"https://console.us-phoenix-1.oraclecloud.com//\"  ], \"plugins\":[\"xxx\"] }`},
-		"content_type":  Representation{repType: Required, create: `SIDE`},
-		"display_name":  Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags": Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"content":       Representation{RepType: Required, Create: `{ \"id\":\"f672ea8c-9508-483e-a123-878920eee73c\", \"version\":\"2.0\", \"name\":\"Sample Project\", \"url\":\"https://console.us-ashburn-1.oraclecloud.com\", \"tests\": [  { \"id\":\"b4522766-e382-40c2-ab01-452cf62e1cec\", \"name\":\"<ORAP><ON>testName</ON><OV>myTest</OV><OS>false</OS></ORAP>\", \"commands\":[ { \"id\":\"d1bc2093-bb61-4919-a554-38ef2653ac02\", \"comment\":\"comment\", \"command\":\"open\", \"target\":\"/\", \"targets\":[[\"css=td.bodytext\",\"css\"]], \"value\":\"xyz\"  } ] } ], \"suites\": [ { \"id\":\"a86b2934-7aa3-4838-b389-93c8aea2af05\",  \"name\":\"Default Suite\",  \"persistSession\":false, \"parallel\":false, \"timeout\":600,  \"tests\":  [  \"b4522766-e382-40c2-ab01-452cf62e1cec\" ] } ], \"urls\": [ \"https://console.us-ashburn-1.oraclecloud.com/\"  ], \"plugins\":[\"xxx\"] }`, Update: `{ \"id\":\"f672ea8c-9508-483e-a123-878920eee73c\", \"version\":\"2.0\", \"name\":\"Sample Project 1\", \"url\":\"https://console.us-phoenix-1.oraclecloud.com\", \"tests\": [  { \"id\":\"b4522766-e382-40c2-ab01-452cf62e1cec\", \"name\":\"<ORAP><ON>testName</ON><OV>myTest1</OV><OS>false</OS></ORAP>\", \"commands\":[ { \"id\":\"d1bc2093-bb61-4919-a554-38ef2653ac02\", \"comment\":\"comment\", \"command\":\"open\", \"target\":\"/\", \"targets\":[[\"css=td.bodytext\",\"css\"]], \"value\":\"xyz\"  } ] } ], \"suites\": [ { \"id\":\"a86b2934-7aa3-4838-b389-93c8aea2af05\",  \"name\":\"Default Suite\",  \"persistSession\":false, \"parallel\":false, \"timeout\":600,  \"tests\":  [  \"b4522766-e382-40c2-ab01-452cf62e1cec\" ] } ], \"urls\": [ \"https://console.us-phoenix-1.oraclecloud.com//\"  ], \"plugins\":[\"xxx\"] }`},
+		"content_type":  Representation{RepType: Required, Create: `SIDE`},
+		"display_name":  Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"defined_tags":  Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"parameters":    RepresentationGroup{Optional, scriptParametersRepresentation},
 	}
 
 	scriptParametersRepresentation = map[string]interface{}{
-		"param_name": Representation{repType: Required, create: `testName`},
-		"is_secret":  Representation{repType: Optional, create: `false`, update: `true`},
+		"param_name": Representation{RepType: Required, Create: `testName`},
+		"is_secret":  Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
 	ScriptResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation)
 )
 
 // issue-routing-tag: apm_synthetics/default
@@ -76,15 +76,15 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 	scriptContentUpdate := "{ \"id\":\"f672ea8c-9508-483e-a123-878920eee73c\", \"version\":\"2.0\", \"name\":\"Sample Project 1\", \"url\":\"https://console.us-phoenix-1.oraclecloud.com\", \"tests\": [  { \"id\":\"b4522766-e382-40c2-ab01-452cf62e1cec\", \"name\":\"<ORAP><ON>testName</ON><OV>myTest1</OV><OS>false</OS></ORAP>\", \"commands\":[ { \"id\":\"d1bc2093-bb61-4919-a554-38ef2653ac02\", \"comment\":\"comment\", \"command\":\"open\", \"target\":\"/\", \"targets\":[[\"css=td.bodytext\",\"css\"]], \"value\":\"xyz\"  } ] } ], \"suites\": [ { \"id\":\"a86b2934-7aa3-4838-b389-93c8aea2af05\",  \"name\":\"Default Suite\",  \"persistSession\":false, \"parallel\":false, \"timeout\":600,  \"tests\":  [  \"b4522766-e382-40c2-ab01-452cf62e1cec\" ] } ], \"urls\": [ \"https://console.us-phoenix-1.oraclecloud.com//\"  ], \"plugins\":[\"xxx\"] }"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ScriptResourceDependencies+
-		generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, scriptRepresentation), "apmsynthetics", "script", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ScriptResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, scriptRepresentation), "apmsynthetics", "script", t)
 
 	ResourceTest(t, testAccCheckApmSyntheticsScriptDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "content", scriptContent),
@@ -92,20 +92,20 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ScriptResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, scriptRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, scriptRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "content", scriptContent),
@@ -123,9 +123,9 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.script_parameter.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -137,7 +137,7 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "content", scriptContentUpdate),
@@ -154,7 +154,7 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.script_parameter.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -165,9 +165,9 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apm_synthetics_scripts", "test_scripts", Optional, Update, scriptDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_scripts", "test_scripts", Optional, Update, scriptDataSourceRepresentation) +
 				compartmentIdVariableStr + ScriptResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, scriptRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(datasourceName, "content_type", "SIDE"),
@@ -180,7 +180,7 @@ func TestApmSyntheticsScriptResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, scriptSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ScriptResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
@@ -231,7 +231,7 @@ func testAccCheckApmSyntheticsScriptDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ScriptId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apm_synthetics")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apm_synthetics")
 
 			_, err := client.GetScript(context.Background(), request)
 
@@ -256,7 +256,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ApmSyntheticsScript") {
+	if !InSweeperExcludeList("ApmSyntheticsScript") {
 		resource.AddTestSweepers("ApmSyntheticsScript", &resource.Sweeper{
 			Name:         "ApmSyntheticsScript",
 			Dependencies: DependencyGraph["script"],
@@ -277,7 +277,7 @@ func sweepApmSyntheticsScriptResource(compartment string) error {
 
 			deleteScriptRequest.ScriptId = &scriptId
 
-			deleteScriptRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apm_synthetics")
+			deleteScriptRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apm_synthetics")
 			_, error := apmSyntheticClient.DeleteScript(context.Background(), deleteScriptRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Script %s %s, It is possible that the resource is already deleted. Please verify manually \n", scriptId, error)
@@ -289,7 +289,7 @@ func sweepApmSyntheticsScriptResource(compartment string) error {
 }
 
 func getScriptIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ScriptId")
+	ids := GetResourceIdsToSweep(compartment, "ScriptId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -314,7 +314,7 @@ func getScriptIds(compartment string) ([]string, error) {
 		for _, script := range listScriptsResponse.Items {
 			id := *script.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "ScriptId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "ScriptId", id)
 		}
 
 	}

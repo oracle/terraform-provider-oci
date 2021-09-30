@@ -49,7 +49,7 @@ func (s *MeteringComputationCustomTableDataSourceCrud) Get() error {
 		request.CustomTableId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "metering_computation")
 
 	response, err := s.Client.GetCustomTable(context.Background(), request)
 	if err != nil {

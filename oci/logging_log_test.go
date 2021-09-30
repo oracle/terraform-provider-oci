@@ -20,55 +20,55 @@ import (
 
 var (
 	LogRequiredOnlyResource = LogResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logRepresentation)
 
 	LogResourceConfig = LogResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation)
 
 	logSingularDataSourceRepresentation = map[string]interface{}{
-		"log_group_id": Representation{repType: Required, create: `${oci_logging_log_group.test_update_log_group.id}`},
-		"log_id":       Representation{repType: Required, create: `${oci_logging_log.test_log.id}`},
+		"log_group_id": Representation{RepType: Required, Create: `${oci_logging_log_group.test_update_log_group.id}`},
+		"log_id":       Representation{RepType: Required, Create: `${oci_logging_log.test_log.id}`},
 	}
 
 	logDataSourceRepresentation = map[string]interface{}{
-		"log_group_id":    Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`, update: `${oci_logging_log_group.test_update_log_group.id}`},
-		"display_name":    Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"log_type":        Representation{repType: Optional, create: `SERVICE`},
-		"source_resource": Representation{repType: Optional, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"source_service":  Representation{repType: Optional, create: `objectstorage`},
-		"state":           Representation{repType: Optional, create: `ACTIVE`},
+		"log_group_id":    Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
+		"display_name":    Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"log_type":        Representation{RepType: Optional, Create: `SERVICE`},
+		"source_resource": Representation{RepType: Optional, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"source_service":  Representation{RepType: Optional, Create: `objectstorage`},
+		"state":           Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":          RepresentationGroup{Required, logDataSourceFilterRepresentation}}
 	logDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_logging_log.test_log.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_logging_log.test_log.id}`}},
 	}
 
 	logRepresentation = map[string]interface{}{
-		"display_name":       Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"log_group_id":       Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`, update: `${oci_logging_log_group.test_update_log_group.id}`},
-		"log_type":           Representation{repType: Required, create: `SERVICE`},
+		"display_name":       Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"log_group_id":       Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
+		"log_type":           Representation{RepType: Required, Create: `SERVICE`},
 		"configuration":      RepresentationGroup{Required, logConfigurationRepresentation},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":         Representation{repType: Optional, create: `false`, update: `true`},
-		"retention_duration": Representation{repType: Optional, create: `30`, update: `60`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":         Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"retention_duration": Representation{RepType: Optional, Create: `30`, Update: `60`},
 	}
 	logConfigurationRepresentation = map[string]interface{}{
 		"source":         RepresentationGroup{Required, logConfigurationSourceRepresentation},
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 	logConfigurationSourceRepresentation = map[string]interface{}{
-		"category":    Representation{repType: Required, create: `write`},
-		"resource":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"service":     Representation{repType: Required, create: `objectstorage`},
-		"source_type": Representation{repType: Required, create: `OCISERVICE`},
+		"category":    Representation{RepType: Required, Create: `write`},
+		"resource":    Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"service":     Representation{RepType: Required, Create: `objectstorage`},
+		"source_type": Representation{RepType: Required, Create: `OCISERVICE`},
 	}
 
 	LogResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Create, logGroupUpdateRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Create, logGroupUpdateRepresentation)
 )
 
 // issue-routing-tag: logging/default
@@ -86,37 +86,37 @@ func TestLoggingLogResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_logging_log.test_log"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+LogResourceDependencies+
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, logRepresentation), "logging", "log", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+LogResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, logRepresentation), "logging", "log", t)
 
 	var compositeId string
 
 	ResourceTest(t, testAccCheckLoggingLogDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + LogResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + LogResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + LogResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, logRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, logRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
@@ -136,11 +136,11 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						logGroupId, _ := fromInstanceState(s, resourceName, "log_group_id")
+						logGroupId, _ := FromInstanceState(s, resourceName, "log_group_id")
 						compositeId = getLogCompositeId(logGroupId, resId)
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -152,7 +152,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + LogResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
@@ -172,7 +172,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -183,9 +183,9 @@ func TestLoggingLogResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", Optional, Update, logDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", Optional, Update, logDataSourceRepresentation) +
 				compartmentIdVariableStr + LogResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, logRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "log_group_id"),
@@ -218,7 +218,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + LogResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
@@ -287,7 +287,7 @@ func testAccCheckLoggingLogDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.LogId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 
 			_, err := client.GetLog(context.Background(), request)
 
@@ -312,7 +312,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoggingLog") {
+	if !InSweeperExcludeList("LoggingLog") {
 		resource.AddTestSweepers("LoggingLog", &resource.Sweeper{
 			Name:         "LoggingLog",
 			Dependencies: DependencyGraph["log"],
@@ -333,7 +333,7 @@ func sweepLoggingLogResource(compartment string) error {
 
 			deleteLogRequest.LogId = &logId
 
-			deleteLogRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			deleteLogRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 			_, error := loggingManagementClient.DeleteLog(context.Background(), deleteLogRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Log %s %s, It is possible that the resource is already deleted. Please verify manually \n", logId, error)
@@ -345,7 +345,7 @@ func sweepLoggingLogResource(compartment string) error {
 }
 
 func getLogIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "LogId")
+	ids := GetResourceIdsToSweep(compartment, "LogId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -370,7 +370,7 @@ func getLogIds(compartment string) ([]string, error) {
 		for _, log := range listLogsResponse.Items {
 			id := *log.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "LogId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "LogId", id)
 		}
 
 	}

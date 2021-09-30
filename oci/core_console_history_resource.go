@@ -148,7 +148,7 @@ func (s *CoreConsoleHistoryResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
@@ -156,7 +156,7 @@ func (s *CoreConsoleHistoryResourceCrud) Create() error {
 		request.InstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CaptureConsoleHistory(context.Background(), request)
 	if err != nil {
@@ -173,7 +173,7 @@ func (s *CoreConsoleHistoryResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.InstanceConsoleHistoryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetConsoleHistory(context.Background(), request)
 	if err != nil {
@@ -204,10 +204,10 @@ func (s *CoreConsoleHistoryResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateConsoleHistory(context.Background(), request)
 	if err != nil {
@@ -224,7 +224,7 @@ func (s *CoreConsoleHistoryResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.InstanceConsoleHistoryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteConsoleHistory(context.Background(), request)
 	return err

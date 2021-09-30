@@ -18,7 +18,7 @@ func DatabaseMigrationMigrationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseMigrationMigrations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -92,7 +92,7 @@ func (s *DatabaseMigrationMigrationsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database_migration.ListMigrationsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_migration")
 
 	response, err := s.Client.ListMigrations(context.Background(), request)
 	if err != nil {

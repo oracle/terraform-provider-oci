@@ -18,7 +18,7 @@ func ContainerengineNodePoolsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readContainerengineNodePools,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -76,7 +76,7 @@ func (s *ContainerengineNodePoolsDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "containerengine")
 
 	response, err := s.Client.ListNodePools(context.Background(), request)
 	if err != nil {

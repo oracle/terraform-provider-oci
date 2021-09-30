@@ -18,7 +18,7 @@ func CoreDedicatedVmHostsInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreDedicatedVmHostsInstances,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -104,7 +104,7 @@ func (s *CoreDedicatedVmHostsInstancesDataSourceCrud) Get() error {
 		request.DedicatedVmHostId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListDedicatedVmHostInstances(context.Background(), request)
 	if err != nil {

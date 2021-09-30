@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_jms.JavaManagementServiceClient", &OracleClient{initClientFn: initJmsJavaManagementServiceClient})
+	RegisterOracleClient("oci_jms.JavaManagementServiceClient", &OracleClient{InitClientFn: initJmsJavaManagementServiceClient})
 }
 
 func initJmsJavaManagementServiceClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

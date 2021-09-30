@@ -18,7 +18,7 @@ func MarketplacePublicationPackagesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMarketplacePublicationPackages,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"package_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -104,7 +104,7 @@ func (s *MarketplacePublicationPackagesDataSourceCrud) Get() error {
 		request.PublicationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.ListPublicationPackages(context.Background(), request)
 	if err != nil {

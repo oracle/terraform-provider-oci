@@ -21,36 +21,36 @@ import (
 
 var (
 	SubscriptionRequiredOnlyResource = SubscriptionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionRepresentation)
 
 	SubscriptionResourceConfig = SubscriptionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation)
 
 	subscriptionSingularDataSourceRepresentation = map[string]interface{}{
-		"subscription_id": Representation{repType: Required, create: `${oci_ons_subscription.test_subscription.id}`},
+		"subscription_id": Representation{RepType: Required, Create: `${oci_ons_subscription.test_subscription.id}`},
 	}
 
 	subscriptionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"topic_id":       Representation{repType: Optional, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"topic_id":       Representation{RepType: Optional, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 		"filter":         RepresentationGroup{Required, subscriptionDataSourceFilterRepresentation}}
 	subscriptionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_ons_subscription.test_subscription.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_ons_subscription.test_subscription.id}`}},
 	}
 
 	subscriptionRepresentation = map[string]interface{}{
-		"compartment_id":  Representation{repType: Required, create: `${var.compartment_id}`},
-		"endpoint":        Representation{repType: Required, create: `john.smith@example.com`},
-		"protocol":        Representation{repType: Required, create: `EMAIL`},
-		"topic_id":        Representation{repType: Required, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
-		"defined_tags":    Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":   Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"delivery_policy": Representation{repType: Optional, update: `{\"backoffRetryPolicy\":{\"maxRetryDuration\":7000000,\"policyType\":\"EXPONENTIAL\"}}`},
+		"compartment_id":  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"endpoint":        Representation{RepType: Required, Create: `john.smith@example.com`},
+		"protocol":        Representation{RepType: Required, Create: `EMAIL`},
+		"topic_id":        Representation{RepType: Required, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"defined_tags":    Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":   Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"delivery_policy": Representation{RepType: Optional, Update: `{\"backoffRetryPolicy\":{\"maxRetryDuration\":7000000,\"policyType\":\"EXPONENTIAL\"}}`},
 	}
 
 	SubscriptionResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "tsubscription"))
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "tsubscription"))
 )
 
 // issue-routing-tag: ons/default
@@ -71,15 +71,15 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ons_subscription.test_subscription"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SubscriptionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation), "ons", "subscription", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SubscriptionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation), "ons", "subscription", t)
 
 	ResourceTest(t, testAccCheckOnsSubscriptionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
@@ -87,20 +87,20 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -112,9 +112,9 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -123,12 +123,12 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SubscriptionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create,
-					representationCopyWithNewProperties(subscriptionRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create,
+					RepresentationCopyWithNewProperties(subscriptionRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -141,7 +141,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -153,7 +153,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -165,7 +165,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -176,9 +176,9 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", Optional, Update, subscriptionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", Optional, Update, subscriptionDataSourceRepresentation) +
 				compartmentIdVariableStr + SubscriptionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "topic_id"),
@@ -200,7 +200,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SubscriptionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
@@ -242,7 +242,7 @@ func testAccCheckOnsSubscriptionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SubscriptionId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ons")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ons")
 
 			response, err := client.GetSubscription(context.Background(), request)
 
@@ -275,7 +275,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OnsSubscription") {
+	if !InSweeperExcludeList("OnsSubscription") {
 		resource.AddTestSweepers("OnsSubscription", &resource.Sweeper{
 			Name:         "OnsSubscription",
 			Dependencies: DependencyGraph["subscription"],
@@ -296,13 +296,13 @@ func sweepOnsSubscriptionResource(compartment string) error {
 
 			deleteSubscriptionRequest.SubscriptionId = &subscriptionId
 
-			deleteSubscriptionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ons")
+			deleteSubscriptionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ons")
 			_, error := notificationDataPlaneClient.DeleteSubscription(context.Background(), deleteSubscriptionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Subscription %s %s, It is possible that the resource is already deleted. Please verify manually \n", subscriptionId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &subscriptionId, subscriptionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &subscriptionId, subscriptionSweepWaitCondition, time.Duration(3*time.Minute),
 				subscriptionSweepResponseFetchOperation, "ons", true)
 		}
 	}
@@ -310,7 +310,7 @@ func sweepOnsSubscriptionResource(compartment string) error {
 }
 
 func getSubscriptionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SubscriptionId")
+	ids := GetResourceIdsToSweep(compartment, "SubscriptionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -328,7 +328,7 @@ func getSubscriptionIds(compartment string) ([]string, error) {
 	for _, subscription := range listSubscriptionsResponse.Items {
 		id := *subscription.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SubscriptionId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SubscriptionId", id)
 	}
 	return resourceIds, nil
 }

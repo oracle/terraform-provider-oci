@@ -143,7 +143,7 @@ func (s *KmsGeneratedKeyResourceCrud) Create() error {
 	request := oci_kms.GenerateDataEncryptionKeyRequest{}
 
 	if associatedData, ok := s.D.GetOkExists("associated_data"); ok {
-		request.AssociatedData = objectMapToStringMap(associatedData.(map[string]interface{}))
+		request.AssociatedData = ObjectMapToStringMap(associatedData.(map[string]interface{}))
 	}
 
 	if includePlaintextKey, ok := s.D.GetOkExists("include_plaintext_key"); ok {
@@ -168,10 +168,10 @@ func (s *KmsGeneratedKeyResourceCrud) Create() error {
 	}
 
 	if loggingContext, ok := s.D.GetOkExists("logging_context"); ok {
-		request.LoggingContext = objectMapToStringMap(loggingContext.(map[string]interface{}))
+		request.LoggingContext = ObjectMapToStringMap(loggingContext.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.GenerateDataEncryptionKey(context.Background(), request)
 	if err != nil {

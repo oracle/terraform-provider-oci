@@ -18,32 +18,32 @@ import (
 
 var (
 	ManagedInstanceRequiredOnlyResource = ManagedInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceRepresentation)
 
 	ManagedInstanceResourceConfig = ManagedInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation)
 
 	managedInstanceSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_instance_id": Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"managed_instance_id": Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
 	}
 
 	managedInstanceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"os_family":      Representation{repType: Optional, create: `LINUX`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"os_family":      Representation{RepType: Optional, Create: `LINUX`},
 		"filter":         RepresentationGroup{Required, managedInstanceDataSourceFilterRepresentation}}
 
 	managedInstanceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_instance.test_instance.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_instance.test_instance.id}`}},
 	}
 
 	managedInstanceRepresentation = map[string]interface{}{
-		"managed_instance_id":           Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"is_data_collection_authorized": Representation{repType: Optional, create: `false`, update: `true`},
-		"notification_topic_id":         Representation{repType: Optional, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"managed_instance_id":           Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"is_data_collection_authorized": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"notification_topic_id":         Representation{RepType: Optional, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 	}
 
-	ManagedInstanceResourceDependencies = ManagedInstanceManagementResourceDependencies + generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+	ManagedInstanceResourceDependencies = ManagedInstanceManagementResourceDependencies + GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
 // issue-routing-tag: osmanagement/default
@@ -61,12 +61,12 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_osmanagement_managed_instance.test_managed_instance"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ManagedInstanceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Create, managedInstanceRepresentation), "osmanagement", "managedInstance", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ManagedInstanceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Create, managedInstanceRepresentation), "osmanagement", "managedInstance", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create dependencies
+		// Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies,
 			Check: func(s *terraform.State) (err error) {
@@ -75,28 +75,28 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 				return nil
 			},
 		},
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Create, managedInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Create, managedInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -106,9 +106,9 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -120,7 +120,7 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -130,7 +130,7 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -141,9 +141,9 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instances", "test_managed_instances", Optional, Update, managedInstanceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instances", "test_managed_instances", Optional, Update, managedInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagedInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Optional, Update, managedInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "os_family", "LINUX"),
@@ -163,9 +163,9 @@ func TestOsmanagementManagedInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance", "test_managed_instance", Required, Create, managedInstanceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagedInstanceResourceConfig +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_management", "test_managed_instance_management", Required, Create, ManagedInstanceManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_id"),
 

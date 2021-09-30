@@ -180,7 +180,7 @@ func (s *CoreNatGatewayResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if publicIpId, ok := s.D.GetOkExists("public_ip_id"); ok {
@@ -193,7 +193,7 @@ func (s *CoreNatGatewayResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateNatGateway(context.Background(), request)
 	if err != nil {
@@ -210,7 +210,7 @@ func (s *CoreNatGatewayResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.NatGatewayId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetNatGateway(context.Background(), request)
 	if err != nil {
@@ -252,13 +252,13 @@ func (s *CoreNatGatewayResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.NatGatewayId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateNatGateway(context.Background(), request)
 	if err != nil {
@@ -275,7 +275,7 @@ func (s *CoreNatGatewayResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.NatGatewayId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteNatGateway(context.Background(), request)
 	return err
@@ -330,7 +330,7 @@ func (s *CoreNatGatewayResourceCrud) updateCompartment(compartment interface{}) 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.NatGatewayId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeNatGatewayCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

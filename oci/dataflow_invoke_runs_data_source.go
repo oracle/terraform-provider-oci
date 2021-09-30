@@ -21,7 +21,7 @@ func DataflowInvokeRunsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataflowInvokeRuns,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"application_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -117,7 +117,7 @@ func (s *DataflowInvokeRunsDataSourceCrud) Get() error {
 		request.TimeCreatedGreaterThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataflow")
 
 	response, err := s.Client.ListRuns(context.Background(), request)
 	if err != nil {

@@ -22,58 +22,58 @@ import (
 
 var (
 	AutoScalingConfigurationResourceConfigForScheduledExecution = AutoScalingConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation2)
+		GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation2)
 
 	AutoScalingConfigurationResourceConfigForScheduledExecutionResourceAction = AutoScalingConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation3)
+		GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation3)
 
 	autoScalingConfigurationRepresentation2 = map[string]interface{}{
 		"auto_scaling_resources": RepresentationGroup{Required, autoScalingConfigurationAutoScalingResourcesRepresentation},
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"policies":               RepresentationGroup{Required, autoScalingConfigurationPoliciesRepresentationForScheduledExecution},
-		"cool_down_in_seconds":   Representation{repType: Optional, create: `300`, update: `400`},
-		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":           Representation{repType: Optional, create: `example_autoscaling_configuration`, update: `displayName2`},
-		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":             Representation{repType: Optional, create: `false`, update: `true`},
+		"cool_down_in_seconds":   Representation{RepType: Optional, Create: `300`, Update: `400`},
+		"defined_tags":           Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":           Representation{RepType: Optional, Create: `example_autoscaling_configuration`, Update: `displayName2`},
+		"freeform_tags":          Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":             Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
 	autoScalingConfigurationRepresentation3 = map[string]interface{}{
 		"auto_scaling_resources": RepresentationGroup{Required, autoScalingConfigurationAutoScalingResourcesRepresentation},
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"policies":               RepresentationGroup{Required, autoScalingConfigurationPoliciesRepresentationForScheduledExecution3},
-		"cool_down_in_seconds":   Representation{repType: Optional, create: `300`, update: `400`},
-		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":           Representation{repType: Optional, create: `example_autoscaling_configuration`, update: `displayName2`},
-		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":             Representation{repType: Optional, create: `false`, update: `true`},
+		"cool_down_in_seconds":   Representation{RepType: Optional, Create: `300`, Update: `400`},
+		"defined_tags":           Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":           Representation{RepType: Optional, Create: `example_autoscaling_configuration`, Update: `displayName2`},
+		"freeform_tags":          Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":             Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
 	autoScalingConfigurationPoliciesRepresentationForScheduledExecution = map[string]interface{}{
 		"capacity":           RepresentationGroup{Required, autoScalingConfigurationPoliciesCapacityRepresentation},
-		"policy_type":        Representation{repType: Required, create: `scheduled`, update: `scheduled`},
-		"display_name":       Representation{repType: Optional, create: `example_autoscaling_configuration`, update: `displayName2`},
+		"policy_type":        Representation{RepType: Required, Create: `scheduled`, Update: `scheduled`},
+		"display_name":       Representation{RepType: Optional, Create: `example_autoscaling_configuration`, Update: `displayName2`},
 		"execution_schedule": RepresentationGroup{Optional, autoScalingConfigurationPoliciesExecutionScheduleRepresentation},
-		"is_enabled":         Representation{repType: Optional, create: `true`},
+		"is_enabled":         Representation{RepType: Optional, Create: `true`},
 	}
 
 	autoScalingConfigurationPoliciesRepresentationForScheduledExecution3 = map[string]interface{}{
-		"policy_type":        Representation{repType: Required, create: `scheduled`, update: `scheduled`},
-		"display_name":       Representation{repType: Optional, create: `example_autoscaling_configuration`, update: `displayName2`},
+		"policy_type":        Representation{RepType: Required, Create: `scheduled`, Update: `scheduled`},
+		"display_name":       Representation{RepType: Optional, Create: `example_autoscaling_configuration`, Update: `displayName2`},
 		"execution_schedule": RepresentationGroup{Optional, autoScalingConfigurationPoliciesExecutionScheduleRepresentation},
-		"is_enabled":         Representation{repType: Optional, create: `true`},
+		"is_enabled":         Representation{RepType: Optional, Create: `true`},
 		"resource_action":    RepresentationGroup{Required, autoScalingConfigurationPoliciesResourceActionRepresentation},
 	}
 
 	autoScalingConfigurationPoliciesResourceActionRepresentation = map[string]interface{}{
-		"action":      Representation{repType: Required, create: `STOP`, update: `START`},
-		"action_type": Representation{repType: Optional, create: `power`},
+		"action":      Representation{RepType: Required, Create: `STOP`, Update: `START`},
+		"action_type": Representation{RepType: Optional, Create: `power`},
 	}
 
 	autoScalingConfigurationPoliciesExecutionScheduleRepresentation = map[string]interface{}{
-		"expression": Representation{repType: Required, create: `0 15 10 ? * *`},
-		"timezone":   Representation{repType: Required, create: `UTC`},
-		"type":       Representation{repType: Required, create: `cron`},
+		"expression": Representation{RepType: Required, Create: `0 15 10 ? * *`},
+		"timezone":   Representation{RepType: Required, Create: `UTC`},
+		"type":       Representation{RepType: Required, Create: `cron`},
 	}
 )
 
@@ -248,7 +248,7 @@ func (s *ResourceAutoScalingConfigurationTestSuite) TestAccResourceAutoScalingCo
 		}
 	`
 
-	_, tokenFn := tokenizeWithHttpReplay("instance_pool")
+	_, tokenFn := TokenizeWithHttpReplay("instance_pool")
 
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -268,13 +268,13 @@ func (s *ResourceAutoScalingConfigurationTestSuite) TestAccResourceAutoScalingCo
 					resource.TestCheckResourceAttr("oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfiguration", "cool_down_in_seconds", "300"),
 
 					func(s *terraform.State) (err error) {
-						instancePoolId, err = fromInstanceState(s, "oci_core_instance_pool.TFInstancePool", "id")
+						instancePoolId, err = FromInstanceState(s, "oci_core_instance_pool.TFInstancePool", "id")
 						return err
 					},
 				),
 			},
 			{
-				PreConfig: waitTillCondition(testAccProvider, &instancePoolId, instancePoolRunningWaitCondition, time.Duration(10*time.Minute),
+				PreConfig: WaitTillCondition(testAccProvider, &instancePoolId, instancePoolRunningWaitCondition, time.Duration(10*time.Minute),
 					instancePoolSweepResponseFetchOperation, "auto_scaling", true),
 				Config: s.Config + tokenFn(TFInstancePool, values),
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -317,10 +317,10 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckAutoScalingAutoScalingConfigurationDestroy, []resource.TestStep{
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation2),
+				GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation2),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
@@ -349,9 +349,9 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -360,12 +360,12 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create,
-					representationCopyWithNewProperties(autoScalingConfigurationRepresentation2, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create,
+					RepresentationCopyWithNewProperties(autoScalingConfigurationRepresentation2, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
@@ -395,7 +395,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -404,7 +404,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation2),
+				GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation2),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
@@ -433,7 +433,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId == resId2 {
 						return fmt.Errorf("Resource updated when it was supposed to be recreated.")
 					}
@@ -444,9 +444,9 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", Optional, Update, autoScalingConfigurationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", Optional, Update, autoScalingConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation2),
+				GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation2),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -468,7 +468,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutoScalingConfigurationResourceConfigForScheduledExecution,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
@@ -538,10 +538,10 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckAutoScalingAutoScalingConfigurationDestroy, []resource.TestStep{
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation3),
+				GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation3),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
@@ -569,9 +569,9 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -580,12 +580,12 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create,
-					representationCopyWithNewProperties(autoScalingConfigurationRepresentation3, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create,
+					RepresentationCopyWithNewProperties(autoScalingConfigurationRepresentation3, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
@@ -614,7 +614,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -623,7 +623,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation3),
+				GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation3),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
@@ -651,7 +651,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId == resId2 {
 						return fmt.Errorf("Resource updated when it was supposed to be recreated.")
 					}
@@ -662,9 +662,9 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", Optional, Update, autoScalingConfigurationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", Optional, Update, autoScalingConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation3),
+				GenerateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation3),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -686,7 +686,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutoScalingConfigurationResourceConfigForScheduledExecutionResourceAction,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),

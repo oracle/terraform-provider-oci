@@ -14,13 +14,13 @@ import (
 
 var (
 	instanceAgentPluginDataSourceRepresentation = map[string]interface{}{
-		"instanceagent_id": Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
+		"instanceagent_id": Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	InstanceAgentPluginResourceConfig = SubnetResourceConfig + OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, representationCopyWithNewProperties(representationCopyWithRemovedProperties(instanceRepresentation, []string{"agent_config"}), map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(instanceRepresentation, []string{"agent_config"}), map[string]interface{}{
 			"agent_config": RepresentationGroup{Required, instanceAgentConfigRepresentation},
 		}))
 )
@@ -37,13 +37,13 @@ func TestComputeinstanceagentInstanceAgentPluginResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_computeinstanceagent_instance_agent_plugins.test_instance_agent_plugins"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_agent_plugins", "test_instance_agent_plugins", Required, Create, instanceAgentPluginDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_agent_plugins", "test_instance_agent_plugins", Required, Create, instanceAgentPluginDataSourceRepresentation) +
 				compartmentIdVariableStr + InstanceAgentPluginResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "instanceagent_id"),

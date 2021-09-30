@@ -18,7 +18,7 @@ func ContainerengineWorkRequestsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readContainerengineWorkRequests,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -165,7 +165,7 @@ func (s *ContainerengineWorkRequestsDataSourceCrud) Get() error {
 		request.Status = tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "containerengine")
 
 	response, err := s.Client.ListWorkRequests(context.Background(), request)
 	if err != nil {

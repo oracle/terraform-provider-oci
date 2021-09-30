@@ -79,7 +79,7 @@ func (s *CoreComputeGlobalImageCapabilitySchemaDataSourceCrud) Get() error {
 		request.ComputeGlobalImageCapabilitySchemaId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetComputeGlobalImageCapabilitySchema(context.Background(), request)
 	if err != nil {

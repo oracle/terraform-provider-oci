@@ -49,7 +49,7 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) Get() error {
 		request.ExadataInfrastructureId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetExadataInfrastructure(context.Background(), request)
 	if err != nil {

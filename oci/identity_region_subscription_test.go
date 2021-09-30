@@ -13,13 +13,13 @@ import (
 
 var (
 	regionSubscriptionDataSourceRepresentation = map[string]interface{}{
-		"tenancy_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"tenancy_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 		"filter":     RepresentationGroup{Required, regionSubscriptionDataSourceFilterRepresentation},
 	}
 
 	regionSubscriptionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `is_home_region`},
-		"values": Representation{repType: Required, create: []string{`true`}},
+		"name":   Representation{RepType: Required, Create: `is_home_region`},
+		"values": Representation{RepType: Required, Create: []string{`true`}},
 	}
 
 	RegionSubscriptionResourceConfig = ""
@@ -34,13 +34,13 @@ func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_identity_region_subscriptions.test_region_subscriptions"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_region_subscriptions", "test_region_subscriptions", Required, Create, regionSubscriptionDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_identity_region_subscriptions", "test_region_subscriptions", Required, Create, regionSubscriptionDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
 				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.#", "1"),

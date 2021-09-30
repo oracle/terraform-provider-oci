@@ -49,7 +49,7 @@ func (s *GoldenGateDeploymentDataSourceCrud) Get() error {
 		request.DeploymentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "golden_gate")
 
 	response, err := s.Client.GetDeployment(context.Background(), request)
 	if err != nil {

@@ -45,7 +45,7 @@ func ObjectStorageObjectResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// @CODEGEN 2/2018:
 			// Previous provider doesn't provide an Update method and sets all non-Computed fields to ForceNew.
-			// This was done because the same PutObject() call can be used to create and modify existing objects.
+			// This was done because the same PutObject() call can be used to Create and modify existing objects.
 			//
 			// For generated code, we removed the ForceNew attribute from non-Computed fields and added
 			// an Update method which calls the Create() method. This should have the same effect as the
@@ -116,11 +116,11 @@ func ObjectStorageObjectResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
-					if !isHex(new) {
+					if !IsHex(new) {
 						return old == new
 					}
 
-					base64, err := hexToB64(new)
+					base64, err := HexToB64(new)
 					if err != nil {
 						return false
 					}
@@ -251,7 +251,7 @@ func (s *ObjectStorageObjectResourceCrud) createMultiPartObject() error {
 
 	source, ok := s.D.GetOkExists("source")
 	if !ok {
-		return fmt.Errorf("the source is not specified to create multipart upload")
+		return fmt.Errorf("the source is not specified to Create multipart upload")
 	}
 	tmpSource := source.(string)
 	sourceInfo, err := os.Stat(tmpSource)
@@ -312,7 +312,7 @@ func (s *ObjectStorageObjectResourceCrud) createMultiPartObject() error {
 	}
 
 	multipartUploadData.ObjectStorageClient = s.Client
-	multipartUploadData.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	multipartUploadData.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	s.D.Set("work_request_id", "")
 	s.D.Set("state", oci_object_storage.WorkRequestStatusInProgress)
@@ -413,7 +413,7 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 		copyObjectRequest.DestinationObjectName = &tmp
 	}
 
-	copyObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	copyObjectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	var workRequestId = ""
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -437,7 +437,7 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 
 	getWorkRequestRequest := oci_object_storage.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = &workRequestId
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 	workRequestResponse, err := s.SourceRegionClient.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
@@ -581,8 +581,8 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 	if contentMd5, ok := s.D.GetOkExists("content_md5"); ok {
 		tmp := contentMd5.(string)
 
-		if isHex(tmp) {
-			contentMd5B64, err := hexToB64(tmp)
+		if IsHex(tmp) {
+			contentMd5B64, err := HexToB64(tmp)
 			if err != nil {
 				return err
 			}
@@ -637,7 +637,7 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 		request.StorageTier = PutObjectStorageTierEnumFromString(tmp)
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	s.D.Set("work_request_id", "")
 	s.D.Set("state", oci_object_storage.WorkRequestStatusInProgress)
@@ -671,7 +671,7 @@ func (s *ObjectStorageObjectResourceCrud) getObjectHead() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	headObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	headObjectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	headObjectResponse, err := s.Client.HeadObject(context.Background(), *headObjectRequest)
 	if err != nil {
@@ -694,7 +694,7 @@ func (s *ObjectStorageObjectResourceCrud) updateState() (bool, error) {
 		if state == oci_object_storage.WorkRequestStatusInProgress {
 
 			if wrid, ok := s.D.GetOkExists("work_request_id"); ok {
-				retryPolicy := getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+				retryPolicy := GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 				retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(s.D.Timeout(schema.TimeoutCreate))
 
 				getWorkRequestRequest := oci_object_storage.GetWorkRequestRequest{}
@@ -795,7 +795,7 @@ func (s *ObjectStorageObjectResourceCrud) getObject() error {
 
 	// TODO: May be better to use HeadObject() to retrieve status of the object. For large content, doesn't make sense
 	// to call Get() all the time
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetObject(context.Background(), request)
 	if err != nil {
@@ -837,7 +837,7 @@ func (s *ObjectStorageObjectResourceCrud) Update() error {
 		newName := newRaw.(string)
 		request.NewName = &newName
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 		_, err := s.Client.RenameObject(context.Background(), request)
 		if err != nil {
 			return err
@@ -870,7 +870,7 @@ func (s *ObjectStorageObjectResourceCrud) Delete() error {
 	if deleteAllObjectVersions, ok := s.D.GetOkExists("delete_all_object_versions"); ok && deleteAllObjectVersions.(bool) {
 		return DeleteAllObjectVersions(s.Client, *request.BucketName, *request.NamespaceName, *request.ObjectName)
 	} else {
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 		_, err := s.Client.DeleteObject(context.Background(), request)
 		return err

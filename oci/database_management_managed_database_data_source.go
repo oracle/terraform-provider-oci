@@ -123,7 +123,7 @@ func (s *DatabaseManagementManagedDatabaseDataSourceCrud) Get() error {
 		request.ManagedDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_management")
 
 	response, err := s.Client.GetManagedDatabase(context.Background(), request)
 	if err != nil {

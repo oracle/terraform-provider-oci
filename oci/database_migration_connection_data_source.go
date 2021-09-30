@@ -49,7 +49,7 @@ func (s *DatabaseMigrationConnectionDataSourceCrud) Get() error {
 		request.ConnectionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_migration")
 
 	response, err := s.Client.GetConnection(context.Background(), request)
 	if err != nil {

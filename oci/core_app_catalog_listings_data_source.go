@@ -18,7 +18,7 @@ func CoreAppCatalogListingsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreAppCatalogListings,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -116,7 +116,7 @@ func (s *CoreAppCatalogListingsDataSourceCrud) Get() error {
 		request.PublisherType = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListAppCatalogListings(context.Background(), request)
 	if err != nil {

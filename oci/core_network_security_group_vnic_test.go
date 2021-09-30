@@ -14,7 +14,7 @@ import (
 
 var (
 	networkSecurityGroupVnicDataSourceRepresentation = map[string]interface{}{
-		"network_security_group_id": Representation{repType: Required, create: `${oci_core_network_security_group.test_network_security_group.id}`},
+		"network_security_group_id": Representation{RepType: Required, Create: `${oci_core_network_security_group.test_network_security_group.id}`},
 	}
 
 	NetworkSecurityGroupVnicResourceConfig = VnicAttachmentResourceConfig
@@ -32,7 +32,7 @@ func TestCoreNetworkSecurityGroupVnicResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_network_security_group_vnics.test_network_security_group_vnics"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
@@ -41,7 +41,7 @@ func TestCoreNetworkSecurityGroupVnicResource_basic(t *testing.T) {
 		},
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_network_security_group_vnics", "test_network_security_group_vnics", Required, Create, networkSecurityGroupVnicDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_network_security_group_vnics", "test_network_security_group_vnics", Required, Create, networkSecurityGroupVnicDataSourceRepresentation) +
 				compartmentIdVariableStr + NetworkSecurityGroupVnicResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "network_security_group_id"),

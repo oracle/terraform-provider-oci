@@ -226,7 +226,7 @@ func (s *CoreDhcpOptionsResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if options, ok := s.D.GetOkExists("options"); ok {
@@ -252,7 +252,7 @@ func (s *CoreDhcpOptionsResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateDhcpOptions(context.Background(), request)
 	if err != nil {
@@ -265,10 +265,10 @@ func (s *CoreDhcpOptionsResourceCrud) Create() error {
 	updateRequest := oci_core.UpdateDhcpOptionsRequest{}
 	updateRequest.DhcpId = s.Res.Id
 	updateRequest.Options = request.Options
-	updateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	updateRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 	updateResponse, err := s.Client.UpdateDhcpOptions(context.Background(), updateRequest)
 	if err != nil {
-		log.Printf("[ERROR] Could not perform an update right after the create of the dhcpOptions: %v", err)
+		log.Printf("[ERROR] Could not perform an Update right after the Create of the dhcpOptions: %v", err)
 	}
 	s.Res = &updateResponse.DhcpOptions
 
@@ -281,7 +281,7 @@ func (s *CoreDhcpOptionsResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DhcpId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetDhcpOptions(context.Background(), request)
 	if err != nil {
@@ -325,7 +325,7 @@ func (s *CoreDhcpOptionsResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if options, ok := s.D.GetOkExists("options"); ok {
@@ -346,7 +346,7 @@ func (s *CoreDhcpOptionsResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateDhcpOptions(context.Background(), request)
 	if err != nil {
@@ -363,7 +363,7 @@ func (s *CoreDhcpOptionsResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DhcpId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteDhcpOptions(context.Background(), request)
 	return err
@@ -511,7 +511,7 @@ func (s *CoreDhcpOptionsResourceCrud) updateCompartment(compartment interface{})
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DhcpId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeDhcpOptionsCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

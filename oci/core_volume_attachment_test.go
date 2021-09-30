@@ -21,36 +21,36 @@ import (
 
 var (
 	VolumeAttachmentRequiredOnlyResource = VolumeAttachmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Required, Create, volumeAttachmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Required, Create, volumeAttachmentRepresentation)
 
 	volumeAttachmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
-		"volume_id":           Representation{repType: Optional, create: `${oci_core_volume.test_volume.id}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"instance_id":         Representation{RepType: Optional, Create: `${oci_core_instance.test_instance.id}`},
+		"volume_id":           Representation{RepType: Optional, Create: `${oci_core_volume.test_volume.id}`},
 		"filter":              RepresentationGroup{Required, volumeAttachmentDataSourceFilterRepresentation}}
 	volumeAttachmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_volume_attachment.test_volume_attachment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_volume_attachment.test_volume_attachment.id}`}},
 	}
 
 	volumeAttachmentRepresentation = map[string]interface{}{
-		"attachment_type":                     Representation{repType: Required, create: `iscsi`},
-		"instance_id":                         Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"volume_id":                           Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
-		"device":                              Representation{repType: Optional, create: `/dev/oracleoci/oraclevdb`},
-		"display_name":                        Representation{repType: Optional, create: `displayName`},
-		"encryption_in_transit_type":          Representation{repType: Optional, create: `NONE`},
-		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
-		"is_read_only":                        Representation{repType: Optional, create: `false`},
-		"is_shareable":                        Representation{repType: Optional, create: `false`},
+		"attachment_type":                     Representation{RepType: Required, Create: `iscsi`},
+		"instance_id":                         Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"volume_id":                           Representation{RepType: Required, Create: `${oci_core_volume.test_volume.id}`},
+		"device":                              Representation{RepType: Optional, Create: `/dev/oracleoci/oraclevdb`},
+		"display_name":                        Representation{RepType: Optional, Create: `displayName`},
+		"encryption_in_transit_type":          Representation{RepType: Optional, Create: `NONE`},
+		"is_pv_encryption_in_transit_enabled": Representation{RepType: Optional, Create: `false`},
+		"is_read_only":                        Representation{RepType: Optional, Create: `false`},
+		"is_shareable":                        Representation{RepType: Optional, Create: `false`},
 	}
 
-	VolumeAttachmentResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	VolumeAttachmentResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -68,15 +68,15 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_volume_attachments.test_volume_attachments"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+VolumeAttachmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation), "core", "volumeAttachment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+VolumeAttachmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation), "core", "volumeAttachment", t)
 
 	ResourceTest(t, testAccCheckCoreVolumeAttachmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Required, Create, volumeAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Required, Create, volumeAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
@@ -84,14 +84,14 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -109,9 +109,9 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -123,9 +123,9 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_volume_attachments", "test_volume_attachments", Optional, Update, volumeAttachmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_volume_attachments", "test_volume_attachments", Optional, Update, volumeAttachmentDataSourceRepresentation) +
 				compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Update, volumeAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Update, volumeAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -176,7 +176,7 @@ func testAccCheckCoreVolumeAttachmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VolumeAttachmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetVolumeAttachment(context.Background(), request)
 
@@ -209,7 +209,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreVolumeAttachment") {
+	if !InSweeperExcludeList("CoreVolumeAttachment") {
 		resource.AddTestSweepers("CoreVolumeAttachment", &resource.Sweeper{
 			Name:         "CoreVolumeAttachment",
 			Dependencies: DependencyGraph["volumeAttachment"],
@@ -230,13 +230,13 @@ func sweepCoreVolumeAttachmentResource(compartment string) error {
 
 			detachVolumeRequest.VolumeAttachmentId = &volumeAttachmentId
 
-			detachVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			detachVolumeRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeClient.DetachVolume(context.Background(), detachVolumeRequest)
 			if error != nil {
 				fmt.Printf("Error deleting VolumeAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeAttachmentId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &volumeAttachmentId, volumeAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &volumeAttachmentId, volumeAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
 				volumeAttachmentSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -244,7 +244,7 @@ func sweepCoreVolumeAttachmentResource(compartment string) error {
 }
 
 func getVolumeAttachmentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "VolumeAttachmentId")
+	ids := GetResourceIdsToSweep(compartment, "VolumeAttachmentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -262,7 +262,7 @@ func getVolumeAttachmentIds(compartment string) ([]string, error) {
 	for _, volumeAttachment := range listVolumeAttachmentsResponse.Items {
 		id := *volumeAttachment.GetId()
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "VolumeAttachmentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "VolumeAttachmentId", id)
 	}
 	return resourceIds, nil
 }

@@ -205,7 +205,7 @@ func (s *CoreRouteTableResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RouteRules = []oci_core.RouteRule{}
@@ -230,7 +230,7 @@ func (s *CoreRouteTableResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateRouteTable(context.Background(), request)
 	if err != nil {
@@ -247,7 +247,7 @@ func (s *CoreRouteTableResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.RtId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetRouteTable(context.Background(), request)
 	if err != nil {
@@ -284,7 +284,7 @@ func (s *CoreRouteTableResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RouteRules = []oci_core.RouteRule{}
@@ -307,7 +307,7 @@ func (s *CoreRouteTableResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.RtId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateRouteTable(context.Background(), request)
 	if err != nil {
@@ -324,7 +324,7 @@ func (s *CoreRouteTableResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.RtId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteRouteTable(context.Background(), request)
 	return err
@@ -368,8 +368,8 @@ func (s *CoreRouteTableResourceCrud) mapToRouteRule(fieldKeyFormat string) (oci_
 	result := oci_core.RouteRule{}
 
 	// @CODEGEN We need this change because the service will return both cidr_block and destination.
-	// Without this change on update operations terraform will send both paremeters since they are both in the statefile.
-	// The service will complain if both parameters are not the same on the update operation so we need to make sure only the relevant one in sent to the service.
+	// Without this change on Update operations terraform will send both paremeters since they are both in the statefile.
+	// The service will complain if both parameters are not the same on the Update operation so we need to make sure only the relevant one in sent to the service.
 	destinationType, destinationTypePresent := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_type"))
 	if destinationTypePresent {
 		tmp := oci_core.RouteRuleDestinationTypeEnum(destinationType.(string))
@@ -480,7 +480,7 @@ func (s *CoreRouteTableResourceCrud) updateCompartment(compartment interface{}) 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.RtId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeRouteTableCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

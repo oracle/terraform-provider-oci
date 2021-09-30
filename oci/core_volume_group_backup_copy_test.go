@@ -18,18 +18,18 @@ var (
 		DefinedTagsDependencies
 
 	volumeGroupBackupFromSourceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"filter":         RepresentationGroup{Required, volumeGroupBackupFromSourceDataSourceFilterRepresentation}}
 
 	volumeGroupBackupFromSourceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_volume_group_backup.test_volume_group_backup_copy.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_volume_group_backup.test_volume_group_backup_copy.id}`}},
 	}
 
 	volumeGroupBackupWithSourceDetailsRepresentation = map[string]interface{}{
 		"source_details": RepresentationGroup{Required, volumeGroupBackupSourceDetailsRepresentation},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 	}
 
 	volumeGroupBackupId, volumeGroupId           string
@@ -54,43 +54,43 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 
 	err := createSourceVolumeGroupBackupToCopy()
 	if err != nil {
-		t.Fatalf("Unable to create source Volume group and VolumeGroupBackup to copy. Error: %v", err)
+		t.Fatalf("Unable to Create source Volume Group and VolumeGroupBackup to copy. Error: %v", err)
 	}
 
 	volumeGroupBackupSourceDetailsRepresentation = map[string]interface{}{
-		"volume_group_backup_id": Representation{repType: Required, create: volumeGroupBackupId},
-		"region":                 Representation{repType: Required, create: getEnvSettingWithBlankDefault("source_region")},
-		"kms_key_id":             Representation{repType: Optional, create: getEnvSettingWithBlankDefault("kms_key_ocid")},
+		"volume_group_backup_id": Representation{RepType: Required, Create: volumeGroupBackupId},
+		"region":                 Representation{RepType: Required, Create: getEnvSettingWithBlankDefault("source_region")},
+		"kms_key_id":             Representation{RepType: Optional, Create: getEnvSettingWithBlankDefault("kms_key_ocid")},
 	}
 
-	volumeGroupBackupWithSourceDetailsRepresentation = getUpdatedRepresentationCopy("source_details", RepresentationGroup{Required, volumeGroupBackupSourceDetailsRepresentation}, volumeGroupBackupWithSourceDetailsRepresentation)
+	volumeGroupBackupWithSourceDetailsRepresentation = GetUpdatedRepresentationCopy("source_details", RepresentationGroup{Required, volumeGroupBackupSourceDetailsRepresentation}, volumeGroupBackupWithSourceDetailsRepresentation)
 
 	var resId string
 
 	ResourceTest(t, testAccCheckCoreVolumeGroupBackupDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config +
 				compartmentIdVariableStr + VolumeGroupBackupCopyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup_copy", Required, Create, volumeGroupBackupWithSourceDetailsRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup_copy", Required, Create, volumeGroupBackupWithSourceDetailsRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_group_id"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceNameCopy, "id")
+					resId, err = FromInstanceState(s, resourceNameCopy, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeGroupBackupCopyResourceDependencies,
 		},
-		// verify create from the backup with optionals
+		// verify Create from the backup with optionals
 		{
 			Config: config +
 				compartmentIdVariableStr + VolumeGroupBackupCopyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup_copy", Optional, Create, volumeGroupBackupWithSourceDetailsRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup_copy", Optional, Create, volumeGroupBackupWithSourceDetailsRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName"),
@@ -102,7 +102,7 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "source_volume_group_backup_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceNameCopy, "id")
+					resId, err = FromInstanceState(s, resourceNameCopy, "id")
 					return err
 				},
 			),
@@ -111,7 +111,7 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 		{
 			Config: config +
 				compartmentIdVariableStr + VolumeGroupBackupCopyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup_copy", Optional, Update, volumeGroupBackupWithSourceDetailsRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup_copy", Optional, Update, volumeGroupBackupWithSourceDetailsRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceNameCopy, "display_name", "displayName2"),
@@ -123,7 +123,7 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceNameCopy, "source_volume_group_backup_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err := fromInstanceState(s, resourceNameCopy, "id")
+					resId2, err := FromInstanceState(s, resourceNameCopy, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -134,11 +134,11 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_volume_group_backups", "test_volume_group_backups", Optional, Update, volumeGroupBackupFromSourceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_volume_group_backups", "test_volume_group_backups", Optional, Update, volumeGroupBackupFromSourceDataSourceRepresentation) +
 				compartmentIdVariableStr + VolumeGroupBackupCopyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Required, Create, volumeBackupRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup_copy", Optional, Update, volumeGroupBackupWithSourceDetailsRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Required, Create, volumeBackupRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup_copy", Optional, Update, volumeGroupBackupWithSourceDetailsRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

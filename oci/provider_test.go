@@ -191,7 +191,7 @@ resource "oci_core_instance" "t" {
 	}
 
 	timeouts {
-		create = "15m"
+		Create = "15m"
 	}
 }
 `
@@ -248,7 +248,7 @@ resource "oci_core_instance" "t" {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 	}
 	timeouts {
-		create = "15m"
+		Create = "15m"
 	}
 }
 resource "oci_core_network_security_group" "test_network_security_group1" {
@@ -428,7 +428,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 		return
 	}
 	if configFileProfile == "PROFILE2" {
-		assert.Equal(t, "can not create client, bad configuration: did not find a proper configuration for private key", err.Error())
+		assert.Equal(t, "can not Create client, bad configuration: did not find a proper configuration for private key", err.Error())
 		return
 	}
 	switch auth {

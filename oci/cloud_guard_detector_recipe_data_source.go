@@ -49,7 +49,7 @@ func (s *CloudGuardDetectorRecipeDataSourceCrud) Get() error {
 		request.DetectorRecipeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "cloud_guard")
 
 	response, err := s.Client.GetDetectorRecipe(context.Background(), request)
 	if err != nil {

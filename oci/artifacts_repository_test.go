@@ -21,35 +21,35 @@ import (
 
 var (
 	RepositoryRequiredOnlyResource = RepositoryResourceDependencies +
-		generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation)
+		GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation)
 
 	RepositoryResourceConfig = RepositoryResourceDependencies +
-		generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Update, repositoryRepresentation)
+		GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Update, repositoryRepresentation)
 
 	repositorySingularDataSourceRepresentation = map[string]interface{}{
-		"repository_id": Representation{repType: Required, create: `${oci_artifacts_repository.test_repository.id}`},
+		"repository_id": Representation{RepType: Required, Create: `${oci_artifacts_repository.test_repository.id}`},
 	}
 
 	repositoryDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_artifacts_repository.test_repository.id}`},
-		"is_immutable":   Representation{repType: Optional, create: `false`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_artifacts_repository.test_repository.id}`},
+		"is_immutable":   Representation{RepType: Optional, Create: `false`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, repositoryDataSourceFilterRepresentation}}
 	repositoryDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_artifacts_repository.test_repository.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_artifacts_repository.test_repository.id}`}},
 	}
 
 	repositoryRepresentation = map[string]interface{}{
-		"compartment_id":  Representation{repType: Required, create: `${var.compartment_id}`},
-		"is_immutable":    Representation{repType: Required, create: `false`},
-		"repository_type": Representation{repType: Required, create: `GENERIC`},
-		"defined_tags":    Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":     Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":    Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":   Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"is_immutable":    Representation{RepType: Required, Create: `false`},
+		"repository_type": Representation{RepType: Required, Create: `GENERIC`},
+		"defined_tags":    Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":     Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":    Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":   Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	RepositoryResourceDependencies = DefinedTagsDependencies
@@ -73,35 +73,35 @@ func TestArtifactsRepositoryResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_artifacts_repository.test_repository"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+RepositoryResourceDependencies+
-		generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Create, repositoryRepresentation), "artifacts", "repository", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+RepositoryResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Create, repositoryRepresentation), "artifacts", "repository", t)
 
 	ResourceTest(t, testAccCheckArtifactsRepositoryDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + RepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_immutable", "false"),
 				resource.TestCheckResourceAttr(resourceName, "repository_type", "GENERIC"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + RepositoryResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + RepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Create, repositoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Create, repositoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -115,9 +115,9 @@ func TestArtifactsRepositoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -126,12 +126,12 @@ func TestArtifactsRepositoryResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + RepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Create,
-					representationCopyWithNewProperties(repositoryRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Create,
+					RepresentationCopyWithNewProperties(repositoryRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -146,7 +146,7 @@ func TestArtifactsRepositoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -158,7 +158,7 @@ func TestArtifactsRepositoryResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + RepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Update, repositoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Update, repositoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -172,7 +172,7 @@ func TestArtifactsRepositoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -183,9 +183,9 @@ func TestArtifactsRepositoryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_artifacts_repositories", "test_repositories", Optional, Update, repositoryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_repositories", "test_repositories", Optional, Update, repositoryDataSourceRepresentation) +
 				compartmentIdVariableStr + RepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Update, repositoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Optional, Update, repositoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -200,7 +200,7 @@ func TestArtifactsRepositoryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositorySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositorySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + RepositoryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
@@ -242,7 +242,7 @@ func testAccCheckArtifactsRepositoryDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.RepositoryId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "artifacts")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "artifacts")
 
 			response, err := client.GetRepository(context.Background(), request)
 
@@ -275,7 +275,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ArtifactsRepository") {
+	if !InSweeperExcludeList("ArtifactsRepository") {
 		resource.AddTestSweepers("ArtifactsRepository", &resource.Sweeper{
 			Name:         "ArtifactsRepository",
 			Dependencies: DependencyGraph["repository"],
@@ -296,13 +296,13 @@ func sweepArtifactsRepositoryResource(compartment string) error {
 
 			deleteRepositoryRequest.RepositoryId = &repositoryId
 
-			deleteRepositoryRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "artifacts")
+			deleteRepositoryRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "artifacts")
 			_, error := artifactsClient.DeleteRepository(context.Background(), deleteRepositoryRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Repository %s %s, It is possible that the resource is already deleted. Please verify manually \n", repositoryId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &repositoryId, repositorySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &repositoryId, repositorySweepWaitCondition, time.Duration(3*time.Minute),
 				repositorySweepResponseFetchOperation, "artifacts", true)
 		}
 	}
@@ -310,7 +310,7 @@ func sweepArtifactsRepositoryResource(compartment string) error {
 }
 
 func getRepositoryIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "RepositoryId")
+	ids := GetResourceIdsToSweep(compartment, "RepositoryId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -330,7 +330,7 @@ func getRepositoryIds(compartment string) ([]string, error) {
 	for _, repository := range listRepositoriesResponse.Items {
 		id := *repository.GetId()
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "RepositoryId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "RepositoryId", id)
 	}
 	return resourceIds, nil
 }

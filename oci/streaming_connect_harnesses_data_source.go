@@ -18,7 +18,7 @@ func StreamingConnectHarnessesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readStreamingConnectHarnesses,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *StreamingConnectHarnessesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_streaming.ConnectHarnessSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "streaming")
 
 	response, err := s.Client.ListConnectHarnesses(context.Background(), request)
 	if err != nil {

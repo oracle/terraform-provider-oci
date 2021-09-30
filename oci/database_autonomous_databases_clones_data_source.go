@@ -18,7 +18,7 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseAutonomousDatabasesClones,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"autonomous_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -582,7 +582,7 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.AutonomousDatabaseSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListAutonomousDatabaseClones(context.Background(), request)
 	if err != nil {

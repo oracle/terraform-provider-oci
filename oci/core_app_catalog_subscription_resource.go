@@ -62,7 +62,7 @@ func CoreAppCatalogSubscriptionResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: timeDiffSuppressFunction,
+				DiffSuppressFunc: TimeDiffSuppressFunction,
 			},
 
 			// Optional
@@ -174,7 +174,7 @@ func (s *CoreAppCatalogSubscriptionResourceCrud) Create() error {
 		request.TimeRetrieved = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.CreateAppCatalogSubscription(context.Background(), request)
 	if err != nil {
@@ -197,7 +197,7 @@ func (s *CoreAppCatalogSubscriptionResourceCrud) Get() error {
 		ListingId:     &listingId,
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.ListAppCatalogSubscriptions(context.Background(), request)
 	if err != nil {
@@ -260,7 +260,7 @@ func (s *CoreAppCatalogSubscriptionResourceCrud) Delete() error {
 	request.CompartmentId = &compartmentId
 	request.ListingId = &listingId
 	request.ResourceVersion = &listingResourceVersion
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err = s.Client.DeleteAppCatalogSubscription(context.Background(), request)
 	if err != nil {

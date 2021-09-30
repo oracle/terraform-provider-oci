@@ -21,34 +21,34 @@ import (
 
 var (
 	EmailDomainRequiredOnlyResource = EmailDomainResourceDependencies +
-		generateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Required, Create, emailDomainRepresentation)
+		GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Required, Create, emailDomainRepresentation)
 
 	EmailDomainResourceConfig = EmailDomainResourceDependencies +
-		generateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Update, emailDomainRepresentation)
+		GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Update, emailDomainRepresentation)
 
 	emailDomainSingularDataSourceRepresentation = map[string]interface{}{
-		"email_domain_id": Representation{repType: Required, create: `${oci_email_email_domain.test_email_domain.id}`},
+		"email_domain_id": Representation{RepType: Required, Create: `${oci_email_email_domain.test_email_domain.id}`},
 	}
 
-	randomDomain = randomString(8, charsetLowerCaseWithoutDigits) + ".email.us-phoenix-1.oci.oc-test.com"
+	randomDomain = RandomString(8, charsetLowerCaseWithoutDigits) + ".email.us-phoenix-1.oci.oc-test.com"
 
 	emailDomainDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"id":             Representation{repType: Optional, create: `${oci_email_email_domain.test_email_domain.id}`},
-		"name":           Representation{repType: Optional, create: randomDomain},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"id":             Representation{RepType: Optional, Create: `${oci_email_email_domain.test_email_domain.id}`},
+		"name":           Representation{RepType: Optional, Create: randomDomain},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, emailDomainDataSourceFilterRepresentation}}
 	emailDomainDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_email_email_domain.test_email_domain.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_email_email_domain.test_email_domain.id}`}},
 	}
 
 	emailDomainRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: randomDomain},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Required, Create: randomDomain},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	EmailDomainResourceDependencies = DefinedTagsDependencies
@@ -71,34 +71,34 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_email_email_domain.test_email_domain"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+EmailDomainResourceDependencies+
-		generateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Create, emailDomainRepresentation), "email", "emailDomain", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+EmailDomainResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Create, emailDomainRepresentation), "email", "emailDomain", t)
 
 	ResourceTest(t, testAccCheckEmailEmailDomainDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + EmailDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Required, Create, emailDomainRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Required, Create, emailDomainRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", randomDomain),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + EmailDomainResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + EmailDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Create, emailDomainRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Create, emailDomainRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -108,9 +108,9 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", randomDomain),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -119,12 +119,12 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + EmailDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Create,
-					representationCopyWithNewProperties(emailDomainRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Create,
+					RepresentationCopyWithNewProperties(emailDomainRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -135,7 +135,7 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", randomDomain),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -147,7 +147,7 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + EmailDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Update, emailDomainRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Update, emailDomainRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -157,7 +157,7 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", randomDomain),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -168,9 +168,9 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_email_email_domains", "test_email_domains", Optional, Update, emailDomainDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_email_email_domains", "test_email_domains", Optional, Update, emailDomainDataSourceRepresentation) +
 				compartmentIdVariableStr + EmailDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Update, emailDomainRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Optional, Update, emailDomainRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", randomDomain),
@@ -183,7 +183,7 @@ func TestEmailEmailDomainResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Required, Create, emailDomainSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Required, Create, emailDomainSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + EmailDomainResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "email_domain_id"),
@@ -225,7 +225,7 @@ func testAccCheckEmailEmailDomainDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.EmailDomainId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "email")
 
 			response, err := client.GetEmailDomain(context.Background(), request)
 
@@ -258,7 +258,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("EmailEmailDomain") {
+	if !InSweeperExcludeList("EmailEmailDomain") {
 		resource.AddTestSweepers("EmailEmailDomain", &resource.Sweeper{
 			Name:         "EmailEmailDomain",
 			Dependencies: DependencyGraph["emailDomain"],
@@ -279,13 +279,13 @@ func sweepEmailEmailDomainResource(compartment string) error {
 
 			deleteEmailDomainRequest.EmailDomainId = &emailDomainId
 
-			deleteEmailDomainRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			deleteEmailDomainRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "email")
 			_, error := emailClient.DeleteEmailDomain(context.Background(), deleteEmailDomainRequest)
 			if error != nil {
 				fmt.Printf("Error deleting EmailDomain %s %s, It is possible that the resource is already deleted. Please verify manually \n", emailDomainId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &emailDomainId, emailDomainSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &emailDomainId, emailDomainSweepWaitCondition, time.Duration(3*time.Minute),
 				emailDomainSweepResponseFetchOperation, "email", true)
 		}
 	}
@@ -293,7 +293,7 @@ func sweepEmailEmailDomainResource(compartment string) error {
 }
 
 func getEmailDomainIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "EmailDomainId")
+	ids := GetResourceIdsToSweep(compartment, "EmailDomainId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -312,7 +312,7 @@ func getEmailDomainIds(compartment string) ([]string, error) {
 	for _, emailDomain := range listEmailDomainsResponse.Items {
 		id := *emailDomain.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "EmailDomainId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "EmailDomainId", id)
 	}
 	return resourceIds, nil
 }

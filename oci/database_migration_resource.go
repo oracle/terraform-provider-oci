@@ -107,7 +107,7 @@ func (s *DatabaseMigrationResourceCrud) Create() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.MigrateExadataDbSystemResourceModel(context.Background(), request)
 	if err != nil {

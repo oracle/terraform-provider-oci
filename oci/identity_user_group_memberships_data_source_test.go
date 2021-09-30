@@ -22,7 +22,7 @@ type DatasourceIdentityUserGroupMembershipsTestSuite struct {
 }
 
 func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
-	_, tokenFn := tokenizeWithHttpReplay("identity_user_group_data_source")
+	_, tokenFn := TokenizeWithHttpReplay("identity_user_group_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
@@ -34,7 +34,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
-		description = "tf test group"
+		description = "tf test Group"
 		compartment_id = "${var.tenancy_ocid}"
 	}
 	
@@ -55,7 +55,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 			{
 				Config: s.Config,
 			},
-			//verify membership by specifying both user and group id
+			//verify membership by specifying both user and Group id
 			{
 				Config: s.Config + `			
 				data "oci_identity_user_group_memberships" "t" {
@@ -75,7 +75,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 					// resource.TestCheckNoResourceAttr(s.ResourceName, "memberships.0.inactive_state"),
 				),
 			},
-			// verify membership by group
+			// verify membership by Group
 			{
 				Config: s.Config + `
 				data "oci_identity_user_group_memberships" "t" {

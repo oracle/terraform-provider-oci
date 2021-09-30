@@ -16,26 +16,26 @@ import (
 
 var (
 	blockVolumeReplicaSingularDataSourceRepresentation = map[string]interface{}{
-		"block_volume_replica_id": Representation{repType: Required, create: `${data.oci_core_block_volume_replicas.test_block_volume_replicas.block_volume_replicas.0.id}`},
+		"block_volume_replica_id": Representation{RepType: Required, Create: `${data.oci_core_block_volume_replicas.test_block_volume_replicas.block_volume_replicas.0.id}`},
 	}
 	blockVolumeReplicaDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `NyKp:US-ASHBURN-AD-1`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`},
-		"state":               Representation{repType: Optional, create: `AVAILABLE`},
+		"availability_domain": Representation{RepType: Required, Create: `NyKp:US-ASHBURN-AD-1`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`},
+		"state":               Representation{RepType: Optional, Create: `AVAILABLE`},
 	}
 
 	dependenceVolumeRepresentation = map[string]interface{}{
-		"availability_domain":            Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":                 Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain":            Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                 Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"block_volume_replicas":          RepresentationGroup{Optional, dependenceVolumeBlockVolumeReplicasRepresentation},
-		"block_volume_replicas_deletion": Representation{repType: Optional, create: `false`, update: `true`},
+		"block_volume_replicas_deletion": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
 	//hardcode availability_domain here to meet the cross region replicas requirement
 	dependenceVolumeBlockVolumeReplicasRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `NyKp:US-ASHBURN-AD-1`},
-		"display_name":        Representation{repType: Optional, create: `displayName`},
+		"availability_domain": Representation{RepType: Required, Create: `NyKp:US-ASHBURN-AD-1`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`},
 	}
 
 	BlockVolumeReplicaResourceConfig = AvailabilityDomainConfig
@@ -53,13 +53,13 @@ func TestCoreBlockVolumeReplicaResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_volume.test_volume"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create volume and enable replicas
+		// Create volume and enable replicas
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, dependenceVolumeRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, dependenceVolumeRepresentation) +
 				compartmentIdVariableStr + BlockVolumeReplicaResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
@@ -71,7 +71,7 @@ func TestCoreBlockVolumeReplicaResource_basic(t *testing.T) {
 
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, dependenceVolumeRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, dependenceVolumeRepresentation) +
 				compartmentIdVariableStr + BlockVolumeReplicaResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -84,8 +84,8 @@ func TestCoreBlockVolumeReplicaResource_basic(t *testing.T) {
 		// disabled replicas
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update,
-					representationCopyWithRemovedNestedProperties("block_volume_replicas", dependenceVolumeRepresentation)) +
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update,
+					RepresentationCopyWithRemovedNestedProperties("block_volume_replicas", dependenceVolumeRepresentation)) +
 				compartmentIdVariableStr + BlockVolumeReplicaResourceConfig,
 		},
 	})

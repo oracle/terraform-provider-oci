@@ -21,44 +21,44 @@ import (
 
 var (
 	NotebookSessionRequiredOnlyResource = NotebookSessionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Required, Create, notebookSessionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Required, Create, notebookSessionRepresentation)
 
 	NotebookSessionResourceConfig = NotebookSessionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Update, notebookSessionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Update, notebookSessionRepresentation)
 
 	notebookSessionSingularDataSourceRepresentation = map[string]interface{}{
-		"notebook_session_id": Representation{repType: Required, create: `${oci_datascience_notebook_session.test_notebook_session.id}`},
+		"notebook_session_id": Representation{RepType: Required, Create: `${oci_datascience_notebook_session.test_notebook_session.id}`},
 	}
 
 	notebookSessionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_datascience_notebook_session.test_notebook_session.id}`},
-		"project_id":     Representation{repType: Optional, create: `${oci_datascience_project.test_project.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_datascience_notebook_session.test_notebook_session.id}`},
+		"project_id":     Representation{RepType: Optional, Create: `${oci_datascience_project.test_project.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, notebookSessionDataSourceFilterRepresentation}}
 	notebookSessionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_datascience_notebook_session.test_notebook_session.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_datascience_notebook_session.test_notebook_session.id}`}},
 	}
 
 	notebookSessionRepresentation = map[string]interface{}{
-		"compartment_id":                         Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":                         Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"notebook_session_configuration_details": RepresentationGroup{Required, notebookSessionNotebookSessionConfigurationDetailsRepresentation},
-		"project_id":                             Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
-		"defined_tags":                           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"project_id":                             Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
+		"defined_tags":                           Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                           Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                          Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	notebookSessionNotebookSessionConfigurationDetailsRepresentation = map[string]interface{}{
-		"shape":                     Representation{repType: Required, create: `VM.Standard.E2.2`, update: `VM.Standard.E2.4`},
-		"subnet_id":                 Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"block_storage_size_in_gbs": Representation{repType: Optional, create: `50`, update: `51`},
+		"shape":                     Representation{RepType: Required, Create: `VM.Standard.E2.2`, Update: `VM.Standard.E2.4`},
+		"subnet_id":                 Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"block_storage_size_in_gbs": Representation{RepType: Optional, Create: `50`, Update: `51`},
 	}
 
-	NotebookSessionResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
+	NotebookSessionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -80,15 +80,15 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datascience_notebook_session.test_notebook_session"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+NotebookSessionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Create, notebookSessionRepresentation), "datascience", "notebookSession", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+NotebookSessionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Create, notebookSessionRepresentation), "datascience", "notebookSession", t)
 
 	ResourceTest(t, testAccCheckDatascienceNotebookSessionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + NotebookSessionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Required, Create, notebookSessionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Required, Create, notebookSessionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_configuration_details.#", "1"),
@@ -97,20 +97,20 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + NotebookSessionResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NotebookSessionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Create, notebookSessionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Create, notebookSessionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -127,9 +127,9 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -138,12 +138,12 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NotebookSessionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Create,
-					representationCopyWithNewProperties(notebookSessionRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Create,
+					RepresentationCopyWithNewProperties(notebookSessionRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -161,7 +161,7 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -173,7 +173,7 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NotebookSessionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Update, notebookSessionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Update, notebookSessionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -190,7 +190,7 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -201,9 +201,9 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_notebook_sessions", "test_notebook_sessions", Optional, Update, notebookSessionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_notebook_sessions", "test_notebook_sessions", Optional, Update, notebookSessionDataSourceRepresentation) +
 				compartmentIdVariableStr + NotebookSessionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Update, notebookSessionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Optional, Update, notebookSessionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -231,7 +231,7 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Required, Create, notebookSessionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", Required, Create, notebookSessionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NotebookSessionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "notebook_session_id"),
@@ -276,7 +276,7 @@ func testAccCheckDatascienceNotebookSessionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.NotebookSessionId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 
 			response, err := client.GetNotebookSession(context.Background(), request)
 
@@ -309,7 +309,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatascienceNotebookSession") {
+	if !InSweeperExcludeList("DatascienceNotebookSession") {
 		resource.AddTestSweepers("DatascienceNotebookSession", &resource.Sweeper{
 			Name:         "DatascienceNotebookSession",
 			Dependencies: DependencyGraph["notebookSession"],
@@ -330,13 +330,13 @@ func sweepDatascienceNotebookSessionResource(compartment string) error {
 
 			deleteNotebookSessionRequest.NotebookSessionId = &notebookSessionId
 
-			deleteNotebookSessionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			deleteNotebookSessionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 			_, error := dataScienceClient.DeleteNotebookSession(context.Background(), deleteNotebookSessionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting NotebookSession %s %s, It is possible that the resource is already deleted. Please verify manually \n", notebookSessionId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &notebookSessionId, notebookSessionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &notebookSessionId, notebookSessionSweepWaitCondition, time.Duration(3*time.Minute),
 				notebookSessionSweepResponseFetchOperation, "datascience", true)
 		}
 	}
@@ -344,7 +344,7 @@ func sweepDatascienceNotebookSessionResource(compartment string) error {
 }
 
 func getNotebookSessionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "NotebookSessionId")
+	ids := GetResourceIdsToSweep(compartment, "NotebookSessionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -363,7 +363,7 @@ func getNotebookSessionIds(compartment string) ([]string, error) {
 	for _, notebookSession := range listNotebookSessionsResponse.Items {
 		id := *notebookSession.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "NotebookSessionId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "NotebookSessionId", id)
 	}
 	return resourceIds, nil
 }

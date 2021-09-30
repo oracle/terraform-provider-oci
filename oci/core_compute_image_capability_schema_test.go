@@ -20,44 +20,44 @@ import (
 
 var (
 	ComputeImageCapabilitySchemaRequiredOnlyResource = ComputeImageCapabilitySchemaResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaRepresentation)
 
 	ComputeImageCapabilitySchemaResourceConfig = ComputeImageCapabilitySchemaResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation)
 
 	computeImageCapabilitySchemaSingularDataSourceRepresentation = map[string]interface{}{
-		"compute_image_capability_schema_id": Representation{repType: Required, create: `${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id}`},
-		"is_merge_enabled":                   Representation{repType: Required, create: `false`},
+		"compute_image_capability_schema_id": Representation{RepType: Required, Create: `${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id}`},
+		"is_merge_enabled":                   Representation{RepType: Required, Create: `false`},
 	}
 
 	computeImageCapabilitySchemaDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"image_id":       Representation{repType: Optional, create: `${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.image_id}`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"image_id":       Representation{RepType: Optional, Create: `${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.image_id}`},
 		"filter":         RepresentationGroup{Required, computeImageCapabilitySchemaDataSourceFilterRepresentation}}
 	computeImageCapabilitySchemaDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id}`}},
 	}
 
 	computeImageCapabilitySchemaRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"compute_global_image_capability_schema_version_name": Representation{repType: Required, create: `02b83c1f-a4db-4867-80df-d50d50f3b759`},
-		"image_id": Representation{repType: Required, create: `${oci_core_image.custom_image.id}`},
-		"schema_data": Representation{repType: Required, create: map[string]string{
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compute_global_image_capability_schema_version_name": Representation{RepType: Required, Create: `02b83c1f-a4db-4867-80df-d50d50f3b759`},
+		"image_id": Representation{RepType: Required, Create: `${oci_core_image.custom_image.id}`},
+		"schema_data": Representation{RepType: Required, Create: map[string]string{
 			"Network.AttachmentType": "{\\\"descriptorType\\\": \\\"enumstring\\\",\\\"source\\\": \\\"IMAGE\\\", \\\"defaultValue\\\": \\\"PARAVIRTUALIZED\\\", \\\"values\\\": [\\\"PARAVIRTUALIZED\\\"]}",
-		}, update: map[string]string{
+		}, Update: map[string]string{
 			"Network.AttachmentType": "{\\\"descriptorType\\\": \\\"enumstring\\\", \\\"source\\\": \\\"IMAGE\\\", \\\"defaultValue\\\": \\\"PARAVIRTUALIZED\\\", \\\"values\\\": [\\\"PARAVIRTUALIZED\\\", \\\"E1000\\\"]}",
 		}},
-		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":  Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":  Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	computeImageCapabilitySchemaSchemaDataRepresentation = map[string]interface{}{
-		"descriptor_type": Representation{repType: Required, create: `descriptorType`, update: `descriptorType2`},
-		"source":          Representation{repType: Required, create: `source`, update: `source2`},
-		"default_value":   Representation{repType: Optional, create: `false`, update: `true`},
-		"values":          Representation{repType: Optional, create: []string{`values`}, update: []string{`values2`}},
+		"descriptor_type": Representation{RepType: Required, Create: `descriptorType`, Update: `descriptorType2`},
+		"source":          Representation{RepType: Required, Create: `source`, Update: `source2`},
+		"default_value":   Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"values":          Representation{RepType: Optional, Create: []string{`values`}, Update: []string{`values2`}},
 	}
 
 	ComputeImageCapabilitySchemaResourceDependencies = AvailabilityDomainConfig + `data "oci_core_images" "image_capability_images" {
@@ -80,8 +80,8 @@ resource "oci_core_image" "custom_image" {
     compartment_id   = "${var.tenancy_ocid}"
     instance_id = "${oci_core_instance.t.id}"
 }` +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -104,15 +104,15 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_compute_image_capability_schema.test_compute_image_capability_schema"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ComputeImageCapabilitySchemaResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create, computeImageCapabilitySchemaRepresentation), "core", "computeImageCapabilitySchema", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ComputeImageCapabilitySchemaResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create, computeImageCapabilitySchemaRepresentation), "core", "computeImageCapabilitySchema", t)
 
 	ResourceTest(t, testAccCheckCoreComputeImageCapabilitySchemaDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_version_name"),
@@ -120,20 +120,20 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "schema_data.%", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create, computeImageCapabilitySchemaRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create, computeImageCapabilitySchemaRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
@@ -147,9 +147,9 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -158,12 +158,12 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create,
-					representationCopyWithNewProperties(computeImageCapabilitySchemaRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Create,
+					RepresentationCopyWithNewProperties(computeImageCapabilitySchemaRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -178,7 +178,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -190,7 +190,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_global_image_capability_schema_id"),
@@ -204,7 +204,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -215,9 +215,9 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schemas", "test_compute_image_capability_schemas", Optional, Update, computeImageCapabilitySchemaDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schemas", "test_compute_image_capability_schemas", Optional, Update, computeImageCapabilitySchemaDataSourceRepresentation) +
 				compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Optional, Update, computeImageCapabilitySchemaRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -237,7 +237,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_image_capability_schema", "test_compute_image_capability_schema", Required, Create, computeImageCapabilitySchemaSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ComputeImageCapabilitySchemaResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_image_capability_schema_id"),
@@ -288,7 +288,7 @@ func testAccCheckCoreComputeImageCapabilitySchemaDestroy(s *terraform.State) err
 				request.IsMergeEnabled = &boolVal
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			_, err := client.GetComputeImageCapabilitySchema(context.Background(), request)
 
@@ -313,7 +313,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreComputeImageCapabilitySchema") {
+	if !InSweeperExcludeList("CoreComputeImageCapabilitySchema") {
 		resource.AddTestSweepers("CoreComputeImageCapabilitySchema", &resource.Sweeper{
 			Name:         "CoreComputeImageCapabilitySchema",
 			Dependencies: DependencyGraph["computeImageCapabilitySchema"],
@@ -334,7 +334,7 @@ func sweepCoreComputeImageCapabilitySchemaResource(compartment string) error {
 
 			deleteComputeImageCapabilitySchemaRequest.ComputeImageCapabilitySchemaId = &computeImageCapabilitySchemaId
 
-			deleteComputeImageCapabilitySchemaRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteComputeImageCapabilitySchemaRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeClient.DeleteComputeImageCapabilitySchema(context.Background(), deleteComputeImageCapabilitySchemaRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ComputeImageCapabilitySchema %s %s, It is possible that the resource is already deleted. Please verify manually \n", computeImageCapabilitySchemaId, error)
@@ -346,7 +346,7 @@ func sweepCoreComputeImageCapabilitySchemaResource(compartment string) error {
 }
 
 func getComputeImageCapabilitySchemaIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ComputeImageCapabilitySchemaId")
+	ids := GetResourceIdsToSweep(compartment, "ComputeImageCapabilitySchemaId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -364,7 +364,7 @@ func getComputeImageCapabilitySchemaIds(compartment string) ([]string, error) {
 	for _, computeImageCapabilitySchema := range listComputeImageCapabilitySchemasResponse.Items {
 		id := *computeImageCapabilitySchema.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ComputeImageCapabilitySchemaId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ComputeImageCapabilitySchemaId", id)
 	}
 	return resourceIds, nil
 }

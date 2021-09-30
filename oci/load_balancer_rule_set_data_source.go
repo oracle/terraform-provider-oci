@@ -58,7 +58,7 @@ func (s *LoadBalancerRuleSetDataSourceCrud) Get() error {
 		request.RuleSetName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "load_balancer")
 
 	response, err := s.Client.GetRuleSet(context.Background(), request)
 	if err != nil {

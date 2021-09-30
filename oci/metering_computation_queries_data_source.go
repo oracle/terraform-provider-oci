@@ -18,7 +18,7 @@ func MeteringComputationQueriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMeteringComputationQueries,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -67,7 +67,7 @@ func (s *MeteringComputationQueriesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "metering_computation")
 
 	response, err := s.Client.ListQueries(context.Background(), request)
 	if err != nil {

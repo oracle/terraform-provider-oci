@@ -14,10 +14,10 @@ import (
 
 var (
 	managementAgentCountSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"group_by":       Representation{repType: Required, create: []string{`version`}},
-		"has_plugins":    Representation{repType: Required, create: `true`},
-		"install_type":   Representation{repType: Required, create: `AGENT`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"group_by":       Representation{RepType: Required, Create: []string{`version`}},
+		"has_plugins":    Representation{RepType: Required, Create: `true`},
+		"install_type":   Representation{RepType: Required, Create: `AGENT`},
 	}
 
 	ManagementAgentCountResourceConfig = ""
@@ -35,13 +35,13 @@ func TestManagementAgentManagementAgentCountResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_management_agent_management_agent_count.test_management_agent_count"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_count", "test_management_agent_count", Required, Create, managementAgentCountSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_count", "test_management_agent_count", Required, Create, managementAgentCountSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagementAgentCountResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

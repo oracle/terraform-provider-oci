@@ -77,7 +77,7 @@ func (s *CoreLetterOfAuthorityDataSourceCrud) Get() error {
 		request.CrossConnectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetCrossConnectLetterOfAuthority(context.Background(), request)
 	if err != nil {

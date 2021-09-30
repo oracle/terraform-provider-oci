@@ -58,7 +58,7 @@ func (s *BudgetAlertRuleDataSourceCrud) Get() error {
 		request.BudgetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "budget")
 
 	response, err := s.Client.GetAlertRule(context.Background(), request)
 	if err != nil {

@@ -14,17 +14,17 @@ import (
 
 var (
 	listenerRuleDataSourceRepresentation = map[string]interface{}{
-		"listener_name":    Representation{repType: Required, create: `${oci_load_balancer_listener.test_listener.name}`},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"listener_name":    Representation{RepType: Required, Create: `${oci_load_balancer_listener.test_listener.name}`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 	}
 
-	ListenerRuleResourceConfig = generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, representationCopyWithNewProperties(listenerRepresentation, map[string]interface{}{
-			"rule_set_names": Representation{repType: Required, create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
+	ListenerRuleResourceConfig = GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, RepresentationCopyWithNewProperties(listenerRepresentation, map[string]interface{}{
+			"rule_set_names": Representation{RepType: Required, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
 		})) +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation) +
 		LoadBalancerSubnetDependencies
 )
 
@@ -40,13 +40,13 @@ func TestLoadBalancerListenerRuleResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_load_balancer_listener_rules.test_listener_rules"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_listener_rules", "test_listener_rules", Required, Create, listenerRuleDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_listener_rules", "test_listener_rules", Required, Create, listenerRuleDataSourceRepresentation) +
 				compartmentIdVariableStr + ListenerRuleResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "listener_name"),

@@ -21,34 +21,34 @@ import (
 
 var (
 	AddressListRequiredOnlyResource = AddressListResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListRepresentation)
 
 	AddressListResourceConfig = AddressListResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation)
 
 	addressListSingularDataSourceRepresentation = map[string]interface{}{
-		"address_list_id": Representation{repType: Required, create: `${oci_waas_address_list.test_address_list.id}`},
+		"address_list_id": Representation{RepType: Required, Create: `${oci_waas_address_list.test_address_list.id}`},
 	}
 
 	addressListDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                        Representation{repType: Required, create: `${var.compartment_id}`},
-		"ids":                                   Representation{repType: Optional, create: []string{`${oci_waas_address_list.test_address_list.id}`}},
-		"names":                                 Representation{repType: Optional, create: []string{`displayName2`}},
-		"states":                                Representation{repType: Optional, create: []string{`ACTIVE`}},
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
-		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
+		"compartment_id":                        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"ids":                                   Representation{RepType: Optional, Create: []string{`${oci_waas_address_list.test_address_list.id}`}},
+		"names":                                 Representation{RepType: Optional, Create: []string{`displayName2`}},
+		"states":                                Representation{RepType: Optional, Create: []string{`ACTIVE`}},
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"time_created_less_than":                Representation{RepType: Optional, Create: `2038-01-01T00:00:00.000Z`},
 		"filter":                                RepresentationGroup{Required, addressListDataSourceFilterRepresentation}}
 	addressListDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_waas_address_list.test_address_list.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_waas_address_list.test_address_list.id}`}},
 	}
 
 	addressListRepresentation = map[string]interface{}{
-		"addresses":      Representation{repType: Required, create: []string{`0.0.0.0/16`}, update: []string{`0.0.0.0/20`}},
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"addresses":      Representation{RepType: Required, Create: []string{`0.0.0.0/16`}, Update: []string{`0.0.0.0/20`}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	AddressListResourceDependencies = DefinedTagsDependencies
@@ -72,35 +72,35 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_waas_address_list.test_address_list"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AddressListResourceDependencies+
-		generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create, addressListRepresentation), "waas", "addressList", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AddressListResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create, addressListRepresentation), "waas", "addressList", t)
 
 	ResourceTest(t, testAccCheckWaasAddressListDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AddressListResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create, addressListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create, addressListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -109,9 +109,9 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -120,12 +120,12 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AddressListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create,
-					representationCopyWithNewProperties(addressListRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Create,
+					RepresentationCopyWithNewProperties(addressListRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
@@ -135,7 +135,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -147,7 +147,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AddressListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -156,7 +156,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -167,9 +167,9 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_address_lists", "test_address_lists", Optional, Update, addressListDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_address_lists", "test_address_lists", Optional, Update, addressListDataSourceRepresentation) +
 				compartmentIdVariableStr + AddressListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Optional, Update, addressListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "ids.#", "1"),
@@ -192,7 +192,7 @@ func TestWaasAddressListResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_address_list", "test_address_list", Required, Create, addressListSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AddressListResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "address_list_id"),
@@ -234,7 +234,7 @@ func testAccCheckWaasAddressListDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.AddressListId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 
 			response, err := client.GetAddressList(context.Background(), request)
 
@@ -267,7 +267,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("WaasAddressList") {
+	if !InSweeperExcludeList("WaasAddressList") {
 		resource.AddTestSweepers("WaasAddressList", &resource.Sweeper{
 			Name:         "WaasAddressList",
 			Dependencies: DependencyGraph["addressList"],
@@ -288,13 +288,13 @@ func sweepWaasAddressListResource(compartment string) error {
 
 			deleteAddressListRequest.AddressListId = &addressListId
 
-			deleteAddressListRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			deleteAddressListRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 			_, error := waasClient.DeleteAddressList(context.Background(), deleteAddressListRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AddressList %s %s, It is possible that the resource is already deleted. Please verify manually \n", addressListId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &addressListId, addressListSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &addressListId, addressListSweepWaitCondition, time.Duration(3*time.Minute),
 				addressListSweepResponseFetchOperation, "waas", true)
 		}
 	}
@@ -302,7 +302,7 @@ func sweepWaasAddressListResource(compartment string) error {
 }
 
 func getAddressListIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AddressListId")
+	ids := GetResourceIdsToSweep(compartment, "AddressListId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -321,7 +321,7 @@ func getAddressListIds(compartment string) ([]string, error) {
 	for _, addressList := range listAddressListsResponse.Items {
 		id := *addressList.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AddressListId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "AddressListId", id)
 	}
 	return resourceIds, nil
 }

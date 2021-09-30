@@ -18,7 +18,7 @@ func NetworkLoadBalancerNetworkLoadBalancersProtocolsDataSource() *schema.Resour
 	return &schema.Resource{
 		Read: readNetworkLoadBalancerNetworkLoadBalancersProtocols,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"network_load_balancers_protocol_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -64,7 +64,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersProtocolsDataSourceCrud) VoidSta
 func (s *NetworkLoadBalancerNetworkLoadBalancersProtocolsDataSourceCrud) Get() error {
 	request := oci_network_load_balancer.ListNetworkLoadBalancersProtocolsRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "network_load_balancer")
 
 	response, err := s.Client.ListNetworkLoadBalancersProtocols(context.Background(), request)
 	if err != nil {

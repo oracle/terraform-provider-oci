@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_email.EmailClient", &OracleClient{initClientFn: initEmailEmailClient})
+	RegisterOracleClient("oci_email.EmailClient", &OracleClient{InitClientFn: initEmailEmailClient})
 }
 
 func initEmailEmailClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

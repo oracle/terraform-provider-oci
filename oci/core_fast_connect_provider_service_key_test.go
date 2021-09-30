@@ -14,11 +14,11 @@ import (
 
 var (
 	fastConnectProviderServiceKeySingularDataSourceRepresentation = map[string]interface{}{
-		"provider_service_id":       Representation{repType: Required, create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
-		"provider_service_key_name": Representation{repType: Required, create: `d8f7a443-28c2-4dcf-996c-286351908c58`},
+		"provider_service_id":       Representation{RepType: Required, Create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
+		"provider_service_key_name": Representation{RepType: Required, Create: `d8f7a443-28c2-4dcf-996c-286351908c58`},
 	}
 
-	FastConnectProviderServiceKeyResourceConfig = generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation)
+	FastConnectProviderServiceKeyResourceConfig = GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -37,13 +37,13 @@ func TestCoreFastConnectProviderServiceKeyResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_core_fast_connect_provider_service_key.test_fast_connect_provider_service_key"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service_key", "test_fast_connect_provider_service_key", Required, Create, fastConnectProviderServiceKeySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service_key", "test_fast_connect_provider_service_key", Required, Create, fastConnectProviderServiceKeySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + FastConnectProviderServiceKeyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "provider_service_id"),

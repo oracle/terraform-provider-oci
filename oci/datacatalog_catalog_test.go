@@ -21,36 +21,36 @@ import (
 
 var (
 	CatalogRequiredOnlyResource = CatalogResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation)
 
 	CatalogResourceConfig = CatalogResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation)
 
 	catalogSingularDataSourceRepresentation = map[string]interface{}{
-		"catalog_id": Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"catalog_id": Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
 	}
 
 	catalogDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, catalogDataSourceFilterRepresentation}}
 	catalogDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_datacatalog_catalog.test_catalog.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_datacatalog_catalog.test_catalog.id}`}},
 	}
 
 	catalogRepresentation = map[string]interface{}{
-		"compartment_id":                     Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":                       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"attached_catalog_private_endpoints": Representation{repType: Optional, create: []string{`${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`}},
+		"compartment_id":                     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":                       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                       Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"attached_catalog_private_endpoints": Representation{RepType: Optional, Create: []string{`${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`}},
 	}
 
-	CatalogResourceDependencies = generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	CatalogResourceDependencies = GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -72,33 +72,33 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datacatalog_catalog.test_catalog"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CatalogResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create, catalogRepresentation), "datacatalog", "catalog", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CatalogResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create, catalogRepresentation), "datacatalog", "catalog", t)
 
 	ResourceTest(t, testAccCheckDatacatalogCatalogDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + CatalogResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create, catalogRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create, catalogRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -108,9 +108,9 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -119,12 +119,12 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CatalogResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create,
-					representationCopyWithNewProperties(catalogRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Create,
+					RepresentationCopyWithNewProperties(catalogRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -135,7 +135,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -147,7 +147,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CatalogResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -157,7 +157,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "attached_catalog_private_endpoints.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -168,9 +168,9 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_catalogs", "test_catalogs", Optional, Update, catalogDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalogs", "test_catalogs", Optional, Update, catalogDataSourceRepresentation) +
 				compartmentIdVariableStr + CatalogResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Optional, Update, catalogRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -192,7 +192,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CatalogResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
@@ -236,7 +236,7 @@ func testAccCheckDatacatalogCatalogDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CatalogId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datacatalog")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datacatalog")
 
 			response, err := client.GetCatalog(context.Background(), request)
 
@@ -269,7 +269,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatacatalogCatalog") {
+	if !InSweeperExcludeList("DatacatalogCatalog") {
 		resource.AddTestSweepers("DatacatalogCatalog", &resource.Sweeper{
 			Name:         "DatacatalogCatalog",
 			Dependencies: DependencyGraph["catalog"],
@@ -290,13 +290,13 @@ func sweepDatacatalogCatalogResource(compartment string) error {
 
 			deleteCatalogRequest.CatalogId = &catalogId
 
-			deleteCatalogRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datacatalog")
+			deleteCatalogRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datacatalog")
 			_, error := dataCatalogClient.DeleteCatalog(context.Background(), deleteCatalogRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Catalog %s %s, It is possible that the resource is already deleted. Please verify manually \n", catalogId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &catalogId, catalogSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &catalogId, catalogSweepWaitCondition, time.Duration(3*time.Minute),
 				catalogSweepResponseFetchOperation, "datacatalog", true)
 		}
 	}
@@ -304,7 +304,7 @@ func sweepDatacatalogCatalogResource(compartment string) error {
 }
 
 func getCatalogIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "CatalogId")
+	ids := GetResourceIdsToSweep(compartment, "CatalogId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -323,7 +323,7 @@ func getCatalogIds(compartment string) ([]string, error) {
 	for _, catalog := range listCatalogsResponse.Items {
 		id := *catalog.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "CatalogId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "CatalogId", id)
 	}
 	return resourceIds, nil
 }

@@ -20,43 +20,43 @@ import (
 
 var (
 	AcceptedAgreementRequiredOnlyResource = AcceptedAgreementResourceDependencies +
-		generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementRepresentation)
+		GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementRepresentation)
 
 	AcceptedAgreementResourceConfig = AcceptedAgreementResourceDependencies +
-		generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation)
+		GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation)
 
 	acceptedAgreementSingularDataSourceRepresentation = map[string]interface{}{
-		"accepted_agreement_id": Representation{repType: Required, create: `${oci_marketplace_accepted_agreement.test_accepted_agreement.id}`},
+		"accepted_agreement_id": Representation{RepType: Required, Create: `${oci_marketplace_accepted_agreement.test_accepted_agreement.id}`},
 	}
 
 	acceptedAgreementDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
-		"accepted_agreement_id": Representation{repType: Optional, create: `${oci_marketplace_accepted_agreement.test_accepted_agreement.id}`},
-		"display_name":          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"listing_id":            Representation{repType: Optional, create: `${data.oci_marketplace_listing.test_listing.id}`},
-		"package_version":       Representation{repType: Optional, create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
+		"compartment_id":        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"accepted_agreement_id": Representation{RepType: Optional, Create: `${oci_marketplace_accepted_agreement.test_accepted_agreement.id}`},
+		"display_name":          Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"listing_id":            Representation{RepType: Optional, Create: `${data.oci_marketplace_listing.test_listing.id}`},
+		"package_version":       Representation{RepType: Optional, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
 		"filter":                RepresentationGroup{Required, acceptedAgreementDataSourceFilterRepresentation}}
 	acceptedAgreementDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_marketplace_accepted_agreement.test_accepted_agreement.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_marketplace_accepted_agreement.test_accepted_agreement.id}`}},
 	}
 
 	acceptedAgreementRepresentation = map[string]interface{}{
-		"agreement_id":    Representation{repType: Required, create: `${oci_marketplace_listing_package_agreement.test_listing_package_agreement.agreement_id}`},
-		"compartment_id":  Representation{repType: Required, create: `${var.compartment_id}`},
-		"listing_id":      Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.id}`},
-		"package_version": Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
-		"defined_tags":    Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":    Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":   Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"signature":       Representation{repType: Required, create: `${oci_marketplace_listing_package_agreement.test_listing_package_agreement.signature}`},
+		"agreement_id":    Representation{RepType: Required, Create: `${oci_marketplace_listing_package_agreement.test_listing_package_agreement.agreement_id}`},
+		"compartment_id":  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"listing_id":      Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
+		"package_version": Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
+		"defined_tags":    Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":    Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":   Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"signature":       Representation{RepType: Required, Create: `${oci_marketplace_listing_package_agreement.test_listing_package_agreement.signature}`},
 	}
 
 	AcceptedAgreementResourceDependencies = DefinedTagsDependencies +
-		generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", Required, Create, listingPackageAgreementManagementRepresentation)
+		GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", Required, Create, listingPackageAgreementManagementRepresentation)
 )
 
 // issue-routing-tag: marketplace/default
@@ -74,15 +74,15 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_marketplace_accepted_agreement.test_accepted_agreement"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AcceptedAgreementResourceDependencies+
-		generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Create, acceptedAgreementRepresentation), "marketplace", "acceptedAgreement", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AcceptedAgreementResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Create, acceptedAgreementRepresentation), "marketplace", "acceptedAgreement", t)
 
 	ResourceTest(t, testAccCheckMarketplaceAcceptedAgreementDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -90,20 +90,20 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "package_version"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Create, acceptedAgreementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Create, acceptedAgreementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -115,9 +115,9 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "signature"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -129,7 +129,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -141,7 +141,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "signature"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -152,9 +152,9 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreements", "test_accepted_agreements", Optional, Update, acceptedAgreementDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreements", "test_accepted_agreements", Optional, Update, acceptedAgreementDataSourceRepresentation) +
 				compartmentIdVariableStr + AcceptedAgreementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Optional, Update, acceptedAgreementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "accepted_agreement_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -175,7 +175,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_accepted_agreement", "test_accepted_agreement", Required, Create, acceptedAgreementSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AcceptedAgreementResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "accepted_agreement_id"),
@@ -217,7 +217,7 @@ func testAccCheckMarketplaceAcceptedAgreementDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.AcceptedAgreementId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "marketplace")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "marketplace")
 
 			_, err := client.GetAcceptedAgreement(context.Background(), request)
 
@@ -242,7 +242,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("MarketplaceAcceptedAgreement") {
+	if !InSweeperExcludeList("MarketplaceAcceptedAgreement") {
 		resource.AddTestSweepers("MarketplaceAcceptedAgreement", &resource.Sweeper{
 			Name:         "MarketplaceAcceptedAgreement",
 			Dependencies: DependencyGraph["acceptedAgreement"],
@@ -263,7 +263,7 @@ func sweepMarketplaceAcceptedAgreementResource(compartment string) error {
 
 			deleteAcceptedAgreementRequest.AcceptedAgreementId = &acceptedAgreementId
 
-			deleteAcceptedAgreementRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "marketplace")
+			deleteAcceptedAgreementRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "marketplace")
 			_, error := marketplaceClient.DeleteAcceptedAgreement(context.Background(), deleteAcceptedAgreementRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AcceptedAgreement %s %s, It is possible that the resource is already deleted. Please verify manually \n", acceptedAgreementId, error)
@@ -275,7 +275,7 @@ func sweepMarketplaceAcceptedAgreementResource(compartment string) error {
 }
 
 func getAcceptedAgreementIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AcceptedAgreementId")
+	ids := GetResourceIdsToSweep(compartment, "AcceptedAgreementId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -293,7 +293,7 @@ func getAcceptedAgreementIds(compartment string) ([]string, error) {
 	for _, acceptedAgreement := range listAcceptedAgreementsResponse.Items {
 		id := *acceptedAgreement.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AcceptedAgreementId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "AcceptedAgreementId", id)
 	}
 	return resourceIds, nil
 }

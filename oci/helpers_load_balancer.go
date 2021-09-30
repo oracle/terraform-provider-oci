@@ -15,7 +15,7 @@ type SafeMutexMap struct {
 	m       sync.Mutex // Controls access to this map
 }
 
-// Given a load balancer ID and backend set name, finds a mutex. If a mutex doesn't exist, then create one for that backend set.
+// Given a load balancer ID and backend set name, finds a mutex. If a mutex doesn't exist, then Create one for that backend set.
 //
 // We can add more generic ways of accessing this map in the future; if other resources need to use this pattern for
 // resolving concurrent resource access issues. For now, keep it specific to backend sets

@@ -21,80 +21,80 @@ import (
 
 var (
 	TargetRequiredOnlyResource = TargetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetRepresentation)
 
 	TargetResourceConfig = TargetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation)
 
 	targetSingularDataSourceRepresentation = map[string]interface{}{
-		"target_id": Representation{repType: Required, create: `${oci_cloud_guard_target.test_target.id}`},
+		"target_id": Representation{RepType: Required, Create: `${oci_cloud_guard_target.test_target.id}`},
 	}
 
 	targetDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"access_level":              Representation{repType: Optional, create: `ACCESSIBLE`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `true`},
-		"display_name":              Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`, update: `ACTIVE`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"access_level":              Representation{RepType: Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `true`},
+		"display_name":              Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`, Update: `ACTIVE`},
 		"filter":                    RepresentationGroup{Required, targetDataSourceFilterRepresentation}}
 	targetDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_cloud_guard_target.test_target.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_cloud_guard_target.test_target.id}`}},
 	}
 
 	targetRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
 		//For now can be equal to compartmentId only
-		"target_resource_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"target_resource_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		//For now can be equal to COMPARTMENT only
-		"target_resource_type":     Representation{repType: Required, create: `COMPARTMENT`},
-		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":              Representation{repType: Optional, create: `description`},
-		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"state":                    Representation{repType: Optional, create: `ACTIVE`, update: `ACTIVE`},
+		"target_resource_type":     Representation{RepType: Required, Create: `COMPARTMENT`},
+		"defined_tags":             Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":              Representation{RepType: Optional, Create: `description`},
+		"freeform_tags":            Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"state":                    Representation{RepType: Optional, Create: `ACTIVE`, Update: `ACTIVE`},
 		"target_detector_recipes":  RepresentationGroup{Optional, targetTargetDetectorRecipesRepresentation},
 		"target_responder_recipes": RepresentationGroup{Optional, targetTargetResponderRecipesRepresentation},
 	}
 	//Getting detectorRecipeId and responderRecipeId from a plural datasource call same as in detectorRecipeTest and responderRecipeTest
 	targetTargetDetectorRecipesRepresentation = map[string]interface{}{
-		"detector_recipe_id": Representation{repType: Required, create: detectorRecipeId},
+		"detector_recipe_id": Representation{RepType: Required, Create: detectorRecipeId},
 		"detector_rules":     RepresentationGroup{Optional, targetTargetDetectorRecipesDetectorRulesRepresentation},
 	}
 	targetTargetResponderRecipesRepresentation = map[string]interface{}{
-		"responder_recipe_id": Representation{repType: Required, create: responderRecipeId},
+		"responder_recipe_id": Representation{RepType: Required, Create: responderRecipeId},
 		"responder_rules":     RepresentationGroup{Optional, targetTargetResponderRecipesResponderRulesRepresentation},
 	}
 	//Hardcoding a detectorRuleId and responderRuleId as the condition and configuration are dependent on the rules, so hardcoding one for testing purposes.
 	targetTargetDetectorRecipesDetectorRulesRepresentation = map[string]interface{}{
 		"details":          RepresentationGroup{Required, targetTargetDetectorRecipesDetectorRulesDetailsRepresentation},
-		"detector_rule_id": Representation{repType: Required, create: `LB_CERTIFICATE_EXPIRING_SOON`},
+		"detector_rule_id": Representation{RepType: Required, Create: `LB_CERTIFICATE_EXPIRING_SOON`},
 	}
 	targetTargetResponderRecipesResponderRulesRepresentation = map[string]interface{}{
 		"details":           RepresentationGroup{Required, targetTargetResponderRecipesResponderRulesDetailsRepresentation},
-		"responder_rule_id": Representation{repType: Required, create: `ENABLE_DB_BACKUP`},
+		"responder_rule_id": Representation{RepType: Required, Create: `ENABLE_DB_BACKUP`},
 	}
 	targetTargetDetectorRecipesDetectorRulesDetailsRepresentation = map[string]interface{}{
 		"condition_groups": RepresentationGroup{Optional, targetTargetDetectorRecipesDetectorRulesDetailsConditionGroupsRepresentation},
 	}
 	//Making correct conditions, mode and configuration Object for responder/detector rule
 	targetTargetResponderRecipesResponderRulesDetailsRepresentation = map[string]interface{}{
-		"condition":      Representation{repType: Optional, create: `{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"EQUALS\",\"value\":\"bucket1\",\"valueType\":\"CUSTOM\"}`, update: `{\"kind\":\"COMPOSITE\",\"leftOperand\":{\"kind\" :\"COMPOSITE\",\"leftOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"EQUALS\",\"value\":\"bucket3\",\"valueType\":\"CUSTOM\"},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"NOT_EQUALS\",\"value\":\"bucket12\",\"valueType\":\"CUSTOM\"}},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"EQUALS\",\"value\":\"bucket101\",\"valueType\":\"CUSTOM\"}}`},
+		"condition":      Representation{RepType: Optional, Create: `{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"EQUALS\",\"value\":\"bucket1\",\"valueType\":\"CUSTOM\"}`, Update: `{\"kind\":\"COMPOSITE\",\"leftOperand\":{\"kind\" :\"COMPOSITE\",\"leftOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"EQUALS\",\"value\":\"bucket3\",\"valueType\":\"CUSTOM\"},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"NOT_EQUALS\",\"value\":\"bucket12\",\"valueType\":\"CUSTOM\"}},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"resourceName\",\"operator\":\"EQUALS\",\"value\":\"bucket101\",\"valueType\":\"CUSTOM\"}}`},
 		"configurations": RepresentationGroup{Optional, targetTargetResponderRecipesResponderRulesDetailsConfigurationsRepresentation},
-		"mode":           Representation{repType: Optional, create: `USERACTION`, update: `AUTOACTION`},
+		"mode":           Representation{RepType: Optional, Create: `USERACTION`, Update: `AUTOACTION`},
 	}
 	targetTargetDetectorRecipesDetectorRulesDetailsConditionGroupsRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"condition":      Representation{repType: Required, create: `{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}`, update: `{\"kind\":\"COMPOSITE\",\"leftOperand\":{\"kind\" :\"COMPOSITE\",\"leftOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"NOT_EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"}},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"condition":      Representation{RepType: Required, Create: `{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}`, Update: `{\"kind\":\"COMPOSITE\",\"leftOperand\":{\"kind\" :\"COMPOSITE\",\"leftOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"NOT_EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"}},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}}`},
 	}
 	targetTargetResponderRecipesResponderRulesDetailsConfigurationsRepresentation = map[string]interface{}{
-		"config_key": Representation{repType: Required, create: `autoBackupWindowConfig`, update: `recoveryWindowInDaysConfig`},
-		"name":       Representation{repType: Required, create: `Backup time window (Slot)`, update: `Backup retention period in days`},
-		"value":      Representation{repType: Required, create: `10`, update: `20`},
+		"config_key": Representation{RepType: Required, Create: `autoBackupWindowConfig`, Update: `recoveryWindowInDaysConfig`},
+		"name":       Representation{RepType: Required, Create: `Backup time window (Slot)`, Update: `Backup retention period in days`},
+		"value":      Representation{RepType: Required, Create: `10`, Update: `20`},
 	}
 
 	//Correcting the dependencies
-	TargetResourceDependencies = ResponderRecipeResourceDependencies + DetectorRecipeResourceDependencies + generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create,
+	TargetResourceDependencies = ResponderRecipeResourceDependencies + DetectorRecipeResourceDependencies + GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create,
 		detectorRecipeRepresentation)
 )
 
@@ -113,15 +113,15 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_cloud_guard_target.test_target"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+TargetResourceDependencies+
-		generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Create, targetRepresentation), "cloudguard", "target", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+TargetResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Create, targetRepresentation), "cloudguard", "target", t)
 
 	ResourceTest(t, testAccCheckCloudGuardTargetDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -129,20 +129,20 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target_resource_type", "COMPARTMENT"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + TargetResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + TargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Create, targetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Create, targetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -192,9 +192,9 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.responder_rule_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -206,7 +206,7 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + TargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -256,7 +256,7 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "target_responder_recipes.0.responder_rules.0.responder_rule_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -267,9 +267,9 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_targets", "test_targets", Optional, Update, targetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_targets", "test_targets", Optional, Update, targetDataSourceRepresentation) +
 				compartmentIdVariableStr + TargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Optional, Update, targetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -284,7 +284,7 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_target", "test_target", Required, Create, targetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + TargetResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_id"),
@@ -392,7 +392,7 @@ func testAccCheckCloudGuardTargetDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.TargetId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 
 			response, err := client.GetTarget(context.Background(), request)
 
@@ -425,7 +425,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CloudGuardTarget") {
+	if !InSweeperExcludeList("CloudGuardTarget") {
 		resource.AddTestSweepers("CloudGuardTarget", &resource.Sweeper{
 			Name:         "CloudGuardTarget",
 			Dependencies: DependencyGraph["target"],
@@ -446,13 +446,13 @@ func sweepCloudGuardTargetResource(compartment string) error {
 
 			deleteTargetRequest.TargetId = &targetId
 
-			deleteTargetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			deleteTargetRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 			_, error := cloudGuardClient.DeleteTarget(context.Background(), deleteTargetRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Target %s %s, It is possible that the resource is already deleted. Please verify manually \n", targetId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &targetId, targetSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &targetId, targetSweepWaitCondition, time.Duration(3*time.Minute),
 				targetSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}
@@ -460,7 +460,7 @@ func sweepCloudGuardTargetResource(compartment string) error {
 }
 
 func getTargetIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "TargetId")
+	ids := GetResourceIdsToSweep(compartment, "TargetId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -479,7 +479,7 @@ func getTargetIds(compartment string) ([]string, error) {
 	for _, target := range listTargetsResponse.Items {
 		id := *target.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "TargetId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "TargetId", id)
 	}
 	return resourceIds, nil
 }

@@ -18,7 +18,7 @@ func LimitsServicesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLimitsServices,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -74,7 +74,7 @@ func (s *LimitsServicesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "limits")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "limits")
 
 	response, err := s.Client.ListServices(context.Background(), request)
 	if err != nil {

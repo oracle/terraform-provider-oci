@@ -18,7 +18,7 @@ func OdaOdaInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOdaOdaInstances,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *OdaOdaInstancesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_oda.ListOdaInstancesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "oda")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "oda")
 
 	response, err := s.Client.ListOdaInstances(context.Background(), request)
 	if err != nil {

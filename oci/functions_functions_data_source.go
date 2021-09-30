@@ -19,7 +19,7 @@ func FunctionsFunctionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFunctionsFunctions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"application_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -85,7 +85,7 @@ func (s *FunctionsFunctionsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_functions.FunctionLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "functions")
 
 	response, err := s.Client.ListFunctions(context.Background(), request)
 	if err != nil {

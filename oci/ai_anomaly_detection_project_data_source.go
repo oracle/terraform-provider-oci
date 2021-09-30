@@ -49,7 +49,7 @@ func (s *AiAnomalyDetectionProjectDataSourceCrud) Get() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ai_anomaly_detection")
 
 	response, err := s.Client.GetProject(context.Background(), request)
 	if err != nil {

@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_dataflow.DataFlowClient", &OracleClient{initClientFn: initDataflowDataFlowClient})
+	RegisterOracleClient("oci_dataflow.DataFlowClient", &OracleClient{InitClientFn: initDataflowDataFlowClient})
 }
 
 func initDataflowDataFlowClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

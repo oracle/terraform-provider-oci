@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_database_management.DbManagementClient", &OracleClient{initClientFn: initDatabasemanagementDbManagementClient})
+	RegisterOracleClient("oci_database_management.DbManagementClient", &OracleClient{InitClientFn: initDatabasemanagementDbManagementClient})
 }
 
 func initDatabasemanagementDbManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

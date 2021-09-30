@@ -22,39 +22,39 @@ import (
 
 var (
 	MountTargetRequiredOnlyResource = MountTargetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation)
 
 	mountTargetDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Optional, create: `mount-target-5`, update: `displayName2`},
-		"id":                  Representation{repType: Optional, create: `${oci_file_storage_mount_target.test_mount_target.id}`},
-		"state":               Representation{repType: Optional, create: `ACTIVE`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Optional, Create: `mount-target-5`, Update: `displayName2`},
+		"id":                  Representation{RepType: Optional, Create: `${oci_file_storage_mount_target.test_mount_target.id}`},
+		"state":               Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":              RepresentationGroup{Required, mountTargetDataSourceFilterRepresentation}}
 	mountTargetDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_file_storage_mount_target.test_mount_target.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_file_storage_mount_target.test_mount_target.id}`}},
 	}
 
 	mountTargetRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"subnet_id":           Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        Representation{repType: Optional, create: `mount-target-5`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"hostname_label":      Representation{repType: Optional, create: `hostnamelabel`},
-		"ip_address":          Representation{repType: Optional, create: `10.0.0.5`},
-		"nsg_ids":             Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"subnet_id":           Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        Representation{RepType: Optional, Create: `mount-target-5`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":      Representation{RepType: Optional, Create: `hostnamelabel`},
+		"ip_address":          Representation{RepType: Optional, Create: `10.0.0.5`},
+		"nsg_ids":             Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 	}
 
-	MountTargetResourceDependencies = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-			"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
-			"dns_label":           Representation{repType: Required, create: `dnslabel`},
+	MountTargetResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
+			"dns_label":           Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
@@ -77,15 +77,15 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 	datasourceName := "data.oci_file_storage_mount_targets.test_mount_targets"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+MountTargetResourceDependencies+
-		generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation), "filestorage", "mountTarget", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+MountTargetResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation), "filestorage", "mountTarget", t)
 
 	ResourceTest(t, testAccCheckFileStorageMountTargetDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -93,20 +93,20 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -125,9 +125,9 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -136,12 +136,12 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MountTargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create,
-					representationCopyWithNewProperties(mountTargetRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create,
+					RepresentationCopyWithNewProperties(mountTargetRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -159,7 +159,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -171,7 +171,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -189,7 +189,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -200,9 +200,9 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_file_storage_mount_targets", "test_mount_targets", Optional, Update, mountTargetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_file_storage_mount_targets", "test_mount_targets", Optional, Update, mountTargetDataSourceRepresentation) +
 				compartmentIdVariableStr + MountTargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -246,8 +246,8 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 		// verify resource creation fails for the second mount target with the same ip_address
 		{
 			Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Update, mountTargetRepresentation) +
-				generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Update, mountTargetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Update, mountTargetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Update, mountTargetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 			),
@@ -267,7 +267,7 @@ func testAccCheckFileStorageMountTargetDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.MountTargetId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "file_storage")
 
 			response, err := client.GetMountTarget(context.Background(), request)
 
@@ -300,7 +300,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("FileStorageMountTarget") {
+	if !InSweeperExcludeList("FileStorageMountTarget") {
 		resource.AddTestSweepers("FileStorageMountTarget", &resource.Sweeper{
 			Name:         "FileStorageMountTarget",
 			Dependencies: DependencyGraph["mountTarget"],
@@ -321,13 +321,13 @@ func sweepFileStorageMountTargetResource(compartment string) error {
 
 			deleteMountTargetRequest.MountTargetId = &mountTargetId
 
-			deleteMountTargetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			deleteMountTargetRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "file_storage")
 			_, error := fileStorageClient.DeleteMountTarget(context.Background(), deleteMountTargetRequest)
 			if error != nil {
 				fmt.Printf("Error deleting MountTarget %s %s, It is possible that the resource is already deleted. Please verify manually \n", mountTargetId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &mountTargetId, mountTargetSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &mountTargetId, mountTargetSweepWaitCondition, time.Duration(3*time.Minute),
 				mountTargetSweepResponseFetchOperation, "file_storage", true)
 		}
 	}
@@ -335,7 +335,7 @@ func sweepFileStorageMountTargetResource(compartment string) error {
 }
 
 func getMountTargetIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "MountTargetId")
+	ids := GetResourceIdsToSweep(compartment, "MountTargetId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -346,7 +346,7 @@ func getMountTargetIds(compartment string) ([]string, error) {
 	listMountTargetsRequest := oci_file_storage.ListMountTargetsRequest{}
 	listMountTargetsRequest.CompartmentId = &compartmentId
 
-	availabilityDomains, err := getAvalabilityDomains(compartment)
+	availabilityDomains, err := GetAvalabilityDomains(compartment)
 	if err != nil {
 		return resourceIds, fmt.Errorf("Error getting availabilityDomains required for MountTarget list for compartment id : %s , %s \n", compartmentId, err)
 	}
@@ -362,7 +362,7 @@ func getMountTargetIds(compartment string) ([]string, error) {
 		for _, mountTarget := range listMountTargetsResponse.Items {
 			id := *mountTarget.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "MountTargetId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "MountTargetId", id)
 		}
 
 	}

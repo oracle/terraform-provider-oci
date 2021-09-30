@@ -420,7 +420,7 @@ func (s *MysqlMysqlBackupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if retentionInDays, ok := s.D.GetOkExists("retention_in_days"); ok {
@@ -428,7 +428,7 @@ func (s *MysqlMysqlBackupResourceCrud) Create() error {
 		request.RetentionInDays = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.CreateBackup(context.Background(), request)
 	if err != nil {
@@ -445,7 +445,7 @@ func (s *MysqlMysqlBackupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.BackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.GetBackup(context.Background(), request)
 	if err != nil {
@@ -490,7 +490,7 @@ func (s *MysqlMysqlBackupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if retentionInDays, ok := s.D.GetOkExists("retention_in_days"); ok {
@@ -498,7 +498,7 @@ func (s *MysqlMysqlBackupResourceCrud) Update() error {
 		request.RetentionInDays = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.UpdateBackup(context.Background(), request)
 	if err != nil {
@@ -514,7 +514,7 @@ func (s *MysqlMysqlBackupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.BackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.DeleteBackup(context.Background(), request)
 	return err
@@ -757,7 +757,7 @@ func (s *MysqlMysqlBackupResourceCrud) updateCompartment(compartment interface{}
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.ChangeBackupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

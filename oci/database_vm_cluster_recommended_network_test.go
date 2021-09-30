@@ -14,38 +14,38 @@ import (
 
 var (
 	vmClusterRecommendedNetworkSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":               Representation{repType: Required, create: `testVmClusterNw`},
-		"exadata_infrastructure_id":  Representation{repType: Required, create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":               Representation{RepType: Required, Create: `testVmClusterNw`},
+		"exadata_infrastructure_id":  Representation{RepType: Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"networks":                   []RepresentationGroup{{Required, vmClusterRecommendedNetworkClientNetworksRepresentation}, {Required, vmClusterRecommendedNetworkbackupNetworksRepresentation}},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"dns":                        Representation{repType: Optional, create: []string{`192.168.10.10`}},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"ntp":                        Representation{repType: Optional, create: []string{`192.168.10.20`}},
-		"scan_listener_port_tcp":     Representation{repType: Optional, create: `1521`},
-		"scan_listener_port_tcp_ssl": Representation{repType: Optional, create: `2484`},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dns":                        Representation{RepType: Optional, Create: []string{`192.168.10.10`}},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ntp":                        Representation{RepType: Optional, Create: []string{`192.168.10.20`}},
+		"scan_listener_port_tcp":     Representation{RepType: Optional, Create: `1521`},
+		"scan_listener_port_tcp_ssl": Representation{RepType: Optional, Create: `2484`},
 	}
 	vmClusterRecommendedNetworkClientNetworksRepresentation = map[string]interface{}{
-		"cidr":         Representation{repType: Required, create: `192.168.19.2/16`},
-		"domain":       Representation{repType: Required, create: `oracle.com`},
-		"gateway":      Representation{repType: Required, create: `192.168.20.1`},
-		"netmask":      Representation{repType: Required, create: `255.255.0.0`},
-		"network_type": Representation{repType: Required, create: `CLIENT`},
-		"prefix":       Representation{repType: Required, create: `myprefix1`},
-		"vlan_id":      Representation{repType: Required, create: `10`},
+		"cidr":         Representation{RepType: Required, Create: `192.168.19.2/16`},
+		"domain":       Representation{RepType: Required, Create: `oracle.com`},
+		"gateway":      Representation{RepType: Required, Create: `192.168.20.1`},
+		"netmask":      Representation{RepType: Required, Create: `255.255.0.0`},
+		"network_type": Representation{RepType: Required, Create: `CLIENT`},
+		"prefix":       Representation{RepType: Required, Create: `myprefix1`},
+		"vlan_id":      Representation{RepType: Required, Create: `10`},
 	}
 	vmClusterRecommendedNetworkbackupNetworksRepresentation = map[string]interface{}{
-		"cidr":         Representation{repType: Required, create: `192.169.19.2/16`},
-		"domain":       Representation{repType: Required, create: `oracle.com`},
-		"gateway":      Representation{repType: Required, create: `192.169.20.1`},
-		"netmask":      Representation{repType: Required, create: `255.255.0.0`},
-		"network_type": Representation{repType: Required, create: `BACKUP`},
-		"prefix":       Representation{repType: Required, create: `myprefix1`},
-		"vlan_id":      Representation{repType: Required, create: `11`},
+		"cidr":         Representation{RepType: Required, Create: `192.169.19.2/16`},
+		"domain":       Representation{RepType: Required, Create: `oracle.com`},
+		"gateway":      Representation{RepType: Required, Create: `192.169.20.1`},
+		"netmask":      Representation{RepType: Required, Create: `255.255.0.0`},
+		"network_type": Representation{RepType: Required, Create: `BACKUP`},
+		"prefix":       Representation{RepType: Required, Create: `myprefix1`},
+		"vlan_id":      Representation{RepType: Required, Create: `11`},
 	}
 
 	VmClusterRecommendedNetworkDataSourceDependencies = ExadataInfrastructureResourceActivateDependencies +
-		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
 			"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 		}))
 )
@@ -62,13 +62,13 @@ func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_database_vm_cluster_recommended_network.test_vm_cluster_recommended_network"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config + VmClusterRecommendedNetworkDataSourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_recommended_network", "test_vm_cluster_recommended_network", Optional, Create, vmClusterRecommendedNetworkSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_recommended_network", "test_vm_cluster_recommended_network", Optional, Create, vmClusterRecommendedNetworkSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

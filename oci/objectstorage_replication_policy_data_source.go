@@ -67,7 +67,7 @@ func (s *ObjectStorageReplicationPolicyDataSourceCrud) Get() error {
 		request.ReplicationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "object_storage")
 
 	response, err := s.Client.GetReplicationPolicy(context.Background(), request)
 	if err != nil {

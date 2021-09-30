@@ -21,39 +21,39 @@ import (
 
 var (
 	BastionRequiredOnlyResource = BastionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionRepresentation)
 
 	BastionResourceConfig = BastionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation)
 
 	bastionSingularDataSourceRepresentation = map[string]interface{}{
-		"bastion_id": Representation{repType: Required, create: `${oci_bastion_bastion.test_bastion.id}`},
+		"bastion_id": Representation{RepType: Required, Create: `${oci_bastion_bastion.test_bastion.id}`},
 	}
 
 	bastionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"bastion_id":              Representation{repType: Optional, create: `${oci_bastion_bastion.test_bastion.id}`},
-		"bastion_lifecycle_state": Representation{repType: Optional, create: `ACTIVE`},
-		"name":                    Representation{repType: Optional, create: `bastionterraformtest`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"bastion_id":              Representation{RepType: Optional, Create: `${oci_bastion_bastion.test_bastion.id}`},
+		"bastion_lifecycle_state": Representation{RepType: Optional, Create: `ACTIVE`},
+		"name":                    Representation{RepType: Optional, Create: `bastionterraformtest`},
 		"filter":                  RepresentationGroup{Required, bastionDataSourceFilterRepresentation}}
 	bastionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_bastion_bastion.test_bastion.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_bastion_bastion.test_bastion.id}`}},
 	}
 
 	bastionRepresentation = map[string]interface{}{
-		"bastion_type":                 Representation{repType: Required, create: `STANDARD`},
-		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
-		"target_subnet_id":             Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"client_cidr_block_allow_list": Representation{repType: Required, create: []string{`0.0.0.0/0`}, update: []string{`0.0.0.0/0`}},
-		"defined_tags":                 Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"max_session_ttl_in_seconds":   Representation{repType: Optional, create: `1800`, update: `3600`},
-		"name":                         Representation{repType: Required, create: `bastionterraformtest`, update: "BastionTerraformtest"},
+		"bastion_type":                 Representation{RepType: Required, Create: `STANDARD`},
+		"compartment_id":               Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"target_subnet_id":             Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"client_cidr_block_allow_list": Representation{RepType: Required, Create: []string{`0.0.0.0/0`}, Update: []string{`0.0.0.0/0`}},
+		"defined_tags":                 Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"max_session_ttl_in_seconds":   Representation{RepType: Optional, Create: `1800`, Update: `3600`},
+		"name":                         Representation{RepType: Required, Create: `bastionterraformtest`, Update: "BastionTerraformtest"},
 	}
 
-	BastionResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	BastionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -75,35 +75,35 @@ func TestBastionBastionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_bastion_bastion.test_bastion"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+BastionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, bastionRepresentation), "bastion", "bastion", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+BastionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, bastionRepresentation), "bastion", "bastion", t)
 
 	ResourceTest(t, testAccCheckBastionBastionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + BastionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + BastionResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + BastionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, bastionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, bastionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 				resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
@@ -119,9 +119,9 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -130,12 +130,12 @@ func TestBastionBastionResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BastionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create,
-					representationCopyWithNewProperties(bastionRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create,
+					RepresentationCopyWithNewProperties(bastionRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
@@ -152,7 +152,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -164,7 +164,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + BastionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "STANDARD"),
 				resource.TestCheckResourceAttr(resourceName, "client_cidr_block_allow_list.#", "1"),
@@ -180,7 +180,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -191,9 +191,9 @@ func TestBastionBastionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", Optional, Update, bastionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", Optional, Update, bastionDataSourceRepresentation) +
 				compartmentIdVariableStr + BastionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Update, bastionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 				resource.TestCheckResourceAttr(datasourceName, "bastion_lifecycle_state", "ACTIVE"),
@@ -217,7 +217,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + BastionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_id"),
@@ -264,7 +264,7 @@ func testAccCheckBastionBastionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.BastionId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "bastion")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "bastion")
 
 			response, err := client.GetBastion(context.Background(), request)
 
@@ -297,7 +297,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("BastionBastion") {
+	if !InSweeperExcludeList("BastionBastion") {
 		resource.AddTestSweepers("BastionBastion", &resource.Sweeper{
 			Name:         "BastionBastion",
 			Dependencies: DependencyGraph["bastion"],
@@ -318,13 +318,13 @@ func sweepBastionBastionResource(compartment string) error {
 
 			deleteBastionRequest.BastionId = &bastionId
 
-			deleteBastionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "bastion")
+			deleteBastionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "bastion")
 			_, error := bastionClient.DeleteBastion(context.Background(), deleteBastionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Bastion %s %s, It is possible that the resource is already deleted. Please verify manually \n", bastionId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &bastionId, bastionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &bastionId, bastionSweepWaitCondition, time.Duration(3*time.Minute),
 				bastionSweepResponseFetchOperation, "bastion", true)
 		}
 	}
@@ -332,7 +332,7 @@ func sweepBastionBastionResource(compartment string) error {
 }
 
 func getBastionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "BastionId")
+	ids := GetResourceIdsToSweep(compartment, "BastionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -350,7 +350,7 @@ func getBastionIds(compartment string) ([]string, error) {
 	for _, bastion := range listBastionsResponse.Items {
 		id := *bastion.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "BastionId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "BastionId", id)
 	}
 	return resourceIds, nil
 }

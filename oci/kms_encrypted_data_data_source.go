@@ -76,7 +76,7 @@ func (s *EncryptedDataDataSourceCrud) Get() error {
 	request := oci_kms.EncryptRequest{}
 
 	if associatedData, ok := s.D.GetOkExists("associated_data"); ok {
-		request.AssociatedData = objectMapToStringMap(associatedData.(map[string]interface{}))
+		request.AssociatedData = ObjectMapToStringMap(associatedData.(map[string]interface{}))
 	}
 
 	if keyId, ok := s.D.GetOkExists("key_id"); ok {
@@ -89,7 +89,7 @@ func (s *EncryptedDataDataSourceCrud) Get() error {
 		request.Plaintext = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "kms")
 
 	response, err := s.Client.Encrypt(context.Background(), request)
 	if err != nil {

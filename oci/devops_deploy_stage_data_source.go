@@ -51,7 +51,7 @@ func (s *DevopsDeployStageDataSourceCrud) Get() error {
 		request.DeployStageId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.GetDeployStage(context.Background(), request)
 	if err != nil {

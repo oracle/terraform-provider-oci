@@ -18,7 +18,7 @@ func FileStorageSnapshotsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFileStorageSnapshots,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"file_system_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *FileStorageSnapshotsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_file_storage.ListSnapshotsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "file_storage")
 
 	response, err := s.Client.ListSnapshots(context.Background(), request)
 	if err != nil {

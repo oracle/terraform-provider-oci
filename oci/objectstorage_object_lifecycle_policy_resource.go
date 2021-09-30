@@ -71,8 +71,8 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 						"time_amount": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 						"time_unit": {
 							Type:     schema.TypeString,
@@ -99,7 +99,7 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 										Type:     schema.TypeSet,
 										Optional: true,
 										Computed: true,
-										Set:      literalTypeHashCodeForSets,
+										Set:      LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -108,7 +108,7 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 										Type:     schema.TypeSet,
 										Optional: true,
 										Computed: true,
-										Set:      literalTypeHashCodeForSets,
+										Set:      LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -117,7 +117,7 @@ func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 										Type:     schema.TypeSet,
 										Optional: true,
 										Computed: true,
-										Set:      literalTypeHashCodeForSets,
+										Set:      LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -222,7 +222,7 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) Create() error {
 		request.Items = tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.PutObjectLifecyclePolicy(context.Background(), request)
 	if err != nil {
@@ -254,7 +254,7 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetObjectLifecyclePolicy(context.Background(), request)
 	if err != nil {
@@ -295,7 +295,7 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) Update() error {
 		request.Items = tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.PutObjectLifecyclePolicy(context.Background(), request)
 	if err != nil {
@@ -319,7 +319,7 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) Delete() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	_, err := s.Client.DeleteObjectLifecyclePolicy(context.Background(), request)
 	return err
@@ -504,19 +504,19 @@ func ObjectNameFilterToMap(obj *oci_object_storage.ObjectNameFilter) map[string]
 	for _, item := range obj.ExclusionPatterns {
 		exclusionPatterns = append(exclusionPatterns, item)
 	}
-	result["exclusion_patterns"] = schema.NewSet(literalTypeHashCodeForSets, exclusionPatterns)
+	result["exclusion_patterns"] = schema.NewSet(LiteralTypeHashCodeForSets, exclusionPatterns)
 
 	inclusionPatterns := []interface{}{}
 	for _, item := range obj.InclusionPatterns {
 		inclusionPatterns = append(inclusionPatterns, item)
 	}
-	result["inclusion_patterns"] = schema.NewSet(literalTypeHashCodeForSets, inclusionPatterns)
+	result["inclusion_patterns"] = schema.NewSet(LiteralTypeHashCodeForSets, inclusionPatterns)
 
 	inclusionPrefixes := []interface{}{}
 	for _, item := range obj.InclusionPrefixes {
 		inclusionPrefixes = append(inclusionPrefixes, item)
 	}
-	result["inclusion_prefixes"] = schema.NewSet(literalTypeHashCodeForSets, inclusionPrefixes)
+	result["inclusion_prefixes"] = schema.NewSet(LiteralTypeHashCodeForSets, inclusionPrefixes)
 	return result
 }
 

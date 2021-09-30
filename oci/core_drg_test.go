@@ -20,21 +20,21 @@ import (
 )
 
 var (
-	DrgRequiredOnlyResource = generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation)
+	DrgRequiredOnlyResource = GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation)
 
 	drgDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"filter":         RepresentationGroup{Required, drgDataSourceFilterRepresentation}}
 	drgDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_drg.test_drg.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_drg.test_drg.id}`}},
 	}
 
 	drgRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `MyDrg`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `MyDrg`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      RepresentationGroup{Required, ignoreChangesLBRepresentation},
 	}
 
@@ -58,33 +58,33 @@ func TestCoreDrgResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_drgs.test_drgs"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DrgResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Create, drgRepresentation), "core", "drg", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DrgResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Create, drgRepresentation), "core", "drg", t)
 
 	ResourceTest(t, testAccCheckCoreDrgDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DrgResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DrgResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DrgResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Create, drgRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Create, drgRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -95,9 +95,9 @@ func TestCoreDrgResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "redundancy_status"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -106,12 +106,12 @@ func TestCoreDrgResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DrgResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Create,
-					representationCopyWithNewProperties(drgRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Create,
+					RepresentationCopyWithNewProperties(drgRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -123,7 +123,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "redundancy_status"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -135,7 +135,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DrgResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -146,7 +146,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "redundancy_status"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -157,9 +157,9 @@ func TestCoreDrgResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_drgs", "test_drgs", Optional, Update, drgDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_drgs", "test_drgs", Optional, Update, drgDataSourceRepresentation) +
 				compartmentIdVariableStr + DrgResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "redundancy_status"),
@@ -197,7 +197,7 @@ func testAccCheckCoreDrgDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DrgId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetDrg(context.Background(), request)
 
@@ -230,7 +230,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreDrg") {
+	if !InSweeperExcludeList("CoreDrg") {
 		resource.AddTestSweepers("CoreDrg", &resource.Sweeper{
 			Name:         "CoreDrg",
 			Dependencies: DependencyGraph["drg"],
@@ -251,13 +251,13 @@ func sweepCoreDrgResource(compartment string) error {
 
 			deleteDrgRequest.DrgId = &drgId
 
-			deleteDrgRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteDrgRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteDrg(context.Background(), deleteDrgRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Drg %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &drgId, drgSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &drgId, drgSweepWaitCondition, time.Duration(3*time.Minute),
 				drgSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -265,7 +265,7 @@ func sweepCoreDrgResource(compartment string) error {
 }
 
 func getDrgIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DrgId")
+	ids := GetResourceIdsToSweep(compartment, "DrgId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -283,7 +283,7 @@ func getDrgIds(compartment string) ([]string, error) {
 	for _, drg := range listDrgsResponse.Items {
 		id := *drg.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DrgId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DrgId", id)
 		SweeperDefaultResourceId[*drg.DefaultExportDrgRouteDistributionId] = true
 
 	}

@@ -17,10 +17,10 @@ import (
 
 var (
 	managedInstanceEventReportSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                            Representation{repType: Required, create: `${var.compartment_id}`},
-		"managed_instance_id":                       Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"latest_timestamp_greater_than_or_equal_to": Representation{repType: Optional, create: `latestTimestampGreaterThanOrEqualTo`},
-		"latest_timestamp_less_than":                Representation{repType: Optional, create: `latestTimestampLessThan`},
+		"compartment_id":                            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"managed_instance_id":                       Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"latest_timestamp_greater_than_or_equal_to": Representation{RepType: Optional, Create: `latestTimestampGreaterThanOrEqualTo`},
+		"latest_timestamp_less_than":                Representation{RepType: Optional, Create: `latestTimestampLessThan`},
 	}
 
 	ManagedInstanceEventReportResourceConfig = ManagedInstanceManagementResourceDependencies
@@ -38,10 +38,10 @@ func TestOsmanagementManagedInstanceEventReportResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_osmanagement_managed_instance_event_report.test_managed_instance_event_report"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create dependencies
+		// Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceEventReportResourceConfig,
 			Check: func(s *terraform.State) (err error) {
@@ -53,7 +53,7 @@ func TestOsmanagementManagedInstanceEventReportResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceManagementResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_event_report", "test_managed_instance_event_report", Required, Create, managedInstanceEventReportSingularDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_event_report", "test_managed_instance_event_report", Required, Create, managedInstanceEventReportSingularDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_id"),

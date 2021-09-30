@@ -352,7 +352,7 @@ func (s *MarketplacePublicationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAgreementAcknowledged, ok := s.D.GetOkExists("is_agreement_acknowledged"); ok {
@@ -408,7 +408,7 @@ func (s *MarketplacePublicationResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "marketplace")
 
 	response, err := s.Client.CreatePublication(context.Background(), request)
 	if err != nil {
@@ -425,7 +425,7 @@ func (s *MarketplacePublicationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PublicationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "marketplace")
 
 	response, err := s.Client.GetPublication(context.Background(), request)
 	if err != nil {
@@ -457,7 +457,7 @@ func (s *MarketplacePublicationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if longDescription, ok := s.D.GetOkExists("long_description"); ok {
@@ -496,7 +496,7 @@ func (s *MarketplacePublicationResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "marketplace")
 
 	response, err := s.Client.UpdatePublication(context.Background(), request)
 	if err != nil {
@@ -513,7 +513,7 @@ func (s *MarketplacePublicationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PublicationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "marketplace")
 
 	_, err := s.Client.DeletePublication(context.Background(), request)
 	return err
@@ -804,7 +804,7 @@ func (s *MarketplacePublicationResourceCrud) updateCompartment(compartment inter
 	idTmp := s.D.Id()
 	changeCompartmentRequest.PublicationId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "marketplace")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "marketplace")
 
 	_, err := s.Client.ChangePublicationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

@@ -16,26 +16,26 @@ import (
 
 var (
 	bootVolumeReplicaSingularDataSourceRepresentation = map[string]interface{}{
-		"boot_volume_replica_id": Representation{repType: Required, create: `${data.oci_core_boot_volume_replicas.test_boot_volume_replicas.boot_volume_replicas.0.id}`},
+		"boot_volume_replica_id": Representation{RepType: Required, Create: `${data.oci_core_boot_volume_replicas.test_boot_volume_replicas.boot_volume_replicas.0.id}`},
 	}
 
 	bootVolumeReplicaDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`},
-		"state":               Representation{repType: Optional, create: `AVAILABLE`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`},
+		"state":               Representation{RepType: Optional, Create: `AVAILABLE`},
 	}
 	dependenceBootVolumeRepresentation = map[string]interface{}{
-		"availability_domain":           Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":                Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain":           Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"source_details":                RepresentationGroup{Required, bootVolumeSourceDetailsRepresentation},
-		"display_name":                  Representation{repType: Optional, create: `boot volume with replica`, update: `boot volume without replica`},
+		"display_name":                  Representation{RepType: Optional, Create: `boot volume with replica`, Update: `boot volume without replica`},
 		"boot_volume_replicas":          RepresentationGroup{Optional, dependenceBootVolumeReplicasRepresentation},
-		"boot_volume_replicas_deletion": Representation{repType: Optional, create: `false`, update: `true`},
+		"boot_volume_replicas_deletion": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	dependenceBootVolumeReplicasRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `NyKp:US-ASHBURN-AD-1`},
-		"display_name":        Representation{repType: Optional, create: `displayName`},
+		"availability_domain": Representation{RepType: Required, Create: `NyKp:US-ASHBURN-AD-1`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`},
 	}
 	BootVolumeReplicaResourceConfig = BootVolumeResourceDependencies
 )
@@ -52,13 +52,13 @@ func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_boot_volume.test_boot_volume"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create volume and enable replicas
+		// Create volume and enable replicas
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
 				compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
@@ -70,7 +70,7 @@ func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, dependenceBootVolumeRepresentation) +
 				compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -83,8 +83,8 @@ func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 		// disabled replicas
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update,
-					representationCopyWithRemovedNestedProperties("boot_volume_replicas", dependenceBootVolumeRepresentation)) +
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update,
+					RepresentationCopyWithRemovedNestedProperties("boot_volume_replicas", dependenceBootVolumeRepresentation)) +
 				compartmentIdVariableStr + BootVolumeReplicaResourceConfig,
 		},
 	})

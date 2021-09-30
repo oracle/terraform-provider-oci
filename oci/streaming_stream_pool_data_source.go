@@ -49,7 +49,7 @@ func (s *StreamingStreamPoolDataSourceCrud) Get() error {
 		request.StreamPoolId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "streaming")
 
 	response, err := s.Client.GetStreamPool(context.Background(), request)
 	if err != nil {

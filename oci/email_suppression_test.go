@@ -20,26 +20,26 @@ import (
 
 var (
 	SuppressionResourceConfig = SuppressionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Optional, Update, suppressionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Optional, Update, suppressionRepresentation)
 
 	suppressionSingularDataSourceRepresentation = map[string]interface{}{
-		"suppression_id": Representation{repType: Required, create: `${oci_email_suppression.test_suppression.id}`},
+		"suppression_id": Representation{RepType: Required, Create: `${oci_email_suppression.test_suppression.id}`},
 	}
 
 	suppressionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                        Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"email_address":                         Representation{repType: Optional, create: `johnsmithtester@example.com`},
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
-		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
+		"compartment_id":                        Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"email_address":                         Representation{RepType: Optional, Create: `johnsmithtester@example.com`},
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"time_created_less_than":                Representation{RepType: Optional, Create: `2038-01-01T00:00:00.000Z`},
 		"filter":                                RepresentationGroup{Required, suppressionDataSourceFilterRepresentation}}
 	suppressionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_email_suppression.test_suppression.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_email_suppression.test_suppression.id}`}},
 	}
 
 	suppressionRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"email_address":  Representation{repType: Required, create: `johnsmithtester@example.com`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"email_address":  Representation{RepType: Required, Create: `johnsmithtester@example.com`},
 	}
 
 	SuppressionResourceDependencies = ""
@@ -61,24 +61,24 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_email_suppression.test_suppression"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SuppressionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionRepresentation), "email", "suppression", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SuppressionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionRepresentation), "email", "suppression", t)
 
 	ResourceTest(t, testAccCheckEmailSuppressionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SuppressionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				// email address is converted to lower case by the service
 				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -90,9 +90,9 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_email_suppressions", "test_suppressions", Optional, Update, suppressionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_email_suppressions", "test_suppressions", Optional, Update, suppressionDataSourceRepresentation) +
 				compartmentIdVariableStr + SuppressionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Optional, Update, suppressionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Optional, Update, suppressionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "email_address", "johnsmithtester@example.com"),
@@ -111,7 +111,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SuppressionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression_id"),
@@ -150,7 +150,7 @@ func testAccCheckEmailSuppressionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SuppressionId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "email")
 
 			_, err := client.GetSuppression(context.Background(), request)
 
@@ -175,7 +175,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("EmailSuppression") {
+	if !InSweeperExcludeList("EmailSuppression") {
 		resource.AddTestSweepers("EmailSuppression", &resource.Sweeper{
 			Name:         "EmailSuppression",
 			Dependencies: DependencyGraph["suppression"],
@@ -198,7 +198,7 @@ func sweepEmailSuppressionResource(compartment string) error {
 
 			deleteSuppressionRequest.SuppressionId = &suppressionId
 
-			deleteSuppressionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			deleteSuppressionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "email")
 			_, error := emailClient.DeleteSuppression(context.Background(), deleteSuppressionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Suppression %s %s, It is possible that the resource is already deleted. Please verify manually \n", suppressionId, error)
@@ -210,7 +210,7 @@ func sweepEmailSuppressionResource(compartment string) error {
 }
 
 func getSuppressionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SuppressionId")
+	ids := GetResourceIdsToSweep(compartment, "SuppressionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -228,7 +228,7 @@ func getSuppressionIds(compartment string) ([]string, error) {
 	for _, suppression := range listSuppressionsResponse.Items {
 		id := *suppression.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SuppressionId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SuppressionId", id)
 	}
 	return resourceIds, nil
 }

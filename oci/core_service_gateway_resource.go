@@ -194,7 +194,7 @@ func (s *CoreServiceGatewayResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
@@ -225,7 +225,7 @@ func (s *CoreServiceGatewayResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateServiceGateway(context.Background(), request)
 	if err != nil {
@@ -242,7 +242,7 @@ func (s *CoreServiceGatewayResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ServiceGatewayId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetServiceGateway(context.Background(), request)
 	if err != nil {
@@ -284,7 +284,7 @@ func (s *CoreServiceGatewayResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
@@ -313,7 +313,7 @@ func (s *CoreServiceGatewayResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateServiceGateway(context.Background(), request)
 	if err != nil {
@@ -330,7 +330,7 @@ func (s *CoreServiceGatewayResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ServiceGatewayId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteServiceGateway(context.Background(), request)
 	return err
@@ -420,7 +420,7 @@ func (s *CoreServiceGatewayResourceCrud) updateCompartment(compartment interface
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ServiceGatewayId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeServiceGatewayCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

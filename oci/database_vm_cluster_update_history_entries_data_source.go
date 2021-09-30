@@ -18,7 +18,7 @@ func DatabaseVmClusterUpdateHistoryEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseVmClusterUpdateHistoryEntries,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -114,7 +114,7 @@ func (s *DatabaseVmClusterUpdateHistoryEntriesDataSourceCrud) Get() error {
 		request.VmClusterId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListVmClusterUpdateHistoryEntries(context.Background(), request)
 	if err != nil {

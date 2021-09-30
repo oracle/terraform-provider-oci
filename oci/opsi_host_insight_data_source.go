@@ -50,7 +50,7 @@ func (s *OpsiHostInsightDataSourceCrud) Get() error {
 		request.HostInsightId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "opsi")
 
 	response, err := s.Client.GetHostInsight(context.Background(), request)
 	if err != nil {

@@ -22,52 +22,52 @@ import (
 
 var (
 	ExternalDatabaseConnectorRequiredOnlyResource = ExternalDatabaseConnectorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation)
 
 	ExternalDatabaseConnectorResourceConfig = ExternalDatabaseConnectorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation)
 
 	externalDatabaseConnectorSingularDataSourceRepresentation = map[string]interface{}{
-		"external_database_connector_id": Representation{repType: Required, create: `${oci_database_external_database_connector.test_external_database_connector.id}`},
+		"external_database_connector_id": Representation{RepType: Required, Create: `${oci_database_external_database_connector.test_external_database_connector.id}`},
 	}
 
 	externalDatabaseConnectorDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
-		"external_database_id": Representation{repType: Required, create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
-		"display_name":         Representation{repType: Optional, create: `myTestConn`, update: `displayName2`},
-		"state":                Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id":       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"external_database_id": Representation{RepType: Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
+		"display_name":         Representation{RepType: Optional, Create: `myTestConn`, Update: `displayName2`},
+		"state":                Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":               RepresentationGroup{Required, externalDatabaseConnectorDataSourceFilterRepresentation}}
 	externalDatabaseConnectorDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_external_database_connector.test_external_database_connector.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_external_database_connector.test_external_database_connector.id}`}},
 	}
 
 	externalDatabaseConnectorRepresentation = map[string]interface{}{
 		"connection_credentials": RepresentationGroup{Required, externalDatabaseConnectorConnectionCredentialsRepresentation},
 		"connection_string":      RepresentationGroup{Required, externalDatabaseConnectorConnectionStringRepresentation},
-		"connector_agent_id":     Representation{repType: Required, create: `ocid1.managementagent.oc1.phx.amaaaaaajobtc3iaes4ijczgekzqigoji25xocsny7yundummydummydummy`},
-		"display_name":           Representation{repType: Required, create: `myTestConn`, update: `displayName2`},
-		"external_database_id":   Representation{repType: Required, create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
-		"connector_type":         Representation{repType: Optional, create: `MACS`},
-		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"connector_agent_id":     Representation{RepType: Required, Create: `ocid1.managementagent.oc1.phx.amaaaaaajobtc3iaes4ijczgekzqigoji25xocsny7yundummydummydummy`},
+		"display_name":           Representation{RepType: Required, Create: `myTestConn`, Update: `displayName2`},
+		"external_database_id":   Representation{RepType: Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
+		"connector_type":         Representation{RepType: Optional, Create: `MACS`},
+		"defined_tags":           Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":          Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	externalDatabaseConnectorConnectionCredentialsRepresentation = map[string]interface{}{
-		"credential_name": Representation{repType: Required, create: `credential.name`},
-		"credential_type": Representation{repType: Optional, create: `DETAILS`},
-		"password":        Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
-		"role":            Representation{repType: Required, create: `SYSDBA`, update: `NORMAL`},
-		"username":        Representation{repType: Required, create: `testUser`, update: `username2`},
+		"credential_name": Representation{RepType: Required, Create: `credential.name`},
+		"credential_type": Representation{RepType: Optional, Create: `DETAILS`},
+		"password":        Representation{RepType: Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"role":            Representation{RepType: Required, Create: `SYSDBA`, Update: `NORMAL`},
+		"username":        Representation{RepType: Required, Create: `testUser`, Update: `username2`},
 	}
 	externalDatabaseConnectorConnectionStringRepresentation = map[string]interface{}{
-		"hostname": Representation{repType: Required, create: `myHost.test`, update: `hostname2`},
-		"port":     Representation{repType: Required, create: `10`, update: `11`},
-		"protocol": Representation{repType: Required, create: `TCP`},
-		"service":  Representation{repType: Required, create: `testService`, update: `service2`},
+		"hostname": Representation{RepType: Required, Create: `myHost.test`, Update: `hostname2`},
+		"port":     Representation{RepType: Required, Create: `10`, Update: `11`},
+		"protocol": Representation{RepType: Required, Create: `TCP`},
+		"service":  Representation{RepType: Required, Create: `testService`, Update: `service2`},
 	}
 
-	ExternalDatabaseConnectorResourceDependencies = generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation) +
+	ExternalDatabaseConnectorResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -86,15 +86,15 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_external_database_connector.test_external_database_connector"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ExternalDatabaseConnectorResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Create, externalDatabaseConnectorRepresentation), "database", "externalDatabaseConnector", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ExternalDatabaseConnectorResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Create, externalDatabaseConnectorRepresentation), "database", "externalDatabaseConnector", t)
 
 	ResourceTest(t, testAccCheckDatabaseExternalDatabaseConnectorDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.0.credential_name", "credential.name"),
@@ -109,21 +109,21 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies,
 		},
 
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Create, externalDatabaseConnectorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Create, externalDatabaseConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
@@ -146,9 +146,9 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -160,7 +160,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "connection_credentials.#", "1"),
@@ -183,7 +183,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -194,9 +194,9 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_external_database_connectors", "test_external_database_connectors", Optional, Update, externalDatabaseConnectorDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_external_database_connectors", "test_external_database_connectors", Optional, Update, externalDatabaseConnectorDataSourceRepresentation) +
 				compartmentIdVariableStr + ExternalDatabaseConnectorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Optional, Update, externalDatabaseConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -228,7 +228,7 @@ func TestDatabaseExternalDatabaseConnectorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ExternalDatabaseConnectorResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_database_connector_id"),
@@ -281,7 +281,7 @@ func testAccCheckDatabaseExternalDatabaseConnectorDestroy(s *terraform.State) er
 			tmp := rs.Primary.ID
 			request.ExternalDatabaseConnectorId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetExternalDatabaseConnector(context.Background(), request)
 
@@ -314,7 +314,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseExternalDatabaseConnector") {
+	if !InSweeperExcludeList("DatabaseExternalDatabaseConnector") {
 		resource.AddTestSweepers("DatabaseExternalDatabaseConnector", &resource.Sweeper{
 			Name:         "DatabaseExternalDatabaseConnector",
 			Dependencies: DependencyGraph["externalDatabaseConnector"],
@@ -335,13 +335,13 @@ func sweepDatabaseExternalDatabaseConnectorResource(compartment string) error {
 
 			deleteExternalDatabaseConnectorRequest.ExternalDatabaseConnectorId = &externalDatabaseConnectorId
 
-			deleteExternalDatabaseConnectorRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteExternalDatabaseConnectorRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteExternalDatabaseConnector(context.Background(), deleteExternalDatabaseConnectorRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ExternalDatabaseConnector %s %s, It is possible that the resource is already deleted. Please verify manually \n", externalDatabaseConnectorId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &externalDatabaseConnectorId, externalDatabaseConnectorSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &externalDatabaseConnectorId, externalDatabaseConnectorSweepWaitCondition, time.Duration(3*time.Minute),
 				externalDatabaseConnectorSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -349,7 +349,7 @@ func sweepDatabaseExternalDatabaseConnectorResource(compartment string) error {
 }
 
 func getExternalDatabaseConnectorIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ExternalDatabaseConnectorId")
+	ids := GetResourceIdsToSweep(compartment, "ExternalDatabaseConnectorId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -376,7 +376,7 @@ func getExternalDatabaseConnectorIds(compartment string) ([]string, error) {
 		for _, externalDatabaseConnector := range listExternalDatabaseConnectorsResponse.Items {
 			id := *externalDatabaseConnector.GetId()
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "ExternalDatabaseConnectorId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "ExternalDatabaseConnectorId", id)
 		}
 
 	}

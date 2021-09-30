@@ -18,7 +18,7 @@ func ApmSyntheticsPublicVantagePointsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readApmSyntheticsPublicVantagePoints,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"apm_domain_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -145,7 +145,7 @@ func (s *ApmSyntheticsPublicVantagePointsDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm_synthetics")
 
 	response, err := s.Client.ListPublicVantagePoints(context.Background(), request)
 	if err != nil {

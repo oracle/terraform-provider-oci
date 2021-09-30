@@ -18,7 +18,7 @@ func OcvpSupportedVmwareSoftwareVersionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOcvpSupportedVmwareSoftwareVersions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *OcvpSupportedVmwareSoftwareVersionsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ocvp")
 
 	response, err := s.Client.ListSupportedVmwareSoftwareVersions(context.Background(), request)
 	if err != nil {

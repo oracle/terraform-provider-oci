@@ -18,7 +18,7 @@ func LoadBalancerHostnamesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoadBalancerHostnames,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"load_balancer_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -58,7 +58,7 @@ func (s *LoadBalancerHostnamesDataSourceCrud) Get() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "load_balancer")
 
 	response, err := s.Client.ListHostnames(context.Background(), request)
 	if err != nil {

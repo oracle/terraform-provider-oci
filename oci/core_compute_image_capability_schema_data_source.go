@@ -62,7 +62,7 @@ func (s *CoreComputeImageCapabilitySchemaDataSourceCrud) Get() error {
 		request.IsMergeEnabled = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetComputeImageCapabilitySchema(context.Background(), request)
 	if err != nil {

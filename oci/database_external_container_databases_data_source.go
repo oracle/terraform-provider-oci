@@ -18,7 +18,7 @@ func DatabaseExternalContainerDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseExternalContainerDatabases,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *DatabaseExternalContainerDatabasesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.ExternalDatabaseBaseLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListExternalContainerDatabases(context.Background(), request)
 	if err != nil {

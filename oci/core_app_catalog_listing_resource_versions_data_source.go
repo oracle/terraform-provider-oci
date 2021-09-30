@@ -18,7 +18,7 @@ func CoreAppCatalogListingResourceVersionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreAppCatalogListingResourceVersions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"listing_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -110,7 +110,7 @@ func (s *CoreAppCatalogListingResourceVersionsDataSourceCrud) Get() error {
 		request.ListingId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListAppCatalogListingResourceVersions(context.Background(), request)
 	if err != nil {

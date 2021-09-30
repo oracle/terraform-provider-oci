@@ -37,11 +37,11 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 
 func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 	var resId, resId2 string
-	token, tokenFn := tokenizeWithHttpReplay("user_resource")
+	token, tokenFn := TokenizeWithHttpReplay("user_resource")
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create w/ compartment
+			// verify Create w/ compartment
 			{
 				Config: s.Config +
 					tokenFn(
@@ -72,12 +72,12 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.UserLifecycleStateActive)),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_identity_user.t", "id")
+						resId, err = FromInstanceState(s, "oci_identity_user.t", "id")
 						return err
 					},
 				),
 			},
-			// verify create w/o compartment, check that it defaults to tenancy
+			// verify Create w/o compartment, check that it defaults to tenancy
 			{
 				Config: s.Config +
 					tokenFn(
@@ -91,12 +91,12 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.UserLifecycleStateActive)),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_identity_user.t", "id")
+						resId, err = FromInstanceState(s, "oci_identity_user.t", "id")
 						return err
 					},
 				),
 			},
-			// verify update
+			// verify Update
 			{
 				Config: s.Config + tokenFn(
 					identityUserTestStepConfigFn("{{.token}}"),
@@ -104,7 +104,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user (updated)"),
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_identity_user.t", "id")
+						resId2, err = FromInstanceState(s, "oci_identity_user.t", "id")
 						if resId2 != resId {
 							return fmt.Errorf("resource recreated when it should not have been")
 						}
@@ -113,7 +113,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 					},
 				),
 			},
-			// verify force new update
+			// verify force new Update
 			{
 				Config: s.Config + tokenFn(
 					identityUserTestStepConfigFn("{{.new_name}}"),
@@ -122,7 +122,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user (updated)"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token+"_new"),
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_identity_user.t", "id")
+						resId2, err = FromInstanceState(s, "oci_identity_user.t", "id")
 						if resId2 == resId {
 							return fmt.Errorf("resource expected to be recreated but was not")
 						}

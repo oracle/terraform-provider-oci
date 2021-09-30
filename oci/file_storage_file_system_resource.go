@@ -216,7 +216,7 @@ func (s *FileStorageFileSystemResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
@@ -229,7 +229,7 @@ func (s *FileStorageFileSystemResourceCrud) Create() error {
 		request.SourceSnapshotId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.CreateFileSystem(context.Background(), request)
 	if err != nil {
@@ -246,7 +246,7 @@ func (s *FileStorageFileSystemResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.FileSystemId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.GetFileSystem(context.Background(), request)
 	if err != nil {
@@ -286,7 +286,7 @@ func (s *FileStorageFileSystemResourceCrud) Update() error {
 	request.FileSystemId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
@@ -294,7 +294,7 @@ func (s *FileStorageFileSystemResourceCrud) Update() error {
 		request.KmsKeyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.UpdateFileSystem(context.Background(), request)
 	if err != nil {
@@ -311,7 +311,7 @@ func (s *FileStorageFileSystemResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.FileSystemId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	_, err := s.Client.DeleteFileSystem(context.Background(), request)
 	return err
@@ -394,7 +394,7 @@ func (s *FileStorageFileSystemResourceCrud) updateCompartment(compartment interf
 	idTmp := s.D.Id()
 	changeCompartmentRequest.FileSystemId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	_, err := s.Client.ChangeFileSystemCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

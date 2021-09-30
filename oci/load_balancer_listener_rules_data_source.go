@@ -18,7 +18,7 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoadBalancerListenerRules,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"listener_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -206,7 +206,7 @@ func (s *LoadBalancerListenerRulesDataSourceCrud) Get() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "load_balancer")
 
 	response, err := s.Client.ListListenerRules(context.Background(), request)
 	if err != nil {

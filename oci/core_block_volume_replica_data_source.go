@@ -96,7 +96,7 @@ func (s *CoreBlockVolumeReplicaDataSourceCrud) Get() error {
 		request.BlockVolumeReplicaId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetBlockVolumeReplica(context.Background(), request)
 	if err != nil {

@@ -14,10 +14,10 @@ import (
 
 var (
 	virtualCircuitBandwidthShapeDataSourceRepresentation = map[string]interface{}{
-		"provider_service_id": Representation{repType: Required, create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
+		"provider_service_id": Representation{RepType: Required, Create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
 	}
 
-	VirtualCircuitBandwidthShapeResourceConfig = generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation)
+	VirtualCircuitBandwidthShapeResourceConfig = GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -32,13 +32,13 @@ func TestCoreVirtualCircuitBandwidthShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_virtual_circuit_bandwidth_shapes", "test_virtual_circuit_bandwidth_shapes", Required, Create, virtualCircuitBandwidthShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit_bandwidth_shapes", "test_virtual_circuit_bandwidth_shapes", Required, Create, virtualCircuitBandwidthShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + VirtualCircuitBandwidthShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

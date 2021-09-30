@@ -18,7 +18,7 @@ func DatascienceModelDeploymentShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatascienceModelDeploymentShapes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -78,7 +78,7 @@ func (s *DatascienceModelDeploymentShapesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	response, err := s.Client.ListModelDeploymentShapes(context.Background(), request)
 	if err != nil {

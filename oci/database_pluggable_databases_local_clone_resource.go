@@ -197,7 +197,7 @@ func (s *DatabasePluggableDatabasesLocalCloneResourceCrud) Create() error {
 		request.TargetTdeWalletPassword = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.LocalClonePluggableDatabase(context.Background(), request)
 	if err != nil {

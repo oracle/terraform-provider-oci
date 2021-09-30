@@ -49,7 +49,7 @@ func (s *ServiceCatalogServiceCatalogAssociationDataSourceCrud) Get() error {
 		request.ServiceCatalogAssociationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "service_catalog")
 
 	response, err := s.Client.GetServiceCatalogAssociation(context.Background(), request)
 	if err != nil {

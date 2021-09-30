@@ -117,7 +117,7 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Create() error
 			request.EnableExternalPluggableDatabaseDatabaseManagementDetails.ExternalDatabaseConnectorId = &tmp
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
 		if err != nil {
@@ -142,7 +142,7 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Create() error
 		request.ExternalPluggableDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
 	if err != nil {
@@ -180,7 +180,7 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Update() error
 			request.EnableExternalPluggableDatabaseDatabaseManagementDetails.ExternalDatabaseConnectorId = &tmp
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
 		if err != nil {
@@ -205,7 +205,7 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Update() error
 		request.ExternalPluggableDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
 	if err != nil {
@@ -240,7 +240,7 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Delete() error
 		request.ExternalPluggableDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
 	if err != nil {

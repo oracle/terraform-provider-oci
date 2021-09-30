@@ -49,7 +49,7 @@ func (s *CoreDrgRouteDistributionDataSourceCrud) Get() error {
 		request.DrgRouteDistributionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetDrgRouteDistribution(context.Background(), request)
 	if err != nil {

@@ -82,7 +82,7 @@ func (s *DatabaseAutonomousExadataInfrastructureOcpuDataSourceCrud) Get() error 
 		request.AutonomousExadataInfrastructureId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetExadataInfrastructureOcpus(context.Background(), request)
 	if err != nil {

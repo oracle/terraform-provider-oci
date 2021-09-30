@@ -18,7 +18,7 @@ func DatabaseDbSystemPatchHistoryEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbSystemPatchHistoryEntries,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -94,7 +94,7 @@ func (s *DatabaseDbSystemPatchHistoryEntriesDataSourceCrud) Get() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDbSystemPatchHistoryEntries(context.Background(), request)
 	if err != nil {

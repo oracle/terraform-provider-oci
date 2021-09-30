@@ -17,24 +17,24 @@ import (
 
 var (
 	ExadataIormConfigRequiredOnlyResource = ExadataIormConfigResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Create, exadataIormConfigRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Create, exadataIormConfigRepresentation)
 
 	ExadataIormConfigResourceConfig = ExadataIormConfigResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Update, exadataIormConfigRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Update, exadataIormConfigRepresentation)
 
 	exadataIormConfigSingularDataSourceRepresentation = map[string]interface{}{
-		"db_system_id": Representation{repType: Required, create: `${oci_database_db_system.t.id}`},
+		"db_system_id": Representation{RepType: Required, Create: `${oci_database_db_system.t.id}`},
 	}
 
 	exadataIormConfigRepresentation = map[string]interface{}{
-		"db_system_id": Representation{repType: Required, create: `${oci_database_db_system.t.id}`},
-		"objective":    Representation{repType: Optional, create: `AUTO`, update: `BALANCED`},
+		"db_system_id": Representation{RepType: Required, Create: `${oci_database_db_system.t.id}`},
+		"objective":    Representation{RepType: Optional, Create: `AUTO`, Update: `BALANCED`},
 		"db_plans":     RepresentationGroup{Required, dbPlanRepresentation},
 	}
 
 	dbPlanRepresentation = map[string]interface{}{
-		"db_name": Representation{repType: Required, create: `default`, update: `default`},
-		"share":   Representation{repType: Required, create: `1`, update: `2`},
+		"db_name": Representation{RepType: Required, Create: `default`, Update: `default`},
+		"share":   Representation{RepType: Required, Create: `1`, Update: `2`},
 	}
 
 	ExadataIormConfigResourceDependencies = DefinedTagsDependencies + `
@@ -144,41 +144,41 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_exadata_iorm_config.test_exadata_iorm_config"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ExadataIormConfigResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Create, exadataIormConfigRepresentation), "database", "exadataIormConfig", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ExadataIormConfigResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Create, exadataIormConfigRepresentation), "database", "exadataIormConfig", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Create, exadataIormConfigRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Create, exadataIormConfigRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "db_plans.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Create, exadataIormConfigRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Create, exadataIormConfigRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "objective", "AUTO"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -190,14 +190,14 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Update, exadataIormConfigRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Optional, Update, exadataIormConfigRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "objective", "BALANCED"),
 				resource.TestCheckResourceAttr(resourceName, "db_plans.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -208,7 +208,7 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Create, exadataIormConfigSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Create, exadataIormConfigSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ExadataIormConfigResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),

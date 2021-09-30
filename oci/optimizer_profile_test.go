@@ -22,28 +22,28 @@ import (
 
 var (
 	ProfileRequiredOnlyResource = ProfileResourceDependencies +
-		generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileRepresentation)
+		GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileRepresentation)
 
 	ProfileResourceConfig = ProfileResourceDependencies +
-		generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation)
+		GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation)
 
 	profileSingularDataSourceRepresentation = map[string]interface{}{
-		"profile_id": Representation{repType: Required, create: `${oci_optimizer_profile.test_profile.id}`},
+		"profile_id": Representation{RepType: Required, Create: `${oci_optimizer_profile.test_profile.id}`},
 	}
 
 	profileDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Optional, create: `name`, update: `name2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Optional, Create: `name`, Update: `name2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
 	profileRepresentation = map[string]interface{}{
-		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
-		"description":          Representation{repType: Required, create: `description`, update: `description2`},
+		"compartment_id":       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"description":          Representation{RepType: Required, Create: `description`, Update: `description2`},
 		"levels_configuration": RepresentationGroup{Required, profileLevelsConfigurationRepresentation},
-		"name":                 Representation{repType: Required, create: `name`, update: `name2`},
-		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"name":                 Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"defined_tags":         Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":        Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"target_compartments":  RepresentationGroup{Optional, profileTargetCompartmentsRepresentation},
 		"target_tags":          RepresentationGroup{Optional, profileTargetTagsRepresentation},
 	}
@@ -51,24 +51,24 @@ var (
 		"items": RepresentationGroup{Required, profileLevelsConfigurationItemsRepresentation},
 	}
 	profileTargetCompartmentsRepresentation = map[string]interface{}{
-		"items": Representation{repType: Required, create: []string{`${var.compartment_id}`}, update: []string{`${var.compartment_id_for_update}`}},
+		"items": Representation{RepType: Required, Create: []string{`${var.compartment_id}`}, Update: []string{`${var.compartment_id_for_update}`}},
 	}
 	profileTargetTagsRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, profileTargetTagsItemsRepresentation},
 	}
 	profileLevelsConfigurationItemsRepresentation = map[string]interface{}{
-		"level":             Representation{repType: Required, create: `cost-compute_aggressive_average`, update: `cost-compute_conservative_average`},
-		"recommendation_id": Representation{repType: Required, create: `${oci_optimizer_recommendation.test_recommendation.recommendation_id}`},
+		"level":             Representation{RepType: Required, Create: `cost-compute_aggressive_average`, Update: `cost-compute_conservative_average`},
+		"recommendation_id": Representation{RepType: Required, Create: `${oci_optimizer_recommendation.test_recommendation.recommendation_id}`},
 	}
 	profileTargetTagsItemsRepresentation = map[string]interface{}{
-		"tag_definition_name": Representation{repType: Required, create: `tagDefinitionName`, update: `tagDefinitionName2`},
-		"tag_namespace_name":  Representation{repType: Required, create: `tagNamespaceName`, update: `tagNamespaceName2`},
-		"tag_value_type":      Representation{repType: Required, create: `VALUE`, update: `ANY`},
-		"tag_values":          Representation{repType: Optional, create: []string{`tagValue1`}, update: []string{}},
+		"tag_definition_name": Representation{RepType: Required, Create: `tagDefinitionName`, Update: `tagDefinitionName2`},
+		"tag_namespace_name":  Representation{RepType: Required, Create: `tagNamespaceName`, Update: `tagNamespaceName2`},
+		"tag_value_type":      Representation{RepType: Required, Create: `VALUE`, Update: `ANY`},
+		"tag_values":          Representation{RepType: Optional, Create: []string{`tagValue1`}, Update: []string{}},
 	}
 
 	ProfileResourceDependencies = DefinedTagsDependencies + RecommendationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -89,16 +89,16 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_optimizer_profile.test_profile"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ProfileResourceDependencies+
-		generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Create, profileRepresentation), "optimizer", "profile", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ProfileResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Create, profileRepresentation), "optimizer", "profile", t)
 
 	ResourceTest(t, testAccCheckOptimizerProfileDestroy, []resource.TestStep{
 		// Pre-requisite: There shouldn't be a profile with the same <recommendationId, targetCompartment, targetTags> combination or with same name existing for the compartmentId
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -106,13 +106,13 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ProfileResourceDependencies,
 			Check: func(s *terraform.State) (err error) {
@@ -121,10 +121,10 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 				return nil
 			},
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ProfileResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Create, profileRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Create, profileRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -147,9 +147,9 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -161,7 +161,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -183,7 +183,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -194,9 +194,9 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_profiles", "test_profiles", Optional, Update, profileDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_profiles", "test_profiles", Optional, Update, profileDataSourceRepresentation) +
 				compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Optional, Update, profileRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
@@ -208,7 +208,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_profile", "test_profile", Required, Create, profileSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + compartmentIdUVariableStr + ProfileResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "profile_id"),
@@ -259,7 +259,7 @@ func testAccCheckOptimizerProfileDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ProfileId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "optimizer")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "optimizer")
 
 			response, err := client.GetProfile(context.Background(), request)
 
@@ -292,7 +292,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OptimizerProfile") {
+	if !InSweeperExcludeList("OptimizerProfile") {
 		resource.AddTestSweepers("OptimizerProfile", &resource.Sweeper{
 			Name:         "OptimizerProfile",
 			Dependencies: DependencyGraph["profile"],
@@ -313,13 +313,13 @@ func sweepOptimizerProfileResource(compartment string) error {
 
 			deleteProfileRequest.ProfileId = &profileId
 
-			deleteProfileRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "optimizer")
+			deleteProfileRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "optimizer")
 			_, error := optimizerClient.DeleteProfile(context.Background(), deleteProfileRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Profile %s %s, It is possible that the resource is already deleted. Please verify manually \n", profileId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &profileId, profileSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &profileId, profileSweepWaitCondition, time.Duration(3*time.Minute),
 				profileSweepResponseFetchOperation, "optimizer", true)
 		}
 	}
@@ -327,7 +327,7 @@ func sweepOptimizerProfileResource(compartment string) error {
 }
 
 func getProfileIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ProfileId")
+	ids := GetResourceIdsToSweep(compartment, "ProfileId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -346,7 +346,7 @@ func getProfileIds(compartment string) ([]string, error) {
 	for _, profile := range listProfilesResponse.Items {
 		id := *profile.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ProfileId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ProfileId", id)
 	}
 	return resourceIds, nil
 }

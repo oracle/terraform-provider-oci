@@ -21,35 +21,35 @@ import (
 
 var (
 	ExternalPluggableDatabaseRequiredOnlyResource = ExternalPluggableDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseRepresentation)
 
 	ExternalPluggableDatabaseResourceConfig = ExternalPluggableDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation)
 
 	externalPluggableDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"external_pluggable_database_id": Representation{repType: Required, create: `${oci_database_external_pluggable_database.test_external_pluggable_database.id}`},
+		"external_pluggable_database_id": Representation{RepType: Required, Create: `${oci_database_external_pluggable_database.test_external_pluggable_database.id}`},
 	}
 
 	externalPluggableDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                 Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":                   Representation{repType: Optional, create: `myTestExternalPdb`},
-		"external_container_database_id": Representation{repType: Optional, create: `${oci_database_external_container_database.test_external_container_database.id}`},
-		"state":                          Representation{repType: Optional, create: `NOT_CONNECTED`},
+		"compartment_id":                 Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                   Representation{RepType: Optional, Create: `myTestExternalPdb`},
+		"external_container_database_id": Representation{RepType: Optional, Create: `${oci_database_external_container_database.test_external_container_database.id}`},
+		"state":                          Representation{RepType: Optional, Create: `NOT_CONNECTED`},
 		"filter":                         RepresentationGroup{Required, externalPluggableDatabaseDataSourceFilterRepresentation}}
 	externalPluggableDatabaseDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_external_pluggable_database.test_external_pluggable_database.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_external_pluggable_database.test_external_pluggable_database.id}`}},
 	}
 
 	externalPluggableDatabaseRepresentation = map[string]interface{}{
-		"compartment_id":                 Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":                   Representation{repType: Required, create: `myTestExternalPdb`},
-		"external_container_database_id": Representation{repType: Required, create: `${oci_database_external_container_database.test_external_container_database.id}`},
-		"defined_tags":                   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":                 Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                   Representation{RepType: Required, Create: `myTestExternalPdb`},
+		"external_container_database_id": Representation{RepType: Required, Create: `${oci_database_external_container_database.test_external_container_database.id}`},
+		"defined_tags":                   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ExternalPluggableDatabaseResourceDependencies = generateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Required, Create, externalContainerDatabaseRepresentation) +
+	ExternalPluggableDatabaseResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Required, Create, externalContainerDatabaseRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -71,35 +71,35 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_external_pluggable_database.test_external_pluggable_database"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ExternalPluggableDatabaseResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create, externalPluggableDatabaseRepresentation), "database", "externalPluggableDatabase", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ExternalPluggableDatabaseResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create, externalPluggableDatabaseRepresentation), "database", "externalPluggableDatabase", t)
 
 	ResourceTest(t, testAccCheckDatabaseExternalPluggableDatabaseDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create, externalPluggableDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create, externalPluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -112,9 +112,9 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -123,12 +123,12 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ExternalPluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create,
-					representationCopyWithNewProperties(externalPluggableDatabaseRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create,
+					RepresentationCopyWithNewProperties(externalPluggableDatabaseRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -142,7 +142,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -154,7 +154,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -167,7 +167,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -178,9 +178,9 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_external_pluggable_databases", "test_external_pluggable_databases", Optional, Update, externalPluggableDatabaseDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_external_pluggable_databases", "test_external_pluggable_databases", Optional, Update, externalPluggableDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + ExternalPluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "myTestExternalPdb"),
@@ -204,7 +204,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Required, Create, externalPluggableDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ExternalPluggableDatabaseResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_pluggable_database_id"),
@@ -246,7 +246,7 @@ func testAccCheckDatabaseExternalPluggableDatabaseDestroy(s *terraform.State) er
 			tmp := rs.Primary.ID
 			request.ExternalPluggableDatabaseId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetExternalPluggableDatabase(context.Background(), request)
 
@@ -279,7 +279,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseExternalPluggableDatabase") {
+	if !InSweeperExcludeList("DatabaseExternalPluggableDatabase") {
 		resource.AddTestSweepers("DatabaseExternalPluggableDatabase", &resource.Sweeper{
 			Name:         "DatabaseExternalPluggableDatabase",
 			Dependencies: DependencyGraph["externalPluggableDatabase"],
@@ -300,13 +300,13 @@ func sweepDatabaseExternalPluggableDatabaseResource(compartment string) error {
 
 			deleteExternalPluggableDatabaseRequest.ExternalPluggableDatabaseId = &externalPluggableDatabaseId
 
-			deleteExternalPluggableDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteExternalPluggableDatabaseRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteExternalPluggableDatabase(context.Background(), deleteExternalPluggableDatabaseRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ExternalPluggableDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", externalPluggableDatabaseId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &externalPluggableDatabaseId, externalPluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &externalPluggableDatabaseId, externalPluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
 				externalPluggableDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -314,7 +314,7 @@ func sweepDatabaseExternalPluggableDatabaseResource(compartment string) error {
 }
 
 func getExternalPluggableDatabaseIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ExternalPluggableDatabaseId")
+	ids := GetResourceIdsToSweep(compartment, "ExternalPluggableDatabaseId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -333,7 +333,7 @@ func getExternalPluggableDatabaseIds(compartment string) ([]string, error) {
 	for _, externalPluggableDatabase := range listExternalPluggableDatabasesResponse.Items {
 		id := *externalPluggableDatabase.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ExternalPluggableDatabaseId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ExternalPluggableDatabaseId", id)
 	}
 	return resourceIds, nil
 }

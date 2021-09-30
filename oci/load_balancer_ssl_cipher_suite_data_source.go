@@ -58,7 +58,7 @@ func (s *LoadBalancerSslCipherSuiteDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "load_balancer")
 
 	response, err := s.Client.GetSSLCipherSuite(context.Background(), request)
 	if err != nil {

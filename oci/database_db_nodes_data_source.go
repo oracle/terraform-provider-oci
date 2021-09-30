@@ -18,7 +18,7 @@ func DatabaseDbNodesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbNodes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *DatabaseDbNodesDataSourceCrud) Get() error {
 		request.VmClusterId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDbNodes(context.Background(), request)
 	if err != nil {

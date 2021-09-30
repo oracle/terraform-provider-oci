@@ -249,11 +249,11 @@ func createDnsResolver(d *schema.ResourceData, m interface{}) error {
 		sync.Res.CompartmentId = &tmp
 		err := sync.Get()
 		if err != nil {
-			log.Printf("error doing a Get() after compartment update: %v", err)
+			log.Printf("error doing a Get() after compartment Update: %v", err)
 		}
 		err = sync.SetData()
 		if err != nil {
-			log.Printf("error doing a SetData() after compartment update: %v", err)
+			log.Printf("error doing a SetData() after compartment Update: %v", err)
 		}
 	}
 	return nil
@@ -348,7 +348,7 @@ func (s *DnsResolverResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if resolverId, ok := s.D.GetOkExists("resolver_id"); ok {
@@ -377,7 +377,7 @@ func (s *DnsResolverResourceCrud) Create() error {
 		request.Scope = oci_dns.UpdateResolverScopeEnum(scope.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.UpdateResolver(context.Background(), request)
 	if err != nil {
@@ -409,7 +409,7 @@ func (s *DnsResolverResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.GetResolver(context.Background(), request)
 	if err != nil {
@@ -463,7 +463,7 @@ func (s *DnsResolverResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -490,7 +490,7 @@ func (s *DnsResolverResourceCrud) Update() error {
 		request.Scope = oci_dns.UpdateResolverScopeEnum(scope.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.UpdateResolver(context.Background(), request)
 	if err != nil {
@@ -735,7 +735,7 @@ func (s *DnsResolverResourceCrud) updateCompartment(compartment interface{}) err
 		changeCompartmentRequest.Scope = oci_dns.ChangeResolverCompartmentScopeEnum(scope.(string))
 	}
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.ChangeResolverCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

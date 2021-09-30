@@ -91,7 +91,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseDataSour
 		request.DbManagementPrivateEndpointId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_management")
 
 	response, err := s.Client.ListAssociatedDatabases(context.Background(), request)
 	if err != nil {

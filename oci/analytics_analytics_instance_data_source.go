@@ -49,7 +49,7 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) Get() error {
 		request.AnalyticsInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "analytics")
 
 	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {

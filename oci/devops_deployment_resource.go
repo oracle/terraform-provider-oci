@@ -447,7 +447,7 @@ func (s *DevopsDeploymentResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.CreateDeployment(context.Background(), request)
 	if err != nil {
@@ -464,7 +464,7 @@ func (s *DevopsDeploymentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.GetDeployment(context.Background(), request)
 	if err != nil {
@@ -482,7 +482,7 @@ func (s *DevopsDeploymentResourceCrud) Update() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.UpdateDeployment(context.Background(), request)
 	if err != nil {
@@ -1111,7 +1111,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicCreateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeploymentDetails = details
 	case strings.ToLower("PIPELINE_REDEPLOYMENT"):
@@ -1136,7 +1136,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicCreateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeploymentDetails = details
 	case strings.ToLower("SINGLE_STAGE_DEPLOYMENT"):
@@ -1201,7 +1201,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicCreateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeploymentDetails = details
 	default:
@@ -1236,7 +1236,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicUpdateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeploymentDetails = details
 	case strings.ToLower("PIPELINE_REDEPLOYMENT"):
@@ -1255,7 +1255,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicUpdateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeploymentDetails = details
 	case strings.ToLower("SINGLE_STAGE_DEPLOYMENT"):
@@ -1274,7 +1274,7 @@ func (s *DevopsDeploymentResourceCrud) populateTopLevelPolymorphicUpdateDeployme
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeploymentDetails = details
 	default:

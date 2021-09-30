@@ -18,7 +18,7 @@ func LoadBalancerLoadBalancerProtocolsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoadBalancerLoadBalancerProtocols,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -70,7 +70,7 @@ func (s *LoadBalancerLoadBalancerProtocolsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "load_balancer")
 
 	response, err := s.Client.ListProtocols(context.Background(), request)
 	if err != nil {

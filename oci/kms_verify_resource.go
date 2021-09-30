@@ -141,7 +141,7 @@ func (s *KmsVerifyResourceCrud) Create() error {
 		request.SigningAlgorithm = oci_kms.VerifyDataDetailsSigningAlgorithmEnum(signingAlgorithm.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.Verify(context.Background(), request)
 	if err != nil {

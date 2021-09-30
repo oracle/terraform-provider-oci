@@ -106,7 +106,7 @@ func (s *DatabaseDatabaseUpgradeHistoryEntryDataSourceCrud) Get() error {
 		request.UpgradeHistoryEntryId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetDatabaseUpgradeHistoryEntry(context.Background(), request)
 	if err != nil {

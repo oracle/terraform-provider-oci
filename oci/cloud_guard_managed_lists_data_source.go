@@ -18,7 +18,7 @@ func CloudGuardManagedListsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCloudGuardManagedLists,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -118,7 +118,7 @@ func (s *CloudGuardManagedListsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_cloud_guard.ListManagedListsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "cloud_guard")
 
 	response, err := s.Client.ListManagedLists(context.Background(), request)
 	if err != nil {

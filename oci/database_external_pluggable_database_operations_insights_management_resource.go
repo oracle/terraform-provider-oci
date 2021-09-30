@@ -119,7 +119,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 			request.ExternalPluggableDatabaseId = &tmp
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
 		if err != nil {
@@ -145,7 +145,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 		request.ExternalPluggableDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
 	if err != nil {
@@ -183,7 +183,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 			request.ExternalPluggableDatabaseId = &tmp
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
 		if err != nil {
@@ -209,7 +209,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 		request.ExternalPluggableDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
 	if err != nil {
@@ -244,7 +244,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 		request.ExternalPluggableDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
 	if err != nil {

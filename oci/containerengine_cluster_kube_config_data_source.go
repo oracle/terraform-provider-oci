@@ -85,7 +85,7 @@ func (s *ContainerengineClusterKubeConfigDataSourceCrud) Get() error {
 		request.TokenVersion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "containerengine")
 
 	response, err := s.Client.CreateKubeconfig(context.Background(), request)
 	if err != nil {

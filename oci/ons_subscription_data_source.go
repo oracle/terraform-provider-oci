@@ -50,7 +50,7 @@ func (s *OnsSubscriptionDataSourceCrud) Get() error {
 		request.SubscriptionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ons")
 
 	response, err := s.Client.GetSubscription(context.Background(), request)
 	if err != nil {

@@ -67,7 +67,7 @@ func (s *ObjectStoragePreauthenticatedRequestDataSourceCrud) Get() error {
 		request.ParId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "object_storage")
 
 	response, err := s.Client.GetPreauthenticatedRequest(context.Background(), request)
 	if err != nil {

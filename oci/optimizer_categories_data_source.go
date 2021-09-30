@@ -18,7 +18,7 @@ func OptimizerCategoriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOptimizerCategories,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -174,7 +174,7 @@ func (s *OptimizerCategoriesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_optimizer.ListCategoriesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "optimizer")
 
 	response, err := s.Client.ListCategories(context.Background(), request)
 	if err != nil {

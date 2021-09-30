@@ -20,33 +20,33 @@ import (
 
 var (
 	CompartmentRequiredOnlyResource = CompartmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation)
 
 	CompartmentResourceConfig = CompartmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation)
 
 	compartmentSingularDataSourceRepresentation = map[string]interface{}{
-		"id": Representation{repType: Required, create: `${oci_identity_compartment.test_compartment.id}`},
+		"id": Representation{RepType: Required, Create: `${oci_identity_compartment.test_compartment.id}`},
 	}
 
 	compartmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"access_level":              Representation{repType: Optional, create: `ANY`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
-		"name":                      Representation{repType: Optional, create: `Network`, update: `name2`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"access_level":              Representation{RepType: Optional, Create: `ANY`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"name":                      Representation{RepType: Optional, Create: `Network`, Update: `name2`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                    RepresentationGroup{Required, compartmentDataSourceFilterRepresentation}}
 	compartmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_compartment.test_compartment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_compartment.test_compartment.id}`}},
 	}
 
 	compartmentRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"description":    Representation{repType: Required, create: `For network components`, update: `description2`},
-		"name":           Representation{repType: Required, create: `Network`, update: `name2`},
-		//"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		//"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"description":    Representation{RepType: Required, Create: `For network components`, Update: `description2`},
+		"name":           Representation{RepType: Required, Create: `Network`, Update: `name2`},
+		//"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	CompartmentResourceDependencies = DefinedTagsDependencies
@@ -70,30 +70,30 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_identity_compartment.test_compartment"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CompartmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create, compartmentRepresentation), "identity", "compartment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CompartmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create, compartmentRepresentation), "identity", "compartment", t)
 
 	ResourceTest(t, testAccCheckIdentityCompartmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
 				resource.TestCheckResourceAttr(resourceName, "name", "Network"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create, compartmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create, compartmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -105,9 +105,9 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -116,12 +116,12 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CompartmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create,
-					representationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create,
+					RepresentationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -134,7 +134,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -146,7 +146,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -158,7 +158,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -169,9 +169,9 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_compartments", "test_compartments", Optional, Update, compartmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_compartments", "test_compartments", Optional, Update, compartmentDataSourceRepresentation) +
 				compartmentIdVariableStr + CompartmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ANY"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -193,7 +193,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CompartmentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -225,7 +225,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// restore name of compartment
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "Network"),
 			),
@@ -233,10 +233,10 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// verify error on existing compartment name where automatic import fails due to enable_delete
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation) +
-				generateResourceFromRepresentationMap("oci_identity_compartment", "name2", Required, Create,
-					representationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
-						"enable_delete": Representation{repType: Required, create: `true`}})),
+				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_identity_compartment", "name2", Required, Create,
+					RepresentationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
+						"enable_delete": Representation{RepType: Required, Create: `true`}})),
 			ExpectError: regexp.MustCompile("If you intended to manage an existing compartment, use terraform import instead."),
 		},
 	})
@@ -253,7 +253,7 @@ func testAccCheckIdentityCompartmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CompartmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 
 			response, err := client.GetCompartment(context.Background(), request)
 

@@ -18,7 +18,7 @@ func IdentityTagsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityTags,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -66,7 +66,7 @@ func (s *IdentityTagsDataSourceCrud) Get() error {
 		request.TagNamespaceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListTags(context.Background(), request)
 	if err != nil {

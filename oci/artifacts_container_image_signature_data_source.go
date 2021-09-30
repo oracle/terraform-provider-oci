@@ -49,7 +49,7 @@ func (s *ArtifactsContainerImageSignatureDataSourceCrud) Get() error {
 		request.ImageSignatureId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "artifacts")
 
 	response, err := s.Client.GetContainerImageSignature(context.Background(), request)
 	if err != nil {

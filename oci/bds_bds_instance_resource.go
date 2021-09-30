@@ -96,8 +96,8 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Required:         true,
 							ForceNew:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 
 						"number_of_nodes": {
@@ -131,8 +131,8 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Required:         true,
 							ForceNew:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 
 						"number_of_nodes": {
@@ -164,8 +164,8 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"block_volume_size_in_gbs": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 
 						"number_of_nodes": {
@@ -612,7 +612,7 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isHighAvailability, ok := s.D.GetOkExists("is_high_availability"); ok {
@@ -722,7 +722,7 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 
 	request.Nodes = createNodeDetails
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.CreateBdsInstance(context.Background(), request)
 	if err != nil {
@@ -730,7 +730,7 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *BdsBdsInstanceResourceCrud) getBdsInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -773,7 +773,7 @@ func bdsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 
 func bdsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "bds")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_bds.GetWorkRequestResponse{}
@@ -854,7 +854,7 @@ func (s *BdsBdsInstanceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.BdsInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.GetBdsInstance(context.Background(), request)
 	if err != nil {
@@ -1021,7 +1021,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			}
 
 			workId := response.OpcWorkRequestId
-			err = s.getBdsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			err = s.getBdsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 			if err != nil {
 				return err
 			}
@@ -1047,10 +1047,10 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.UpdateBdsInstance(context.Background(), request)
 	if err != nil {
@@ -1058,7 +1058,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BdsBdsInstanceResourceCrud) Delete() error {
@@ -1067,7 +1067,7 @@ func (s *BdsBdsInstanceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.BdsInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.DeleteBdsInstance(context.Background(), request)
 	if err != nil {
@@ -1407,14 +1407,14 @@ func (s *BdsBdsInstanceResourceCrud) updateCompartment(compartment interface{}) 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.ChangeBdsInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, clusterAdminPassword interface{}, blockVolumeSizeInGBs int64) error {
@@ -1427,14 +1427,14 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, cluster
 
 	addBlockStorageRequest.BlockVolumeSizeInGBs = &blockVolumeSizeInGBs
 
-	addBlockStorageRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	addBlockStorageRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.AddBlockStorage(context.Background(), addBlockStorageRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPassword interface{}, numberOfWorker int) error {
@@ -1447,14 +1447,14 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPas
 
 	addWorkerNodesRequest.NumberOfWorkerNodes = &numberOfWorker
 
-	addWorkerNodesRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	addWorkerNodesRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.AddWorkerNodes(context.Background(), addWorkerNodesRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BdsBdsInstanceResourceCrud) addCloudSql(request oci_bds.AddCloudSqlRequest) error {
@@ -1463,7 +1463,7 @@ func (s *BdsBdsInstanceResourceCrud) addCloudSql(request oci_bds.AddCloudSqlRequ
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BdsBdsInstanceResourceCrud) deleteCloudSql(request oci_bds.RemoveCloudSqlRequest) error {
@@ -1472,7 +1472,7 @@ func (s *BdsBdsInstanceResourceCrud) deleteCloudSql(request oci_bds.RemoveCloudS
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func PopulateNodeTemplate(obj oci_bds.Node, nodeMap map[string]map[string]interface{}) {

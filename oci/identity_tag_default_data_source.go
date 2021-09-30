@@ -49,7 +49,7 @@ func (s *IdentityTagDefaultDataSourceCrud) Get() error {
 		request.TagDefaultId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetTagDefault(context.Background(), request)
 	if err != nil {

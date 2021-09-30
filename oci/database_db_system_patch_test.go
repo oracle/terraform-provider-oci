@@ -14,7 +14,7 @@ import (
 
 var (
 	dbSystemPatchDataSourceRepresentation = map[string]interface{}{
-		"db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
+		"db_system_id": Representation{RepType: Required, Create: `${oci_database_db_system.test_db_system.id}`},
 	}
 
 	DbSystemPatchResourceConfig = DbSystemResourceConfig
@@ -32,13 +32,13 @@ func TestDatabaseDbSystemPatchResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_db_system_patches.test_db_system_patches"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", Required, Create, dbSystemPatchDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", Required, Create, dbSystemPatchDataSourceRepresentation) +
 				compartmentIdVariableStr + DbSystemPatchResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),

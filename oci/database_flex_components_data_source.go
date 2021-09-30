@@ -18,7 +18,7 @@ func DatabaseFlexComponentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseFlexComponents,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -99,7 +99,7 @@ func (s *DatabaseFlexComponentsDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListFlexComponents(context.Background(), request)
 	if err != nil {

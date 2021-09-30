@@ -18,7 +18,7 @@ func GoldenGateDeploymentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readGoldenGateDeployments,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -101,7 +101,7 @@ func (s *GoldenGateDeploymentsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_golden_gate.ListDeploymentsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "golden_gate")
 
 	response, err := s.Client.ListDeployments(context.Background(), request)
 	if err != nil {

@@ -105,7 +105,7 @@ func (s *RouteTableAttachmentResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 	response, err := s.Client.UpdateSubnet(context.Background(), request)
 	if err != nil {
 		return err
@@ -123,7 +123,7 @@ func (s *RouteTableAttachmentResourceCrud) Get() error {
 	}
 	request := oci_core.GetSubnetRequest{}
 	request.SubnetId = &subnetId
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 	response, err := s.Client.GetSubnet(context.Background(), request)
 	if err != nil {
 		return err
@@ -136,7 +136,7 @@ func (s *RouteTableAttachmentResourceCrud) Get() error {
 func (s *RouteTableAttachmentResourceCrud) Delete() error {
 
 	var subnetIdStr = s.D.Get("subnet_id").(string)
-	var retryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	var retryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	subnetRequest := oci_core.GetSubnetRequest{}
 	subnetRequest.SubnetId = &subnetIdStr

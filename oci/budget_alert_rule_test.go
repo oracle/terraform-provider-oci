@@ -21,40 +21,40 @@ import (
 
 var (
 	AlertRuleRequiredOnlyResource = AlertRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Required, Create, alertRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Required, Create, alertRuleRepresentation)
 
 	AlertRuleResourceConfig = AlertRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Update, alertRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Update, alertRuleRepresentation)
 
 	alertRuleSingularDataSourceRepresentation = map[string]interface{}{
-		"alert_rule_id": Representation{repType: Required, create: `${oci_budget_alert_rule.test_alert_rule.id}`},
-		"budget_id":     Representation{repType: Required, create: `${oci_budget_budget.test_budget.id}`},
+		"alert_rule_id": Representation{RepType: Required, Create: `${oci_budget_alert_rule.test_alert_rule.id}`},
+		"budget_id":     Representation{RepType: Required, Create: `${oci_budget_budget.test_budget.id}`},
 	}
 
 	alertRuleDataSourceRepresentation = map[string]interface{}{
-		"budget_id":    Representation{repType: Required, create: `${oci_budget_budget.test_budget.id}`},
-		"display_name": Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":        Representation{repType: Optional, create: `AVAILABLE`},
+		"budget_id":    Representation{RepType: Required, Create: `${oci_budget_budget.test_budget.id}`},
+		"display_name": Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":        Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":       RepresentationGroup{Required, alertRuleDataSourceFilterRepresentation}}
 	alertRuleDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_budget_alert_rule.test_alert_rule.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_budget_alert_rule.test_alert_rule.id}`}},
 	}
 
 	alertRuleRepresentation = map[string]interface{}{
-		"budget_id":      Representation{repType: Required, create: `${oci_budget_budget.test_budget.id}`},
-		"threshold":      Representation{repType: Required, create: `100`, update: `200`},
-		"threshold_type": Representation{repType: Required, create: `PERCENTAGE`, update: `ABSOLUTE`},
-		"type":           Representation{repType: Required, create: `ACTUAL`, update: `FORECAST`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"message":        Representation{repType: Optional, create: `message`, update: `message2`},
-		"recipients":     Representation{repType: Optional, create: `JohnSmith@example.com`, update: `SmithJohn@example.com`},
+		"budget_id":      Representation{RepType: Required, Create: `${oci_budget_budget.test_budget.id}`},
+		"threshold":      Representation{RepType: Required, Create: `100`, Update: `200`},
+		"threshold_type": Representation{RepType: Required, Create: `PERCENTAGE`, Update: `ABSOLUTE`},
+		"type":           Representation{RepType: Required, Create: `ACTUAL`, Update: `FORECAST`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"message":        Representation{RepType: Optional, Create: `message`, Update: `message2`},
+		"recipients":     Representation{RepType: Optional, Create: `JohnSmith@example.com`, Update: `SmithJohn@example.com`},
 	}
 
-	AlertRuleResourceDependencies = generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetCompartmentId) +
+	AlertRuleResourceDependencies = GenerateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetCompartmentId) +
 		DefinedTagsDependencies
 )
 
@@ -76,15 +76,15 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 	var resId, resId2 string
 	var compositeId string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AlertRuleResourceDependencies+
-		generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Create, alertRuleRepresentation), "budget", "alertRule", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AlertRuleResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Create, alertRuleRepresentation), "budget", "alertRule", t)
 
 	ResourceTest(t, testAccCheckBudgetAlertRuleDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AlertRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Required, Create, alertRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Required, Create, alertRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "budget_id"),
 				resource.TestCheckResourceAttr(resourceName, "threshold", "100"),
@@ -92,20 +92,20 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "ACTUAL"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AlertRuleResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AlertRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Create, alertRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Create, alertRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "budget_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -123,12 +123,12 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "ACTUAL"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
-					budgetId, _ := fromInstanceState(s, resourceName, "budget_id")
+					resId, err = FromInstanceState(s, resourceName, "id")
+					budgetId, _ := FromInstanceState(s, resourceName, "budget_id")
 					compositeId = "budgets/" + budgetId + "/alertRules/" + resId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -140,7 +140,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AlertRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Update, alertRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Update, alertRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "budget_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -158,7 +158,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "FORECAST"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -169,9 +169,9 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_budget_alert_rules", "test_alert_rules", Optional, Update, alertRuleDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_budget_alert_rules", "test_alert_rules", Optional, Update, alertRuleDataSourceRepresentation) +
 				compartmentIdVariableStr + AlertRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Update, alertRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Update, alertRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "budget_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -198,7 +198,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Required, Create, alertRuleSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Required, Create, alertRuleSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AlertRuleResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_rule_id"),
@@ -261,7 +261,7 @@ func testAccCheckBudgetAlertRuleDestroy(s *terraform.State) error {
 				request.BudgetId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "budget")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "budget")
 
 			_, err := client.GetAlertRule(context.Background(), request)
 
@@ -286,7 +286,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("BudgetAlertRule") {
+	if !InSweeperExcludeList("BudgetAlertRule") {
 		resource.AddTestSweepers("BudgetAlertRule", &resource.Sweeper{
 			Name:         "BudgetAlertRule",
 			Dependencies: DependencyGraph["alertRule"],
@@ -307,7 +307,7 @@ func sweepBudgetAlertRuleResource(compartment string) error {
 
 			deleteAlertRuleRequest.AlertRuleId = &alertRuleId
 
-			deleteAlertRuleRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "budget")
+			deleteAlertRuleRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "budget")
 			_, error := budgetClient.DeleteAlertRule(context.Background(), deleteAlertRuleRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AlertRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", alertRuleId, error)
@@ -319,7 +319,7 @@ func sweepBudgetAlertRuleResource(compartment string) error {
 }
 
 func getAlertRuleIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AlertRuleId")
+	ids := GetResourceIdsToSweep(compartment, "AlertRuleId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -344,7 +344,7 @@ func getAlertRuleIds(compartment string) ([]string, error) {
 		for _, alertRule := range listAlertRulesResponse.Items {
 			id := *alertRule.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "AlertRuleId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "AlertRuleId", id)
 		}
 
 	}

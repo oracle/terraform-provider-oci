@@ -15,15 +15,15 @@ import (
 )
 
 var (
-	deploymentRepresentationJwt = getUpdatedRepresentationCopy(
+	deploymentRepresentationJwt = GetUpdatedRepresentationCopy(
 		"specification.request_policies.authentication.type",
-		Representation{repType: Required, create: `JWT_AUTHENTICATION`, update: `JWT_AUTHENTICATION`},
+		Representation{RepType: Required, Create: `JWT_AUTHENTICATION`, Update: `JWT_AUTHENTICATION`},
 		deploymentRepresentation)
-	deploymentRepresentationJwtRemoteJWKS = getRepresentationCopyWithMultipleRemovedProperties([]string{
+	deploymentRepresentationJwtRemoteJWKS = GetRepresentationCopyWithMultipleRemovedProperties([]string{
 		"specification.request_policies.authentication.function_id",
 		"specification.request_policies.authentication.public_keys.keys",
 	}, deploymentRepresentationJwt)
-	deploymentRepresentationJwtStaticKeys = getRepresentationCopyWithMultipleRemovedProperties([]string{
+	deploymentRepresentationJwtStaticKeys = GetRepresentationCopyWithMultipleRemovedProperties([]string{
 		"specification.request_policies.authentication.function_id",
 		"specification.request_policies.authentication.public_keys.uri",
 		"specification.request_policies.authentication.public_keys.max_cache_duration_in_hours",
@@ -31,7 +31,7 @@ var (
 		"specification.request_policies.authentication.public_keys.keys.key",
 	}, deploymentRepresentationJwt)
 	DeploymentResourceConfigJwt = DeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationJwtStaticKeys)
+		GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationJwtStaticKeys)
 )
 
 // issue-routing-tag: apigateway/default
@@ -54,10 +54,10 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 	var resId string
 
 	ResourceTest(t, testAccCheckApigatewayDeploymentDestroy, []resource.TestStep{
-		//verify create
+		//verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationJwtRemoteJWKS),
+				GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationJwtRemoteJWKS),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
@@ -65,20 +65,20 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeploymentResourceDependencies,
 		},
-		//verify create with optionals
+		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentationJwtRemoteJWKS),
+				GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentationJwtRemoteJWKS),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -149,9 +149,9 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.0.max_age_in_seconds", "600"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -162,7 +162,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationJwtStaticKeys),
+				GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationJwtStaticKeys),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -238,9 +238,9 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.request_policies.0.cors.0.max_age_in_seconds", "500"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -252,9 +252,9 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + imageVariableStr +
-				generateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", Optional, Update, deploymentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", Optional, Update, deploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationJwtStaticKeys),
+				GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationJwtStaticKeys),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -270,7 +270,7 @@ func TestResourceApigatewayDeploymentResourceJwt_basic(t *testing.T) {
 		//verify singular datasource
 		{
 			Config: config + imageVariableStr +
-				generateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceConfigJwt,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),

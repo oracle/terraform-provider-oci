@@ -49,7 +49,7 @@ func (s *DataSafeTargetDatabaseDataSourceCrud) Get() error {
 		request.TargetDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.GetTargetDatabase(context.Background(), request)
 	if err != nil {

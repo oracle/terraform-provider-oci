@@ -18,7 +18,7 @@ func AiAnomalyDetectionProjectsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAiAnomalyDetectionProjects,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *AiAnomalyDetectionProjectsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_ai_anomaly_detection.ProjectLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ai_anomaly_detection")
 
 	response, err := s.Client.ListProjects(context.Background(), request)
 	if err != nil {

@@ -135,7 +135,7 @@ func (s *DataSafeDataSafeConfigurationResourceCrud) Create() error {
 		request.IsEnabled = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.EnableDataSafeConfiguration(context.Background(), request)
 	if err != nil {
@@ -143,7 +143,7 @@ func (s *DataSafeDataSafeConfigurationResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSafeConfigurationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDataSafeConfigurationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeDataSafeConfigurationResourceCrud) getDataSafeConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -187,7 +187,7 @@ func dataSafeConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) func
 
 func dataSafeConfigurationWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "data_safe")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = dataSafeConfigurationWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}
@@ -266,7 +266,7 @@ func (s *DataSafeDataSafeConfigurationResourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.GetDataSafeConfiguration(context.Background(), request)
 	if err != nil {
@@ -290,7 +290,7 @@ func (s *DataSafeDataSafeConfigurationResourceCrud) Update() error {
 		request.IsEnabled = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.EnableDataSafeConfiguration(context.Background(), request)
 	if err != nil {
@@ -298,7 +298,7 @@ func (s *DataSafeDataSafeConfigurationResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSafeConfigurationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDataSafeConfigurationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataSafeDataSafeConfigurationResourceCrud) SetData() error {

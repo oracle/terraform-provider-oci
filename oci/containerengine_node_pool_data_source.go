@@ -49,7 +49,7 @@ func (s *ContainerengineNodePoolDataSourceCrud) Get() error {
 		request.NodePoolId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "containerengine")
 
 	response, err := s.Client.GetNodePool(context.Background(), request)
 	if err != nil {

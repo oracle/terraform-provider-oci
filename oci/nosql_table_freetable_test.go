@@ -14,36 +14,36 @@ import (
 )
 
 var (
-	FreeTableResourceConfig = generateResourceFromRepresentationMap("oci_nosql_table", "test_freetable", Required, Create, freeTableRepresentation)
+	FreeTableResourceConfig = GenerateResourceFromRepresentationMap("oci_nosql_table", "test_freetable", Required, Create, freeTableRepresentation)
 
 	freeTableDdlStatement = "CREATE TABLE IF NOT EXISTS test_freetable(id INTEGER, name STRING, age STRING, PRIMARY KEY(SHARD(id)))"
 
 	freeTableRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"ddl_statement":       Representation{repType: Required, create: freeTableDdlStatement},
-		"name":                Representation{repType: Required, create: "test_freetable"},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"ddl_statement":       Representation{RepType: Required, Create: freeTableDdlStatement},
+		"name":                Representation{RepType: Required, Create: "test_freetable"},
 		"table_limits":        RepresentationGroup{Required, freeTableTableLimitsRepresentation},
-		"is_auto_reclaimable": Representation{repType: Required, create: `true`},
+		"is_auto_reclaimable": Representation{RepType: Required, Create: `true`},
 	}
 	freeTableTableLimitsRepresentation = map[string]interface{}{
-		"max_read_units":     Representation{repType: Required, create: `50`},
-		"max_write_units":    Representation{repType: Required, create: `50`},
-		"max_storage_in_gbs": Representation{repType: Required, create: `1`},
+		"max_read_units":     Representation{RepType: Required, Create: `50`},
+		"max_write_units":    Representation{RepType: Required, Create: `50`},
+		"max_storage_in_gbs": Representation{RepType: Required, Create: `1`},
 	}
 
 	freeTableDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Optional, create: `test_freetable`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Optional, Create: `test_freetable`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, freeTableDataSourceFilterRepresentation}}
 	freeTableDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_nosql_table.test_freetable.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_nosql_table.test_freetable.id}`}},
 	}
 
 	freeTableSingularDataSourceRepresentation = map[string]interface{}{
-		"table_name_or_id": Representation{repType: Required, create: `${oci_nosql_table.test_freetable.id}`},
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
+		"table_name_or_id": Representation{RepType: Required, Create: `${oci_nosql_table.test_freetable.id}`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 )
 
@@ -70,10 +70,10 @@ func TestNosqlTableResource_freeTable(t *testing.T) {
 		CheckDestroy: testAccCheckNosqlTableDestroy,
 		Steps: []resource.TestStep{
 
-			// verify create table: free table with name of "test_freetable"
+			// verify Create table: free table with name of "test_freetable"
 			{
 				Config: config + compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_nosql_table", "test_freetable", Required, Create, freeTableRepresentation),
+					GenerateResourceFromRepresentationMap("oci_nosql_table", "test_freetable", Required, Create, freeTableRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "ddl_statement", freeTableDdlStatement),
@@ -89,7 +89,7 @@ func TestNosqlTableResource_freeTable(t *testing.T) {
 			// verify datasource: test_freetable
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_nosql_tables", "test_freetables", Optional, Create, freeTableDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_nosql_tables", "test_freetables", Optional, Create, freeTableDataSourceRepresentation) +
 					compartmentIdVariableStr + FreeTableResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(dataResourceName, "compartment_id", compartmentId),
@@ -106,7 +106,7 @@ func TestNosqlTableResource_freeTable(t *testing.T) {
 			// verify singular datasource: test_freetable
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_nosql_table", "test_freetable", Required, Create, freeTableSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_nosql_table", "test_freetable", Required, Create, freeTableSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + FreeTableResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

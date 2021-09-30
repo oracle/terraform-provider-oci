@@ -15,34 +15,34 @@ import (
 
 var (
 	ruleSetControlAccessSingularDataSourceRepresentation = map[string]interface{}{
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":             Representation{repType: Required, create: `example_control_access_rule_set`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             Representation{RepType: Required, Create: `example_control_access_rule_set`},
 	}
 
 	ruleSetControlAccessDataSourceRepresentation = map[string]interface{}{
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"filter":           RepresentationGroup{Required, ruleSetControlAccessDataSourceFilterRepresentation}}
 	ruleSetControlAccessDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_rule_set.test_control_access_rule_set.name}`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_load_balancer_rule_set.test_control_access_rule_set.name}`}},
 	}
 
 	ruleSetControlAccessRepresentation = map[string]interface{}{
 		"items":            RepresentationGroup{Required, ruleSetItemsControlAccessRepresentation},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":             Representation{repType: Required, create: `example_control_access_rule_set`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             Representation{RepType: Required, Create: `example_control_access_rule_set`},
 	}
 
 	ruleSetItemsControlAccessRepresentation = map[string]interface{}{
-		"action":          Representation{repType: Required, create: `CONTROL_ACCESS_USING_HTTP_METHODS`},
-		"allowed_methods": Representation{repType: Required, create: []string{`GET`}, update: []string{`GET`, `POST`}},
-		"status_code":     Representation{repType: Optional, create: `405`, update: `400`},
+		"action":          Representation{RepType: Required, Create: `CONTROL_ACCESS_USING_HTTP_METHODS`},
+		"allowed_methods": Representation{RepType: Required, Create: []string{`GET`}, Update: []string{`GET`, `POST`}},
+		"status_code":     Representation{RepType: Optional, Create: `405`, Update: `400`},
 	}
 
 	ruleSetItemsAnotherControlAccessRepresentation = map[string]interface{}{
-		"action":          Representation{repType: Required, create: `CONTROL_ACCESS_USING_HTTP_METHODS`},
-		"allowed_methods": Representation{repType: Required, create: []string{`GET`}, update: []string{`GET`, `POST`, `PUT`}},
-		"status_code":     Representation{repType: Optional, create: `405`, update: `400`},
+		"action":          Representation{RepType: Required, Create: `CONTROL_ACCESS_USING_HTTP_METHODS`},
+		"allowed_methods": Representation{RepType: Required, Create: []string{`GET`}, Update: []string{`GET`, `POST`, `PUT`}},
+		"status_code":     Representation{RepType: Optional, Create: `405`, Update: `400`},
 	}
 )
 
@@ -70,10 +70,10 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckLoadBalancerRuleSetDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Required, Create, ruleSetControlAccessRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Required, Create, ruleSetControlAccessRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -86,7 +86,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "example_control_access_rule_set"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -94,7 +94,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -107,7 +107,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "example_control_access_rule_set"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -119,8 +119,8 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 			// verify updates to updatable parameters allowed_methods only
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update,
-						representationCopyWithNewProperties(ruleSetControlAccessRepresentation, map[string]interface{}{
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update,
+						RepresentationCopyWithNewProperties(ruleSetControlAccessRepresentation, map[string]interface{}{
 							"items": RepresentationGroup{Required, ruleSetItemsAnotherControlAccessRepresentation},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -135,7 +135,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "example_control_access_rule_set"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -147,9 +147,9 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_sets", "test_control_access_rule_sets", Optional, Update, ruleSetControlAccessDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_load_balancer_rule_sets", "test_control_access_rule_sets", Optional, Update, ruleSetControlAccessDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
@@ -167,9 +167,9 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Required, Create, ruleSetControlAccessSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Required, Create, ruleSetControlAccessSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_control_access_rule_set"),
@@ -186,12 +186,12 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
 			},
 			// verify resource import
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", Optional, Update, ruleSetControlAccessRepresentation),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

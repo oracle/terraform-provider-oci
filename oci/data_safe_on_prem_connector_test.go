@@ -21,39 +21,39 @@ import (
 
 var (
 	OnPremConnectorRequiredOnlyResource = OnPremConnectorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorRepresentation)
 
 	OnPremConnectorResourceConfig = OnPremConnectorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation)
 
 	onPremConnectorSingularDataSourceRepresentation = map[string]interface{}{
-		"on_prem_connector_id": Representation{repType: Required, create: `${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`},
+		"on_prem_connector_id": Representation{RepType: Required, Create: `${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`},
 	}
 
 	onPremConnectorDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                    Representation{repType: Required, create: `${var.compartment_id}`},
-		"access_level":                      Representation{repType: Optional, create: `RESTRICTED`},
-		"compartment_id_in_subtree":         Representation{repType: Optional, create: `true`},
-		"display_name":                      Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"on_prem_connector_id":              Representation{repType: Optional, create: `${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`},
-		"on_prem_connector_lifecycle_state": Representation{repType: Optional, create: `INACTIVE`},
+		"compartment_id":                    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"access_level":                      Representation{RepType: Optional, Create: `RESTRICTED`},
+		"compartment_id_in_subtree":         Representation{RepType: Optional, Create: `true`},
+		"display_name":                      Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"on_prem_connector_id":              Representation{RepType: Optional, Create: `${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`},
+		"on_prem_connector_lifecycle_state": Representation{RepType: Optional, Create: `INACTIVE`},
 		"filter":                            RepresentationGroup{Required, onPremConnectorDataSourceFilterRepresentation}}
 	onPremConnectorDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_data_safe_on_prem_connector.test_on_prem_connector.id}`}},
 	}
 
 	onPremConnectorRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      RepresentationGroup{Required, ignoreDefinedTagsDS},
 	}
 
 	ignoreDefinedTagsDS = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
 	OnPremConnectorResourceDependencies = DefinedTagsDependencies
@@ -79,28 +79,28 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckDataSafeOnPremConnectorDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create, onPremConnectorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create, onPremConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -112,18 +112,18 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OnPremConnectorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create,
-					representationCopyWithNewProperties(onPremConnectorRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create,
+					RepresentationCopyWithNewProperties(onPremConnectorRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -136,7 +136,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -148,7 +148,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + OnPremConnectorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -160,12 +160,12 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -176,9 +176,9 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connectors", "test_on_prem_connectors", Optional, Update, onPremConnectorDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connectors", "test_on_prem_connectors", Optional, Update, onPremConnectorDataSourceRepresentation) +
 				compartmentIdVariableStr + OnPremConnectorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -202,7 +202,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Required, Create, onPremConnectorSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + OnPremConnectorResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "on_prem_connector_id"),
@@ -245,7 +245,7 @@ func testAccCheckDataSafeOnPremConnectorDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.OnPremConnectorId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 
 			response, err := client.GetOnPremConnector(context.Background(), request)
 
@@ -278,7 +278,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DataSafeOnPremConnector") {
+	if !InSweeperExcludeList("DataSafeOnPremConnector") {
 		resource.AddTestSweepers("DataSafeOnPremConnector", &resource.Sweeper{
 			Name:         "DataSafeOnPremConnector",
 			Dependencies: DependencyGraph["onPremConnector"],
@@ -299,13 +299,13 @@ func sweepDataSafeOnPremConnectorResource(compartment string) error {
 
 			deleteOnPremConnectorRequest.OnPremConnectorId = &onPremConnectorId
 
-			deleteOnPremConnectorRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			deleteOnPremConnectorRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 			_, error := dataSafeClient.DeleteOnPremConnector(context.Background(), deleteOnPremConnectorRequest)
 			if error != nil {
 				fmt.Printf("Error deleting OnPremConnector %s %s, It is possible that the resource is already deleted. Please verify manually \n", onPremConnectorId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &onPremConnectorId, onPremConnectorSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &onPremConnectorId, onPremConnectorSweepWaitCondition, time.Duration(3*time.Minute),
 				onPremConnectorSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
@@ -313,7 +313,7 @@ func sweepDataSafeOnPremConnectorResource(compartment string) error {
 }
 
 func getOnPremConnectorIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "OnPremConnectorId")
+	ids := GetResourceIdsToSweep(compartment, "OnPremConnectorId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -331,7 +331,7 @@ func getOnPremConnectorIds(compartment string) ([]string, error) {
 	for _, onPremConnector := range listOnPremConnectorsResponse.Items {
 		id := *onPremConnector.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "OnPremConnectorId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "OnPremConnectorId", id)
 	}
 	return resourceIds, nil
 }

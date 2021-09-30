@@ -49,7 +49,7 @@ func (s *JmsFleetDataSourceCrud) Get() error {
 		request.FleetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "jms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "jms")
 
 	response, err := s.Client.GetFleet(context.Background(), request)
 	if err != nil {

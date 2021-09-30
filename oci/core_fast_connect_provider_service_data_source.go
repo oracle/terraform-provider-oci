@@ -100,7 +100,7 @@ func (s *CoreFastConnectProviderServiceDataSourceCrud) Get() error {
 		request.ProviderServiceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetFastConnectProviderService(context.Background(), request)
 	if err != nil {

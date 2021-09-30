@@ -49,7 +49,7 @@ func (s *CoreCrossConnectGroupDataSourceCrud) Get() error {
 		request.CrossConnectGroupId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetCrossConnectGroup(context.Background(), request)
 	if err != nil {

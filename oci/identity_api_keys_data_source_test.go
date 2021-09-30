@@ -24,7 +24,7 @@ type DatasourceIdentityAPIKeysTestSuite struct {
 }
 
 func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
-	_, tokenFn := tokenizeWithHttpReplay("api_data_source")
+	_, tokenFn := TokenizeWithHttpReplay("api_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + publicKeyVariableStr + publicKeyUpdateVariableStr + tokenFn(`

@@ -49,7 +49,7 @@ func (s *OcvpEsxiHostDataSourceCrud) Get() error {
 		request.EsxiHostId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ocvp")
 
 	response, err := s.Client.GetEsxiHost(context.Background(), request)
 	if err != nil {

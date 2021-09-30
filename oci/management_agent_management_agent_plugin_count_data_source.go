@@ -101,7 +101,7 @@ func (s *ManagementAgentManagementAgentPluginCountDataSourceCrud) Get() error {
 		request.GroupBy = oci_management_agent.SummarizeManagementAgentPluginCountsGroupByEnum(groupBy.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.SummarizeManagementAgentPluginCounts(context.Background(), request)
 	if err != nil {

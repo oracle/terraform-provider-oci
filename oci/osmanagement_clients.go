@@ -10,8 +10,8 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_osmanagement.EventClient", &OracleClient{initClientFn: initOsmanagementEventClient})
-	RegisterOracleClient("oci_osmanagement.OsManagementClient", &OracleClient{initClientFn: initOsmanagementOsManagementClient})
+	RegisterOracleClient("oci_osmanagement.EventClient", &OracleClient{InitClientFn: initOsmanagementEventClient})
+	RegisterOracleClient("oci_osmanagement.OsManagementClient", &OracleClient{InitClientFn: initOsmanagementOsManagementClient})
 }
 
 func initOsmanagementEventClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

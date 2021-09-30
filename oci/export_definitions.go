@@ -1673,7 +1673,7 @@ var exportIdentityGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_identity_group",
 	datasourceClass:      "oci_identity_groups",
 	datasourceItemsAttr:  "groups",
-	resourceAbbreviation: "group",
+	resourceAbbreviation: "Group",
 	discoverableLifecycleStates: []string{
 		string(oci_identity.GroupLifecycleStateActive),
 	},

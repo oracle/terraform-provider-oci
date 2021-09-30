@@ -16,19 +16,19 @@ import (
 
 var (
 	GeneratedKeyRequiredOnlyResource = GeneratedKeyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Required, Create, generatedKeyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Required, Create, generatedKeyRepresentation)
 
 	generatedKeyRepresentation = map[string]interface{}{
-		"crypto_endpoint":       Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
-		"include_plaintext_key": Representation{repType: Required, create: `false`},
-		"key_id":                Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"crypto_endpoint":       Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
+		"include_plaintext_key": Representation{RepType: Required, Create: `false`},
+		"key_id":                Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"key_shape":             RepresentationGroup{Required, generatedKeyKeyShapeRepresentation},
-		"associated_data":       Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
-		"logging_context":       Representation{repType: Optional, create: map[string]string{"loggingContext": "loggingContext"}, update: map[string]string{"loggingContext2": "loggingContext2"}},
+		"associated_data":       Representation{RepType: Optional, Create: map[string]string{"associatedData": "associatedData"}, Update: map[string]string{"associatedData2": "associatedData2"}},
+		"logging_context":       Representation{RepType: Optional, Create: map[string]string{"loggingContext": "loggingContext"}, Update: map[string]string{"loggingContext2": "loggingContext2"}},
 	}
 	generatedKeyKeyShapeRepresentation = map[string]interface{}{
-		"algorithm": Representation{repType: Required, create: `AES`},
-		"length":    Representation{repType: Required, create: `16`},
+		"algorithm": Representation{RepType: Required, Create: `AES`},
+		"length":    Representation{RepType: Required, Create: `16`},
 	}
 
 	GeneratedKeyResourceDependencies = KeyResourceDependencyConfig
@@ -47,15 +47,15 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 	resourceName := "oci_kms_generated_key.test_generated_key"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+GeneratedKeyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Optional, Create, generatedKeyRepresentation), "keymanagement", "generatedKey", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+GeneratedKeyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Optional, Create, generatedKeyRepresentation), "keymanagement", "generatedKey", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Required, Create, generatedKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Required, Create, generatedKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "include_plaintext_key", "false"),
@@ -66,14 +66,14 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + GeneratedKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Optional, Create, generatedKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_generated_key", "test_generated_key", Optional, Create, generatedKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "associated_data.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ciphertext"),
@@ -86,9 +86,9 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "logging_context.%", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

@@ -18,7 +18,7 @@ func NetworkLoadBalancerNetworkLoadBalancersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readNetworkLoadBalancerNetworkLoadBalancers,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersDataSourceCrud) Get() error {
 		request.LifecycleState = oci_network_load_balancer.ListNetworkLoadBalancersLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "network_load_balancer")
 
 	response, err := s.Client.ListNetworkLoadBalancers(context.Background(), request)
 	if err != nil {

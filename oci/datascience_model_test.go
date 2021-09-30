@@ -21,54 +21,54 @@ import (
 
 var (
 	ModelRequiredOnlyResource = ModelResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelRepresentation)
 
 	ModelResourceConfig = ModelResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation)
 
 	modelSingularDataSourceRepresentation = map[string]interface{}{
-		"model_id": Representation{repType: Required, create: `${oci_datascience_model.test_model.id}`},
+		"model_id": Representation{RepType: Required, Create: `${oci_datascience_model.test_model.id}`},
 	}
 
 	modelDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_datascience_model.test_model.id}`},
-		"project_id":     Representation{repType: Optional, create: `${oci_datascience_project.test_project.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_datascience_model.test_model.id}`},
+		"project_id":     Representation{RepType: Optional, Create: `${oci_datascience_project.test_project.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, modelDataSourceFilterRepresentation}}
 	modelDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_datascience_model.test_model.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_datascience_model.test_model.id}`}},
 	}
 
 	modelRepresentation = map[string]interface{}{
-		"artifact_content_length":      Representation{repType: Required, create: `21002`},
-		"model_artifact":               Representation{repType: Required, create: `datascience_model_resource.go`},
-		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
-		"project_id":                   Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
-		"artifact_content_disposition": Representation{repType: Optional, create: `attachment; filename=tfTestArtifact`},
+		"artifact_content_length":      Representation{RepType: Required, Create: `21002`},
+		"model_artifact":               Representation{RepType: Required, Create: `datascience_model_resource.go`},
+		"compartment_id":               Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"project_id":                   Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
+		"artifact_content_disposition": Representation{RepType: Optional, Create: `attachment; filename=tfTestArtifact`},
 		"custom_metadata_list":         RepresentationGroup{Optional, modelCustomMetadataListRepresentation},
 		"defined_metadata_list":        RepresentationGroup{Optional, modelDefinedMetadataListRepresentation},
-		"defined_tags":                 Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                  Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":                 Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"input_schema":                 Representation{repType: Optional, create: "{}"},
-		"output_schema":                Representation{repType: Optional, create: "{}"},
+		"defined_tags":                 Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                  Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":                 Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"input_schema":                 Representation{RepType: Optional, Create: "{}"},
+		"output_schema":                Representation{RepType: Optional, Create: "{}"},
 	}
 	modelCustomMetadataListRepresentation = map[string]interface{}{
-		"category":    Representation{repType: Optional, create: `Performance`, update: `Performance`},
-		"description": Representation{repType: Optional, create: `description`, update: `description`},
-		"key":         Representation{repType: Optional, create: `BaseModel1`, update: `BaseModel1`},
-		"value":       Representation{repType: Optional, create: `xgb`, update: `xgb`},
+		"category":    Representation{RepType: Optional, Create: `Performance`, Update: `Performance`},
+		"description": Representation{RepType: Optional, Create: `description`, Update: `description`},
+		"key":         Representation{RepType: Optional, Create: `BaseModel1`, Update: `BaseModel1`},
+		"value":       Representation{RepType: Optional, Create: `xgb`, Update: `xgb`},
 	}
 	modelDefinedMetadataListRepresentation = map[string]interface{}{
-		"key":   Representation{repType: Optional, create: `UseCaseType`, update: `UseCaseType`},
-		"value": Representation{repType: Optional, create: `ner`, update: `ner`},
+		"key":   Representation{RepType: Optional, Create: `UseCaseType`, Update: `UseCaseType`},
+		"value": Representation{RepType: Optional, Create: `ner`, Update: `ner`},
 	}
 
-	ModelResourceDependencies = generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
+	ModelResourceDependencies = GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -90,15 +90,15 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datascience_model.test_model"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ModelResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelRepresentation), "datascience", "model", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ModelResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelRepresentation), "datascience", "model", t)
 
 	ResourceTest(t, testAccCheckDatascienceModelDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ModelResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
@@ -107,20 +107,20 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ModelResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ModelResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
@@ -147,9 +147,9 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -158,12 +158,12 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ModelResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create,
-					representationCopyWithNewProperties(modelRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create,
+					RepresentationCopyWithNewProperties(modelRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "21002"),
@@ -191,7 +191,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -203,7 +203,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ModelResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.#", "1"),
@@ -227,7 +227,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -238,9 +238,9 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_models", "test_models", Optional, Update, modelDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_models", "test_models", Optional, Update, modelDataSourceRepresentation) +
 				compartmentIdVariableStr + ModelResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Update, modelRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -262,7 +262,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ModelResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
@@ -318,7 +318,7 @@ func testAccCheckDatascienceModelDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ModelId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 
 			response, err := client.GetModel(context.Background(), request)
 
@@ -351,7 +351,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatascienceModel") {
+	if !InSweeperExcludeList("DatascienceModel") {
 		resource.AddTestSweepers("DatascienceModel", &resource.Sweeper{
 			Name:         "DatascienceModel",
 			Dependencies: DependencyGraph["model"],
@@ -372,13 +372,13 @@ func sweepDatascienceModelResource(compartment string) error {
 
 			deleteModelRequest.ModelId = &modelId
 
-			deleteModelRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			deleteModelRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 			_, error := dataScienceClient.DeleteModel(context.Background(), deleteModelRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Model %s %s, It is possible that the resource is already deleted. Please verify manually \n", modelId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &modelId, modelSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &modelId, modelSweepWaitCondition, time.Duration(3*time.Minute),
 				modelSweepResponseFetchOperation, "datascience", true)
 		}
 	}
@@ -386,7 +386,7 @@ func sweepDatascienceModelResource(compartment string) error {
 }
 
 func getModelIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ModelId")
+	ids := GetResourceIdsToSweep(compartment, "ModelId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -405,7 +405,7 @@ func getModelIds(compartment string) ([]string, error) {
 	for _, model := range listModelsResponse.Items {
 		id := *model.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ModelId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ModelId", id)
 	}
 	return resourceIds, nil
 }

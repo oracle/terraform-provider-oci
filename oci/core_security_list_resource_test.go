@@ -237,7 +237,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create with all options
+			// verify Create with all options
 			{
 				Config: s.Config + dataSource + fullConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(append(s.BuildTestsForFullConfig(s.ResourceName, ""),
@@ -520,7 +520,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_empt
 					resource.TestCheckResourceAttr(s.DefaultResourceName, "ingress_security_rules.#", "0"),
 				),
 			},
-			// update with all options
+			// Update with all options
 			{
 				Config: s.Config + dataSource + fullConfig,
 				Check:  ComposeAggregateTestCheckFuncWrapper(s.BuildTestsForFullConfig(s.ResourceName, "")...),

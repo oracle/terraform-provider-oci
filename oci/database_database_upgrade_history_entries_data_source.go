@@ -18,7 +18,7 @@ func DatabaseDatabaseUpgradeHistoryEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDatabaseUpgradeHistoryEntries,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"database_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -130,7 +130,7 @@ func (s *DatabaseDatabaseUpgradeHistoryEntriesDataSourceCrud) Get() error {
 		request.UpgradeAction = oci_database.DatabaseUpgradeHistoryEntrySummaryActionEnum(upgradeAction.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDatabaseUpgradeHistoryEntries(context.Background(), request)
 	if err != nil {

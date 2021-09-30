@@ -32,7 +32,7 @@ func createVolumeInRegion(clients *OracleClients, region string) (string, error)
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -41,7 +41,7 @@ func createVolumeInRegion(clients *OracleClients, region string) (string, error)
 	blockStorageClient.SetRegion(region)
 	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.identityClient().ConfigurationProvider())
 	if err != nil {
-		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&identityClient.BaseClient)
 	if err != nil {
@@ -63,14 +63,14 @@ func createVolumeInRegion(clients *OracleClients, region string) (string, error)
 			CompartmentId:      &compartment,
 		},
 		RequestMetadata: oci_common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(false, "core"),
+			RetryPolicy: GetRetryPolicy(false, "core"),
 		},
 	})
 	if err != nil {
-		return "", fmt.Errorf("[WARN] failed to create source Volume with the error %v", err)
+		return "", fmt.Errorf("[WARN] failed to Create source Volume with the error %v", err)
 	}
-	retryPolicy := getRetryPolicy(false, "core")
-	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), volumeAvailableWaitCondition, "core", false)
+	retryPolicy := GetRetryPolicy(false, "core")
+	retryPolicy.ShouldRetryOperation = ConditionShouldRetry(time.Duration(10*time.Minute), volumeAvailableWaitCondition, "core", false)
 
 	_, err = blockStorageClient.GetVolume(context.Background(), oci_core.GetVolumeRequest{
 		VolumeId: createVolumeResponse.Id,
@@ -81,7 +81,7 @@ func createVolumeInRegion(clients *OracleClients, region string) (string, error)
 	if err != nil {
 		return "", fmt.Errorf("[WARN] wait for volumeAvailableWaitCondition failed for %s resource with error %v", *createVolumeResponse.Id, err)
 	} else {
-		log.Printf("[INFO] end of waitTillCondition for resource %s ", *createVolumeResponse.Id)
+		log.Printf("[INFO] end of WaitTillCondition for resource %s ", *createVolumeResponse.Id)
 	}
 
 	return *createVolumeResponse.Id, nil
@@ -92,7 +92,7 @@ func createVolumeGroupInRegion(clients *OracleClients, region string, volumeId *
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -101,7 +101,7 @@ func createVolumeGroupInRegion(clients *OracleClients, region string, volumeId *
 	blockStorageClient.SetRegion(region)
 	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.identityClient().ConfigurationProvider())
 	if err != nil {
-		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&identityClient.BaseClient)
 	if err != nil {
@@ -128,14 +128,14 @@ func createVolumeGroupInRegion(clients *OracleClients, region string, volumeId *
 			SourceDetails:      sourceDetails,
 		},
 		RequestMetadata: oci_common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(false, "core"),
+			RetryPolicy: GetRetryPolicy(false, "core"),
 		},
 	})
 	if err != nil {
-		return "", fmt.Errorf("[WARN] failed to create source Volume Group with the error %v", err)
+		return "", fmt.Errorf("[WARN] failed to Create source Volume Group with the error %v", err)
 	}
-	retryPolicy := getRetryPolicy(false, "core")
-	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), volumeGroupAvailableWaitCondition, "core", false)
+	retryPolicy := GetRetryPolicy(false, "core")
+	retryPolicy.ShouldRetryOperation = ConditionShouldRetry(time.Duration(10*time.Minute), volumeGroupAvailableWaitCondition, "core", false)
 
 	_, err = blockStorageClient.GetVolumeGroup(context.Background(), oci_core.GetVolumeGroupRequest{
 		VolumeGroupId: createVolumeGroupResponse.Id,
@@ -146,7 +146,7 @@ func createVolumeGroupInRegion(clients *OracleClients, region string, volumeId *
 	if err != nil {
 		return "", fmt.Errorf("[WARN] wait for volumeGroupAvailableWaitCondition failed for %s resource with error %v", *createVolumeGroupResponse.Id, err)
 	} else {
-		log.Printf("[INFO] end of waitTillCondition for resource %s ", *createVolumeGroupResponse.Id)
+		log.Printf("[INFO] end of WaitTillCondition for resource %s ", *createVolumeGroupResponse.Id)
 	}
 
 	return *createVolumeGroupResponse.Id, nil
@@ -156,7 +156,7 @@ func createVolumeBackupInRegion(clients *OracleClients, region string, volumeId 
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -170,12 +170,12 @@ func createVolumeBackupInRegion(clients *OracleClients, region string, volumeId 
 		},
 	})
 	if err != nil {
-		return "", fmt.Errorf("[WARN] failed to create source VolumeBackup with the error %v", err)
+		return "", fmt.Errorf("[WARN] failed to Create source VolumeBackup with the error %v", err)
 
 	}
 
-	retryPolicy := getRetryPolicy(false, "core")
-	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), volumeBackupAvailableWaitCondition, "core", false)
+	retryPolicy := GetRetryPolicy(false, "core")
+	retryPolicy.ShouldRetryOperation = ConditionShouldRetry(time.Duration(10*time.Minute), volumeBackupAvailableWaitCondition, "core", false)
 	_, err = blockStorageClient.GetVolumeBackup(context.Background(), oci_core.GetVolumeBackupRequest{
 		VolumeBackupId: createVolumeBackupResponse.Id,
 		RequestMetadata: oci_common.RequestMetadata{
@@ -185,7 +185,7 @@ func createVolumeBackupInRegion(clients *OracleClients, region string, volumeId 
 	if err != nil {
 		return "", fmt.Errorf("[WARN] wait for volumeBackupAvailableWaitCondition failed for %s resource with error %v", *createVolumeBackupResponse.Id, err)
 	} else {
-		log.Printf("[INFO] end of waitTillCondition for resource %s ", *createVolumeBackupResponse.Id)
+		log.Printf("[INFO] end of WaitTillCondition for resource %s ", *createVolumeBackupResponse.Id)
 	}
 	return *createVolumeBackupResponse.Id, nil
 
@@ -195,7 +195,7 @@ func createVolumeGroupBackupInRegion(clients *OracleClients, region string, volu
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -209,12 +209,12 @@ func createVolumeGroupBackupInRegion(clients *OracleClients, region string, volu
 		},
 	})
 	if err != nil {
-		return "", fmt.Errorf("[WARN] failed to create source VolumeGroupBackup with the error %v", err)
+		return "", fmt.Errorf("[WARN] failed to Create source VolumeGroupBackup with the error %v", err)
 
 	}
 
-	retryPolicy := getRetryPolicy(false, "core")
-	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), volumeGroupBackupAvailableWaitCondition, "core", false)
+	retryPolicy := GetRetryPolicy(false, "core")
+	retryPolicy.ShouldRetryOperation = ConditionShouldRetry(time.Duration(10*time.Minute), volumeGroupBackupAvailableWaitCondition, "core", false)
 	_, err = blockStorageClient.GetVolumeGroupBackup(context.Background(), oci_core.GetVolumeGroupBackupRequest{
 		VolumeGroupBackupId: createVolumeGroupBackupResponse.Id,
 		RequestMetadata: oci_common.RequestMetadata{
@@ -224,7 +224,7 @@ func createVolumeGroupBackupInRegion(clients *OracleClients, region string, volu
 	if err != nil {
 		return "", fmt.Errorf("[WARN] wait for volumeGroupBackupAvailableWaitCondition failed for %s resource with error %v", *createVolumeGroupBackupResponse.Id, err)
 	} else {
-		log.Printf("[INFO] end of waitTillCondition for resource %s ", *createVolumeGroupBackupResponse.Id)
+		log.Printf("[INFO] end of WaitTillCondition for resource %s ", *createVolumeGroupBackupResponse.Id)
 	}
 	return *createVolumeGroupBackupResponse.Id, nil
 
@@ -234,7 +234,7 @@ func deleteVolumeInRegion(clients *OracleClients, region string, volumeId string
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -259,7 +259,7 @@ func deleteVolumeGroupInRegion(clients *OracleClients, region string, volumeGrou
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -284,7 +284,7 @@ func deleteVolumeBackupInRegion(clients *OracleClients, region string, volumeBac
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -309,7 +309,7 @@ func deleteVolumeGroupBackupInRegion(clients *OracleClients, region string, volu
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -367,7 +367,7 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return "", "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return "", "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -376,7 +376,7 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 	blockStorageClient.SetRegion(region)
 	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.identityClient().ConfigurationProvider())
 	if err != nil {
-		return "", "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return "", "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&identityClient.BaseClient)
 	if err != nil {
@@ -408,7 +408,7 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 		}})
 
 	if err != nil {
-		return "", "", fmt.Errorf("[WARN] failed to create source VCN with the error %v", err)
+		return "", "", fmt.Errorf("[WARN] failed to Create source VCN with the error %v", err)
 	}
 
 	cidrBlockSubnet := cidrBlockSubnet
@@ -437,16 +437,16 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 			ImageId:            &imageId,
 		},
 		RequestMetadata: oci_common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(false, "core"),
+			RetryPolicy: GetRetryPolicy(false, "core"),
 		},
 	})
 	if err != nil {
-		return "", "", fmt.Errorf("[WARN] failed to create source Instance with the error %v", err)
+		return "", "", fmt.Errorf("[WARN] failed to Create source Instance with the error %v", err)
 	}
 	instanceId := createInstanceResponse.Id
 
-	retryPolicyInstance := getRetryPolicy(false, "core")
-	retryPolicyInstance.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), instanceAvailableWaitCondition, "core", false)
+	retryPolicyInstance := GetRetryPolicy(false, "core")
+	retryPolicyInstance.ShouldRetryOperation = ConditionShouldRetry(time.Duration(10*time.Minute), instanceAvailableWaitCondition, "core", false)
 
 	_, err = computeClient.GetInstance(context.Background(), oci_core.GetInstanceRequest{
 		InstanceId: instanceId,
@@ -466,8 +466,8 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 
 	bootVolumeId := listBootVolumeReq.Items[0].BootVolumeId
 
-	retryPolicy := getRetryPolicy(false, "core")
-	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), bootVolumeAvailableWaitCondition, "core", false)
+	retryPolicy := GetRetryPolicy(false, "core")
+	retryPolicy.ShouldRetryOperation = ConditionShouldRetry(time.Duration(10*time.Minute), bootVolumeAvailableWaitCondition, "core", false)
 
 	_, err = blockStorageClient.GetBootVolume(context.Background(), oci_core.GetBootVolumeRequest{
 		BootVolumeId: bootVolumeId,
@@ -478,7 +478,7 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 	if err != nil {
 		return "", "", fmt.Errorf("[WARN] wait for bootVolumeAvailableWaitCondition failed for %s resource with error %v", *bootVolumeId, err)
 	} else {
-		log.Printf("[INFO] end of waitTillCondition for resource %s ", *bootVolumeId)
+		log.Printf("[INFO] end of WaitTillCondition for resource %s ", *bootVolumeId)
 	}
 
 	return *instanceId, *bootVolumeId, nil
@@ -488,7 +488,7 @@ func createBootVolumeBackupInRegion(clients *OracleClients, region string, bootV
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return "", fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -502,12 +502,12 @@ func createBootVolumeBackupInRegion(clients *OracleClients, region string, bootV
 		},
 	})
 	if err != nil {
-		return "", fmt.Errorf("[WARN] failed to create source BootVolumeBackup with the error %v", err)
+		return "", fmt.Errorf("[WARN] failed to Create source BootVolumeBackup with the error %v", err)
 
 	}
 
-	retryPolicy := getRetryPolicy(false, "core")
-	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(10*time.Minute), bootVolumeBackupAvailableWaitCondition, "core", false)
+	retryPolicy := GetRetryPolicy(false, "core")
+	retryPolicy.ShouldRetryOperation = ConditionShouldRetry(time.Duration(10*time.Minute), bootVolumeBackupAvailableWaitCondition, "core", false)
 	_, err = blockStorageClient.GetBootVolumeBackup(context.Background(), oci_core.GetBootVolumeBackupRequest{
 		BootVolumeBackupId: createBootVolumeBackupResponse.Id,
 		RequestMetadata: oci_common.RequestMetadata{
@@ -517,7 +517,7 @@ func createBootVolumeBackupInRegion(clients *OracleClients, region string, bootV
 	if err != nil {
 		return "", fmt.Errorf("[WARN] wait for bootVolumeBackupAvailableWaitCondition failed for %s resource with error %v", *createBootVolumeBackupResponse.Id, err)
 	} else {
-		log.Printf("[INFO] end of waitTillCondition for resource %s ", *createBootVolumeBackupResponse.Id)
+		log.Printf("[INFO] end of WaitTillCondition for resource %s ", *createBootVolumeBackupResponse.Id)
 	}
 	return *createBootVolumeBackupResponse.Id, nil
 
@@ -527,7 +527,7 @@ func deleteBootVolumeInRegion(clients *OracleClients, region string, bootVolumeI
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -552,7 +552,7 @@ func deleteBootVolumeBackupInRegion(clients *OracleClients, region string, bootV
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
-		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&blockStorageClient.BaseClient)
 	if err != nil {
@@ -576,7 +576,7 @@ func deleteBootVolumeBackupInRegion(clients *OracleClients, region string, bootV
 func terminateInstanceInRegion(clients *OracleClients, region string, instanceId string) error {
 	computeClient, err := oci_core.NewComputeClientWithConfigurationProvider(*clients.computeClient().ConfigurationProvider())
 	if err != nil {
-		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+		return fmt.Errorf("cannot Create client for the source region %s: %v", region, err)
 	}
 	err = configureClient(&computeClient.BaseClient)
 	if err != nil {

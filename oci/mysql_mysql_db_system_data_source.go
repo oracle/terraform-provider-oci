@@ -49,7 +49,7 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) Get() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.GetDbSystem(context.Background(), request)
 	if err != nil {

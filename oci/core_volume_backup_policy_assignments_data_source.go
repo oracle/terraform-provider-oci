@@ -18,7 +18,7 @@ func CoreVolumeBackupPolicyAssignmentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreVolumeBackupPolicyAssignments,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"asset_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -58,7 +58,7 @@ func (s *CoreVolumeBackupPolicyAssignmentsDataSourceCrud) Get() error {
 		request.AssetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetVolumeBackupPolicyAssetAssignment(context.Background(), request)
 	if err != nil {

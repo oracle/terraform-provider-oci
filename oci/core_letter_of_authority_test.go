@@ -14,11 +14,11 @@ import (
 
 var (
 	letterOfAuthoritySingularDataSourceRepresentation = map[string]interface{}{
-		"cross_connect_id": Representation{repType: Required, create: `${oci_core_cross_connect.test_cross_connect.id}`},
+		"cross_connect_id": Representation{RepType: Required, Create: `${oci_core_cross_connect.test_cross_connect.id}`},
 	}
 
-	LetterOfAuthorityResourceConfig = generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation)
+	LetterOfAuthorityResourceConfig = GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -33,13 +33,13 @@ func TestCoreLetterOfAuthorityResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_core_letter_of_authority.test_letter_of_authority"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_letter_of_authority", "test_letter_of_authority", Required, Create, letterOfAuthoritySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_letter_of_authority", "test_letter_of_authority", Required, Create, letterOfAuthoritySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + LetterOfAuthorityResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),

@@ -52,7 +52,7 @@ func timestamp() string {
 type TokenFn func(string, map[string]string) string
 
 // Creates a form of "apply" above that will always supply the same value for {{.token}} use hard code value for HTTP replay
-func tokenizeWithHttpReplay(defaultString string) (string, TokenFn) {
+func TokenizeWithHttpReplay(defaultString string) (string, TokenFn) {
 	var ts string
 	if httpreplay.ModeRecordReplay() {
 		ts = defaultString
@@ -69,7 +69,7 @@ func tokenizeWithHttpReplay(defaultString string) (string, TokenFn) {
 }
 
 // custom TestCheckFunc helper, returns a value associated with a key from an instance in the current state
-func fromInstanceState(s *terraform.State, name, key string) (string, error) {
+func FromInstanceState(s *terraform.State, name, key string) (string, error) {
 	ms := s.RootModule()
 	rs, ok := ms.Resources[name]
 	if !ok {
@@ -94,12 +94,12 @@ func fromInstanceState(s *terraform.State, name, key string) (string, error) {
 // attributes in two different resources are equal.
 func TestCheckResourceAttributesEqual(name1, key1, name2, key2 string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
-		val1, err := fromInstanceState(s, name1, key1)
+		val1, err := FromInstanceState(s, name1, key1)
 		if err != nil {
 			return err
 		}
 
-		val2, err := fromInstanceState(s, name2, key2)
+		val2, err := FromInstanceState(s, name2, key2)
 		if err != nil {
 			return err
 		}
@@ -113,9 +113,9 @@ func TestCheckResourceAttributesEqual(name1, key1, name2, key2 string) resource.
 	}
 }
 
-func testCheckAttributeBase64Encoded(name, key string, expectBase64Encoded bool) resource.TestCheckFunc {
+func TestCheckAttributeBase64Encoded(name, key string, expectBase64Encoded bool) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
-		content, err := fromInstanceState(s, name, key)
+		content, err := FromInstanceState(s, name, key)
 		if err != nil {
 			return err
 		}
@@ -143,25 +143,25 @@ type ShouldWaitFunc func(response oci_common.OCIOperationResponse) bool
 type FetchOperationFunc func(client *OracleClients, resourceId *string, retryPolicy *oci_common.RetryPolicy) error
 
 // This function waits for the given time and retries the ShouldWaitFunc and periodically invokes the FetchOperationFunc to fetch the latest response
-func waitTillCondition(testAccProvider *schema.Provider, resourceId *string, shouldWait ShouldWaitFunc, timeout time.Duration,
+func WaitTillCondition(testAccProvider *schema.Provider, resourceId *string, shouldWait ShouldWaitFunc, timeout time.Duration,
 	fetchOperationFunc FetchOperationFunc, service string, disableNotFoundRetries bool) func() {
 	return func() {
 		client := testAccProvider.Meta().(*OracleClients)
-		log.Printf("[INFO] start of waitTillCondition for resource %s ", *resourceId)
-		retryPolicy := getRetryPolicy(disableNotFoundRetries, service)
-		retryPolicy.ShouldRetryOperation = conditionShouldRetry(timeout, shouldWait, service, disableNotFoundRetries)
+		log.Printf("[INFO] start of WaitTillCondition for resource %s ", *resourceId)
+		retryPolicy := GetRetryPolicy(disableNotFoundRetries, service)
+		retryPolicy.ShouldRetryOperation = ConditionShouldRetry(timeout, shouldWait, service, disableNotFoundRetries)
 
 		err := fetchOperationFunc(client, resourceId, retryPolicy)
 		if err != nil {
-			log.Printf("[WARN] waitTillCondition failed for %s resource with error %v", *resourceId, err)
+			log.Printf("[WARN] WaitTillCondition failed for %s resource with error %v", *resourceId, err)
 		} else {
-			log.Printf("[INFO] end of waitTillCondition for resource %s ", *resourceId)
+			log.Printf("[INFO] end of WaitTillCondition for resource %s ", *resourceId)
 		}
 	}
 }
 
 // This function is responsible for the actual check for ShouldWaitFunc and the aborting
-func conditionShouldRetry(timeout time.Duration, shouldWait ShouldWaitFunc, service string, disableNotFoundRetries bool, optionals ...interface{}) func(response oci_common.OCIOperationResponse) bool {
+func ConditionShouldRetry(timeout time.Duration, shouldWait ShouldWaitFunc, service string, disableNotFoundRetries bool, optionals ...interface{}) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
 	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
@@ -195,14 +195,14 @@ const (
 )
 
 type Representation struct {
-	repType RepresentationType
-	create  interface{}
-	update  interface{}
+	RepType RepresentationType
+	Create  interface{}
+	Update  interface{}
 }
 
 type RepresentationGroup struct {
-	repType RepresentationType
-	group   map[string]interface{}
+	RepType RepresentationType
+	Group   map[string]interface{}
 }
 
 func cloneRepresentation(representations map[string]interface{}) map[string]interface{} {
@@ -211,17 +211,17 @@ func cloneRepresentation(representations map[string]interface{}) map[string]inte
 	for key, value := range representations {
 		representation, ok := value.(Representation)
 		if ok {
-			copyMap[key] = Representation{representation.repType, representation.create, representation.update}
+			copyMap[key] = Representation{representation.RepType, representation.Create, representation.Update}
 		}
 		representationGroup, ok := value.(RepresentationGroup)
 		if ok {
-			copyMap[key] = RepresentationGroup{representationGroup.repType, cloneRepresentation(representationGroup.group)}
+			copyMap[key] = RepresentationGroup{representationGroup.RepType, cloneRepresentation(representationGroup.Group)}
 		}
 		representationGroupArr, ok := value.([]RepresentationGroup)
 		if ok {
 			representationGroupArrClone := make([]RepresentationGroup, len(representationGroupArr))
 			for index, representationGroupItem := range representationGroupArr {
-				representationGroupArrClone[index] = RepresentationGroup{representationGroup.repType, cloneRepresentation(representationGroupItem.group)}
+				representationGroupArrClone[index] = RepresentationGroup{representationGroup.RepType, cloneRepresentation(representationGroupItem.Group)}
 			}
 			copyMap[key] = representationGroupArrClone
 		}
@@ -230,7 +230,7 @@ func cloneRepresentation(representations map[string]interface{}) map[string]inte
 	return copyMap
 }
 
-func representationCopyWithRemovedProperties(representations map[string]interface{}, removedProperties []string) map[string]interface{} {
+func RepresentationCopyWithRemovedProperties(representations map[string]interface{}, removedProperties []string) map[string]interface{} {
 	representationsCopy := cloneRepresentation(representations)
 	for _, propName := range removedProperties {
 		delete(representationsCopy, propName)
@@ -238,7 +238,7 @@ func representationCopyWithRemovedProperties(representations map[string]interfac
 	return representationsCopy
 }
 
-func representationCopyWithNewProperties(representations map[string]interface{}, newProperties map[string]interface{}) map[string]interface{} {
+func RepresentationCopyWithNewProperties(representations map[string]interface{}, newProperties map[string]interface{}) map[string]interface{} {
 	representationsCopy := cloneRepresentation(representations)
 	for propName, value := range newProperties {
 		representationsCopy[propName] = value
@@ -246,25 +246,25 @@ func representationCopyWithNewProperties(representations map[string]interface{},
 	return representationsCopy
 }
 
-func getUpdatedRepresentationCopy(propertyNameStr string, newValue interface{}, representations map[string]interface{}) map[string]interface{} {
+func GetUpdatedRepresentationCopy(propertyNameStr string, newValue interface{}, representations map[string]interface{}) map[string]interface{} {
 	propertyNames := strings.Split(propertyNameStr, ".")
 	return updateNestedRepresentation(0, propertyNames, newValue, cloneRepresentation(representations))
 }
 
-func getMultipleUpdatedRepresenationCopy(propertyNames []string, newValues []interface{}, representations map[string]interface{}) map[string]interface{} {
+func GetMultipleUpdatedRepresenationCopy(propertyNames []string, newValues []interface{}, representations map[string]interface{}) map[string]interface{} {
 	for i := 0; i < len(propertyNames); i++ {
-		representations = getUpdatedRepresentationCopy(propertyNames[i], newValues[i], representations)
+		representations = GetUpdatedRepresentationCopy(propertyNames[i], newValues[i], representations)
 	}
 	return representations
 }
 
 func updateNestedRepresentation(currIndex int, propertyNames []string, newValue interface{}, representations map[string]interface{}) map[string]interface{} {
-	//recursively search the property to update
+	//recursively search the property to Update
 	for prop := range representations {
 		if prop == propertyNames[currIndex] {
 			representationGroup, ok := representations[prop].(RepresentationGroup)
 			if ok && currIndex+1 < len(propertyNames) {
-				updateNestedRepresentation(currIndex+1, propertyNames, newValue, representationGroup.group)
+				updateNestedRepresentation(currIndex+1, propertyNames, newValue, representationGroup.Group)
 			} else {
 				representations[prop] = newValue
 			}
@@ -277,14 +277,14 @@ func updateNestedRepresentation(currIndex int, propertyNames []string, newValue 
 
 // removes the list of properties at nested level(given the full qualified name) from the representation map
 // example for fully qualified name of a nested level property: "specification.request_policies.authentication.audiences"
-func getRepresentationCopyWithMultipleRemovedProperties(propertyNames []string, representation map[string]interface{}) map[string]interface{} {
+func GetRepresentationCopyWithMultipleRemovedProperties(propertyNames []string, representation map[string]interface{}) map[string]interface{} {
 	for i := 0; i < len(propertyNames); i++ {
-		representation = representationCopyWithRemovedNestedProperties(propertyNames[i], representation)
+		representation = RepresentationCopyWithRemovedNestedProperties(propertyNames[i], representation)
 	}
 	return representation
 }
 
-func representationCopyWithRemovedNestedProperties(propertyNameStr string, representation map[string]interface{}) map[string]interface{} {
+func RepresentationCopyWithRemovedNestedProperties(propertyNameStr string, representation map[string]interface{}) map[string]interface{} {
 	propertyNames := strings.Split(propertyNameStr, ".")
 	return updateNestedRepresentationRemoveProperty(0, propertyNames, cloneRepresentation(representation))
 }
@@ -295,7 +295,7 @@ func updateNestedRepresentationRemoveProperty(currIndex int, propertyNames []str
 		if prop == propertyNames[currIndex] {
 			representationGroup, ok := representation[prop].(RepresentationGroup)
 			if ok && currIndex+1 < len(propertyNames) {
-				updateNestedRepresentationRemoveProperty(currIndex+1, propertyNames, representationGroup.group)
+				updateNestedRepresentationRemoveProperty(currIndex+1, propertyNames, representationGroup.Group)
 			} else {
 				delete(representation, prop)
 			}
@@ -305,13 +305,13 @@ func updateNestedRepresentationRemoveProperty(currIndex int, propertyNames []str
 	return nil
 }
 
-func generateDataSourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
+func GenerateDataSourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
 	buffer.WriteString(fmt.Sprintf(`%sdata "%s" "%s" %s`, lineSeparator, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
 	return buffer.String()
 }
 
-func generateResourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
+func GenerateResourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
 	buffer.WriteString(fmt.Sprintf(`%sresource "%s" "%s" %s`, lineSeparator, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
 	return buffer.String()
@@ -329,11 +329,11 @@ func generateResourceFromMap(representationType RepresentationType, representati
 
 	for _, prop := range sortedRepresentations {
 		representation, ok := representations[prop].(Representation)
-		if ok && representation.repType <= representationType {
+		if ok && representation.RepType <= representationType {
 
-			representationValue := representation.create
-			if representationMode == Update && representation.update != nil {
-				representationValue = representation.update
+			representationValue := representation.Create
+			if representationMode == Update && representation.Update != nil {
+				representationValue = representation.Update
 			}
 
 			repStrValue, strRep := representationValue.(string)
@@ -368,14 +368,14 @@ func generateResourceFromMap(representationType RepresentationType, representati
 
 		}
 		representationGroup, ok := representations[prop].(RepresentationGroup)
-		if ok && representationGroup.repType <= representationType {
-			buffer.WriteString(fmt.Sprintf("%s %s", prop, generateResourceFromMap(representationType, representationMode, representationGroup.group)))
+		if ok && representationGroup.RepType <= representationType {
+			buffer.WriteString(fmt.Sprintf("%s %s", prop, generateResourceFromMap(representationType, representationMode, representationGroup.Group)))
 		}
 		representationGroupArray, ok := representations[prop].([]RepresentationGroup)
 		if ok {
 			for _, representationGroupInArray := range representationGroupArray {
-				if representationGroupInArray.repType <= representationType {
-					buffer.WriteString(fmt.Sprintf("%s %s", prop, generateResourceFromMap(representationType, representationMode, representationGroupInArray.group)))
+				if representationGroupInArray.RepType <= representationType {
+					buffer.WriteString(fmt.Sprintf("%s %s", prop, generateResourceFromMap(representationType, representationMode, representationGroupInArray.Group)))
 				}
 			}
 		}
@@ -392,7 +392,7 @@ func setEnvSetting(s, v string) error {
 	return nil
 }
 
-func testExportCompartmentWithResourceName(id *string, compartmentId *string, resourceName string) error {
+func TestExportCompartmentWithResourceName(id *string, compartmentId *string, resourceName string) error {
 
 	// add logs for notifying execution
 	log.Println()
@@ -467,7 +467,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 		return err
 	}
 	if err := os.Mkdir(outputDir, os.ModePerm); err != nil {
-		log.Printf("unable to create '%s' due to error '%v'", outputDir, err)
+		log.Printf("unable to Create '%s' due to error '%v'", outputDir, err)
 		return err
 	}
 	defer func() {
@@ -552,7 +552,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	return nil
 }
 
-func checkJsonStringsEqual(expectedJsonString string, actualJsonString string) error {
+func CheckJsonStringsEqual(expectedJsonString string, actualJsonString string) error {
 	if expectedJsonString == actualJsonString {
 		return nil
 	}
@@ -573,14 +573,14 @@ func checkJsonStringsEqual(expectedJsonString string, actualJsonString string) e
 }
 
 // Compares an attribute against a JSON string's unmarshalled value
-func testCheckJsonResourceAttr(name, key, expectedJson string) resource.TestCheckFunc {
+func TestCheckJsonResourceAttr(name, key, expectedJson string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
-		actualJsonFromState, err := fromInstanceState(s, name, key)
+		actualJsonFromState, err := FromInstanceState(s, name, key)
 		if err != nil {
 			return err
 		}
 
-		if err := checkJsonStringsEqual(expectedJson, actualJsonFromState); err != nil {
+		if err := CheckJsonStringsEqual(expectedJson, actualJsonFromState); err != nil {
 			return fmt.Errorf("%s: Attribute '%s' %s", name, key, err)
 		}
 		return nil
@@ -598,10 +598,10 @@ func isResourceSupportImport(resourceName string) (support bool, err error) {
 	return resource.Importer != nil, nil
 }
 
-func saveConfigContent(content string, service string, resource string, t *testing.T) {
+func SaveConfigContent(content string, service string, resource string, t *testing.T) {
 	if strings.ToLower(getEnvSettingWithBlankDefault("save_configs")) == "true" {
 		if len(content) > 0 {
-			if err := writeToFile(content, service, resource); err != nil {
+			if err := WriteToFile(content, service, resource); err != nil {
 				log.Printf("Failed to write TF content to file with error: %q", err)
 			}
 		}
@@ -610,7 +610,7 @@ func saveConfigContent(content string, service string, resource string, t *testi
 	}
 }
 
-func writeToFile(content string, service string, resource string) error {
+func WriteToFile(content string, service string, resource string) error {
 	path, err := os.Getwd()
 	if err != nil {
 		return err

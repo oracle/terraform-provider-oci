@@ -108,7 +108,7 @@ func (s *CoreImageShapeDataSourceCrud) Get() error {
 		request.ShapeName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetImageShapeCompatibilityEntry(context.Background(), request)
 	if err != nil {

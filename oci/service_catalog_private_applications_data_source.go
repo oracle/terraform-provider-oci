@@ -18,7 +18,7 @@ func ServiceCatalogPrivateApplicationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readServiceCatalogPrivateApplications,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -85,7 +85,7 @@ func (s *ServiceCatalogPrivateApplicationsDataSourceCrud) Get() error {
 		request.PrivateApplicationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "service_catalog")
 
 	response, err := s.Client.ListPrivateApplications(context.Background(), request)
 	if err != nil {

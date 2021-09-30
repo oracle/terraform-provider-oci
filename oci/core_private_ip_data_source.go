@@ -49,7 +49,7 @@ func (s *CorePrivateIpDataSourceCrud) Get() error {
 		request.PrivateIpId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetPrivateIp(context.Background(), request)
 	if err != nil {

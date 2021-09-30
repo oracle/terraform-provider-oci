@@ -21,51 +21,51 @@ import (
 
 var (
 	BlockchainPlatformRequiredOnlyResource = BlockchainPlatformResourceDependencies +
-		generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)
+		GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)
 
 	BlockchainPlatformResourceConfig = BlockchainPlatformResourceDependencies +
-		generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation)
+		GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation)
 
 	blockchainPlatformSingularDataSourceRepresentation = map[string]interface{}{
-		"blockchain_platform_id": Representation{repType: Required, create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
+		"blockchain_platform_id": Representation{RepType: Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
 	}
 
 	blockchainPlatformDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: blockchainPlatformDisplayName},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: blockchainPlatformDisplayName},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, blockchainPlatformDataSourceFilterRepresentation}}
 	blockchainPlatformDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`}},
 	}
 
-	blockchainPlatformDisplayName = randomString(10, charsetLowerCaseWithoutDigits)
+	blockchainPlatformDisplayName = RandomString(10, charsetLowerCaseWithoutDigits)
 
 	blockchainPlatformRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"compute_shape":       Representation{repType: Required, create: `ENTERPRISE_MEDIUM`},
-		"display_name":        Representation{repType: Required, create: blockchainPlatformDisplayName},
-		"idcs_access_token":   Representation{repType: Required, create: `${var.idcs_access_token}`},
-		"platform_role":       Representation{repType: Required, create: `FOUNDER`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":         Representation{repType: Optional, create: `description`, update: `description2`},
-		"federated_user_id":   Representation{repType: Optional, create: `${oci_identity_user.test_user.id}`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"is_byol":             Representation{repType: Optional, create: `false`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compute_shape":       Representation{RepType: Required, Create: `ENTERPRISE_MEDIUM`},
+		"display_name":        Representation{RepType: Required, Create: blockchainPlatformDisplayName},
+		"idcs_access_token":   Representation{RepType: Required, Create: `${var.idcs_access_token}`},
+		"platform_role":       Representation{RepType: Required, Create: `FOUNDER`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":         Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"federated_user_id":   Representation{RepType: Optional, Create: `${oci_identity_user.test_user.id}`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_byol":             Representation{RepType: Optional, Create: `false`},
 		"replicas":            RepresentationGroup{Optional, blockchainPlatformReplicasRepresentation},
-		"storage_size_in_tbs": Representation{repType: Optional, create: `1.0`, update: `2.0`},
-		"total_ocpu_capacity": Representation{repType: Optional, create: `16`, update: `32`},
-		"load_balancer_shape": Representation{repType: Optional, create: `LB_100_MBPS`, update: `LB_400_MBPS`},
+		"storage_size_in_tbs": Representation{RepType: Optional, Create: `1.0`, Update: `2.0`},
+		"total_ocpu_capacity": Representation{RepType: Optional, Create: `16`, Update: `32`},
+		"load_balancer_shape": Representation{RepType: Optional, Create: `LB_100_MBPS`, Update: `LB_400_MBPS`},
 	}
 	blockchainPlatformReplicasRepresentation = map[string]interface{}{
-		"ca_count":      Representation{repType: Optional, create: `3`, update: `4`},
-		"console_count": Representation{repType: Optional, create: `3`, update: `3`},
-		"proxy_count":   Representation{repType: Optional, create: `3`, update: `4`},
+		"ca_count":      Representation{RepType: Optional, Create: `3`, Update: `4`},
+		"console_count": Representation{RepType: Optional, Create: `3`, Update: `3`},
+		"proxy_count":   Representation{RepType: Optional, Create: `3`, Update: `4`},
 	}
 
 	BlockchainPlatformResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 // issue-routing-tag: blockchain/default
@@ -89,15 +89,15 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_blockchain_blockchain_platform.test_blockchain_platform"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+BlockchainPlatformResourceDependencies+
-		generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation), "blockchain", "blockchainPlatform", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+BlockchainPlatformResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation), "blockchain", "blockchainPlatform", t)
 
 	ResourceTest(t, testAccCheckBlockchainBlockchainPlatformDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
-				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
@@ -106,20 +106,20 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
-				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create, blockchainPlatformRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
@@ -140,9 +140,9 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_100_MBPS"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -151,12 +151,12 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + compartmentIdUVariableStr + BlockchainPlatformResourceDependencies +
-				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create,
-					representationCopyWithNewProperties(blockchainPlatformRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Create,
+					RepresentationCopyWithNewProperties(blockchainPlatformRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -175,7 +175,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_100_MBPS"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -187,7 +187,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
-				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compute_shape", "ENTERPRISE_MEDIUM"),
@@ -208,7 +208,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "load_balancer_shape", "LB_400_MBPS"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -219,9 +219,9 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platforms", "test_blockchain_platforms", Optional, Update, blockchainPlatformDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platforms", "test_blockchain_platforms", Optional, Update, blockchainPlatformDataSourceRepresentation) +
 				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceDependencies +
-				generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Optional, Update, blockchainPlatformRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", blockchainPlatformDisplayName),
@@ -234,7 +234,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + idcsAccessTokenVariableStr + BlockchainPlatformResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
@@ -297,7 +297,7 @@ func testAccCheckBlockchainBlockchainPlatformDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.BlockchainPlatformId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "blockchain")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "blockchain")
 
 			response, err := client.GetBlockchainPlatform(context.Background(), request)
 
@@ -330,7 +330,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("BlockchainBlockchainPlatform") {
+	if !InSweeperExcludeList("BlockchainBlockchainPlatform") {
 		resource.AddTestSweepers("BlockchainBlockchainPlatform", &resource.Sweeper{
 			Name:         "BlockchainBlockchainPlatform",
 			Dependencies: DependencyGraph["blockchainPlatform"],
@@ -351,13 +351,13 @@ func sweepBlockchainBlockchainPlatformResource(compartment string) error {
 
 			deleteBlockchainPlatformRequest.BlockchainPlatformId = &blockchainPlatformId
 
-			deleteBlockchainPlatformRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "blockchain")
+			deleteBlockchainPlatformRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "blockchain")
 			_, error := blockchainPlatformClient.DeleteBlockchainPlatform(context.Background(), deleteBlockchainPlatformRequest)
 			if error != nil {
 				fmt.Printf("Error deleting BlockchainPlatform %s %s, It is possible that the resource is already deleted. Please verify manually \n", blockchainPlatformId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &blockchainPlatformId, blockchainPlatformSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &blockchainPlatformId, blockchainPlatformSweepWaitCondition, time.Duration(3*time.Minute),
 				blockchainPlatformSweepResponseFetchOperation, "blockchain", true)
 		}
 	}
@@ -365,7 +365,7 @@ func sweepBlockchainBlockchainPlatformResource(compartment string) error {
 }
 
 func getBlockchainPlatformIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "BlockchainPlatformId")
+	ids := GetResourceIdsToSweep(compartment, "BlockchainPlatformId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -384,7 +384,7 @@ func getBlockchainPlatformIds(compartment string) ([]string, error) {
 	for _, blockchainPlatform := range listBlockchainPlatformsResponse.Items {
 		id := *blockchainPlatform.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "BlockchainPlatformId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "BlockchainPlatformId", id)
 	}
 	return resourceIds, nil
 }

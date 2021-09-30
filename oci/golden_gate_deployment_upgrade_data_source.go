@@ -120,7 +120,7 @@ func (s *GoldenGateDeploymentUpgradeDataSourceCrud) Get() error {
 		request.DeploymentUpgradeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "golden_gate")
 
 	response, err := s.Client.GetDeploymentUpgrade(context.Background(), request)
 	if err != nil {

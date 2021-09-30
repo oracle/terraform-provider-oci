@@ -177,7 +177,7 @@ func (s *LoggingLogSavedSearchResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -190,7 +190,7 @@ func (s *LoggingLogSavedSearchResourceCrud) Create() error {
 		request.Query = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.CreateLogSavedSearch(context.Background(), request)
 	if err != nil {
@@ -207,7 +207,7 @@ func (s *LoggingLogSavedSearchResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.LogSavedSearchId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.GetLogSavedSearch(context.Background(), request)
 	if err != nil {
@@ -244,7 +244,7 @@ func (s *LoggingLogSavedSearchResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -260,7 +260,7 @@ func (s *LoggingLogSavedSearchResourceCrud) Update() error {
 		request.Query = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.UpdateLogSavedSearch(context.Background(), request)
 	if err != nil {
@@ -277,7 +277,7 @@ func (s *LoggingLogSavedSearchResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.LogSavedSearchId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	_, err := s.Client.DeleteLogSavedSearch(context.Background(), request)
 	return err
@@ -370,7 +370,7 @@ func (s *LoggingLogSavedSearchResourceCrud) updateCompartment(compartment interf
 	idTmp := s.D.Id()
 	changeCompartmentRequest.LogSavedSearchId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	_, err := s.Client.ChangeLogSavedSearchCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

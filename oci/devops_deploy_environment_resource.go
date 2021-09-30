@@ -248,7 +248,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.CreateDeployEnvironment(context.Background(), request)
 	if err != nil {
@@ -256,7 +256,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeployEnvironmentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeployEnvironmentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DevopsDeployEnvironmentResourceCrud) getDeployEnvironmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -299,7 +299,7 @@ func deployEnvironmentWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 
 func deployEnvironmentWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "devops")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = deployEnvironmentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_devops.GetWorkRequestResponse{}
@@ -380,7 +380,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DeployEnvironmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.GetDeployEnvironment(context.Background(), request)
 	if err != nil {
@@ -398,7 +398,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) Update() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.UpdateDeployEnvironment(context.Background(), request)
 	if err != nil {
@@ -406,7 +406,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeployEnvironmentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDeployEnvironmentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DevopsDeployEnvironmentResourceCrud) Delete() error {
@@ -415,7 +415,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DeployEnvironmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.DeleteDeployEnvironment(context.Background(), request)
 	if err != nil {
@@ -800,7 +800,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicCreateD
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
@@ -829,7 +829,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicCreateD
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
@@ -858,7 +858,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicCreateD
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if projectId, ok := s.D.GetOkExists("project_id"); ok {
 			tmp := projectId.(string)
@@ -911,7 +911,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicUpdateD
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployEnvironmentDetails = details
 	case strings.ToLower("FUNCTION"):
@@ -938,7 +938,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicUpdateD
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployEnvironmentDetails = details
 	case strings.ToLower("OKE_CLUSTER"):
@@ -965,7 +965,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) populateTopLevelPolymorphicUpdateD
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployEnvironmentDetails = details
 	default:

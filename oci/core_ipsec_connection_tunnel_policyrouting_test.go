@@ -15,30 +15,30 @@ import (
 
 var (
 	ipSecConnectionTunnelRoutingPolicyRequiredOnlyResource = IpSecConnectionTunnelRoutingPolicyResourceConfig +
-		generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation)
 
 	ipSecConnectionTunnelRoutingPolicySingularDataSourceRepresentation = map[string]interface{}{
-		"ipsec_id":  Representation{repType: Required, create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
-		"tunnel_id": Representation{repType: Required, create: `${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}`},
+		"ipsec_id":  Representation{RepType: Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
+		"tunnel_id": Representation{RepType: Required, Create: `${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}`},
 	}
 
 	ipSecConnectionTunnelRoutingPolicyDataSourceRepresentation = map[string]interface{}{
-		"ipsec_id": Representation{repType: Required, create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
+		"ipsec_id": Representation{RepType: Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
 	}
 
 	ipSecConnectionTunnelRoutingPolicyRepresentation = map[string]interface{}{
-		"ipsec_id":                 Representation{repType: Required, create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
-		"tunnel_id":                Representation{repType: Required, create: `${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}`},
-		"routing":                  Representation{repType: Required, create: `STATIC`, update: `POLICY`},
-		"ike_version":              Representation{repType: Optional, create: `V1`, update: `V2`},
-		"display_name":             Representation{repType: Optional, create: `MyIPSecConnectionTunnel`, update: `displayName2`},
+		"ipsec_id":                 Representation{RepType: Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
+		"tunnel_id":                Representation{RepType: Required, Create: `${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}`},
+		"routing":                  Representation{RepType: Required, Create: `STATIC`, Update: `POLICY`},
+		"ike_version":              Representation{RepType: Optional, Create: `V1`, Update: `V2`},
+		"display_name":             Representation{RepType: Optional, Create: `MyIPSecConnectionTunnel`, Update: `displayName2`},
 		"encryption_domain_config": RepresentationGroup{Optional, ipSecConnectionTunnelEncryptionDomainConfigRepresentation},
-		"shared_secret":            Representation{repType: Optional, create: `sharedsecret1`, update: `sharedsecret2`},
+		"shared_secret":            Representation{RepType: Optional, Create: `sharedsecret1`, Update: `sharedsecret2`},
 	}
 
 	ipSecConnectionTunnelEncryptionDomainConfigRepresentation = map[string]interface{}{
-		"cpe_traffic_selector":    Representation{repType: Optional, create: []string{`192.168.1.0/24`}, update: []string{`10.0.0.0/24`}},
-		"oracle_traffic_selector": Representation{repType: Optional, create: []string{`10.0.0.0/24`}, update: []string{`192.168.1.0/24`}},
+		"cpe_traffic_selector":    Representation{RepType: Optional, Create: []string{`192.168.1.0/24`}, Update: []string{`10.0.0.0/24`}},
+		"oracle_traffic_selector": Representation{RepType: Optional, Create: []string{`10.0.0.0/24`}, Update: []string{`192.168.1.0/24`}},
 	}
 
 	IpSecConnectionTunnelRoutingPolicyResourceConfig = IpSecConnectionOptionalResource
@@ -61,11 +61,11 @@ func TestDataSourceCoreIpSecConnectionTunnelResourceRoutingPolicy_basic(t *testi
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + IpSecConnectionTunnelRoutingPolicyResourceConfig +
-				generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelRoutingPolicyDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", Optional, Create, ipSecConnectionTunnelRoutingPolicyRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelRoutingPolicyDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", Optional, Create, ipSecConnectionTunnelRoutingPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_ip"),
@@ -79,7 +79,7 @@ func TestDataSourceCoreIpSecConnectionTunnelResourceRoutingPolicy_basic(t *testi
 				resource.TestCheckResourceAttr(resourceName, "encryption_domain_config.0.oracle_traffic_selector.0", "10.0.0.0/24"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -87,8 +87,8 @@ func TestDataSourceCoreIpSecConnectionTunnelResourceRoutingPolicy_basic(t *testi
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + IpSecConnectionTunnelRoutingPolicyResourceConfig +
-				generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelRoutingPolicyDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", Optional, Update, ipSecConnectionTunnelRoutingPolicyRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelRoutingPolicyDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", Optional, Update, ipSecConnectionTunnelRoutingPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "shared_secret"),
@@ -103,7 +103,7 @@ func TestDataSourceCoreIpSecConnectionTunnelResourceRoutingPolicy_basic(t *testi
 				resource.TestCheckResourceAttr(resourceName, "encryption_domain_config.0.oracle_traffic_selector.0", "192.168.1.0/24"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -114,7 +114,7 @@ func TestDataSourceCoreIpSecConnectionTunnelResourceRoutingPolicy_basic(t *testi
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelRoutingPolicyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelRoutingPolicyDataSourceRepresentation) +
 				compartmentIdVariableStr + IpSecConnectionTunnelRoutingPolicyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "ipsec_id"),
@@ -141,8 +141,8 @@ func TestDataSourceCoreIpSecConnectionTunnelResourceRoutingPolicy_basic(t *testi
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnel", "test_ip_sec_connection_tunnel", Required, Create, ipSecConnectionTunnelRoutingPolicySingularDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelRoutingPolicyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnel", "test_ip_sec_connection_tunnel", Required, Create, ipSecConnectionTunnelRoutingPolicySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", Required, Create, ipSecConnectionTunnelRoutingPolicyDataSourceRepresentation) +
 				compartmentIdVariableStr + IpSecConnectionTunnelRoutingPolicyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipsec_id"),

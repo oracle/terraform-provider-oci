@@ -14,15 +14,15 @@ import (
 
 var (
 	instanceDeviceDataSourceRepresentation = map[string]interface{}{
-		"instance_id":  Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"is_available": Representation{repType: Optional, create: `true`},
-		"name":         Representation{repType: Optional, create: `/dev/oracleoci/oraclevdb`},
+		"instance_id":  Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"is_available": Representation{RepType: Optional, Create: `true`},
+		"name":         Representation{RepType: Optional, Create: `/dev/oracleoci/oraclevdb`},
 	}
 
-	InstanceDeviceResourceConfig = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	InstanceDeviceResourceConfig = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -38,13 +38,13 @@ func TestCoreInstanceDeviceResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_instance_devices.test_instance_devices"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_instance_devices", "test_instance_devices", Optional, Create, instanceDeviceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_instance_devices", "test_instance_devices", Optional, Create, instanceDeviceDataSourceRepresentation) +
 				compartmentIdVariableStr + InstanceDeviceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),

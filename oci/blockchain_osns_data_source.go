@@ -18,7 +18,7 @@ func BlockchainOsnsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBlockchainOsns,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"blockchain_platform_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -76,7 +76,7 @@ func (s *BlockchainOsnsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "blockchain")
 
 	response, err := s.Client.ListOsns(context.Background(), request)
 	if err != nil {

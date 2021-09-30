@@ -19,7 +19,7 @@ func CoreBootVolumeReplicasDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreBootVolumeReplicas,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -143,7 +143,7 @@ func (s *CoreBootVolumeReplicasDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.BootVolumeReplicaLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListBootVolumeReplicas(context.Background(), request)
 	if err != nil {

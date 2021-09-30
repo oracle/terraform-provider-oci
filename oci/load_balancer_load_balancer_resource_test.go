@@ -26,22 +26,22 @@ type ResourceLoadBalancerLBTestSuite struct {
 
 var (
 	loadBalancerFlexRepresentation = map[string]interface{}{
-		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":               Representation{repType: Required, create: `example_load_balancer`, update: `displayName2`},
-		"shape":                      Representation{repType: Required, create: `flexible`},
-		"subnet_ids":                 Representation{repType: Required, create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_private":                 Representation{repType: Optional, create: `false`},
+		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":               Representation{RepType: Required, Create: `example_load_balancer`, Update: `displayName2`},
+		"shape":                      Representation{RepType: Required, Create: `flexible`},
+		"subnet_ids":                 Representation{RepType: Required, Create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_private":                 Representation{RepType: Optional, Create: `false`},
 		"reserved_ips":               RepresentationGroup{Optional, loadBalancerReservedIpsRepresentation},
 		"shape_details":              RepresentationGroup{Required, loadBalancerShapeDetailsRepresentation},
-		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{}},
+		"network_security_group_ids": Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{}},
 		"lifecycle":                  RepresentationGroup{Required, ignoreChangesLBRepresentation},
 	}
 
 	loadBalancerShapeDetailsRepresentation = map[string]interface{}{
-		"maximum_bandwidth_in_mbps": Representation{repType: Required, create: `100`},
-		"minimum_bandwidth_in_mbps": Representation{repType: Required, create: `10`},
+		"maximum_bandwidth_in_mbps": Representation{RepType: Required, Create: `100`},
+		"minimum_bandwidth_in_mbps": Representation{RepType: Required, Create: `10`},
 	}
 )
 
@@ -104,7 +104,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create
+			// test Create
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer" "t" {
@@ -125,12 +125,12 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "nsg_ids.#", "0"),
 					func(ts *terraform.State) (err error) {
-						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
 			},
-			// test update without nsgIds
+			// test Update without nsgIds
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer" "t" {
@@ -148,7 +148,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.LoadBalancerLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId2 != resId {
 							return fmt.Errorf("resource recreated when it should not have been")
 						}
@@ -156,7 +156,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					},
 				),
 			},
-			// test update with nsgIds
+			// test Update with nsgIds
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer" "t" {
@@ -176,7 +176,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "network_security_group_ids.#", "1"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId2 != resId {
 							return fmt.Errorf("resource recreated when it should not have been")
 						}
@@ -184,7 +184,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					},
 				),
 			},
-			// test update with removing nsgIds
+			// test Update with removing nsgIds
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer" "t" {
@@ -203,7 +203,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "network_security_group_ids.#", "0"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId2 != resId {
 							return fmt.Errorf("resource recreated when it should not have been")
 						}
@@ -211,7 +211,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					},
 				),
 			},
-			// verify force update
+			// verify force Update
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer" "t" {
@@ -233,7 +233,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "network_security_group_ids.#", "1"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId2 == resId {
 							return fmt.Errorf("resource was not recreated as expected")
 						}
@@ -249,7 +249,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPub
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create
+			// test Create
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer" "t" {
@@ -307,10 +307,10 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckLoadBalancerLoadBalancerDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerFlexRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerFlexRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
@@ -321,22 +321,22 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "shape_details.0.minimum_bandwidth_in_mbps", "10"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
 
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies,
 			},
-			// verify create 100Mbps
+			// verify Create 100Mbps
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
-						representationCopyWithNewProperties(representationCopyWithRemovedProperties(loadBalancerFlexRepresentation, []string{"shape_details"}), map[string]interface{}{
-							"shape": Representation{repType: Required, create: `100Mbps`},
+					GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
+						RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(loadBalancerFlexRepresentation, []string{"shape_details"}), map[string]interface{}{
+							"shape": Representation{RepType: Required, Create: `100Mbps`},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -355,15 +355,15 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
-			// verify update to flexshape
+			// verify Update to flexshape
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerFlexRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerFlexRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
@@ -384,9 +384,9 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -395,12 +395,12 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
+			// verify Update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
-						representationCopyWithNewProperties(loadBalancerFlexRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
+						RepresentationCopyWithNewProperties(loadBalancerFlexRepresentation, map[string]interface{}{
+							"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -421,7 +421,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
@@ -433,7 +433,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerFlexRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerFlexRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
@@ -454,7 +454,7 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -465,9 +465,9 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
 					compartmentIdVariableStr + LoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerFlexRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerFlexRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),

@@ -137,7 +137,7 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Create() error {
 	tmp := []oci_core.AddDrgRouteRuleDetails{addDrgRouteRuleDetails}
 	request.RouteRules = tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.AddDrgRouteRules(context.Background(), request)
 	if err != nil {
@@ -210,7 +210,7 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Get() error {
 		log.Printf("[WARN] !!! Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.ListDrgRouteRules(context.Background(), request)
 	if err != nil {
@@ -256,7 +256,7 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Delete() error {
 	tmp := []string{drgRouteRuleId}
 	request.RouteRuleIds = tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 	_, err = s.Client.RemoveDrgRouteRules(context.Background(), request)
 	if err != nil {
 		return err
@@ -295,10 +295,10 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Update() error {
 	tmp := []oci_core.UpdateDrgRouteRuleDetails{updateDrgRouteTableDetails}
 	request.RouteRules = tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 	response, err := s.Client.UpdateDrgRouteRules(context.Background(), request)
 	if err != nil {
-		return fmt.Errorf("failed to update route rules, error: %v", err)
+		return fmt.Errorf("failed to Update route rules, error: %v", err)
 	}
 	if response.Items != nil && len(response.Items) > 0 {
 		_, drgRouteRuleId, err := parseDrgRouteTableRouteRuleCompositeId(s.D.Id())
@@ -308,7 +308,7 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Update() error {
 			}
 		}
 		if err != nil {
-			return fmt.Errorf("failed to update route rules, error: %v", err)
+			return fmt.Errorf("failed to Update route rules, error: %v", err)
 		}
 	}
 

@@ -18,7 +18,7 @@ func CoreInstanceConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreInstanceConfigurations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -58,7 +58,7 @@ func (s *CoreInstanceConfigurationsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListInstanceConfigurations(context.Background(), request)
 	if err != nil {

@@ -50,7 +50,7 @@ func (s *ArtifactsContainerRepositoryDataSourceCrud) Get() error {
 		request.RepositoryId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "artifacts")
 
 	response, err := s.Client.GetContainerRepository(context.Background(), request)
 	if err != nil {

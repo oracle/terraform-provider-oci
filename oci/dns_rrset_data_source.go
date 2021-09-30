@@ -102,7 +102,7 @@ func (s *DnsRrsetDataSourceCrud) Get() error {
 		request.ZoneVersion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.GetRRSet(context.Background(), request)
 	if err != nil {

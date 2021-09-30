@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_data_safe.DataSafeClient", &OracleClient{initClientFn: initDatasafeDataSafeClient})
+	RegisterOracleClient("oci_data_safe.DataSafeClient", &OracleClient{InitClientFn: initDatasafeDataSafeClient})
 }
 
 func initDatasafeDataSafeClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

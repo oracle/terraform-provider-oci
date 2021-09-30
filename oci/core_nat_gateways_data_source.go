@@ -18,7 +18,7 @@ func CoreNatGatewaysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreNatGateways,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *CoreNatGatewaysDataSourceCrud) Get() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListNatGateways(context.Background(), request)
 	if err != nil {

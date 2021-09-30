@@ -58,7 +58,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) Get() err
 		request.PrivateAccessChannelKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "analytics")
 
 	response, err := s.Client.GetPrivateAccessChannel(context.Background(), request)
 	if err != nil {

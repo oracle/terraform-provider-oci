@@ -18,7 +18,7 @@ func ManagementAgentManagementAgentPluginsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readManagementAgentManagementAgentPlugins,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -138,7 +138,7 @@ func (s *ManagementAgentManagementAgentPluginsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_management_agent.ListManagementAgentPluginsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.ListManagementAgentPlugins(context.Background(), request)
 	if err != nil {

@@ -21,40 +21,40 @@ import (
 
 var (
 	TableRequiredOnlyResource = TableResourceDependencies +
-		generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation)
+		GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation)
 
 	TableResourceConfig = TableResourceDependencies +
-		generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation)
+		GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation)
 
 	tableSingularDataSourceRepresentation = map[string]interface{}{
-		"table_name_or_id": Representation{repType: Required, create: `${oci_nosql_table.test_table.id}`},
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
+		"table_name_or_id": Representation{RepType: Required, Create: `${oci_nosql_table.test_table.id}`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 	ddlStatement = "CREATE TABLE IF NOT EXISTS test_table(id INTEGER, name STRING, age STRING, info JSON, PRIMARY KEY(SHARD(id)))"
 
 	tableDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Optional, create: `test_table`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Optional, Create: `test_table`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, tableDataSourceFilterRepresentation}}
 	tableDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_nosql_table.test_table.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_nosql_table.test_table.id}`}},
 	}
 
 	tableRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"ddl_statement":       Representation{repType: Required, create: ddlStatement},
-		"name":                Representation{repType: Required, create: `test_table`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"ddl_statement":       Representation{RepType: Required, Create: ddlStatement},
+		"name":                Representation{RepType: Required, Create: `test_table`},
 		"table_limits":        RepresentationGroup{Required, tableTableLimitsRepresentation},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"is_auto_reclaimable": Representation{repType: Optional, create: `false`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_auto_reclaimable": Representation{RepType: Optional, Create: `false`},
 	}
 	tableTableLimitsRepresentation = map[string]interface{}{
-		"max_read_units":     Representation{repType: Required, create: `10`, update: `11`},
-		"max_storage_in_gbs": Representation{repType: Required, create: `10`, update: `11`},
-		"max_write_units":    Representation{repType: Required, create: `10`, update: `11`},
+		"max_read_units":     Representation{RepType: Required, Create: `10`, Update: `11`},
+		"max_storage_in_gbs": Representation{RepType: Required, Create: `10`, Update: `11`},
+		"max_write_units":    Representation{RepType: Required, Create: `10`, Update: `11`},
 	}
 
 	TableResourceDependencies = DefinedTagsDependencies
@@ -79,15 +79,15 @@ func TestNosqlTableResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_nosql_table.test_table"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+TableResourceDependencies+
-		generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create, tableRepresentation), "nosql", "table", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+TableResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create, tableRepresentation), "nosql", "table", t)
 
 	ResourceTest(t, testAccCheckNosqlTableDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TableResourceDependencies +
-				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation),
+				GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
@@ -98,20 +98,20 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + TableResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + TableResourceDependencies +
-				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create, tableRepresentation),
+				GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create, tableRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
@@ -126,9 +126,9 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -137,12 +137,12 @@ func TestNosqlTableResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TableResourceDependencies +
-				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create,
-					representationCopyWithNewProperties(tableRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Create,
+					RepresentationCopyWithNewProperties(tableRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -158,7 +158,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -170,7 +170,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + TableResourceDependencies +
-				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
+				GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "ddl_statement", ddlStatement),
@@ -185,7 +185,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "table_limits.0.max_write_units", "11"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -196,9 +196,9 @@ func TestNosqlTableResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_nosql_tables", "test_tables", Optional, Update, tableDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_nosql_tables", "test_tables", Optional, Update, tableDataSourceRepresentation) +
 				compartmentIdVariableStr + TableResourceDependencies +
-				generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
+				GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", Optional, Update, tableRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test_table"),
@@ -211,7 +211,7 @@ func TestNosqlTableResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + TableResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -267,7 +267,7 @@ func testAccCheckNosqlTableDestroy(s *terraform.State) error {
 				request.TableNameOrId = &tmp
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "nosql")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "nosql")
 
 			response, err := client.GetTable(context.Background(), request)
 
@@ -300,7 +300,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("NosqlTable") {
+	if !InSweeperExcludeList("NosqlTable") {
 		resource.AddTestSweepers("NosqlTable", &resource.Sweeper{
 			Name:         "NosqlTable",
 			Dependencies: DependencyGraph["table"],
@@ -319,13 +319,13 @@ func sweepNosqlTableResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[tableId]; !ok {
 			deleteTableRequest := oci_nosql.DeleteTableRequest{}
 
-			deleteTableRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "nosql")
+			deleteTableRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "nosql")
 			_, error := nosqlClient.DeleteTable(context.Background(), deleteTableRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Table %s %s, It is possible that the resource is already deleted. Please verify manually \n", tableId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &tableId, tableSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &tableId, tableSweepWaitCondition, time.Duration(3*time.Minute),
 				tableSweepResponseFetchOperation, "nosql", true)
 		}
 	}
@@ -333,7 +333,7 @@ func sweepNosqlTableResource(compartment string) error {
 }
 
 func getTableIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "TableId")
+	ids := GetResourceIdsToSweep(compartment, "TableId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -352,7 +352,7 @@ func getTableIds(compartment string) ([]string, error) {
 	for _, table := range listTablesResponse.Items {
 		id := *table.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "TableId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "TableId", id)
 	}
 	return resourceIds, nil
 }

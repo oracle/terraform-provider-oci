@@ -115,16 +115,16 @@ func CoreVolumeResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 			},
 			"size_in_mbs": {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
 				ForceNew:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 				Deprecated:       FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
 			},
 			"source_details": {
@@ -170,8 +170,8 @@ func CoreVolumeResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 			},
 
 			// Computed
@@ -334,7 +334,7 @@ func (s *CoreVolumeResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoTuneEnabled, ok := s.D.GetOkExists("is_auto_tune_enabled"); ok {
@@ -395,7 +395,7 @@ func (s *CoreVolumeResourceCrud) Create() error {
 		request.VpusPerGB = &tmpInt64
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVolume(context.Background(), request)
 	if err != nil {
@@ -412,7 +412,7 @@ func (s *CoreVolumeResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VolumeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetVolume(context.Background(), request)
 	if err != nil {
@@ -473,7 +473,7 @@ func (s *CoreVolumeResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoTuneEnabled, ok := s.D.GetOkExists("is_auto_tune_enabled"); ok {
@@ -490,7 +490,7 @@ func (s *CoreVolumeResourceCrud) Update() error {
 		tmp := s.D.Get("kms_key_id").(string)
 		keyUpdateRequest.KmsKeyId = &tmp
 
-		keyUpdateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		keyUpdateRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 		_, err := s.Client.UpdateVolumeKmsKey(context.Background(), keyUpdateRequest)
 		if err != nil {
@@ -519,7 +519,7 @@ func (s *CoreVolumeResourceCrud) Update() error {
 		request.VpusPerGB = &tmpInt64
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateVolume(context.Background(), request)
 	if err != nil {
@@ -536,7 +536,7 @@ func (s *CoreVolumeResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VolumeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteVolume(context.Background(), request)
 	return err
@@ -739,7 +739,7 @@ func (s *CoreVolumeResourceCrud) updateCompartment(compartment interface{}) erro
 	idTmp := s.D.Id()
 	changeCompartmentRequest.VolumeId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeVolumeCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

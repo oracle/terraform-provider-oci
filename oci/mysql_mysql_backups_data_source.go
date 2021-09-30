@@ -18,7 +18,7 @@ func MysqlMysqlBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMysqlMysqlBackups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"backup_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -101,7 +101,7 @@ func (s *MysqlMysqlBackupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_mysql.BackupLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.ListBackups(context.Background(), request)
 	if err != nil {

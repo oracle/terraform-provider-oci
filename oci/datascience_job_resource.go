@@ -78,8 +78,8 @@ func DatascienceJobResource() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 							ForceNew:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 
 						// Computed
@@ -137,8 +137,8 @@ func DatascienceJobResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				ForceNew:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 			},
 			"artifact_content_disposition": {
 				Type:     schema.TypeString,
@@ -360,7 +360,7 @@ func (s *DatascienceJobResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if jobConfigurationDetails, ok := s.D.GetOkExists("job_configuration_details"); ok {
@@ -401,7 +401,7 @@ func (s *DatascienceJobResourceCrud) Create() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.CreateJob(context.Background(), request)
 	if err != nil {
@@ -418,7 +418,7 @@ func (s *DatascienceJobResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.JobId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.GetJob(context.Background(), request)
 	if err != nil {
@@ -469,7 +469,7 @@ func (s *DatascienceJobResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -486,7 +486,7 @@ func (s *DatascienceJobResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateJob(context.Background(), request)
 	if err != nil {
@@ -508,7 +508,7 @@ func (s *DatascienceJobResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.JobId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.DeleteJob(context.Background(), request)
 	return err
@@ -598,7 +598,7 @@ func (s *DatascienceJobResourceCrud) mapToJobConfigurationDetails(fieldKeyFormat
 			details.CommandLineArguments = &tmp
 		}
 		if environmentVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_variables")); ok {
-			details.EnvironmentVariables = objectMapToStringMap(environmentVariables.(map[string]interface{}))
+			details.EnvironmentVariables = ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
 		}
 		if maximumRuntimeInMinutes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_runtime_in_minutes")); ok {
 			tmp := maximumRuntimeInMinutes.(string)
@@ -752,7 +752,7 @@ func (s *DatascienceJobResourceCrud) updateCompartment(compartment interface{}) 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.JobId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.ChangeJobCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -790,7 +790,7 @@ func (s *DatascienceJobResourceCrud) CreateArtifact() error {
 
 	request.JobId = s.Res.Id
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.CreateJobArtifact(context.Background(), request)
 	if err != nil {
@@ -805,7 +805,7 @@ func (s *DatascienceJobResourceCrud) GetArtifactHead() error {
 	tmp := s.D.Id()
 	request.JobId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 
 	response, err := s.Client.HeadJobArtifact(context.Background(), request)
 	if err != nil {

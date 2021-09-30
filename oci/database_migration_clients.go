@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_database_migration.DatabaseMigrationClient", &OracleClient{initClientFn: initDatabasemigrationDatabaseMigrationClient})
+	RegisterOracleClient("oci_database_migration.DatabaseMigrationClient", &OracleClient{InitClientFn: initDatabasemigrationDatabaseMigrationClient})
 }
 
 func initDatabasemigrationDatabaseMigrationClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -49,7 +49,7 @@ func (s *ServiceCatalogPrivateApplicationDataSourceCrud) Get() error {
 		request.PrivateApplicationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "service_catalog")
 
 	response, err := s.Client.GetPrivateApplication(context.Background(), request)
 	if err != nil {

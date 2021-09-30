@@ -50,7 +50,7 @@ func (s *OpsiDatabaseInsightDataSourceCrud) Get() error {
 		request.DatabaseInsightId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "opsi")
 
 	response, err := s.Client.GetDatabaseInsight(context.Background(), request)
 	if err != nil {

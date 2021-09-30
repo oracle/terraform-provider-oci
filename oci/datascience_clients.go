@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_datascience.DataScienceClient", &OracleClient{initClientFn: initDatascienceDataScienceClient})
+	RegisterOracleClient("oci_datascience.DataScienceClient", &OracleClient{InitClientFn: initDatascienceDataScienceClient})
 }
 
 func initDatascienceDataScienceClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

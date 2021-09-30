@@ -49,7 +49,7 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) Get() error {
 		request.AutonomousVmClusterId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetAutonomousVmCluster(context.Background(), request)
 	if err != nil {

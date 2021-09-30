@@ -30,13 +30,13 @@ func TestDatabaseMigrationAgentImageResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_migration_agent_images.test_agent_images"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_migration_agent_images", "test_agent_images", Required, Create, agentImageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_migration_agent_images", "test_agent_images", Required, Create, agentImageDataSourceRepresentation) +
 				compartmentIdVariableStr + AgentImageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

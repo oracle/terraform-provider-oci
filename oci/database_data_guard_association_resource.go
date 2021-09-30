@@ -25,9 +25,9 @@ func init() {
 func DatabaseDataGuardAssociationResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("2h"),
-			Update: getTimeoutDuration("2h"),
-			Delete: getTimeoutDuration("2h"),
+			Create: GetTimeoutDuration("2h"),
+			Update: GetTimeoutDuration("2h"),
+			Delete: GetTimeoutDuration("2h"),
 		},
 		Create: createDatabaseDataGuardAssociation,
 		Read:   readDatabaseDataGuardAssociation,
@@ -86,7 +86,7 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				ForceNew: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -112,7 +112,7 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				ForceNew: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -273,7 +273,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateDataGuardAssociation(context.Background(), request)
 	if err != nil {
@@ -295,7 +295,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Get() error {
 		request.DatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetDataGuardAssociation(context.Background(), request)
 	if err != nil {
@@ -330,7 +330,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Update() error {
 		request.TransportType = oci_database.UpdateDataGuardAssociationDetailsTransportTypeEnum(transportType.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateDataGuardAssociation(context.Background(), request)
 	if err != nil {
@@ -579,7 +579,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 		}
 
 		deleteDBrequest.DatabaseId = standbyDatabaseId
-		deleteDBrequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		deleteDBrequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		if _, err = s.Client.DeleteDatabase(context.Background(), deleteDBrequest); err != nil {
 			return fmt.Errorf("failed to delete the standby database")
@@ -614,7 +614,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 
 		request := oci_database.TerminateDbSystemRequest{}
 		request.DbSystemId = standbyDbSystemId
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 		_, err := s.Client.TerminateDbSystem(context.Background(), request)
 		if err != nil {
 			return fmt.Errorf("could not delete standby DB System to delete the data guard association: %v", err)
@@ -647,7 +647,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 		}
 
 		deleteDBrequest.DatabaseId = standbyDatabaseId
-		deleteDBrequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		deleteDBrequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		if _, err = s.Client.DeleteDatabase(context.Background(), deleteDBrequest); err != nil {
 			return fmt.Errorf("failed to delete the standby database")
@@ -680,7 +680,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) GetDbHomeIdFromDatabaseId(dat
 
 	request.DatabaseId = databaseId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 	response, err := s.Client.GetDatabase(context.Background(), request)
 	if err != nil {
@@ -702,7 +702,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) GetDbSystemIdFromDbHomeId(dbH
 
 	request.DbHomeId = dbHomeId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 	response, err := s.Client.GetDbHome(context.Background(), request)
 	if err != nil {

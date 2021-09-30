@@ -18,7 +18,7 @@ func DatabaseManagementDbManagementPrivateEndpointsDataSource() *schema.Resource
 	return &schema.Resource{
 		Read: readDatabaseManagementDbManagementPrivateEndpoints,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -93,7 +93,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointsDataSourceCrud) Get() err
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_management")
 
 	response, err := s.Client.ListDbManagementPrivateEndpoints(context.Background(), request)
 	if err != nil {

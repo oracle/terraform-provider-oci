@@ -15,23 +15,23 @@ import (
 
 var (
 	routeTableAttachmentRepresentation = map[string]interface{}{
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"route_table_id": Representation{repType: Required, create: `${oci_core_route_table.test_route_table.id}`},
+		"subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"route_table_id": Representation{RepType: Required, Create: `${oci_core_route_table.test_route_table.id}`},
 	}
 
-	RouteTableResourceAttachmentDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label":      Representation{repType: Required, create: `dnslabel`},
-			"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+	RouteTableResourceAttachmentDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label":      Representation{RepType: Required, Create: `dnslabel`},
+			"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", Required, Create, routeTableRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", Required, Create, routeTableRepresentation)
 )
 
 // issue-routing-tag: core/virtualNetwork
@@ -50,21 +50,21 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 
 	// This is manually written test for manually written resource. The resource name is not in codegen's resources.yaml file.
 	// We are unable to process the resource name. Thus not saving config for this test.
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + RouteTableResourceAttachmentDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create, routeTableAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create, routeTableAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
-					routeTableIdFromRT, err := fromInstanceState(s, "oci_core_route_table.test_route_table", "id")
+					routeTableIdFromRT, err := FromInstanceState(s, "oci_core_route_table.test_route_table", "id")
 					if err != nil {
 						return err
 					}
 
-					routeTableIdFromSubnet, err := fromInstanceState(s, "oci_core_subnet.test_subnet", "route_table_id")
+					routeTableIdFromSubnet, err := FromInstanceState(s, "oci_core_subnet.test_subnet", "route_table_id")
 					if routeTableIdFromRT != routeTableIdFromSubnet {
 						return fmt.Errorf("requested routeTable was not attached to the subnet")
 					}
@@ -74,34 +74,34 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 		},
 		// detach and attach another / recreate
 		{
-			Config: config + compartmentIdVariableStr + generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update,
-				representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-					"route_table_id": Representation{repType: Required, create: `${oci_core_route_table.test_route_table_2.id}`},
+			Config: config + compartmentIdVariableStr + GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update,
+				RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+					"route_table_id": Representation{RepType: Required, Create: `${oci_core_route_table.test_route_table_2.id}`},
 				})) +
-				generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-					"dns_label":      Representation{repType: Required, create: `dnslabel`},
-					"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+				GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+					"dns_label":      Representation{RepType: Required, Create: `dnslabel`},
+					"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 				})) +
 				AvailabilityDomainConfig +
 				DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", Required, Create, routeTableRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create,
-					representationCopyWithNewProperties(routeTableAttachmentRepresentation, map[string]interface{}{
-						"route_table_id": Representation{repType: Required, create: `${oci_core_route_table.test_route_table_2.id}`},
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", Required, Create, routeTableRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create,
+					RepresentationCopyWithNewProperties(routeTableAttachmentRepresentation, map[string]interface{}{
+						"route_table_id": Representation{RepType: Required, Create: `${oci_core_route_table.test_route_table_2.id}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
-					routeTableIdFromRT, err := fromInstanceState(s, "oci_core_route_table.test_route_table_2", "id")
+					routeTableIdFromRT, err := FromInstanceState(s, "oci_core_route_table.test_route_table_2", "id")
 					if err != nil {
 						return err
 					}
 
-					routeTableIdFromSubnet, err := fromInstanceState(s, "oci_core_subnet.test_subnet", "route_table_id")
+					routeTableIdFromSubnet, err := FromInstanceState(s, "oci_core_subnet.test_subnet", "route_table_id")
 					if routeTableIdFromRT != routeTableIdFromSubnet {
 						return fmt.Errorf("requested routeTable was not attached to the subnet")
 					}
@@ -112,15 +112,15 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 		// revert to original / recreate
 		{
 			Config: config + compartmentIdVariableStr + RouteTableResourceAttachmentDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create, routeTableAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create, routeTableAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
-					routeTableIdFromRT, err := fromInstanceState(s, "oci_core_route_table.test_route_table", "id")
+					routeTableIdFromRT, err := FromInstanceState(s, "oci_core_route_table.test_route_table", "id")
 					if err != nil {
 						return err
 					}
 
-					routeTableIdFromSubnet, err := fromInstanceState(s, "oci_core_subnet.test_subnet", "route_table_id")
+					routeTableIdFromSubnet, err := FromInstanceState(s, "oci_core_subnet.test_subnet", "route_table_id")
 					if routeTableIdFromRT != routeTableIdFromSubnet {
 						return fmt.Errorf("requested routeTable was not attached to the subnet")
 					}
@@ -134,7 +134,7 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 			ExpectNonEmptyPlan: true,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
-					routeTableIdFromSubnet, err := fromInstanceState(s, "oci_core_subnet.test_subnet", "route_table_id")
+					routeTableIdFromSubnet, err := FromInstanceState(s, "oci_core_subnet.test_subnet", "route_table_id")
 					if routeTableIdFromRT == routeTableIdFromSubnet {
 						return fmt.Errorf("requested routeTable was not detached from the subnet")
 					}
@@ -142,10 +142,10 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// create attachment to import
+		// Create attachment to import
 		{
 			Config: config + compartmentIdVariableStr + RouteTableResourceAttachmentDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create, routeTableAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create, routeTableAttachmentRepresentation),
 		},
 		// verify resource import
 		{

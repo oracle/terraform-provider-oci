@@ -103,7 +103,7 @@ func (s *CoreCpeDeviceShapeDataSourceCrud) Get() error {
 		request.CpeDeviceShapeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetCpeDeviceShape(context.Background(), request)
 	if err != nil {

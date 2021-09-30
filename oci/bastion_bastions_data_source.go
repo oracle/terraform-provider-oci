@@ -18,7 +18,7 @@ func BastionBastionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBastionBastions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"bastion_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -84,7 +84,7 @@ func (s *BastionBastionsDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "bastion")
 
 	response, err := s.Client.ListBastions(context.Background(), request)
 	if err != nil {

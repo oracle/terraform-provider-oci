@@ -21,55 +21,55 @@ import (
 
 var (
 	SubnetRequiredOnlyResource = SubnetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation)
 
 	SubnetResourceConfig = SubnetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation)
 
 	subnetSingularDataSourceRepresentation = map[string]interface{}{
-		"subnet_id": Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"subnet_id": Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 
 	subnetDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `MySubnet`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
-		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `MySubnet`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
+		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, subnetDataSourceFilterRepresentation}}
 	subnetDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_subnet.test_subnet.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_subnet.test_subnet.id}`}},
 	}
 
 	subnetRepresentation = map[string]interface{}{
-		"cidr_block":                 Representation{repType: Required, create: `10.0.0.0/24`, update: "10.0.0.0/16"},
-		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":                     Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"availability_domain":        Representation{repType: Optional, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"dhcp_options_id":            Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
-		"display_name":               Representation{repType: Optional, create: `MySubnet`, update: `displayName2`},
-		"dns_label":                  Representation{repType: Optional, create: `dnslabel`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"prohibit_public_ip_on_vnic": Representation{repType: Optional, create: `false`},
-		"prohibit_internet_ingress":  Representation{repType: Optional, create: `false`},
-		"route_table_id":             Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_route_table_id}`, update: `${oci_core_route_table.test_route_table.id}`},
-		"security_list_ids":          Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, update: []string{`${oci_core_security_list.test_security_list.id}`}},
+		"cidr_block":                 Representation{RepType: Required, Create: `10.0.0.0/24`, Update: "10.0.0.0/16"},
+		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"vcn_id":                     Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"availability_domain":        Representation{RepType: Optional, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dhcp_options_id":            Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, Update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
+		"display_name":               Representation{RepType: Optional, Create: `MySubnet`, Update: `displayName2`},
+		"dns_label":                  Representation{RepType: Optional, Create: `dnslabel`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"prohibit_public_ip_on_vnic": Representation{RepType: Optional, Create: `false`},
+		"prohibit_internet_ingress":  Representation{RepType: Optional, Create: `false`},
+		"route_table_id":             Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`, Update: `${oci_core_route_table.test_route_table.id}`},
+		"security_list_ids":          Representation{RepType: Optional, Create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, Update: []string{`${oci_core_security_list.test_security_list.id}`}},
 		"lifecycle":                  RepresentationGroup{Required, ignoreDefinedTagsChangesRep},
 	}
 
-	SubnetResourceDependencies = generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label":      Representation{repType: Required, create: `dnslabel`},
-			"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+	SubnetResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label":      Representation{RepType: Required, Create: `dnslabel`},
+			"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
-	AnotherSecurityListRequiredOnlyResource = generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation)
+	AnotherSecurityListRequiredOnlyResource = GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation)
 	SubnetRequiredOnlyResourceDependencies  = AvailabilityDomainConfig + VcnResourceConfig
 )
 
@@ -94,36 +94,36 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 	// For example: VCN CIDR Block: 2607:9b80:9a0f:0100::/56, Subnet CIDR Block: 2607:9b80:9a0f:0100::/64
 	subnetCidrBlock := `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SubnetResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation), "core", "subnet", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SubnetResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation), "core", "subnet", t)
 
 	ResourceTest(t, testAccCheckCoreSubnetDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SubnetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SubnetResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SubnetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-					"ipv6cidr_block": Representation{repType: Optional, create: subnetCidrBlock},
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+					"ipv6cidr_block": Representation{RepType: Optional, Create: subnetCidrBlock},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -144,9 +144,9 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -155,12 +155,12 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SubnetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create,
-					representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create,
+					RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -182,7 +182,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -194,8 +194,8 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SubnetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-					"ipv6cidr_block": Representation{repType: Optional, update: subnetCidrBlock},
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+					"ipv6cidr_block": Representation{RepType: Optional, Update: subnetCidrBlock},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -217,7 +217,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -228,9 +228,9 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", Optional, Update, subnetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", Optional, Update, subnetDataSourceRepresentation) +
 				compartmentIdVariableStr + SubnetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -262,7 +262,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SubnetResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
@@ -309,7 +309,7 @@ func testAccCheckCoreSubnetDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SubnetId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetSubnet(context.Background(), request)
 
@@ -342,7 +342,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreSubnet") {
+	if !InSweeperExcludeList("CoreSubnet") {
 		resource.AddTestSweepers("CoreSubnet", &resource.Sweeper{
 			Name:         "CoreSubnet",
 			Dependencies: DependencyGraph["subnet"],
@@ -363,13 +363,13 @@ func sweepCoreSubnetResource(compartment string) error {
 
 			deleteSubnetRequest.SubnetId = &subnetId
 
-			deleteSubnetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteSubnetRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteSubnet(context.Background(), deleteSubnetRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Subnet %s %s, It is possible that the resource is already deleted. Please verify manually \n", subnetId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &subnetId, subnetSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &subnetId, subnetSweepWaitCondition, time.Duration(3*time.Minute),
 				subnetSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -377,7 +377,7 @@ func sweepCoreSubnetResource(compartment string) error {
 }
 
 func getSubnetIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SubnetId")
+	ids := GetResourceIdsToSweep(compartment, "SubnetId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -396,7 +396,7 @@ func getSubnetIds(compartment string) ([]string, error) {
 	for _, subnet := range listSubnetsResponse.Items {
 		id := *subnet.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SubnetId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SubnetId", id)
 	}
 	return resourceIds, nil
 }

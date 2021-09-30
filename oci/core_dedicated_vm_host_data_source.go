@@ -49,7 +49,7 @@ func (s *CoreDedicatedVmHostDataSourceCrud) Get() error {
 		request.DedicatedVmHostId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetDedicatedVmHost(context.Background(), request)
 	if err != nil {

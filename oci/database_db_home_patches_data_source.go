@@ -18,7 +18,7 @@ func DatabaseDbHomePatchesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbHomePatches,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"db_home_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -101,7 +101,7 @@ func (s *DatabaseDbHomePatchesDataSourceCrud) Get() error {
 		request.DbHomeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDbHomePatches(context.Background(), request)
 	if err != nil {

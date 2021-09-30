@@ -16,29 +16,29 @@ import (
 
 var (
 	DeployInvokeFunctionStageRequiredOnlyResource = DeployInvokeFunctionStageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployInvokeFunctionStageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployInvokeFunctionStageRepresentation)
 
 	DeployInvokeFunctionStageResourceConfig = DeployInvokeFunctionStageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployInvokeFunctionStageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployInvokeFunctionStageRepresentation)
 
 	deployInvokeFunctionStageSingularDataSourceRepresentation = map[string]interface{}{
-		"deploy_stage_id": Representation{repType: Required, create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
+		"deploy_stage_id": Representation{RepType: Required, Create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
 	}
 
-	deployInvokeFunctionStageRepresentation = getUpdatedRepresentationCopy("deploy_stage_type", Representation{repType: Required, create: `INVOKE_FUNCTION`},
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
-			"function_deploy_environment_id": Representation{repType: Required, create: `${oci_devops_deploy_environment.test_deploy_function_environment_1.id}`},
-			"is_async":                       Representation{repType: Required, create: `true`, update: `false`},
-			"is_validation_enabled":          Representation{repType: Required, create: `false`, update: `true`},
-			"deploy_artifact_id":             Representation{repType: Optional, create: `${oci_devops_deploy_artifact.test_deploy_ocir_artifact_1.id}`},
+	deployInvokeFunctionStageRepresentation = GetUpdatedRepresentationCopy("deploy_stage_type", Representation{RepType: Required, Create: `INVOKE_FUNCTION`},
+		RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
+			"function_deploy_environment_id": Representation{RepType: Required, Create: `${oci_devops_deploy_environment.test_deploy_function_environment_1.id}`},
+			"is_async":                       Representation{RepType: Required, Create: `true`, Update: `false`},
+			"is_validation_enabled":          Representation{RepType: Required, Create: `false`, Update: `true`},
+			"deploy_artifact_id":             Representation{RepType: Optional, Create: `${oci_devops_deploy_artifact.test_deploy_ocir_artifact_1.id}`},
 		}))
 
-	DeployInvokeFunctionStageResourceDependencies = generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_ocir_artifact_1", Required, Create, deployOcirArtifactRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_function_environment_1", Required, Create, deployFunctionEnvironmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
+	DeployInvokeFunctionStageResourceDependencies = GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_ocir_artifact_1", Required, Create, deployOcirArtifactRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_function_environment_1", Required, Create, deployFunctionEnvironmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -56,15 +56,15 @@ func TestDevopsDeployStageResource_invokeFunction(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deploy_stage.test_deploy_stage"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeployInvokeFunctionStageResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployInvokeFunctionStageRepresentation), "devops", "deployStage", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeployInvokeFunctionStageResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployInvokeFunctionStageRepresentation), "devops", "deployStage", t)
 
 	ResourceTest(t, testAccCheckDevopsDeployStageDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeployInvokeFunctionStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployInvokeFunctionStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployInvokeFunctionStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
@@ -76,20 +76,20 @@ func TestDevopsDeployStageResource_invokeFunction(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_validation_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeployInvokeFunctionStageResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DeployInvokeFunctionStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployInvokeFunctionStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployInvokeFunctionStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -108,9 +108,9 @@ func TestDevopsDeployStageResource_invokeFunction(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_validation_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,7 +122,7 @@ func TestDevopsDeployStageResource_invokeFunction(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DeployInvokeFunctionStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployInvokeFunctionStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployInvokeFunctionStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -139,7 +139,7 @@ func TestDevopsDeployStageResource_invokeFunction(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_validation_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -150,9 +150,9 @@ func TestDevopsDeployStageResource_invokeFunction(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployInvokeFunctionStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployInvokeFunctionStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployInvokeFunctionStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
@@ -165,7 +165,7 @@ func TestDevopsDeployStageResource_invokeFunction(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployInvokeFunctionStageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployInvokeFunctionStageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployInvokeFunctionStageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_id"),

@@ -22,33 +22,33 @@ import (
 var (
 	replicationBucketName           = testBucketName + "_replication"
 	ReplicationPolicyResourceConfig = ReplicationPolicyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Optional, Update, replicationPolicyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Optional, Update, replicationPolicyRepresentation)
 
 	replicationPolicySingularDataSourceRepresentation = map[string]interface{}{
-		"bucket":         Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"namespace":      Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"replication_id": Representation{repType: Required, create: `${data.oci_objectstorage_replication_policies.test_replication_policies.replication_policies.0.id}`},
+		"bucket":         Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace":      Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"replication_id": Representation{RepType: Required, Create: `${data.oci_objectstorage_replication_policies.test_replication_policies.replication_policies.0.id}`},
 	}
 
 	replicationPolicyDataSourceRepresentation = map[string]interface{}{
-		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"namespace": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"bucket":    Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace": Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 	}
 
 	replicationPolicyRepresentation = map[string]interface{}{
-		"bucket":                  Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"destination_bucket_name": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket_replication.name}`},
-		"destination_region_name": Representation{repType: Required, create: `${var.region}`},
-		"name":                    Representation{repType: Required, create: `mypolicy`},
-		"namespace":               Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"bucket":                  Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"destination_bucket_name": Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket_replication.name}`},
+		"destination_region_name": Representation{RepType: Required, Create: `${var.region}`},
+		"name":                    Representation{RepType: Required, Create: `mypolicy`},
+		"namespace":               Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 	}
 
-	ReplicationPolicyResourceDependencies = generateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket_replication", Required, Create,
-			representationCopyWithNewProperties(bucketRepresentation, map[string]interface{}{
-				"name": Representation{repType: Required, create: replicationBucketName},
-			})) + generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
+	ReplicationPolicyResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket_replication", Required, Create,
+			RepresentationCopyWithNewProperties(bucketRepresentation, map[string]interface{}{
+				"name": Representation{RepType: Required, Create: replicationBucketName},
+			})) + GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: object_storage/default
@@ -66,15 +66,15 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_objectstorage_replication_policy.test_replication_policy"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ReplicationPolicyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation), "objectstorage", "replicationPolicy", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ReplicationPolicyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation), "objectstorage", "replicationPolicy", t)
 
 	ResourceTest(t, testAccCheckObjectStorageReplicationPolicyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_bucket_name"),
@@ -83,9 +83,9 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -97,9 +97,9 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
 				compartmentIdVariableStr + ReplicationPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Optional, Update, replicationPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Optional, Update, replicationPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 
@@ -117,8 +117,8 @@ func TestObjectStorageReplicationPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_policies", "test_replication_policies", Optional, Update, replicationPolicyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ReplicationPolicyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
@@ -165,7 +165,7 @@ func testAccCheckObjectStorageReplicationPolicyDestroy(s *terraform.State) error
 				log.Printf("[WARN] Get() unable to parse current ID: %s", rs.Primary.ID)
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "object_storage")
 
 			_, err = client.GetReplicationPolicy(context.Background(), request)
 
@@ -190,7 +190,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ObjectStorageReplicationPolicy") {
+	if !InSweeperExcludeList("ObjectStorageReplicationPolicy") {
 		resource.AddTestSweepers("ObjectStorageReplicationPolicy", &resource.Sweeper{
 			Name:         "ObjectStorageReplicationPolicy",
 			Dependencies: DependencyGraph["replicationPolicy"],
@@ -209,7 +209,7 @@ func sweepObjectStorageReplicationPolicyResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[replicationPolicyId]; !ok {
 			deleteReplicationPolicyRequest := oci_object_storage.DeleteReplicationPolicyRequest{}
 
-			deleteReplicationPolicyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+			deleteReplicationPolicyRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "object_storage")
 			_, error := objectStorageClient.DeleteReplicationPolicy(context.Background(), deleteReplicationPolicyRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ReplicationPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", replicationPolicyId, error)
@@ -221,7 +221,7 @@ func sweepObjectStorageReplicationPolicyResource(compartment string) error {
 }
 
 func getReplicationPolicyIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ReplicationPolicyId")
+	ids := GetResourceIdsToSweep(compartment, "ReplicationPolicyId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -253,7 +253,7 @@ func getReplicationPolicyIds(compartment string) ([]string, error) {
 			for _, replicationPolicy := range listReplicationPoliciesResponse.Items {
 				id := *replicationPolicy.Id
 				resourceIds = append(resourceIds, id)
-				addResourceIdToSweeperResourceIdMap(compartmentId, "ReplicationPolicyId", id)
+				AddResourceIdToSweeperResourceIdMap(compartmentId, "ReplicationPolicyId", id)
 			}
 
 		}

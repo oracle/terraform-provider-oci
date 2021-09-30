@@ -20,7 +20,7 @@ func DataSafeUserAssessmentUsersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataSafeUserAssessmentUsers,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -265,7 +265,7 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) Get() error {
 		request.UserName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListUsers(context.Background(), request)
 	if err != nil {

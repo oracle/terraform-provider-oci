@@ -18,7 +18,7 @@ func DatabaseDbNodeConsoleConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbNodeConsoleConnections,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"db_node_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -58,7 +58,7 @@ func (s *DatabaseDbNodeConsoleConnectionsDataSourceCrud) Get() error {
 		request.DbNodeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListConsoleConnections(context.Background(), request)
 	if err != nil {

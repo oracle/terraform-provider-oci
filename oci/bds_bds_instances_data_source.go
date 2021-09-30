@@ -18,7 +18,7 @@ func BdsBdsInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBdsBdsInstances,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -76,7 +76,7 @@ func (s *BdsBdsInstancesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_bds.BdsInstanceLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "bds")
 
 	response, err := s.Client.ListBdsInstances(context.Background(), request)
 	if err != nil {

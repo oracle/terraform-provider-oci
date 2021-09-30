@@ -49,7 +49,7 @@ func (s *DataSafeSecurityAssessmentDataSourceCrud) Get() error {
 		request.SecurityAssessmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.GetSecurityAssessment(context.Background(), request)
 	if err != nil {

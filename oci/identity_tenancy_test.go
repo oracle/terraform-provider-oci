@@ -13,7 +13,7 @@ import (
 
 var (
 	tenancySingularDataSourceRepresentation = map[string]interface{}{
-		"tenancy_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"tenancy_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 	}
 
 	TenancyResourceConfig = ""
@@ -28,13 +28,13 @@ func TestIdentityTenancyResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_identity_tenancy.test_tenancy"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
 

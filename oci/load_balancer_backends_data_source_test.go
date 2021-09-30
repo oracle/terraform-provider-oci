@@ -139,15 +139,15 @@ func TestAccDatasourceLoadBalancerBackends_basic(t *testing.T) {
 
 func validateBackendName(resourceName string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
-		ipAddress, err := fromInstanceState(s, resourceName, "backends.0.ip_address")
+		ipAddress, err := FromInstanceState(s, resourceName, "backends.0.ip_address")
 		if err != nil {
 			return err
 		}
-		port, err := fromInstanceState(s, resourceName, "backends.0.port")
+		port, err := FromInstanceState(s, resourceName, "backends.0.port")
 		if err != nil {
 			return err
 		}
-		actualName, err := fromInstanceState(s, resourceName, "backends.0.name")
+		actualName, err := FromInstanceState(s, resourceName, "backends.0.name")
 		if err != nil {
 			return err
 		}

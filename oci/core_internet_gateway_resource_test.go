@@ -43,7 +43,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config +
 					`resource "oci_core_internet_gateway" "t" {
@@ -58,12 +58,12 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 					resource.TestCheckResourceAttr(s.ResourceName, "enabled", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.InternetGatewayLifecycleStateAvailable)),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_core_internet_gateway.t", "id")
+						resId, err = FromInstanceState(s, "oci_core_internet_gateway.t", "id")
 						return err
 					},
 				),
 			},
-			// verify update
+			// verify Update
 			{
 				Config: s.Config + `
 					resource "oci_core_internet_gateway" "t" {
@@ -79,7 +79,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.InternetGatewayLifecycleStateAvailable)),
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_core_internet_gateway.t", "id")
+						resId2, err = FromInstanceState(s, "oci_core_internet_gateway.t", "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
@@ -88,7 +88,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 					},
 				),
 			},
-			// verify destructive update
+			// verify destructive Update
 			{
 				Config: legacyTestProviderConfig() + `
 					resource "oci_core_virtual_network" "t2" {
@@ -109,7 +109,7 @@ func (s *ResourceCoreInternetGatewayTestSuite) TestAccResourceCoreInternetGatewa
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.InternetGatewayLifecycleStateAvailable)),
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_core_internet_gateway.t", "id")
+						resId2, err = FromInstanceState(s, "oci_core_internet_gateway.t", "id")
 						if resId == resId2 {
 							return fmt.Errorf("expected resource to be recreated but was not")
 						}

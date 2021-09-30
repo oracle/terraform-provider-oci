@@ -197,7 +197,7 @@ func (s *CoreRemotePeeringConnectionResourceCrud) ConnectRemotePeeringConnection
 		connectRequest.PeerRegionName = &tmp
 	}
 
-	connectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	connectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ConnectRemotePeeringConnections(context.Background(), connectRequest)
 	if err != nil {
@@ -258,10 +258,10 @@ func (s *CoreRemotePeeringConnectionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateRemotePeeringConnection(context.Background(), request)
 	if err != nil {
@@ -278,7 +278,7 @@ func (s *CoreRemotePeeringConnectionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.RemotePeeringConnectionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetRemotePeeringConnection(context.Background(), request)
 	if err != nil {
@@ -315,13 +315,13 @@ func (s *CoreRemotePeeringConnectionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.RemotePeeringConnectionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateRemotePeeringConnection(context.Background(), request)
 	if err != nil {
@@ -338,7 +338,7 @@ func (s *CoreRemotePeeringConnectionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.RemotePeeringConnectionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteRemotePeeringConnection(context.Background(), request)
 	return err
@@ -422,7 +422,7 @@ func (s *CoreRemotePeeringConnectionResourceCrud) updateCompartment(compartment 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.RemotePeeringConnectionId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeRemotePeeringConnectionCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

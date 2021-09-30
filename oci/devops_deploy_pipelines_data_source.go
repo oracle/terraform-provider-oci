@@ -18,7 +18,7 @@ func DevopsDeployPipelinesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDevopsDeployPipelines,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -102,7 +102,7 @@ func (s *DevopsDeployPipelinesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_devops.DeployPipelineLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.ListDeployPipelines(context.Background(), request)
 	if err != nil {

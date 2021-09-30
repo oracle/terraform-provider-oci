@@ -14,18 +14,18 @@ import (
 
 var (
 	publicationPackageSingularDataSourceRepresentation = map[string]interface{}{
-		"package_version": Representation{repType: Required, create: `packageVersion`},
-		"publication_id":  Representation{repType: Required, create: `${oci_marketplace_publication.test_publication.id}`},
+		"package_version": Representation{RepType: Required, Create: `packageVersion`},
+		"publication_id":  Representation{RepType: Required, Create: `${oci_marketplace_publication.test_publication.id}`},
 	}
 
 	publicationPackageDataSourceRepresentation = map[string]interface{}{
-		"publication_id":  Representation{repType: Required, create: `${oci_marketplace_publication.test_publication.id}`},
-		"package_type":    Representation{repType: Optional, create: `packageType`},
-		"package_version": Representation{repType: Optional, create: `packageVersion`},
+		"publication_id":  Representation{RepType: Required, Create: `${oci_marketplace_publication.test_publication.id}`},
+		"package_type":    Representation{RepType: Optional, Create: `packageType`},
+		"package_version": Representation{RepType: Optional, Create: `packageVersion`},
 	}
 
 	PublicationPackageResourceConfig = PublicationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create, publicationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create, publicationRepresentation)
 )
 
 // issue-routing-tag: marketplace/default
@@ -46,7 +46,7 @@ func TestMarketplacePublicationPackageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_publication_packages", "test_publication_packages", Required, Create, publicationPackageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_publication_packages", "test_publication_packages", Required, Create, publicationPackageDataSourceRepresentation) +
 				compartmentIdVariableStr + PublicationPackageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "publication_id"),
@@ -61,7 +61,7 @@ func TestMarketplacePublicationPackageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_publication_package", "test_publication_package", Required, Create, publicationPackageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_publication_package", "test_publication_package", Required, Create, publicationPackageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + PublicationPackageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "package_version"),

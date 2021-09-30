@@ -49,7 +49,7 @@ func (s *MysqlAnalyticsClusterDataSourceCrud) Get() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.GetAnalyticsCluster(context.Background(), request)
 	if err != nil {

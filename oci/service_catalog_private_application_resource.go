@@ -246,7 +246,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if logoFileBase64Encoded, ok := s.D.GetOkExists("logo_file_base64encoded"); ok {
@@ -275,7 +275,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Create() error {
 		request.ShortDescription = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.CreatePrivateApplication(context.Background(), request)
 	if err != nil {
@@ -285,7 +285,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Create() error {
 	s.Res = &response.PrivateApplication
 	return nil
 	//workId := response.OpcWorkRequestId
-	//return s.getPrivateApplicationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "service_catalog"), oci_service_catalog.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	//return s.getPrivateApplicationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog"), oci_service_catalog.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *ServiceCatalogPrivateApplicationResourceCrud) getPrivateApplicationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -340,7 +340,7 @@ func privateApplicationWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 
 func privateApplicationWaitForWorkRequest(wId *string, entityType string, action oci_service_catalog.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_service_catalog.ServiceCatalogClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "service_catalog")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "service_catalog")
 	retryPolicy.ShouldRetryOperation = privateApplicationWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_service_catalog.GetWorkRequestResponse{}
@@ -416,7 +416,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PrivateApplicationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.GetPrivateApplication(context.Background(), request)
 	if err != nil {
@@ -453,7 +453,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if logoFileBase64Encoded, ok := s.D.GetOkExists("logo_file_base64encoded"); ok {
@@ -474,7 +474,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Update() error {
 		request.ShortDescription = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.UpdatePrivateApplication(context.Background(), request)
 	if err != nil {
@@ -485,7 +485,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Update() error {
 	return nil
 
 	//workId := response.OpcWorkRequestId
-	//return s.getPrivateApplicationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "service_catalog"), oci_service_catalog.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	//return s.getPrivateApplicationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog"), oci_service_catalog.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ServiceCatalogPrivateApplicationResourceCrud) Delete() error {
@@ -494,7 +494,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PrivateApplicationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	_, err := s.Client.DeletePrivateApplication(context.Background(), request)
 	return err
@@ -660,7 +660,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) updateCompartment(compart
 	idTmp := s.D.Id()
 	changeCompartmentRequest.PrivateApplicationId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	_, err := s.Client.ChangePrivateApplicationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -669,5 +669,5 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) updateCompartment(compart
 
 	return nil
 	//workId := response.OpcWorkRequestId
-	//return s.getPrivateApplicationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "service_catalog"), oci_service_catalog.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	//return s.getPrivateApplicationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog"), oci_service_catalog.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

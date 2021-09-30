@@ -27,9 +27,9 @@ func GoldenGateDeploymentResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("90m"),
-			Update: getTimeoutDuration("60m"),
-			Delete: getTimeoutDuration("30m"),
+			Create: GetTimeoutDuration("90m"),
+			Update: GetTimeoutDuration("60m"),
+			Delete: GetTimeoutDuration("30m"),
 		},
 		Create: createGoldenGateDeployment,
 		Read:   readGoldenGateDeployment,
@@ -106,7 +106,7 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -327,7 +327,7 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
@@ -374,7 +374,7 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.CreateDeployment(context.Background(), request)
 	if err != nil {
@@ -382,7 +382,7 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeploymentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *GoldenGateDeploymentResourceCrud) getDeploymentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -427,7 +427,7 @@ func goldenGateDeploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(
 
 func goldenGateDeploymentWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "golden_gate")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = goldenGateDeploymentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_golden_gate.GetWorkRequestResponse{}
@@ -507,7 +507,7 @@ func (s *GoldenGateDeploymentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.GetDeployment(context.Background(), request)
 	if err != nil {
@@ -562,7 +562,7 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
@@ -609,7 +609,7 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.UpdateDeployment(context.Background(), request)
 	if err != nil {
@@ -617,7 +617,7 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDeploymentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *GoldenGateDeploymentResourceCrud) Delete() error {
@@ -626,7 +626,7 @@ func (s *GoldenGateDeploymentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.DeleteDeployment(context.Background(), request)
 	if err != nil {
@@ -705,7 +705,7 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.OggData != nil {
 		s.D.Set("ogg_data", []interface{}{OggDeploymentToMap(s.Res.OggData, s.D)})
@@ -941,7 +941,7 @@ func (s *GoldenGateDeploymentResourceCrud) updateCompartment(compartment interfa
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DeploymentId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.ChangeDeploymentCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

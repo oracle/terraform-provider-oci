@@ -170,7 +170,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateAutonomousDatabaseBackup(context.Background(), request)
 	if err != nil {
@@ -195,7 +195,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseBackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetAutonomousDatabaseBackup(context.Background(), request)
 	if err != nil {

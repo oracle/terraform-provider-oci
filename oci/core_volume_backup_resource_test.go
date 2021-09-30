@@ -44,7 +44,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config + `
 					resource "oci_core_volume_backup" "t" {
@@ -64,12 +64,12 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_gbs"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_request_received"),
 					func(ts *terraform.State) (err error) {
-						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
 			},
-			// verify update
+			// verify Update
 			{
 				Config: s.Config + `
 					resource "oci_core_volume_backup" "t" {
@@ -91,7 +91,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_gbs"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_request_received"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId2 != resId {
 							return fmt.Errorf("expected same volume bakcup ocid, got different")
 						}
@@ -122,7 +122,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "unique_size_in_gbs"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_request_received"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId2 == resId {
 							return fmt.Errorf("expected different volume backup ocid, got same")
 						}
@@ -164,12 +164,12 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource.TestCheckResourceAttr("oci_core_volume.t2", "state", string(core.VolumeLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr("oci_core_volume.t2", "size_in_mbs", "51200"),
 					resource.TestCheckResourceAttr("oci_core_volume.t2", "size_in_gbs", "50"),
-					// Only set during "create" scenarios
+					// Only set during "Create" scenarios
 					resource.TestCheckNoResourceAttr("oci_core_volume.t2", "time_request_received"),
 					func(ts *terraform.State) (err error) {
 						var backupId, volBackupId string
-						if backupId, err = fromInstanceState(ts, s.ResourceName, "id"); err == nil {
-							if volBackupId, err = fromInstanceState(ts, "oci_core_volume.t2", "volume_backup_id"); err == nil {
+						if backupId, err = FromInstanceState(ts, s.ResourceName, "id"); err == nil {
+							if volBackupId, err = FromInstanceState(ts, "oci_core_volume.t2", "volume_backup_id"); err == nil {
 								if volBackupId != backupId {
 									return fmt.Errorf("volume created from different backup than expected")
 								}
@@ -205,7 +205,7 @@ func (s *ResourceCoreVolumeBackupTestSuite) TestAccResourceCoreVolumeBackup_basi
 					resource.TestCheckResourceAttr("oci_core_volume.u", "state", string(core.VolumeLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr("oci_core_volume.u", "size_in_mbs", "51200"),
 					resource.TestCheckResourceAttr("oci_core_volume.u", "size_in_gbs", "50"),
-					// Only set during "create" scenarios
+					// Only set during "Create" scenarios
 					resource.TestCheckNoResourceAttr("oci_core_volume.u", "time_request_received"),
 					// Only present if specific in configuration
 					resource.TestCheckNoResourceAttr("oci_core_volume.u", "volume_backup_id"),

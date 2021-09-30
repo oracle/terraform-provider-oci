@@ -50,7 +50,7 @@ func (s *DevopsDeployEnvironmentDataSourceCrud) Get() error {
 		request.DeployEnvironmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.GetDeployEnvironment(context.Background(), request)
 	if err != nil {

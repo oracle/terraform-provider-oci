@@ -212,7 +212,7 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.CreateContainerRepository(context.Background(), request)
 	if err != nil {
@@ -229,7 +229,7 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.RepositoryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.GetContainerRepository(context.Background(), request)
 	if err != nil {
@@ -276,7 +276,7 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.RepositoryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.UpdateContainerRepository(context.Background(), request)
 	if err != nil {
@@ -293,7 +293,7 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.RepositoryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	_, err := s.Client.DeleteContainerRepository(context.Background(), request)
 	return err
@@ -436,7 +436,7 @@ func (s *ArtifactsContainerRepositoryResourceCrud) updateCompartment(compartment
 	tmp := s.D.Id()
 	changeCompartmentRequest.RepositoryId = &tmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	_, err := s.Client.ChangeContainerRepositoryCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

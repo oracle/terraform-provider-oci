@@ -68,7 +68,7 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 	var resId string
 	resourceName := "oci_database_db_home.test_db_home_source_database"
 	ResourceTest(t, nil, []resource.TestStep{
-		// create
+		// Create
 		{
 			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
 				data "oci_database_databases" "db" {
@@ -77,14 +77,14 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 				}`,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, "data.oci_database_databases.db", "databases.0.id")
+					resId, err = FromInstanceState(s, "data.oci_database_databases.db", "databases.0.id")
 					return err
 				},
 			),
 		},
-		// wait for backup and create new db from it
+		// wait for backup and Create new db from it
 		{
-			PreConfig: waitTillCondition(testAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
+			PreConfig: WaitTillCondition(testAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
 				listBackupsFetchOperation, "database", false),
 			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem +
 				`
@@ -136,26 +136,26 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_db_home.test_db_home"
-	dbHomeRepresentationSourceCloudVmClusterNew := getUpdatedRepresentationCopy("vm_cluster_id",
-		Representation{repType: Required, create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
+	dbHomeRepresentationSourceCloudVmClusterNew := GetUpdatedRepresentationCopy("vm_cluster_id",
+		Representation{RepType: Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 		dbHomeRepresentationSourceVmClusterNew)
 
 	var resId string
 
 	ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceCloudVmClusterNew),
+				GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceCloudVmClusterNew),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "source", "VM_CLUSTER_NEW"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

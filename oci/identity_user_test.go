@@ -19,32 +19,32 @@ import (
 
 var (
 	UserRequiredOnlyResource = UserResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 
 	UserResourceConfig = UserResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation)
 
 	userSingularDataSourceRepresentation = map[string]interface{}{
-		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"user_id": Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
 	userDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"name":           Representation{repType: Optional, create: `JohnSmith@example.com`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"name":           Representation{RepType: Optional, Create: `JohnSmith@example.com`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, userDataSourceFilterRepresentation}}
 	userDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_user.test_user.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_user.test_user.id}`}},
 	}
 
 	userRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"description":    Representation{repType: Required, create: `John Smith`, update: `description2`},
-		"name":           Representation{repType: Required, create: `JohnSmith@example.com`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"email":          Representation{repType: Optional, create: `email`, update: `email2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"description":    Representation{RepType: Required, Create: `John Smith`, Update: `description2`},
+		"name":           Representation{RepType: Required, Create: `JohnSmith@example.com`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"email":          Representation{RepType: Optional, Create: `email`, Update: `email2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	UserResourceDependencies = DefinedTagsDependencies
@@ -66,35 +66,35 @@ func TestIdentityUserResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_identity_user.test_user"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+UserResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation), "identity", "user", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+UserResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation), "identity", "user", t)
 
 	ResourceTest(t, testAccCheckIdentityUserDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + UserResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
 				resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + UserResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + UserResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -108,9 +108,9 @@ func TestIdentityUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,7 +122,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + UserResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -136,7 +136,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -147,9 +147,9 @@ func TestIdentityUserResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_users", "test_users", Optional, Update, userDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_users", "test_users", Optional, Update, userDataSourceRepresentation) +
 				compartmentIdVariableStr + UserResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "JohnSmith@example.com"),
@@ -172,7 +172,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + UserResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
@@ -216,7 +216,7 @@ func testAccCheckIdentityUserDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.UserId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 
 			response, err := client.GetUser(context.Background(), request)
 

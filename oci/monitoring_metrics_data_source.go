@@ -18,7 +18,7 @@ func MonitoringMetricsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMonitoringMetrics,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -143,7 +143,7 @@ func (s *MonitoringMetricsDataSourceCrud) Get() error {
 	}
 
 	if dimensionFilters, ok := s.D.GetOkExists("dimension_filters"); ok {
-		request.DimensionFilters = objectMapToStringMap(dimensionFilters.(map[string]interface{}))
+		request.DimensionFilters = ObjectMapToStringMap(dimensionFilters.(map[string]interface{}))
 	}
 
 	if groupBy, ok := s.D.GetOkExists("group_by"); ok {
@@ -174,7 +174,7 @@ func (s *MonitoringMetricsDataSourceCrud) Get() error {
 		request.ResourceGroup = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "monitoring")
 
 	response, err := s.Client.ListMetrics(context.Background(), request)
 	if err != nil {

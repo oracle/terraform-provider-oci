@@ -18,7 +18,7 @@ func MysqlShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMysqlShapes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -123,7 +123,7 @@ func (s *MysqlShapesDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.ListShapes(context.Background(), request)
 	if err != nil {

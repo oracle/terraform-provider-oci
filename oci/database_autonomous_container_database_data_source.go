@@ -49,7 +49,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) Get() error {
 		request.AutonomousContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetAutonomousContainerDatabase(context.Background(), request)
 	if err != nil {

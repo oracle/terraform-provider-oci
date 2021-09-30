@@ -163,7 +163,7 @@ func updateOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 			stateInactive = true
 			stateActive = false
 		} else {
-			return fmt.Errorf("[ERROR] Invalid state input for update %v", wantedState)
+			return fmt.Errorf("[ERROR] Invalid state input for Update %v", wantedState)
 		}
 	}
 
@@ -176,7 +176,7 @@ func updateOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	// when state is inactive, it is invalid to update resource
+	// when state is inactive, it is invalid to Update resource
 	if err := UpdateResource(d, sync); err != nil {
 		return err
 	}
@@ -276,14 +276,14 @@ func (s *OdaOdaInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if shapeName, ok := s.D.GetOkExists("shape_name"); ok {
 		request.ShapeName = oci_oda.CreateOdaInstanceDetailsShapeNameEnum(shapeName.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oda")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
 	response, err := s.Client.CreateOdaInstance(context.Background(), request)
 	if err != nil {
@@ -291,7 +291,7 @@ func (s *OdaOdaInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOdaInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOdaInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *OdaOdaInstanceResourceCrud) getOdaInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -334,7 +334,7 @@ func odaInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 
 func odaInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oda.WorkRequestResourceResourceActionEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_oda.OdaClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "oda")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "oda")
 	retryPolicy.ShouldRetryOperation = odaInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_oda.GetWorkRequestResponse{}
@@ -415,7 +415,7 @@ func (s *OdaOdaInstanceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.OdaInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oda")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
 	response, err := s.Client.GetOdaInstance(context.Background(), request)
 	if err != nil {
@@ -457,13 +457,13 @@ func (s *OdaOdaInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.OdaInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oda")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
 	response, err := s.Client.UpdateOdaInstance(context.Background(), request)
 	if err != nil {
@@ -480,7 +480,7 @@ func (s *OdaOdaInstanceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.OdaInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oda")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
 	response, err := s.Client.DeleteOdaInstance(context.Background(), request)
 	if err != nil {
@@ -551,7 +551,7 @@ func (s *OdaOdaInstanceResourceCrud) updateCompartment(compartment interface{}) 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.OdaInstanceId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oda")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
 	response, err := s.Client.ChangeOdaInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -559,7 +559,7 @@ func (s *OdaOdaInstanceResourceCrud) updateCompartment(compartment interface{}) 
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOdaInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionChangeCompartment, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOdaInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionChangeCompartment, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *OdaOdaInstanceResourceCrud) StartOdaInstance() error {

@@ -21,112 +21,112 @@ import (
 
 var (
 	ConnectionResourceConfigTarget = ConnectionResourceDependenciesTarget +
-		generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget)
+		GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget)
 
 	connectionSingularDataSourceRepresentationCon = map[string]interface{}{
-		"connection_id": Representation{repType: Required, create: `${oci_database_migration_connection.test_connection.id}`},
+		"connection_id": Representation{RepType: Required, Create: `${oci_database_migration_connection.test_connection.id}`},
 	}
 
 	connectionDataSourceRepresentationCon = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, connectionDataSourceFilterRepresentationCon}}
 	connectionDataSourceFilterRepresentationCon = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_migration_connection.test_connection.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_migration_connection.test_connection.id}`}},
 	}
 
 	connectionRepresentationCon = map[string]interface{}{
 		"admin_credentials":  RepresentationGroup{Required, connectionAdminCredentialsRepresentation},
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"database_type":      Representation{repType: Required, create: `MANUAL`},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"database_type":      Representation{RepType: Required, Create: `MANUAL`},
 		"vault_details":      RepresentationGroup{Required, connectionVaultDetailsRepresentation},
-		"certificate_tdn":    Representation{repType: Optional, create: `certificateTdn`, update: `certificateTdn2`},
+		"certificate_tdn":    Representation{RepType: Optional, Create: `certificateTdn`, Update: `certificateTdn2`},
 		"connect_descriptor": RepresentationGroup{Optional, connectionConnectDescriptorRepresentation},
-		"database_id":        Representation{repType: Optional, create: `${data.oci_database_databases.db.databases.0.id}`},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"database_id":        Representation{RepType: Optional, Create: `${data.oci_database_databases.db.databases.0.id}`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":       Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"private_endpoint":   RepresentationGroup{Optional, connectionPrivateEndpointRepresentation},
 		"ssh_details":        RepresentationGroup{Optional, connectionSshDetailsRepresentation},
-		"tls_keystore":       Representation{repType: Optional, create: `tlsKeystore`, update: `tlsKeystore2`},
-		"tls_wallet":         Representation{repType: Optional, create: `tlsWallet`, update: `tlsWallet2`},
+		"tls_keystore":       Representation{RepType: Optional, Create: `tlsKeystore`, Update: `tlsKeystore2`},
+		"tls_wallet":         Representation{RepType: Optional, Create: `tlsWallet`, Update: `tlsWallet2`},
 	}
 
 	connectionRepresentationTarget = map[string]interface{}{
 		"admin_credentials": RepresentationGroup{Required, connectionAdminCredentialsRepresentation},
-		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
-		"database_type":     Representation{repType: Required, create: `AUTONOMOUS`},
+		"compartment_id":    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"database_type":     Representation{RepType: Required, Create: `AUTONOMOUS`},
 		"vault_details":     RepresentationGroup{Required, connectionVaultDetailsRepresentation},
-		"database_id":       Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"display_name":      Representation{repType: Required, create: `TF_display_test_create`, update: `TF_display_test_update`},
+		"database_id":       Representation{RepType: Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"display_name":      Representation{RepType: Required, Create: `TF_display_test_create`, Update: `TF_display_test_update`},
 	}
 
 	connectionConnectDescriptorRepresentationMIG = map[string]interface{}{
-		"connect_string": Representation{repType: Required, create: `(description=(address=(port=1521)(host=10.0.0.125))(connect_data=(service_name=pdb1120.exadbpriv.exadbvcn.oraclevcn.com)))`, update: `(description=(address=(port=1521)(host=10.0.0.125))(connect_data=(service_name=pdb1120.exadbpriv.exadbvcn.oraclevcn.com)))`},
+		"connect_string": Representation{RepType: Required, Create: `(description=(address=(port=1521)(host=10.0.0.125))(connect_data=(service_name=pdb1120.exadbpriv.exadbvcn.oraclevcn.com)))`, Update: `(description=(address=(port=1521)(host=10.0.0.125))(connect_data=(service_name=pdb1120.exadbpriv.exadbvcn.oraclevcn.com)))`},
 	}
 	connectionRepresentationSource = map[string]interface{}{
 		"admin_credentials":  RepresentationGroup{Required, connectionAdminCredentialsRepresentation},
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"database_type":      Representation{repType: Required, create: `MANUAL`},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"database_type":      Representation{RepType: Required, Create: `MANUAL`},
 		"vault_details":      RepresentationGroup{Required, connectionVaultDetailsRepresentation},
 		"connect_descriptor": RepresentationGroup{Required, connectionConnectDescriptorRepresentationMIG},
-		"database_id":        Representation{repType: Optional, create: `${data.oci_database_databases.t.databases.0.id}`},
-		"display_name":       Representation{repType: Required, create: `TF_display_test_create_source`, update: `TF_display_test_update_source`},
+		"database_id":        Representation{RepType: Optional, Create: `${data.oci_database_databases.t.databases.0.id}`},
+		"display_name":       Representation{RepType: Required, Create: `TF_display_test_create_source`, Update: `TF_display_test_update_source`},
 		"ssh_details":        RepresentationGroup{Required, connectionSshDetailsRepresentation},
 		"private_endpoint":   RepresentationGroup{Required, connectionPrivateEndpointRepresentation},
 	}
 
 	connectionAdminCredentialsRepresentation = map[string]interface{}{
-		"password": Representation{repType: Required, create: `ORcl##4567890`, update: `ORcl##4567890`},
-		"username": Representation{repType: Required, create: `admin`, update: `admin`},
+		"password": Representation{RepType: Required, Create: `ORcl##4567890`, Update: `ORcl##4567890`},
+		"username": Representation{RepType: Required, Create: `admin`, Update: `admin`},
 	}
 
 	connectionAdminCredentialsRepresentationUPDATE = map[string]interface{}{
-		"password": Representation{repType: Required, create: `ORcl##4567890`},
-		"username": Representation{repType: Required, create: `admin`},
+		"password": Representation{RepType: Required, Create: `ORcl##4567890`},
+		"username": Representation{RepType: Required, Create: `admin`},
 	}
 
 	connectionVaultDetailsRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"key_id":         Representation{repType: Required, create: `${var.kms_key_id}`},
-		"vault_id":       Representation{repType: Required, create: `${var.kms_vault_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"key_id":         Representation{RepType: Required, Create: `${var.kms_key_id}`},
+		"vault_id":       Representation{RepType: Required, Create: `${var.kms_vault_id}`},
 	}
 
 	connectionVaultDetailsRepresentationUPDATE = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"key_id":         Representation{repType: Required, create: `${var.kms_key_id}`},
-		"vault_id":       Representation{repType: Required, create: `${var.kms_vault_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"key_id":         Representation{RepType: Required, Create: `${var.kms_key_id}`},
+		"vault_id":       Representation{RepType: Required, Create: `${var.kms_vault_id}`},
 	}
 
 	connectionConnectDescriptorRepresentation = map[string]interface{}{
-		"connect_string":        Representation{repType: Optional, create: `connectString`, update: `connectString2`},
-		"database_service_name": Representation{repType: Optional, create: `${oci_core_services.test_services.name}`},
-		"host":                  Representation{repType: Optional, create: `host`, update: `host2`},
-		"port":                  Representation{repType: Optional, create: `10`, update: `11`},
+		"connect_string":        Representation{RepType: Optional, Create: `connectString`, Update: `connectString2`},
+		"database_service_name": Representation{RepType: Optional, Create: `${oci_core_services.test_services.name}`},
+		"host":                  Representation{RepType: Optional, Create: `host`, Update: `host2`},
+		"port":                  Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 	connectionPrivateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_id":         Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 	connectionSshDetailsRepresentation = map[string]interface{}{
-		"host":          Representation{repType: Required, create: `10.0.0.125`, update: `10.0.0.125`},
-		"sshkey":        Representation{repType: Required, create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`, update: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
-		"user":          Representation{repType: Required, create: `opc`, update: `opc`},
-		"sudo_location": Representation{repType: Required, create: `/usr/bin/sudo`, update: `/usr/bin/sudo`},
+		"host":          Representation{RepType: Required, Create: `10.0.0.125`, Update: `10.0.0.125`},
+		"sshkey":        Representation{RepType: Required, Create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`, Update: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
+		"user":          Representation{RepType: Required, Create: `opc`, Update: `opc`},
+		"sudo_location": Representation{RepType: Required, Create: `/usr/bin/sudo`, Update: `/usr/bin/sudo`},
 	}
 
 	databaseRepresentationConnectionResource = map[string]interface{}{
 		"database":   RepresentationGroup{Required, databaseDatabaseRepresentationConnectionResource},
-		"db_version": Representation{repType: Required, create: `21.1.0.0`},
+		"db_version": Representation{RepType: Required, Create: `21.1.0.0`},
 	}
 
 	databaseDatabaseRepresentationConnectionResource = map[string]interface{}{
-		"admin_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"db_name":        Representation{repType: Required, create: `myDB`},
-		"pdb_name":       Representation{repType: Required, create: `pdbName`},
+		"admin_password": Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"db_name":        Representation{RepType: Required, Create: `myDB`},
+		"pdb_name":       Representation{RepType: Required, Create: `pdbName`},
 	}
 
 	SubnetData = `
@@ -167,50 +167,50 @@ var (
 	db_system_id = "${oci_database_db_system.t.id}"
 }`
 	AutonomousDatabaseResourceDependenciesCON = //DefinedTagsDependencies +
-	generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Required, Create, autonomousDbVersionDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", Required, Create,
-			representationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
-				"db_workload": Representation{repType: Required, create: `DW`}}))
+	GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Required, Create, autonomousDbVersionDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", Required, Create,
+			RepresentationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
+				"db_workload": Representation{RepType: Required, Create: `DW`}}))
 
 	AutonomousDatabaseResourceDependenciesCONSOURCE = //DefinedTagsDependencies +
-	generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions_source", Required, Create, autonomousDbVersionDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions_source", Required, Create,
-			representationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
-				"db_workload": Representation{repType: Required, create: `DW`}}))
+	GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions_source", Required, Create, autonomousDbVersionDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions_source", Required, Create,
+			RepresentationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
+				"db_workload": Representation{RepType: Required, Create: `DW`}}))
 
 	goldenGateDbSystemRepresentationSOURCE = map[string]interface{}{
-		"availability_domain":     Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.2.name}")}`},
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"database_edition":        Representation{repType: Required, create: `ENTERPRISE_EDITION`},
+		"availability_domain":     Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.2.name}")}`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"database_edition":        Representation{RepType: Required, Create: `ENTERPRISE_EDITION`},
 		"db_home":                 RepresentationGroup{Required, goldenGateDbSystemDbHomeRepresentation},
-		"hostname":                Representation{repType: Required, create: `myDB`},
-		"shape":                   Representation{repType: Required, create: `VM.Standard2.2`},
-		"ssh_public_keys":         Representation{repType: Required, create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCBDM0G21Tc6IOp6H5fwUVhVcxDxbwRwb9I53lXDdfqytw/pRAfXxDAzlw1jMEWofoVxTVDyqxcEg5yg4ImKFYHIDrZuU9eHv5SoHYJvI9r+Dqm9z52MmEyoTuC4dUyOs79V0oER5vLcjoMQIqmGSKMSlIMoFV2d+AV//RhJSpRPWGQ6lAVPYAiaVk3EzYacayetk1ZCEnMGPV0OV1UWqovm3aAGDozs7+9Isq44HEMyJwdBTYmBu3F8OA8gss2xkwaBgK3EQjCJIRBgczDwioT7RF5WG3IkwKsDTl2bV0p5f5SeX0U8SGHnni9uNoc9wPAWaleZr3Jcp1yIcRFR9YV`}},
-		"subnet_id":               Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"data_storage_size_in_gb": Representation{repType: Optional, create: `256`},
-		"display_name":            Representation{repType: Optional, create: `tfGGmyDB`},
-		"domain":                  Representation{repType: Optional, create: `myDB`},
-		"node_count":              Representation{repType: Optional, create: `1`},
+		"hostname":                Representation{RepType: Required, Create: `myDB`},
+		"shape":                   Representation{RepType: Required, Create: `VM.Standard2.2`},
+		"ssh_public_keys":         Representation{RepType: Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCBDM0G21Tc6IOp6H5fwUVhVcxDxbwRwb9I53lXDdfqytw/pRAfXxDAzlw1jMEWofoVxTVDyqxcEg5yg4ImKFYHIDrZuU9eHv5SoHYJvI9r+Dqm9z52MmEyoTuC4dUyOs79V0oER5vLcjoMQIqmGSKMSlIMoFV2d+AV//RhJSpRPWGQ6lAVPYAiaVk3EzYacayetk1ZCEnMGPV0OV1UWqovm3aAGDozs7+9Isq44HEMyJwdBTYmBu3F8OA8gss2xkwaBgK3EQjCJIRBgczDwioT7RF5WG3IkwKsDTl2bV0p5f5SeX0U8SGHnni9uNoc9wPAWaleZr3Jcp1yIcRFR9YV`}},
+		"subnet_id":               Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"data_storage_size_in_gb": Representation{RepType: Optional, Create: `256`},
+		"display_name":            Representation{RepType: Optional, Create: `tfGGmyDB`},
+		"domain":                  Representation{RepType: Optional, Create: `myDB`},
+		"node_count":              Representation{RepType: Optional, Create: `1`},
 		"db_system_options":       RepresentationGroup{Optional, goldenGateDbSystemOption},
-		"private_ip":              Representation{repType: Required, create: `10.0.0.125`},
+		"private_ip":              Representation{RepType: Required, Create: `10.0.0.125`},
 	}
 
-	ConnectionResourceDependenciesTarget = generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
+	ConnectionResourceDependenciesTarget = GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
 		AutonomousDatabaseResourceDependenciesCON +
 		KmsKeyIdVariableStr +
 		KmsVaultIdVariableStr
 
-	ConnectionResourceDependenciesTargetCommon = generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	ConnectionResourceDependenciesTargetCommon = GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		SubnetData +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
 		AutonomousDatabaseResourceDependenciesCON //+
 
-	ConnectionResourceDependenciesSource = generateResourceFromRepresentationMap("oci_database_db_system", "t", Optional, Create, goldenGateDbSystemRepresentationSOURCE) +
+	ConnectionResourceDependenciesSource = GenerateResourceFromRepresentationMap("oci_database_db_system", "t", Optional, Create, goldenGateDbSystemRepresentationSOURCE) +
 		DatabaseData +
 		DatabaseHomeConfig +
 		KmsKeyIdVariableStr +
@@ -237,15 +237,15 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_migration_connection.test_connection"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ConnectionResourceDependenciesTarget+
-		generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create, connectionRepresentationTarget), "databasemigration", "connection", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ConnectionResourceDependenciesTarget+
+		GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create, connectionRepresentationTarget), "databasemigration", "connection", t)
 
 	ResourceTest(t, testAccCheckDatabaseMigrationConnectionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
-				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionRepresentationTarget),
+				GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionRepresentationTarget),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.username", "admin"),
@@ -257,20 +257,20 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
-				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create, connectionRepresentationTarget),
+				GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create, connectionRepresentationTarget),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
@@ -287,9 +287,9 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -297,12 +297,12 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ConnectionResourceDependenciesTarget +
-				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create,
-					representationCopyWithNewProperties(connectionRepresentationTarget, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Create,
+					RepresentationCopyWithNewProperties(connectionRepresentationTarget, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
@@ -320,7 +320,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -332,7 +332,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
-				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
+				GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "ORcl##4567890"),
@@ -349,7 +349,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -360,9 +360,9 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_migration_connections", "test_connections", Optional, Update, connectionDataSourceRepresentationCon) +
+				GenerateDataSourceFromRepresentationMap("oci_database_migration_connections", "test_connections", Optional, Update, connectionDataSourceRepresentationCon) +
 				compartmentIdVariableStr + ConnectionResourceDependenciesTarget +
-				generateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
+				GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Optional, Update, connectionRepresentationTarget),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -373,7 +373,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionSingularDataSourceRepresentationCon) +
+				GenerateDataSourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionSingularDataSourceRepresentationCon) +
 				compartmentIdVariableStr + ConnectionResourceConfigTarget,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_id"),
@@ -420,7 +420,7 @@ func testAccCheckDatabaseMigrationConnectionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ConnectionId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database_migration")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database_migration")
 
 			response, err := client.GetConnection(context.Background(), request)
 
@@ -453,7 +453,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseMigrationConnection") {
+	if !InSweeperExcludeList("DatabaseMigrationConnection") {
 		resource.AddTestSweepers("DatabaseMigrationConnection", &resource.Sweeper{
 			Name:         "DatabaseMigrationConnection",
 			Dependencies: DependencyGraph["connection"],
@@ -474,13 +474,13 @@ func sweepDatabaseMigrationConnectionResource(compartment string) error {
 
 			deleteConnectionRequest.ConnectionId = &connectionId
 
-			deleteConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database_migration")
+			deleteConnectionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database_migration")
 			_, error := databaseMigrationClient.DeleteConnection(context.Background(), deleteConnectionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Connection %s %s, It is possible that the resource is already deleted. Please verify manually \n", connectionId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &connectionId, connectionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &connectionId, connectionSweepWaitCondition, time.Duration(3*time.Minute),
 				connectionSweepResponseFetchOperation, "database_migration", true)
 		}
 	}
@@ -488,7 +488,7 @@ func sweepDatabaseMigrationConnectionResource(compartment string) error {
 }
 
 func getConnectionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ConnectionId")
+	ids := GetResourceIdsToSweep(compartment, "ConnectionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -507,7 +507,7 @@ func getConnectionIds(compartment string) ([]string, error) {
 	for _, connection := range listConnectionsResponse.Items {
 		id := *connection.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ConnectionId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ConnectionId", id)
 	}
 	return resourceIds, nil
 }

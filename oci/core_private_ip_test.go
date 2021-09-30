@@ -20,39 +20,39 @@ import (
 
 var (
 	PrivateIpRequiredOnlyResource = PrivateIpResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation)
 
 	PrivateIpResourceConfig = PrivateIpResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation)
 
 	privateIpSingularDataSourceRepresentation = map[string]interface{}{
-		"private_ip_id": Representation{repType: Required, create: `${oci_core_private_ip.test_private_ip.id}`},
+		"private_ip_id": Representation{RepType: Required, Create: `${oci_core_private_ip.test_private_ip.id}`},
 	}
 
 	privateIpDataSourceRepresentation = map[string]interface{}{
-		"vnic_id": Representation{repType: Optional, create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
+		"vnic_id": Representation{RepType: Optional, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
 		"filter":  RepresentationGroup{Required, privateIpDataSourceFilterRepresentation}}
 	privateIpDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_private_ip.test_private_ip.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_private_ip.test_private_ip.id}`}},
 	}
 
 	privateIpRepresentation = map[string]interface{}{
-		"vnic_id":        Representation{repType: Required, create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"hostname_label": Representation{repType: Optional, create: `privateiptestinstance`, update: `privateiptestinstance2`},
-		"ip_address":     Representation{repType: Optional, create: `10.0.0.5`},
+		"vnic_id":        Representation{RepType: Required, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label": Representation{RepType: Optional, Create: `privateiptestinstance`, Update: `privateiptestinstance2`},
+		"ip_address":     Representation{RepType: Optional, Create: `10.0.0.5`},
 	}
 
 	PrivateIpResourceDependencies = OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies + `
@@ -80,33 +80,33 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_private_ip.test_private_ip"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PrivateIpResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation), "core", "privateIp", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PrivateIpResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation), "core", "privateIp", t)
 
 	ResourceTest(t, testAccCheckCorePrivateIpDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -116,9 +116,9 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -130,7 +130,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -140,7 +140,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -151,9 +151,9 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_private_ips", "test_private_ips", Optional, Update, privateIpDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_private_ips", "test_private_ips", Optional, Update, privateIpDataSourceRepresentation) +
 				compartmentIdVariableStr + PrivateIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
@@ -176,7 +176,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + PrivateIpResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_id"),
@@ -219,7 +219,7 @@ func testAccCheckCorePrivateIpDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PrivateIpId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			_, err := client.GetPrivateIp(context.Background(), request)
 
@@ -244,7 +244,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CorePrivateIp") {
+	if !InSweeperExcludeList("CorePrivateIp") {
 		resource.AddTestSweepers("CorePrivateIp", &resource.Sweeper{
 			Name:         "CorePrivateIp",
 			Dependencies: DependencyGraph["privateIp"],
@@ -265,7 +265,7 @@ func sweepCorePrivateIpResource(compartment string) error {
 
 			deletePrivateIpRequest.PrivateIpId = &privateIpId
 
-			deletePrivateIpRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deletePrivateIpRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeletePrivateIp(context.Background(), deletePrivateIpRequest)
 			if error != nil {
 				fmt.Printf("Error deleting PrivateIp %s %s, It is possible that the resource is already deleted. Please verify manually \n", privateIpId, error)
@@ -277,7 +277,7 @@ func sweepCorePrivateIpResource(compartment string) error {
 }
 
 func getPrivateIpIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "PrivateIpId")
+	ids := GetResourceIdsToSweep(compartment, "PrivateIpId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -301,7 +301,7 @@ func getPrivateIpIds(compartment string) ([]string, error) {
 		for _, privateIp := range listPrivateIpsResponse.Items {
 			id := *privateIp.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "PrivateIpId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "PrivateIpId", id)
 		}
 	}
 	return resourceIds, nil

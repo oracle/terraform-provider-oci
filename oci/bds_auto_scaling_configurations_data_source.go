@@ -18,7 +18,7 @@ func BdsAutoScalingConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBdsAutoScalingConfigurations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"bds_instance_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -80,7 +80,7 @@ func (s *BdsAutoScalingConfigurationsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "bds")
 
 	response, err := s.Client.ListAutoScalingConfigurations(context.Background(), request)
 	if err != nil {

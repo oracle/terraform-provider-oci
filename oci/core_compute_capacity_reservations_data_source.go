@@ -19,7 +19,7 @@ func CoreComputeCapacityReservationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreComputeCapacityReservations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,7 +85,7 @@ func (s *CoreComputeCapacityReservationsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.ComputeCapacityReservationLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListComputeCapacityReservations(context.Background(), request)
 	if err != nil {

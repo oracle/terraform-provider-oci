@@ -21,44 +21,44 @@ import (
 
 var (
 	ComputeCapacityReservationRequiredOnlyResource = ComputeCapacityReservationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_compute_capacity_reservTestCoreComputeCapacityReservationResource_basication", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservTestCoreComputeCapacityReservationResource_basication", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation)
 
 	ComputeCapacityReservationResourceConfig = ComputeCapacityReservationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation)
 
 	computeCapacityReservationSingularDataSourceRepresentation = map[string]interface{}{
-		"capacity_reservation_id": Representation{repType: Required, create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+		"capacity_reservation_id": Representation{RepType: Required, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
 	}
 
 	computeCapacityReservationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":        Representation{repType: Optional, create: `displayNameDataSourceCreate`, update: `displayNameDataSourceUpdate`},
-		"state":               Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayNameDataSourceCreate`, Update: `displayNameDataSourceUpdate`},
+		"state":               Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":              RepresentationGroup{Required, computeCapacityReservationDataSourceFilterRepresentation}}
 	computeCapacityReservationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`}},
 	}
 
 	computeCapacityReservationRepresentation = map[string]interface{}{
-		"availability_domain":          Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":                 Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                 Representation{repType: Optional, create: `displayNameResourceCreate`, update: `displayNameResourceUpdate`},
-		"freeform_tags":                Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"availability_domain":          Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":               Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":                 Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                 Representation{RepType: Optional, Create: `displayNameResourceCreate`, Update: `displayNameResourceUpdate`},
+		"freeform_tags":                Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"instance_reservation_configs": RepresentationGroup{Required, computeCapacityReservationInstanceReservationConfigsRepresentation},
-		"is_default_reservation":       Representation{repType: Optional, create: `false`, update: `true`},
+		"is_default_reservation":       Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	computeCapacityReservationInstanceReservationConfigsRepresentation = map[string]interface{}{
-		"instance_shape":        Representation{repType: Required, create: `VM.Standard2.1`},
-		"fault_domain":          Representation{repType: Optional, create: `FAULT-DOMAIN-1`},
-		"reserved_count":        Representation{repType: Required, create: `1`, update: `2`},
+		"instance_shape":        Representation{RepType: Required, Create: `VM.Standard2.1`},
+		"fault_domain":          Representation{RepType: Optional, Create: `FAULT-DOMAIN-1`},
+		"reserved_count":        Representation{RepType: Required, Create: `1`, Update: `2`},
 		"instance_shape_config": RepresentationGroup{Optional, computeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation},
 	}
 	computeCapacityReservationInstanceReservationConfigsInstanceShapeConfigRepresentation = map[string]interface{}{
-		"memory_in_gbs": Representation{repType: Optional, create: `15`},
-		"ocpus":         Representation{repType: Optional, create: `1`},
+		"memory_in_gbs": Representation{RepType: Optional, Create: `15`},
+		"ocpus":         Representation{RepType: Optional, Create: `1`},
 	}
 
 	ComputeCapacityReservationResourceDependencies = AvailabilityDomainConfig +
@@ -83,34 +83,34 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_compute_capacity_reservation.test_compute_capacity_reservation"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ComputeCapacityReservationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create, computeCapacityReservationRepresentation), "core", "computeCapacityReservation", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ComputeCapacityReservationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create, computeCapacityReservationRepresentation), "core", "computeCapacityReservation", t)
 
 	ResourceTest(t, testAccCheckCoreComputeCapacityReservationDestroy, []resource.TestStep{
-		// Step 0: verify create
+		// Step 0: verify Create
 		{
 			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// Step 1: delete before next create
+		// Step 1: delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies,
 		},
-		// Step 2: verify create with optionals
+		// Step 2: verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create, computeCapacityReservationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create, computeCapacityReservationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -131,9 +131,9 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -142,12 +142,12 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 			),
 		},
 
-		// Step 3: verify update to the compartment (the compartment will be switched back in the next step)
+		// Step 3: verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ComputeCapacityReservationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create,
-					representationCopyWithNewProperties(computeCapacityReservationRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Create,
+					RepresentationCopyWithNewProperties(computeCapacityReservationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -169,7 +169,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -181,7 +181,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 		// Step 4: verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -202,7 +202,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -213,9 +213,9 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 		// Step 5: verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservations", "test_compute_capacity_reservations", Optional, Update, computeCapacityReservationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservations", "test_compute_capacity_reservations", Optional, Update, computeCapacityReservationDataSourceRepresentation) +
 				compartmentIdVariableStr + ComputeCapacityReservationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Optional, Update, computeCapacityReservationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -239,7 +239,7 @@ func TestCoreComputeCapacityReservationResource_basic(t *testing.T) {
 		// Step 6: verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ComputeCapacityReservationResourceConfig,
 			// Check: ComposeAggregateTestCheckFuncWrapper(),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -295,7 +295,7 @@ func testAccCheckCoreComputeCapacityReservationDestroy(s *terraform.State) error
 				request.CapacityReservationId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetComputeCapacityReservation(context.Background(), request)
 
@@ -328,7 +328,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreComputeCapacityReservation") {
+	if !InSweeperExcludeList("CoreComputeCapacityReservation") {
 		resource.AddTestSweepers("CoreComputeCapacityReservation", &resource.Sweeper{
 			Name:         "CoreComputeCapacityReservation",
 			Dependencies: DependencyGraph["computeCapacityReservation"],
@@ -347,13 +347,13 @@ func sweepCoreComputeCapacityReservationResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[computeCapacityReservationId]; !ok {
 			deleteComputeCapacityReservationRequest := oci_core.DeleteComputeCapacityReservationRequest{}
 
-			deleteComputeCapacityReservationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteComputeCapacityReservationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeClient.DeleteComputeCapacityReservation(context.Background(), deleteComputeCapacityReservationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ComputeCapacityReservation %s %s, It is possible that the resource is already deleted. Please verify manually \n", computeCapacityReservationId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &computeCapacityReservationId, computeCapacityReservationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &computeCapacityReservationId, computeCapacityReservationSweepWaitCondition, time.Duration(3*time.Minute),
 				computeCapacityReservationSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -361,7 +361,7 @@ func sweepCoreComputeCapacityReservationResource(compartment string) error {
 }
 
 func getComputeCapacityReservationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ComputeCapacityReservationId")
+	ids := GetResourceIdsToSweep(compartment, "ComputeCapacityReservationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -380,7 +380,7 @@ func getComputeCapacityReservationIds(compartment string) ([]string, error) {
 	for _, computeCapacityReservation := range listComputeCapacityReservationsResponse.Items {
 		id := *computeCapacityReservation.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ComputeCapacityReservationId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ComputeCapacityReservationId", id)
 	}
 	return resourceIds, nil
 }

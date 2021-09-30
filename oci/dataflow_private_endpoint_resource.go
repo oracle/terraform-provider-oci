@@ -83,7 +83,7 @@ func DataflowPrivateEndpointResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -226,7 +226,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maxHostCount, ok := s.D.GetOkExists("max_host_count"); ok {
@@ -253,7 +253,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
 	response, err := s.Client.CreatePrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -261,7 +261,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataflowPrivateEndpointResourceCrud) getPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -306,7 +306,7 @@ func privateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 
 func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dataflow.DataFlowClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "dataflow")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "dataflow")
 	retryPolicy.ShouldRetryOperation = privateEndpointWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_dataflow.GetWorkRequestResponse{}
@@ -387,7 +387,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
 	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -442,7 +442,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maxHostCount, ok := s.D.GetOkExists("max_host_count"); ok {
@@ -467,7 +467,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.PrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
 	response, err := s.Client.UpdatePrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -475,7 +475,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataflowPrivateEndpointResourceCrud) Delete() error {
@@ -484,7 +484,7 @@ func (s *DataflowPrivateEndpointResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
 	response, err := s.Client.DeletePrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -531,7 +531,7 @@ func (s *DataflowPrivateEndpointResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.OwnerPrincipalId != nil {
 		s.D.Set("owner_principal_id", *s.Res.OwnerPrincipalId)
@@ -592,7 +592,7 @@ func PrivateEndpointSummaryToMap(obj oci_dataflow.PrivateEndpointSummary, dataso
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.OwnerPrincipalId != nil {
@@ -629,7 +629,7 @@ func (s *DataflowPrivateEndpointResourceCrud) updateCompartment(compartment inte
 	idTmp := s.D.Id()
 	changeCompartmentRequest.PrivateEndpointId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
 	response, err := s.Client.ChangePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -637,5 +637,5 @@ func (s *DataflowPrivateEndpointResourceCrud) updateCompartment(compartment inte
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "dataflow"), oci_dataflow.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

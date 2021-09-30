@@ -14,7 +14,7 @@ import (
 
 var (
 	supportedVmwareSoftwareVersionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	SupportedVmwareSoftwareVersionResourceConfig = ""
@@ -32,13 +32,13 @@ func TestOcvpSupportedVmwareSoftwareVersionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_ocvp_supported_vmware_software_versions.test_supported_vmware_software_versions"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ocvp_supported_vmware_software_versions", "test_supported_vmware_software_versions", Required, Create, supportedVmwareSoftwareVersionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_vmware_software_versions", "test_supported_vmware_software_versions", Required, Create, supportedVmwareSoftwareVersionDataSourceRepresentation) +
 				compartmentIdVariableStr + SupportedVmwareSoftwareVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

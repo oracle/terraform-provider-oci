@@ -18,7 +18,7 @@ func DatabaseDbSystemsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbSystems,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -93,7 +93,7 @@ func (s *DatabaseDbSystemsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.DbSystemSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDbSystems(context.Background(), request)
 	if err != nil {

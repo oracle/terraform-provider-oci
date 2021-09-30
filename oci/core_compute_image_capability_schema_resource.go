@@ -46,7 +46,7 @@ func CoreComputeImageCapabilitySchemaResource() *schema.Resource {
 			"schema_data": {
 				Type:             schema.TypeMap,
 				Required:         true,
-				DiffSuppressFunc: jsonStringDiffSuppressFunction,
+				DiffSuppressFunc: JsonStringDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
 
@@ -154,7 +154,7 @@ func (s *CoreComputeImageCapabilitySchemaResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if imageId, ok := s.D.GetOkExists("image_id"); ok {
@@ -170,7 +170,7 @@ func (s *CoreComputeImageCapabilitySchemaResourceCrud) Create() error {
 		request.SchemaData = schemaData
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateComputeImageCapabilitySchema(context.Background(), request)
 	if err != nil {
@@ -192,7 +192,7 @@ func (s *CoreComputeImageCapabilitySchemaResourceCrud) Get() error {
 		request.IsMergeEnabled = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetComputeImageCapabilitySchema(context.Background(), request)
 	if err != nil {
@@ -232,7 +232,7 @@ func (s *CoreComputeImageCapabilitySchemaResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if schemaData, ok := s.D.GetOkExists("schema_data"); ok {
@@ -243,7 +243,7 @@ func (s *CoreComputeImageCapabilitySchemaResourceCrud) Update() error {
 		request.SchemaData = schemaData
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateComputeImageCapabilitySchema(context.Background(), request)
 	if err != nil {
@@ -260,7 +260,7 @@ func (s *CoreComputeImageCapabilitySchemaResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ComputeImageCapabilitySchemaId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteComputeImageCapabilitySchema(context.Background(), request)
 	return err
@@ -313,7 +313,7 @@ func (s *CoreComputeImageCapabilitySchemaResourceCrud) updateCompartment(compart
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ComputeImageCapabilitySchemaId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeComputeImageCapabilitySchemaCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

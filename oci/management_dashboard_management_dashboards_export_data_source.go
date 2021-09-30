@@ -59,7 +59,7 @@ func (s *ManagementDashboardManagementDashboardsExportDataSourceCrud) Get() erro
 		request.ExportDashboardId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_dashboard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_dashboard")
 
 	response, err := s.Client.ExportDashboard(context.Background(), request)
 	if err != nil {

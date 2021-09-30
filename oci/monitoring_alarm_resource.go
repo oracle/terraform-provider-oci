@@ -127,12 +127,12 @@ func MonitoringAlarmResource() *schema.Resource {
 						"time_suppress_from": {
 							Type:             schema.TypeString,
 							Required:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
+							DiffSuppressFunc: TimeDiffSuppressFunction,
 						},
 						"time_suppress_until": {
 							Type:             schema.TypeString,
 							Required:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
+							DiffSuppressFunc: TimeDiffSuppressFunction,
 						},
 
 						// Optional
@@ -270,7 +270,7 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -337,7 +337,7 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "monitoring")
 
 	response, err := s.Client.CreateAlarm(context.Background(), request)
 	if err != nil {
@@ -354,7 +354,7 @@ func (s *MonitoringAlarmResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AlarmId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "monitoring")
 
 	response, err := s.Client.GetAlarm(context.Background(), request)
 	if err != nil {
@@ -417,7 +417,7 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -484,7 +484,7 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "monitoring")
 
 	response, err := s.Client.UpdateAlarm(context.Background(), request)
 	if err != nil {
@@ -501,7 +501,7 @@ func (s *MonitoringAlarmResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AlarmId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "monitoring")
 
 	_, err := s.Client.DeleteAlarm(context.Background(), request)
 	return err
@@ -641,7 +641,7 @@ func (s *MonitoringAlarmResourceCrud) updateCompartment(compartment interface{})
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "monitoring")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "monitoring")
 
 	_, err := s.Client.ChangeAlarmCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

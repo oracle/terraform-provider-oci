@@ -207,7 +207,7 @@ func (s *IdentityPolicyResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -236,7 +236,7 @@ func (s *IdentityPolicyResourceCrud) Create() error {
 		request.VersionDate = tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreatePolicy(context.Background(), request)
 	if err != nil {
@@ -260,7 +260,7 @@ func (s *IdentityPolicyResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PolicyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetPolicy(context.Background(), request)
 	if err != nil {
@@ -269,7 +269,7 @@ func (s *IdentityPolicyResourceCrud) Get() error {
 
 	s.Res = &response.Policy
 
-	// update etag on a successful get
+	// Update etag on a successful get
 	s.D.Set("ETag", response.Etag)
 	s.ETag = response.Etag
 
@@ -293,7 +293,7 @@ func (s *IdentityPolicyResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -320,7 +320,7 @@ func (s *IdentityPolicyResourceCrud) Update() error {
 		request.VersionDate = tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdatePolicy(context.Background(), request)
 	if err != nil {
@@ -344,7 +344,7 @@ func (s *IdentityPolicyResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PolicyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeletePolicy(context.Background(), request)
 	return err

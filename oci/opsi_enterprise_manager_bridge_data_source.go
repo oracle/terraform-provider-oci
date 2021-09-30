@@ -49,7 +49,7 @@ func (s *OpsiEnterpriseManagerBridgeDataSourceCrud) Get() error {
 		request.EnterpriseManagerBridgeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "opsi")
 
 	response, err := s.Client.GetEnterpriseManagerBridge(context.Background(), request)
 	if err != nil {

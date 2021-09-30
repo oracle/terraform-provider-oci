@@ -204,7 +204,7 @@ func (s *LogAnalyticsLogAnalyticsImportCustomContentResourceCrud) Create() error
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	response, err := s.Client.ImportCustomContent(context.Background(), request)
 	if err != nil {

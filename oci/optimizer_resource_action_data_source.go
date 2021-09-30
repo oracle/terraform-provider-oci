@@ -50,7 +50,7 @@ func (s *OptimizerResourceActionDataSourceCrud) Get() error {
 		request.ResourceActionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "optimizer")
 
 	response, err := s.Client.GetResourceAction(context.Background(), request)
 	if err != nil {

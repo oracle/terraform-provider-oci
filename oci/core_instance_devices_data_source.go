@@ -18,7 +18,7 @@ func CoreInstanceDevicesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreInstanceDevices,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"instance_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -92,7 +92,7 @@ func (s *CoreInstanceDevicesDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListInstanceDevices(context.Background(), request)
 	if err != nil {

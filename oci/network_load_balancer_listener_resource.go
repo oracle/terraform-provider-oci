@@ -136,7 +136,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Create() error {
 		request.Protocol = oci_network_load_balancer.ListenerProtocolsEnum(protocol.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.CreateListener(context.Background(), request)
 	if err != nil {
@@ -144,7 +144,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getListenerFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getListenerFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *NetworkLoadBalancerListenerResourceCrud) getListenerFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -187,7 +187,7 @@ func listenerWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 
 func nlbListenerWaitForWorkRequest(wId *string, action oci_network_load_balancer.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_network_load_balancer.NetworkLoadBalancerClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "network_load_balancer")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "network_load_balancer")
 	retryPolicy.ShouldRetryOperation = networkLoadBalancerWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_network_load_balancer.GetWorkRequestResponse{}
@@ -285,7 +285,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.GetListener(context.Background(), request)
 	if err != nil {
@@ -323,7 +323,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 		request.Protocol = oci_network_load_balancer.ListenerProtocolsEnum(protocol.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.UpdateListener(context.Background(), request)
 	if err != nil {
@@ -331,7 +331,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getListenerFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getListenerFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *NetworkLoadBalancerListenerResourceCrud) Delete() error {
@@ -347,7 +347,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Delete() error {
 		request.NetworkLoadBalancerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.DeleteListener(context.Background(), request)
 	if err != nil {

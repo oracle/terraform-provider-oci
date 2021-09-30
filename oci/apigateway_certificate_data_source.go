@@ -49,7 +49,7 @@ func (s *ApigatewayCertificateDataSourceCrud) Get() error {
 		request.CertificateId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apigateway")
 
 	response, err := s.Client.GetCertificate(context.Background(), request)
 	if err != nil {

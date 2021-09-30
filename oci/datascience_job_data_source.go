@@ -49,7 +49,7 @@ func (s *DatascienceJobDataSourceCrud) Get() error {
 		request.JobId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	response, err := s.Client.GetJob(context.Background(), request)
 	if err != nil {

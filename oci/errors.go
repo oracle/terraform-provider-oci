@@ -184,7 +184,7 @@ func getVersionAndDateError() string {
 
 	if days > 8 {
 		versionOld := int(days / 7)
-		result += fmt.Sprintf("This provider is %v update(s) behind to current.", versionOld)
+		result += fmt.Sprintf("This provider is %v Update(s) behind to current.", versionOld)
 	}
 	return result
 }

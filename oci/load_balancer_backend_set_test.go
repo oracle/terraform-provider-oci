@@ -20,67 +20,67 @@ import (
 
 var (
 	BackendSetRequiredOnlyResource = BackendSetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation)
 
 	backendSetDataSourceRepresentation = map[string]interface{}{
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"filter":           RepresentationGroup{Required, backendSetDataSourceFilterRepresentation}}
 	backendSetDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_backend_set.test_backend_set.name}`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_load_balancer_backend_set.test_backend_set.name}`}},
 	}
 
 	backendSetRepresentation = map[string]interface{}{
 		"health_checker":                    RepresentationGroup{Required, backendSetHealthCheckerRepresentation},
-		"load_balancer_id":                  Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":                              Representation{repType: Required, create: `backendSet1`},
-		"policy":                            Representation{repType: Required, create: `LEAST_CONNECTIONS`},
+		"load_balancer_id":                  Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":                              Representation{RepType: Required, Create: `backendSet1`},
+		"policy":                            Representation{RepType: Required, Create: `LEAST_CONNECTIONS`},
 		"session_persistence_configuration": RepresentationGroup{Optional, backendSetSessionPersistenceConfigurationRepresentation},
 		"ssl_configuration":                 RepresentationGroup{Optional, backendSetSslConfigurationRepresentation},
 	}
 
 	backendSet2Representation = map[string]interface{}{
 		"health_checker":   RepresentationGroup{Required, backendSetHealthCheckerRepresentation},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer2.id}`},
-		"name":             Representation{repType: Required, create: `backendSet2`},
-		"policy":           Representation{repType: Required, create: `LEAST_CONNECTIONS`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer2.id}`},
+		"name":             Representation{RepType: Required, Create: `backendSet2`},
+		"policy":           Representation{RepType: Required, Create: `LEAST_CONNECTIONS`},
 	}
 
-	backendSetLBRepresentation = representationCopyWithNewProperties(representationCopyWithRemovedProperties(backendSetRepresentation, []string{`session_persistence_configuration`}), map[string]interface{}{
+	backendSetLBRepresentation = RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(backendSetRepresentation, []string{`session_persistence_configuration`}), map[string]interface{}{
 		"lb_cookie_session_persistence_configuration": RepresentationGroup{Optional, backendSetLbCookieSessionPersistenceConfigurationRepresentation},
 	})
 
 	backendSetHealthCheckerRepresentation = map[string]interface{}{
-		"protocol":            Representation{repType: Required, create: `HTTP`},
-		"interval_ms":         Representation{repType: Optional, create: `1000`, update: `2000`},
-		"port":                Representation{repType: Optional, create: `10`, update: `11`},
-		"response_body_regex": Representation{repType: Optional, create: `.*`, update: `responseBodyRegex2`},
-		"retries":             Representation{repType: Optional, create: `10`, update: `11`},
-		"return_code":         Representation{repType: Optional, create: `200`, update: `11`},
-		"timeout_in_millis":   Representation{repType: Optional, create: `10000`, update: `11`},
-		"url_path":            Representation{repType: Required, create: `/healthcheck`, update: `urlPath2`},
+		"protocol":            Representation{RepType: Required, Create: `HTTP`},
+		"interval_ms":         Representation{RepType: Optional, Create: `1000`, Update: `2000`},
+		"port":                Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"response_body_regex": Representation{RepType: Optional, Create: `.*`, Update: `responseBodyRegex2`},
+		"retries":             Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"return_code":         Representation{RepType: Optional, Create: `200`, Update: `11`},
+		"timeout_in_millis":   Representation{RepType: Optional, Create: `10000`, Update: `11`},
+		"url_path":            Representation{RepType: Required, Create: `/healthcheck`, Update: `urlPath2`},
 	}
 	backendSetLbCookieSessionPersistenceConfigurationRepresentation = map[string]interface{}{
-		"cookie_name":        Representation{repType: Optional, create: `example_cookie`, update: `cookieName2`},
-		"disable_fallback":   Representation{repType: Optional, create: `false`, update: `true`},
-		"domain":             Representation{repType: Optional, create: `example.oracle.com`, update: `domain2`},
-		"is_http_only":       Representation{repType: Optional, create: `false`, update: `true`},
-		"is_secure":          Representation{repType: Optional, create: `false`, update: `true`},
-		"max_age_in_seconds": Representation{repType: Optional, create: `10`, update: `11`},
-		"path":               Representation{repType: Optional, create: `/tmp/example`, update: `/tmp/example2`},
+		"cookie_name":        Representation{RepType: Optional, Create: `example_cookie`, Update: `cookieName2`},
+		"disable_fallback":   Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"domain":             Representation{RepType: Optional, Create: `example.oracle.com`, Update: `domain2`},
+		"is_http_only":       Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_secure":          Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"max_age_in_seconds": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"path":               Representation{RepType: Optional, Create: `/tmp/example`, Update: `/tmp/example2`},
 	}
 	backendSetSessionPersistenceConfigurationRepresentation = map[string]interface{}{
-		"cookie_name":      Representation{repType: Required, create: `example_cookie`},
-		"disable_fallback": Representation{repType: Optional, create: `false`, update: `true`},
+		"cookie_name":      Representation{RepType: Required, Create: `example_cookie`},
+		"disable_fallback": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	backendSetSslConfigurationRepresentation = map[string]interface{}{
-		"certificate_name":        Representation{repType: Required, create: `${oci_load_balancer_certificate.test_certificate.certificate_name}`},
-		"verify_depth":            Representation{repType: Optional, create: `6`},
-		"verify_peer_certificate": Representation{repType: Optional, create: `false`},
+		"certificate_name":        Representation{RepType: Required, Create: `${oci_load_balancer_certificate.test_certificate.certificate_name}`},
+		"verify_depth":            Representation{RepType: Optional, Create: `6`},
+		"verify_peer_certificate": Representation{RepType: Optional, Create: `false`},
 	}
 
-	BackendSetResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+	BackendSetResourceDependencies = GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
 		LoadBalancerResourceDependencies + caCertificateVariableStr + privateKeyVariableStr
 )
 
@@ -99,15 +99,15 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+BackendSetResourceDependencies+
-		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation), "loadbalancer", "backendSet", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+BackendSetResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation), "loadbalancer", "backendSet", t)
 
 	ResourceTest(t, testAccCheckLoadBalancerBackendSetDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
@@ -116,21 +116,21 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation) +
 				// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
-				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
@@ -153,7 +153,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -162,8 +162,8 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
 					"backup":     "true",
@@ -197,7 +197,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -208,10 +208,10 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_backend_sets", "test_backend_sets", Optional, Update, backendSetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_backend_sets", "test_backend_sets", Optional, Update, backendSetDataSourceRepresentation) +
 				compartmentIdVariableStr + BackendSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
@@ -253,11 +253,11 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 			},
 			ResourceName: resourceName,
 		},
-		// verify update with LB session persistence
+		// verify Update with LB session persistence
 		{
 			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
@@ -286,7 +286,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -294,16 +294,16 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies,
 		},
-		// verify create with LB session persistence
+		// verify Create with LB session persistence
 		{
 			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
 				// @CODEGEN Add a backend to load balancer to validate TypeSet schema on backends during a GET in the following test steps: updates and data sources
-				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
@@ -331,9 +331,9 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -345,8 +345,8 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
 					"backup":     "true",
@@ -385,7 +385,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -396,10 +396,10 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_backend_sets", "test_backend_sets", Optional, Update, backendSetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_backend_sets", "test_backend_sets", Optional, Update, backendSetDataSourceRepresentation) +
 				compartmentIdVariableStr + BackendSetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
-				generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
@@ -465,7 +465,7 @@ func testAccCheckLoadBalancerBackendSetDestroy(s *terraform.State) error {
 				request.LoadBalancerId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 
 			_, err := client.GetBackendSet(context.Background(), request)
 
@@ -490,7 +490,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoadBalancerBackendSet") {
+	if !InSweeperExcludeList("LoadBalancerBackendSet") {
 		resource.AddTestSweepers("LoadBalancerBackendSet", &resource.Sweeper{
 			Name:         "LoadBalancerBackendSet",
 			Dependencies: DependencyGraph["backendSet"],
@@ -509,7 +509,7 @@ func sweepLoadBalancerBackendSetResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[backendSetId]; !ok {
 			deleteBackendSetRequest := oci_load_balancer.DeleteBackendSetRequest{}
 
-			deleteBackendSetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			deleteBackendSetRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 			_, error := loadBalancerClient.DeleteBackendSet(context.Background(), deleteBackendSetRequest)
 			if error != nil {
 				fmt.Printf("Error deleting BackendSet %s %s, It is possible that the resource is already deleted. Please verify manually \n", backendSetId, error)
@@ -521,7 +521,7 @@ func sweepLoadBalancerBackendSetResource(compartment string) error {
 }
 
 func getBackendSetIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "BackendSetId")
+	ids := GetResourceIdsToSweep(compartment, "BackendSetId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -546,7 +546,7 @@ func getBackendSetIds(compartment string) ([]string, error) {
 		for _, backendSet := range listBackendSetsResponse.Items {
 			id := *backendSet.Name
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "BackendSetId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "BackendSetId", id)
 		}
 
 	}

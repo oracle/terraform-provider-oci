@@ -14,8 +14,8 @@ import (
 
 var (
 	secretVersionSingularDataSourceRepresentation = map[string]interface{}{
-		"secret_id":             Representation{repType: Required, create: `${oci_vault_secret.test_secret.id`},
-		"secret_version_number": Representation{repType: Required, create: `1`},
+		"secret_id":             Representation{RepType: Required, Create: `${oci_vault_secret.test_secret.id`},
+		"secret_version_number": Representation{RepType: Required, Create: `1`},
 	}
 
 	SecretVersionResourceConfig = ``
@@ -34,13 +34,13 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_vault_secret_version.test_secret_version"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_vault_secret_version", "test_secret_version", Required, Create, secretVersionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_vault_secret_version", "test_secret_version", Required, Create, secretVersionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SecretVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),

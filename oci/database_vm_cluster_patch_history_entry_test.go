@@ -15,17 +15,17 @@ import (
 
 var (
 	vmClusterPatchHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
-		"patch_history_entry_id": Representation{repType: Required, create: `{}`},
-		"vm_cluster_id":          Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"patch_history_entry_id": Representation{RepType: Required, Create: `{}`},
+		"vm_cluster_id":          Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
 	vmClusterPatchHistoryEntryDataSourceRepresentation = map[string]interface{}{
-		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
-	VmClusterPatchHistoryEntryResourceConfig = generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create, exadataInfrastructureRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create, vmClusterNetworkRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
+	VmClusterPatchHistoryEntryResourceConfig = GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create, exadataInfrastructureRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create, vmClusterNetworkRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -43,13 +43,13 @@ func TestDatabaseVmClusterPatchHistoryEntryResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_vm_cluster_patch_history_entries.test_vm_cluster_patch_history_entries"
 	singularDatasourceName := "data.oci_database_vm_cluster_patch_history_entry.test_vm_cluster_patch_history_entry"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entries", "test_vm_cluster_patch_history_entries", Required, Create, vmClusterPatchHistoryEntryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entries", "test_vm_cluster_patch_history_entries", Required, Create, vmClusterPatchHistoryEntryDataSourceRepresentation) +
 				compartmentIdVariableStr + VmClusterPatchHistoryEntryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_id"),
@@ -66,7 +66,7 @@ func TestDatabaseVmClusterPatchHistoryEntryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entry", "test_vm_cluster_patch_history_entry", Required, Create, vmClusterPatchHistoryEntrySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch_history_entry", "test_vm_cluster_patch_history_entry", Required, Create, vmClusterPatchHistoryEntrySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VmClusterPatchHistoryEntryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_history_entry_id"),

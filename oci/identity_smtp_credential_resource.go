@@ -160,7 +160,7 @@ func (s *IdentitySmtpCredentialResourceCrud) Create() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateSmtpCredential(context.Background(), request)
 	if err != nil {
@@ -198,7 +198,7 @@ func (s *IdentitySmtpCredentialResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.ListSmtpCredentials(context.Background(), request)
 	if err != nil {
@@ -232,7 +232,7 @@ func (s *IdentitySmtpCredentialResourceCrud) Update() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateSmtpCredential(context.Background(), request)
 	if err != nil {
@@ -254,7 +254,7 @@ func (s *IdentitySmtpCredentialResourceCrud) Delete() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteSmtpCredential(context.Background(), request)
 	return err

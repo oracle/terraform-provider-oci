@@ -20,43 +20,43 @@ import (
 
 var (
 	KeyRequiredOnlyResource = KeyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation)
 
 	KeyResourceConfig = KeyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation)
 
 	keySingularDataSourceRepresentation = map[string]interface{}{
-		"key_id":              Representation{repType: Required, create: `${oci_kms_key.test_key.id}`},
-		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"key_id":              Representation{RepType: Required, Create: `${oci_kms_key.test_key.id}`},
+		"management_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 	}
 
 	keyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
-		"protection_mode":     Representation{repType: Optional, create: `SOFTWARE`},
-		"algorithm":           Representation{repType: Optional, create: `AES`},
-		"length":              Representation{repType: Optional, create: `16`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"management_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"protection_mode":     Representation{RepType: Optional, Create: `SOFTWARE`},
+		"algorithm":           Representation{RepType: Optional, Create: `AES`},
+		"length":              Representation{RepType: Optional, Create: `16`},
 		"filter":              RepresentationGroup{Required, keyDataSourceFilterRepresentation}}
 	keyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_kms_key.test_key.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_kms_key.test_key.id}`}},
 	}
 
 	deletionTime = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
 
 	keyRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Required, create: `Key C`, update: `displayName2`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Required, Create: `Key C`, Update: `displayName2`},
 		"key_shape":           RepresentationGroup{Required, keyKeyShapeRepresentation},
-		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
-		"desired_state":       Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"protection_mode":     Representation{repType: Optional, create: `SOFTWARE`},
-		"time_of_deletion":    Representation{repType: Required, create: deletionTime.Format(time.RFC3339Nano)},
+		"management_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"desired_state":       Representation{RepType: Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"protection_mode":     Representation{RepType: Optional, Create: `SOFTWARE`},
+		"time_of_deletion":    Representation{RepType: Required, Create: deletionTime.Format(time.RFC3339Nano)},
 	}
 	keyKeyShapeRepresentation = map[string]interface{}{
-		"algorithm": Representation{repType: Required, create: `AES`},
-		"length":    Representation{repType: Required, create: `16`},
+		"algorithm": Representation{RepType: Required, Create: `AES`},
+		"length":    Representation{RepType: Required, Create: `16`},
 	}
 
 	kmsVaultId                = getEnvSettingWithBlankDefault("kms_vault_ocid")
@@ -146,15 +146,15 @@ func TestKmsKeyResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_kms_key.test_key"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+KeyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation), "keymanagement", "key", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+KeyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation), "keymanagement", "key", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
@@ -163,20 +163,20 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + KeyResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
@@ -193,18 +193,18 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-					representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
+					RepresentationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -221,7 +221,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -233,7 +233,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
@@ -249,7 +249,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -260,9 +260,9 @@ func TestKmsKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_kms_keys", "test_keys", Optional, Update, keyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_kms_keys", "test_keys", Optional, Update, keyDataSourceRepresentation) +
 				compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "algorithm", "AES"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -284,7 +284,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + KeyResourceConfig + DefinedTagsDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
@@ -311,12 +311,12 @@ func TestKmsKeyResource_basic(t *testing.T) {
 		// revert the updates
 		{
 			Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ENABLED"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -355,7 +355,7 @@ func testAccCheckKMSKeyDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.KeyId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "kms")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "kms")
 
 			response, err := client.GetKey(context.Background(), request)
 
@@ -396,5 +396,5 @@ func keyImportId(state *terraform.State) (string, error) {
 		}
 	}
 
-	return "", fmt.Errorf("unable to create import id as no resource of type oci_kms_key in state")
+	return "", fmt.Errorf("unable to Create import id as no resource of type oci_kms_key in state")
 }

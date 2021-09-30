@@ -14,12 +14,12 @@ import (
 
 var (
 	replicationSourceDataSourceRepresentation = map[string]interface{}{
-		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket_replication.name}`},
-		"namespace": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"bucket":    Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket_replication.name}`},
+		"namespace": Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 	}
 
 	ReplicationSourceResourceConfig = ReplicationPolicyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_objectstorage_replication_policy", "test_replication_policy", Required, Create, replicationPolicyRepresentation)
 )
 
 // issue-routing-tag: object_storage/default
@@ -34,17 +34,17 @@ func TestObjectStorageReplicationSourceResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_objectstorage_replication_sources.test_replication_sources"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create replication policy first
+		// Create replication policy first
 		{
 			Config: config + compartmentIdVariableStr + ReplicationSourceResourceConfig,
 		},
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_objectstorage_replication_sources", "test_replication_sources", Required, Create, replicationSourceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_objectstorage_replication_sources", "test_replication_sources", Required, Create, replicationSourceDataSourceRepresentation) +
 				compartmentIdVariableStr + ReplicationSourceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "bucket", replicationBucketName),

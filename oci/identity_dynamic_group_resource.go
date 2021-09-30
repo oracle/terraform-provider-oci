@@ -169,7 +169,7 @@ func (s *IdentityDynamicGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if matchingRule, ok := s.D.GetOkExists("matching_rule"); ok {
@@ -182,7 +182,7 @@ func (s *IdentityDynamicGroupResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateDynamicGroup(context.Background(), request)
 	if err != nil {
@@ -199,7 +199,7 @@ func (s *IdentityDynamicGroupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DynamicGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetDynamicGroup(context.Background(), request)
 	if err != nil {
@@ -230,7 +230,7 @@ func (s *IdentityDynamicGroupResourceCrud) Update() error {
 	request.DynamicGroupId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if matchingRule, ok := s.D.GetOkExists("matching_rule"); ok {
@@ -238,7 +238,7 @@ func (s *IdentityDynamicGroupResourceCrud) Update() error {
 		request.MatchingRule = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateDynamicGroup(context.Background(), request)
 	if err != nil {
@@ -255,7 +255,7 @@ func (s *IdentityDynamicGroupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DynamicGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteDynamicGroup(context.Background(), request)
 	return err

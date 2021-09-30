@@ -235,7 +235,7 @@ func (s *KmsKeyVersionResourceCrud) Create() error {
 		request.KeyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.CreateKeyVersion(context.Background(), request)
 	if err != nil {
@@ -259,7 +259,7 @@ func (s *KmsKeyVersionResourceCrud) Get() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.GetKeyVersion(context.Background(), request)
 	if err != nil {
@@ -290,7 +290,7 @@ func (s *KmsKeyVersionResourceCrud) Delete() error {
 		request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	_, error := s.Client.ScheduleKeyVersionDeletion(context.Background(), request)
 	return error

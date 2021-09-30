@@ -14,7 +14,7 @@ import (
 
 var (
 	managementAgentGetAutoUpgradableConfigSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	ManagementAgentGetAutoUpgradableConfigResourceConfig = ""
@@ -32,13 +32,13 @@ func TestManagementAgentManagementAgentGetAutoUpgradableConfigResource_basic(t *
 
 	singularDatasourceName := "data.oci_management_agent_management_agent_get_auto_upgradable_config.test_management_agent_get_auto_upgradable_config"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_get_auto_upgradable_config", "test_management_agent_get_auto_upgradable_config", Required, Create, managementAgentGetAutoUpgradableConfigSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_get_auto_upgradable_config", "test_management_agent_get_auto_upgradable_config", Required, Create, managementAgentGetAutoUpgradableConfigSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagementAgentGetAutoUpgradableConfigResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

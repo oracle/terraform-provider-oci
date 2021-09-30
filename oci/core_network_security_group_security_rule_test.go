@@ -16,41 +16,41 @@ import (
 
 var (
 	NetworkSecurityGroupSecurityRuleRequiredOnlyResource = NetworkSecurityGroupSecurityRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Required, Create, networkSecurityGroupSecurityRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Required, Create, networkSecurityGroupSecurityRuleRepresentation)
 
 	NetworkSecurityGroupSecurityRuleResourceConfig = NetworkSecurityGroupSecurityRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupSecurityRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupSecurityRuleRepresentation)
 
 	networkSecurityGroupSecurityRuleDataSourceRepresentation = map[string]interface{}{
-		"network_security_group_id": Representation{repType: Required, create: `${oci_core_network_security_group.test_network_security_group.id}`},
-		"direction":                 Representation{repType: Optional, create: `INGRESS`},
+		"network_security_group_id": Representation{RepType: Required, Create: `${oci_core_network_security_group.test_network_security_group.id}`},
+		"direction":                 Representation{RepType: Optional, Create: `INGRESS`},
 	}
 	networkSecurityGroupSecurityRuleRepresentation = map[string]interface{}{
-		"network_security_group_id": Representation{repType: Required, create: `${oci_core_network_security_group.test_network_security_group.id}`},
-		"direction":                 Representation{repType: Required, create: `EGRESS`},
-		"protocol":                  Representation{repType: Required, create: `6`},
-		"description":               Representation{repType: Optional, create: `description`, update: `updated description`},
+		"network_security_group_id": Representation{RepType: Required, Create: `${oci_core_network_security_group.test_network_security_group.id}`},
+		"direction":                 Representation{RepType: Required, Create: `EGRESS`},
+		"protocol":                  Representation{RepType: Required, Create: `6`},
+		"description":               Representation{RepType: Optional, Create: `description`, Update: `updated description`},
 	}
 
 	egressSecurityRulesRepresentation = map[string]interface{}{
-		"direction":        Representation{repType: Required, create: `EGRESS`},
-		"destination":      Representation{repType: Optional, create: `10.0.0.0/16`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"destination_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
-		"protocol":         Representation{repType: Required, create: `6`},
-		"stateless":        Representation{repType: Optional, create: `false`, update: `true`},
+		"direction":        Representation{RepType: Required, Create: `EGRESS`},
+		"destination":      Representation{RepType: Optional, Create: `10.0.0.0/16`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"destination_type": Representation{RepType: Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
+		"protocol":         Representation{RepType: Required, Create: `6`},
+		"stateless":        Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"tcp_options":      RepresentationGroup{Optional, securityRulesTcpOptionsRepresentation},
 	}
 	ingressSecurityRulesRepresentation = map[string]interface{}{
-		"direction":   Representation{repType: Required, create: `INGRESS`},
-		"protocol":    Representation{repType: Required, create: `6`},
-		"source":      Representation{repType: Optional, create: `10.0.1.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"source_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
-		"stateless":   Representation{repType: Optional, create: `false`, update: `true`},
+		"direction":   Representation{RepType: Required, Create: `INGRESS`},
+		"protocol":    Representation{RepType: Required, Create: `6`},
+		"source":      Representation{RepType: Optional, Create: `10.0.1.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"source_type": Representation{RepType: Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
+		"stateless":   Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"tcp_options": RepresentationGroup{Optional, securityRulesTcpOptionsRepresentation},
 	}
 	securityRulesIcmpOptionsRepresentation = map[string]interface{}{
-		"type": Representation{repType: Required, create: `3`},
-		"code": Representation{repType: Optional, create: `4`, update: `0`},
+		"type": Representation{RepType: Required, Create: `3`},
+		"code": Representation{RepType: Optional, Create: `4`, Update: `0`},
 	}
 	securityRulesTcpOptionsRepresentation = map[string]interface{}{
 		"destination_port_range": RepresentationGroup{Optional, securityRulesTcpOptionsDestinationPortRangeRepresentation},
@@ -62,25 +62,25 @@ var (
 	}
 
 	securityRulesTcpOptionsSourcePortRangeRepresentation = map[string]interface{}{
-		"max": Representation{repType: Required, create: `1521`, update: `1522`},
-		"min": Representation{repType: Required, create: `1521`, update: `1522`},
+		"max": Representation{RepType: Required, Create: `1521`, Update: `1522`},
+		"min": Representation{RepType: Required, Create: `1521`, Update: `1522`},
 	}
 	securityRulesUdpOptionsSourcePortRangeRepresentation = map[string]interface{}{
-		"max": Representation{repType: Required, create: `1521`, update: `1522`},
-		"min": Representation{repType: Required, create: `1521`, update: `1522`},
+		"max": Representation{RepType: Required, Create: `1521`, Update: `1522`},
+		"min": Representation{RepType: Required, Create: `1521`, Update: `1522`},
 	}
 	securityRulesTcpOptionsDestinationPortRangeRepresentation = map[string]interface{}{
-		"max": Representation{repType: Required, create: `1521`, update: `1522`},
-		"min": Representation{repType: Required, create: `1521`, update: `1522`},
+		"max": Representation{RepType: Required, Create: `1521`, Update: `1522`},
+		"min": Representation{RepType: Required, Create: `1521`, Update: `1522`},
 	}
 	securityRulesUdpOptionsDestinationPortRangeRepresentation = map[string]interface{}{
-		"max": Representation{repType: Required, create: `1521`, update: `1522`},
-		"min": Representation{repType: Required, create: `1521`, update: `1522`},
+		"max": Representation{RepType: Required, Create: `1521`, Update: `1522`},
+		"min": Representation{RepType: Required, Create: `1521`, Update: `1522`},
 	}
 
 	NetworkSecurityGroupSecurityRuleResourceDependencies = ObjectStorageCoreService +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 // issue-routing-tag: core/virtualNetwork
@@ -97,17 +97,17 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_network_security_group_security_rules.test_network_security_group_security_rules"
 
 	var resId, resId2, compositeId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+NetworkSecurityGroupSecurityRuleResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
-			representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)), "core", "networkSecurityGroupSecurityRule", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+NetworkSecurityGroupSecurityRuleResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
+			RepresentationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)), "core", "networkSecurityGroupSecurityRule", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		//verify create with optionals
+		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
-					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
+					RepresentationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "direction", "EGRESS"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
@@ -121,11 +121,11 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
-					networkSecurityGroupId, _ := fromInstanceState(s, resourceName, "network_security_group_id")
+					resId, err = FromInstanceState(s, resourceName, "id")
+					networkSecurityGroupId, _ := FromInstanceState(s, resourceName, "network_security_group_id")
 					compositeId = "networkSecurityGroups/" + networkSecurityGroupId + "/securityRules/" + resId
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -136,8 +136,8 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
-					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
+					RepresentationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, egressSecurityRulesRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "direction", "EGRESS"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
@@ -152,7 +152,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updatedr")
 					}
@@ -160,15 +160,15 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
 		},
-		//verify create with optionals
+		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
-					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create,
+					RepresentationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "direction", "INGRESS"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
@@ -182,7 +182,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -190,8 +190,8 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
-					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
+					RepresentationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "direction", "INGRESS"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_security_group_id"),
@@ -206,7 +206,7 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updatedr")
 					}
@@ -217,10 +217,10 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_network_security_group_security_rules", "test_network_security_group_security_rules", Optional, Update, networkSecurityGroupSecurityRuleDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_network_security_group_security_rules", "test_network_security_group_security_rules", Optional, Update, networkSecurityGroupSecurityRuleDataSourceRepresentation) +
 				compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
-					representationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update,
+					RepresentationCopyWithNewProperties(networkSecurityGroupSecurityRuleRepresentation, ingressSecurityRulesRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "direction"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_security_group_id"),

@@ -28,10 +28,10 @@ func init() {
 // or omit it from API calls.
 // Additionally, we explicitly support the behaviour of setting
 //    image_digest = ""
-// in an update to *force* the controlplane-side resolution of the image coordinates.
+// in an Update to *force* the controlplane-side resolution of the image coordinates.
 
 // In summary:
-// - same image, leaving the digest unspecified -> won't force an update
+// - same image, leaving the digest unspecified -> won't force an Update
 // - changing the image, leaving the digest unspecified -> works, updates the digest to correspond to the image
 // - same image, digest explicitly empty -> works, forces the controlplane to supply a new value
 
@@ -58,7 +58,7 @@ func FunctionsFunctionResource() *schema.Resource {
 					if o == n || n == requireRecompute || n == "" {
 						// The user's changing the image.
 						// Mark image_digest as "known after apply" if there is no corresponding
-						// explicit update to that field - either a supplied value or a demand for
+						// explicit Update to that field - either a supplied value or a demand for
 						// controlplane-side recalculation.
 						d.SetNewComputed("image_digest")
 					}
@@ -93,8 +93,8 @@ func FunctionsFunctionResource() *schema.Resource {
 			"memory_in_mbs": {
 				Type:             schema.TypeString,
 				Required:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 			},
 
 			// Optional
@@ -255,7 +255,7 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 	}
 
 	if config, ok := s.D.GetOkExists("config"); ok {
-		request.Config = objectMapToStringMap(config.(map[string]interface{}))
+		request.Config = ObjectMapToStringMap(config.(map[string]interface{}))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -272,7 +272,7 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if image, ok := s.D.GetOkExists("image"); ok {
@@ -280,7 +280,7 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 		request.Image = &tmp
 	}
 
-	// This is important: we might receive the sentinel value during a create. If we do, do *not* pass that
+	// This is important: we might receive the sentinel value during a Create. If we do, do *not* pass that
 	// through to the API.
 	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
 		tmp := imageDigest.(string)
@@ -314,7 +314,7 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.CreateFunction(context.Background(), request)
 	if err != nil {
@@ -331,7 +331,7 @@ func (s *FunctionsFunctionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.FunctionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.GetFunction(context.Background(), request)
 	if err != nil {
@@ -346,7 +346,7 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 	request := oci_functions.UpdateFunctionRequest{}
 
 	if config, ok := s.D.GetOkExists("config"); ok {
-		request.Config = objectMapToStringMap(config.(map[string]interface{}))
+		request.Config = ObjectMapToStringMap(config.(map[string]interface{}))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -358,7 +358,7 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -369,7 +369,7 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 		request.Image = &tmp
 	}
 
-	// Again, during an update we must detect the special sentinel value and avoid passing it to the API.
+	// Again, during an Update we must detect the special sentinel value and avoid passing it to the API.
 	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
 		tmp := imageDigest.(string)
 		if tmp != "" && tmp != requireRecompute {
@@ -402,7 +402,7 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.UpdateFunction(context.Background(), request)
 	if err != nil {
@@ -419,7 +419,7 @@ func (s *FunctionsFunctionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.FunctionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	_, err := s.Client.DeleteFunction(context.Background(), request)
 	return err

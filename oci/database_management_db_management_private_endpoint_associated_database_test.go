@@ -15,18 +15,18 @@ import (
 
 var (
 	dbManagementPrivateEndpointAssociatedDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                    Representation{repType: Required, create: `${var.compartment_id}`},
-		"db_management_private_endpoint_id": Representation{repType: Required, create: `${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`},
+		"compartment_id":                    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"db_management_private_endpoint_id": Representation{RepType: Required, Create: `${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`},
 	}
 
 	dbManagementPrivateEndpointAssociatedDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                    Representation{repType: Required, create: `${var.compartment_id}`},
-		"db_management_private_endpoint_id": Representation{repType: Required, create: `${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`},
+		"compartment_id":                    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"db_management_private_endpoint_id": Representation{RepType: Required, Create: `${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`},
 	}
 
-	DbManagementPrivateEndpointAssociatedDatabaseResourceConfig = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Required, Create, dbManagementPrivateEndpointRepresentation)
+	DbManagementPrivateEndpointAssociatedDatabaseResourceConfig = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Required, Create, dbManagementPrivateEndpointRepresentation)
 )
 
 // issue-routing-tag: database_management/default
@@ -44,7 +44,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseResource
 	datasourceName := "data.oci_database_management_db_management_private_endpoint_associated_databases.test_db_management_private_endpoint_associated_databases"
 	singularDatasourceName := "data.oci_database_management_db_management_private_endpoint_associated_database.test_db_management_private_endpoint_associated_database"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -55,7 +55,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseResource
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoint_associated_databases", "test_db_management_private_endpoint_associated_databases", Required, Create, dbManagementPrivateEndpointAssociatedDatabaseDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoint_associated_databases", "test_db_management_private_endpoint_associated_databases", Required, Create, dbManagementPrivateEndpointAssociatedDatabaseDataSourceRepresentation) +
 					compartmentIdVariableStr + DbManagementPrivateEndpointAssociatedDatabaseResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -68,7 +68,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseResource
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoint_associated_database", "test_db_management_private_endpoint_associated_database", Required, Create, dbManagementPrivateEndpointAssociatedDatabaseSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoint_associated_database", "test_db_management_private_endpoint_associated_database", Required, Create, dbManagementPrivateEndpointAssociatedDatabaseSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DbManagementPrivateEndpointAssociatedDatabaseResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

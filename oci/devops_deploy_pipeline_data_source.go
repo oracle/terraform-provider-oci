@@ -49,7 +49,7 @@ func (s *DevopsDeployPipelineDataSourceCrud) Get() error {
 		request.DeployPipelineId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.GetDeployPipeline(context.Background(), request)
 	if err != nil {

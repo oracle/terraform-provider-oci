@@ -12,34 +12,34 @@ import (
 )
 
 var (
-	DatabasePrecheckResourceRep = generateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databasePrecheckRep)
-	DatabaseUpgradeResourceRep  = generateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databaseUpgradeRep)
+	DatabasePrecheckResourceRep = GenerateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databasePrecheckRep)
+	DatabaseUpgradeResourceRep  = GenerateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databaseUpgradeRep)
 
 	//Database Software Image with Database version - 19.8.0.0 and Shape Family - Virtual Machine and Bare Metal Shapes needs to be pre-created on the tenancy
 	databaseSoftwareImageId = getEnvSettingWithBlankDefault("database_software_image_id")
 
 	databasePrecheckRep = map[string]interface{}{
-		"action":                          Representation{repType: Required, create: `PRECHECK`},
-		"database_id":                     Representation{repType: Required, create: `${data.oci_database_databases.t.databases.0.id}`},
+		"action":                          Representation{RepType: Required, Create: `PRECHECK`},
+		"database_id":                     Representation{RepType: Required, Create: `${data.oci_database_databases.t.databases.0.id}`},
 		"database_upgrade_source_details": RepresentationGroup{Optional, databasePrecheckDatabaseUpgradeSourceDbSoftwareImageRep},
 	}
 
 	databasePrecheckDatabaseUpgradeSourceDbSoftwareImageRep = map[string]interface{}{
-		"database_software_image_id": Representation{repType: Optional, create: databaseSoftwareImageId},
-		"options":                    Representation{repType: Optional, create: `-upgradeTimezone false -keepEvents`},
-		"source":                     Representation{repType: Optional, create: `DB_SOFTWARE_IMAGE`},
+		"database_software_image_id": Representation{RepType: Optional, Create: databaseSoftwareImageId},
+		"options":                    Representation{RepType: Optional, Create: `-upgradeTimezone false -keepEvents`},
+		"source":                     Representation{RepType: Optional, Create: `DB_SOFTWARE_IMAGE`},
 	}
 
 	databaseUpgradeRep = map[string]interface{}{
-		"action":                          Representation{repType: Required, create: `UPGRADE`},
-		"database_id":                     Representation{repType: Required, create: `${data.oci_database_databases.t.databases.0.id}`},
+		"action":                          Representation{RepType: Required, Create: `UPGRADE`},
+		"database_id":                     Representation{RepType: Required, Create: `${data.oci_database_databases.t.databases.0.id}`},
 		"database_upgrade_source_details": RepresentationGroup{Optional, databaseUpgradeDatabaseUpgradeSourceDbSoftwareImageRep},
 	}
 
 	databaseUpgradeDatabaseUpgradeSourceDbSoftwareImageRep = map[string]interface{}{
-		"database_software_image_id": Representation{repType: Optional, create: databaseSoftwareImageId},
-		"options":                    Representation{repType: Optional, create: `-upgradeTimezone false -keepEvents`},
-		"source":                     Representation{repType: Optional, create: `DB_SOFTWARE_IMAGE`},
+		"database_software_image_id": Representation{RepType: Optional, Create: databaseSoftwareImageId},
+		"options":                    Representation{RepType: Optional, Create: `-upgradeTimezone false -keepEvents`},
+		"source":                     Representation{RepType: Optional, Create: `DB_SOFTWARE_IMAGE`},
 	}
 )
 
@@ -56,7 +56,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create dependencies
+		// Create dependencies
 		{
 			Config: ResourceDatabaseBaseConfig + dbSystemForDbUpgradeRepresentation,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -80,7 +80,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.#", "1"),
 				resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.character_set", "AL32UTF8"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					return err
 				},
 			),
@@ -144,7 +144,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "database_id"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}
@@ -183,7 +183,7 @@ func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "state", "SUCCEEDED"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}

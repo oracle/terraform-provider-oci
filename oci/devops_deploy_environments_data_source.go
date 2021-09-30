@@ -18,7 +18,7 @@ func DevopsDeployEnvironmentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDevopsDeployEnvironments,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -102,7 +102,7 @@ func (s *DevopsDeployEnvironmentsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_devops.DeployEnvironmentLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.ListDeployEnvironments(context.Background(), request)
 	if err != nil {

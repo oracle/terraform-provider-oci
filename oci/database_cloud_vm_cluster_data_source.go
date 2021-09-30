@@ -50,7 +50,7 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) Get() error {
 		request.CloudVmClusterId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetCloudVmCluster(context.Background(), request)
 	if err != nil {

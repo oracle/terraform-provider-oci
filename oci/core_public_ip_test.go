@@ -28,57 +28,57 @@ const (
 
 var (
 	PublicIpRequiredOnlyResource = PublicIpResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation)
 
 	PublicIpResourceConfig = PublicIpResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicIpRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicIpRepresentation)
 
 	publicIpSingularDataSourceRepresentation = map[string]interface{}{
-		"private_ip_id": Representation{repType: Required, create: `${oci_core_public_ip.test_public_ip2.private_ip_id}`},
+		"private_ip_id": Representation{RepType: Required, Create: `${oci_core_public_ip.test_public_ip2.private_ip_id}`},
 	}
 
 	publicIpDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"scope":               Representation{repType: Required, create: string(oci_core.PublicIpScopeRegion), update: string(oci_core.PublicIpScopeAvailabilityDomain)},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"public_ip_pool_id":   Representation{repType: Optional, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"scope":               Representation{RepType: Required, Create: string(oci_core.PublicIpScopeRegion), Update: string(oci_core.PublicIpScopeAvailabilityDomain)},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"public_ip_pool_id":   Representation{RepType: Optional, Create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
 		"filter":              RepresentationGroup{Required, publicIpDataSourceFilterRepresentation}}
 	publicIpDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_public_ip.test_public_ip2.id}`}, update: []string{string(oci_core.PublicIpLifetimeReserved)}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_public_ip.test_public_ip2.id}`}, Update: []string{string(oci_core.PublicIpLifetimeReserved)}},
 	}
 	publicIpDataSourceNameFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{string(oci_core.PublicIpLifetimeReserved)}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{string(oci_core.PublicIpLifetimeReserved)}},
 	}
 
 	publicIpRepresentation = map[string]interface{}{
-		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
-		"lifetime":          Representation{repType: Required, create: `RESERVED`},
-		"defined_tags":      Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":      Representation{repType: Optional, create: `-tf-public-ip`, update: `-tf-public-ip-updated`},
-		"freeform_tags":     Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"private_ip_id":     Representation{repType: Optional, create: `${data.oci_core_private_ips.test_private_ips.` + privateIpId + `}`, update: `${data.oci_core_private_ips.test_private_ips.` + privateIpId2 + `}`},
-		"public_ip_pool_id": Representation{repType: Optional, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
+		"compartment_id":    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"lifetime":          Representation{RepType: Required, Create: `RESERVED`},
+		"defined_tags":      Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":      Representation{RepType: Optional, Create: `-tf-public-ip`, Update: `-tf-public-ip-updated`},
+		"freeform_tags":     Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"private_ip_id":     Representation{RepType: Optional, Create: `${data.oci_core_private_ips.test_private_ips.` + privateIpId + `}`, Update: `${data.oci_core_private_ips.test_private_ips.` + privateIpId2 + `}`},
+		"public_ip_pool_id": Representation{RepType: Optional, Create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
 		"lifecycle":         RepresentationGroup{Required, ignoreChangesRepresentation},
 	}
 
 	ignoreChangesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`, `private_ip_id`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`, `private_ip_id`}},
 	}
 
 	publicUnassignedIpRepresentation = map[string]interface{}{
-		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
-		"lifetime":          Representation{repType: Required, create: `RESERVED`},
-		"defined_tags":      Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":      Representation{repType: Optional, create: `-tf-public-ip`},
-		"freeform_tags":     Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"public_ip_pool_id": Representation{repType: Optional, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
+		"compartment_id":    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"lifetime":          Representation{RepType: Required, Create: `RESERVED`},
+		"defined_tags":      Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":      Representation{RepType: Optional, Create: `-tf-public-ip`},
+		"freeform_tags":     Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"public_ip_pool_id": Representation{RepType: Optional, Create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
 	}
 
 	PublicIpResourceDependencies = DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr +
-		generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation) + `
+		GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation) + `
 	variable "InstanceImageOCID" {
 		type = "map"
 		default = {
@@ -126,7 +126,7 @@ var (
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
 		timeouts {
-			create = "15m"
+			Create = "15m"
 		}
 	}
 	resource "oci_core_vnic_attachment" "test_vnic_attachments" {
@@ -164,15 +164,15 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 	sDatasourceNameByPrivateIpId := "data.oci_core_public_ip.test_oci_core_public_ip_by_private_ip_id"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PublicIpResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create, publicIpRepresentation), "core", "publicIp", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PublicIpResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create, publicIpRepresentation), "core", "publicIp", t)
 
 	ResourceTest(t, testAccCheckCorePublicIpDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation) + `
+				GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation) + `
 					data "oci_core_public_ip" "test_oci_core_public_ip_by_id" {
 						id = "${oci_core_public_ip.test_public_ip.id}"
 					}
@@ -191,7 +191,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 
@@ -221,14 +221,14 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create, publicIpRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create, publicIpRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -243,9 +243,9 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -254,12 +254,12 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PublicIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create,
-					representationCopyWithNewProperties(publicIpRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create,
+					RepresentationCopyWithNewProperties(publicIpRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -271,7 +271,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "public_ip_pool_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -279,11 +279,11 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify updates to updatable parameters (partial update)
+		// verify updates to updatable parameters (partial Update)
 		{
 			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create,
-					getUpdatedRepresentationCopy("display_name", Representation{repType: Optional, create: displayName2}, publicIpRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Create,
+					GetUpdatedRepresentationCopy("display_name", Representation{RepType: Optional, Create: displayName2}, publicIpRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -297,7 +297,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -305,10 +305,10 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify updates to updatable parameters (full update)
+		// verify updates to updatable parameters (full Update)
 		{
 			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicIpRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicIpRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -323,7 +323,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAssigned)),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -334,7 +334,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 		// verify updates to updatable parameters (unassign private ip id)
 		{
 			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicUnassignedIpRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicUnassignedIpRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -348,7 +348,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_core.PublicIpLifecycleStateAvailable)),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -359,9 +359,9 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + PublicIpResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip2", Optional, Update, publicIpRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Required, Create, publicIpDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_public_ip", "test_oci_core_public_ip_by_private_ip_id", Optional, Update, publicIpSingularDataSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip2", Optional, Update, publicIpRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Required, Create, publicIpDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_public_ip", "test_oci_core_public_ip_by_private_ip_id", Optional, Update, publicIpSingularDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "scope", string(oci_core.PublicIpScopeRegion)),
@@ -394,8 +394,8 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 		// Test client-side filtering.
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Optional, Update,
-					getUpdatedRepresentationCopy("filter", RepresentationGroup{Required, publicIpDataSourceNameFilterRepresentation}, publicIpDataSourceRepresentation)) +
+				GenerateDataSourceFromRepresentationMap("oci_core_public_ips", "test_public_ips", Optional, Update,
+					GetUpdatedRepresentationCopy("filter", RepresentationGroup{Required, publicIpDataSourceNameFilterRepresentation}, publicIpDataSourceRepresentation)) +
 				compartmentIdVariableStr + PublicIpResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -425,7 +425,7 @@ func testAccCheckCorePublicIpDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PublicIpId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetPublicIp(context.Background(), request)
 
@@ -458,7 +458,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CorePublicIp") {
+	if !InSweeperExcludeList("CorePublicIp") {
 		resource.AddTestSweepers("CorePublicIp", &resource.Sweeper{
 			Name:         "CorePublicIp",
 			Dependencies: DependencyGraph["publicIp"],
@@ -479,13 +479,13 @@ func sweepCorePublicIpResource(compartment string) error {
 
 			deletePublicIpRequest.PublicIpId = &publicIpId
 
-			deletePublicIpRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deletePublicIpRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeletePublicIp(context.Background(), deletePublicIpRequest)
 			if error != nil {
 				fmt.Printf("Error deleting PublicIp %s %s, It is possible that the resource is already deleted. Please verify manually \n", publicIpId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &publicIpId, publicIpSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &publicIpId, publicIpSweepWaitCondition, time.Duration(3*time.Minute),
 				publicIpSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -493,7 +493,7 @@ func sweepCorePublicIpResource(compartment string) error {
 }
 
 func getPublicIpIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "PublicIpId")
+	ids := GetResourceIdsToSweep(compartment, "PublicIpId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -523,7 +523,7 @@ func getPublicIpIds(compartment string) ([]string, error) {
 		for _, publicIp := range publicIps {
 			id := *publicIp.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "PublicIpId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "PublicIpId", id)
 		}
 
 	}

@@ -16,25 +16,25 @@ import (
 
 var (
 	DeployGenericArtifactRequiredOnlyResource = DeployArtifactResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployGenericArtifactRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployGenericArtifactRepresentation)
 
 	DeployGenericArtifactResourceConfig = DeployArtifactResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployGenericArtifactRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployGenericArtifactRepresentation)
 
 	deployGenericArtifactSingularDataSourceRepresentation = map[string]interface{}{
-		"deploy_artifact_id": Representation{repType: Required, create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
+		"deploy_artifact_id": Representation{RepType: Required, Create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
 	}
 
-	deployGenericArtifactRepresentation                     = getUpdatedRepresentationCopy("deploy_artifact_source", RepresentationGroup{Required, deployGenericArtifactDeployArtifactSourceRepresentation}, deployArtifactRepresentation)
+	deployGenericArtifactRepresentation                     = GetUpdatedRepresentationCopy("deploy_artifact_source", RepresentationGroup{Required, deployGenericArtifactDeployArtifactSourceRepresentation}, deployArtifactRepresentation)
 	repository_id                                           = "ocid1.artifactrepository.oc1.iad.0.amaaaaaansx72maa7nbce5ebmsqkan3msgyosvxe5d5a6jghn5su6ykgw7vq"
 	repository_id_updated                                   = "ocid1.artifactrepository.oc1.iad.0.amaaaaaansx72maa7nbce5ebmsqkan3msgyosvxe5d5a6jghnfakeartifact2"
 	artifact_path                                           = "helloworld-oke.yaml"
 	version                                                 = "v1"
 	deployGenericArtifactDeployArtifactSourceRepresentation = map[string]interface{}{
-		"deploy_artifact_source_type": Representation{repType: Required, create: `GENERIC_ARTIFACT`},
-		"repository_id":               Representation{repType: Required, create: repository_id, update: repository_id_updated},
-		"deploy_artifact_path":        Representation{repType: Required, create: artifact_path},
-		"deploy_artifact_version":     Representation{repType: Required, create: version},
+		"deploy_artifact_source_type": Representation{RepType: Required, Create: `GENERIC_ARTIFACT`},
+		"repository_id":               Representation{RepType: Required, Create: repository_id, Update: repository_id_updated},
+		"deploy_artifact_path":        Representation{RepType: Required, Create: artifact_path},
+		"deploy_artifact_version":     Representation{RepType: Required, Create: version},
 	}
 )
 
@@ -53,15 +53,15 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deploy_artifact.test_deploy_artifact"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeployArtifactResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Create, deployGenericArtifactRepresentation), "devops", "deployArtifact", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeployArtifactResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Create, deployGenericArtifactRepresentation), "devops", "deployArtifact", t)
 
 	ResourceTest(t, testAccCheckDevopsDeployArtifactDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployGenericArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployGenericArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.#", "1"),
@@ -73,20 +73,20 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Create, deployGenericArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Create, deployGenericArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -102,9 +102,9 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -116,7 +116,7 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployGenericArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployGenericArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -132,7 +132,7 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -143,9 +143,9 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", Optional, Update, deployArtifactDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", Optional, Update, deployArtifactDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployGenericArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployGenericArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -160,7 +160,7 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployGenericArtifactSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployGenericArtifactSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployGenericArtifactResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_artifact_id"),

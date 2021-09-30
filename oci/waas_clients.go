@@ -10,8 +10,8 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_waas.RedirectClient", &OracleClient{initClientFn: initWaasRedirectClient})
-	RegisterOracleClient("oci_waas.WaasClient", &OracleClient{initClientFn: initWaasWaasClient})
+	RegisterOracleClient("oci_waas.RedirectClient", &OracleClient{InitClientFn: initWaasRedirectClient})
+	RegisterOracleClient("oci_waas.WaasClient", &OracleClient{InitClientFn: initWaasWaasClient})
 }
 
 func initWaasRedirectClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -206,7 +206,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -214,7 +214,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.CreateAiPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -222,7 +222,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAiPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAiPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) getAiPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -277,7 +277,7 @@ func aiPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 
 func aiPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_ai_anomaly_detection.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ai_anomaly_detection.AnomalyDetectionClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "ai_anomaly_detection")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "ai_anomaly_detection")
 	retryPolicy.ShouldRetryOperation = aiPrivateEndpointWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_ai_anomaly_detection.GetWorkRequestResponse{}
@@ -358,7 +358,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AiPrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.GetAiPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -411,10 +411,10 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.UpdateAiPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -422,7 +422,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAiPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAiPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) Delete() error {
@@ -431,7 +431,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AiPrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.DeleteAiPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -546,7 +546,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) updateCompartment(comp
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.ChangeAiPrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -554,5 +554,5 @@ func (s *AiAnomalyDetectionAiPrivateEndpointResourceCrud) updateCompartment(comp
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAiPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAiPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

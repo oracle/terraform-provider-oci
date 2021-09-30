@@ -18,7 +18,7 @@ func LimitsQuotasDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLimitsQuotas,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *LimitsQuotasDataSourceCrud) Get() error {
 		request.LifecycleState = oci_limits.ListQuotasLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "limits")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "limits")
 
 	response, err := s.Client.ListQuotas(context.Background(), request)
 	if err != nil {

@@ -152,8 +152,8 @@ func MysqlMysqlConfigurationDataSource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 						"innodb_ft_enable_stopword": {
 							Type:     schema.TypeBool,
@@ -385,7 +385,7 @@ func (s *MysqlMysqlConfigurationDataSourceCrud) Get() error {
 		request.ConfigurationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.GetConfiguration(context.Background(), request)
 	if err != nil {

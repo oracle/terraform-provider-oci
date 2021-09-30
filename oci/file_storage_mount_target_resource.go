@@ -80,7 +80,7 @@ func FileStorageMountTargetResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -216,7 +216,7 @@ func (s *FileStorageMountTargetResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok {
@@ -248,7 +248,7 @@ func (s *FileStorageMountTargetResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.CreateMountTarget(context.Background(), request)
 	if err != nil {
@@ -265,7 +265,7 @@ func (s *FileStorageMountTargetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.MountTargetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.GetMountTarget(context.Background(), request)
 	if err != nil {
@@ -302,7 +302,7 @@ func (s *FileStorageMountTargetResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -322,7 +322,7 @@ func (s *FileStorageMountTargetResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.UpdateMountTarget(context.Background(), request)
 	if err != nil {
@@ -339,7 +339,7 @@ func (s *FileStorageMountTargetResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.MountTargetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	_, err := s.Client.DeleteMountTarget(context.Background(), request)
 	return err
@@ -376,7 +376,7 @@ func (s *FileStorageMountTargetResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 	s.D.Set("private_ip_ids", s.Res.PrivateIpIds)
 
@@ -410,7 +410,7 @@ func (s *FileStorageMountTargetResourceCrud) updateCompartment(compartment inter
 	idTmp := s.D.Id()
 	changeCompartmentRequest.MountTargetId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	_, err := s.Client.ChangeMountTargetCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -429,7 +429,7 @@ func (s *FileStorageMountTargetResourceCrud) setPrivateIpDetails(privateIpOcid s
 
 	request.PrivateIpId = &privateIpOcid
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 	response, err := s.VirtualNetworkClient.GetPrivateIp(context.Background(), request)
 	if err != nil {

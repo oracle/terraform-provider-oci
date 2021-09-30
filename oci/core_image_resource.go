@@ -26,9 +26,9 @@ func CoreImageResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("2h"),
-			Update: getTimeoutDuration("2h"),
-			Delete: getTimeoutDuration("2h"),
+			Create: GetTimeoutDuration("2h"),
+			Update: GetTimeoutDuration("2h"),
+			Delete: GetTimeoutDuration("2h"),
 		},
 		Create: createCoreImage,
 		Read:   readCoreImage,
@@ -331,7 +331,7 @@ func (s *CoreImageResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if imageSourceDetails, ok := s.D.GetOkExists("image_source_details"); ok {
@@ -354,7 +354,7 @@ func (s *CoreImageResourceCrud) Create() error {
 		request.LaunchMode = oci_core.CreateImageDetailsLaunchModeEnum(launchMode.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateImage(context.Background(), request)
 	if err != nil {
@@ -383,7 +383,7 @@ func (s *CoreImageResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ImageId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetImage(context.Background(), request)
 	if err != nil {
@@ -420,13 +420,13 @@ func (s *CoreImageResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.ImageId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateImage(context.Background(), request)
 	if err != nil {
@@ -443,7 +443,7 @@ func (s *CoreImageResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ImageId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteImage(context.Background(), request)
 	return err
@@ -597,7 +597,7 @@ func (s *CoreImageResourceCrud) updateCompartment(compartment interface{}) error
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ImageId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeImageCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

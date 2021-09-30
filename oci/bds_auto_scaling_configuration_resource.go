@@ -266,7 +266,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.AddAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -274,7 +274,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAutoScalingConfigurationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAutoScalingConfigurationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *BdsAutoScalingConfigurationResourceCrud) getAutoScalingConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -333,7 +333,7 @@ func autoScalingConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) f
 
 func autoScalingConfigurationWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "bds")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = autoScalingConfigurationWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_bds.GetWorkRequestResponse{}
@@ -419,7 +419,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) List(compartmentId *string) (*
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "bds")
 
 	response, err := s.Client.ListAutoScalingConfigurations(context.Background(), request)
 	if err != nil {
@@ -450,7 +450,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.GetAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -498,7 +498,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.UpdateAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -506,7 +506,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAutoScalingConfigurationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAutoScalingConfigurationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BdsAutoScalingConfigurationResourceCrud) Delete() error {
@@ -525,7 +525,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Delete() error {
 		request.ClusterAdminPassword = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	_, err := s.Client.RemoveAutoScalingConfiguration(context.Background(), request)
 	return err

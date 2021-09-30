@@ -21,44 +21,44 @@ import (
 
 var (
 	HttpRedirectRequiredOnlyResource = HttpRedirectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectRepresentation)
 
 	HttpRedirectResourceConfig = HttpRedirectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation)
 
 	httpRedirectSingularDataSourceRepresentation = map[string]interface{}{
-		"http_redirect_id": Representation{repType: Required, create: `${oci_waas_http_redirect.test_http_redirect.id}`},
+		"http_redirect_id": Representation{RepType: Required, Create: `${oci_waas_http_redirect.test_http_redirect.id}`},
 	}
-	domainName = randomString(6, charsetWithoutDigits) + ".com"
+	domainName = RandomString(6, charsetWithoutDigits) + ".com"
 
 	httpRedirectDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                        Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_names":                         Representation{repType: Optional, create: []string{`displayName2`}},
-		"ids":                                   Representation{repType: Optional, create: []string{`${oci_waas_http_redirect.test_http_redirect.id}`}},
-		"states":                                Representation{repType: Optional, create: []string{`ACTIVE`}},
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
-		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
+		"compartment_id":                        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_names":                         Representation{RepType: Optional, Create: []string{`displayName2`}},
+		"ids":                                   Representation{RepType: Optional, Create: []string{`${oci_waas_http_redirect.test_http_redirect.id}`}},
+		"states":                                Representation{RepType: Optional, Create: []string{`ACTIVE`}},
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"time_created_less_than":                Representation{RepType: Optional, Create: `2038-01-01T00:00:00.000Z`},
 		"filter":                                RepresentationGroup{Required, httpRedirectDataSourceFilterRepresentation}}
 	httpRedirectDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_waas_http_redirect.test_http_redirect.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_waas_http_redirect.test_http_redirect.id}`}},
 	}
 
 	httpRedirectRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"domain":         Representation{repType: Required, create: domainName},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"domain":         Representation{RepType: Required, Create: domainName},
 		"target":         RepresentationGroup{Required, httpRedirectTargetRepresentation},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"response_code":  Representation{repType: Optional, create: `301`, update: `302`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"response_code":  Representation{RepType: Optional, Create: `301`, Update: `302`},
 	}
 	httpRedirectTargetRepresentation = map[string]interface{}{
-		"host":     Representation{repType: Required, create: `example1.com`, update: `example2.com`},
-		"path":     Representation{repType: Required, create: `/test{path}`, update: `/test2{path}`},
-		"protocol": Representation{repType: Required, create: `HTTP`, update: `HTTPS`},
-		"query":    Representation{repType: Required, create: ``, update: `{query}`},
-		"port":     Representation{repType: Optional, create: `8080`, update: `8082`},
+		"host":     Representation{RepType: Required, Create: `example1.com`, Update: `example2.com`},
+		"path":     Representation{RepType: Required, Create: `/test{path}`, Update: `/test2{path}`},
+		"protocol": Representation{RepType: Required, Create: `HTTP`, Update: `HTTPS`},
+		"query":    Representation{RepType: Required, Create: ``, Update: `{query}`},
+		"port":     Representation{RepType: Optional, Create: `8080`, Update: `8082`},
 	}
 
 	HttpRedirectResourceDependencies = DefinedTagsDependencies
@@ -82,15 +82,15 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_waas_http_redirect.test_http_redirect"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+HttpRedirectResourceDependencies+
-		generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create, httpRedirectRepresentation), "waas", "httpRedirect", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+HttpRedirectResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create, httpRedirectRepresentation), "waas", "httpRedirect", t)
 
 	ResourceTest(t, testAccCheckWaasHttpRedirectDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "domain", domainName),
@@ -101,20 +101,20 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.0.query", ""),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create, httpRedirectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create, httpRedirectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -130,9 +130,9 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.0.query", ""),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -141,12 +141,12 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HttpRedirectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create,
-					representationCopyWithNewProperties(httpRedirectRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Create,
+					RepresentationCopyWithNewProperties(httpRedirectRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -163,7 +163,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.0.query", ""),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -175,7 +175,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + HttpRedirectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -191,7 +191,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.0.query", "{query}"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -202,9 +202,9 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_http_redirects", "test_http_redirects", Optional, Update, httpRedirectDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_http_redirects", "test_http_redirects", Optional, Update, httpRedirectDataSourceRepresentation) +
 				compartmentIdVariableStr + HttpRedirectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Optional, Update, httpRedirectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
@@ -234,7 +234,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + HttpRedirectResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "http_redirect_id"),
@@ -282,7 +282,7 @@ func testAccCheckWaasHttpRedirectDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.HttpRedirectId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 
 			response, err := client.GetHttpRedirect(context.Background(), request)
 
@@ -315,7 +315,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("WaasHttpRedirect") {
+	if !InSweeperExcludeList("WaasHttpRedirect") {
 		resource.AddTestSweepers("WaasHttpRedirect", &resource.Sweeper{
 			Name:         "WaasHttpRedirect",
 			Dependencies: DependencyGraph["httpRedirect"],
@@ -336,13 +336,13 @@ func sweepWaasHttpRedirectResource(compartment string) error {
 
 			deleteHttpRedirectRequest.HttpRedirectId = &httpRedirectId
 
-			deleteHttpRedirectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			deleteHttpRedirectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 			_, error := redirectClient.DeleteHttpRedirect(context.Background(), deleteHttpRedirectRequest)
 			if error != nil {
 				fmt.Printf("Error deleting HttpRedirect %s %s, It is possible that the resource is already deleted. Please verify manually \n", httpRedirectId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &httpRedirectId, httpRedirectSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &httpRedirectId, httpRedirectSweepWaitCondition, time.Duration(3*time.Minute),
 				httpRedirectSweepResponseFetchOperation, "waas", true)
 		}
 	}
@@ -350,7 +350,7 @@ func sweepWaasHttpRedirectResource(compartment string) error {
 }
 
 func getHttpRedirectIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "HttpRedirectId")
+	ids := GetResourceIdsToSweep(compartment, "HttpRedirectId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -368,7 +368,7 @@ func getHttpRedirectIds(compartment string) ([]string, error) {
 	for _, httpRedirect := range listHttpRedirectsResponse.Items {
 		id := *httpRedirect.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "HttpRedirectId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "HttpRedirectId", id)
 	}
 	return resourceIds, nil
 }

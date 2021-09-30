@@ -155,7 +155,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Create() error {
 			}
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableDatabaseManagement(context.Background(), request)
 		if err != nil {
@@ -180,7 +180,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Create() error {
 		request.DatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableDatabaseManagement(context.Background(), request)
 	if err != nil {
@@ -205,7 +205,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Update() error {
 	}
 
 	if operation {
-		// update operation
+		// Update operation
 		request := oci_database.ModifyDatabaseManagementRequest{}
 
 		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
@@ -238,7 +238,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Update() error {
 			}
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.ModifyDatabaseManagement(context.Background(), request)
 		if err != nil {
@@ -263,7 +263,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Update() error {
 		request.DatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableDatabaseManagement(context.Background(), request)
 	if err != nil {
@@ -299,7 +299,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Delete() error {
 		request.DatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableDatabaseManagement(context.Background(), request)
 	if err != nil {
@@ -357,7 +357,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetDatabase(context.Background(), request)
 	if err != nil {

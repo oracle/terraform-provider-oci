@@ -10,8 +10,8 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_ons.NotificationControlPlaneClient", &OracleClient{initClientFn: initOnsNotificationControlPlaneClient})
-	RegisterOracleClient("oci_ons.NotificationDataPlaneClient", &OracleClient{initClientFn: initOnsNotificationDataPlaneClient})
+	RegisterOracleClient("oci_ons.NotificationControlPlaneClient", &OracleClient{InitClientFn: initOnsNotificationControlPlaneClient})
+	RegisterOracleClient("oci_ons.NotificationDataPlaneClient", &OracleClient{InitClientFn: initOnsNotificationDataPlaneClient})
 }
 
 func initOnsNotificationControlPlaneClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

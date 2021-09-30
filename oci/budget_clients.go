@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_budget.BudgetClient", &OracleClient{initClientFn: initBudgetBudgetClient})
+	RegisterOracleClient("oci_budget.BudgetClient", &OracleClient{InitClientFn: initBudgetBudgetClient})
 }
 
 func initBudgetBudgetClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

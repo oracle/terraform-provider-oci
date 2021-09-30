@@ -104,7 +104,7 @@ func updateIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 }
 
 func deleteIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
-	// Only empty tag namespaces can be deleted, to execute our tests we don't want to delete namespaces as we create
+	// Only empty tag namespaces can be deleted, to execute our tests we don't want to delete namespaces as we Create
 	// namespaces with tags and deleting a tag is a sequential and time consuming operation allowed one per tenancy
 	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
@@ -174,7 +174,7 @@ func (s *IdentityTagNamespaceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -182,14 +182,14 @@ func (s *IdentityTagNamespaceResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	contextToUse := context.Background()
 	response, err := s.Client.CreateTagNamespace(contextToUse, request)
 	if err == nil {
 		s.Res = &response.TagNamespace
 		s.D.SetId(*s.Res.Id)
-		//is_retired field is currently not supported in create so update to make server state same as config
+		//is_retired field is currently not supported in Create so Update to make server state same as config
 		if updateError := s.Update(); updateError != nil {
 			return updateError
 		}
@@ -234,7 +234,7 @@ func (s *IdentityTagNamespaceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.TagNamespaceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetTagNamespace(context.Background(), request)
 	if err != nil {
@@ -271,7 +271,7 @@ func (s *IdentityTagNamespaceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isRetired, ok := s.D.GetOkExists("is_retired"); ok {
@@ -282,7 +282,7 @@ func (s *IdentityTagNamespaceResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.TagNamespaceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateTagNamespace(context.Background(), request)
 	if err != nil {
@@ -299,7 +299,7 @@ func (s *IdentityTagNamespaceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.TagNamespaceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteTagNamespace(context.Background(), request)
 	return err
@@ -346,7 +346,7 @@ func (s *IdentityTagNamespaceResourceCrud) updateCompartment(compartment interfa
 	idTmp := s.D.Id()
 	changeCompartmentRequest.TagNamespaceId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.ChangeTagNamespaceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

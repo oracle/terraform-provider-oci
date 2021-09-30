@@ -15,49 +15,49 @@ import (
 
 var (
 	ExadataInfrastructureStorageRequiredOnlyResource = ExadataInfrastructureResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure_storage", "test_exadata_infrastructure_storage", Required, Create, exadataInfrastructureStorageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure_storage", "test_exadata_infrastructure_storage", Required, Create, exadataInfrastructureStorageRepresentation)
 
 	ExadataInfrastructureStorageResourceConfig = ExadataInfrastructureResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure_storage", "test_exadata_infrastructure_storage", Optional, Update, exadataInfrastructureStorageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure_storage", "test_exadata_infrastructure_storage", Optional, Update, exadataInfrastructureStorageRepresentation)
 
 	exadataInfrastructureStorageSingularDataSourceRepresentation = map[string]interface{}{
-		"exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"exadata_infrastructure_id": Representation{RepType: Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 	}
 
 	exadataInfrastructureStorageDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `tstExaInfra`},
-		"state":          Representation{repType: Optional, create: `REQUIRES_ACTIVATION`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `tstExaInfra`},
+		"state":          Representation{RepType: Optional, Create: `REQUIRES_ACTIVATION`},
 		"filter":         RepresentationGroup{Required, exadataInfrastructureDataSourceFilterRepresentation}}
 	exadataInfrastructureStorageDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`}},
 	}
 
 	exadataInfrastructureStorageRepresentation = map[string]interface{}{
-		"admin_network_cidr":          Representation{repType: Required, create: `192.168.0.0/16`, update: `192.168.0.0/20`},
-		"cloud_control_plane_server1": Representation{repType: Required, create: `10.32.88.1`, update: `10.32.88.2`},
-		"cloud_control_plane_server2": Representation{repType: Required, create: `10.32.88.3`, update: `10.32.88.4`},
-		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":                Representation{repType: Required, create: `tstExaInfra`},
-		"dns_server":                  Representation{repType: Required, create: []string{`10.231.225.65`}, update: []string{`10.31.138.25`, `206.223.27.1`}},
-		"gateway":                     Representation{repType: Required, create: `10.32.88.5`, update: `10.32.88.6`},
-		"infini_band_network_cidr":    Representation{repType: Required, create: `10.31.8.0/21`, update: `10.31.8.0/22`},
-		"netmask":                     Representation{repType: Required, create: `255.255.255.0`, update: `255.255.254.0`},
-		"ntp_server":                  Representation{repType: Required, create: []string{`10.231.225.76`}, update: []string{`10.246.6.36`, `10.31.138.20`}},
-		"shape":                       Representation{repType: Required, create: `ExadataCC.Quarter3.100`},
-		"time_zone":                   Representation{repType: Required, create: `US/Pacific`, update: `UTC`},
-		"compute_count":               Representation{repType: Optional, create: `2`},
+		"admin_network_cidr":          Representation{RepType: Required, Create: `192.168.0.0/16`, Update: `192.168.0.0/20`},
+		"cloud_control_plane_server1": Representation{RepType: Required, Create: `10.32.88.1`, Update: `10.32.88.2`},
+		"cloud_control_plane_server2": Representation{RepType: Required, Create: `10.32.88.3`, Update: `10.32.88.4`},
+		"compartment_id":              Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                Representation{RepType: Required, Create: `tstExaInfra`},
+		"dns_server":                  Representation{RepType: Required, Create: []string{`10.231.225.65`}, Update: []string{`10.31.138.25`, `206.223.27.1`}},
+		"gateway":                     Representation{RepType: Required, Create: `10.32.88.5`, Update: `10.32.88.6`},
+		"infini_band_network_cidr":    Representation{RepType: Required, Create: `10.31.8.0/21`, Update: `10.31.8.0/22`},
+		"netmask":                     Representation{RepType: Required, Create: `255.255.255.0`, Update: `255.255.254.0`},
+		"ntp_server":                  Representation{RepType: Required, Create: []string{`10.231.225.76`}, Update: []string{`10.246.6.36`, `10.31.138.20`}},
+		"shape":                       Representation{RepType: Required, Create: `ExadataCC.Quarter3.100`},
+		"time_zone":                   Representation{RepType: Required, Create: `US/Pacific`, Update: `UTC`},
+		"compute_count":               Representation{RepType: Optional, Create: `2`},
 		"contacts":                    RepresentationGroup{Optional, exadataInfrastructureContactsRepresentation},
-		"corporate_proxy":             Representation{repType: Optional, create: `http://192.168.19.1:80`, update: `http://192.168.19.2:80`},
-		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"corporate_proxy":             Representation{RepType: Optional, Create: `http://192.168.19.1:80`, Update: `http://192.168.19.2:80`},
+		"defined_tags":                Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":               Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"maintenance_window":          RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentation},
 		"lifecycle":                   RepresentationGroup{Optional, ignoreShapeRepresentation},
 	}
 
 	ignoreShapeRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`shape`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`shape`}},
 	}
 
 	ExadataInfrastructureStorageResourceDependencies = DefinedTagsDependencies
@@ -77,18 +77,18 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 
 	activationFilePath, err := createTmpActivationFile()
 	if err != nil {
-		t.Fatalf("Unable to create files for invocation. Error: %q", err)
+		t.Fatalf("Unable to Create files for invocation. Error: %q", err)
 	}
 
 	var resId, resId2 string
 
 	ResourceTest(t, nil, []resource.TestStep{
 
-		//verify create with optionals
+		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ExadataInfrastructureStorageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create,
-					representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create,
+					RepresentationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
 						"storage_count": 3,
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -126,7 +126,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -135,9 +135,9 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 		// verify activation
 		{
 			Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
-				generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create,
-					representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
-						"activation_file":    Representation{repType: Optional, create: activationFilePath},
+				GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Create,
+					RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+						"activation_file":    Representation{RepType: Optional, Create: activationFilePath},
 						"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentation},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -160,7 +160,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -169,13 +169,13 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 			),
 		},
 
-		// update/ scale up infrastructure with additional storage servers
+		// Update/ scale up infrastructure with additional storage servers
 		{
 			Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
-				generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-					representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
-						//"activation_file":    Representation{repType: Optional, create: activationFilePath},
-						"additional_storage_count": Representation{repType: Optional, update: `3`},
+				GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+					RepresentationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
+						//"activation_file":    Representation{RepType: Optional, Create: activationFilePath},
+						"additional_storage_count": Representation{RepType: Optional, Update: `3`},
 						"maintenance_window":       RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -202,7 +202,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -213,9 +213,9 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 		//activate additional storage cells
 		{
 			Config: config + compartmentIdVariableStr + ExadataInfrastructureResourceActivateDependencies +
-				generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-					representationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
-						"activation_file":    Representation{repType: Optional, create: activationFilePath},
+				GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+					RepresentationCopyWithNewProperties(exadataInfrastructureStorageRepresentation, map[string]interface{}{
+						"activation_file":    Representation{RepType: Optional, Create: activationFilePath},
 						"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -240,7 +240,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -260,7 +260,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseExadataInfrastructureStorage") {
+	if !InSweeperExcludeList("DatabaseExadataInfrastructureStorage") {
 		resource.AddTestSweepers("DatabaseExadataInfrastructureStorage", &resource.Sweeper{
 			Name:         "DatabaseExadataInfrastructureStorage",
 			Dependencies: DependencyGraph["exadataInfrastructureStorage"],

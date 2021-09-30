@@ -102,7 +102,7 @@ func (s *CoreDrgAttachmentsListResourceCrud) Create() error {
 		request.IsCrossTenancy = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetAllDrgAttachments(context.Background(), request)
 	if err != nil {

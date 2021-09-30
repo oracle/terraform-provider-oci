@@ -19,7 +19,7 @@ func DatabaseBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseBackups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -68,7 +68,7 @@ func (s *DatabaseBackupsDataSourceCrud) Get() error {
 		request.DatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListBackups(context.Background(), request)
 	if err != nil {

@@ -49,7 +49,7 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) Get() error {
 		request.MigrationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_migration")
 
 	response, err := s.Client.GetMigration(context.Background(), request)
 	if err != nil {

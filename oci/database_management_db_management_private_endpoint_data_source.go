@@ -49,7 +49,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointDataSourceCrud) Get() erro
 		request.DbManagementPrivateEndpointId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_management")
 
 	response, err := s.Client.GetDbManagementPrivateEndpoint(context.Background(), request)
 	if err != nil {

@@ -20,7 +20,7 @@ func WaasCustomProtectionRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readWaasCustomProtectionRules,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -144,7 +144,7 @@ func (s *WaasCustomProtectionRulesDataSourceCrud) Get() error {
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "waas")
 
 	response, err := s.Client.ListCustomProtectionRules(context.Background(), request)
 	if err != nil {

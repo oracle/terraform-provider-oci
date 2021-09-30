@@ -18,7 +18,7 @@ func CoreCrossConnectLocationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreCrossConnectLocations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -74,7 +74,7 @@ func (s *CoreCrossConnectLocationsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListCrossConnectLocations(context.Background(), request)
 	if err != nil {

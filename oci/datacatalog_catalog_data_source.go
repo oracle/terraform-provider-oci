@@ -49,7 +49,7 @@ func (s *DatacatalogCatalogDataSourceCrud) Get() error {
 		request.CatalogId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datacatalog")
 
 	response, err := s.Client.GetCatalog(context.Background(), request)
 	if err != nil {

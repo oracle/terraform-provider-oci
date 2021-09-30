@@ -163,10 +163,10 @@ func (s *EmailSenderResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.CreateSender(context.Background(), request)
 	if err != nil {
@@ -183,7 +183,7 @@ func (s *EmailSenderResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SenderId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.GetSender(context.Background(), request)
 	if err != nil {
@@ -215,13 +215,13 @@ func (s *EmailSenderResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.SenderId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.UpdateSender(context.Background(), request)
 	if err != nil {
@@ -238,7 +238,7 @@ func (s *EmailSenderResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SenderId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	_, err := s.Client.DeleteSender(context.Background(), request)
 	return err
@@ -285,7 +285,7 @@ func (s *EmailSenderResourceCrud) updateCompartment(compartment interface{}) err
 	idTmp := s.D.Id()
 	changeCompartmentRequest.SenderId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	_, err := s.Client.ChangeSenderCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

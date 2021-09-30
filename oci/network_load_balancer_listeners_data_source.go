@@ -18,7 +18,7 @@ func NetworkLoadBalancerListenersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readNetworkLoadBalancerListeners,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"network_load_balancer_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -67,7 +67,7 @@ func (s *NetworkLoadBalancerListenersDataSourceCrud) Get() error {
 		request.NetworkLoadBalancerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "network_load_balancer")
 
 	response, err := s.Client.ListListeners(context.Background(), request)
 	if err != nil {

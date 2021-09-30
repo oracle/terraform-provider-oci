@@ -221,7 +221,7 @@ func (s *DatabaseManagementManagedDatabasesDatabaseParameterDataSourceCrud) Get(
 		request.Source = oci_database_management.ListDatabaseParametersSourceEnum(source.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_management")
 
 	response, err := s.Client.ListDatabaseParameters(context.Background(), request)
 	if err != nil {

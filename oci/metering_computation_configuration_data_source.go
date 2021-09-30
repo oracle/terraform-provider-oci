@@ -77,7 +77,7 @@ func (s *MeteringComputationConfigurationDataSourceCrud) Get() error {
 		request.TenantId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "metering_computation")
 
 	response, err := s.Client.RequestSummarizedConfigurations(context.Background(), request)
 	if err != nil {

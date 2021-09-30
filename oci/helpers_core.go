@@ -82,7 +82,7 @@ func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {
 func getBackupPolicyId(assetId *string, client *oci_core.BlockstorageClient) (*string, error) {
 	request := oci_core.GetVolumeBackupPolicyAssetAssignmentRequest{}
 	request.AssetId = assetId
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := client.GetVolumeBackupPolicyAssetAssignment(context.Background(), request)
 	if err != nil {
@@ -101,7 +101,7 @@ func (s *CoreVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(regi
 	if s.SourceRegionClient == nil {
 		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
-			return fmt.Errorf("cannot create client for the source region: %v", err)
+			return fmt.Errorf("cannot Create client for the source region: %v", err)
 		}
 		err = configureClient(&sourceBlockStorageClient.BaseClient)
 		if err != nil {
@@ -118,7 +118,7 @@ func (s *CoreVolumeGroupBackupResourceCrud) createBlockStorageSourceRegionClient
 	if s.SourceRegionClient == nil {
 		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
-			return fmt.Errorf("cannot create client for the source region: %v", err)
+			return fmt.Errorf("cannot Create client for the source region: %v", err)
 		}
 		err = configureClient(&sourceBlockStorageClient.BaseClient)
 		if err != nil {
@@ -135,7 +135,7 @@ func (s *CoreBootVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(
 	if s.SourceRegionClient == nil {
 		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
-			return fmt.Errorf("cannot create client for the source region: %v", err)
+			return fmt.Errorf("cannot Create client for the source region: %v", err)
 		}
 		err = configureClient(&sourceBlockStorageClient.BaseClient)
 		if err != nil {

@@ -18,7 +18,7 @@ func IntegrationIntegrationInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIntegrationIntegrationInstances,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_integration.ListIntegrationInstancesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "integration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "integration")
 
 	response, err := s.Client.ListIntegrationInstances(context.Background(), request)
 	if err != nil {

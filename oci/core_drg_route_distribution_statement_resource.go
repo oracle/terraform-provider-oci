@@ -160,7 +160,7 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Create() error {
 	tmp := []oci_core.AddDrgRouteDistributionStatementDetails{statement}
 	request.Statements = tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.AddDrgRouteDistributionStatements(context.Background(), request)
 	if err != nil {
@@ -199,7 +199,7 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Get() error {
 	} else {
 		log.Printf("[WARN] !!! Get() unable to parse current ID: %s", s.D.Id())
 	}
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListDrgRouteDistributionStatements(context.Background(), request)
 	if err != nil {
@@ -269,10 +269,10 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Update() error {
 	tmp := []oci_core.UpdateDrgRouteDistributionStatementDetails{statement}
 	request.Statements = tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 	response, err := s.Client.UpdateDrgRouteDistributionStatements(context.Background(), request)
 	if err != nil {
-		return fmt.Errorf("failed to update distribution statements, error: %v", err)
+		return fmt.Errorf("failed to Update distribution statements, error: %v", err)
 	}
 	if response.Items != nil && len(response.Items) > 0 {
 		_, statementId, err := parseDrgRouteDistributionStatementCompositeId(s.D.Id())
@@ -282,7 +282,7 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Update() error {
 			}
 		}
 		if err != nil {
-			return fmt.Errorf("failed to update distribution statements, error: %v", err)
+			return fmt.Errorf("failed to Update distribution statements, error: %v", err)
 		}
 	}
 
@@ -302,7 +302,7 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Delete() error {
 	tmp := []string{statementId}
 	request.StatementIds = tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 	_, err = s.Client.RemoveDrgRouteDistributionStatements(context.Background(), request)
 	if err != nil {
 		return err

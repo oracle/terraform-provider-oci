@@ -22,7 +22,7 @@ func DataSafeUserAssessmentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataSafeUserAssessments,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -192,7 +192,7 @@ func (s *DataSafeUserAssessmentsDataSourceCrud) Get() error {
 		request.Type = oci_data_safe.ListUserAssessmentsTypeEnum(type_.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListUserAssessments(context.Background(), request)
 	if err != nil {

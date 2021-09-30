@@ -179,10 +179,10 @@ func (s *CoreCrossConnectGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateCrossConnectGroup(context.Background(), request)
 	if err != nil {
@@ -199,7 +199,7 @@ func (s *CoreCrossConnectGroupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CrossConnectGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetCrossConnectGroup(context.Background(), request)
 	if err != nil {
@@ -244,10 +244,10 @@ func (s *CoreCrossConnectGroupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateCrossConnectGroup(context.Background(), request)
 	if err != nil {
@@ -264,7 +264,7 @@ func (s *CoreCrossConnectGroupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CrossConnectGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteCrossConnectGroup(context.Background(), request)
 	return err
@@ -307,7 +307,7 @@ func (s *CoreCrossConnectGroupResourceCrud) updateCompartment(compartment interf
 	idTmp := s.D.Id()
 	changeCompartmentRequest.CrossConnectGroupId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeCrossConnectGroupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

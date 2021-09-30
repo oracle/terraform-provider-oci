@@ -33,7 +33,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: ResourceDatabaseBaseConfig + `
 				data "oci_identity_availability_domain" "ad" {
@@ -155,7 +155,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
 				),
 			},
-			// verify update
+			// verify Update
 			{
 				Config: ResourceDatabaseBaseConfig + `
 				data "oci_identity_availability_domain" "ad" {
@@ -300,7 +300,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 				),
 			},
-			// verify removing nsgIds and backupNsgIds trigger update
+			// verify removing nsgIds and backupNsgIds trigger Update
 			{
 				Config: ResourceDatabaseBaseConfig + `
 				data "oci_identity_availability_domain" "ad" {

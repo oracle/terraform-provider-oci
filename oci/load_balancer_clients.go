@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_load_balancer.LoadBalancerClient", &OracleClient{initClientFn: initLoadbalancerLoadBalancerClient})
+	RegisterOracleClient("oci_load_balancer.LoadBalancerClient", &OracleClient{InitClientFn: initLoadbalancerLoadBalancerClient})
 }
 
 func initLoadbalancerLoadBalancerClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -15,7 +15,7 @@ import (
 
 var (
 	migrateToNativeVCNSingularDataSourceRepresentation = map[string]interface{}{
-		"cluster_id": Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"cluster_id": Representation{RepType: Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
 	}
 )
 
@@ -34,12 +34,12 @@ func TestContainerengineMigrateToNativeVcnStatusResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create V1 Cluster
+		// Create V1 Cluster
 		{
-			Config: config + compartmentIdVariableStr + ClusterResourceDependencies + generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, representationCopyWithRemovedProperties(clusterRepresentation, []string{"kms_key_id", "options", "image_policy_config"})),
+			Config: config + compartmentIdVariableStr + ClusterResourceDependencies + GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, RepresentationCopyWithRemovedProperties(clusterRepresentation, []string{"kms_key_id", "options", "image_policy_config"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
@@ -47,7 +47,7 @@ func TestContainerengineMigrateToNativeVcnStatusResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -55,7 +55,7 @@ func TestContainerengineMigrateToNativeVcnStatusResource_basic(t *testing.T) {
 
 		// verify V1 Cluster migrates to V2
 		{
-			Config: config + compartmentIdVariableStr + ClusterResourceDependencies + generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, representationCopyWithRemovedProperties(clusterRepresentation, []string{"kms_key_id", "options", "image_policy_config"})),
+			Config: config + compartmentIdVariableStr + ClusterResourceDependencies + GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, RepresentationCopyWithRemovedProperties(clusterRepresentation, []string{"kms_key_id", "options", "image_policy_config"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
@@ -66,7 +66,7 @@ func TestContainerengineMigrateToNativeVcnStatusResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -76,7 +76,7 @@ func TestContainerengineMigrateToNativeVcnStatusResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + compartmentIdVariableStr + ClusterResourceDependencies + generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, representationCopyWithRemovedProperties(clusterRepresentation, []string{"kms_key_id", "options", "image_policy_config"})) + generateDataSourceFromRepresentationMap(
+			Config: config + compartmentIdVariableStr + ClusterResourceDependencies + GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, RepresentationCopyWithRemovedProperties(clusterRepresentation, []string{"kms_key_id", "options", "image_policy_config"})) + GenerateDataSourceFromRepresentationMap(
 				"oci_containerengine_migrate_to_native_vcn_status", "test_migrate_to_native_vcn_status",
 				Optional, Create, migrateToNativeVCNSingularDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(

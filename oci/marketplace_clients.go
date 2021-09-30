@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_marketplace.MarketplaceClient", &OracleClient{initClientFn: initMarketplaceMarketplaceClient})
+	RegisterOracleClient("oci_marketplace.MarketplaceClient", &OracleClient{InitClientFn: initMarketplaceMarketplaceClient})
 }
 
 func initMarketplaceMarketplaceClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

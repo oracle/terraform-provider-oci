@@ -18,7 +18,7 @@ func OnsNotificationTopicsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOnsNotificationTopics,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *OnsNotificationTopicsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_ons.NotificationTopicSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ons")
 
 	response, err := s.Client.ListTopics(context.Background(), request)
 	if err != nil {

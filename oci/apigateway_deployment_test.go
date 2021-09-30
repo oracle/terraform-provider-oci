@@ -21,33 +21,33 @@ import (
 
 var (
 	DeploymentRequiredOnlyResource = DeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationCustomAuth)
+		GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationCustomAuth)
 
 	DeploymentResourceConfig = DeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth)
+		GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth)
 
 	deploymentSingularDataSourceRepresentation = map[string]interface{}{
-		"deployment_id": Representation{repType: Required, create: `${oci_apigateway_deployment.test_deployment.id}`},
+		"deployment_id": Representation{RepType: Required, Create: `${oci_apigateway_deployment.test_deployment.id}`},
 	}
 
 	deploymentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"gateway_id":     Representation{repType: Optional, create: `${oci_apigateway_gateway.test_gateway.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"gateway_id":     Representation{RepType: Optional, Create: `${oci_apigateway_gateway.test_gateway.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, deploymentDataSourceFilterRepresentation}}
 	deploymentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_apigateway_deployment.test_deployment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_apigateway_deployment.test_deployment.id}`}},
 	}
 
 	deploymentRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"gateway_id":     Representation{repType: Required, create: `${oci_apigateway_gateway.test_gateway.id}`},
-		"path_prefix":    Representation{repType: Required, create: `/v1`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"gateway_id":     Representation{RepType: Required, Create: `${oci_apigateway_gateway.test_gateway.id}`},
+		"path_prefix":    Representation{RepType: Required, Create: `/v1`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"specification":  RepresentationGroup{Required, deploymentSpecificationRepresentation},
 	}
 	deploymentSpecificationRepresentation = map[string]interface{}{
@@ -66,49 +66,49 @@ var (
 	}
 	deploymentSpecificationRoutesRepresentation = map[string]interface{}{
 		"backend":           RepresentationGroup{Required, deploymentSpecificationRoutesBackendRepresentation},
-		"path":              Representation{repType: Required, create: `/hello`, update: `/world`},
+		"path":              Representation{RepType: Required, Create: `/hello`, Update: `/world`},
 		"logging_policies":  RepresentationGroup{Optional, deploymentSpecificationRoutesLoggingPoliciesRepresentation},
-		"methods":           Representation{repType: Required, create: []string{`GET`}, update: []string{`GET`, `POST`}},
+		"methods":           Representation{RepType: Required, Create: []string{`GET`}, Update: []string{`GET`, `POST`}},
 		"request_policies":  RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesRepresentation},
 		"response_policies": RepresentationGroup{Optional, deploymentSpecificationRoutesResponsePoliciesRepresentation},
 	}
 	deploymentSpecificationLoggingPoliciesAccessLogRepresentation = map[string]interface{}{
-		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"is_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	deploymentSpecificationLoggingPoliciesExecutionLogRepresentation = map[string]interface{}{
-		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"log_level":  Representation{repType: Optional, create: `INFO`, update: `WARN`},
+		"is_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"log_level":  Representation{RepType: Optional, Create: `INFO`, Update: `WARN`},
 	}
 	deploymentSpecificationRequestPoliciesAuthenticationRepresentation = map[string]interface{}{
-		"type":                        Representation{repType: Required, create: `CUSTOM_AUTHENTICATION`, update: `CUSTOM_AUTHENTICATION`},
-		"audiences":                   Representation{repType: Optional, create: []string{`audiences`}, update: []string{`audiences2`}},
-		"function_id":                 Representation{repType: Optional, create: `${oci_functions_function.test_function.id}`},
-		"is_anonymous_access_allowed": Representation{repType: Optional, create: `false`, update: `true`},
-		"issuers":                     Representation{repType: Optional, create: []string{`issuers`}, update: []string{`issuers2`}},
-		"max_clock_skew_in_seconds":   Representation{repType: Optional, create: `1.0`, update: `2.0`},
+		"type":                        Representation{RepType: Required, Create: `CUSTOM_AUTHENTICATION`, Update: `CUSTOM_AUTHENTICATION`},
+		"audiences":                   Representation{RepType: Optional, Create: []string{`audiences`}, Update: []string{`audiences2`}},
+		"function_id":                 Representation{RepType: Optional, Create: `${oci_functions_function.test_function.id}`},
+		"is_anonymous_access_allowed": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"issuers":                     Representation{RepType: Optional, Create: []string{`issuers`}, Update: []string{`issuers2`}},
+		"max_clock_skew_in_seconds":   Representation{RepType: Optional, Create: `1.0`, Update: `2.0`},
 		"public_keys":                 RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesAuthenticationPublicKeysRepresentation},
-		"token_auth_scheme":           Representation{repType: Optional, create: `Bearer`, update: `Bearer`},
-		"token_header":                Representation{repType: Optional, create: `Authorization`, update: `Authorization`},
+		"token_auth_scheme":           Representation{RepType: Optional, Create: `Bearer`, Update: `Bearer`},
+		"token_header":                Representation{RepType: Optional, Create: `Authorization`, Update: `Authorization`},
 		"verify_claims":               RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesAuthenticationVerifyClaimsRepresentation},
 	}
 	deploymentSpecificationRequestPoliciesAuthorizeScopeRepresentation = map[string]interface{}{
-		"allowed_scope": Representation{repType: Optional, create: []string{`cors`}},
+		"allowed_scope": Representation{RepType: Optional, Create: []string{`cors`}},
 	}
 	deploymentSpecificationRequestPoliciesCorsRepresentation = map[string]interface{}{
-		"allowed_origins":              Representation{repType: Required, create: []string{`https://www.oracle.org`}, update: []string{`*`}},
-		"allowed_headers":              Representation{repType: Optional, create: []string{`*`}, update: []string{`*`, `Content-Type`}},
-		"allowed_methods":              Representation{repType: Optional, create: []string{`GET`}, update: []string{`GET`, `POST`}},
-		"exposed_headers":              Representation{repType: Optional, create: []string{`*`}, update: []string{`*`, `Content-Type`}},
-		"is_allow_credentials_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"max_age_in_seconds":           Representation{repType: Optional, create: `600`, update: `500`},
+		"allowed_origins":              Representation{RepType: Required, Create: []string{`https://www.oracle.org`}, Update: []string{`*`}},
+		"allowed_headers":              Representation{RepType: Optional, Create: []string{`*`}, Update: []string{`*`, `Content-Type`}},
+		"allowed_methods":              Representation{RepType: Optional, Create: []string{`GET`}, Update: []string{`GET`, `POST`}},
+		"exposed_headers":              Representation{RepType: Optional, Create: []string{`*`}, Update: []string{`*`, `Content-Type`}},
+		"is_allow_credentials_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"max_age_in_seconds":           Representation{RepType: Optional, Create: `600`, Update: `500`},
 	}
 	deploymentSpecificationRequestPoliciesRateLimitingRepresentation = map[string]interface{}{
-		"rate_in_requests_per_second": Representation{repType: Required, create: `10`, update: `11`},
-		"rate_key":                    Representation{repType: Required, create: `CLIENT_IP`, update: `TOTAL`},
+		"rate_in_requests_per_second": Representation{RepType: Required, Create: `10`, Update: `11`},
+		"rate_key":                    Representation{RepType: Required, Create: `CLIENT_IP`, Update: `TOTAL`},
 	}
 	deploymentSpecificationRoutesBackendRepresentation = map[string]interface{}{
-		"type": Representation{repType: Required, create: `HTTP_BACKEND`, update: `HTTP_BACKEND`},
-		"url":  Representation{repType: Required, create: `https://api.weather.gov`, update: `https://www.oracle.com`},
+		"type": Representation{RepType: Required, Create: `HTTP_BACKEND`, Update: `HTTP_BACKEND`},
+		"url":  Representation{RepType: Required, Create: `https://api.weather.gov`, Update: `https://www.oracle.com`},
 	}
 	deploymentSpecificationRoutesLoggingPoliciesRepresentation = map[string]interface{}{
 		"access_log":    RepresentationGroup{Optional, deploymentSpecificationRoutesLoggingPoliciesAccessLogRepresentation},
@@ -129,40 +129,40 @@ var (
 		"response_cache_store":   RepresentationGroup{Optional, deploymentSpecificationRoutesResponsePoliciesResponseCacheStoreRepresentation},
 	}
 	deploymentSpecificationRequestPoliciesAuthenticationPublicKeysRepresentation = map[string]interface{}{
-		"type":                        Representation{repType: Required, create: `REMOTE_JWKS`, update: `STATIC_KEYS`},
-		"is_ssl_verify_disabled":      Representation{repType: Optional, create: `false`, update: `true`},
+		"type":                        Representation{RepType: Required, Create: `REMOTE_JWKS`, Update: `STATIC_KEYS`},
+		"is_ssl_verify_disabled":      Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"keys":                        RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation},
-		"max_cache_duration_in_hours": Representation{repType: Optional, create: `10`, update: `11`},
-		"uri":                         Representation{repType: Optional, create: `https://oracle.com/jwks.json`, update: `https://oracle.com/jwkstest.json`},
+		"max_cache_duration_in_hours": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"uri":                         Representation{RepType: Optional, Create: `https://oracle.com/jwks.json`, Update: `https://oracle.com/jwkstest.json`},
 	}
 	deploymentSpecificationRequestPoliciesAuthenticationVerifyClaimsRepresentation = map[string]interface{}{
-		"is_required": Representation{repType: Optional, create: `false`, update: `true`},
-		"key":         Representation{repType: Optional, create: `key`, update: `key2`},
-		"values":      Representation{repType: Optional, create: []string{`values`}, update: []string{`values2`}},
+		"is_required": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"key":         Representation{RepType: Optional, Create: `key`, Update: `key2`},
+		"values":      Representation{RepType: Optional, Create: []string{`values`}, Update: []string{`values2`}},
 	}
 	deploymentSpecificationRoutesLoggingPoliciesAccessLogRepresentation = map[string]interface{}{
-		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"is_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	deploymentSpecificationRoutesLoggingPoliciesExecutionLogRepresentation = map[string]interface{}{
-		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"log_level":  Representation{repType: Optional, create: `INFO`, update: `WARN`},
+		"is_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"log_level":  Representation{RepType: Optional, Create: `INFO`, Update: `WARN`},
 	}
 
 	deploymentSpecificationRoutesRequestPoliciesAuthorizationRepresentation = map[string]interface{}{
-		"type": Representation{repType: Optional, create: `AUTHENTICATION_ONLY`, update: `ANONYMOUS`},
+		"type": Representation{RepType: Optional, Create: `AUTHENTICATION_ONLY`, Update: `ANONYMOUS`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesBodyValidationRepresentation = map[string]interface{}{
 		"content":         RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation},
-		"required":        Representation{repType: Optional, create: `false`, update: `true`},
-		"validation_mode": Representation{repType: Optional, create: `ENFORCING`, update: `PERMISSIVE`},
+		"required":        Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"validation_mode": Representation{RepType: Optional, Create: `ENFORCING`, Update: `PERMISSIVE`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesCorsRepresentation = map[string]interface{}{
-		"allowed_origins":              Representation{repType: Required, create: []string{`*`}, update: []string{`*`}},
-		"allowed_headers":              Representation{repType: Optional, create: []string{`*`}, update: []string{`*`, `Content-Type`}},
-		"allowed_methods":              Representation{repType: Optional, create: []string{`GET`}, update: []string{`GET`, `POST`}},
-		"exposed_headers":              Representation{repType: Optional, create: []string{`*`}, update: []string{`*`, `Content-Type`}},
-		"is_allow_credentials_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"max_age_in_seconds":           Representation{repType: Optional, create: `600`, update: `500`},
+		"allowed_origins":              Representation{RepType: Required, Create: []string{`*`}, Update: []string{`*`}},
+		"allowed_headers":              Representation{RepType: Optional, Create: []string{`*`}, Update: []string{`*`, `Content-Type`}},
+		"allowed_methods":              Representation{RepType: Optional, Create: []string{`GET`}, Update: []string{`GET`, `POST`}},
+		"exposed_headers":              Representation{RepType: Optional, Create: []string{`*`}, Update: []string{`*`, `Content-Type`}},
+		"is_allow_credentials_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"max_age_in_seconds":           Representation{RepType: Optional, Create: `600`, Update: `500`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsRepresentation = map[string]interface{}{
 		"filter_headers": RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersRepresentation},
@@ -170,7 +170,7 @@ var (
 	}
 	deploymentSpecificationRoutesRequestPoliciesHeaderValidationsRepresentation = map[string]interface{}{
 		"headers":         RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesHeaderValidationsHeadersRepresentation},
-		"validation_mode": Representation{repType: Optional, create: `ENFORCING`, update: `PERMISSIVE`},
+		"validation_mode": Representation{RepType: Optional, Create: `ENFORCING`, Update: `PERMISSIVE`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsRepresentation = map[string]interface{}{
 		"filter_query_parameters": RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersRepresentation},
@@ -178,97 +178,97 @@ var (
 	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsRepresentation = map[string]interface{}{
 		"parameters":      RepresentationGroup{Optional, deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsParametersRepresentation},
-		"validation_mode": Representation{repType: Optional, create: `ENFORCING`, update: `PERMISSIVE`},
+		"validation_mode": Representation{RepType: Optional, Create: `ENFORCING`, Update: `PERMISSIVE`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesResponseCacheLookupRepresentation = map[string]interface{}{
-		"type":                       Representation{repType: Required, create: `SIMPLE_LOOKUP_POLICY`},
-		"cache_key_additions":        Representation{repType: Optional, create: []string{`request.query[Foo]`}, update: []string{`request.query[Accept]`}},
-		"is_enabled":                 Representation{repType: Optional, create: `false`, update: `true`},
-		"is_private_caching_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"type":                       Representation{RepType: Required, Create: `SIMPLE_LOOKUP_POLICY`},
+		"cache_key_additions":        Representation{RepType: Optional, Create: []string{`request.query[Foo]`}, Update: []string{`request.query[Accept]`}},
+		"is_enabled":                 Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_private_caching_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsRepresentation = map[string]interface{}{
 		"filter_headers": RepresentationGroup{Optional, deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersRepresentation},
 		"set_headers":    RepresentationGroup{Optional, deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersRepresentation},
 	}
 	deploymentSpecificationRoutesResponsePoliciesResponseCacheStoreRepresentation = map[string]interface{}{
-		"time_to_live_in_seconds": Representation{repType: Required, create: `10`, update: `11`},
-		"type":                    Representation{repType: Required, create: `FIXED_TTL_STORE_POLICY`},
+		"time_to_live_in_seconds": Representation{RepType: Required, Create: `10`, Update: `11`},
+		"type":                    Representation{RepType: Required, Create: `FIXED_TTL_STORE_POLICY`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesBodyValidationContentRepresentation = map[string]interface{}{
-		"media_type":      Representation{repType: Required, create: `*/*`, update: `application/json`},
-		"validation_type": Representation{repType: Required, create: `NONE`},
+		"media_type":      Representation{RepType: Required, Create: `*/*`, Update: `application/json`},
+		"validation_type": Representation{RepType: Required, Create: `NONE`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersItemsRepresentation},
-		"type":  Representation{repType: Required, create: `BLOCK`},
+		"type":  Representation{RepType: Required, Create: `BLOCK`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersItemsRepresentation},
 	}
 	deploymentSpecificationRoutesRequestPoliciesHeaderValidationsHeadersRepresentation = map[string]interface{}{
-		"name":     Representation{repType: Required, create: `name`, update: `name2`},
-		"required": Representation{repType: Optional, create: `false`, update: `true`},
+		"name":     Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"required": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersItemsRepresentation},
-		"type":  Representation{repType: Required, create: `BLOCK`},
+		"type":  Representation{RepType: Required, Create: `BLOCK`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersItemsRepresentation},
 	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterValidationsParametersRepresentation = map[string]interface{}{
-		"name":     Representation{repType: Required, create: `name`, update: `name2`},
-		"required": Representation{repType: Optional, create: `false`, update: `true`},
+		"name":     Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"required": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersItemsRepresentation},
-		"type":  Representation{repType: Required, create: `BLOCK`},
+		"type":  Representation{RepType: Required, Create: `BLOCK`},
 	}
 	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersRepresentation = map[string]interface{}{
 		"items": RepresentationGroup{Required, deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersItemsRepresentation},
 	}
 	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsFilterHeadersItemsRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `name`, update: `name2`},
+		"name": Representation{RepType: Required, Create: `name`, Update: `name2`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesHeaderTransformationsSetHeadersItemsRepresentation = map[string]interface{}{
-		"name":      Representation{repType: Required, create: `nameA`, update: `nameA2`},
-		"values":    Representation{repType: Required, create: []string{`values`}, update: []string{`values2`}},
-		"if_exists": Representation{repType: Optional, create: `OVERWRITE`, update: `SKIP`},
+		"name":      Representation{RepType: Required, Create: `nameA`, Update: `nameA2`},
+		"values":    Representation{RepType: Required, Create: []string{`values`}, Update: []string{`values2`}},
+		"if_exists": Representation{RepType: Optional, Create: `OVERWRITE`, Update: `SKIP`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsFilterQueryParametersItemsRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `nameB`, update: `nameB2`},
+		"name": Representation{RepType: Required, Create: `nameB`, Update: `nameB2`},
 	}
 	deploymentSpecificationRoutesRequestPoliciesQueryParameterTransformationsSetQueryParametersItemsRepresentation = map[string]interface{}{
-		"name":      Representation{repType: Required, create: `nameC`, update: `nameC2`},
-		"values":    Representation{repType: Required, create: []string{`values`}, update: []string{`values2`}},
-		"if_exists": Representation{repType: Optional, create: `OVERWRITE`, update: `SKIP`},
+		"name":      Representation{RepType: Required, Create: `nameC`, Update: `nameC2`},
+		"values":    Representation{RepType: Required, Create: []string{`values`}, Update: []string{`values2`}},
+		"if_exists": Representation{RepType: Optional, Create: `OVERWRITE`, Update: `SKIP`},
 	}
 	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsFilterHeadersItemsRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `nameD`, update: `nameD2`},
+		"name": Representation{RepType: Required, Create: `nameD`, Update: `nameD2`},
 	}
 	deploymentSpecificationRoutesResponsePoliciesHeaderTransformationsSetHeadersItemsRepresentation = map[string]interface{}{
-		"name":      Representation{repType: Required, create: `nameE`, update: `nameE2`},
-		"values":    Representation{repType: Required, create: []string{`values`}, update: []string{`values2`}},
-		"if_exists": Representation{repType: Optional, create: `OVERWRITE`, update: `SKIP`},
+		"name":      Representation{RepType: Required, Create: `nameE`, Update: `nameE2`},
+		"values":    Representation{RepType: Required, Create: []string{`values`}, Update: []string{`values2`}},
+		"if_exists": Representation{RepType: Optional, Create: `OVERWRITE`, Update: `SKIP`},
 	}
 	deploymentSpecificationRequestPoliciesAuthenticationPublicKeysKeysRepresentation = map[string]interface{}{
-		"format":  Representation{repType: Required, create: `PEM`, update: `JSON_WEB_KEY`},
-		"alg":     Representation{repType: Optional, create: `alg`, update: `RS256`},
-		"e":       Representation{repType: Optional, create: `e`, update: `AQAB`},
-		"key":     Representation{repType: Optional, create: `key`, update: `key2`},
-		"key_ops": Representation{repType: Optional, create: []string{}, update: []string{`verify`}},
-		"kid":     Representation{repType: Optional, create: `kid`, update: `master_key`},
-		"kty":     Representation{repType: Optional, create: `kty`, update: `RSA`},
-		"n":       Representation{repType: Optional, create: `n`, update: `n2`},
-		"use":     Representation{repType: Optional, create: `use`, update: `sig`},
+		"format":  Representation{RepType: Required, Create: `PEM`, Update: `JSON_WEB_KEY`},
+		"alg":     Representation{RepType: Optional, Create: `alg`, Update: `RS256`},
+		"e":       Representation{RepType: Optional, Create: `e`, Update: `AQAB`},
+		"key":     Representation{RepType: Optional, Create: `key`, Update: `key2`},
+		"key_ops": Representation{RepType: Optional, Create: []string{}, Update: []string{`verify`}},
+		"kid":     Representation{RepType: Optional, Create: `kid`, Update: `master_key`},
+		"kty":     Representation{RepType: Optional, Create: `kty`, Update: `RSA`},
+		"n":       Representation{RepType: Optional, Create: `n`, Update: `n2`},
+		"use":     Representation{RepType: Optional, Create: `use`, Update: `sig`},
 	}
 
-	DeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewayRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRegionalRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	DeploymentResourceDependencies = GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewayRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRegionalRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 
-	deploymentRepresentationCustomAuth = getRepresentationCopyWithMultipleRemovedProperties([]string{
+	deploymentRepresentationCustomAuth = GetRepresentationCopyWithMultipleRemovedProperties([]string{
 		"specification.request_policies.authentication.audiences",
 		"specification.request_policies.authentication.issuers",
 		"specification.request_policies.authentication.max_clock_skew_in_seconds",
@@ -299,37 +299,37 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_apigateway_deployment.test_deployment"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeploymentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentation), "apigateway", "deployment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeploymentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentation), "apigateway", "deployment", t)
 
 	ResourceTest(t, testAccCheckApigatewayDeploymentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationCustomAuth),
+				GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentationCustomAuth),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 				resource.TestCheckResourceAttr(resourceName, "path_prefix", "/v1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeploymentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
-				generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentationCustomAuth),
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create, deploymentRepresentationCustomAuth),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -446,9 +446,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.type", "FIXED_TTL_STORE_POLICY"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -457,14 +457,14 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + imageVariableStr + DeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
-				generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create,
-					representationCopyWithNewProperties(deploymentRepresentationCustomAuth, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Create,
+					RepresentationCopyWithNewProperties(deploymentRepresentationCustomAuth, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -582,7 +582,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.type", "FIXED_TTL_STORE_POLICY"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -594,9 +594,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
-				generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth),
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -710,7 +710,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.routes.0.response_policies.0.response_cache_store.0.type", "FIXED_TTL_STORE_POLICY"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -721,11 +721,11 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + imageVariableStr +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", Optional, Update, deploymentDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apigateway_deployments", "test_deployments", Optional, Update, deploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth),
+				GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Optional, Update, deploymentRepresentationCustomAuth),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -741,9 +741,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + imageVariableStr +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentSingularDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),
@@ -863,8 +863,8 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + DeploymentResourceConfig +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation),
 		},
 		// verify resource import
 		{
@@ -890,7 +890,7 @@ func testAccCheckApigatewayDeploymentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DeploymentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apigateway")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apigateway")
 
 			response, err := client.GetDeployment(context.Background(), request)
 
@@ -923,7 +923,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ApigatewayDeployment") {
+	if !InSweeperExcludeList("ApigatewayDeployment") {
 		resource.AddTestSweepers("ApigatewayDeployment", &resource.Sweeper{
 			Name:         "ApigatewayDeployment",
 			Dependencies: DependencyGraph["deployment"],
@@ -944,13 +944,13 @@ func sweepApigatewayDeploymentResource(compartment string) error {
 
 			deleteDeploymentRequest.DeploymentId = &deploymentId
 
-			deleteDeploymentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apigateway")
+			deleteDeploymentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apigateway")
 			_, error := deploymentClient.DeleteDeployment(context.Background(), deleteDeploymentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Deployment %s %s, It is possible that the resource is already deleted. Please verify manually \n", deploymentId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &deploymentId, deploymentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &deploymentId, deploymentSweepWaitCondition, time.Duration(3*time.Minute),
 				deploymentSweepResponseFetchOperation, "apigateway", true)
 		}
 	}
@@ -958,7 +958,7 @@ func sweepApigatewayDeploymentResource(compartment string) error {
 }
 
 func getDeploymentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DeploymentId")
+	ids := GetResourceIdsToSweep(compartment, "DeploymentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -977,7 +977,7 @@ func getDeploymentIds(compartment string) ([]string, error) {
 	for _, deployment := range listDeploymentsResponse.Items {
 		id := *deployment.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DeploymentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DeploymentId", id)
 	}
 	return resourceIds, nil
 }

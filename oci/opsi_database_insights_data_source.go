@@ -18,7 +18,7 @@ func OpsiDatabaseInsightsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOpsiDatabaseInsights,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -184,7 +184,7 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "opsi")
 
 	response, err := s.Client.ListDatabaseInsights(context.Background(), request)
 	if err != nil {

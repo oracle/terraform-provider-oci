@@ -49,7 +49,7 @@ func (s *OsmanagementManagedInstanceDataSourceCrud) Get() error {
 		request.ManagedInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "osmanagement")
 
 	response, err := s.Client.GetManagedInstance(context.Background(), request)
 	if err != nil {

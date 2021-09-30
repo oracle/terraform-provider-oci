@@ -49,7 +49,7 @@ func (s *WaasCertificateDataSourceCrud) Get() error {
 		request.CertificateId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "waas")
 
 	response, err := s.Client.GetCertificate(context.Background(), request)
 	if err != nil {

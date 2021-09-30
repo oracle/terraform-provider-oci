@@ -18,7 +18,7 @@ func CoreDrgRouteTableRouteRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreDrgRouteTableRouteRules,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"drg_route_table_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -106,7 +106,7 @@ func (s *CoreDrgRouteTableRouteRulesDataSourceCrud) Get() error {
 		request.RouteType = oci_core.ListDrgRouteRulesRouteTypeEnum(routeType.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListDrgRouteRules(context.Background(), request)
 	if err != nil {
