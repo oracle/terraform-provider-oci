@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -14,6 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v50/common"
 	oci_database_migration "github.com/oracle/oci-go-sdk/v50/databasemigration"
@@ -53,6 +55,32 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 			},
 
 			// Optional
+			"advisor_settings": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_ignore_errors": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_skip_advisor": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"agent_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -78,12 +106,37 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"name": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
 
 									// Optional
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"wallet_bucket": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"bucket": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"namespace": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
 
 									// Computed
 								},
@@ -275,6 +328,82 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"dump_transfer_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"source": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"kind": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"CURL",
+											"OCI_CLI",
+										}, true),
+									},
+
+									// Optional
+									"oci_home": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"target": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"kind": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"CURL",
+											"OCI_CLI",
+										}, true),
+									},
+
+									// Optional
+									"oci_home": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"exclude_objects": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -293,6 +422,11 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 						},
 
 						// Optional
+						"type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -527,6 +661,33 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 					},
 				},
 			},
+			"include_objects": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"object": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"owner": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"source_container_database_connection_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -603,6 +764,22 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 	}
 }
 
+func excludeObjectsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if object, ok := m["object"]; ok && object != "" {
+		buf.WriteString(fmt.Sprintf("%v-", object))
+	}
+	if owner, ok := m["owner"]; ok && owner != "" {
+		buf.WriteString(fmt.Sprintf("%v-", owner))
+	}
+	if tType, ok := m["type"]; ok && tType != "" {
+		buf.WriteString(fmt.Sprintf("%v-", tType))
+	}
+
+	return hashcode.String(buf.String())
+}
+
 func createDatabaseMigrationMigration(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseMigrationMigrationResourceCrud{}
 	sync.D = d
@@ -650,30 +827,45 @@ func (s *DatabaseMigrationMigrationResourceCrud) ID() string {
 
 func (s *DatabaseMigrationMigrationResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_database_migration.LifecycleStatesCreating),
+		string(oci_database_migration.MigrationLifecycleStatesCreating),
+		string(oci_database_migration.MigrationLifecycleStatesInProgress),
 	}
 }
 
 func (s *DatabaseMigrationMigrationResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_database_migration.LifecycleStatesActive),
+		string(oci_database_migration.MigrationLifecycleStatesActive),
+		string(oci_database_migration.MigrationLifecycleStatesSucceeded),
+		string(oci_database_migration.MigrationLifecycleStatesNeedsAttention),
 	}
 }
 
 func (s *DatabaseMigrationMigrationResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_database_migration.LifecycleStatesDeleting),
+		string(oci_database_migration.MigrationLifecycleStatesDeleting),
 	}
 }
 
 func (s *DatabaseMigrationMigrationResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_database_migration.LifecycleStatesDeleted),
+		string(oci_database_migration.MigrationLifecycleStatesDeleted),
 	}
 }
 
 func (s *DatabaseMigrationMigrationResourceCrud) Create() error {
 	request := oci_database_migration.CreateMigrationRequest{}
+
+	if advisorSettings, ok := s.D.GetOkExists("advisor_settings"); ok {
+		if tmpList := advisorSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "advisor_settings", 0)
+			tmp, err := s.mapToCreateAdvisorSettings(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AdvisorSettings = &tmp
+		}
+	}
+
 	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
 		tmp := agentId.(string)
 		request.AgentId = &tmp
@@ -719,6 +911,17 @@ func (s *DatabaseMigrationMigrationResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if dumpTransferDetails, ok := s.D.GetOkExists("dump_transfer_details"); ok {
+		if tmpList := dumpTransferDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "dump_transfer_details", 0)
+			tmp, err := s.mapToCreateDumpTransferDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DumpTransferDetails = &tmp
+		}
+	}
+
 	if excludeObjects, ok := s.D.GetOkExists("exclude_objects"); ok {
 		set := excludeObjects.(*schema.Set)
 		interfaces := set.List()
@@ -749,6 +952,23 @@ func (s *DatabaseMigrationMigrationResourceCrud) Create() error {
 				return err
 			}
 			request.GoldenGateDetails = &tmp
+		}
+	}
+
+	if includeObjects, ok := s.D.GetOkExists("include_objects"); ok {
+		interfaces := includeObjects.([]interface{})
+		tmp := make([]oci_database_migration.DatabaseObject, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "include_objects", stateDataIndex)
+			converted, err := s.mapToDatabaseObject(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("include_objects") {
+			request.IncludeObjects = tmp
 		}
 	}
 
@@ -937,6 +1157,17 @@ func (s *DatabaseMigrationMigrationResourceCrud) Update() error {
 	}
 	request := oci_database_migration.UpdateMigrationRequest{}
 
+	if advisorSettings, ok := s.D.GetOkExists("advisor_settings"); ok {
+		if tmpList := advisorSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "advisor_settings", 0)
+			tmp, err := s.mapToUpdateAdvisorSettings(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AdvisorSettings = &tmp
+		}
+	}
+
 	if agentId, ok := s.D.GetOkExists("agent_id"); ok {
 		tmp := agentId.(string)
 		request.AgentId = &tmp
@@ -977,6 +1208,17 @@ func (s *DatabaseMigrationMigrationResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if dumpTransferDetails, ok := s.D.GetOkExists("dump_transfer_details"); ok {
+		if tmpList := dumpTransferDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "dump_transfer_details", 0)
+			tmp, err := s.mapToUpdateDumpTransferDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DumpTransferDetails = &tmp
+		}
+	}
+
 	if excludeObjects, ok := s.D.GetOkExists("exclude_objects"); ok {
 		set := excludeObjects.(*schema.Set)
 		interfaces := set.List()
@@ -1007,6 +1249,23 @@ func (s *DatabaseMigrationMigrationResourceCrud) Update() error {
 				return err
 			}
 			request.GoldenGateDetails = &tmp
+		}
+	}
+
+	if includeObjects, ok := s.D.GetOkExists("include_objects"); ok {
+		interfaces := includeObjects.([]interface{})
+		tmp := make([]oci_database_migration.DatabaseObject, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "include_objects", stateDataIndex)
+			converted, err := s.mapToDatabaseObject(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("include_objects") {
+			request.IncludeObjects = tmp
 		}
 	}
 
@@ -1049,7 +1308,6 @@ func (s *DatabaseMigrationMigrationResourceCrud) Update() error {
 	if err != nil {
 		return err
 	}
-
 	workId := response.OpcWorkRequestId
 	return s.getMigrationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
@@ -1075,6 +1333,12 @@ func (s *DatabaseMigrationMigrationResourceCrud) Delete() error {
 }
 
 func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
+	if s.Res.AdvisorSettings != nil {
+		s.D.Set("advisor_settings", []interface{}{AdvisorSettingsToMap(s.Res.AdvisorSettings)})
+	} else {
+		s.D.Set("advisor_settings", nil)
+	}
+
 	if s.Res.AgentId != nil {
 		s.D.Set("agent_id", *s.Res.AgentId)
 	}
@@ -1107,6 +1371,12 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.DumpTransferDetails != nil {
+		s.D.Set("dump_transfer_details", []interface{}{DumpTransferDetailsToMap(s.Res.DumpTransferDetails)})
+	} else {
+		s.D.Set("dump_transfer_details", nil)
+	}
+
 	excludeObjects := []interface{}{}
 	for _, item := range s.Res.ExcludeObjects {
 		excludeObjects = append(excludeObjects, DatabaseObjectToMap(item))
@@ -1126,6 +1396,12 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 	} else {
 		s.D.Set("golden_gate_details", nil)
 	}
+
+	includeObjects := []interface{}{}
+	for _, item := range s.Res.IncludeObjects {
+		includeObjects = append(includeObjects, DatabaseObjectToMap(item))
+	}
+	s.D.Set("include_objects", includeObjects)
 
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 
@@ -1188,6 +1464,50 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateAdminCredentials(fie
 	return result, nil
 }
 
+func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateAdvisorSettings(fieldKeyFormat string) (oci_database_migration.UpdateAdvisorSettings, error) {
+	result := oci_database_migration.UpdateAdvisorSettings{}
+
+	if isSkipAdvisor, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_skip_advisor")); ok {
+		tmp := isSkipAdvisor.(bool)
+		result.IsSkipAdvisor = &tmp
+	}
+
+	if isIgnoreErrors, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ignore_errors")); ok {
+		tmp := isIgnoreErrors.(bool)
+		result.IsIgnoreErrors = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateDumpTransferDetails(fieldKeyFormat string) (oci_database_migration.UpdateDumpTransferDetails, error) {
+	result := oci_database_migration.UpdateDumpTransferDetails{}
+
+	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
+		if tmpList := source.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source"), 0)
+			tmp, err := s.mapToUpdateHostDumpTransferDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source, encountered error: %v", err)
+			}
+			result.Source = tmp
+		}
+	}
+
+	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
+		if tmpList := target.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "target"), 0)
+			tmp, err := s.mapToUpdateHostDumpTransferDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert target, encountered error: %v", err)
+			}
+			result.Target = tmp
+		}
+	}
+
+	return result, nil
+}
+
 func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateAdminCredentials(fieldKeyFormat string) (oci_database_migration.UpdateAdminCredentials, error) {
 	result := oci_database_migration.UpdateAdminCredentials{}
 
@@ -1219,6 +1539,36 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateAdminCredentials(fie
 
 	return result
 }*/
+
+func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateAdvisorSettings(fieldKeyFormat string) (oci_database_migration.CreateAdvisorSettings, error) {
+	result := oci_database_migration.CreateAdvisorSettings{}
+
+	if isIgnoreErrors, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_ignore_errors")); ok {
+		tmp := isIgnoreErrors.(bool)
+		result.IsIgnoreErrors = &tmp
+	}
+
+	if isSkipAdvisor, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_skip_advisor")); ok {
+		tmp := isSkipAdvisor.(bool)
+		result.IsSkipAdvisor = &tmp
+	}
+
+	return result, nil
+}
+
+func AdvisorSettingsToMap(obj *oci_database_migration.AdvisorSettings) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsIgnoreErrors != nil {
+		result["is_ignore_errors"] = bool(*obj.IsIgnoreErrors)
+	}
+
+	if obj.IsSkipAdvisor != nil {
+		result["is_skip_advisor"] = bool(*obj.IsSkipAdvisor)
+	}
+
+	return result
+}
 
 func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateDataPumpParameters(fieldKeyFormat string) (oci_database_migration.CreateDataPumpParameters, error) {
 	result := oci_database_migration.CreateDataPumpParameters{}
@@ -1458,7 +1808,6 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateDataPumpSettings(fie
 			result.MetadataRemaps = tmp
 		}
 	}
-
 	return result, nil
 }
 
@@ -1484,7 +1833,6 @@ func DataPumpSettingsToMap(obj *oci_database_migration.DataPumpSettings) map[str
 		metadataRemaps = append(metadataRemaps, MetadataRemapToMap(item))
 	}
 	result["metadata_remaps"] = metadataRemaps
-
 	return result
 }
 
@@ -1566,6 +1914,17 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateDatabaseLinkDetails(
 		result.Name = &tmp
 	}
 
+	if walletBucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_bucket")); ok {
+		if tmpList := walletBucket.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "wallet_bucket"), 0)
+			tmp, err := s.mapToCreateObjectStoreBucket(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert wallet_bucket, encountered error: %v", err)
+			}
+			result.WalletBucket = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -1585,6 +1944,10 @@ func DatabaseLinkDetailsToMap(obj *oci_database_migration.DatabaseLinkDetails) m
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
+	}
+
+	if obj.WalletBucket != nil {
+		result["wallet_bucket"] = []interface{}{ObjectStoreBucketToMap(obj.WalletBucket)}
 	}
 
 	return result
@@ -1631,6 +1994,56 @@ func DirectoryObjectToMap(obj *oci_database_migration.DirectoryObject) map[strin
 
 	if obj.Path != nil {
 		result["path"] = string(*obj.Path)
+	}
+
+	return result
+}
+
+func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateDumpTransferDetails(fieldKeyFormat string) (oci_database_migration.CreateDumpTransferDetails, error) {
+	result := oci_database_migration.CreateDumpTransferDetails{}
+
+	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
+		if tmpList := source.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source"), 0)
+			tmp, err := s.mapToCreateHostDumpTransferDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source, encountered error: %v", err)
+			}
+			result.Source = tmp
+		}
+	}
+
+	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
+		if tmpList := target.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "target"), 0)
+			tmp, err := s.mapToCreateHostDumpTransferDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert target, encountered error: %v", err)
+			}
+			result.Target = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func DumpTransferDetailsToMap(obj *oci_database_migration.DumpTransferDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Source != nil {
+		sourceArray := []interface{}{}
+		if sourceMap := HostDumpTransferDetailsToMap(&obj.Source); sourceMap != nil {
+			sourceArray = append(sourceArray, sourceMap)
+		}
+		result["source"] = sourceArray
+	}
+
+	if obj.Target != nil {
+		targetArray := []interface{}{}
+		if targetMap := HostDumpTransferDetailsToMap(&obj.Target); targetMap != nil {
+			targetArray = append(targetArray, targetMap)
+		}
+		result["target"] = targetArray
 	}
 
 	return result
@@ -2070,6 +2483,79 @@ func GoldenGateSettingsToMap(obj *oci_database_migration.GoldenGateSettings) map
 	return result
 }
 
+func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateHostDumpTransferDetails(fieldKeyFormat string) (oci_database_migration.CreateHostDumpTransferDetails, error) {
+	var baseObject oci_database_migration.CreateHostDumpTransferDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "CURL" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("CURL"):
+		details := oci_database_migration.UpdateCurlTransferDetails{}
+		baseObject = details
+	case strings.ToLower("OCI_CLI"):
+		details := oci_database_migration.UpdateOciCliDumpTransferDetails{}
+		if ociHome, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oci_home")); ok {
+			tmp := ociHome.(string)
+			details.OciHome = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateHostDumpTransferDetails(fieldKeyFormat string) (oci_database_migration.UpdateHostDumpTransferDetails, error) {
+	var baseObject oci_database_migration.UpdateHostDumpTransferDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "CURL" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("CURL"):
+		details := oci_database_migration.UpdateCurlTransferDetails{}
+		baseObject = details
+	case strings.ToLower("OCI_CLI"):
+		details := oci_database_migration.UpdateOciCliDumpTransferDetails{}
+		if ociHome, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oci_home")); ok {
+			tmp := ociHome.(string)
+			details.OciHome = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func HostDumpTransferDetailsToMap(obj *oci_database_migration.HostDumpTransferDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_migration.UpdateCurlTransferDetails:
+		result["kind"] = "CURL"
+	case oci_database_migration.UpdateOciCliDumpTransferDetails:
+		result["kind"] = "OCI_CLI"
+
+		if v.OciHome != nil {
+			result["oci_home"] = string(*v.OciHome)
+		}
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateObjectStoreBucket(fieldKeyFormat string) (oci_database_migration.CreateObjectStoreBucket, error) {
 	result := oci_database_migration.CreateObjectStoreBucket{}
 
@@ -2261,6 +2747,11 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToDatabaseObject(fieldKeyFor
 		result.Owner = &tmp
 	}
 
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		tmp := type_.(string)
+		result.Type = &tmp
+	}
+
 	return result, nil
 }
 
@@ -2273,6 +2764,10 @@ func DatabaseObjectToMap(obj oci_database_migration.DatabaseObject) map[string]i
 
 	if obj.Owner != nil {
 		result["owner"] = string(*obj.Owner)
+	}
+
+	if obj.Type != nil {
+		result["type"] = string(*obj.Type)
 	}
 
 	return result
@@ -2401,18 +2896,6 @@ func MigrationSummaryToMap(obj oci_database_migration.MigrationSummary) map[stri
 
 	return result
 }*/
-
-func excludeObjectsHashCodeForSets(v interface{}) int {
-	var buf bytes.Buffer
-	m := v.(map[string]interface{})
-	if object, ok := m["object"]; ok && object != "" {
-		buf.WriteString(fmt.Sprintf("%v-", object))
-	}
-	if owner, ok := m["owner"]; ok && owner != "" {
-		buf.WriteString(fmt.Sprintf("%v-", owner))
-	}
-	return hashcode.String(buf.String())
-}
 
 func metadataRemapsHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer

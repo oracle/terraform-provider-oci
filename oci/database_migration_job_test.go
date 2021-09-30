@@ -31,7 +31,7 @@ var (
 	}
 
 	jobDataSourceRepresentation = map[string]interface{}{
-		"migration_id": Representation{RepType: Required, Create: `${oci_database_migration_job.test_job.id}`},
+		"migration_id": Representation{RepType: Required, Create: `${oci_database_migration_migration.test_migration.id}`},
 		"display_name": Representation{RepType: Optional, Create: `TF_displayName`, Update: `TF_displayName2`},
 		"state":        Representation{RepType: Optional, Create: `Succeeded`},
 		"filter":       RepresentationGroup{Required, jobDataSourceFilterRepresentation}}

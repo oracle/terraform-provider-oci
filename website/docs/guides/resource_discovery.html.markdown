@@ -444,8 +444,8 @@ database
 
 database_migration
     
-* oci\_database\_migration\_migration
 * oci\_database\_migration\_connection
+* oci\_database\_migration\_migration
 
 database_tools
     

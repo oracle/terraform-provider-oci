@@ -96,6 +96,58 @@ func DatabaseMigrationJobResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"extract": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"message": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"is_advisor_report_available": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"log_location": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"bucket": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"namespace": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"object": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -425,6 +477,24 @@ func JobSummaryToMap(obj oci_database_migration.JobSummary) map[string]interface
 	return result
 }
 
+func LogLocationBucketDetailsToMap(obj *oci_database_migration.LogLocationBucketDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BucketName != nil {
+		result["bucket"] = string(*obj.BucketName)
+	}
+
+	if obj.Namespace != nil {
+		result["namespace"] = string(*obj.Namespace)
+	}
+
+	if obj.ObjectName != nil {
+		result["object"] = string(*obj.ObjectName)
+	}
+
+	return result
+}
+
 func MigrationJobProgressResourceToMap(obj *oci_database_migration.MigrationJobProgressResource) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -455,11 +525,37 @@ func MigrationJobProgressSummaryToMap(obj *oci_database_migration.MigrationJobPr
 	return result
 }
 
+func PhaseExtractEntryToMap(obj oci_database_migration.PhaseExtractEntry) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Message != nil {
+		result["message"] = string(*obj.Message)
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
+}
+
 func PhaseStatusToMap(obj oci_database_migration.PhaseStatus) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.DurationInMs != nil {
 		result["duration_in_ms"] = int(*obj.DurationInMs)
+	}
+
+	extract := []interface{}{}
+	for _, item := range obj.Extract {
+		extract = append(extract, PhaseExtractEntryToMap(item))
+	}
+	result["extract"] = extract
+
+	if obj.IsAdvisorReportAvailable != nil {
+		result["is_advisor_report_available"] = bool(*obj.IsAdvisorReportAvailable)
+	}
+
+	if obj.LogLocation != nil {
+		result["log_location"] = []interface{}{LogLocationBucketDetailsToMap(obj.LogLocation)}
 	}
 
 	result["name"] = string(obj.Name)
