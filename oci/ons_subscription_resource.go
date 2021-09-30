@@ -175,7 +175,7 @@ func (s *OnsSubscriptionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
@@ -188,7 +188,7 @@ func (s *OnsSubscriptionResourceCrud) Create() error {
 		request.TopicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	response, err := s.Client.CreateSubscription(context.Background(), request)
 	if err != nil {
@@ -205,7 +205,7 @@ func (s *OnsSubscriptionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SubscriptionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	response, err := s.Client.GetSubscription(context.Background(), request)
 	if err != nil {
@@ -246,13 +246,13 @@ func (s *OnsSubscriptionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.SubscriptionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	_, err := s.Client.UpdateSubscription(context.Background(), request)
 	if err == nil {
@@ -268,7 +268,7 @@ func (s *OnsSubscriptionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SubscriptionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	_, err := s.Client.DeleteSubscription(context.Background(), request)
 	return err
@@ -367,7 +367,7 @@ func (s *OnsSubscriptionResourceCrud) updateCompartment(compartment interface{})
 	idTmp := s.D.Id()
 	changeCompartmentRequest.SubscriptionId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	_, err := s.Client.ChangeSubscriptionCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

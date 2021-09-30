@@ -108,7 +108,7 @@ func CoreSubnetResource() *schema.Resource {
 				Computed: true,
 				MaxItems: 5,
 				MinItems: 0,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -253,7 +253,7 @@ func (s *CoreSubnetResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ipv6CidrBlock, ok := s.D.GetOkExists("ipv6cidr_block"); ok {
@@ -300,7 +300,7 @@ func (s *CoreSubnetResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateSubnet(context.Background(), request)
 	if err != nil {
@@ -317,7 +317,7 @@ func (s *CoreSubnetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SubnetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetSubnet(context.Background(), request)
 	if err != nil {
@@ -364,7 +364,7 @@ func (s *CoreSubnetResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ipv6CidrBlock, ok := s.D.GetOkExists("ipv6cidr_block"); ok && s.D.HasChange("ipv6cidr_block") {
@@ -397,7 +397,7 @@ func (s *CoreSubnetResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SubnetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateSubnet(context.Background(), request)
 	if err != nil {
@@ -414,7 +414,7 @@ func (s *CoreSubnetResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SubnetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, coreService, subnetService, deleteResource)
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, coreService, subnetService, deleteResource)
 
 	_, err := s.Client.DeleteSubnet(context.Background(), request)
 	return err
@@ -475,7 +475,7 @@ func (s *CoreSubnetResourceCrud) SetData() error {
 	for _, item := range s.Res.SecurityListIds {
 		securityListIds = append(securityListIds, item)
 	}
-	s.D.Set("security_list_ids", schema.NewSet(literalTypeHashCodeForSets, securityListIds))
+	s.D.Set("security_list_ids", schema.NewSet(LiteralTypeHashCodeForSets, securityListIds))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -511,7 +511,7 @@ func (s *CoreSubnetResourceCrud) updateCompartment(compartment interface{}) erro
 	idTmp := s.D.Id()
 	changeCompartmentRequest.SubnetId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeSubnetCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

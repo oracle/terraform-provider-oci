@@ -439,7 +439,7 @@ func (s *ObjectStorageObjectResourceCrud) createSourceRegionClient(region string
 	if s.SourceRegionClient == nil {
 		sourceObjectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
-			return fmt.Errorf("cannot create client for the source region: %v", err)
+			return fmt.Errorf("cannot Create client for the source region: %v", err)
 		}
 		err = configureClient(&sourceObjectStorageClient.BaseClient)
 		if err != nil {
@@ -454,7 +454,7 @@ func (s *ObjectStorageObjectResourceCrud) createSourceRegionClient(region string
 
 func copyObjectWaitForWorkRequest(wId *string, entityType string, timeout time.Duration, disableFoundRetries bool, client *oci_object_storage.ObjectStorageClient) error {
 
-	retryPolicy := getRetryPolicy(disableFoundRetries, "object_storage")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "object_storage")
 	retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(timeout)
 
 	stateConf := &resource.StateChangeConf{
@@ -525,7 +525,7 @@ func objectStorageWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 func getObjectStorageErrorFromWorkRequest(workRequestId *string, client *oci_object_storage.ObjectStorageClient, disableFoundAutoRetries bool) (string, error) {
 	req := oci_object_storage.ListWorkRequestErrorsRequest{}
 	req.WorkRequestId = workRequestId
-	req.RequestMetadata.RetryPolicy = getRetryPolicy(disableFoundAutoRetries, "object_storage")
+	req.RequestMetadata.RetryPolicy = GetRetryPolicy(disableFoundAutoRetries, "object_storage")
 	res, err := client.ListWorkRequestErrors(context.Background(), req)
 
 	if err != nil {
@@ -559,7 +559,7 @@ func DeleteAllObjectVersions(client *oci_object_storage.ObjectStorageClient, buc
 	request.Page = response.OpcNextPage
 
 	for request.Page != nil {
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "object_storage")
 
 		listResponse, err := client.ListObjectVersions(context.Background(), request)
 		if err != nil {
@@ -578,7 +578,7 @@ func DeleteAllObjectVersions(client *oci_object_storage.ObjectStorageClient, buc
 		deleteObjectVersionRequest.ObjectName = objectVersion.Name
 		deleteObjectVersionRequest.VersionId = objectVersion.VersionId
 
-		deleteObjectVersionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+		deleteObjectVersionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "object_storage")
 
 		_, err := client.DeleteObject(context.Background(), deleteObjectVersionRequest)
 		if err != nil {

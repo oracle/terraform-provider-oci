@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_devops.DevopsClient", &OracleClient{initClientFn: initDevopsDevopsClient})
+	RegisterOracleClient("oci_devops.DevopsClient", &OracleClient{InitClientFn: initDevopsDevopsClient})
 }
 
 func initDevopsDevopsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

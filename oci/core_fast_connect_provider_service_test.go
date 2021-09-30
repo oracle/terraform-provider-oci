@@ -14,11 +14,11 @@ import (
 
 var (
 	fastConnectProviderServiceSingularDataSourceRepresentation = map[string]interface{}{
-		"provider_service_id": Representation{repType: Required, create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
+		"provider_service_id": Representation{RepType: Required, Create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
 	}
 
 	fastConnectProviderServiceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	FastConnectProviderServiceResourceConfig = ""
@@ -37,13 +37,13 @@ func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services"
 	singularDatasourceName := "data.oci_core_fast_connect_provider_service.test_fast_connect_provider_service"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation) +
 				compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -66,8 +66,8 @@ func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service", "test_fast_connect_provider_service", Required, Create, fastConnectProviderServiceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_services", "test_fast_connect_provider_services", Required, Create, fastConnectProviderServiceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_fast_connect_provider_service", "test_fast_connect_provider_service", Required, Create, fastConnectProviderServiceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + FastConnectProviderServiceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "provider_service_id"),

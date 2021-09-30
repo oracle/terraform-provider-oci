@@ -18,7 +18,7 @@ func CoreNetworkSecurityGroupVnicsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreNetworkSecurityGroupVnics,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"network_security_group_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -78,7 +78,7 @@ func (s *CoreNetworkSecurityGroupVnicsDataSourceCrud) Get() error {
 		request.NetworkSecurityGroupId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListNetworkSecurityGroupVnics(context.Background(), request)
 	if err != nil {

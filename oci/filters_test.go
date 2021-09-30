@@ -785,7 +785,7 @@ func TestUnitNestedMap(t *testing.T) {
 			},
 		},
 	}
-	services := genericMapToJsonMap(item)
+	services := GenericMapToJsonMap(item)
 
 	if len(services) != 1 {
 		t.Errorf("unexpected number of values returned in map")

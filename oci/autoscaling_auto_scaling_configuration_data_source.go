@@ -49,7 +49,7 @@ func (s *AutoScalingAutoScalingConfigurationDataSourceCrud) Get() error {
 		request.AutoScalingConfigurationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "auto_scaling")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "auto_scaling")
 
 	response, err := s.Client.GetAutoScalingConfiguration(context.Background(), request)
 	if err != nil {

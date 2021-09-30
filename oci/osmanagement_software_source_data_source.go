@@ -49,7 +49,7 @@ func (s *OsmanagementSoftwareSourceDataSourceCrud) Get() error {
 		request.SoftwareSourceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "osmanagement")
 
 	response, err := s.Client.GetSoftwareSource(context.Background(), request)
 	if err != nil {

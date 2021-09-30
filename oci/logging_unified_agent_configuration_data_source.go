@@ -49,7 +49,7 @@ func (s *LoggingUnifiedAgentConfigurationDataSourceCrud) Get() error {
 		request.UnifiedAgentConfigurationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "logging")
 
 	response, err := s.Client.GetUnifiedAgentConfiguration(context.Background(), request)
 	if err != nil {

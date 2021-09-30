@@ -19,7 +19,7 @@ func DatabaseExternalDatabaseConnectorsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseExternalDatabaseConnectors,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -85,7 +85,7 @@ func (s *DatabaseExternalDatabaseConnectorsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.ExternalDatabaseConnectorLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListExternalDatabaseConnectors(context.Background(), request)
 	if err != nil {

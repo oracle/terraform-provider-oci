@@ -21,46 +21,46 @@ import (
 
 var (
 	DeploymentBackupRequiredOnlyResource = DeploymentBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Required, Create, deploymentBackupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Required, Create, deploymentBackupRepresentation)
 
 	DeploymentBackupResourceConfig = DeploymentBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Update, deploymentBackupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Update, deploymentBackupRepresentation)
 
 	deploymentBackupSingularDataSourceRepresentation = map[string]interface{}{
-		"deployment_backup_id": Representation{repType: Required, create: `${oci_golden_gate_deployment_backup.test_deployment_backup.id}`},
+		"deployment_backup_id": Representation{RepType: Required, Create: `${oci_golden_gate_deployment_backup.test_deployment_backup.id}`},
 	}
 
 	deploymentBackupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"deployment_id":  Representation{repType: Optional, create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
-		"display_name":   Representation{repType: Optional, create: `demoDeploymentBackup`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"deployment_id":  Representation{RepType: Optional, Create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
+		"display_name":   Representation{RepType: Optional, Create: `demoDeploymentBackup`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, deploymentBackupDataSourceFilterRepresentation}}
 	deploymentBackupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_golden_gate_deployment_backup.test_deployment_backup.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_golden_gate_deployment_backup.test_deployment_backup.id}`}},
 	}
 
 	deploymentBackupRepresentation = map[string]interface{}{
-		"bucket":         Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"deployment_id":  Representation{repType: Required, create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
-		"display_name":   Representation{repType: Required, create: `demoDeploymentBackup`},
-		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"object":         Representation{repType: Required, create: `object`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"bucket":         Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"deployment_id":  Representation{RepType: Required, Create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
+		"display_name":   Representation{RepType: Required, Create: `demoDeploymentBackup`},
+		"namespace":      Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"object":         Representation{RepType: Required, Create: `object`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      RepresentationGroup{Required, ignoreGGSDefinedTagsChangesRepresentation2},
 	}
 
 	ignoreGGSDefinedTagsChangesRepresentation2 = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
-	DeploymentBackupResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_ggsdeployment", Required, Create, goldenGateDeploymentRepresentation) +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
+	DeploymentBackupResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_ggsdeployment", Required, Create, goldenGateDeploymentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: golden_gate/default
@@ -81,18 +81,18 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_golden_gate_deployment_backup.test_deployment_backup"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeploymentBackupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Create, deploymentBackupRepresentation), "goldengate", "deploymentBackup", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeploymentBackupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Create, deploymentBackupRepresentation), "goldengate", "deploymentBackup", t)
 
 	fmt.Printf("Terraform generated %s", config+compartmentIdVariableStr+DeploymentBackupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Create, deploymentBackupRepresentation))
+		GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Create, deploymentBackupRepresentation))
 
 	ResourceTest(t, testAccCheckGoldenGateDeploymentBackupDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Required, Create, deploymentBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Required, Create, deploymentBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -102,20 +102,20 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "object", "object"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Create, deploymentBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Create, deploymentBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -129,9 +129,9 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -140,12 +140,12 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DeploymentBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Create,
-					representationCopyWithNewProperties(deploymentBackupRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Create,
+					RepresentationCopyWithNewProperties(deploymentBackupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
@@ -160,7 +160,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -172,10 +172,11 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Update, deploymentBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Update, deploymentBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -186,7 +187,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -197,9 +198,9 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backups", "test_deployment_backups", Optional, Update, deploymentBackupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backups", "test_deployment_backups", Optional, Update, deploymentBackupDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Update, deploymentBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Optional, Update, deploymentBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deployment_id"),
@@ -213,7 +214,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Required, Create, deploymentBackupSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", Required, Create, deploymentBackupSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentBackupResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_backup_id"),
@@ -260,7 +261,7 @@ func testAccCheckGoldenGateDeploymentBackupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DeploymentBackupId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "golden_gate")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "golden_gate")
 
 			response, err := client.GetDeploymentBackup(context.Background(), request)
 
@@ -293,7 +294,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("GoldenGateDeploymentBackup") {
+	if !InSweeperExcludeList("GoldenGateDeploymentBackup") {
 		resource.AddTestSweepers("GoldenGateDeploymentBackup", &resource.Sweeper{
 			Name:         "GoldenGateDeploymentBackup",
 			Dependencies: DependencyGraph["deploymentBackup"],
@@ -314,13 +315,13 @@ func sweepGoldenGateDeploymentBackupResource(compartment string) error {
 
 			deleteDeploymentBackupRequest.DeploymentBackupId = &deploymentBackupId
 
-			deleteDeploymentBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "golden_gate")
+			deleteDeploymentBackupRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "golden_gate")
 			_, error := goldenGateClient.DeleteDeploymentBackup(context.Background(), deleteDeploymentBackupRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DeploymentBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", deploymentBackupId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &deploymentBackupId, deploymentBackupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &deploymentBackupId, deploymentBackupSweepWaitCondition, time.Duration(3*time.Minute),
 				deploymentBackupSweepResponseFetchOperation, "golden_gate", true)
 		}
 	}
@@ -328,7 +329,7 @@ func sweepGoldenGateDeploymentBackupResource(compartment string) error {
 }
 
 func getDeploymentBackupIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DeploymentBackupId")
+	ids := GetResourceIdsToSweep(compartment, "DeploymentBackupId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -347,7 +348,7 @@ func getDeploymentBackupIds(compartment string) ([]string, error) {
 	for _, deploymentBackup := range listDeploymentBackupsResponse.Items {
 		id := *deploymentBackup.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DeploymentBackupId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DeploymentBackupId", id)
 	}
 	return resourceIds, nil
 }

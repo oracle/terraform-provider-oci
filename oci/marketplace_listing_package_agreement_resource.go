@@ -110,7 +110,7 @@ func (s *MarketplaceListingPackageAgreementResourceCrud) Create() error {
 		request.PackageVersion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.GetAgreement(context.Background(), request)
 	if err != nil {

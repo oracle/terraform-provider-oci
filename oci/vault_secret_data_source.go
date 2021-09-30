@@ -148,7 +148,7 @@ func (s *VaultSecretDataSourceCrud) Get() error {
 		request.SecretId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "vault")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "vault")
 
 	response, err := s.Client.GetSecret(context.Background(), request)
 	if err != nil {

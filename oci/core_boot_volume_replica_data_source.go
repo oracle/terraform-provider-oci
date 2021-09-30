@@ -100,7 +100,7 @@ func (s *CoreBootVolumeReplicaDataSourceCrud) Get() error {
 		request.BootVolumeReplicaId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetBootVolumeReplica(context.Background(), request)
 	if err != nil {

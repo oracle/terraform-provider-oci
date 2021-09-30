@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_vault.VaultsClient", &OracleClient{initClientFn: initVaultVaultsClient})
+	RegisterOracleClient("oci_vault.VaultsClient", &OracleClient{InitClientFn: initVaultVaultsClient})
 }
 
 func initVaultVaultsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

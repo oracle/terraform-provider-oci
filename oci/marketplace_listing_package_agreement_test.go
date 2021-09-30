@@ -14,19 +14,19 @@ import (
 
 var (
 	listingPackageAgreementManagementRepresentation = map[string]interface{}{
-		"agreement_id":    Representation{repType: Required, create: `${data.oci_marketplace_listing_package_agreements.test_listing_package_agreements.agreements.0.id}`},
-		"listing_id":      Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.id}`},
-		"package_version": Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
+		"agreement_id":    Representation{RepType: Required, Create: `${data.oci_marketplace_listing_package_agreements.test_listing_package_agreements.agreements.0.id}`},
+		"listing_id":      Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
+		"package_version": Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
 	}
 
 	listingPackageAgreementDataSourceRepresentation = map[string]interface{}{
-		"listing_id":      Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.id}`},
-		"package_version": Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
-		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
+		"listing_id":      Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
+		"package_version": Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
+		"compartment_id":  Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
-	ListingPackageAgreementResourceConfig = generateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation)
+	ListingPackageAgreementResourceConfig = GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation)
 )
 
 // issue-routing-tag: marketplace/default
@@ -42,14 +42,14 @@ func TestMarketplaceListingPackageAgreementResource_basic(t *testing.T) {
 	datasourceName := "data.oci_marketplace_listing_package_agreements.test_listing_package_agreements"
 	resourceName := "oci_marketplace_listing_package_agreement.test_listing_package_agreement"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify resource
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", Required, Create, listingPackageAgreementManagementRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_marketplace_listing_package_agreement", "test_listing_package_agreement", Required, Create, listingPackageAgreementManagementRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
 				compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agreement_id"),
@@ -65,7 +65,7 @@ func TestMarketplaceListingPackageAgreementResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package_agreements", "test_listing_package_agreements", Required, Create, listingPackageAgreementDataSourceRepresentation) +
 				compartmentIdVariableStr + ListingPackageAgreementResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),

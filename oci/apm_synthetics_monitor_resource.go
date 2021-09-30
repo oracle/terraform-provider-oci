@@ -462,7 +462,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if monitorType, ok := s.D.GetOkExists("monitor_type"); ok {
@@ -529,7 +529,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
 
 	response, err := s.Client.CreateMonitor(context.Background(), request)
 	if err != nil {
@@ -551,7 +551,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
 
 	response, err := s.Client.GetMonitor(context.Background(), request)
 	if err != nil {
@@ -595,7 +595,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	monitorId, apmDomainId, err := parseMonitorCompositeId(s.D.Id())
@@ -666,7 +666,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
 
 	response, err := s.Client.UpdateMonitor(context.Background(), request)
 	if err != nil {
@@ -692,7 +692,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) Delete() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
 
 	_, err := s.Client.DeleteMonitor(context.Background(), request)
 	return err

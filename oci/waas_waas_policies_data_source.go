@@ -20,7 +20,7 @@ func WaasWaasPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readWaasWaasPolicies,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -144,7 +144,7 @@ func (s *WaasWaasPoliciesDataSourceCrud) Get() error {
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "waas")
 
 	response, err := s.Client.ListWaasPolicies(context.Background(), request)
 	if err != nil {

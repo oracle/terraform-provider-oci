@@ -20,7 +20,7 @@ func EmailSuppressionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readEmailSuppressions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -93,7 +93,7 @@ func (s *EmailSuppressionsDataSourceCrud) Get() error {
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "email")
 
 	response, err := s.Client.ListSuppressions(context.Background(), request)
 	if err != nil {

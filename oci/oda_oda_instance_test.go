@@ -21,33 +21,33 @@ import (
 
 var (
 	OdaInstanceRequiredOnlyResource = OdaInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceRepresentation)
 
 	OdaInstanceResourceConfig = OdaInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation)
 
 	odaInstanceSingularDataSourceRepresentation = map[string]interface{}{
-		"oda_instance_id": Representation{repType: Required, create: `${oci_oda_oda_instance.test_oda_instance.id}`},
+		"oda_instance_id": Representation{RepType: Required, Create: `${oci_oda_oda_instance.test_oda_instance.id}`},
 	}
 
 	odaInstanceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, odaInstanceDataSourceFilterRepresentation}}
 	odaInstanceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_oda_oda_instance.test_oda_instance.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_oda_oda_instance.test_oda_instance.id}`}},
 	}
 
 	odaInstanceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape_name":     Representation{repType: Required, create: `DEVELOPMENT`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"state":          Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"shape_name":     Representation{RepType: Required, Create: `DEVELOPMENT`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"state":          Representation{RepType: Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 	}
 
 	OdaInstanceResourceDependencies = DefinedTagsDependencies
@@ -75,34 +75,34 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_oda_oda_instance.test_oda_instance"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+OdaInstanceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Create, odaInstanceRepresentation), "oda", "odaInstance", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+OdaInstanceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Create, odaInstanceRepresentation), "oda", "odaInstance", t)
 
 	ResourceTest(t, testAccCheckOdaOdaInstanceDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Create, odaInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Create, odaInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -114,7 +114,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -123,7 +123,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -135,12 +135,12 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -149,12 +149,12 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OdaInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update,
-					representationCopyWithNewProperties(odaInstanceRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update,
+					RepresentationCopyWithNewProperties(odaInstanceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -167,7 +167,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -179,7 +179,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 		// verify switch back
 		{
 			Config: config + compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -191,12 +191,12 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -207,9 +207,9 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_oda_oda_instances", "test_oda_instances", Optional, Update, odaInstanceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_oda_oda_instances", "test_oda_instances", Optional, Update, odaInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr + OdaInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Optional, Update, odaInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -231,7 +231,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_oda_oda_instance", "test_oda_instance", Required, Create, odaInstanceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + OdaInstanceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oda_instance_id"),
@@ -275,7 +275,7 @@ func testAccCheckOdaOdaInstanceDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.OdaInstanceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "oda")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "oda")
 
 			response, err := client.GetOdaInstance(context.Background(), request)
 
@@ -308,7 +308,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OdaOdaInstance") {
+	if !InSweeperExcludeList("OdaOdaInstance") {
 		resource.AddTestSweepers("OdaOdaInstance", &resource.Sweeper{
 			Name:         "OdaOdaInstance",
 			Dependencies: DependencyGraph["odaInstance"],
@@ -329,13 +329,13 @@ func sweepOdaOdaInstanceResource(compartment string) error {
 
 			deleteOdaInstanceRequest.OdaInstanceId = &odaInstanceId
 
-			deleteOdaInstanceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "oda")
+			deleteOdaInstanceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "oda")
 			_, error := odaClient.DeleteOdaInstance(context.Background(), deleteOdaInstanceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting OdaInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", odaInstanceId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &odaInstanceId, odaInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &odaInstanceId, odaInstanceSweepWaitCondition, time.Duration(3*time.Minute),
 				odaInstanceSweepResponseFetchOperation, "oda", true)
 		}
 	}
@@ -343,7 +343,7 @@ func sweepOdaOdaInstanceResource(compartment string) error {
 }
 
 func getOdaInstanceIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "OdaInstanceId")
+	ids := GetResourceIdsToSweep(compartment, "OdaInstanceId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -362,7 +362,7 @@ func getOdaInstanceIds(compartment string) ([]string, error) {
 	for _, odaInstance := range listOdaInstancesResponse.Items {
 		id := *odaInstance.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "OdaInstanceId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "OdaInstanceId", id)
 	}
 	return resourceIds, nil
 }

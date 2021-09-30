@@ -66,7 +66,7 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm_synthetics")
 
 	response, err := s.Client.GetMonitor(context.Background(), request)
 	if err != nil {

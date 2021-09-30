@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_dataintegration.DataIntegrationClient", &OracleClient{initClientFn: initDataintegrationDataIntegrationClient})
+	RegisterOracleClient("oci_dataintegration.DataIntegrationClient", &OracleClient{InitClientFn: initDataintegrationDataIntegrationClient})
 }
 
 func initDataintegrationDataIntegrationClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

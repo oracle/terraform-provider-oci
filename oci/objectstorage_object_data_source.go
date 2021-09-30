@@ -159,7 +159,7 @@ func (s *ObjectStorageObjectDataSourceCrud) Get() error {
 		headObjectRequest.ObjectName = &objectName
 	}
 
-	headObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+	headObjectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "object_storage")
 
 	if versionId, ok := s.D.GetOkExists("version_id"); ok {
 		tmp := versionId.(string)

@@ -49,7 +49,7 @@ func (s *DatascienceModelProvenanceDataSourceCrud) Get() error {
 		request.ModelId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	response, err := s.Client.GetModelProvenance(context.Background(), request)
 	if err != nil {

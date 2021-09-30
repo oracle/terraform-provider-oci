@@ -49,7 +49,7 @@ func (s *DatascienceNotebookSessionDataSourceCrud) Get() error {
 		request.NotebookSessionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	response, err := s.Client.GetNotebookSession(context.Background(), request)
 	if err != nil {

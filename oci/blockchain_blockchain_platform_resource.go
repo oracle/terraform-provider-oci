@@ -27,9 +27,9 @@ func BlockchainBlockchainPlatformResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("30m"),
-			Update: getTimeoutDuration("30m"),
-			Delete: getTimeoutDuration("30m"),
+			Create: GetTimeoutDuration("30m"),
+			Update: GetTimeoutDuration("30m"),
+			Delete: GetTimeoutDuration("30m"),
 		},
 		Create: createBlockchainBlockchainPlatform,
 		Read:   readBlockchainBlockchainPlatform,
@@ -438,7 +438,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if idcsAccessToken, ok := s.D.GetOkExists("idcs_access_token"); ok {
@@ -455,7 +455,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Create() error {
 		request.PlatformRole = oci_blockchain.BlockchainPlatformPlatformRoleEnum(platformRole.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.CreateBlockchainPlatform(context.Background(), request)
 	if err != nil {
@@ -463,7 +463,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getBlockchainPlatformFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getBlockchainPlatformFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
@@ -532,7 +532,7 @@ func blockchainPlatformWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 
 func blockchainPlatformWaitForWorkRequest(wId *string, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_blockchain.BlockchainPlatformClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "blockchain")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "blockchain")
 	retryPolicy.ShouldRetryOperation = blockchainPlatformWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_blockchain.GetWorkRequestResponse{}
@@ -615,7 +615,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.BlockchainPlatformId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.GetBlockchainPlatform(context.Background(), request)
 	if err != nil {
@@ -651,7 +651,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Update() error {
 	request := oci_blockchain.UpdateBlockchainPlatformRequest{}
 
 	tmp := s.D.Id()
-	// Service limitation only allow update 1 field per API call
+	// Service limitation only allow Update 1 field per API call
 	request.BlockchainPlatformId = &tmp
 	if replicas, ok := s.D.GetOkExists("replicas"); ok && s.D.HasChange("replicas") {
 		if tmpList := replicas.([]interface{}); len(tmpList) > 0 {
@@ -707,10 +707,10 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.UpdateBlockchainPlatform(context.Background(), request)
 	if err != nil {
@@ -718,7 +718,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBlockchainPlatformFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBlockchainPlatformFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BlockchainBlockchainPlatformResourceCrud) Delete() error {
@@ -727,7 +727,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.BlockchainPlatformId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.DeleteBlockchainPlatform(context.Background(), request)
 	if err != nil {
@@ -1021,7 +1021,7 @@ func (s *BlockchainBlockchainPlatformResourceCrud) updateCompartment(compartment
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.ChangeBlockchainPlatformCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -1029,5 +1029,5 @@ func (s *BlockchainBlockchainPlatformResourceCrud) updateCompartment(compartment
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBlockchainPlatformFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBlockchainPlatformFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

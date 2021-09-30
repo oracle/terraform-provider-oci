@@ -23,70 +23,70 @@ import (
 
 var (
 	MetastoreRequiredOnlyResource = MetastoreResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Required, Create, metastoreRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Required, Create, metastoreRepresentation)
 
 	MetastoreResourceConfig = MetastoreResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Update, metastoreRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Update, metastoreRepresentation)
 
 	metastoreSingularDataSourceRepresentation = map[string]interface{}{
-		"metastore_id": Representation{repType: Required, create: `${oci_datacatalog_metastore.test_metastore.id}`},
+		"metastore_id": Representation{RepType: Required, Create: `${oci_datacatalog_metastore.test_metastore.id}`},
 	}
 
 	metastoreDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, metastoreDataSourceFilterRepresentation}}
 	metastoreDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_datacatalog_metastore.test_metastore.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_datacatalog_metastore.test_metastore.id}`}},
 	}
 
 	//Changes for retrieving the ObjectStorageURIs in the runtime
-	//Representation map to create ObjectStorage bucket
+	//Representation map to Create ObjectStorage bucket
 	bucketRepresentationMetastore = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: `tf_metastore_objectstoragebucket`},
-		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Required, Create: `tf_metastore_objectstoragebucket`},
+		"namespace":      Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	//Representation map to create directories inside the ObjectStorage bucket above
+	//Representation map to Create directories inside the ObjectStorage bucket above
 	objectRepresentationDefault = map[string]interface{}{
-		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"object":    Representation{repType: Required, create: "Default/"},
+		"bucket":    Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace": Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"object":    Representation{RepType: Required, Create: "Default/"},
 	}
 	objectRepresentationExternal = map[string]interface{}{
-		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"object":    Representation{repType: Required, create: "External/"},
+		"bucket":    Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace": Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"object":    Representation{RepType: Required, Create: "External/"},
 	}
 
-	//Object storage values required to create URI i.e bucket name, namespace
+	//Object storage values required to Create URI i.e bucket name, namespace
 	objectstoragenamespace = "${data.oci_objectstorage_namespace.test_namespace.namespace}"
 	objectstoragebucket    = "tf_metastore_objectstoragebucket"
 
-	//Trying to create the URI(oci://bucket@namespace/sub-dir/) from objectstorage objects outputs
+	//Trying to Create the URI(oci://bucket@namespace/sub-dir/) from objectstorage objects outputs
 	defaultExternalTableLocationvar = "oci://" + objectstoragebucket + "@" + objectstoragenamespace + "/" + "External"
 	defaultManagedTableLocationvar  = "oci://" + objectstoragebucket + "@" + objectstoragenamespace + "/" + "Default"
 
 	metastoreRepresentation = map[string]interface{}{
-		"compartment_id":                  Representation{repType: Required, create: `${var.compartment_id}`},
-		"default_external_table_location": Representation{repType: Required, create: defaultExternalTableLocationvar},
-		"default_managed_table_location":  Representation{repType: Required, create: defaultManagedTableLocationvar},
-		"defined_tags":                    Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                    Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                   Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":                  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"default_external_table_location": Representation{RepType: Required, Create: defaultExternalTableLocationvar},
+		"default_managed_table_location":  Representation{RepType: Required, Create: defaultManagedTableLocationvar},
+		"defined_tags":                    Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                    Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                   Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":                       RepresentationGroup{Required, ignoreMetastoreDefinedTagsChangesRepresentation},
 	}
 	ignoreMetastoreDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
-	//Changes made for create dependency resources
-	MetastoreResourceDependencies = generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentationMetastore) +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_objectstorage_object", "object1", Required, Create, objectRepresentationDefault) +
-		generateResourceFromRepresentationMap("oci_objectstorage_object", "object2", Required, Create, objectRepresentationExternal) +
+	//Changes made for Create dependency resources
+	MetastoreResourceDependencies = GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentationMetastore) +
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_object", "object1", Required, Create, objectRepresentationDefault) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_object", "object2", Required, Create, objectRepresentationExternal) +
 		DefinedTagsDependencies
 )
 
@@ -114,9 +114,9 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datacatalog_metastore.test_metastore"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+MetastoreResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Create, metastoreRepresentation), "datacatalog", "metastore", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+MetastoreResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Create, metastoreRepresentation), "datacatalog", "metastore", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -125,29 +125,29 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckDatacatalogMetastoreDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Required, Create, metastoreRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Required, Create, metastoreRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
 					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies,
 			},
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Create, metastoreRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Create, metastoreRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
@@ -158,9 +158,9 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -169,12 +169,12 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
+			// verify Update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MetastoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Create,
-						representationCopyWithNewProperties(metastoreRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Create,
+						RepresentationCopyWithNewProperties(metastoreRepresentation, map[string]interface{}{
+							"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -186,7 +186,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
@@ -198,7 +198,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + MetastoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Update, metastoreRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Update, metastoreRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
@@ -209,7 +209,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -220,9 +220,9 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datacatalog_metastores", "test_metastores", Optional, Update, metastoreDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastores", "test_metastores", Optional, Update, metastoreDataSourceRepresentation) +
 					compartmentIdVariableStr + MetastoreResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Update, metastoreRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Optional, Update, metastoreRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -242,7 +242,7 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Required, Create, metastoreSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", Required, Create, metastoreSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + MetastoreResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "metastore_id"),
@@ -286,7 +286,7 @@ func testAccCheckDatacatalogMetastoreDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.MetastoreId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datacatalog")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datacatalog")
 
 			response, err := client.GetMetastore(context.Background(), request)
 
@@ -319,7 +319,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatacatalogMetastore") {
+	if !InSweeperExcludeList("DatacatalogMetastore") {
 		resource.AddTestSweepers("DatacatalogMetastore", &resource.Sweeper{
 			Name:         "DatacatalogMetastore",
 			Dependencies: DependencyGraph["metastore"],
@@ -340,13 +340,13 @@ func sweepDatacatalogMetastoreResource(compartment string) error {
 
 			deleteMetastoreRequest.MetastoreId = &metastoreId
 
-			deleteMetastoreRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datacatalog")
+			deleteMetastoreRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datacatalog")
 			_, error := dataCatalogClient.DeleteMetastore(context.Background(), deleteMetastoreRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Metastore %s %s, It is possible that the resource is already deleted. Please verify manually \n", metastoreId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &metastoreId, metastoreSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &metastoreId, metastoreSweepWaitCondition, time.Duration(3*time.Minute),
 				metastoreSweepResponseFetchOperation, "datacatalog", true)
 		}
 	}
@@ -354,7 +354,7 @@ func sweepDatacatalogMetastoreResource(compartment string) error {
 }
 
 func getMetastoreIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "MetastoreId")
+	ids := GetResourceIdsToSweep(compartment, "MetastoreId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -373,7 +373,7 @@ func getMetastoreIds(compartment string) ([]string, error) {
 	for _, metastore := range listMetastoresResponse.Items {
 		id := *metastore.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "MetastoreId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "MetastoreId", id)
 		//SweeperDefaultResourceId[*metastore.DefaultExternalTableLocation] = true
 		//SweeperDefaultResourceId[*metastore.DefaultManagedTableLocation] = true
 

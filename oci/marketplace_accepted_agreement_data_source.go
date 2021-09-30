@@ -49,7 +49,7 @@ func (s *MarketplaceAcceptedAgreementDataSourceCrud) Get() error {
 		request.AcceptedAgreementId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.GetAcceptedAgreement(context.Background(), request)
 	if err != nil {

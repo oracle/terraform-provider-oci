@@ -21,42 +21,42 @@ import (
 
 var (
 	DeployEnvironmentRequiredOnlyResource = DeployEnvironmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentRepresentation)
 
 	DeployEnvironmentResourceConfig = DeployEnvironmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployEnvironmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployEnvironmentRepresentation)
 
 	deployEnvironmentSingularDataSourceRepresentation = map[string]interface{}{
-		"deploy_environment_id": Representation{repType: Required, create: `${oci_devops_deploy_environment.test_deploy_environment.id}`},
+		"deploy_environment_id": Representation{RepType: Required, Create: `${oci_devops_deploy_environment.test_deploy_environment.id}`},
 	}
 
 	deployEnvironmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_devops_deploy_environment.test_deploy_environment.id}`},
-		"project_id":     Representation{repType: Optional, create: `${oci_devops_project.test_project.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_devops_deploy_environment.test_deploy_environment.id}`},
+		"project_id":     Representation{RepType: Optional, Create: `${oci_devops_project.test_project.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, deployEnvironmentDataSourceFilterRepresentation}}
 	deployEnvironmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_devops_deploy_environment.test_deploy_environment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_devops_deploy_environment.test_deploy_environment.id}`}},
 	}
 
 	cluster_fake_id                 = "ocid1.cluster.oc1.us-ashburn-1.aaaaaaaaafqtkm3fg4zwgnlggmywkzdemi2dcyzymfrdqojygcstocluster1"
 	deployEnvironmentRepresentation = map[string]interface{}{
-		"deploy_environment_type": Representation{repType: Required, create: `OKE_CLUSTER`},
-		"project_id":              Representation{repType: Required, create: `${oci_devops_project.test_project.id}`},
-		"cluster_id":              Representation{repType: Required, create: cluster_fake_id},
-		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":             Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":            Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"deploy_environment_type": Representation{RepType: Required, Create: `OKE_CLUSTER`},
+		"project_id":              Representation{RepType: Required, Create: `${oci_devops_project.test_project.id}`},
+		"cluster_id":              Representation{RepType: Required, Create: cluster_fake_id},
+		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":             Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":            Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	DeployEnvironmentResourceDependencies = AvailabilityDomainConfig +
-		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -75,35 +75,35 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deploy_environment.test_deploy_environment"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeployEnvironmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployEnvironmentRepresentation), "devops", "deployEnvironment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeployEnvironmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployEnvironmentRepresentation), "devops", "deployEnvironment", t)
 
 	ResourceTest(t, testAccCheckDevopsDeployEnvironmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_environment_type", "OKE_CLUSTER"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployEnvironmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployEnvironmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -116,9 +116,9 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -130,7 +130,7 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployEnvironmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployEnvironmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -143,7 +143,7 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -154,9 +154,9 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", Optional, Update, deployEnvironmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", Optional, Update, deployEnvironmentDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployEnvironmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployEnvironmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -170,7 +170,7 @@ func TestDevopsDeployEnvironmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployEnvironmentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_environment_id"),
@@ -213,7 +213,7 @@ func testAccCheckDevopsDeployEnvironmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DeployEnvironmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "devops")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "devops")
 
 			response, err := client.GetDeployEnvironment(context.Background(), request)
 
@@ -246,7 +246,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DevopsDeployEnvironment") {
+	if !InSweeperExcludeList("DevopsDeployEnvironment") {
 		resource.AddTestSweepers("DevopsDeployEnvironment", &resource.Sweeper{
 			Name:         "DevopsDeployEnvironment",
 			Dependencies: DependencyGraph["deployEnvironment"],
@@ -267,13 +267,13 @@ func sweepDevopsDeployEnvironmentResource(compartment string) error {
 
 			deleteDeployEnvironmentRequest.DeployEnvironmentId = &deployEnvironmentId
 
-			deleteDeployEnvironmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "devops")
+			deleteDeployEnvironmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "devops")
 			_, error := deployEnvironmentClient.DeleteDeployEnvironment(context.Background(), deleteDeployEnvironmentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DeployEnvironment %s %s, It is possible that the resource is already deleted. Please verify manually \n", deployEnvironmentId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &deployEnvironmentId, deployEnvironmentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &deployEnvironmentId, deployEnvironmentSweepWaitCondition, time.Duration(3*time.Minute),
 				deployEnvironmentSweepResponseFetchOperation, "devops", true)
 		}
 	}
@@ -281,7 +281,7 @@ func sweepDevopsDeployEnvironmentResource(compartment string) error {
 }
 
 func getDeployEnvironmentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DeployEnvironmentId")
+	ids := GetResourceIdsToSweep(compartment, "DeployEnvironmentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -300,7 +300,7 @@ func getDeployEnvironmentIds(compartment string) ([]string, error) {
 	for _, deployEnvironment := range listDeployEnvironmentsResponse.Items {
 		id := *deployEnvironment.GetId()
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DeployEnvironmentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DeployEnvironmentId", id)
 	}
 	return resourceIds, nil
 }

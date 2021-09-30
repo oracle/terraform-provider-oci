@@ -49,7 +49,7 @@ func (s *ManagementAgentManagementAgentDataSourceCrud) Get() error {
 		request.ManagementAgentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.GetManagementAgent(context.Background(), request)
 	if err != nil {

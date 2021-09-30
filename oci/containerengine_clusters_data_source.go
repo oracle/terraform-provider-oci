@@ -18,7 +18,7 @@ func ContainerengineClustersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readContainerengineClusters,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -82,7 +82,7 @@ func (s *ContainerengineClustersDataSourceCrud) Get() error {
 		request.LifecycleState = enumStates
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "containerengine")
 
 	response, err := s.Client.ListClusters(context.Background(), request)
 	if err != nil {

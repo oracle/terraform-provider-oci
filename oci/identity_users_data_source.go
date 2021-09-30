@@ -19,7 +19,7 @@ func IdentityUsersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityUsers,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -94,7 +94,7 @@ func (s *IdentityUsersDataSourceCrud) Get() error {
 		request.LifecycleState = oci_identity.UserLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListUsers(context.Background(), request)
 	if err != nil {

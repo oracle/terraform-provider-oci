@@ -14,12 +14,12 @@ import (
 
 var (
 	workRequestErrorDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":  Representation{repType: Required, create: `${var.compartment_id}`},
-		"work_request_id": Representation{repType: Required, create: `${lookup(data.oci_containerengine_work_requests.test_work_requests.work_requests[0], "id")}`},
+		"compartment_id":  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"work_request_id": Representation{RepType: Required, Create: `${lookup(data.oci_containerengine_work_requests.test_work_requests.work_requests[0], "id")}`},
 	}
 
 	WorkRequestErrorResourceConfig = WorkRequestResourceConfig +
-		generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Optional, Create, workRequestDataSourceRepresentation)
+		GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Optional, Create, workRequestDataSourceRepresentation)
 )
 
 // issue-routing-tag: containerengine/default
@@ -34,13 +34,13 @@ func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_containerengine_work_request_errors.test_work_request_errors"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_containerengine_work_request_errors", "test_work_request_errors", Required, Create, workRequestErrorDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_containerengine_work_request_errors", "test_work_request_errors", Required, Create, workRequestErrorDataSourceRepresentation) +
 				compartmentIdVariableStr + WorkRequestErrorResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

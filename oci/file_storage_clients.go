@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_file_storage.FileStorageClient", &OracleClient{initClientFn: initFilestorageFileStorageClient})
+	RegisterOracleClient("oci_file_storage.FileStorageClient", &OracleClient{InitClientFn: initFilestorageFileStorageClient})
 }
 
 func initFilestorageFileStorageClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

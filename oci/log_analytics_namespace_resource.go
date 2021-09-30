@@ -23,8 +23,8 @@ func init() {
 func LogAnalyticsNamespaceResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("2m"),
-			Update: getTimeoutDuration("2m"),
+			Create: GetTimeoutDuration("2m"),
+			Update: GetTimeoutDuration("2m"),
 		},
 		Create: createLogAnalyticsNamespace,
 		Read:   readLogAnalyticsNamespace,
@@ -87,7 +87,7 @@ func (s *LogAnalyticsNamespaceResourceCrud) ID() string {
 }
 
 func (s *LogAnalyticsNamespaceResourceCrud) Create() error {
-	// This resource can't actually be created. So treat it as an update instead.
+	// This resource can't actually be created. So treat it as an Update instead.
 	if err := s.Get(); err != nil {
 		return err
 	}
@@ -116,14 +116,14 @@ func (s *LogAnalyticsNamespaceResourceCrud) OnboardNamespace() error {
 		namespace = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 	response, err := s.Client.OnboardNamespace(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNamespaceFromWorkRequest(workId, namespace, getRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNamespaceFromWorkRequest(workId, namespace, GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *LogAnalyticsNamespaceResourceCrud) OffboardNamespace() error {
@@ -135,14 +135,14 @@ func (s *LogAnalyticsNamespaceResourceCrud) OffboardNamespace() error {
 		namespace = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 	response, err := s.Client.OffboardNamespace(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNamespaceFromWorkRequest(workId, namespace, getRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.ActionTypesDeleted, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNamespaceFromWorkRequest(workId, namespace, GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.ActionTypesDeleted, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *LogAnalyticsNamespaceResourceCrud) getNamespaceFromWorkRequest(workId *string, ns *string, retryPolicy *oci_common.RetryPolicy, actionTypeEnum oci_log_analytics.ActionTypesEnum, timeout time.Duration) error {
@@ -160,7 +160,7 @@ func (s *LogAnalyticsNamespaceResourceCrud) getNamespaceFromWorkRequest(workId *
 
 // GET namespace returns 404 Not Found if tenancy not on-boarded.
 // LIST namespace returns response irrespective of whether tenancy is on-boarded or off-boarded
-// if tenancy is off-boarded during update, the GET would throw 404 but LIST would work, hence using LIST instead of GET
+// if tenancy is off-boarded during Update, the GET would throw 404 but LIST would work, hence using LIST instead of GET
 func (s *LogAnalyticsNamespaceResourceCrud) Get() error {
 	request := oci_log_analytics.ListNamespacesRequest{}
 
@@ -169,7 +169,7 @@ func (s *LogAnalyticsNamespaceResourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "log_analytics")
 
 	response, err := s.Client.ListNamespaces(context.Background(), request)
 	if err != nil {
@@ -212,7 +212,7 @@ func (s *LogAnalyticsNamespaceResourceCrud) SetData() error {
 }
 
 func logAnalyticsWaitForWorkRequest(wId *string, ns *string, entityType string, action oci_log_analytics.ActionTypesEnum, timeout time.Duration, disableFoundRetries bool, client *oci_log_analytics.LogAnalyticsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "log_analytics")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "log_analytics")
 	retryPolicy.ShouldRetryOperation = logAnalyticsWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_log_analytics.GetWorkRequestResponse{}

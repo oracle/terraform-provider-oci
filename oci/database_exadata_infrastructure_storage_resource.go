@@ -335,7 +335,7 @@ func (s *DatabaseExadataInfrastructureStorageResourceCrud) Update() error {
 		request.ExadataInfrastructureId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.AddStorageCapacityExadataInfrastructure(context.Background(), request)
 	if err != nil {

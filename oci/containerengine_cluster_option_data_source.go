@@ -69,7 +69,7 @@ func (s *ContainerengineClusterOptionDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "containerengine")
 
 	response, err := s.Client.GetClusterOptions(context.Background(), request)
 	if err != nil {

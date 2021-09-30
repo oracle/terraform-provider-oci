@@ -20,25 +20,25 @@ import (
 
 var (
 	AppCatalogSubscriptionRequiredOnlyResource = AppCatalogSubscriptionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation)
 
 	appCatalogSubscriptionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"listing_id":     Representation{repType: Optional, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"listing_id":     Representation{RepType: Optional, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
 		"filter":         RepresentationGroup{Required, appCatalogSubscriptionDataSourceFilterRepresentation}}
 	appCatalogSubscriptionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `listing_resource_version`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_app_catalog_subscription.test_app_catalog_subscription.listing_resource_version}`}},
+		"name":   Representation{RepType: Required, Create: `listing_resource_version`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_app_catalog_subscription.test_app_catalog_subscription.listing_resource_version}`}},
 	}
 
 	appCatalogSubscriptionRepresentation = map[string]interface{}{
-		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
-		"listing_id":               Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
-		"listing_resource_version": Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_resource_version}`},
-		"oracle_terms_of_use_link": Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.oracle_terms_of_use_link}`},
-		"signature":                Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.signature}`},
-		"time_retrieved":           Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.time_retrieved}`},
-		"eula_link":                Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.eula_link}`},
+		"compartment_id":           Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"listing_id":               Representation{RepType: Required, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
+		"listing_resource_version": Representation{RepType: Required, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_resource_version}`},
+		"oracle_terms_of_use_link": Representation{RepType: Required, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.oracle_terms_of_use_link}`},
+		"signature":                Representation{RepType: Required, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.signature}`},
+		"time_retrieved":           Representation{RepType: Required, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.time_retrieved}`},
+		"eula_link":                Representation{RepType: Required, Create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.eula_link}`},
 	}
 
 	AppCatalogSubscriptionResourceDependencies = AppCatalogListingResourceVersionAgreementResourceConfig
@@ -58,15 +58,15 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_app_catalog_subscriptions.test_app_catalog_subscriptions"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AppCatalogSubscriptionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation), "core", "appCatalogSubscription", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AppCatalogSubscriptionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation), "core", "appCatalogSubscription", t)
 
 	ResourceTest(t, testAccCheckCoreAppCatalogSubscriptionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "eula_link"),
@@ -77,9 +77,9 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_retrieved"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -91,9 +91,9 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_app_catalog_subscriptions", "test_app_catalog_subscriptions", Optional, Create, appCatalogSubscriptionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_subscriptions", "test_app_catalog_subscriptions", Optional, Create, appCatalogSubscriptionDataSourceRepresentation) +
 				compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
@@ -139,7 +139,7 @@ func testAccCheckCoreAppCatalogSubscriptionDestroy(s *terraform.State) error {
 				request.ListingId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			listingResourceVersion, _ := rs.Primary.Attributes["listing_resource_version"]
 
@@ -183,7 +183,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreAppCatalogSubscription") {
+	if !InSweeperExcludeList("CoreAppCatalogSubscription") {
 		resource.AddTestSweepers("CoreAppCatalogSubscription", &resource.Sweeper{
 			Name:         "CoreAppCatalogSubscription",
 			Dependencies: DependencyGraph["appCatalogSubscription"],
@@ -202,7 +202,7 @@ func sweepCoreAppCatalogSubscriptionResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[appCatalogSubscriptionId]; !ok {
 			deleteAppCatalogSubscriptionRequest := oci_core.DeleteAppCatalogSubscriptionRequest{}
 
-			deleteAppCatalogSubscriptionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteAppCatalogSubscriptionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeClient.DeleteAppCatalogSubscription(context.Background(), deleteAppCatalogSubscriptionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AppCatalogSubscription %s %s, It is possible that the resource is already deleted. Please verify manually \n", appCatalogSubscriptionId, error)
@@ -214,7 +214,7 @@ func sweepCoreAppCatalogSubscriptionResource(compartment string) error {
 }
 
 func getAppCatalogSubscriptionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AppCatalogSubscriptionId")
+	ids := GetResourceIdsToSweep(compartment, "AppCatalogSubscriptionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -232,7 +232,7 @@ func getAppCatalogSubscriptionIds(compartment string) ([]string, error) {
 	for _, appCatalogSubscription := range listAppCatalogSubscriptionsResponse.Items {
 		id := *appCatalogSubscription.ListingId
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AppCatalogSubscriptionId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "AppCatalogSubscriptionId", id)
 	}
 	return resourceIds, nil
 }

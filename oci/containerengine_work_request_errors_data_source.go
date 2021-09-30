@@ -18,7 +18,7 @@ func ContainerengineWorkRequestErrorsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readContainerengineWorkRequestErrors,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -87,7 +87,7 @@ func (s *ContainerengineWorkRequestErrorsDataSourceCrud) Get() error {
 		request.WorkRequestId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "containerengine")
 
 	response, err := s.Client.ListWorkRequestErrors(context.Background(), request)
 	if err != nil {

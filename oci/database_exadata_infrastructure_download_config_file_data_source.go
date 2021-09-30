@@ -65,7 +65,7 @@ func (s *DatabaseExadataInfrastructureDownloadConfigFileDataSourceCrud) Get() er
 		request.ExadataInfrastructureId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.DownloadExadataInfrastructureConfigFile(context.Background(), request)
 	if err != nil {

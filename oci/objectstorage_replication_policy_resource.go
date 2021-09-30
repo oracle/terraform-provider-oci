@@ -154,7 +154,7 @@ func (s *ObjectStorageReplicationPolicyResourceCrud) Create() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.CreateReplicationPolicy(context.Background(), request)
 	if err != nil {
@@ -177,7 +177,7 @@ func (s *ObjectStorageReplicationPolicyResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetReplicationPolicy(context.Background(), request)
 	if err != nil {
@@ -200,7 +200,7 @@ func (s *ObjectStorageReplicationPolicyResourceCrud) Delete() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	_, err = s.Client.DeleteReplicationPolicy(context.Background(), request)
 	return err

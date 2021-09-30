@@ -81,7 +81,7 @@ func (s *CoreAppCatalogListingDataSourceCrud) Get() error {
 		request.ListingId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetAppCatalogListing(context.Background(), request)
 	if err != nil {

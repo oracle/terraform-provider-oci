@@ -49,7 +49,7 @@ func (s *WaasCustomProtectionRuleDataSourceCrud) Get() error {
 		request.CustomProtectionRuleId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "waas")
 
 	response, err := s.Client.GetCustomProtectionRule(context.Background(), request)
 	if err != nil {

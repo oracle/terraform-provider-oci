@@ -202,10 +202,10 @@ func (s *CoreDrgResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateDrg(context.Background(), request)
 	if err != nil {
@@ -222,7 +222,7 @@ func (s *CoreDrgResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DrgId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetDrg(context.Background(), request)
 	if err != nil {
@@ -281,10 +281,10 @@ func (s *CoreDrgResourceCrud) Update() error {
 	request.DrgId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateDrg(context.Background(), request)
 	if err != nil {
@@ -301,7 +301,7 @@ func (s *CoreDrgResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DrgId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteDrg(context.Background(), request)
 	return err
@@ -402,20 +402,20 @@ func (s *CoreDrgResourceCrud) updateCompartment(compartment interface{}) error {
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DrgId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeDrgCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	// Workaround: Sleep for some time before polling the configuration. Because update happens asynchronously, polling too
+	// Workaround: Sleep for some time before polling the configuration. Because Update happens asynchronously, polling too
 	// soon may result in service returning stale configuration values.
 	time.Sleep(time.Second * 20)
 	request := oci_core.GetDrgRequest{}
 	tmp := s.D.Id()
 	request.DrgId = &tmp
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 	_, err = s.Client.GetDrg(context.Background(), request)
 	if err != nil {
 		return err

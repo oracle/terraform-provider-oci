@@ -119,7 +119,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 			request.ExternalNonContainerDatabaseId = &tmp
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
 		if err != nil {
@@ -145,7 +145,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 		request.ExternalNonContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
 	if err != nil {
@@ -184,7 +184,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 			request.ExternalNonContainerDatabaseId = &tmp
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
 		if err != nil {
@@ -210,7 +210,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 		request.ExternalNonContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
 	if err != nil {
@@ -245,7 +245,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 		request.ExternalNonContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
 	if err != nil {

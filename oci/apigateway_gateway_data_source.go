@@ -49,7 +49,7 @@ func (s *ApigatewayGatewayDataSourceCrud) Get() error {
 		request.GatewayId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apigateway")
 
 	response, err := s.Client.GetGateway(context.Background(), request)
 	if err != nil {

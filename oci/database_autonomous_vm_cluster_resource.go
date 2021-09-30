@@ -229,7 +229,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isLocalBackupEnabled, ok := s.D.GetOkExists("is_local_backup_enabled"); ok {
@@ -251,7 +251,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
 		request.VmClusterNetworkId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateAutonomousVmCluster(context.Background(), request)
 	if err != nil {
@@ -268,7 +268,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AutonomousVmClusterId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetAutonomousVmCluster(context.Background(), request)
 	if err != nil {
@@ -303,14 +303,14 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateAutonomousVmClusterDetailsLicenseModelEnum(licenseModel.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateAutonomousVmCluster(context.Background(), request)
 	if err != nil {
@@ -327,7 +327,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AutonomousVmClusterId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeleteAutonomousVmCluster(context.Background(), request)
 	return err
@@ -412,7 +412,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) updateCompartment(compartment 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeAutonomousVmClusterCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

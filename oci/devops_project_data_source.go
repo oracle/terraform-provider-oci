@@ -49,7 +49,7 @@ func (s *DevopsProjectDataSourceCrud) Get() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.GetProject(context.Background(), request)
 	if err != nil {

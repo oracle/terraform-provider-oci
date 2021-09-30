@@ -128,7 +128,7 @@ func (s *KmsEncryptedDataResourceCrud) Create() error {
 	request := oci_kms.EncryptRequest{}
 
 	if associatedData, ok := s.D.GetOkExists("associated_data"); ok {
-		request.AssociatedData = objectMapToStringMap(associatedData.(map[string]interface{}))
+		request.AssociatedData = ObjectMapToStringMap(associatedData.(map[string]interface{}))
 	}
 
 	if encryptionAlgorithm, ok := s.D.GetOkExists("encryption_algorithm"); ok {
@@ -146,7 +146,7 @@ func (s *KmsEncryptedDataResourceCrud) Create() error {
 	}
 
 	if loggingContext, ok := s.D.GetOkExists("logging_context"); ok {
-		request.LoggingContext = objectMapToStringMap(loggingContext.(map[string]interface{}))
+		request.LoggingContext = ObjectMapToStringMap(loggingContext.(map[string]interface{}))
 	}
 
 	if plaintext, ok := s.D.GetOkExists("plaintext"); ok {
@@ -154,7 +154,7 @@ func (s *KmsEncryptedDataResourceCrud) Create() error {
 		request.Plaintext = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.Encrypt(context.Background(), request)
 	if err != nil {

@@ -18,7 +18,7 @@ func HealthChecksHttpMonitorsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readHealthChecksHttpMonitors,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -76,7 +76,7 @@ func (s *HealthChecksHttpMonitorsDataSourceCrud) Get() error {
 		request.HomeRegion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "health_checks")
 
 	response, err := s.Client.ListHttpMonitors(context.Background(), request)
 	if err != nil {

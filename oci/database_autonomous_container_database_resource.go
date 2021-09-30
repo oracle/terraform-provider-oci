@@ -24,9 +24,9 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("12h"),
-			Update: getTimeoutDuration("12h"),
-			Delete: getTimeoutDuration("12h"),
+			Create: GetTimeoutDuration("12h"),
+			Update: GetTimeoutDuration("12h"),
+			Delete: GetTimeoutDuration("12h"),
 		},
 		Create: createDatabaseAutonomousContainerDatabase,
 		Read:   readDatabaseAutonomousContainerDatabase,
@@ -641,7 +641,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
@@ -723,7 +723,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.StandbyMaintenanceBufferInDays = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateAutonomousContainerDatabase(context.Background(), request)
 	if err != nil {
@@ -747,7 +747,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AutonomousContainerDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetAutonomousContainerDatabase(context.Background(), request)
 	if err != nil {
@@ -798,7 +798,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
@@ -821,7 +821,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 		request.StandbyMaintenanceBufferInDays = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateAutonomousContainerDatabase(context.Background(), request)
 	if err != nil {
@@ -846,7 +846,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AutonomousContainerDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.TerminateAutonomousContainerDatabase(context.Background(), request)
 	return err
@@ -1215,7 +1215,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) updateCompartment(comp
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeAutonomousContainerDatabaseCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -1239,7 +1239,7 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) RotateContainerDatabas
 	tmp := s.D.Id()
 	request.AutonomousContainerDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.RotateAutonomousContainerDatabaseEncryptionKey(context.Background(), request)
 	if err != nil {

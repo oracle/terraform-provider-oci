@@ -49,7 +49,7 @@ func (s *FileStorageSnapshotDataSourceCrud) Get() error {
 		request.SnapshotId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "file_storage")
 
 	response, err := s.Client.GetSnapshot(context.Background(), request)
 	if err != nil {

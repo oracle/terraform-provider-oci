@@ -14,12 +14,12 @@ import (
 
 var (
 	resultSingularDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id":       Representation{repType: Required, create: `${var.apm_domain_id}`},
-		"execution_time":      Representation{repType: Required, create: `${var.execution_time}`},
-		"monitor_id":          Representation{repType: Required, create: `${var.monitor_id}`},
-		"result_content_type": Representation{repType: Required, create: `raw`},
-		"result_type":         Representation{repType: Required, create: `log`},
-		"vantage_point":       Representation{repType: Required, create: `OraclePublic-us-ashburn-1`},
+		"apm_domain_id":       Representation{RepType: Required, Create: `${var.apm_domain_id}`},
+		"execution_time":      Representation{RepType: Required, Create: `${var.execution_time}`},
+		"monitor_id":          Representation{RepType: Required, Create: `${var.monitor_id}`},
+		"result_content_type": Representation{RepType: Required, Create: `raw`},
+		"result_type":         Representation{RepType: Required, Create: `log`},
+		"vantage_point":       Representation{RepType: Required, Create: `OraclePublic-us-ashburn-1`},
 	}
 )
 
@@ -48,13 +48,13 @@ func TestApmSyntheticsResultResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_apm_synthetics_result.test_result"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config + apmDomainIdVariableStr + monitorIdVariableStr + executionTimeVariableStr +
-				generateDataSourceFromRepresentationMap("oci_apm_synthetics_result", "test_result", Required, Create, resultSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_result", "test_result", Required, Create, resultSingularDataSourceRepresentation) +
 				compartmentIdVariableStr, //+ ResultResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),

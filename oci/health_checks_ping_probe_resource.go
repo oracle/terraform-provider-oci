@@ -160,7 +160,7 @@ func (s *HealthChecksPingProbeResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	response, err := s.Client.CreateOnDemandPingProbe(context.Background(), request)
 	if err != nil {

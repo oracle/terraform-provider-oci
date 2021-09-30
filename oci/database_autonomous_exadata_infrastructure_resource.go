@@ -24,9 +24,9 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("12h"),
-			Update: getTimeoutDuration("12h"),
-			Delete: getTimeoutDuration("12h"),
+			Create: GetTimeoutDuration("12h"),
+			Update: GetTimeoutDuration("12h"),
+			Delete: GetTimeoutDuration("12h"),
 		},
 		Create: createDatabaseAutonomousExadataInfrastructure,
 		Read:   readDatabaseAutonomousExadataInfrastructure,
@@ -174,7 +174,7 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -422,7 +422,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
@@ -464,7 +464,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.LaunchAutonomousExadataInfrastructure(context.Background(), request)
 	if err != nil {
@@ -488,7 +488,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AutonomousExadataInfrastructureId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetAutonomousExadataInfrastructure(context.Background(), request)
 	if err != nil {
@@ -528,7 +528,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.UpdateAutonomousExadataInfrastructuresDetails.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.UpdateAutonomousExadataInfrastructuresDetails.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
@@ -556,7 +556,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateAutonomousExadataInfrastructure(context.Background(), request)
 	if err != nil {
@@ -581,7 +581,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AutonomousExadataInfrastructureId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.TerminateAutonomousExadataInfrastructure(context.Background(), request)
 	return err
@@ -639,7 +639,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) SetData() error {
 		for _, item := range s.Res.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 	}
 
 	if s.Res.ScanDnsName != nil {
@@ -821,7 +821,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) updateCompartment(
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeAutonomousExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

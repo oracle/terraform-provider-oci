@@ -19,7 +19,7 @@ func CoreBlockVolumeReplicasDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreBlockVolumeReplicas,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -139,7 +139,7 @@ func (s *CoreBlockVolumeReplicasDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.BlockVolumeReplicaLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListBlockVolumeReplicas(context.Background(), request)
 	if err != nil {

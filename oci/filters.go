@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
-func dataSourceFiltersSchema() *schema.Schema {
+func DataSourceFiltersSchema() *schema.Schema {
 	return &schema.Schema{
 		Type:     schema.TypeSet,
 		Optional: true,
@@ -72,7 +72,7 @@ func ApplyFilters(filters *schema.Set, items []map[string]interface{}, resourceS
 			isReg = regex.(bool)
 		}
 
-		// create a string equality check strategy based on this filters "regex" flag
+		// Create a string equality check strategy based on this filters "regex" flag
 		stringsEqual := func(propertyVal string, filterVal string) bool {
 			if isReg {
 				re, err := regexp.Compile(filterVal)
@@ -122,7 +122,7 @@ func ApplyFiltersInCollection(filters *schema.Set, items []interface{}, resource
 			isReg = regex.(bool)
 		}
 
-		// create a string equality check strategy based on this filters "regex" flag
+		// Create a string equality check strategy based on this filters "regex" flag
 		stringsEqual := func(propertyVal string, filterVal string) bool {
 			if isReg {
 				re, err := regexp.Compile(filterVal)

@@ -14,13 +14,13 @@ import (
 
 var (
 	autonomousExadataInfrastructureOcpuSingularDataSourceRepresentation = map[string]interface{}{
-		"autonomous_exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
+		"autonomous_exadata_infrastructure_id": Representation{RepType: Required, Create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
 	}
 
-	AutonomousExadataInfrastructureOcpuResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureRepresentation) +
+	AutonomousExadataInfrastructureOcpuResourceConfig = GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureRepresentation) +
 		ExadataBaseDependencies +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, getUpdatedRepresentationCopy("vcn_id", Representation{repType: Required, create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation)) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, getUpdatedRepresentationCopy("vcn_id", Representation{repType: Required, create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation))
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, GetUpdatedRepresentationCopy("vcn_id", Representation{RepType: Required, Create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation)) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, GetUpdatedRepresentationCopy("vcn_id", Representation{RepType: Required, Create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation))
 )
 
 // issue-routing-tag: database/default
@@ -35,13 +35,13 @@ func TestDatabaseAutonomousExadataInfrastructureOcpuResource_basic(t *testing.T)
 
 	singularDatasourceName := "data.oci_database_autonomous_exadata_infrastructure_ocpu.test_autonomous_exadata_infrastructure_ocpu"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure_ocpu", "test_autonomous_exadata_infrastructure_ocpu", Required, Create, autonomousExadataInfrastructureOcpuSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure_ocpu", "test_autonomous_exadata_infrastructure_ocpu", Required, Create, autonomousExadataInfrastructureOcpuSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousExadataInfrastructureOcpuResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_exadata_infrastructure_id"),

@@ -18,7 +18,7 @@ func OptimizerProfilesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOptimizerProfiles,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *OptimizerProfilesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_optimizer.ListProfilesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "optimizer")
 
 	response, err := s.Client.ListProfiles(context.Background(), request)
 	if err != nil {

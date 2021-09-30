@@ -18,7 +18,7 @@ func CoreCrossConnectGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreCrossConnectGroups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *CoreCrossConnectGroupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.CrossConnectGroupLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListCrossConnectGroups(context.Background(), request)
 	if err != nil {

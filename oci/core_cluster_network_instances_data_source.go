@@ -18,7 +18,7 @@ func CoreClusterNetworkInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreClusterNetworkInstances,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"cluster_network_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -158,7 +158,7 @@ func (s *CoreClusterNetworkInstancesDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListClusterNetworkInstances(context.Background(), request)
 	if err != nil {

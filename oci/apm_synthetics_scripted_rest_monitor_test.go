@@ -16,41 +16,41 @@ import (
 
 var (
 	ScriptedRestMonitorResourceConfig = ScriptedRestMonitorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, scriptedRestMonitorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, scriptedRestMonitorRepresentation)
 
 	scriptedRestMonitorSingularDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"monitor_id":    Representation{repType: Required, create: `${oci_apm_synthetics_monitor.test_monitor.id}`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"monitor_id":    Representation{RepType: Required, Create: `${oci_apm_synthetics_monitor.test_monitor.id}`},
 	}
 
 	scriptedRestMonitorDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"monitor_type":  Representation{repType: Optional, create: `SCRIPTED_REST`},
-		"script_id":     Representation{repType: Optional, create: `${oci_apm_synthetics_script.test_script.id}`},
-		"status":        Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":  Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":  Representation{RepType: Optional, Create: `SCRIPTED_REST`},
+		"script_id":     Representation{RepType: Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
+		"status":        Representation{RepType: Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"filter":        RepresentationGroup{Required, scriptedRestMonitorDataSourceFilterRepresentationn}}
 	scriptedRestMonitorDataSourceFilterRepresentationn = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `display_name`},
-		"values": Representation{repType: Required, create: []string{`${oci_apm_synthetics_monitor.test_monitor.display_name}`}},
+		"name":   Representation{RepType: Required, Create: `display_name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_apm_synthetics_monitor.test_monitor.display_name}`}},
 	}
 
 	scriptedRestMonitorRepresentation = map[string]interface{}{
-		"apm_domain_id":              Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"display_name":               Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"monitor_type":               Representation{repType: Required, create: `SCRIPTED_REST`},
-		"repeat_interval_in_seconds": Representation{repType: Required, create: `600`, update: `1200`},
-		"vantage_points":             Representation{repType: Required, create: []string{`OraclePublic-us-ashburn-1`}},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"script_id":                  Representation{repType: Optional, create: `${oci_apm_synthetics_script.test_script.id}`},
-		"status":                     Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
-		"target":                     Representation{repType: Optional, create: `https://console.us-ashburn-1.oraclecloud.com`, update: `https://console.us-phoenix-1.oraclecloud.com`},
-		"timeout_in_seconds":         Representation{repType: Optional, create: `60`, update: `120`},
+		"apm_domain_id":              Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":               Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":               Representation{RepType: Required, Create: `SCRIPTED_REST`},
+		"repeat_interval_in_seconds": Representation{RepType: Required, Create: `600`, Update: `1200`},
+		"vantage_points":             Representation{RepType: Required, Create: []string{`OraclePublic-us-ashburn-1`}},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"script_id":                  Representation{RepType: Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
+		"status":                     Representation{RepType: Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"target":                     Representation{RepType: Optional, Create: `https://console.us-ashburn-1.oraclecloud.com`, Update: `https://console.us-phoenix-1.oraclecloud.com`},
+		"timeout_in_seconds":         Representation{RepType: Optional, Create: `60`, Update: `120`},
 	}
 	ScriptedRestMonitorResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
-		generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, jsScriptRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, jsScriptRepresentation)
 )
 
 // issue-routing-tag: apm_synthetics/default
@@ -69,9 +69,9 @@ func TestApmSyntheticsScriptedRestMonitorResource(t *testing.T) {
 	singularDatasourceName := "data.oci_apm_synthetics_monitor.test_monitor"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ScriptedRestMonitorResourceDependencies+
-		generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, scriptedRestMonitorRepresentation), "apmsynthetics", "monitor", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ScriptedRestMonitorResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, scriptedRestMonitorRepresentation), "apmsynthetics", "monitor", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -81,10 +81,10 @@ func TestApmSyntheticsScriptedRestMonitorResource(t *testing.T) {
 		CheckDestroy: testAccCheckApmSyntheticsMonitorDestroy,
 		Steps: []resource.TestStep{
 
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + ScriptedRestMonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, scriptedRestMonitorRepresentation),
+					GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, scriptedRestMonitorRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
@@ -105,9 +105,9 @@ func TestApmSyntheticsScriptedRestMonitorResource(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -119,7 +119,7 @@ func TestApmSyntheticsScriptedRestMonitorResource(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + ScriptedRestMonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, scriptedRestMonitorRepresentation),
+					GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, scriptedRestMonitorRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
@@ -140,7 +140,7 @@ func TestApmSyntheticsScriptedRestMonitorResource(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -151,9 +151,9 @@ func TestApmSyntheticsScriptedRestMonitorResource(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", Optional, Update, scriptedRestMonitorDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", Optional, Update, scriptedRestMonitorDataSourceRepresentation) +
 					compartmentIdVariableStr + ScriptedRestMonitorResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, scriptedRestMonitorRepresentation),
+					GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, scriptedRestMonitorRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -168,7 +168,7 @@ func TestApmSyntheticsScriptedRestMonitorResource(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Required, Create, scriptedRestMonitorSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Required, Create, scriptedRestMonitorSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ScriptedRestMonitorResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),

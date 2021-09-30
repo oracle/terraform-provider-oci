@@ -55,7 +55,7 @@ func DatabaseKeyStoreResource() *schema.Resource {
 						"connection_ips": {
 							Type:     schema.TypeSet,
 							Required: true,
-							Set:      literalTypeHashCodeForSets,
+							Set:      LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -223,7 +223,7 @@ func (s *DatabaseKeyStoreResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if typeDetails, ok := s.D.GetOkExists("type_details"); ok {
@@ -237,7 +237,7 @@ func (s *DatabaseKeyStoreResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateKeyStore(context.Background(), request)
 	if err != nil {
@@ -254,7 +254,7 @@ func (s *DatabaseKeyStoreResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.KeyStoreId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetKeyStore(context.Background(), request)
 	if err != nil {
@@ -286,7 +286,7 @@ func (s *DatabaseKeyStoreResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -303,7 +303,7 @@ func (s *DatabaseKeyStoreResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateKeyStore(context.Background(), request)
 	if err != nil {
@@ -320,7 +320,7 @@ func (s *DatabaseKeyStoreResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.KeyStoreId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeleteKeyStore(context.Background(), request)
 	return err
@@ -465,7 +465,7 @@ func (s *DatabaseKeyStoreResourceCrud) updateCompartment(compartment interface{}
 	idTmp := s.D.Id()
 	changeCompartmentRequest.KeyStoreId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeKeyStoreCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

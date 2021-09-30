@@ -15,28 +15,28 @@ import (
 
 var (
 	BackupDestinationNFSResourceConfig = BackupDestinationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationNFSRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationNFSRepresentation)
 
 	backupDestinationNFSDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":           Representation{repType: Optional, create: `NFS`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"type":           Representation{RepType: Optional, Create: `NFS`},
 		"filter":         RepresentationGroup{Required, backupDestinationDataSourceFilterRepresentation}}
 	backupDestinationNFSDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_backup_destination.test_backup_destination.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_backup_destination.test_backup_destination.id}`}},
 	}
 	backupDestinationNFSRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":       Representation{repType: Required, create: `NFS1`},
-		"type":               Representation{repType: Required, create: `NFS`},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":       Representation{RepType: Required, Create: `NFS1`},
+		"type":               Representation{RepType: Required, Create: `NFS`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"mount_type_details": RepresentationGroup{Optional, backupDestinationMountTypeDetailsRepresentation},
 	}
 
 	backupDestinationMountTypeDetailsRepresentation = map[string]interface{}{
-		"mount_type":             Representation{repType: Required, create: `SELF_MOUNT`},
-		"local_mount_point_path": Representation{repType: Optional, create: `localMountPointPath`, update: `localMountPointPath10`},
+		"mount_type":             Representation{RepType: Required, Create: `SELF_MOUNT`},
+		"local_mount_point_path": Representation{RepType: Optional, Create: `localMountPointPath`, Update: `localMountPointPath10`},
 	}
 )
 
@@ -57,10 +57,10 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckDatabaseBackupDestinationDestroy, []resource.TestStep{
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -72,7 +72,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "NFS"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -81,7 +81,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + BackupDestinationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationNFSRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationNFSRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -93,7 +93,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "mount_type_details.0.mount_type", "SELF_MOUNT"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -104,9 +104,9 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_backup_destinations", "test_backup_destinations", Optional, Update, backupDestinationNFSDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_backup_destinations", "test_backup_destinations", Optional, Update, backupDestinationNFSDataSourceRepresentation) +
 				compartmentIdVariableStr + BackupDestinationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationNFSRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationNFSRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -128,7 +128,7 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Required, Create, backupDestinationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Required, Create, backupDestinationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + BackupDestinationNFSResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_destination_id"),

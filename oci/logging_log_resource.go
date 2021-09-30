@@ -257,7 +257,7 @@ func (s *LoggingLogResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -279,7 +279,7 @@ func (s *LoggingLogResourceCrud) Create() error {
 		request.RetentionDuration = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.CreateLog(context.Background(), request)
 	if err != nil {
@@ -287,7 +287,7 @@ func (s *LoggingLogResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLogFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getLogFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 
 }
 
@@ -343,7 +343,7 @@ func logWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_comm
 
 func logWaitForWorkRequest(wId *string, entityType string, action oci_logging.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_logging.LoggingManagementClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "logging")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "logging")
 	retryPolicy.ShouldRetryOperation = logWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_logging.GetWorkRequestResponse{}
@@ -437,7 +437,7 @@ func (s *LoggingLogResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.GetLog(context.Background(), request)
 	if err != nil {
@@ -476,7 +476,7 @@ func (s *LoggingLogResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -497,7 +497,7 @@ func (s *LoggingLogResourceCrud) Update() error {
 		request.RetentionDuration = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.UpdateLog(context.Background(), request)
 	if err != nil {
@@ -505,7 +505,7 @@ func (s *LoggingLogResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLogFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getLogFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *LoggingLogResourceCrud) Delete() error {
@@ -519,7 +519,7 @@ func (s *LoggingLogResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.LogId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	_, err := s.Client.DeleteLog(context.Background(), request)
 	return err
@@ -643,7 +643,7 @@ func (s *LoggingLogResourceCrud) mapToSource(fieldKeyFormat string) (oci_logging
 			details.Category = &tmp
 		}
 		if parameters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "parameters")); ok {
-			details.Parameters = objectMapToStringMap(parameters.(map[string]interface{}))
+			details.Parameters = ObjectMapToStringMap(parameters.(map[string]interface{}))
 		}
 		if resource_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource")); ok {
 			tmp := resource_.(string)
@@ -706,7 +706,7 @@ func (s *LoggingLogResourceCrud) updateLogGroup(oldLogGroupId interface{}, newLo
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getLogFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getLogFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

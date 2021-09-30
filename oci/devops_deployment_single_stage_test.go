@@ -16,102 +16,102 @@ import (
 
 var (
 	DevopsSingleStageDeploymentRequiredOnlyResource = DevopsSingleStageDeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsSingleStageDeploymentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsSingleStageDeploymentRepresentation)
 
 	DevopsSingleStageDeploymentResourceConfig = DevopsSingleStageDeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsSingleStageDeploymentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsSingleStageDeploymentRepresentation)
 
 	devopsSingleStageDeploymentSingularDataSourceRepresentation = map[string]interface{}{
-		"deployment_id": Representation{repType: Required, create: `${oci_devops_deployment.test_deployment.id}`},
+		"deployment_id": Representation{RepType: Required, Create: `${oci_devops_deployment.test_deployment.id}`},
 	}
 
 	deployOkeSingleStageRepresentation = map[string]interface{}{
-		"deploy_pipeline_id":                      Representation{repType: Required, create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
+		"deploy_pipeline_id":                      Representation{RepType: Required, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
 		"deploy_stage_predecessor_collection":     RepresentationGroup{Required, deployStageDeployStagePredecessorCollectionRepresentation},
-		"deploy_stage_type":                       Representation{repType: Required, create: `OKE_DEPLOYMENT`},
-		"defined_tags":                            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                             Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":                            Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                           Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"oke_cluster_deploy_environment_id":       Representation{repType: Required, create: `${oci_devops_deploy_environment.test_deploy_kubernetes_environment.id}`},
-		"kubernetes_manifest_deploy_artifact_ids": Representation{repType: Required, create: []string{`${oci_devops_deploy_artifact.test_deploy_inline_artifact.id}`}},
-		"namespace":                               Representation{repType: Optional, create: `helloworld-demo`},
+		"deploy_stage_type":                       Representation{RepType: Required, Create: `OKE_DEPLOYMENT`},
+		"defined_tags":                            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                             Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":                            Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                           Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"oke_cluster_deploy_environment_id":       Representation{RepType: Required, Create: `${oci_devops_deploy_environment.test_deploy_kubernetes_environment.id}`},
+		"kubernetes_manifest_deploy_artifact_ids": Representation{RepType: Required, Create: []string{`${oci_devops_deploy_artifact.test_deploy_inline_artifact.id}`}},
+		"namespace":                               Representation{RepType: Optional, Create: `helloworld-demo`},
 		"rollback_policy":                         RepresentationGroup{Optional, deployStageRollbackPolicyRepresentation},
 	}
 
 	deployOkeEnvironmentRepresentation = map[string]interface{}{
-		"deploy_environment_type": Representation{repType: Required, create: `OKE_CLUSTER`},
-		"project_id":              Representation{repType: Required, create: `${oci_devops_project.test_project.id}`},
-		"cluster_id":              Representation{repType: Required, create: `ocid1.cluster.oc1.phx.aaaaaaaaqu6xnflkdfghjvcp3dw7qwliqygtfmdw3yvbapudjcwkwfecjxxq`}, // TODO: Need to create via terraform
-		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":             Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":            Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"deploy_environment_type": Representation{RepType: Required, Create: `OKE_CLUSTER`},
+		"project_id":              Representation{RepType: Required, Create: `${oci_devops_project.test_project.id}`},
+		"cluster_id":              Representation{RepType: Required, Create: `ocid1.cluster.oc1.phx.aaaaaaaaqu6xnflkdfghjvcp3dw7qwliqygtfmdw3yvbapudjcwkwfecjxxq`}, // TODO: Need to Create via terraform
+		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":             Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":            Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	deployGenericArtifactSingleStageRepresentation = map[string]interface{}{
-		"argument_substitution_mode": Representation{repType: Required, create: `NONE`, update: `SUBSTITUTE_PLACEHOLDERS`},
+		"argument_substitution_mode": Representation{RepType: Required, Create: `NONE`, Update: `SUBSTITUTE_PLACEHOLDERS`},
 		"deploy_artifact_source":     RepresentationGroup{Required, deployGenericArtifactDeployArtifactSingleStageSourceRepresentation},
-		"deploy_artifact_type":       Representation{repType: Required, create: `KUBERNETES_MANIFEST`},
-		"project_id":                 Representation{repType: Required, create: `${oci_devops_project.test_project.id}`},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":               Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"deploy_artifact_type":       Representation{RepType: Required, Create: `KUBERNETES_MANIFEST`},
+		"project_id":                 Representation{RepType: Required, Create: `${oci_devops_project.test_project.id}`},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":               Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
-	repository_id_single_stage                                         = "ocid1.artifactrepository.oc1.phx.0.amaaaaaansx72maaj7g2xjtiuffscp7jouvkpttxnbjxuxr6q45mt7b5lqfq" // TODO: Need to create via terraform
+	repository_id_single_stage                                         = "ocid1.artifactrepository.oc1.phx.0.amaaaaaansx72maaj7g2xjtiuffscp7jouvkpttxnbjxuxr6q45mt7b5lqfq" // TODO: Need to Create via terraform
 	deployGenericArtifactDeployArtifactSingleStageSourceRepresentation = map[string]interface{}{
-		"deploy_artifact_source_type": Representation{repType: Required, create: `GENERIC_ARTIFACT`},
-		"repository_id":               Representation{repType: Required, create: repository_id},
-		"deploy_artifact_path":        Representation{repType: Required, create: artifact_path},
-		"deploy_artifact_version":     Representation{repType: Required, create: version},
+		"deploy_artifact_source_type": Representation{RepType: Required, Create: `GENERIC_ARTIFACT`},
+		"repository_id":               Representation{RepType: Required, Create: repository_id},
+		"deploy_artifact_path":        Representation{RepType: Required, Create: artifact_path},
+		"deploy_artifact_version":     Representation{RepType: Required, Create: version},
 	}
 
 	devopsSingleStageDeploymentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Optional, create: `${var.compartment_id}`},
-		"deploy_pipeline_id": Representation{repType: Optional, create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
-		"display_name":       Representation{repType: Optional, create: `displayName`},
-		"id":                 Representation{repType: Optional, create: `${oci_devops_deployment.test_deployment.id}`},
-		"project_id":         Representation{repType: Optional, create: `${oci_devops_project.test_project.id}`},
-		"state":              Representation{repType: Optional, create: `Active`},
+		"compartment_id":     Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"deploy_pipeline_id": Representation{RepType: Optional, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
+		"display_name":       Representation{RepType: Optional, Create: `displayName`},
+		"id":                 Representation{RepType: Optional, Create: `${oci_devops_deployment.test_deployment.id}`},
+		"project_id":         Representation{RepType: Optional, Create: `${oci_devops_project.test_project.id}`},
+		"state":              Representation{RepType: Optional, Create: `Active`},
 		"filter":             RepresentationGroup{Required, devopsSingleStageDeploymentDataSourceFilterRepresentation}}
 	devopsSingleStageDeploymentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_devops_deployment.test_deployment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_devops_deployment.test_deployment.id}`}},
 	}
 
 	devopsSingleStageDeploymentRepresentation = map[string]interface{}{
-		"deploy_pipeline_id": Representation{repType: Required, create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
-		"deployment_type":    Representation{repType: Required, create: `SINGLE_STAGE_DEPLOYMENT`},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":       Representation{repType: Optional, create: `displayName`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"deploy_stage_id":    Representation{repType: Required, create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
+		"deploy_pipeline_id": Representation{RepType: Required, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
+		"deployment_type":    Representation{RepType: Required, Create: `SINGLE_STAGE_DEPLOYMENT`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":       Representation{RepType: Optional, Create: `displayName`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"deploy_stage_id":    Representation{RepType: Required, Create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
 		"lifecycle":          RepresentationGroup{Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
 
 	deployLogRepresentation = map[string]interface{}{
-		"display_name":       Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"log_group_id":       Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`, update: `${oci_logging_log_group.test_update_log_group.id}`},
-		"log_type":           Representation{repType: Required, create: `SERVICE`},
+		"display_name":       Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"log_group_id":       Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
+		"log_type":           Representation{RepType: Required, Create: `SERVICE`},
 		"configuration":      RepresentationGroup{Required, devopLogConfigurationRepresentation},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":         Representation{repType: Optional, create: `true`},
-		"retention_duration": Representation{repType: Optional, create: `30`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":         Representation{RepType: Optional, Create: `true`},
+		"retention_duration": Representation{RepType: Optional, Create: `30`},
 		"lifecycle":          RepresentationGroup{Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
 
-	DevopsSingleStageDeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_inline_artifact", Required, Create, deployGenericArtifactSingleStageRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_kubernetes_environment", Required, Create, deployOkeEnvironmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployOkeSingleStageRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
+	DevopsSingleStageDeploymentResourceDependencies = GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_inline_artifact", Required, Create, deployGenericArtifactSingleStageRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_kubernetes_environment", Required, Create, deployOkeEnvironmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployOkeSingleStageRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, deployLogRepresentation) +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, deployLogRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -129,34 +129,34 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deployment.test_deployment"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DevopsSingleStageDeploymentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsSingleStageDeploymentRepresentation), "devops", "deployment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DevopsSingleStageDeploymentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsSingleStageDeploymentRepresentation), "devops", "deployment", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsSingleStageDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsSingleStageDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "SINGLE_STAGE_DEPLOYMENT"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsSingleStageDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Create, devopsSingleStageDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
@@ -168,9 +168,9 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -182,7 +182,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsSingleStageDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsSingleStageDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
@@ -194,7 +194,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -205,9 +205,9 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deployments", "test_deployments", Optional, Update, devopsDeploymentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deployments", "test_deployments", Optional, Update, devopsDeploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsSingleStageDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsSingleStageDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Optional, Update, devopsSingleStageDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
@@ -223,7 +223,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsSingleStageDeploymentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deployment", "test_deployment", Required, Create, devopsSingleStageDeploymentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsSingleStageDeploymentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),

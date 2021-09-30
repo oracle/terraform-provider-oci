@@ -18,7 +18,7 @@ func CoreInstanceConsoleConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreInstanceConsoleConnections,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -67,7 +67,7 @@ func (s *CoreInstanceConsoleConnectionsDataSourceCrud) Get() error {
 		request.InstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListInstanceConsoleConnections(context.Background(), request)
 	if err != nil {

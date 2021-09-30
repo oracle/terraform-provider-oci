@@ -109,7 +109,7 @@ func (s *ApigatewayApiValidationDataSourceCrud) Get() error {
 		request.ApiId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apigateway")
 
 	response, err := s.Client.GetApiValidations(context.Background(), request)
 	if err != nil {

@@ -49,7 +49,7 @@ func (s *LoggingLogSavedSearchDataSourceCrud) Get() error {
 		request.LogSavedSearchId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "logging")
 
 	response, err := s.Client.GetLogSavedSearch(context.Background(), request)
 	if err != nil {

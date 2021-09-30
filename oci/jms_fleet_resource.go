@@ -190,10 +190,10 @@ func (s *JmsFleetResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "jms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
 	response, err := s.Client.CreateFleet(context.Background(), request)
 	if err != nil {
@@ -201,7 +201,7 @@ func (s *JmsFleetResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getFleetFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "jms"), oci_jms.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getFleetFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "jms"), oci_jms.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *JmsFleetResourceCrud) getFleetFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -245,7 +245,7 @@ func fleetWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 
 func fleetWaitForWorkRequest(wId *string, entityType string, action oci_jms.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_jms.JavaManagementServiceClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "jms")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "jms")
 	retryPolicy.ShouldRetryOperation = fleetWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_jms.GetWorkRequestResponse{}
@@ -301,7 +301,7 @@ func (s *JmsFleetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.FleetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "jms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
 	response, err := s.Client.GetFleet(context.Background(), request)
 	if err != nil {
@@ -346,10 +346,10 @@ func (s *JmsFleetResourceCrud) Update() error {
 	request.FleetId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "jms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
 	response, err := s.Client.UpdateFleet(context.Background(), request)
 	if err != nil {
@@ -357,7 +357,7 @@ func (s *JmsFleetResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getFleetFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "jms"), oci_jms.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getFleetFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "jms"), oci_jms.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *JmsFleetResourceCrud) Delete() error {
@@ -366,7 +366,7 @@ func (s *JmsFleetResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.FleetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "jms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
 	_, err := s.Client.DeleteFleet(context.Background(), request)
 	return err
@@ -483,7 +483,7 @@ func (s *JmsFleetResourceCrud) updateCompartment(compartment interface{}) error 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.FleetId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "jms")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "jms")
 
 	_, err := s.Client.ChangeFleetCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

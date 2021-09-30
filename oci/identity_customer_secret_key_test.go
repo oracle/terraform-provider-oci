@@ -20,19 +20,19 @@ import (
 
 var (
 	customerSecretKeyDataSourceRepresentation = map[string]interface{}{
-		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"user_id": Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 		"filter":  RepresentationGroup{Required, customerSecretKeyDataSourceFilterRepresentation}}
 	customerSecretKeyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_customer_secret_key.test_customer_secret_key.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_customer_secret_key.test_customer_secret_key.id}`}},
 	}
 
 	customerSecretKeyRepresentation = map[string]interface{}{
-		"display_name": Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"user_id":      Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"display_name": Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"user_id":      Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	CustomerSecretKeyResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+	CustomerSecretKeyResourceDependencies = GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -51,15 +51,15 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 	var resId, resId2 string
 	var compositeId string
 
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CustomerSecretKeyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Required, Create, customerSecretKeyRepresentation), "identity", "customerSecretKey", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CustomerSecretKeyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Required, Create, customerSecretKeyRepresentation), "identity", "customerSecretKey", t)
 
 	ResourceTest(t, testAccCheckIdentityCustomerSecretKeyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Required, Create, customerSecretKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Required, Create, customerSecretKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -69,12 +69,12 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
-					userId, _ := fromInstanceState(s, resourceName, "user_id")
+					resId, err = FromInstanceState(s, resourceName, "id")
+					userId, _ := FromInstanceState(s, resourceName, "user_id")
 					compositeId = "users/" + userId + "/customerSecretKeys/" + resId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -86,13 +86,13 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -103,9 +103,9 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_customer_secret_keys", "test_customer_secret_keys", Optional, Update, customerSecretKeyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_customer_secret_keys", "test_customer_secret_keys", Optional, Update, customerSecretKeyDataSourceRepresentation) +
 				compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
@@ -153,7 +153,7 @@ func testAccCheckIdentityCustomerSecretKeyDestroy(s *terraform.State) error {
 				request.UserId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 			response, err := client.ListCustomerSecretKeys(context.Background(), request)
 
 			if err == nil {

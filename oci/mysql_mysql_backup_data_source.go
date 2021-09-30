@@ -49,7 +49,7 @@ func (s *MysqlMysqlBackupDataSourceCrud) Get() error {
 		request.BackupId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.GetBackup(context.Background(), request)
 	if err != nil {

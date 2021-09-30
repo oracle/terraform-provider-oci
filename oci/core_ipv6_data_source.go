@@ -49,7 +49,7 @@ func (s *CoreIpv6DataSourceCrud) Get() error {
 		request.Ipv6Id = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetIpv6(context.Background(), request)
 	if err != nil {

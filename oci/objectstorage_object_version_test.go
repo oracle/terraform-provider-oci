@@ -13,21 +13,21 @@ import (
 )
 
 var (
-	testVersioningBucketName = randomStringOrHttpReplayValue(32, charset, "bucketVersioning")
+	testVersioningBucketName = RandomStringOrHttpReplayValue(32, charset, "bucketVersioning")
 
 	objectVersionDataSourceRepresentation = map[string]interface{}{
-		"bucket":      Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"namespace":   Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"delimiter":   Representation{repType: Optional, create: `/`},
-		"end":         Representation{repType: Optional, create: `z`},
-		"prefix":      Representation{repType: Optional, create: `${oci_objectstorage_object.test_object.object}`},
-		"start":       Representation{repType: Optional, create: `${oci_objectstorage_object.test_object.object}`},
-		"start_after": Representation{repType: Optional, create: `a`},
+		"bucket":      Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace":   Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"delimiter":   Representation{RepType: Optional, Create: `/`},
+		"end":         Representation{RepType: Optional, Create: `z`},
+		"prefix":      Representation{RepType: Optional, Create: `${oci_objectstorage_object.test_object.object}`},
+		"start":       Representation{RepType: Optional, Create: `${oci_objectstorage_object.test_object.object}`},
+		"start_after": Representation{RepType: Optional, Create: `a`},
 	}
 
 	ObjectVersionResourceConfig = BucketResourceDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, representationCopyWithNewProperties(bucketRepresentation, map[string]interface{}{"name": Representation{repType: Required, create: testVersioningBucketName}, "versioning": Representation{repType: Required, create: `Enabled`}})) +
-		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, RepresentationCopyWithNewProperties(bucketRepresentation, map[string]interface{}{"name": Representation{RepType: Required, Create: testVersioningBucketName}, "versioning": Representation{RepType: Required, Create: `Enabled`}})) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation)
 )
 
 // issue-routing-tag: object_storage/default
@@ -42,13 +42,13 @@ func TestObjectStorageObjectVersionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_objectstorage_object_versions.test_object_versions"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_objectstorage_object_versions", "test_object_versions", Optional, Create, objectVersionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_objectstorage_object_versions", "test_object_versions", Optional, Create, objectVersionDataSourceRepresentation) +
 				compartmentIdVariableStr + ObjectVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "bucket", testVersioningBucketName),

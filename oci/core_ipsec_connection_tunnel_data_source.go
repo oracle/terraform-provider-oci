@@ -163,7 +163,7 @@ func (s *CoreIpSecConnectionTunnelDataSourceCrud) Get() error {
 		request.TunnelId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetIPSecConnectionTunnel(context.Background(), request)
 	if err != nil {

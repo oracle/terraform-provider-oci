@@ -60,7 +60,7 @@ func (s *NamespaceMetadataDataSourceCrud) Get() error {
 	tmp := s.D.Get("namespace").(string)
 	request.NamespaceName = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "object_storage")
 
 	response, err := s.Client.GetNamespaceMetadata(context.Background(), request)
 	if err != nil {

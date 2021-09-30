@@ -19,7 +19,7 @@ func IdentityApiKeysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityApiKeys,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"user_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -59,7 +59,7 @@ func (s *IdentityApiKeysDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListApiKeys(context.Background(), request)
 	if err != nil {

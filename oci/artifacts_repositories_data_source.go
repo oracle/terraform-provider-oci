@@ -18,7 +18,7 @@ func ArtifactsRepositoriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readArtifactsRepositories,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -103,7 +103,7 @@ func (s *ArtifactsRepositoriesDataSourceCrud) Get() error {
 		request.LifecycleState = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "artifacts")
 
 	response, err := s.Client.ListRepositories(context.Background(), request)
 	if err != nil {

@@ -18,7 +18,7 @@ func DatabaseManagementDbManagementPrivateEndpointAssociatedDatabasesDataSource(
 	return &schema.Resource{
 		Read: readDatabaseManagementDbManagementPrivateEndpointAssociatedDatabases,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -104,7 +104,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointAssociatedDatabasesDataSou
 		request.DbManagementPrivateEndpointId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_management")
 
 	response, err := s.Client.ListAssociatedDatabases(context.Background(), request)
 	if err != nil {

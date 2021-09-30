@@ -209,7 +209,7 @@ func (s *CorePublicIpResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if lifetime, ok := s.D.GetOkExists("lifetime"); ok {
@@ -226,7 +226,7 @@ func (s *CorePublicIpResourceCrud) Create() error {
 		request.PublicIpPoolId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreatePublicIp(context.Background(), request)
 	if err != nil {
@@ -243,7 +243,7 @@ func (s *CorePublicIpResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PublicIpId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetPublicIp(context.Background(), request)
 	if err != nil {
@@ -283,7 +283,7 @@ func (s *CorePublicIpResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if s.D.HasChange("private_ip_id") {
@@ -296,7 +296,7 @@ func (s *CorePublicIpResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.PublicIpId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdatePublicIp(context.Background(), request)
 	if err != nil {
@@ -313,7 +313,7 @@ func (s *CorePublicIpResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PublicIpId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeletePublicIp(context.Background(), request)
 	return err
@@ -378,7 +378,7 @@ func (s *CorePublicIpResourceCrud) updateCompartment(compartment interface{}) er
 	idTmp := s.D.Id()
 	changeCompartmentRequest.PublicIpId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangePublicIpCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

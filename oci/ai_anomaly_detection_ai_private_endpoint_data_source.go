@@ -49,7 +49,7 @@ func (s *AiAnomalyDetectionAiPrivateEndpointDataSourceCrud) Get() error {
 		request.AiPrivateEndpointId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ai_anomaly_detection")
 
 	response, err := s.Client.GetAiPrivateEndpoint(context.Background(), request)
 	if err != nil {

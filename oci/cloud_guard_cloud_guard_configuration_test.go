@@ -16,23 +16,23 @@ import (
 
 var (
 	CloudGuardConfigurationRequiredOnlyResource = CloudGuardConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationRepresentation)
 
 	CloudGuardConfigurationResourceConfig = CloudGuardConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Update, cloudGuardConfigurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Update, cloudGuardConfigurationRepresentation)
 
 	cloudGuardConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	//Has to be a valid reporting region where the tenant is subscribed to
 	reportingRegion                       = getEnvSettingWithDefault("region", "us-phoenix-1")
 	cloudGuardConfigurationRepresentation = map[string]interface{}{
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
-		"reporting_region": Representation{repType: Required, create: reportingRegion, update: reportingRegion},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"reporting_region": Representation{RepType: Required, Create: reportingRegion, Update: reportingRegion},
 		//Only "ENABLED" and "DISABLED" status fields are allowed, the latter will off-board the customer; soft deleting CP components and disallowing ops which we dont want.
-		"status":                Representation{repType: Required, create: `ENABLED`, update: `ENABLED`},
-		"self_manage_resources": Representation{repType: Optional, create: `false`, update: nil},
+		"status":                Representation{RepType: Required, Create: `ENABLED`, Update: `ENABLED`},
+		"self_manage_resources": Representation{RepType: Optional, Create: `false`, Update: nil},
 	}
 
 	CloudGuardConfigurationResourceDependencies = ""
@@ -54,35 +54,35 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_cloud_guard_cloud_guard_configuration.test_cloud_guard_configuration"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CloudGuardConfigurationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Create, cloudGuardConfigurationRepresentation), "cloudguard", "cloudGuardConfiguration", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CloudGuardConfigurationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Create, cloudGuardConfigurationRepresentation), "cloudguard", "cloudGuardConfiguration", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
 				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Create, cloudGuardConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Create, cloudGuardConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
@@ -90,9 +90,9 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -104,7 +104,7 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CloudGuardConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Update, cloudGuardConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Optional, Update, cloudGuardConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "reporting_region", reportingRegion),
@@ -112,7 +112,7 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -123,7 +123,7 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_cloud_guard_configuration", "test_cloud_guard_configuration", Required, Create, cloudGuardConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CloudGuardConfigurationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

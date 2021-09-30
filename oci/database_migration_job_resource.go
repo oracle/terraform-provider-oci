@@ -247,14 +247,14 @@ func (s *DatabaseMigrationJobResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if jobId, ok := s.D.GetOkExists("job_id"); ok {
 		tmp := jobId.(string)
 		request.JobId = &tmp
 	}
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 	response, err := s.Client.UpdateJob(context.Background(), request)
 	if err != nil {
 		return err
@@ -270,7 +270,7 @@ func (s *DatabaseMigrationJobResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.JobId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.GetJob(context.Background(), request)
 	if err != nil {
@@ -298,13 +298,13 @@ func (s *DatabaseMigrationJobResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.JobId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.UpdateJob(context.Background(), request)
 	if err != nil {
@@ -321,7 +321,7 @@ func (s *DatabaseMigrationJobResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.JobId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	_, err := s.Client.DeleteJob(context.Background(), request)
 	return err

@@ -21,48 +21,48 @@ import (
 
 var (
 	DeployArtifactRequiredOnlyResource = DeployArtifactResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactRepresentation)
 
 	DeployArtifactResourceConfig = DeployArtifactResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployArtifactRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployArtifactRepresentation)
 
 	deployArtifactSingularDataSourceRepresentation = map[string]interface{}{
-		"deploy_artifact_id": Representation{repType: Required, create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
+		"deploy_artifact_id": Representation{RepType: Required, Create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
 	}
 
 	deployArtifactDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
-		"project_id":     Representation{repType: Optional, create: `${oci_devops_project.test_project.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
+		"project_id":     Representation{RepType: Optional, Create: `${oci_devops_project.test_project.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, deployArtifactDataSourceFilterRepresentation}}
 	deployArtifactDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_devops_deploy_artifact.test_deploy_artifact.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_devops_deploy_artifact.test_deploy_artifact.id}`}},
 	}
 
 	deployArtifactRepresentation = map[string]interface{}{
-		"argument_substitution_mode": Representation{repType: Required, create: `NONE`, update: `SUBSTITUTE_PLACEHOLDERS`},
+		"argument_substitution_mode": Representation{RepType: Required, Create: `NONE`, Update: `SUBSTITUTE_PLACEHOLDERS`},
 		"deploy_artifact_source":     RepresentationGroup{Required, deployArtifactDeployArtifactSourceRepresentation},
-		"deploy_artifact_type":       Representation{repType: Required, create: `KUBERNETES_MANIFEST`},
-		"project_id":                 Representation{repType: Required, create: `${oci_devops_project.test_project.id}`},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":               Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"deploy_artifact_type":       Representation{RepType: Required, Create: `KUBERNETES_MANIFEST`},
+		"project_id":                 Representation{RepType: Required, Create: `${oci_devops_project.test_project.id}`},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":               Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	base64_encode                                    = "YXBpVmVyc2lvbjogYmF0Y2gvdjEKa2luZDogSm9iCm1ldGFkYXRhOgogIGdlbmVyYXRlTmFtZTogaGVsbG93b3JsZAogIGxhYmVsczoKICAgIGFwcDogaGVsbG93b3JsZApzcGVjOgogIHR0bFNlY29uZHNBZnRlckZpbmlzaGVkOiAxMjAKICB0ZW1wbGF0ZToKICAgIHNwZWM6CiAgICAgIGNvbnRhaW5lcnM6CiAgICAgICAgLSBuYW1lOiBoZWxsb3dvcmxkCiAgICAgICAgICBpbWFnZTogcGh4Lm9jaXIuaW8vYXgwMjJ3dmdtanBxL2hlbGxvd29ybGQtb2tlLXZlcmlmaWVyOmxhdGVzdAogICAgICAgICAgY29tbWFuZDoKICAgICAgICAgICAgLSAiL2Jpbi9iYXNoIgogICAgICAgICAgICAtICItYyIKICAgICAgICAgICAgLSAic2xlZXAgMjsgZWNobyBIZWxsbyBXb3JsZDsiCiAgICAgIHJlc3RhcnRQb2xpY3k6IE5ldmVy"
 	base64_encode_update                             = "a2luZDogTmFtZXNwYWNlCmFwaVZlcnNpb246IHYxCm1ldGFkYXRhOgogIG5hbWU6IGhlbGxvd29ybGQtZGVtbwotLS0KYXBpVmVyc2lvbjogYXBwcy92MQpraW5kOiBEZXBsb3ltZW50Cm1ldGFkYXRhOgogIG5hbWU6IGhlbGxvd29ybGQtZGVwbG95bWVudAogIG5hbWVzcGFjZTogaGVsbG93b3JsZC1kZW1vCnNwZWM6CiAgc2VsZWN0b3I6CiAgICBtYXRjaExhYmVsczoKICAgICAgYXBwOiBoZWxsb3dvcmxkCiAgcmVwbGljYXM6IDMKICB0ZW1wbGF0ZToKICAgIG1ldGFkYXRhOgogICAgICBsYWJlbHM6CiAgICAgICAgYXBwOiBoZWxsb3dvcmxkCiAgICBzcGVjOgogICAgICBjb250YWluZXJzOgogICAgICAgIC0gbmFtZTogaGVsbG93b3JsZAogICAgICAgICAgIyBlbnRlciB0aGUgcGF0aCB0byB5b3VyIGltYWdlLCBiZSBzdXJlIHRvIGluY2x1ZGUgdGhlIGNvcnJlY3QgcmVnaW9uIHByZWZpeAogICAgICAgICAgaW1hZ2U6IGlhZC5vY2lyLmlvL2F4MDIyd3ZnbWpwcS9oZWxsb3dvcmxkOnYxCiAgICAgICAgICBwb3J0czoKICAgICAgICAgICAgLSBjb250YWluZXJQb3J0OiA4ODg4CiAgICAgICAgICAgICAgcHJvdG9jb2w6IFRDUAoKLS0tCmFwaVZlcnNpb246IHYxCmtpbmQ6IFNlcnZpY2UKbWV0YWRhdGE6CiAgbmFtZTogaGVsbG93b3JsZC1zZXJ2aWNlCiAgbmFtZXNwYWNlOiBoZWxsb3dvcmxkLWRlbW8KICBhbm5vdGF0aW9uczoKICAgIHNlcnZpY2UuYmV0YS5rdWJlcm5ldGVzLmlvL29jaS1sb2FkLWJhbGFuY2VyLXNoYXBlOiAiMTBNYnBzIgpzcGVjOgogIHR5cGU6IExvYWRCYWxhbmNlcgogIHBvcnRzOgogICAgLSBwb3J0OiA4MDgwCiAgICAgIHByb3RvY29sOiBUQ1AKICAgICAgdGFyZ2V0UG9ydDogODg4OAogIHNlbGVjdG9yOgogICAgYXBwOiBoZWxsb3dvcmxk"
 	deployArtifactDeployArtifactSourceRepresentation = map[string]interface{}{
-		"deploy_artifact_source_type": Representation{repType: Required, create: `INLINE`},
-		"base64encoded_content":       Representation{repType: Required, create: base64_encode, update: base64_encode_update},
+		"deploy_artifact_source_type": Representation{RepType: Required, Create: `INLINE`},
+		"base64encoded_content":       Representation{RepType: Required, Create: base64_encode, Update: base64_encode_update},
 	}
 
-	DeployArtifactResourceDependencies = generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
+	DeployArtifactResourceDependencies = GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -80,15 +80,15 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deploy_artifact.test_deploy_artifact"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeployArtifactResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Create, deployArtifactRepresentation), "devops", "deployArtifact", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeployArtifactResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Create, deployArtifactRepresentation), "devops", "deployArtifact", t)
 
 	ResourceTest(t, testAccCheckDevopsDeployArtifactDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.#", "1"),
@@ -98,20 +98,20 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Create, deployArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Create, deployArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -127,9 +127,9 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -141,7 +141,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -157,7 +157,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -168,9 +168,9 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", Optional, Update, deployArtifactDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", Optional, Update, deployArtifactDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Optional, Update, deployArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -185,7 +185,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployArtifactResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_artifact_id"),
@@ -232,7 +232,7 @@ func testAccCheckDevopsDeployArtifactDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DeployArtifactId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "devops")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "devops")
 
 			response, err := client.GetDeployArtifact(context.Background(), request)
 
@@ -265,7 +265,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DevopsDeployArtifact") {
+	if !InSweeperExcludeList("DevopsDeployArtifact") {
 		resource.AddTestSweepers("DevopsDeployArtifact", &resource.Sweeper{
 			Name:         "DevopsDeployArtifact",
 			Dependencies: DependencyGraph["deployArtifact"],
@@ -286,13 +286,13 @@ func sweepDevopsDeployArtifactResource(compartment string) error {
 
 			deleteDeployArtifactRequest.DeployArtifactId = &deployArtifactId
 
-			deleteDeployArtifactRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "devops")
+			deleteDeployArtifactRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "devops")
 			_, error := deployArtifactClient.DeleteDeployArtifact(context.Background(), deleteDeployArtifactRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DeployArtifact %s %s, It is possible that the resource is already deleted. Please verify manually \n", deployArtifactId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &deployArtifactId, deployArtifactSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &deployArtifactId, deployArtifactSweepWaitCondition, time.Duration(3*time.Minute),
 				deployArtifactSweepResponseFetchOperation, "devops", true)
 		}
 	}
@@ -300,7 +300,7 @@ func sweepDevopsDeployArtifactResource(compartment string) error {
 }
 
 func getDeployArtifactIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DeployArtifactId")
+	ids := GetResourceIdsToSweep(compartment, "DeployArtifactId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -319,7 +319,7 @@ func getDeployArtifactIds(compartment string) ([]string, error) {
 	for _, deployArtifact := range listDeployArtifactsResponse.Items {
 		id := *deployArtifact.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DeployArtifactId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DeployArtifactId", id)
 	}
 	return resourceIds, nil
 }

@@ -92,7 +92,7 @@ func (s *OsmanagementManagedInstanceEventReportDataSourceCrud) Get() error {
 		request.ManagedInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "osmanagement")
 
 	response, err := s.Client.GetEventReport(context.Background(), request)
 	if err != nil {

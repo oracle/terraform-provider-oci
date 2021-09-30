@@ -21,42 +21,42 @@ import (
 
 var (
 	DataSafePrivateEndpointRequiredOnlyResource = DataSafePrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointRepresentation)
 
 	DataSafePrivateEndpointResourceConfig = DataSafePrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation)
 
 	dataSafePrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
-		"data_safe_private_endpoint_id": Representation{repType: Required, create: `${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`},
+		"data_safe_private_endpoint_id": Representation{RepType: Required, Create: `${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`},
 	}
 
 	dataSafePrivateEndpointDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"access_level":              Representation{repType: Optional, create: `RESTRICTED`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `true`},
-		"display_name":              Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
-		"vcn_id":                    Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"access_level":              Representation{RepType: Optional, Create: `RESTRICTED`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `true`},
+		"display_name":              Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
+		"vcn_id":                    Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":                    RepresentationGroup{Required, dataSafePrivateEndpointDataSourceFilterRepresentation}}
 	dataSafePrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`}},
 	}
 
 	dataSafePrivateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"nsg_ids":        Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_id":         Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"nsg_ids":        Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 	}
 
-	DataSafePrivateEndpointResourceDependencies = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	DataSafePrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -78,15 +78,15 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DataSafePrivateEndpointResourceDependencies+
-		generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create, dataSafePrivateEndpointRepresentation), "datasafe", "dataSafePrivateEndpoint", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DataSafePrivateEndpointResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create, dataSafePrivateEndpointRepresentation), "datasafe", "dataSafePrivateEndpoint", t)
 
 	ResourceTest(t, testAccCheckDataSafeDataSafePrivateEndpointDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -94,20 +94,20 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create, dataSafePrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create, dataSafePrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -122,9 +122,9 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -133,12 +133,12 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafePrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create,
-					representationCopyWithNewProperties(dataSafePrivateEndpointRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Create,
+					RepresentationCopyWithNewProperties(dataSafePrivateEndpointRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -153,7 +153,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -165,7 +165,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -180,7 +180,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -191,9 +191,9 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoints", "test_data_safe_private_endpoints", Optional, Update, dataSafePrivateEndpointDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoints", "test_data_safe_private_endpoints", Optional, Update, dataSafePrivateEndpointDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafePrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Optional, Update, dataSafePrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -219,7 +219,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafePrivateEndpointResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_safe_private_endpoint_id"),
@@ -262,7 +262,7 @@ func testAccCheckDataSafeDataSafePrivateEndpointDestroy(s *terraform.State) erro
 			tmp := rs.Primary.ID
 			request.DataSafePrivateEndpointId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 
 			response, err := client.GetDataSafePrivateEndpoint(context.Background(), request)
 
@@ -295,7 +295,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DataSafeDataSafePrivateEndpoint") {
+	if !InSweeperExcludeList("DataSafeDataSafePrivateEndpoint") {
 		resource.AddTestSweepers("DataSafeDataSafePrivateEndpoint", &resource.Sweeper{
 			Name:         "DataSafeDataSafePrivateEndpoint",
 			Dependencies: DependencyGraph["dataSafePrivateEndpoint"],
@@ -316,13 +316,13 @@ func sweepDataSafeDataSafePrivateEndpointResource(compartment string) error {
 
 			deleteDataSafePrivateEndpointRequest.DataSafePrivateEndpointId = &dataSafePrivateEndpointId
 
-			deleteDataSafePrivateEndpointRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			deleteDataSafePrivateEndpointRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 			_, error := dataSafeClient.DeleteDataSafePrivateEndpoint(context.Background(), deleteDataSafePrivateEndpointRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DataSafePrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", dataSafePrivateEndpointId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &dataSafePrivateEndpointId, dataSafePrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &dataSafePrivateEndpointId, dataSafePrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
 				dataSafePrivateEndpointSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
@@ -330,7 +330,7 @@ func sweepDataSafeDataSafePrivateEndpointResource(compartment string) error {
 }
 
 func getDataSafePrivateEndpointIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DataSafePrivateEndpointId")
+	ids := GetResourceIdsToSweep(compartment, "DataSafePrivateEndpointId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -349,7 +349,7 @@ func getDataSafePrivateEndpointIds(compartment string) ([]string, error) {
 	for _, dataSafePrivateEndpoint := range listDataSafePrivateEndpointsResponse.Items {
 		id := *dataSafePrivateEndpoint.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DataSafePrivateEndpointId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DataSafePrivateEndpointId", id)
 	}
 	return resourceIds, nil
 }

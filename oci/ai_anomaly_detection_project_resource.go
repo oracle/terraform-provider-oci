@@ -180,10 +180,10 @@ func (s *AiAnomalyDetectionProjectResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.CreateProject(context.Background(), request)
 	if err != nil {
@@ -246,7 +246,7 @@ func aiAnomalyDetectionProjectWorkRequestShouldRetryFunc(timeout time.Duration) 
 
 func aiAnomalyDetectionProjectWaitForWorkRequest(wId *string, entityType string, action oci_ai_anomaly_detection.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ai_anomaly_detection.AnomalyDetectionClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "ai_anomaly_detection")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "ai_anomaly_detection")
 	retryPolicy.ShouldRetryOperation = aiAnomalyDetectionProjectWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_ai_anomaly_detection.GetWorkRequestResponse{}
@@ -327,7 +327,7 @@ func (s *AiAnomalyDetectionProjectResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ProjectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.GetProject(context.Background(), request)
 	if err != nil {
@@ -369,13 +369,13 @@ func (s *AiAnomalyDetectionProjectResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.ProjectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.UpdateProject(context.Background(), request)
 	if err != nil {
@@ -392,7 +392,7 @@ func (s *AiAnomalyDetectionProjectResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ProjectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.DeleteProject(context.Background(), request)
 	if err != nil {
@@ -493,7 +493,7 @@ func (s *AiAnomalyDetectionProjectResourceCrud) updateCompartment(compartment in
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ProjectId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	_, err := s.Client.ChangeProjectCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

@@ -20,55 +20,55 @@ import (
 
 var (
 	PublicationResourceConfig = PublicationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation)
 
 	publicationSingularDataSourceRepresentation = map[string]interface{}{
-		"publication_id": Representation{repType: Required, create: `${oci_marketplace_publication.test_publication.id}`},
+		"publication_id": Representation{RepType: Required, Create: `${oci_marketplace_publication.test_publication.id}`},
 	}
 
 	publicationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
-		"listing_type":      Representation{repType: Required, create: `COMMUNITY`},
-		"name":              Representation{repType: Optional, create: []string{`name`}, update: []string{`name2`}},
-		"operating_systems": Representation{repType: Optional, create: []string{`${oci_core_image.test_image.operating_system}`}},
-		"publication_id":    Representation{repType: Optional, create: `${oci_marketplace_publication.test_publication.id}`},
+		"compartment_id":    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"listing_type":      Representation{RepType: Required, Create: `COMMUNITY`},
+		"name":              Representation{RepType: Optional, Create: []string{`name`}, Update: []string{`name2`}},
+		"operating_systems": Representation{RepType: Optional, Create: []string{`${oci_core_image.test_image.operating_system}`}},
+		"publication_id":    Representation{RepType: Optional, Create: `${oci_marketplace_publication.test_publication.id}`},
 		"filter":            RepresentationGroup{Required, publicationDataSourceFilterRepresentation}}
 	publicationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_marketplace_publication.test_publication.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_marketplace_publication.test_publication.id}`}},
 	}
 
 	publicationRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"is_agreement_acknowledged": Representation{repType: Required, create: `true`},
-		"listing_type":              Representation{repType: Required, create: `COMMUNITY`},
-		"name":                      Representation{repType: Required, create: `name`, update: `name2`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"is_agreement_acknowledged": Representation{RepType: Required, Create: `true`},
+		"listing_type":              Representation{RepType: Required, Create: `COMMUNITY`},
+		"name":                      Representation{RepType: Required, Create: `name`, Update: `name2`},
 		"package_details":           RepresentationGroup{Required, publicationPackageDetailsRepresentation},
-		"short_description":         Representation{repType: Required, create: `shortDescription`, update: `shortDescription2`},
+		"short_description":         Representation{RepType: Required, Create: `shortDescription`, Update: `shortDescription2`},
 		"support_contacts":          RepresentationGroup{Required, publicationSupportContactsRepresentation},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"long_description":          Representation{repType: Optional, create: `longDescription`, update: `longDescription2`},
+		"defined_tags":              Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":             Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"long_description":          Representation{RepType: Optional, Create: `longDescription`, Update: `longDescription2`},
 	}
 	publicationPackageDetailsRepresentation = map[string]interface{}{
 		"eula":             RepresentationGroup{Required, publicationPackageDetailsEulaRepresentation},
 		"operating_system": RepresentationGroup{Required, publicationPackageDetailsOperatingSystemRepresentation},
-		"package_type":     Representation{repType: Required, create: `IMAGE`},
-		"package_version":  Representation{repType: Required, create: `packageVersion`},
-		"image_id":         Representation{repType: Required, create: `${oci_core_image.test_image.id}`},
+		"package_type":     Representation{RepType: Required, Create: `IMAGE`},
+		"package_version":  Representation{RepType: Required, Create: `packageVersion`},
+		"image_id":         Representation{RepType: Required, Create: `${oci_core_image.test_image.id}`},
 	}
 	publicationSupportContactsRepresentation = map[string]interface{}{
-		"email":   Representation{repType: Required, create: `email`, update: `email2`},
-		"name":    Representation{repType: Required, create: `name`, update: `name2`},
-		"phone":   Representation{repType: Optional, create: `phone`, update: `phone2`},
-		"subject": Representation{repType: Optional, create: `subject`, update: `subject2`},
+		"email":   Representation{RepType: Required, Create: `email`, Update: `email2`},
+		"name":    Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"phone":   Representation{RepType: Optional, Create: `phone`, Update: `phone2`},
+		"subject": Representation{RepType: Optional, Create: `subject`, Update: `subject2`},
 	}
 	publicationPackageDetailsEulaRepresentation = map[string]interface{}{
-		"eula_type":    Representation{repType: Required, create: `TEXT`},
-		"license_text": Representation{repType: Required, create: `licenseText`},
+		"eula_type":    Representation{RepType: Required, Create: `TEXT`},
+		"license_text": Representation{RepType: Required, Create: `licenseText`},
 	}
 	publicationPackageDetailsOperatingSystemRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `${oci_core_image.test_image.operating_system}`},
+		"name": Representation{RepType: Required, Create: `${oci_core_image.test_image.operating_system}`},
 	}
 
 	PublicationResourceDependencies = ImageRequiredOnlyResource
@@ -96,10 +96,10 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckMarketplacePublicationDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_agreement_acknowledged", "true"),
@@ -120,20 +120,20 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 					[]string{}),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PublicationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create, publicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create, publicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -167,9 +167,9 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 					[]string{}),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -178,12 +178,12 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PublicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create,
-					representationCopyWithNewProperties(publicationRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Create,
+					RepresentationCopyWithNewProperties(publicationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -218,7 +218,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 					[]string{}),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -230,7 +230,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + PublicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -264,7 +264,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 					[]string{}),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -275,9 +275,9 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_publications", "test_publications", Optional, Update, publicationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_publications", "test_publications", Optional, Update, publicationDataSourceRepresentation) +
 				compartmentIdVariableStr + PublicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Optional, Update, publicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "listing_type", "COMMUNITY"),
@@ -300,7 +300,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_publication", "test_publication", Required, Create, publicationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + PublicationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "publication_id"),
@@ -356,7 +356,7 @@ func testAccCheckMarketplacePublicationDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PublicationId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "marketplace")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "marketplace")
 
 			response, err := client.GetPublication(context.Background(), request)
 
@@ -389,7 +389,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("MarketplacePublication") {
+	if !InSweeperExcludeList("MarketplacePublication") {
 		resource.AddTestSweepers("MarketplacePublication", &resource.Sweeper{
 			Name:         "MarketplacePublication",
 			Dependencies: DependencyGraph["publication"],
@@ -410,13 +410,13 @@ func sweepMarketplacePublicationResource(compartment string) error {
 
 			deletePublicationRequest.PublicationId = &publicationId
 
-			deletePublicationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "marketplace")
+			deletePublicationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "marketplace")
 			_, error := marketplaceClient.DeletePublication(context.Background(), deletePublicationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Publication %s %s, It is possible that the resource is already deleted. Please verify manually \n", publicationId, error)
 				continue
 			}
-			//waitTillCondition(testAccProvider, &publicationId, publicationSweepWaitCondition, time.Duration(3*time.Minute),
+			//WaitTillCondition(testAccProvider, &publicationId, publicationSweepWaitCondition, time.Duration(3*time.Minute),
 			//	publicationSweepResponseFetchOperation, "marketplace", true)
 		}
 	}
@@ -424,7 +424,7 @@ func sweepMarketplacePublicationResource(compartment string) error {
 }
 
 func getPublicationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "PublicationId")
+	ids := GetResourceIdsToSweep(compartment, "PublicationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -447,7 +447,7 @@ func getPublicationIds(compartment string) ([]string, error) {
 		for _, publication := range listPublicationsResponse.Items {
 			id := *publication.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "PublicationId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "PublicationId", id)
 		}
 
 	}

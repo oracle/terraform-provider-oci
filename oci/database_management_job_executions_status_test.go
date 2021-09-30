@@ -17,17 +17,17 @@ import (
 
 var (
 	jobExecutionsStatusSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"end_time":            Representation{repType: Required, create: `${var.end_time}`},
-		"start_time":          Representation{repType: Required, create: `${var.start_time}`},
-		"managed_database_id": Representation{repType: Required, create: `${var.tenancy_ocid}testManagedDatabase0`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"end_time":            Representation{RepType: Required, Create: `${var.end_time}`},
+		"start_time":          Representation{RepType: Required, Create: `${var.start_time}`},
+		"managed_database_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}testManagedDatabase0`},
 	}
 
 	jobExecutionsStatusDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"end_time":            Representation{repType: Required, create: `${var.end_time}`},
-		"start_time":          Representation{repType: Required, create: `${var.start_time}`},
-		"managed_database_id": Representation{repType: Required, create: `${var.tenancy_ocid}testManagedDatabase0`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"end_time":            Representation{RepType: Required, Create: `${var.end_time}`},
+		"start_time":          Representation{RepType: Required, Create: `${var.start_time}`},
+		"managed_database_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}testManagedDatabase0`},
 	}
 
 	JobExecutionsStatusResourceConfig = ""
@@ -52,7 +52,7 @@ func TestDatabaseManagementJobExecutionsStatusResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_management_job_executions_statuses.test_job_executions_statuses"
 	singularDatasourceName := "data.oci_database_management_job_executions_status.test_job_executions_status"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -63,7 +63,7 @@ func TestDatabaseManagementJobExecutionsStatusResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_job_executions_statuses", "test_job_executions_statuses", Required, Create, jobExecutionsStatusDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_management_job_executions_statuses", "test_job_executions_statuses", Required, Create, jobExecutionsStatusDataSourceRepresentation) +
 					compartmentIdVariableStr + JobExecutionsStatusResourceConfig + endTimeVariableStr + startTimeVariableStr,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -77,7 +77,7 @@ func TestDatabaseManagementJobExecutionsStatusResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_job_executions_status", "test_job_executions_status", Required, Create, jobExecutionsStatusSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_management_job_executions_status", "test_job_executions_status", Required, Create, jobExecutionsStatusSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + JobExecutionsStatusResourceConfig + endTimeVariableStr + startTimeVariableStr,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

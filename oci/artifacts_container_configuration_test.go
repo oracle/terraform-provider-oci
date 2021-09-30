@@ -16,15 +16,15 @@ import (
 
 var (
 	ContainerConfigurationResourceConfig = ContainerConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Optional, Update, containerConfigurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Optional, Update, containerConfigurationRepresentation)
 
 	containerConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 	}
 
 	containerConfigurationRepresentation = map[string]interface{}{
-		"compartment_id":                      Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"is_repository_created_on_first_push": Representation{repType: Required, create: `false`, update: `true`},
+		"compartment_id":                      Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"is_repository_created_on_first_push": Representation{RepType: Required, Create: `false`, Update: `true`},
 	}
 
 	ContainerConfigurationResourceDependencies = ""
@@ -46,23 +46,23 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_artifacts_container_configuration.test_container_configuration"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ContainerConfigurationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Required, Create, containerConfigurationRepresentation), "artifacts", "containerConfiguration", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ContainerConfigurationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Required, Create, containerConfigurationRepresentation), "artifacts", "containerConfiguration", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ContainerConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Required, Create, containerConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Required, Create, containerConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "is_repository_created_on_first_push", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -74,14 +74,14 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ContainerConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Optional, Update, containerConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Optional, Update, containerConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "is_repository_created_on_first_push", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -92,7 +92,7 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Required, Create, containerConfigurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_container_configuration", "test_container_configuration", Required, Create, containerConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ContainerConfigurationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

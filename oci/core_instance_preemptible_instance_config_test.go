@@ -15,33 +15,33 @@ import (
 
 var (
 	instanceWithPreemptibleInstanceConfigRepresentation = map[string]interface{}{
-		"availability_domain":         Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape":                       Representation{repType: Required, create: `VM.Standard2.1`},
-		"image":                       Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
+		"availability_domain":         Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":              Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"shape":                       Representation{RepType: Required, Create: `VM.Standard2.1`},
+		"image":                       Representation{RepType: Required, Create: `${var.InstanceImageOCID[var.region]}`},
 		"preemptible_instance_config": RepresentationGroup{Required, instancePreemptibleInstanceConfigRepresentation},
-		"subnet_id":                   Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"subnet_id":                   Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 
 	InstanceWithPreemptibleInstanceConfigResourceConfig = InstanceResourceDependenciesWithoutDHV +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation)
 
 	instanceWithPreemtibleInstanceConfigDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"state":               Representation{repType: Required, create: `RUNNING`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"state":               Representation{RepType: Required, Create: `RUNNING`},
 		"filter":              RepresentationGroup{Required, instanceWithPreemtibleInstanceConfigDataSourceFilterRepresentation}}
 	instanceWithPreemtibleInstanceConfigDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_instance.test_instance.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_instance.test_instance.id}`}},
 	}
 
 	instancePreemptibleInstanceConfigRepresentation = map[string]interface{}{
 		"preemption_action": RepresentationGroup{Required, instancePreemptibleInstanceConfigPreemptionActionRepresentation},
 	}
 	instancePreemptibleInstanceConfigPreemptionActionRepresentation = map[string]interface{}{
-		"type":                 Representation{repType: Required, create: `TERMINATE`},
-		"preserve_boot_volume": Representation{repType: Required, create: `false`},
+		"type":                 Representation{RepType: Required, Create: `TERMINATE`},
+		"preserve_boot_volume": Representation{RepType: Required, Create: `false`},
 	}
 )
 
@@ -63,10 +63,10 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 	datasourceName := "data.oci_core_instances.test_instances"
 
 	ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
-				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -79,7 +79,7 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "preemptible_instance_config.0.preemption_action.0.type", "TERMINATE"),
 
 				func(s *terraform.State) (err error) {
-					_, err = fromInstanceState(s, resourceName, "id")
+					_, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -88,9 +88,9 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceWithPreemtibleInstanceConfigDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceWithPreemtibleInstanceConfigDataSourceRepresentation) +
 				compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
-				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

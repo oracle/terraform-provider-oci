@@ -27,13 +27,13 @@ type ResourceIdentityPolicyTestSuite struct {
 }
 
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenizeWithHttpReplay("identity_policy")
+	s.Token, s.TokenFn = TokenizeWithHttpReplay("identity_policy")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
-		description = "automated test group"
+		description = "automated test Group"
 		compartment_id = "${var.tenancy_ocid}"
 	}`, nil)
 	s.ResourceName = "oci_identity_policy.p"
@@ -45,7 +45,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config + s.TokenFn(`
 				resource "oci_identity_policy" "p" {
@@ -53,7 +53,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					name = "p1-{{.token}}"
 					description = "automated test policy"
 					version_date = "2018-04-17"
-					statements = ["Allow group ${oci_identity_group.t.name} to read instances in tenancy"]
+					statements = ["Allow Group ${oci_identity_group.t.name} to read instances in tenancy"]
 				}`, nil),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
@@ -69,12 +69,12 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "version_date", "2018-04-17"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
-						policyHash, err = fromInstanceState(s, "oci_identity_policy.p", "policyHash")
+						policyHash, err = FromInstanceState(s, "oci_identity_policy.p", "policyHash")
 						return err
 					},
 				),
 			},
-			// verify update
+			// verify Update
 			{
 				Config: s.Config + s.TokenFn(`
 				resource "oci_identity_policy" "p" {
@@ -83,8 +83,8 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					description = "automated test policy (updated)"
 					version_date = "2018-04-18"
 					statements = [
-						"Allow group ${oci_identity_group.t.name} to inspect instances in tenancy",
-						"Allow group ${oci_identity_group.t.name} to read instances in tenancy"
+						"Allow Group ${oci_identity_group.t.name} to inspect instances in tenancy",
+						"Allow Group ${oci_identity_group.t.name} to read instances in tenancy"
 					]
 				}`, nil),
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -93,7 +93,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "version_date", "2018-04-18"),
 					resource.TestCheckResourceAttr(s.ResourceName, "statements.#", "2"),
 					func(s *terraform.State) (err error) {
-						newHash, err := fromInstanceState(s, "oci_identity_policy.p", "policyHash")
+						newHash, err := FromInstanceState(s, "oci_identity_policy.p", "policyHash")
 						if policyHash == newHash {
 							return fmt.Errorf("Expected new hash, got same")
 						}
@@ -110,15 +110,15 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					description = "automated test policy (updated)"
 					version_date = "2018-04-18"
 					statements = [
-						"Allow group ${oci_identity_group.t.name} to inspect instances in tenancy",
-						"Allow group ${oci_identity_group.t.name} to read instances in tenancy"
+						"Allow Group ${oci_identity_group.t.name} to inspect instances in tenancy",
+						"Allow Group ${oci_identity_group.t.name} to read instances in tenancy"
 					]
 				}
 				data "oci_identity_policies" "p" {
 					compartment_id = "${var.tenancy_ocid}"
 					filter {
 						name   = "statements"
-						values = ["Allow group ${oci_identity_group.t.name} to inspect instances in tenancy"]
+						values = ["Allow Group ${oci_identity_group.t.name} to inspect instances in tenancy"]
 					}
 				}`, nil),
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -151,7 +151,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_emptySta
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config + s.TokenFn(`
 				resource "oci_identity_policy" "p" {
@@ -160,9 +160,9 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_emptySta
 					description = "automated test policy"
 					version_date = "2018-04-17"
 					statements = [
-"Allow group ${oci_identity_group.t.name} to inspect instances in tenancy",
+"Allow Group ${oci_identity_group.t.name} to inspect instances in tenancy",
 "",
-"Allow group ${oci_identity_group.t.name} to inspect instances in tenancy"]
+"Allow Group ${oci_identity_group.t.name} to inspect instances in tenancy"]
 				}`, nil),
 				ExpectError: regexp.MustCompile("InvalidParameter"),
 			},
@@ -176,35 +176,35 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// create policy with bad formatting
+			// Create policy with bad formatting
 			{
 				Config: s.Config + s.TokenFn(`
 				resource "oci_identity_policy" "p" {
 					compartment_id = "${var.tenancy_ocid}"
 					name = "{{.token}}"
 					description = "automated test policy"
-					statements = ["Allow group ${oci_identity_group.t.name} to read instances in >> tenancy"]
+					statements = ["Allow Group ${oci_identity_group.t.name} to read instances in >> tenancy"]
 				}`, nil),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					// policy statements may or may not have invalid characters stripped (">>" above), accommodate this uncertainty as specifically as possible
 					resource.TestMatchResourceAttr(s.ResourceName, "statements.0",
-						regexp.MustCompile(`Allow group `+s.Token+` to read instances in (>> )?tenancy`)),
+						regexp.MustCompile(`Allow Group `+s.Token+` to read instances in (>> )?tenancy`)),
 					func(s *terraform.State) (err error) {
-						if policyHash, err = fromInstanceState(s, "oci_identity_policy.p", "policyHash"); err == nil {
-							lastUpdateETag, err = fromInstanceState(s, "oci_identity_policy.p", "lastUpdateETag")
+						if policyHash, err = FromInstanceState(s, "oci_identity_policy.p", "policyHash"); err == nil {
+							lastUpdateETag, err = FromInstanceState(s, "oci_identity_policy.p", "lastUpdateETag")
 						}
 						return err
 					},
 				),
 			},
-			// verify update does not change the hash and ETag value
+			// verify Update does not change the hash and ETag value
 			{
 				Config: s.Config + s.TokenFn(`
 				resource "oci_identity_policy" "p" {
 					compartment_id = "${var.tenancy_ocid}"
 					name = "{{.token}}"
 					description = "automated test policy"
-					statements = ["Allow group ${oci_identity_group.t.name} to read instances in >> tenancy"]
+					statements = ["Allow Group ${oci_identity_group.t.name} to read instances in >> tenancy"]
 				}`, nil),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {

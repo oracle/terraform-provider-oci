@@ -14,7 +14,7 @@ import (
 
 var (
 	loadBalancerProtocolDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	LoadBalancerProtocolResourceConfig = ""
@@ -32,13 +32,13 @@ func TestLoadBalancerLoadBalancerProtocolResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_load_balancer_protocols.test_load_balancer_protocols"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_protocols", "test_load_balancer_protocols", Required, Create, loadBalancerProtocolDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_protocols", "test_load_balancer_protocols", Required, Create, loadBalancerProtocolDataSourceRepresentation) +
 				compartmentIdVariableStr + LoadBalancerProtocolResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

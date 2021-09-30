@@ -49,7 +49,7 @@ func (s *LoggingLogGroupDataSourceCrud) Get() error {
 		request.LogGroupId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "logging")
 
 	response, err := s.Client.GetLogGroup(context.Background(), request)
 	if err != nil {

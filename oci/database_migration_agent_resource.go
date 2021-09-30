@@ -194,7 +194,7 @@ func (s *DatabaseMigrationAgentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if publicKey, ok := s.D.GetOkExists("public_key"); ok {
@@ -212,7 +212,7 @@ func (s *DatabaseMigrationAgentResourceCrud) Create() error {
 		request.Version = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.UpdateAgent(context.Background(), request)
 	if err != nil {
@@ -229,7 +229,7 @@ func (s *DatabaseMigrationAgentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AgentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.GetAgent(context.Background(), request)
 	if err != nil {
@@ -274,7 +274,7 @@ func (s *DatabaseMigrationAgentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if publicKey, ok := s.D.GetOkExists("public_key"); ok {
@@ -292,7 +292,7 @@ func (s *DatabaseMigrationAgentResourceCrud) Update() error {
 		request.Version = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.UpdateAgent(context.Background(), request)
 	if err != nil {
@@ -309,7 +309,7 @@ func (s *DatabaseMigrationAgentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AgentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	_, err := s.Client.DeleteAgent(context.Background(), request)
 	return err
@@ -422,7 +422,7 @@ func (s *DatabaseMigrationAgentResourceCrud) updateCompartment(compartment inter
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	_, err := s.Client.ChangeAgentCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

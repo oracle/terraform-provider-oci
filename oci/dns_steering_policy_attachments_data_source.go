@@ -20,7 +20,7 @@ func DnsSteeringPolicyAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDnsSteeringPolicyAttachments,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -146,7 +146,7 @@ func (s *DnsSteeringPolicyAttachmentsDataSourceCrud) Get() error {
 		request.ZoneId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.ListSteeringPolicyAttachments(context.Background(), request)
 	if err != nil {

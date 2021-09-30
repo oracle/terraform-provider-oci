@@ -21,33 +21,33 @@ import (
 
 var (
 	EsxiHostRequiredOnlyResource = EsxiHostResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Required, Create, esxiHostRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Required, Create, esxiHostRepresentation)
 
 	EsxiHostResourceConfig = EsxiHostResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation)
 
 	esxiHostSingularDataSourceRepresentation = map[string]interface{}{
-		"esxi_host_id": Representation{repType: Required, create: `${oci_ocvp_esxi_host.test_esxi_host.id}`},
+		"esxi_host_id": Representation{RepType: Required, Create: `${oci_ocvp_esxi_host.test_esxi_host.id}`},
 	}
 	esxiHostDataSourceRepresentation = map[string]interface{}{
-		"compute_instance_id": Representation{repType: Optional, create: `${oci_ocvp_esxi_host.test_esxi_host.compute_instance_id}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"sddc_id":             Representation{repType: Optional, create: `${oci_ocvp_sddc.test_sddc.id}`},
-		"state":               Representation{repType: Optional, create: `ACTIVE`},
+		"compute_instance_id": Representation{RepType: Optional, Create: `${oci_ocvp_esxi_host.test_esxi_host.compute_instance_id}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"sddc_id":             Representation{RepType: Optional, Create: `${oci_ocvp_sddc.test_sddc.id}`},
+		"state":               Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":              RepresentationGroup{Required, esxiHostDataSourceFilterRepresentation},
 	}
 	esxiHostDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_ocvp_esxi_host.test_esxi_host.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_ocvp_esxi_host.test_esxi_host.id}`}},
 	}
 
 	esxiHostRepresentation = map[string]interface{}{
-		"sddc_id":       Representation{repType: Required, create: `${oci_ocvp_sddc.test_sddc.id}`},
-		"current_sku":   Representation{repType: Optional, create: `HOUR`},
-		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"next_sku":      Representation{repType: Optional, create: `HOUR`, update: `MONTH`},
+		"sddc_id":       Representation{RepType: Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
+		"current_sku":   Representation{RepType: Optional, Create: `HOUR`},
+		"defined_tags":  Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":  Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"next_sku":      Representation{RepType: Optional, Create: `HOUR`, Update: `MONTH`},
 	}
 
 	EsxiHostResourceDependencies = SddcRequiredOnlyResource
@@ -68,33 +68,33 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ocvp_esxi_host.test_esxi_host"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+EsxiHostResourceDependencies+
-		generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, esxiHostRepresentation), "ocvp", "esxiHost", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+EsxiHostResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, esxiHostRepresentation), "ocvp", "esxiHost", t)
 
 	ResourceTest(t, testAccCheckOcvpEsxiHostDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Required, Create, esxiHostRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Required, Create, esxiHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, esxiHostRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, esxiHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
 				resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
@@ -106,9 +106,9 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -120,7 +120,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
 				resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
@@ -132,7 +132,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -143,9 +143,9 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "test_esxi_hosts", Optional, Update, esxiHostDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "test_esxi_hosts", Optional, Update, esxiHostDataSourceRepresentation) +
 				compartmentIdVariableStr + EsxiHostResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "compute_instance_id"),
@@ -165,7 +165,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Required, Create, esxiHostSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Required, Create, esxiHostSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + EsxiHostResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "esxi_host_id"),
@@ -209,7 +209,7 @@ func testAccCheckOcvpEsxiHostDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.EsxiHostId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ocvp")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ocvp")
 
 			response, err := client.GetEsxiHost(context.Background(), request)
 
@@ -242,7 +242,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OcvpEsxiHost") {
+	if !InSweeperExcludeList("OcvpEsxiHost") {
 		resource.AddTestSweepers("OcvpEsxiHost", &resource.Sweeper{
 			Name:         "OcvpEsxiHost",
 			Dependencies: DependencyGraph["esxiHost"],
@@ -263,13 +263,13 @@ func sweepOcvpEsxiHostResource(compartment string) error {
 
 			deleteEsxiHostRequest.EsxiHostId = &esxiHostId
 
-			deleteEsxiHostRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ocvp")
+			deleteEsxiHostRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ocvp")
 			_, error := esxiHostClient.DeleteEsxiHost(context.Background(), deleteEsxiHostRequest)
 			if error != nil {
 				fmt.Printf("Error deleting EsxiHost %s %s, It is possible that the resource is already deleted. Please verify manually \n", esxiHostId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &esxiHostId, esxiHostSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &esxiHostId, esxiHostSweepWaitCondition, time.Duration(3*time.Minute),
 				esxiHostSweepResponseFetchOperation, "ocvp", true)
 		}
 	}
@@ -277,7 +277,7 @@ func sweepOcvpEsxiHostResource(compartment string) error {
 }
 
 func getEsxiHostIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "EsxiHostId")
+	ids := GetResourceIdsToSweep(compartment, "EsxiHostId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -295,7 +295,7 @@ func getEsxiHostIds(compartment string) ([]string, error) {
 	for _, esxiHost := range listEsxiHostsResponse.Items {
 		id := *esxiHost.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "EsxiHostId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "EsxiHostId", id)
 	}
 	return resourceIds, nil
 }

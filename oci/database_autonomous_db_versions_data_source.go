@@ -18,7 +18,7 @@ func DatabaseAutonomousDbVersionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseAutonomousDbVersions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -106,7 +106,7 @@ func (s *DatabaseAutonomousDbVersionsDataSourceCrud) Get() error {
 		request.DbWorkload = oci_database.AutonomousDatabaseSummaryDbWorkloadEnum(dbWorkload.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListAutonomousDbVersions(context.Background(), request)
 	if err != nil {

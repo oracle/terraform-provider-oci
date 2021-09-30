@@ -401,7 +401,7 @@ func getSdkConfigProvider(d *schema.ResourceData, clients *OracleClients) (oci_c
 
 	//In GoSDK, the first step is to check if AuthType exists,
 	//for composite provider, we only check the first provider in the list for the AuthType.
-	//Then SDK will based on the AuthType to create the actual provider if it's a valid value.
+	//Then SDK will based on the AuthType to Create the actual provider if it's a valid value.
 	//If not, then SDK will base on the order in the composite provider list to check for necessary info (tenancyid, userID, fingerprint, region, keyID).
 	configProviders = append(configProviders, resourceDataConfigProvider)
 	if profile == "" {
@@ -573,7 +573,7 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 	var oboTokenProvider OboTokenProvider
 	oboTokenProvider = emptyOboTokenProvider{}
 	if useOboToken {
-		// Add Obo token to the default list and update the signer
+		// Add Obo token to the default list and Update the signer
 		httpHeadersToSign := append(oci_common.DefaultGenericHeaders(), requestHeaderOpcOboToken)
 		requestSigner = oci_common.RequestSigner(configProvider, httpHeadersToSign, oci_common.DefaultBodyHeaders())
 		oboTokenProvider = oboTokenProviderFromEnv{}

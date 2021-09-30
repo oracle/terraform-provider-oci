@@ -16,37 +16,37 @@ import (
 
 var (
 	InternalBastionRequiredOnlyResource = InternalBastionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionRepresentation)
 
 	InternalBastionResourceConfig = InternalBastionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, InternalBastionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, InternalBastionRepresentation)
 
 	InternalBastionSingularDataSourceRepresentation = map[string]interface{}{
-		"bastion_id": Representation{repType: Required, create: `${oci_bastion_bastion.test_bastion.id}`},
+		"bastion_id": Representation{RepType: Required, Create: `${oci_bastion_bastion.test_bastion.id}`},
 	}
 
 	InternalBastionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"bastion_id":              Representation{repType: Optional, create: `${oci_bastion_bastion.test_bastion.id}`},
-		"bastion_lifecycle_state": Representation{repType: Optional, create: `ACTIVE`},
-		"name":                    Representation{repType: Optional, create: `bastionterraformtest`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"bastion_id":              Representation{RepType: Optional, Create: `${oci_bastion_bastion.test_bastion.id}`},
+		"bastion_lifecycle_state": Representation{RepType: Optional, Create: `ACTIVE`},
+		"name":                    Representation{RepType: Optional, Create: `bastionterraformtest`},
 		"filter":                  RepresentationGroup{Required, InternalBastionDataSourceFilterRepresentation}}
 	InternalBastionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_bastion_bastion.test_bastion.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_bastion_bastion.test_bastion.id}`}},
 	}
 
 	InternalBastionRepresentation = map[string]interface{}{
-		"bastion_type":                  Representation{repType: Required, create: `INTERNAL`},
-		"compartment_id":                Representation{repType: Required, create: `${var.compartment_id}`},
-		"target_subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"name":                          Representation{repType: Required, create: `bastionterraformtest`},
-		"phone_book_entry":              Representation{repType: Required, create: `OCIBastion`},
-		"static_jump_host_ip_addresses": Representation{repType: Optional, create: []string{`10.0.0.3`}},
+		"bastion_type":                  Representation{RepType: Required, Create: `INTERNAL`},
+		"compartment_id":                Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"target_subnet_id":              Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"name":                          Representation{RepType: Required, Create: `bastionterraformtest`},
+		"phone_book_entry":              Representation{RepType: Required, Create: `OCIBastion`},
+		"static_jump_host_ip_addresses": Representation{RepType: Optional, Create: []string{`10.0.0.3`}},
 	}
 
-	InternalBastionResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	InternalBastionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -65,37 +65,37 @@ func TestBastionBastionResource_internal(t *testing.T) {
 	singularDatasourceName := "data.oci_bastion_bastion.test_bastion"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+InternalBastionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, InternalBastionRepresentation), "bastion", "bastion", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+InternalBastionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, InternalBastionRepresentation), "bastion", "bastion", t)
 
 	ResourceTest(t, testAccCheckBastionBastionDestroy, []resource.TestStep{
 
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + InternalBastionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "INTERNAL"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + InternalBastionResourceDependencies,
 		},
 
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + InternalBastionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, InternalBastionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Optional, Create, InternalBastionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "INTERNAL"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -109,9 +109,9 @@ func TestBastionBastionResource_internal(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "static_jump_host_ip_addresses.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,9 +122,9 @@ func TestBastionBastionResource_internal(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", Optional, Create, InternalBastionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bastion_bastions", "test_bastions", Optional, Create, InternalBastionDataSourceRepresentation) +
 				compartmentIdVariableStr + InternalBastionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 				resource.TestCheckResourceAttr(datasourceName, "bastion_lifecycle_state", "ACTIVE"),
@@ -145,7 +145,7 @@ func TestBastionBastionResource_internal(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, InternalBastionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + InternalBastionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bastion_id"),

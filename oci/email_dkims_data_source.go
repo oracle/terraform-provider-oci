@@ -18,7 +18,7 @@ func EmailDkimsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readEmailDkims,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"email_domain_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -93,7 +93,7 @@ func (s *EmailDkimsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_email.DkimLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "email")
 
 	response, err := s.Client.ListDkims(context.Background(), request)
 	if err != nil {

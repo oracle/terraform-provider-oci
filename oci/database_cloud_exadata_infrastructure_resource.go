@@ -22,9 +22,9 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("12h"),
-			Update: getTimeoutDuration("12h"),
-			Delete: getTimeoutDuration("12h"),
+			Create: GetTimeoutDuration("12h"),
+			Update: GetTimeoutDuration("12h"),
+			Delete: GetTimeoutDuration("12h"),
 		},
 		Create: createDatabaseCloudExadataInfrastructure,
 		Read:   readDatabaseCloudExadataInfrastructure,
@@ -340,7 +340,7 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
@@ -364,7 +364,7 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Create() error {
 		request.StorageCount = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateCloudExadataInfrastructure(context.Background(), request)
 	if err != nil {
@@ -381,7 +381,7 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CloudExadataInfrastructureId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetCloudExadataInfrastructure(context.Background(), request)
 	if err != nil {
@@ -443,7 +443,7 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
@@ -462,7 +462,7 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Update() error {
 		request.StorageCount = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateCloudExadataInfrastructure(context.Background(), request)
 	if err != nil {
@@ -484,7 +484,7 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Delete() error {
 		request.IsDeleteVmClusters = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeleteCloudExadataInfrastructure(context.Background(), request)
 	return err
@@ -681,7 +681,7 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) updateCompartment(compa
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeCloudExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

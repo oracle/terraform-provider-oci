@@ -18,7 +18,7 @@ func DatabaseDbHomesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbHomes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"backup_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -111,7 +111,7 @@ func (s *DatabaseDbHomesDataSourceCrud) Get() error {
 		request.VmClusterId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDbHomes(context.Background(), request)
 	if err != nil {

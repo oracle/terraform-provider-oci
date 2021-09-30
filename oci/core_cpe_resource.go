@@ -142,7 +142,7 @@ func (s *CoreCpeResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
@@ -150,7 +150,7 @@ func (s *CoreCpeResourceCrud) Create() error {
 		request.IpAddress = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateCpe(context.Background(), request)
 	if err != nil {
@@ -167,7 +167,7 @@ func (s *CoreCpeResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CpeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetCpe(context.Background(), request)
 	if err != nil {
@@ -212,10 +212,10 @@ func (s *CoreCpeResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateCpe(context.Background(), request)
 	if err != nil {
@@ -232,7 +232,7 @@ func (s *CoreCpeResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CpeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteCpe(context.Background(), request)
 	return err
@@ -277,7 +277,7 @@ func (s *CoreCpeResourceCrud) updateCompartment(compartment interface{}) error {
 	idTmp := s.D.Id()
 	changeCompartmentRequest.CpeId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeCpeCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

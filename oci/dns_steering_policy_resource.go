@@ -368,7 +368,7 @@ func (s *DnsSteeringPolicyResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if healthCheckMonitorId, ok := s.D.GetOkExists("health_check_monitor_id"); ok {
@@ -402,7 +402,7 @@ func (s *DnsSteeringPolicyResourceCrud) Create() error {
 		request.Ttl = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.CreateSteeringPolicy(context.Background(), request)
 	if err != nil {
@@ -419,7 +419,7 @@ func (s *DnsSteeringPolicyResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SteeringPolicyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.GetSteeringPolicy(context.Background(), request)
 	if err != nil {
@@ -456,7 +456,7 @@ func (s *DnsSteeringPolicyResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if healthCheckMonitorId, ok := s.D.GetOkExists("health_check_monitor_id"); ok {
@@ -476,7 +476,7 @@ func (s *DnsSteeringPolicyResourceCrud) Update() error {
 		request.Ttl = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.UpdateSteeringPolicy(context.Background(), request)
 	if err != nil {
@@ -493,7 +493,7 @@ func (s *DnsSteeringPolicyResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SteeringPolicyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.DeleteSteeringPolicy(context.Background(), request)
 	return err
@@ -1165,7 +1165,7 @@ func (s *DnsSteeringPolicyResourceCrud) updateCompartment(compartment interface{
 	idTmp := s.D.Id()
 	changeCompartmentRequest.SteeringPolicyId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.ChangeSteeringPolicyCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

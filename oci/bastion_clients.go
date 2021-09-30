@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_bastion.BastionClient", &OracleClient{initClientFn: initBastionBastionClient})
+	RegisterOracleClient("oci_bastion.BastionClient", &OracleClient{InitClientFn: initBastionBastionClient})
 }
 
 func initBastionBastionClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -21,65 +21,65 @@ import (
 
 var (
 	AutonomousExadataInfrastructureRequiredOnlyResource = AutonomousExadataInfrastructureResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureRepresentation)
 
 	AutonomousExadataInfrastructureResourceConfig = AutonomousExadataInfrastructureResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Update, autonomousExadataInfrastructureRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Update, autonomousExadataInfrastructureRepresentation)
 
 	autonomousExadataInfrastructureSingularDataSourceRepresentation = map[string]interface{}{
-		"autonomous_exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
+		"autonomous_exadata_infrastructure_id": Representation{RepType: Required, Create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
 	}
 
 	autonomousExadataInfrastructureDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domain.ad.name}`},
-		"display_name":        Representation{repType: Optional, create: `tst3dbsys`, update: `displayName2`},
-		"state":               Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domain.ad.name}`},
+		"display_name":        Representation{RepType: Optional, Create: `tst3dbsys`, Update: `displayName2`},
+		"state":               Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":              RepresentationGroup{Required, autonomousExadataInfrastructureDataSourceFilterRepresentation}}
 	autonomousExadataInfrastructureDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`}},
 	}
 
 	autonomousExadataInfrastructureRepresentation = map[string]interface{}{
-		"availability_domain":        Representation{repType: Required, create: `${data.oci_identity_availability_domain.ad.name}`},
-		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape":                      Representation{repType: Required, create: `Exadata.Quarter2.92`},
-		"subnet_id":                  Representation{repType: Required, create: `${oci_core_subnet.exadata_subnet.id}`},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":               Representation{repType: Optional, create: `tst3dbsys`, update: `displayName2`},
-		"domain":                     Representation{repType: Optional, create: `subnetexadata.tfvcn.oraclevcn.com`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"license_model":              Representation{repType: Optional, create: `LICENSE_INCLUDED`},
+		"availability_domain":        Representation{RepType: Required, Create: `${data.oci_identity_availability_domain.ad.name}`},
+		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"shape":                      Representation{RepType: Required, Create: `Exadata.Quarter2.92`},
+		"subnet_id":                  Representation{RepType: Required, Create: `${oci_core_subnet.exadata_subnet.id}`},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":               Representation{RepType: Optional, Create: `tst3dbsys`, Update: `displayName2`},
+		"domain":                     Representation{RepType: Optional, Create: `subnetexadata.tfvcn.oraclevcn.com`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"license_model":              Representation{RepType: Optional, Create: `LICENSE_INCLUDED`},
 		"maintenance_window_details": RepresentationGroup{Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsRepresentation},
-		"nsg_ids":                    Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"nsg_ids":                    Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsRepresentation = map[string]interface{}{
-		"preference":     Representation{repType: Required, create: `NO_PREFERENCE`, update: `CUSTOM_PREFERENCE`},
+		"preference":     Representation{RepType: Required, Create: `NO_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
 		"days_of_week":   RepresentationGroup{Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation},
-		"hours_of_day":   Representation{repType: Optional, create: []string{`4`}, update: []string{`8`}},
+		"hours_of_day":   Representation{RepType: Optional, Create: []string{`4`}, Update: []string{`8`}},
 		"months":         []RepresentationGroup{{Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation}, {Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation2}, {Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation3}, {Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation4}},
-		"weeks_of_month": Representation{repType: Optional, create: []string{`1`}, update: []string{`2`}},
+		"weeks_of_month": Representation{RepType: Optional, Create: []string{`1`}, Update: []string{`2`}},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `MONDAY`, update: `TUESDAY`},
+		"name": Representation{RepType: Required, Create: `MONDAY`, Update: `TUESDAY`},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `JANUARY`, update: `FEBRUARY`},
+		"name": Representation{RepType: Required, Create: `JANUARY`, Update: `FEBRUARY`},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation2 = map[string]interface{}{
-		"name": Representation{repType: Required, create: `APRIL`, update: `MAY`},
+		"name": Representation{RepType: Required, Create: `APRIL`, Update: `MAY`},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation3 = map[string]interface{}{
-		"name": Representation{repType: Required, create: `JULY`, update: `AUGUST`},
+		"name": Representation{RepType: Required, Create: `JULY`, Update: `AUGUST`},
 	}
 	autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation4 = map[string]interface{}{
-		"name": Representation{repType: Required, create: `OCTOBER`, update: `NOVEMBER`},
+		"name": Representation{RepType: Required, Create: `OCTOBER`, Update: `NOVEMBER`},
 	}
 
 	AutonomousExadataInfrastructureResourceDependencies = ExadataBaseDependencies +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, getUpdatedRepresentationCopy("vcn_id", Representation{repType: Required, create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation)) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, getUpdatedRepresentationCopy("vcn_id", Representation{repType: Required, create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation))
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, GetUpdatedRepresentationCopy("vcn_id", Representation{RepType: Required, Create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation)) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, GetUpdatedRepresentationCopy("vcn_id", Representation{RepType: Required, Create: `${oci_core_virtual_network.t.id}`}, networkSecurityGroupRepresentation))
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -100,15 +100,15 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AutonomousExadataInfrastructureResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Create, autonomousExadataInfrastructureRepresentation), "database", "autonomousExadataInfrastructure", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AutonomousExadataInfrastructureResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Create, autonomousExadataInfrastructureRepresentation), "database", "autonomousExadataInfrastructure", t)
 
 	ResourceTest(t, testAccCheckDatabaseAutonomousExadataInfrastructureDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousExadataInfrastructureResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -116,20 +116,20 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousExadataInfrastructureResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousExadataInfrastructureResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Create, autonomousExadataInfrastructureRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Create, autonomousExadataInfrastructureRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -149,9 +149,9 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -160,12 +160,12 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousExadataInfrastructureResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Create,
-					representationCopyWithNewProperties(autonomousExadataInfrastructureRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Create,
+					RepresentationCopyWithNewProperties(autonomousExadataInfrastructureRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -186,7 +186,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -198,7 +198,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousExadataInfrastructureResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Update, autonomousExadataInfrastructureRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Update, autonomousExadataInfrastructureRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -224,7 +224,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -235,9 +235,9 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructures", "test_autonomous_exadata_infrastructures", Optional, Update, autonomousExadataInfrastructureDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructures", "test_autonomous_exadata_infrastructures", Optional, Update, autonomousExadataInfrastructureDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousExadataInfrastructureResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Update, autonomousExadataInfrastructureRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Optional, Update, autonomousExadataInfrastructureRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -265,7 +265,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_exadata_infrastructure", "test_autonomous_exadata_infrastructure", Required, Create, autonomousExadataInfrastructureSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousExadataInfrastructureResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_exadata_infrastructure_id"),
@@ -315,7 +315,7 @@ func testAccCheckDatabaseAutonomousExadataInfrastructureDestroy(s *terraform.Sta
 			tmp := rs.Primary.ID
 			request.AutonomousExadataInfrastructureId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetAutonomousExadataInfrastructure(context.Background(), request)
 
@@ -348,7 +348,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseAutonomousExadataInfrastructure") {
+	if !InSweeperExcludeList("DatabaseAutonomousExadataInfrastructure") {
 		resource.AddTestSweepers("DatabaseAutonomousExadataInfrastructure", &resource.Sweeper{
 			Name:         "DatabaseAutonomousExadataInfrastructure",
 			Dependencies: DependencyGraph["autonomousExadataInfrastructure"],
@@ -369,13 +369,13 @@ func sweepDatabaseAutonomousExadataInfrastructureResource(compartment string) er
 
 			terminateAutonomousExadataInfrastructureRequest.AutonomousExadataInfrastructureId = &autonomousExadataInfrastructureId
 
-			terminateAutonomousExadataInfrastructureRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			terminateAutonomousExadataInfrastructureRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.TerminateAutonomousExadataInfrastructure(context.Background(), terminateAutonomousExadataInfrastructureRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AutonomousExadataInfrastructure %s %s, It is possible that the resource is already deleted. Please verify manually \n", autonomousExadataInfrastructureId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &autonomousExadataInfrastructureId, autonomousExadataInfrastructureSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &autonomousExadataInfrastructureId, autonomousExadataInfrastructureSweepWaitCondition, time.Duration(3*time.Minute),
 				autonomousExadataInfrastructureSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -383,7 +383,7 @@ func sweepDatabaseAutonomousExadataInfrastructureResource(compartment string) er
 }
 
 func getAutonomousExadataInfrastructureIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AutonomousExadataInfrastructureId")
+	ids := GetResourceIdsToSweep(compartment, "AutonomousExadataInfrastructureId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -402,7 +402,7 @@ func getAutonomousExadataInfrastructureIds(compartment string) ([]string, error)
 	for _, autonomousExadataInfrastructure := range listAutonomousExadataInfrastructuresResponse.Items {
 		id := *autonomousExadataInfrastructure.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousExadataInfrastructureId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousExadataInfrastructureId", id)
 	}
 	return resourceIds, nil
 }

@@ -59,7 +59,7 @@ func (s *ResourcemanagerStackTfStateDataSourceCrud) Get() error {
 		request.StackId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "resourcemanager")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "resourcemanager")
 
 	response, err := s.Client.GetStackTfState(context.Background(), request)
 	if err != nil {

@@ -37,87 +37,87 @@ var (
 	compartment_id = "${var.compartment_id}"			
 }`
 	DatabaseRegistrationRequiredOnlyResource = DatabaseRegistrationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationRepresentation)
 
 	DatabaseRegistrationResourceConfig = DatabaseRegistrationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation)
 
 	databaseRegistrationSingularDataSourceRepresentation = map[string]interface{}{
-		"database_registration_id": Representation{repType: Required, create: `${oci_golden_gate_database_registration.test_database_registration.id}`},
+		"database_registration_id": Representation{RepType: Required, Create: `${oci_golden_gate_database_registration.test_database_registration.id}`},
 	}
 
 	databaseRegistrationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, databaseRegistrationDataSourceFilterRepresentation}}
 	databaseRegistrationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_golden_gate_database_registration.test_database_registration.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_golden_gate_database_registration.test_database_registration.id}`}},
 	}
 
 	databaseRegistrationRepresentation = map[string]interface{}{
-		"alias_name":        Representation{repType: Required, create: `aliasName1`, update: `aliasName2`},
-		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":      Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"fqdn":              Representation{repType: Required, create: `fqdn.example.com`, update: `fqdn2.example.com`},
-		"password":          Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
-		"username":          Representation{repType: Required, create: `username`, update: `username2`},
-		"connection_string": Representation{repType: Optional, create: `connectionString`, update: `connectionString2`},
-		"database_id":       Representation{repType: Optional, create: `${data.oci_database_databases.t.databases.0.id}`},
-		"description":       Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":     Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"alias_name":        Representation{RepType: Required, Create: `aliasName1`, Update: `aliasName2`},
+		"compartment_id":    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":      Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"fqdn":              Representation{RepType: Required, Create: `fqdn.example.com`, Update: `fqdn2.example.com`},
+		"password":          Representation{RepType: Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"username":          Representation{RepType: Required, Create: `username`, Update: `username2`},
+		"connection_string": Representation{RepType: Optional, Create: `connectionString`, Update: `connectionString2`},
+		"database_id":       Representation{RepType: Optional, Create: `${data.oci_database_databases.t.databases.0.id}`},
+		"description":       Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":     Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		//IP address from db Nodes need vnic_id, which is null because of using test header purposes
 		// "ip_address":    Representation{repType: Optional, create: `ipAddress`},
-		"key_id":                Representation{repType: Optional, create: `${var.kms_key_id}`},
-		"secret_compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"subnet_id":             Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
-		"vault_id":              Representation{repType: Optional, create: `${var.kms_vault_id}`},
-		"wallet":                Representation{repType: Optional, create: `wallet`, update: `wallet2`},
+		"key_id":                Representation{RepType: Optional, Create: `${var.kms_key_id}`},
+		"secret_compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"subnet_id":             Representation{RepType: Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vault_id":              Representation{RepType: Optional, Create: `${var.kms_vault_id}`},
+		"wallet":                Representation{RepType: Optional, Create: `wallet`, Update: `wallet2`},
 		"lifecycle":             RepresentationGroup{Required, ignoreGGSDefinedTagsChangesRepresentation},
 	}
 
 	ignoreGGSDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
 	goldenGateDbSystemRepresentation = map[string]interface{}{
-		"availability_domain":     Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"database_edition":        Representation{repType: Required, create: `ENTERPRISE_EDITION`},
+		"availability_domain":     Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"database_edition":        Representation{RepType: Required, Create: `ENTERPRISE_EDITION`},
 		"db_home":                 RepresentationGroup{Required, goldenGateDbSystemDbHomeRepresentation},
-		"hostname":                Representation{repType: Required, create: `myDB`},
-		"shape":                   Representation{repType: Required, create: `VM.Standard2.2`},
-		"ssh_public_keys":         Representation{repType: Required, create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCBDM0G21Tc6IOp6H5fwUVhVcxDxbwRwb9I53lXDdfqytw/pRAfXxDAzlw1jMEWofoVxTVDyqxcEg5yg4ImKFYHIDrZuU9eHv5SoHYJvI9r+Dqm9z52MmEyoTuC4dUyOs79V0oER5vLcjoMQIqmGSKMSlIMoFV2d+AV//RhJSpRPWGQ6lAVPYAiaVk3EzYacayetk1ZCEnMGPV0OV1UWqovm3aAGDozs7+9Isq44HEMyJwdBTYmBu3F8OA8gss2xkwaBgK3EQjCJIRBgczDwioT7RF5WG3IkwKsDTl2bV0p5f5SeX0U8SGHnni9uNoc9wPAWaleZr3Jcp1yIcRFR9YV`}},
-		"subnet_id":               Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"data_storage_size_in_gb": Representation{repType: Optional, create: `256`},
-		"display_name":            Representation{repType: Optional, create: `tfGGmyDB`},
-		"domain":                  Representation{repType: Optional, create: `myDB`},
-		"node_count":              Representation{repType: Optional, create: `1`},
+		"hostname":                Representation{RepType: Required, Create: `myDB`},
+		"shape":                   Representation{RepType: Required, Create: `VM.Standard2.2`},
+		"ssh_public_keys":         Representation{RepType: Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCBDM0G21Tc6IOp6H5fwUVhVcxDxbwRwb9I53lXDdfqytw/pRAfXxDAzlw1jMEWofoVxTVDyqxcEg5yg4ImKFYHIDrZuU9eHv5SoHYJvI9r+Dqm9z52MmEyoTuC4dUyOs79V0oER5vLcjoMQIqmGSKMSlIMoFV2d+AV//RhJSpRPWGQ6lAVPYAiaVk3EzYacayetk1ZCEnMGPV0OV1UWqovm3aAGDozs7+9Isq44HEMyJwdBTYmBu3F8OA8gss2xkwaBgK3EQjCJIRBgczDwioT7RF5WG3IkwKsDTl2bV0p5f5SeX0U8SGHnni9uNoc9wPAWaleZr3Jcp1yIcRFR9YV`}},
+		"subnet_id":               Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"data_storage_size_in_gb": Representation{RepType: Optional, Create: `256`},
+		"display_name":            Representation{RepType: Optional, Create: `tfGGmyDB`},
+		"domain":                  Representation{RepType: Optional, Create: `myDB`},
+		"node_count":              Representation{RepType: Optional, Create: `1`},
 		"db_system_options":       RepresentationGroup{Optional, goldenGateDbSystemOption},
 	}
 
 	goldenGateDbSystemOption = map[string]interface{}{
-		"storage_management": Representation{repType: Required, create: `LVM`},
+		"storage_management": Representation{RepType: Required, Create: `LVM`},
 	}
 
 	goldenGateDbSystemDbHomeRepresentation = map[string]interface{}{
 		"database":   RepresentationGroup{Required, goldenGateDatabaseRepresentation},
-		"db_version": Representation{repType: Required, create: `21.3.0.0`},
+		"db_version": Representation{RepType: Required, Create: `21.3.0.0`},
 	}
 
 	goldenGateDatabaseRepresentation = map[string]interface{}{
-		"admin_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"db_name":        Representation{repType: Required, create: `myDB`},
-		"pdb_name":       Representation{repType: Required, create: `pdbName`},
+		"admin_password": Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"db_name":        Representation{RepType: Required, Create: `myDB`},
+		"pdb_name":       Representation{RepType: Required, Create: `pdbName`},
 	}
 
 	kmsKeyId            = getEnvSettingWithBlankDefault("kms_key_ocid")
 	KmsKeyIdVariableStr = fmt.Sprintf("\nvariable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
 
-	DatabaseRegistrationResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_db_system", "t", Optional, Create, goldenGateDbSystemRepresentation) +
+	DatabaseRegistrationResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_db_system", "t", Optional, Create, goldenGateDbSystemRepresentation) +
 		DatabaseData +
 		DatabaseHomeConfig +
 		KmsKeyIdVariableStr +
@@ -144,15 +144,15 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_golden_gate_database_registration.test_database_registration"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DatabaseRegistrationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create, databaseRegistrationRepresentation), "goldengate", "databaseRegistration", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DatabaseRegistrationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create, databaseRegistrationRepresentation), "goldengate", "databaseRegistration", t)
 
 	ResourceTest(t, testAccCheckGoldenGateDatabaseRegistrationDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -162,20 +162,20 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "username", "username"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create, databaseRegistrationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create, databaseRegistrationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -196,9 +196,9 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "wallet", "wallet"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -207,12 +207,12 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseRegistrationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create,
-					representationCopyWithNewProperties(databaseRegistrationRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Create,
+					RepresentationCopyWithNewProperties(databaseRegistrationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName1"),
@@ -233,7 +233,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "wallet", "wallet"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -245,7 +245,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "alias_name", "aliasName2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -265,7 +265,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "wallet", "wallet2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -276,9 +276,9 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_golden_gate_database_registrations", "test_database_registrations", Optional, Update, databaseRegistrationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_golden_gate_database_registrations", "test_database_registrations", Optional, Update, databaseRegistrationDataSourceRepresentation) +
 				compartmentIdVariableStr + DatabaseRegistrationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Optional, Update, databaseRegistrationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -291,7 +291,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_golden_gate_database_registration", "test_database_registration", Required, Create, databaseRegistrationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DatabaseRegistrationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_registration_id"),
@@ -345,7 +345,7 @@ func testAccCheckGoldenGateDatabaseRegistrationDestroy(s *terraform.State) error
 			tmp := rs.Primary.ID
 			request.DatabaseRegistrationId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "golden_gate")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "golden_gate")
 
 			response, err := client.GetDatabaseRegistration(context.Background(), request)
 
@@ -378,7 +378,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("GoldenGateDatabaseRegistration") {
+	if !InSweeperExcludeList("GoldenGateDatabaseRegistration") {
 		resource.AddTestSweepers("GoldenGateDatabaseRegistration", &resource.Sweeper{
 			Name:         "GoldenGateDatabaseRegistration",
 			Dependencies: DependencyGraph["databaseRegistration"],
@@ -399,13 +399,13 @@ func sweepGoldenGateDatabaseRegistrationResource(compartment string) error {
 
 			deleteDatabaseRegistrationRequest.DatabaseRegistrationId = &databaseRegistrationId
 
-			deleteDatabaseRegistrationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "golden_gate")
+			deleteDatabaseRegistrationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "golden_gate")
 			_, error := goldenGateClient.DeleteDatabaseRegistration(context.Background(), deleteDatabaseRegistrationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DatabaseRegistration %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseRegistrationId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &databaseRegistrationId, databaseRegistrationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &databaseRegistrationId, databaseRegistrationSweepWaitCondition, time.Duration(3*time.Minute),
 				databaseRegistrationSweepResponseFetchOperation, "golden_gate", true)
 		}
 	}
@@ -413,7 +413,7 @@ func sweepGoldenGateDatabaseRegistrationResource(compartment string) error {
 }
 
 func getDatabaseRegistrationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DatabaseRegistrationId")
+	ids := GetResourceIdsToSweep(compartment, "DatabaseRegistrationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -432,7 +432,7 @@ func getDatabaseRegistrationIds(compartment string) ([]string, error) {
 	for _, databaseRegistration := range listDatabaseRegistrationsResponse.Items {
 		id := *databaseRegistration.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DatabaseRegistrationId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DatabaseRegistrationId", id)
 	}
 	return resourceIds, nil
 }

@@ -15,5 +15,5 @@ func TestUnitGetVersionAndDateError(t *testing.T) {
 	assert.Contains(t, versionError, "Provider version: ")
 	assert.Contains(t, versionError, Version)
 	assert.Contains(t, versionError, ReleaseDate)
-	assert.NotContains(t, versionError, "update(s) behind to current")
+	assert.NotContains(t, versionError, "Update(s) behind to current")
 }

@@ -18,7 +18,7 @@ func ManagementAgentManagementAgentImagesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readManagementAgentManagementAgentImages,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -123,7 +123,7 @@ func (s *ManagementAgentManagementAgentImagesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_management_agent.ListManagementAgentImagesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.ListManagementAgentImages(context.Background(), request)
 	if err != nil {

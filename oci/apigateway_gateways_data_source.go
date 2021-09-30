@@ -18,7 +18,7 @@ func ApigatewayGatewaysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readApigatewayGateways,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"certificate_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,7 +85,7 @@ func (s *ApigatewayGatewaysDataSourceCrud) Get() error {
 		request.LifecycleState = oci_apigateway.GatewayLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apigateway")
 
 	response, err := s.Client.ListGateways(context.Background(), request)
 	if err != nil {

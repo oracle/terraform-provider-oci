@@ -18,7 +18,7 @@ func MarketplaceAcceptedAgreementsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMarketplaceAcceptedAgreements,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"accepted_agreement_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -94,7 +94,7 @@ func (s *MarketplaceAcceptedAgreementsDataSourceCrud) Get() error {
 		request.PackageVersion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.ListAcceptedAgreements(context.Background(), request)
 	if err != nil {

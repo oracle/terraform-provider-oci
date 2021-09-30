@@ -18,7 +18,7 @@ func DatascienceProjectsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatascienceProjects,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -93,7 +93,7 @@ func (s *DatascienceProjectsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_datascience.ListProjectsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	response, err := s.Client.ListProjects(context.Background(), request)
 	if err != nil {

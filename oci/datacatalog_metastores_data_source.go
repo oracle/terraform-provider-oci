@@ -18,7 +18,7 @@ func DatacatalogMetastoresDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatacatalogMetastores,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *DatacatalogMetastoresDataSourceCrud) Get() error {
 		request.LifecycleState = oci_datacatalog.ListMetastoresLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datacatalog")
 
 	response, err := s.Client.ListMetastores(context.Background(), request)
 	if err != nil {

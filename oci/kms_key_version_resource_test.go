@@ -47,12 +47,12 @@ func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
-					managementEndpoint, errRead := fromInstanceState(s, "data.oci_kms_vault.test_vault", "management_endpoint")
+					managementEndpoint, errRead := FromInstanceState(s, "data.oci_kms_vault.test_vault", "management_endpoint")
 					if errRead != nil {
 						return errRead
 					}
 
-					keyVersionId, errRead := fromInstanceState(s, "data.oci_kms_key.test_key", "current_key_version")
+					keyVersionId, errRead := FromInstanceState(s, "data.oci_kms_key.test_key", "current_key_version")
 					if errRead != nil {
 						return errRead
 					}
@@ -60,7 +60,7 @@ func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 					compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + kmsKeyId + "/keyVersions/" + keyVersionId
 
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

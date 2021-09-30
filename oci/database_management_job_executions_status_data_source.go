@@ -128,7 +128,7 @@ func (s *DatabaseManagementJobExecutionsStatusDataSourceCrud) Get() error {
 		request.StartTime = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_management")
 
 	response, err := s.Client.SummarizeJobExecutionsStatuses(context.Background(), request)
 	if err != nil {

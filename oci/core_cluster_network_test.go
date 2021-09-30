@@ -21,84 +21,84 @@ import (
 
 var (
 	ClusterNetworkRequiredOnlyResource = ClusterNetworkResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation)
 
 	ClusterNetworkResourceConfig = ClusterNetworkResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation)
 
 	clusterNetworkSingularDataSourceRepresentation = map[string]interface{}{
-		"cluster_network_id": Representation{repType: Required, create: `${oci_core_cluster_network.test_cluster_network.id}`},
+		"cluster_network_id": Representation{RepType: Required, Create: `${oci_core_cluster_network.test_cluster_network.id}`},
 	}
 
 	clusterNetworkDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `hpc-cluster-network`, update: `displayName2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `hpc-cluster-network`, Update: `displayName2`},
 		"filter":         RepresentationGroup{Required, clusterNetworkDataSourceFilterRepresentation}}
 	clusterNetworkDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_cluster_network.test_cluster_network.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_cluster_network.test_cluster_network.id}`}},
 	}
 
 	clusterNetworkRepresentation = map[string]interface{}{
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"instance_pools":          RepresentationGroup{Required, clusterNetworkInstancePoolsRepresentation},
 		"placement_configuration": RepresentationGroup{Required, clusterNetworkPlacementConfigurationRepresentation},
-		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":            Representation{repType: Optional, create: `hpc-cluster-network`, update: `displayName2`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":            Representation{RepType: Optional, Create: `hpc-cluster-network`, Update: `displayName2`},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	clusterNetworkInstancePoolsRepresentation = map[string]interface{}{
-		"instance_configuration_id": Representation{repType: Required, create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
-		"size":                      Representation{repType: Required, create: `1`, update: `2`},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":              Representation{repType: Optional, create: `hpc-cluster-network-pool`, update: `hpc-cluster-network-pool2`},
-		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"instance_configuration_id": Representation{RepType: Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
+		"size":                      Representation{RepType: Required, Create: `1`, Update: `2`},
+		"defined_tags":              Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{RepType: Optional, Create: `hpc-cluster-network-pool`, Update: `hpc-cluster-network-pool2`},
+		"freeform_tags":             Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	clusterNetworkPlacementConfigurationRepresentation = map[string]interface{}{
-		"availability_domain":    Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"primary_subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"availability_domain":    Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"primary_subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"secondary_vnic_subnets": RepresentationGroup{Optional, clusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentation},
 	}
 	clusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentation = map[string]interface{}{
-		"subnet_id":    Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"display_name": Representation{repType: Optional, create: `backend-servers`},
+		"subnet_id":    Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"display_name": Representation{RepType: Optional, Create: `backend-servers`},
 	}
 	instanceConfigurationInstanceDetailsClusterNetworkRepresentation = map[string]interface{}{
-		"instance_type":   Representation{repType: Required, create: `compute`},
+		"instance_type":   Representation{RepType: Required, Create: `compute`},
 		"secondary_vnics": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
 		"launch_details":  RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation},
 	}
 
 	availabilityDomainDataSourceClusterNetworkRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 		"filter":         RepresentationGroup{Required, availabilityDomainDataSourceFilterRepresentation}}
 	availabilityDomainDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`${var.logical_ad}`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`${var.logical_ad}`}},
 	}
 
-	AvailabilityDomainClusterNetworkConfig = generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceClusterNetworkRepresentation)
+	AvailabilityDomainClusterNetworkConfig = GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceClusterNetworkRepresentation)
 
-	instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = representationCopyWithRemovedProperties(getMultipleUpdatedRepresenationCopy(
+	instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = RepresentationCopyWithRemovedProperties(GetMultipleUpdatedRepresenationCopy(
 		[]string{"shape", "source_details"}, []interface{}{
-			Representation{repType: Optional, create: `BM.HPC2.36`},
-			RepresentationGroup{Optional, getUpdatedRepresentationCopy("image_id", Representation{repType: Optional, create: `${var.image_id}`}, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
+			Representation{RepType: Optional, Create: `BM.HPC2.36`},
+			RepresentationGroup{Optional, GetUpdatedRepresentationCopy("image_id", Representation{RepType: Optional, Create: `${var.image_id}`}, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
 		}, instanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
 		[]string{"shape_config", "dedicated_vm_host_id", "is_pv_encryption_in_transit_enabled", "preferred_maintenance_action"})
 
 	ClusterNetworkResourceRequiredOnlyDependencies = AvailabilityDomainClusterNetworkConfig + DefinedTagsDependencies + VcnResourceConfig + DhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.2.0/24`}, subnetRepresentation)) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, GetUpdatedRepresentationCopy("cidr_block", Representation{RepType: Required, Create: `10.0.2.0/24`}, subnetRepresentation)) +
 		OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation)
 
 	ClusterNetworkResourceDependencies = ClusterNetworkResourceRequiredOnlyDependencies +
-		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsClusterNetworkRepresentation}, instanceConfigurationRepresentation))
+		GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, GetUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsClusterNetworkRepresentation}, instanceConfigurationRepresentation))
 
 	ClusterNetworkResourceDependenciesWithoutSecondaryVnic = ClusterNetworkResourceRequiredOnlyDependencies +
-		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-			getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
-				representationCopyWithRemovedProperties(instanceConfigurationInstanceDetailsClusterNetworkRepresentation, []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
+		GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+			GetUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
+				RepresentationCopyWithRemovedProperties(instanceConfigurationInstanceDetailsClusterNetworkRepresentation, []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
 )
 
 // issue-routing-tag: core/computeManagement
@@ -125,15 +125,15 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_cluster_network.test_cluster_network"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create" step in the test.
-	saveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+imageIdVariableStr+ClusterNetworkResourceDependenciesWithoutSecondaryVnic+
-		generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation), "core", "clusterNetwork", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
+	SaveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+imageIdVariableStr+ClusterNetworkResourceDependenciesWithoutSecondaryVnic+
+		GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation), "core", "clusterNetwork", t)
 
 	ResourceTest(t, testAccCheckCoreClusterNetworkDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic +
-				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
@@ -144,20 +144,20 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create, clusterNetworkRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create, clusterNetworkRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -189,9 +189,9 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -200,12 +200,12 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + logicalAdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create,
-					representationCopyWithNewProperties(clusterNetworkRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create,
+					RepresentationCopyWithNewProperties(clusterNetworkRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -238,7 +238,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -250,7 +250,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -281,7 +281,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -292,9 +292,9 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_cluster_networks", "test_cluster_networks", Optional, Update, clusterNetworkDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_cluster_networks", "test_cluster_networks", Optional, Update, clusterNetworkDataSourceRepresentation) +
 				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -324,7 +324,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Required, Create, clusterNetworkSingularDataSourceRepresentation) +
 				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_network_id"),
@@ -382,7 +382,7 @@ func testAccCheckCoreClusterNetworkDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ClusterNetworkId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetClusterNetwork(context.Background(), request)
 
@@ -415,7 +415,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreClusterNetwork") {
+	if !InSweeperExcludeList("CoreClusterNetwork") {
 		resource.AddTestSweepers("CoreClusterNetwork", &resource.Sweeper{
 			Name:         "CoreClusterNetwork",
 			Dependencies: DependencyGraph["clusterNetwork"],
@@ -436,13 +436,13 @@ func sweepCoreClusterNetworkResource(compartment string) error {
 
 			terminateClusterNetworkRequest.ClusterNetworkId = &clusterNetworkId
 
-			terminateClusterNetworkRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			terminateClusterNetworkRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeManagementClient.TerminateClusterNetwork(context.Background(), terminateClusterNetworkRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ClusterNetwork %s %s, It is possible that the resource is already deleted. Please verify manually \n", clusterNetworkId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &clusterNetworkId, clusterNetworkSweepWaitCondition,
+			WaitTillCondition(testAccProvider, &clusterNetworkId, clusterNetworkSweepWaitCondition,
 				time.Duration(7*time.Minute),
 				clusterNetworkSweepResponseFetchOperation, "core", true)
 		}
@@ -451,7 +451,7 @@ func sweepCoreClusterNetworkResource(compartment string) error {
 }
 
 func getClusterNetworkIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ClusterNetworkId")
+	ids := GetResourceIdsToSweep(compartment, "ClusterNetworkId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -470,7 +470,7 @@ func getClusterNetworkIds(compartment string) ([]string, error) {
 	for _, clusterNetwork := range listClusterNetworksResponse.Items {
 		id := *clusterNetwork.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ClusterNetworkId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ClusterNetworkId", id)
 	}
 	return resourceIds, nil
 }

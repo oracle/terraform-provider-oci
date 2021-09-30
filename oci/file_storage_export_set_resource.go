@@ -45,15 +45,15 @@ func FileStorageExportSetResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 			},
 			"max_fs_stat_files": {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 			},
 
 			// Computed
@@ -122,14 +122,14 @@ func (s *FileStorageExportSetResourceCrud) ID() string {
 }
 
 func (s *FileStorageExportSetResourceCrud) Create() error {
-	// We can't really create an ExportSet. We need to get the exportSetId from the MountTarget it is attached to.
+	// We can't really Create an ExportSet. We need to get the exportSetId from the MountTarget it is attached to.
 	if mountTargetId, ok := s.D.GetOkExists("mount_target_id"); ok {
 		tmp := mountTargetId.(string)
 
 		request := oci_file_storage.GetMountTargetRequest{}
 		request.MountTargetId = &tmp
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 		response, err := s.Client.GetMountTarget(context.Background(), request)
 		if err != nil {
@@ -155,7 +155,7 @@ func (s *FileStorageExportSetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ExportSetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.GetExportSet(context.Background(), request)
 	if err != nil {
@@ -195,7 +195,7 @@ func (s *FileStorageExportSetResourceCrud) Update() error {
 		request.MaxFsStatFiles = &tmpInt64
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.UpdateExportSet(context.Background(), request)
 	if err != nil {

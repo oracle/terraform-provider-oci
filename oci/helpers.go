@@ -133,7 +133,7 @@ data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
 	`
 )
 
-func literalTypeHashCodeForSets(m interface{}) int {
+func LiteralTypeHashCodeForSets(m interface{}) int {
 	return hashcode.String(fmt.Sprintf("%v", m))
 }
 
@@ -170,7 +170,7 @@ func validateNotEmptyString() schema.SchemaValidateFunc {
 	}
 }
 
-func objectMapToStringMap(rm map[string]interface{}) map[string]string {
+func ObjectMapToStringMap(rm map[string]interface{}) map[string]string {
 	result := map[string]string{}
 	for k, v := range rm {
 		switch assertedValue := v.(type) {
@@ -195,7 +195,7 @@ func StringMapToObjectMap(sm map[string]string) map[string]interface{} {
 	return result
 }
 
-func validateInt64TypeString(v interface{}, k string) (ws []string, errors []error) {
+func ValidateInt64TypeString(v interface{}, k string) (ws []string, errors []error) {
 	value := v.(string)
 
 	_, err := strconv.ParseInt(value, 10, 64)
@@ -205,7 +205,7 @@ func validateInt64TypeString(v interface{}, k string) (ws []string, errors []err
 	return
 }
 
-func int64StringDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+func Int64StringDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
 	// We may get interpolation syntax in this function call as well; so be sure to check for errors.
 	oldIntVal, err := strconv.ParseInt(old, 10, 64)
 	if err != nil {
@@ -220,7 +220,7 @@ func int64StringDiffSuppressFunction(key string, old string, new string, d *sche
 }
 
 // Ignore differences in floating point numbers after the second decimal place, ex: 1.001 == 1.002
-func monetaryDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+func MonetaryDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
 	oldVal, err := strconv.ParseFloat(old, 10)
 	if err != nil {
 		return false
@@ -233,7 +233,7 @@ func monetaryDiffSuppress(key string, old string, new string, d *schema.Resource
 	return fmt.Sprintf("%.2f", oldVal) == fmt.Sprintf("%.2f", newVal)
 }
 
-func timeDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+func TimeDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
 	oldTime, err := time.Parse(time.RFC3339Nano, old)
 	if err != nil {
 		return false
@@ -245,7 +245,7 @@ func timeDiffSuppressFunction(key string, old string, new string, d *schema.Reso
 	return oldTime.Equal(newTime)
 }
 
-func convertMapOfStringSlicesToMapOfStrings(rm map[string][]string) (map[string]string, error) {
+func ConvertMapOfStringSlicesToMapOfStrings(rm map[string][]string) (map[string]string, error) {
 	result := map[string]string{}
 	for k, v := range rm {
 		val, err := json.Marshal(v)
@@ -258,7 +258,7 @@ func convertMapOfStringSlicesToMapOfStrings(rm map[string][]string) (map[string]
 	return result, nil
 }
 
-func randomString(length int, charset string) string {
+func RandomString(length int, charset string) string {
 	var seededRand *rand.Rand = rand.New(
 		rand.NewSource(time.Now().UnixNano()))
 	b := make([]byte, length)
@@ -268,11 +268,11 @@ func randomString(length int, charset string) string {
 	return string(b)
 }
 
-func randomStringOrHttpReplayValue(length int, charset string, httpReplayValue string) string {
+func RandomStringOrHttpReplayValue(length int, charset string, httpReplayValue string) string {
 	if httpreplay.ModeRecordReplay() {
 		return httpReplayValue
 	}
-	return randomString(length, charset)
+	return RandomString(length, charset)
 }
 
 // Set the state for the input source file using the file path and last modification time
@@ -314,7 +314,7 @@ func getSortedKeys(source map[string]interface{}) []string {
 //  }
 //
 // These are the same JSON objects and should be treated as such.
-func jsonStringDiffSuppressFunction(key, old, new string, d *schema.ResourceData) bool {
+func JsonStringDiffSuppressFunction(key, old, new string, d *schema.ResourceData) bool {
 	var oldVal, newVal interface{}
 
 	if err := json.Unmarshal([]byte(old), &oldVal); err != nil {
@@ -328,7 +328,7 @@ func jsonStringDiffSuppressFunction(key, old, new string, d *schema.ResourceData
 	return reflect.DeepEqual(oldVal, newVal)
 }
 
-func getMd5Hash(source interface{}) string {
+func GetMd5Hash(source interface{}) string {
 	if source == nil {
 		return ""
 	}
@@ -337,7 +337,7 @@ func getMd5Hash(source interface{}) string {
 	return hex.EncodeToString(hexSum[:])
 }
 
-func hexToB64(hexEncoded string) (*string, error) {
+func HexToB64(hexEncoded string) (*string, error) {
 	decoded, err := hex.DecodeString(hexEncoded)
 	if err != nil {
 		return nil, err
@@ -347,7 +347,7 @@ func hexToB64(hexEncoded string) (*string, error) {
 	return &b64Encoded, nil
 }
 
-func isHex(content string) bool {
+func IsHex(content string) bool {
 	_, err := hex.DecodeString(content)
 	return err == nil
 }

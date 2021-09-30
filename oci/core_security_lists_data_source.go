@@ -18,7 +18,7 @@ func CoreSecurityListsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreSecurityLists,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *CoreSecurityListsDataSourceCrud) Get() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListSecurityLists(context.Background(), request)
 	if err != nil {

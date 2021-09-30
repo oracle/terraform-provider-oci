@@ -81,7 +81,7 @@ func (s *NamespaceMetadataResourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetNamespaceMetadata(context.Background(), request)
 	if err != nil {
@@ -111,7 +111,7 @@ func (s *NamespaceMetadataResourceCrud) Update() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.UpdateNamespaceMetadata(context.Background(), request)
 	if err != nil {

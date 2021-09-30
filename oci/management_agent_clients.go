@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_management_agent.ManagementAgentClient", &OracleClient{initClientFn: initManagementagentManagementAgentClient})
+	RegisterOracleClient("oci_management_agent.ManagementAgentClient", &OracleClient{InitClientFn: initManagementagentManagementAgentClient})
 }
 
 func initManagementagentManagementAgentClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

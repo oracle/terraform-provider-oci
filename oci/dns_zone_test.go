@@ -21,63 +21,63 @@ import (
 
 var (
 	zoneDataSourceRepresentationRequiredOnly = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"scope":          Representation{repType: Required, create: `PRIVATE`},
-		"view_id":        Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"scope":          Representation{RepType: Required, Create: `PRIVATE`},
+		"view_id":        Representation{RepType: Required, Create: `${oci_dns_view.test_view.id}`},
 	}
-	zoneDataSourceRepresentationRequiredOnlyWithFilter = representationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
+	zoneDataSourceRepresentationRequiredOnlyWithFilter = RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
 		"filter": RepresentationGroup{Required, zoneDataSourceFilterRepresentation},
 	})
-	zoneDataSourceRepresentationWithNameOptional = representationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"name": Representation{repType: Optional, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
+	zoneDataSourceRepresentationWithNameOptional = RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"name": Representation{RepType: Optional, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
 	})
-	zoneDataSourceRepresentationWithNameContainsOptional = representationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"name_contains": Representation{repType: Optional, create: `oci-zone-test`},
+	zoneDataSourceRepresentationWithNameContainsOptional = RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"name_contains": Representation{RepType: Optional, Create: `oci-zone-test`},
 	})
-	zoneDataSourceRepresentationWithStateOptional = representationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"state": Representation{repType: Optional, create: `ACTIVE`},
+	zoneDataSourceRepresentationWithStateOptional = RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"state": Representation{RepType: Optional, Create: `ACTIVE`},
 	})
-	zoneDataSourceRepresentationWithTimeCreatedGreaterThanOrEqualToOptional = representationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
+	zoneDataSourceRepresentationWithTimeCreatedGreaterThanOrEqualToOptional = RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
 	})
-	zoneDataSourceRepresentationWithTimeCreatedLessThanOptional = representationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"time_created_less_than": Representation{repType: Optional, create: `2022-04-10T19:01:09.000-00:00`},
+	zoneDataSourceRepresentationWithTimeCreatedLessThanOptional = RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"time_created_less_than": Representation{RepType: Optional, Create: `2022-04-10T19:01:09.000-00:00`},
 	})
-	zoneDataSourceRepresentationWithZoneTypeOptional = representationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"zone_type": Representation{repType: Optional, create: `PRIMARY`},
-		"view_id":   Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
+	zoneDataSourceRepresentationWithZoneTypeOptional = RepresentationCopyWithNewProperties(zoneDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"zone_type": Representation{RepType: Optional, Create: `PRIMARY`},
+		"view_id":   Representation{RepType: Required, Create: `${oci_dns_view.test_view.id}`},
 	})
 
 	zoneDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dns_zone.test_zone.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dns_zone.test_zone.id}`}},
 	}
 
 	zoneRepresentationPrimary = map[string]interface{}{
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":             Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
-		"zone_type":        Representation{repType: Required, create: `PRIMARY`},
-		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":             Representation{RepType: Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
+		"zone_type":        Representation{RepType: Required, Create: `PRIMARY`},
+		"defined_tags":     Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"external_masters": RepresentationGroup{Optional, zoneExternalMastersRepresentation},
-		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"scope":            Representation{repType: Required, create: `PRIVATE`},
-		"view_id":          Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
+		"freeform_tags":    Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"scope":            Representation{RepType: Required, Create: `PRIVATE`},
+		"view_id":          Representation{RepType: Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 
-	zoneRepresentation = getUpdatedRepresentationCopy("zone_type", Representation{repType: Required, create: `SECONDARY`}, zoneRepresentationPrimary)
+	zoneRepresentation = GetUpdatedRepresentationCopy("zone_type", Representation{RepType: Required, Create: `SECONDARY`}, zoneRepresentationPrimary)
 
 	zoneExternalMastersRepresentation = map[string]interface{}{
-		"address":     Representation{repType: Required, create: `77.64.12.1`, update: `address2`},
-		"port":        Representation{repType: Optional, create: `53`, update: `11`},
-		"tsig_key_id": Representation{repType: Optional, create: `${oci_dns_tsig_key.test_tsig_key.id}`},
+		"address":     Representation{RepType: Required, Create: `77.64.12.1`, Update: `address2`},
+		"port":        Representation{RepType: Optional, Create: `53`, Update: `11`},
+		"tsig_key_id": Representation{RepType: Optional, Create: `${oci_dns_tsig_key.test_tsig_key.id}`},
 	}
 
-	ZoneResourceDependencies = generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation) +
+	ZoneResourceDependencies = GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation) +
 		DefinedTagsDependencies + `
 data "oci_identity_tenancy" "test_tenancy" {
 	tenancy_id = "${var.tenancy_ocid}"
 }
-` + generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
+` + GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
 )
 
 // issue-routing-tag: dns/default
@@ -96,39 +96,39 @@ func TestDnsZoneResource_basic(t *testing.T) {
 	resourceName := "oci_dns_zone.test_zone"
 	datasourceName := "data.oci_dns_zones.test_zones"
 
-	_, tokenFn := tokenizeWithHttpReplay("dns_zone")
+	_, tokenFn := TokenizeWithHttpReplay("dns_zone")
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
-			representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil), "dns", "zone", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
+			RepresentationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil), "dns", "zone", t)
 
 	ResourceTest(t, testAccCheckDnsZoneDestroy, []resource.TestStep{
 		// test PRIMARY zone creation
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 				func(s *terraform.State) (err error) {
-					_, err = fromInstanceState(s, resourceName, "id")
+					_, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies, nil),
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
-					representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
+					RepresentationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
@@ -147,10 +147,10 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					// Resource discovery is not supported for Zone resources created using scope field
 					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//	if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 					//		return errExport
 					//	}
 					//}
@@ -159,12 +159,12 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+compartmentIdUVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
-					representationCopyWithNewProperties(representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"}), map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create,
+					RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"}), map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -185,7 +185,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -196,8 +196,8 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Update,
-					representationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Update,
+					RepresentationCopyWithRemovedProperties(zoneRepresentationPrimary, []string{"external_masters"})), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -218,7 +218,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -228,9 +228,9 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationRequiredOnlyWithFilter)+
+			Config: tokenFn(config+GenerateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationRequiredOnlyWithFilter)+
 				compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "scope", "PRIVATE"),
@@ -251,9 +251,9 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithNameOptional)+
+			Config: tokenFn(config+GenerateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithNameOptional)+
 				compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(datasourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 				resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
@@ -262,9 +262,9 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithNameContainsOptional)+
+			Config: tokenFn(config+GenerateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithNameContainsOptional)+
 				compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "name_contains", "oci-zone-test"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
@@ -273,9 +273,9 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithStateOptional)+
+			Config: tokenFn(config+GenerateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithStateOptional)+
 				compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
@@ -284,9 +284,9 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithZoneTypeOptional)+
+			Config: tokenFn(config+GenerateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithZoneTypeOptional)+
 				compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "zone_type", "PRIMARY"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
@@ -295,9 +295,9 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithTimeCreatedGreaterThanOrEqualToOptional)+
+			Config: tokenFn(config+GenerateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithTimeCreatedGreaterThanOrEqualToOptional)+
 				compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "time_created_greater_than_or_equal_to", "2018-01-01T00:00:00.000Z"),
@@ -307,9 +307,9 @@ func TestDnsZoneResource_basic(t *testing.T) {
 			),
 		},
 		{
-			Config: tokenFn(config+generateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithTimeCreatedLessThanOptional)+
+			Config: tokenFn(config+GenerateDataSourceFromRepresentationMap("oci_dns_zones", "test_zones", Optional, Create, zoneDataSourceRepresentationWithTimeCreatedLessThanOptional)+
 				compartmentIdVariableStr+ZoneResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Required, Create, zoneRepresentationPrimary), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2022-04-10T19:01:09.000-00:00"),
@@ -362,7 +362,7 @@ func testAccCheckDnsZoneDestroy(s *terraform.State) error {
 				request.ViewId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 
 			_, err := client.GetZone(context.Background(), request)
 
@@ -387,7 +387,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DnsZone") {
+	if !InSweeperExcludeList("DnsZone") {
 		resource.AddTestSweepers("DnsZone", &resource.Sweeper{
 			Name:         "DnsZone",
 			Dependencies: DependencyGraph["zone"],
@@ -408,13 +408,13 @@ func sweepDnsZoneResource(compartment string) error {
 
 			deleteZoneRequest.ZoneNameOrId = &zoneId
 
-			deleteZoneRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			deleteZoneRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 			_, error := dnsClient.DeleteZone(context.Background(), deleteZoneRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Zone %s %s, It is possible that the resource is already deleted. Please verify manually \n", zoneId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &zoneId, zoneSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &zoneId, zoneSweepWaitCondition, time.Duration(3*time.Minute),
 				zoneSweepResponseFetchOperation, "dns", true)
 		}
 	}
@@ -422,7 +422,7 @@ func sweepDnsZoneResource(compartment string) error {
 }
 
 func getZoneIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ZoneId")
+	ids := GetResourceIdsToSweep(compartment, "ZoneId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -441,7 +441,7 @@ func getZoneIds(compartment string) ([]string, error) {
 	for _, zone := range listZonesResponse.Items {
 		id := *zone.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ZoneId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ZoneId", id)
 	}
 	return resourceIds, nil
 }

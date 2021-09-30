@@ -49,7 +49,7 @@ func (s *FunctionsApplicationDataSourceCrud) Get() error {
 		request.ApplicationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "functions")
 
 	response, err := s.Client.GetApplication(context.Background(), request)
 	if err != nil {

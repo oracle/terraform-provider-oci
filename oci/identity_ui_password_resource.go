@@ -112,7 +112,7 @@ func (s *IdentityUiPasswordResourceCrud) Create() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateOrResetUIPassword(context.Background(), request)
 	if err != nil {

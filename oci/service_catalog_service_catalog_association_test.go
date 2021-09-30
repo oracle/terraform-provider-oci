@@ -20,34 +20,34 @@ import (
 
 var (
 	ServiceCatalogAssociationRequiredOnlyResource = ServiceCatalogAssociationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationRepresentation)
 
 	ServiceCatalogAssociationResourceConfig = ServiceCatalogAssociationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Update, serviceCatalogAssociationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Update, serviceCatalogAssociationRepresentation)
 
 	serviceCatalogAssociationSingularDataSourceRepresentation = map[string]interface{}{
-		"service_catalog_association_id": Representation{repType: Required, create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.id}`},
+		"service_catalog_association_id": Representation{RepType: Required, Create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.id}`},
 	}
 
 	serviceCatalogAssociationDataSourceRepresentation = map[string]interface{}{
-		"entity_id":                      Representation{repType: Optional, create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.entity_id}`},
-		"entity_type":                    Representation{repType: Optional, create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.entity_type}`},
-		"service_catalog_association_id": Representation{repType: Optional, create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.id}`},
-		"service_catalog_id":             Representation{repType: Optional, create: `${oci_service_catalog_service_catalog.test_service_catalog.id}`},
+		"entity_id":                      Representation{RepType: Optional, Create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.entity_id}`},
+		"entity_type":                    Representation{RepType: Optional, Create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.entity_type}`},
+		"service_catalog_association_id": Representation{RepType: Optional, Create: `${oci_service_catalog_service_catalog_association.test_service_catalog_association.id}`},
+		"service_catalog_id":             Representation{RepType: Optional, Create: `${oci_service_catalog_service_catalog.test_service_catalog.id}`},
 		"filter":                         RepresentationGroup{Required, serviceCatalogAssociationDataSourceFilterRepresentation}}
 	serviceCatalogAssociationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_service_catalog_service_catalog_association.test_service_catalog_association.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_service_catalog_service_catalog_association.test_service_catalog_association.id}`}},
 	}
 
 	serviceCatalogAssociationRepresentation = map[string]interface{}{
-		"entity_id":          Representation{repType: Required, create: `${oci_service_catalog_private_application.test_private_application.id}`},
-		"service_catalog_id": Representation{repType: Required, create: `${oci_service_catalog_service_catalog.test_service_catalog.id}`},
-		"entity_type":        Representation{repType: Optional, create: `privateapplication`},
+		"entity_id":          Representation{RepType: Required, Create: `${oci_service_catalog_private_application.test_private_application.id}`},
+		"service_catalog_id": Representation{RepType: Required, Create: `${oci_service_catalog_service_catalog.test_service_catalog.id}`},
+		"entity_type":        Representation{RepType: Optional, Create: `privateapplication`},
 	}
 
-	ServiceCatalogAssociationResourceDependencies = generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation) +
-		generateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", Required, Create, serviceCatalogRepresentation)
+	ServiceCatalogAssociationResourceDependencies = GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog", "test_service_catalog", Required, Create, serviceCatalogRepresentation)
 )
 
 // issue-routing-tag: service_catalog/default
@@ -65,29 +65,29 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_service_catalog_service_catalog_association.test_service_catalog_association"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ServiceCatalogAssociationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Create, serviceCatalogAssociationRepresentation), "servicecatalog", "serviceCatalogAssociation", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ServiceCatalogAssociationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Create, serviceCatalogAssociationRepresentation), "servicecatalog", "serviceCatalogAssociation", t)
 
 	ResourceTest(t, testAccCheckServiceCatalogServiceCatalogAssociationDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "service_catalog_id"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Create, serviceCatalogAssociationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Create, serviceCatalogAssociationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
 				resource.TestCheckResourceAttr(resourceName, "entity_type", "privateapplication"),
@@ -96,9 +96,9 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -110,9 +110,9 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_associations", "test_service_catalog_associations", Optional, Update, serviceCatalogAssociationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_associations", "test_service_catalog_associations", Optional, Update, serviceCatalogAssociationDataSourceRepresentation) +
 				compartmentIdVariableStr + ServiceCatalogAssociationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Update, serviceCatalogAssociationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Optional, Update, serviceCatalogAssociationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "entity_id"),
 				resource.TestCheckResourceAttr(datasourceName, "entity_type", "privateapplication"),
@@ -126,7 +126,7 @@ func TestServiceCatalogServiceCatalogAssociationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_service_catalog_service_catalog_association", "test_service_catalog_association", Required, Create, serviceCatalogAssociationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ServiceCatalogAssociationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_catalog_association_id"),
@@ -162,7 +162,7 @@ func testAccCheckServiceCatalogServiceCatalogAssociationDestroy(s *terraform.Sta
 			tmp := rs.Primary.ID
 			request.ServiceCatalogAssociationId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "service_catalog")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "service_catalog")
 
 			_, err := client.GetServiceCatalogAssociation(context.Background(), request)
 
@@ -187,7 +187,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ServiceCatalogServiceCatalogAssociation") {
+	if !InSweeperExcludeList("ServiceCatalogServiceCatalogAssociation") {
 		resource.AddTestSweepers("ServiceCatalogServiceCatalogAssociation", &resource.Sweeper{
 			Name:         "ServiceCatalogServiceCatalogAssociation",
 			Dependencies: DependencyGraph["serviceCatalogAssociation"],
@@ -208,7 +208,7 @@ func sweepServiceCatalogServiceCatalogAssociationResource(compartment string) er
 
 			deleteServiceCatalogAssociationRequest.ServiceCatalogAssociationId = &serviceCatalogAssociationId
 
-			deleteServiceCatalogAssociationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "service_catalog")
+			deleteServiceCatalogAssociationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "service_catalog")
 			_, error := serviceCatalogClient.DeleteServiceCatalogAssociation(context.Background(), deleteServiceCatalogAssociationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ServiceCatalogAssociation %s %s, It is possible that the resource is already deleted. Please verify manually \n", serviceCatalogAssociationId, error)
@@ -220,7 +220,7 @@ func sweepServiceCatalogServiceCatalogAssociationResource(compartment string) er
 }
 
 func getServiceCatalogAssociationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ServiceCatalogAssociationId")
+	ids := GetResourceIdsToSweep(compartment, "ServiceCatalogAssociationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -238,7 +238,7 @@ func getServiceCatalogAssociationIds(compartment string) ([]string, error) {
 	for _, serviceCatalogAssociation := range listServiceCatalogAssociationsResponse.Items {
 		id := *serviceCatalogAssociation.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ServiceCatalogAssociationId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ServiceCatalogAssociationId", id)
 	}
 	return resourceIds, nil
 }

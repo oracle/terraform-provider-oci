@@ -41,30 +41,30 @@ var (
 	passphrase_2_val       = getEnvWithNewlineExpansion("passphrase_2")
 
 	AnalyticsInstanceVanityUrlRequiredOnlyResource = AnalyticsInstanceVanityUrlResourceDependencies +
-		generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Required, Create, analyticsInstanceVanityUrlRepresentation1)
+		GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Required, Create, analyticsInstanceVanityUrlRepresentation1)
 
 	analyticsInstanceVanityUrlRepresentation1 = map[string]interface{}{
-		"analytics_instance_id": Representation{repType: Required, create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
+		"analytics_instance_id": Representation{RepType: Required, Create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
 
-		"ca_certificate":     Representation{repType: Required, create: ca_cert1, update: ca_cert2},
-		"hosts":              Representation{repType: Required, create: []string{`test1.robcorobotics.com`}},
-		"private_key":        Representation{repType: Required, create: private_key_1_no_pass, update: private_key_2_pass},
-		"public_certificate": Representation{repType: Required, create: public_cert_1_no_pass, update: public_cert_2_pass},
-		"description":        Representation{repType: Optional, create: `description`},
-		"passphrase":         Representation{repType: Optional, create: ``, update: passphrase_2},
+		"ca_certificate":     Representation{RepType: Required, Create: ca_cert1, Update: ca_cert2},
+		"hosts":              Representation{RepType: Required, Create: []string{`test1.robcorobotics.com`}},
+		"private_key":        Representation{RepType: Required, Create: private_key_1_no_pass, Update: private_key_2_pass},
+		"public_certificate": Representation{RepType: Required, Create: public_cert_1_no_pass, Update: public_cert_2_pass},
+		"description":        Representation{RepType: Optional, Create: `description`},
+		"passphrase":         Representation{RepType: Optional, Create: ``, Update: passphrase_2},
 	}
 
 	analyticsInstanceVanityUrlRepresentation2 = map[string]interface{}{
-		"analytics_instance_id": Representation{repType: Required, create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
-		"ca_certificate":        Representation{repType: Required, create: ca_cert2, update: ca_cert1},
-		"hosts":                 Representation{repType: Required, create: []string{`test1.robcorobotics.com`}},
-		"private_key":           Representation{repType: Required, create: private_key_2_pass, update: private_key_1_no_pass},
-		"public_certificate":    Representation{repType: Required, create: public_cert_2_pass, update: public_cert_1_no_pass},
-		"description":           Representation{repType: Optional, create: `description`},
-		"passphrase":            Representation{repType: Optional, create: passphrase_2, update: ``},
+		"analytics_instance_id": Representation{RepType: Required, Create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
+		"ca_certificate":        Representation{RepType: Required, Create: ca_cert2, Update: ca_cert1},
+		"hosts":                 Representation{RepType: Required, Create: []string{`test1.robcorobotics.com`}},
+		"private_key":           Representation{RepType: Required, Create: private_key_2_pass, Update: private_key_1_no_pass},
+		"public_certificate":    Representation{RepType: Required, Create: public_cert_2_pass, Update: public_cert_1_no_pass},
+		"description":           Representation{RepType: Optional, Create: `description`},
+		"passphrase":            Representation{RepType: Optional, Create: passphrase_2, Update: ``},
 	}
 
-	AnalyticsInstanceVanityUrlResourceDependencies = generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceRepresentation)
+	AnalyticsInstanceVanityUrlResourceDependencies = GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceRepresentation)
 )
 
 func getEnvWithNewlineExpansion(env_variable string) string {
@@ -89,15 +89,15 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 	resourceName := "oci_analytics_analytics_instance_vanity_url.test_analytics_instance_vanity_url"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AnalyticsInstanceVanityUrlResourceDependencies+
-		generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Create, analyticsInstanceVanityUrlRepresentation2), "analytics", "analyticsInstanceVanityUrl", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AnalyticsInstanceVanityUrlResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Create, analyticsInstanceVanityUrlRepresentation2), "analytics", "analyticsInstanceVanityUrl", t)
 
 	ResourceTest(t, testAccCheckAnalyticsAnalyticsInstanceVanityUrlDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Required, Create, analyticsInstanceVanityUrlRepresentation1),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Required, Create, analyticsInstanceVanityUrlRepresentation1),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert1_val),
@@ -106,20 +106,20 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "public_certificate", public_cert_1_no_pass_val),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Create, analyticsInstanceVanityUrlRepresentation2),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Create, analyticsInstanceVanityUrlRepresentation2),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert2_val),
@@ -130,9 +130,9 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "public_certificate", public_cert_2_pass_val),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -144,7 +144,7 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceVanityUrlResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Update, analyticsInstanceVanityUrlRepresentation2),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_vanity_url", "test_analytics_instance_vanity_url", Optional, Update, analyticsInstanceVanityUrlRepresentation2),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "ca_certificate", ca_cert1_val),
@@ -155,7 +155,7 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "public_certificate", public_cert_1_no_pass_val),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -196,7 +196,7 @@ func testAccCheckAnalyticsAnalyticsInstanceVanityUrlDestroy(s *terraform.State) 
 
 			request.AnalyticsInstanceId = &analyticsInstanceId
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "analytics")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "analytics")
 
 			response, err := client.GetAnalyticsInstance(context.Background(), request)
 

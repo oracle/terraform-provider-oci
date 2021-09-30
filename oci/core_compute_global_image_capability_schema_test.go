@@ -14,7 +14,7 @@ import (
 
 var (
 	computeGlobalImageCapabilitySchemaSingularDataSourceRepresentation = map[string]interface{}{
-		"compute_global_image_capability_schema_id": Representation{repType: Required, create: `${data.oci_core_compute_global_image_capability_schemas.test_compute_global_image_capability_schemas.compute_global_image_capability_schemas.0.id}`},
+		"compute_global_image_capability_schema_id": Representation{RepType: Required, Create: `${data.oci_core_compute_global_image_capability_schemas.test_compute_global_image_capability_schemas.compute_global_image_capability_schemas.0.id}`},
 	}
 
 	computeGlobalImageCapabilitySchemaDataSourceRepresentation = map[string]interface{}{}
@@ -35,13 +35,13 @@ func TestCoreComputeGlobalImageCapabilitySchemaResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_compute_global_image_capability_schemas.test_compute_global_image_capability_schemas"
 	singularDatasourceName := "data.oci_core_compute_global_image_capability_schema.test_compute_global_image_capability_schema"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", Required, Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", Required, Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation) +
 				compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemaResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
@@ -55,8 +55,8 @@ func TestCoreComputeGlobalImageCapabilitySchemaResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schema", "test_compute_global_image_capability_schema", Required, Create, computeGlobalImageCapabilitySchemaSingularDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", Required, Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schema", "test_compute_global_image_capability_schema", Required, Create, computeGlobalImageCapabilitySchemaSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_global_image_capability_schemas", "test_compute_global_image_capability_schemas", Required, Create, computeGlobalImageCapabilitySchemaDataSourceRepresentation) +
 				compartmentIdVariableStr + ComputeGlobalImageCapabilitySchemaResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_global_image_capability_schema_id"),

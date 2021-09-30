@@ -49,7 +49,7 @@ func (s *DnsTsigKeyDataSourceCrud) Get() error {
 		request.TsigKeyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.GetTsigKey(context.Background(), request)
 	if err != nil {

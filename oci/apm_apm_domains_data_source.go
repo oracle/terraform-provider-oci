@@ -18,7 +18,7 @@ func ApmApmDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readApmApmDomains,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *ApmApmDomainsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_apm.ListApmDomainsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm")
 
 	response, err := s.Client.ListApmDomains(context.Background(), request)
 	if err != nil {

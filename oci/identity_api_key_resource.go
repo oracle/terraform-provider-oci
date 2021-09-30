@@ -150,7 +150,7 @@ func (s *IdentityApiKeyResourceCrud) Create() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UploadApiKey(context.Background(), request)
 	if err != nil {
@@ -177,7 +177,7 @@ func (s *IdentityApiKeyResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.ListApiKeys(context.Background(), request)
 	if err != nil {
@@ -209,7 +209,7 @@ func (s *IdentityApiKeyResourceCrud) Delete() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteApiKey(context.Background(), request)
 	return err

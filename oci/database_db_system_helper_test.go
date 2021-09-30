@@ -25,13 +25,13 @@ func sweepDatabaseDbSystemResource(compartment string) error {
 
 			terminateDbSystemRequest.DbSystemId = &dbSystemId
 
-			terminateDbSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			terminateDbSystemRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.TerminateDbSystem(context.Background(), terminateDbSystemRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DbSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", dbSystemId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &dbSystemId, dbSystemSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &dbSystemId, dbSystemSweepWaitCondition, time.Duration(3*time.Minute),
 				dbSystemSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -39,7 +39,7 @@ func sweepDatabaseDbSystemResource(compartment string) error {
 }
 
 func getDbSystemIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DbSystemId")
+	ids := GetResourceIdsToSweep(compartment, "DbSystemId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -63,7 +63,7 @@ func getDbSystemIds(compartment string) ([]string, error) {
 	for _, dbSystem := range listDbSystemsResponse.Items {
 		id := *dbSystem.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DbSystemId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DbSystemId", id)
 	}
 	return resourceIds, nil
 }
@@ -87,7 +87,7 @@ func dbSystemSweepResponseFetchOperation(client *OracleClients, resourceId *stri
 }
 
 func getDbNodeIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DbNodeId")
+	ids := GetResourceIdsToSweep(compartment, "DbNodeId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -111,7 +111,7 @@ func getDbNodeIds(compartment string) ([]string, error) {
 		for _, dbNode := range listDbNodesResponse.Items {
 			id := *dbNode.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "DbNodeId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "DbNodeId", id)
 		}
 	}
 	return resourceIds, nil

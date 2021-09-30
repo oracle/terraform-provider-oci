@@ -49,7 +49,7 @@ func (s *CloudGuardTargetDataSourceCrud) Get() error {
 		request.TargetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "cloud_guard")
 
 	response, err := s.Client.GetTarget(context.Background(), request)
 	if err != nil {

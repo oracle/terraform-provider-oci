@@ -50,7 +50,7 @@ func (s *DatascienceModelDataSourceCrud) Get() error {
 		request.ModelId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	response, err := s.Client.GetModel(context.Background(), request)
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *DatascienceModelDataSourceCrud) Get() error {
 		headModelArtifactRequest.ModelId = &tmp
 	}
 
-	headModelArtifactRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	headModelArtifactRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	headModelArtifactResponse, err := s.Client.HeadModelArtifact(context.Background(), headModelArtifactRequest)
 	if err != nil {

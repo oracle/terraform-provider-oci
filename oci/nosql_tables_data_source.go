@@ -18,7 +18,7 @@ func NosqlTablesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readNosqlTables,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *NosqlTablesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_nosql.ListTablesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "nosql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "nosql")
 
 	response, err := s.Client.ListTables(context.Background(), request)
 	if err != nil {

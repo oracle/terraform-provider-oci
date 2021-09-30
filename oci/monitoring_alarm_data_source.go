@@ -49,7 +49,7 @@ func (s *MonitoringAlarmDataSourceCrud) Get() error {
 		request.AlarmId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "monitoring")
 
 	response, err := s.Client.GetAlarm(context.Background(), request)
 	if err != nil {

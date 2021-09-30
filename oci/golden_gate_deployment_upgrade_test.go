@@ -19,15 +19,15 @@ var (
 	//}
 
 	goldenGatedeploymentUpgradeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"deployment_id":  Representation{repType: Optional, create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"deployment_id":  Representation{RepType: Optional, Create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 	}
 
-	DeploymentUpgradeResourceConfig = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_ggsdeployment", Required, Create, goldenGateDeploymentRepresentation)
+	DeploymentUpgradeResourceConfig = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_ggsdeployment", Required, Create, goldenGateDeploymentRepresentation)
 )
 
 // issue-routing-tag: golden_gate/default
@@ -43,13 +43,13 @@ func TestGoldenGateDeploymentUpgradeResource_basic(t *testing.T) {
 	datasourceName := "data.oci_golden_gate_deployment_upgrades.test_deployment_upgrades"
 	//	singularDatasourceName := "data.oci_golden_gate_deployment_upgrade.test_deployment_upgrade"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, testAccCheckGoldenGateDeploymentUpgradeDestroy, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_golden_gate_deployment_upgrades", "test_deployment_upgrades", Required, Create, goldenGatedeploymentUpgradeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_upgrades", "test_deployment_upgrades", Required, Create, goldenGatedeploymentUpgradeDataSourceRepresentation) +
 				compartmentIdVariableStr + DeploymentUpgradeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "deployment_upgrade_collection.0.items.#", "0"),
@@ -58,9 +58,9 @@ func TestGoldenGateDeploymentUpgradeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_golden_gate_deployment_upgrades", "test_deployment_upgrades", Required, Create,
-					representationCopyWithNewProperties(goldenGatedeploymentUpgradeDataSourceRepresentation, map[string]interface{}{
-						"deployment_id": Representation{repType: Required, create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
+				GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_upgrades", "test_deployment_upgrades", Required, Create,
+					RepresentationCopyWithNewProperties(goldenGatedeploymentUpgradeDataSourceRepresentation, map[string]interface{}{
+						"deployment_id": Representation{RepType: Required, Create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
 					})) +
 				compartmentIdVariableStr + DeploymentUpgradeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(

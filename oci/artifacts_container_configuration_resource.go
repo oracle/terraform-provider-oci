@@ -96,7 +96,7 @@ func (s *ArtifactsContainerConfigurationResourceCrud) Create() error {
 		request.IsRepositoryCreatedOnFirstPush = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.UpdateContainerConfiguration(context.Background(), request)
 	if err != nil {
@@ -115,7 +115,7 @@ func (s *ArtifactsContainerConfigurationResourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.GetContainerConfiguration(context.Background(), request)
 	if err != nil {
@@ -139,7 +139,7 @@ func (s *ArtifactsContainerConfigurationResourceCrud) Update() error {
 		request.IsRepositoryCreatedOnFirstPush = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.UpdateContainerConfiguration(context.Background(), request)
 	if err != nil {

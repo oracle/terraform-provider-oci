@@ -58,7 +58,7 @@ func (s *BlockchainOsnDataSourceCrud) Get() error {
 		request.OsnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "blockchain")
 
 	response, err := s.Client.GetOsn(context.Background(), request)
 	if err != nil {

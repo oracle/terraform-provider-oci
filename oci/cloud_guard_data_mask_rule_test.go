@@ -21,50 +21,50 @@ import (
 
 var (
 	DataMaskRuleRequiredOnlyResource = DataMaskRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Required, Create, dataMaskRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Required, Create, dataMaskRuleRepresentation)
 
 	DataMaskRuleResourceConfig = DataMaskRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation)
 
 	dataMaskRuleSingularDataSourceRepresentation = map[string]interface{}{
-		"data_mask_rule_id": Representation{repType: Required, create: `${oci_cloud_guard_data_mask_rule.test_data_mask_rule.id}`},
+		"data_mask_rule_id": Representation{RepType: Required, Create: `${oci_cloud_guard_data_mask_rule.test_data_mask_rule.id}`},
 	}
 
 	dataMaskRuleDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"access_level":          Representation{repType: Optional, create: `ACCESSIBLE`},
-		"data_mask_rule_status": Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
-		"display_name":          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"iam_group_id":          Representation{repType: Optional, create: `${oci_identity_group.test_group.id}`},
-		"state":                 Representation{repType: Optional, create: `ACTIVE`},
-		"target_id":             Representation{repType: Optional, create: `${var.compartment_id}`},
-		"target_type":           Representation{repType: Optional, create: `targetType`},
+		"compartment_id":        Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"access_level":          Representation{RepType: Optional, Create: `ACCESSIBLE`},
+		"data_mask_rule_status": Representation{RepType: Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"display_name":          Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"iam_group_id":          Representation{RepType: Optional, Create: `${oci_identity_group.test_group.id}`},
+		"state":                 Representation{RepType: Optional, Create: `ACTIVE`},
+		"target_id":             Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"target_type":           Representation{RepType: Optional, Create: `targetType`},
 		"filter":                RepresentationGroup{Required, dataMaskRuleDataSourceFilterRepresentation}}
 	dataMaskRuleDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_cloud_guard_data_mask_rule.test_data_mask_rule.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_cloud_guard_data_mask_rule.test_data_mask_rule.id}`}},
 	}
 
 	dataMaskRuleRepresentation = map[string]interface{}{
-		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"data_mask_categories":  Representation{repType: Required, create: []string{`PII`}, update: []string{`PHI`}},
-		"display_name":          Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"iam_group_id":          Representation{repType: Required, create: `${oci_identity_group.test_group.id}`},
+		"compartment_id":        Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"data_mask_categories":  Representation{RepType: Required, Create: []string{`PII`}, Update: []string{`PHI`}},
+		"display_name":          Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"iam_group_id":          Representation{RepType: Required, Create: `${oci_identity_group.test_group.id}`},
 		"target_selected":       RepresentationGroup{Required, dataMaskRuleTargetSelectedRepresentation},
-		"data_mask_rule_status": Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
-		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":           Representation{repType: Optional, create: `description`},
-		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"state":                 Representation{repType: Optional, create: `ACTIVE`},
+		"data_mask_rule_status": Representation{RepType: Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"defined_tags":          Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":           Representation{RepType: Optional, Create: `description`},
+		"freeform_tags":         Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"state":                 Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
 	dataMaskRuleTargetSelectedRepresentation = map[string]interface{}{
-		"kind":   Representation{repType: Required, create: `ALL`, update: `ALL`},
-		"values": Representation{repType: Optional, create: []string{}, update: []string{}},
+		"kind":   Representation{RepType: Required, Create: `ALL`, Update: `ALL`},
+		"values": Representation{RepType: Optional, Create: []string{}, Update: []string{}},
 	}
 
 	DataMaskRuleResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
 )
 
 // issue-routing-tag: cloud_guard/default
@@ -83,15 +83,15 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_cloud_guard_data_mask_rule.test_data_mask_rule"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DataMaskRuleResourceDependencies+
-		generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Create, dataMaskRuleRepresentation), "cloudguard", "dataMaskRule", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DataMaskRuleResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Create, dataMaskRuleRepresentation), "cloudguard", "dataMaskRule", t)
 
 	ResourceTest(t, testAccCheckCloudGuardDataMaskRuleDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Required, Create, dataMaskRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Required, Create, dataMaskRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
@@ -101,20 +101,20 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target_selected.0.kind", "ALL"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Create, dataMaskRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Create, dataMaskRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
@@ -131,9 +131,9 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target_selected.0.values.#", "0"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -145,7 +145,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DataMaskRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "data_mask_categories.#", "1"),
@@ -162,7 +162,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target_selected.0.values.#", "0"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -173,9 +173,9 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rules", "test_data_mask_rules", Optional, Update, dataMaskRuleDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rules", "test_data_mask_rules", Optional, Update, dataMaskRuleDataSourceRepresentation) +
 				compartmentIdVariableStr + DataMaskRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Optional, Update, dataMaskRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
@@ -192,7 +192,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Required, Create, dataMaskRuleSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_data_mask_rule", "test_data_mask_rule", Required, Create, dataMaskRuleSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DataMaskRuleResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_mask_rule_id"),
@@ -238,7 +238,7 @@ func testAccCheckCloudGuardDataMaskRuleDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DataMaskRuleId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 
 			response, err := client.GetDataMaskRule(context.Background(), request)
 
@@ -271,7 +271,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CloudGuardDataMaskRule") {
+	if !InSweeperExcludeList("CloudGuardDataMaskRule") {
 		resource.AddTestSweepers("CloudGuardDataMaskRule", &resource.Sweeper{
 			Name:         "CloudGuardDataMaskRule",
 			Dependencies: DependencyGraph["dataMaskRule"],
@@ -292,13 +292,13 @@ func sweepCloudGuardDataMaskRuleResource(compartment string) error {
 
 			deleteDataMaskRuleRequest.DataMaskRuleId = &dataMaskRuleId
 
-			deleteDataMaskRuleRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			deleteDataMaskRuleRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 			_, error := cloudGuardClient.DeleteDataMaskRule(context.Background(), deleteDataMaskRuleRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DataMaskRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", dataMaskRuleId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &dataMaskRuleId, dataMaskRuleSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &dataMaskRuleId, dataMaskRuleSweepWaitCondition, time.Duration(3*time.Minute),
 				dataMaskRuleSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}
@@ -306,7 +306,7 @@ func sweepCloudGuardDataMaskRuleResource(compartment string) error {
 }
 
 func getDataMaskRuleIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DataMaskRuleId")
+	ids := GetResourceIdsToSweep(compartment, "DataMaskRuleId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -325,7 +325,7 @@ func getDataMaskRuleIds(compartment string) ([]string, error) {
 	for _, dataMaskRule := range listDataMaskRulesResponse.Items {
 		id := *dataMaskRule.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DataMaskRuleId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DataMaskRuleId", id)
 	}
 	return resourceIds, nil
 }

@@ -18,7 +18,7 @@ func CoreDrgRouteDistributionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreDrgRouteDistributions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -75,7 +75,7 @@ func (s *CoreDrgRouteDistributionsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.DrgRouteDistributionLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListDrgRouteDistributions(context.Background(), request)
 	if err != nil {

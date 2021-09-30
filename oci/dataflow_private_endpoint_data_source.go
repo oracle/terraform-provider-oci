@@ -49,7 +49,7 @@ func (s *DataflowPrivateEndpointDataSourceCrud) Get() error {
 		request.PrivateEndpointId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataflow")
 
 	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
 	if err != nil {

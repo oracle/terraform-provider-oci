@@ -156,7 +156,7 @@ func (s *IdentityTagDefaultResourceCrud) Create() error {
 		request.Value = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateTagDefault(context.Background(), request)
 	if err != nil {
@@ -183,7 +183,7 @@ func (s *IdentityTagDefaultResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.TagDefaultId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetTagDefault(context.Background(), request)
 	if err != nil {
@@ -210,7 +210,7 @@ func (s *IdentityTagDefaultResourceCrud) Update() error {
 		request.Value = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateTagDefault(context.Background(), request)
 	if err != nil {
@@ -235,7 +235,7 @@ func (s *IdentityTagDefaultResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.TagDefaultId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteTagDefault(context.Background(), request)
 	return err

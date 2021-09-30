@@ -18,7 +18,7 @@ func StreamingStreamPoolsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readStreamingStreamPools,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *StreamingStreamPoolsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_streaming.StreamPoolSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "streaming")
 
 	response, err := s.Client.ListStreamPools(context.Background(), request)
 	if err != nil {

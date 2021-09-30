@@ -267,7 +267,7 @@ func waitForStateRefreshForHybridPolling(workRequestClient *oci_work_requests.Wo
 	if _, e := stateConf.WaitForState(); e != nil {
 		handleMissingResourceError(sync, &e)
 		if _, ok := e.(*resource.UnexpectedStateError); ok {
-			retryPolicy := getRetryPolicy(disableFoundRetries, "work_request")
+			retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
 			retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
 			e = getWorkRequestErrors(workRequestClient, workRequestIds, retryPolicy, entityType, action)
 			return handleError(sync, e)
@@ -412,7 +412,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 	d.Partial(false)
 
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "Update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
 
 			return e
 		}
@@ -476,11 +476,11 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 	}
 }
 
-// Helper function to wait for update to reach terminal state before doing another update
-// Useful in situations where more than one update is needed and prior update needs to complete
+// Helper function to wait for Update to reach terminal state before doing another Update
+// Useful in situations where more than one Update is needed and prior Update needs to complete
 func waitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "Update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
 			return e
 		}
 	}
@@ -488,8 +488,8 @@ func waitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
 	return nil
 }
 
-// Helper function to wait for create to reach terminal state before doing another operation
-// Useful in situations where another operation is done right after create
+// Helper function to wait for Create to reach terminal state before doing another operation
+// Useful in situations where another operation is done right after Create
 func waitForCreatedState(d *schema.ResourceData, sync ResourceCreator) error {
 	d.SetId(sync.ID())
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
@@ -927,7 +927,7 @@ func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.Wo
 
 func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, expectIdentifier bool) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "work_request")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
 	retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
 
 	response := oci_work_requests.GetWorkRequestResponse{}
@@ -1041,7 +1041,7 @@ func getWorkRequestErrors(workRequestClient *oci_work_requests.WorkRequestClient
 // Helper to marshal JSON objects from service into strings that can be stored in state.
 // This limitation exists because Terraform doesn't support maps of nested objects and so we use JSON strings representation
 // as a workaround.
-func genericMapToJsonMap(genericMap map[string]interface{}) map[string]interface{} {
+func GenericMapToJsonMap(genericMap map[string]interface{}) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	for key, value := range genericMap {
@@ -1060,7 +1060,7 @@ func genericMapToJsonMap(genericMap map[string]interface{}) map[string]interface
 	return result
 }
 
-func getTimeoutDuration(timeout string) *time.Duration {
+func GetTimeoutDuration(timeout string) *time.Duration {
 	timeoutDuration, err := time.ParseDuration(timeout)
 	if err != nil {
 		// Return the OCI Provider's default timeout if there is an error
@@ -1069,7 +1069,7 @@ func getTimeoutDuration(timeout string) *time.Duration {
 	return &timeoutDuration
 }
 
-func convertObjectToJsonString(object interface{}) (string, error) {
+func ConvertObjectToJsonString(object interface{}) (string, error) {
 	bytes, err := json.Marshal(object)
 	if err != nil {
 		return "", err

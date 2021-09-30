@@ -60,7 +60,7 @@ func (s *ObjectStorageNamespaceDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "object_storage")
 
 	response, err := s.Client.GetNamespace(context.Background(), request)
 	if err != nil {

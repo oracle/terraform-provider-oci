@@ -15,32 +15,32 @@ import (
 )
 
 var (
-	adbBackupDbName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbBackupDbName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
 
 	AutonomousDatabaseBackupResourceConfig = AutonomousDatabaseBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation)
 
 	autonomousDatabaseBackupSingularDataSourceRepresentation = map[string]interface{}{
-		"autonomous_database_backup_id": Representation{repType: Required, create: `${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`},
+		"autonomous_database_backup_id": Representation{RepType: Required, Create: `${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`},
 	}
 
 	autonomousDatabaseBackupDataSourceRepresentation = map[string]interface{}{
-		"autonomous_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"display_name":           Representation{repType: Optional, create: `Monthly Backup`},
-		"state":                  Representation{repType: Optional, create: `ACTIVE`},
+		"autonomous_database_id": Representation{RepType: Optional, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"display_name":           Representation{RepType: Optional, Create: `Monthly Backup`},
+		"state":                  Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                 RepresentationGroup{Required, autonomousDatabaseBackupDataSourceFilterRepresentation}}
 	autonomousDatabaseBackupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`}},
 	}
 
 	autonomousDatabaseBackupRepresentation = map[string]interface{}{
-		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"display_name":           Representation{repType: Required, create: `Monthly Backup`},
+		"autonomous_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"display_name":           Representation{RepType: Required, Create: `Monthly Backup`},
 	}
 
-	AutonomousDatabaseBackupResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
-		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbBackupDbName}, autonomousDatabaseRepresentation))
+	AutonomousDatabaseBackupResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
+		GetUpdatedRepresentationCopy("db_name", Representation{RepType: Required, Create: adbBackupDbName}, autonomousDatabaseRepresentation))
 )
 
 // issue-routing-tag: database/dbaas-adb
@@ -58,23 +58,23 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_autonomous_database_backup.test_autonomous_database_backup"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseBackupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation), "database", "autonomousDatabaseBackup", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseBackupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation), "database", "autonomousDatabaseBackup", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -86,9 +86,9 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backups", "test_autonomous_database_backups", Optional, Update, autonomousDatabaseBackupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_backups", "test_autonomous_database_backups", Optional, Update, autonomousDatabaseBackupDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDatabaseBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "Monthly Backup"),
@@ -109,7 +109,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDatabaseBackupResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_backup_id"),

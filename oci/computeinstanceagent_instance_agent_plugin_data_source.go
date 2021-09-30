@@ -87,7 +87,7 @@ func (s *ComputeinstanceagentInstanceAgentPluginDataSourceCrud) Get() error {
 		request.PluginName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "computeinstanceagent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "computeinstanceagent")
 
 	response, err := s.Client.GetInstanceAgentPlugin(context.Background(), request)
 	if err != nil {

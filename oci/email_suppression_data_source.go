@@ -49,7 +49,7 @@ func (s *EmailSuppressionDataSourceCrud) Get() error {
 		request.SuppressionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "email")
 
 	response, err := s.Client.GetSuppression(context.Background(), request)
 	if err != nil {

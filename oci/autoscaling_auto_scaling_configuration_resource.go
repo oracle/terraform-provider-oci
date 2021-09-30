@@ -445,7 +445,7 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -470,7 +470,7 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
 
 	response, err := s.Client.CreateAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -487,7 +487,7 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AutoScalingConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
 
 	response, err := s.Client.GetAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -536,7 +536,7 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		updateFlag = true
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok && s.D.HasChange("is_enabled") {
@@ -549,7 +549,7 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Update() error {
 		return s.Get()
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
 
 	response, err := s.Client.UpdateAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -566,7 +566,7 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AutoScalingConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
 
 	_, err := s.Client.DeleteAutoScalingConfiguration(context.Background(), request)
 	return err
@@ -1160,7 +1160,7 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) updateCompartment(comp
 	changeCompartmentRequest.ChangeCompartmentDetails = oci_auto_scaling.ChangeAutoScalingCompartmentDetails{}
 	changeCompartmentRequest.ChangeCompartmentDetails.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
 
 	_, err := s.Client.ChangeAutoScalingConfigurationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

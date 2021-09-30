@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_dns.DnsClient", &OracleClient{initClientFn: initDnsDnsClient})
+	RegisterOracleClient("oci_dns.DnsClient", &OracleClient{InitClientFn: initDnsDnsClient})
 }
 
 func initDnsDnsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

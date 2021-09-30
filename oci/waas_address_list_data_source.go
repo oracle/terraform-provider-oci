@@ -49,7 +49,7 @@ func (s *WaasAddressListDataSourceCrud) Get() error {
 		request.AddressListId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "waas")
 
 	response, err := s.Client.GetAddressList(context.Background(), request)
 	if err != nil {

@@ -118,7 +118,7 @@ func (s *FunctionsInvokeFunctionResourceCrud) getInvokeEndPoint(m interface{}) (
 		functionGetRequest.FunctionId = &tmp
 	}
 
-	functionGetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "functions")
+	functionGetRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "functions")
 
 	functionGetResponse, err := functionsManagementClient.GetFunction(context.Background(), functionGetRequest)
 	if err != nil {
@@ -191,7 +191,7 @@ func (s *FunctionsInvokeFunctionResourceCrud) Create() error {
 		request.FunctionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "functions")
 	if endPoint, ok := s.D.GetOkExists("invoke_endpoint"); !ok {
 		s.Client.Host = endPoint.(string)
 	}

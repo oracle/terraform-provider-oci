@@ -49,7 +49,7 @@ func (s *BdsBdsInstanceDataSourceCrud) Get() error {
 		request.BdsInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "bds")
 
 	response, err := s.Client.GetBdsInstance(context.Background(), request)
 	if err != nil {

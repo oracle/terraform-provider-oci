@@ -18,7 +18,7 @@ func HealthChecksPingProbeResultsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readHealthChecksPingProbeResults,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"probe_configuration_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -198,7 +198,7 @@ func (s *HealthChecksPingProbeResultsDataSourceCrud) Get() error {
 		request.Target = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "health_checks")
 
 	response, err := s.Client.ListPingProbeResults(context.Background(), request)
 	if err != nil {

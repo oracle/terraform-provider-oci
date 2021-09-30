@@ -22,45 +22,45 @@ import (
 
 var (
 	OceInstanceRequiredOnlyResource = OceInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Required, Create, oceInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Required, Create, oceInstanceRepresentation)
 
 	OceInstanceResourceConfig = OceInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Update, oceInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Update, oceInstanceRepresentation)
 
 	oceInstanceSingularDataSourceRepresentation = map[string]interface{}{
-		"oce_instance_id": Representation{repType: Required, create: `${oci_oce_oce_instance.test_oce_instance.id}`},
+		"oce_instance_id": Representation{RepType: Required, Create: `${oci_oce_oce_instance.test_oce_instance.id}`},
 	}
 
 	oceInstanceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"state":          Representation{repType: Optional, create: `Active`},
-		"tenancy_id":     Representation{repType: Optional, create: `${data.oci_identity_tenancy.test_tenancy.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"state":          Representation{RepType: Optional, Create: `Active`},
+		"tenancy_id":     Representation{RepType: Optional, Create: `${data.oci_identity_tenancy.test_tenancy.id}`},
 		"filter":         RepresentationGroup{Required, oceInstanceDataSourceFilterRepresentation}}
 	oceInstanceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_oce_oce_instance.test_oce_instance.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_oce_oce_instance.test_oce_instance.id}`}},
 	}
 
-	instanceName              = randomString(15, charsetWithoutDigits)
+	instanceName              = RandomString(15, charsetWithoutDigits)
 	oceInstanceRepresentation = map[string]interface{}{
-		"admin_email":              Representation{repType: Required, create: `${var.admin_email}`},
-		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
-		"idcs_access_token":        Representation{repType: Required, create: `${var.idcs_access_token}`},
-		"name":                     Representation{repType: Required, create: instanceName},
-		"object_storage_namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"tenancy_id":               Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.id}`},
-		"tenancy_name":             Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}`},
-		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":              Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"instance_access_type":     Representation{repType: Optional, create: `PUBLIC`},
-		"instance_license_type":    Representation{repType: Optional, create: `STARTER`, update: `PREMIUM`},
-		"instance_usage_type":      Representation{repType: Optional, create: `PRIMARY`, update: `NONPRIMARY`},
-		"upgrade_schedule":         Representation{repType: Optional, create: `UPGRADE_IMMEDIATELY`},
+		"admin_email":              Representation{RepType: Required, Create: `${var.admin_email}`},
+		"compartment_id":           Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"idcs_access_token":        Representation{RepType: Required, Create: `${var.idcs_access_token}`},
+		"name":                     Representation{RepType: Required, Create: instanceName},
+		"object_storage_namespace": Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"tenancy_id":               Representation{RepType: Required, Create: `${data.oci_identity_tenancy.test_tenancy.id}`},
+		"tenancy_name":             Representation{RepType: Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}`},
+		"defined_tags":             Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":              Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":            Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"instance_access_type":     Representation{RepType: Optional, Create: `PUBLIC`},
+		"instance_license_type":    Representation{RepType: Optional, Create: `STARTER`, Update: `PREMIUM`},
+		"instance_usage_type":      Representation{RepType: Optional, Create: `PRIMARY`, Update: `NONPRIMARY`},
+		"upgrade_schedule":         Representation{RepType: Optional, Create: `UPGRADE_IMMEDIATELY`},
 	}
 
-	OceInstanceResourceDependencies = generateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Optional, Create, namespaceSingularDataSourceRepresentation) +
+	OceInstanceResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Optional, Create, namespaceSingularDataSourceRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -92,15 +92,15 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_oce_oce_instance.test_oce_instance"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+OceInstanceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Create, oceInstanceRepresentation), "oce", "oceInstance", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+OceInstanceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Create, oceInstanceRepresentation), "oce", "oceInstance", t)
 
 	ResourceTest(t, testAccCheckOceOceInstanceDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Required, Create, oceInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Required, Create, oceInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -111,20 +111,20 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Create, oceInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Create, oceInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -145,9 +145,9 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -156,12 +156,12 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Create,
-					representationCopyWithNewProperties(oceInstanceRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Create,
+					RepresentationCopyWithNewProperties(oceInstanceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
@@ -183,7 +183,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -195,7 +195,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Update, oceInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Update, oceInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -216,7 +216,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "upgrade_schedule", "UPGRADE_IMMEDIATELY"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -227,9 +227,9 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_oce_oce_instances", "test_oce_instances", Optional, Update, oceInstanceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_oce_oce_instances", "test_oce_instances", Optional, Update, oceInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Update, oceInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Optional, Update, oceInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
@@ -261,7 +261,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Required, Create, oceInstanceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", Required, Create, oceInstanceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceInstanceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oce_instance_id"),
@@ -314,7 +314,7 @@ func testAccCheckOceOceInstanceDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.OceInstanceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "oce")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "oce")
 
 			response, err := client.GetOceInstance(context.Background(), request)
 
@@ -347,7 +347,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OceOceInstance") {
+	if !InSweeperExcludeList("OceOceInstance") {
 		resource.AddTestSweepers("OceOceInstance", &resource.Sweeper{
 			Name:         "OceOceInstance",
 			Dependencies: DependencyGraph["oceInstance"],
@@ -368,13 +368,13 @@ func sweepOceOceInstanceResource(compartment string) error {
 
 			deleteOceInstanceRequest.OceInstanceId = &oceInstanceId
 
-			deleteOceInstanceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "oce")
+			deleteOceInstanceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "oce")
 			_, error := oceInstanceClient.DeleteOceInstance(context.Background(), deleteOceInstanceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting OceInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", oceInstanceId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &oceInstanceId, oceInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &oceInstanceId, oceInstanceSweepWaitCondition, time.Duration(3*time.Minute),
 				oceInstanceSweepResponseFetchOperation, "oce", true)
 		}
 	}
@@ -382,7 +382,7 @@ func sweepOceOceInstanceResource(compartment string) error {
 }
 
 func getOceInstanceIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "OceInstanceId")
+	ids := GetResourceIdsToSweep(compartment, "OceInstanceId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -401,7 +401,7 @@ func getOceInstanceIds(compartment string) ([]string, error) {
 	for _, oceInstance := range listOceInstancesResponse.Items {
 		id := *oceInstance.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "OceInstanceId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "OceInstanceId", id)
 	}
 	return resourceIds, nil
 }

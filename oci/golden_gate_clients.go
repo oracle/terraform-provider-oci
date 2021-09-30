@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_golden_gate.GoldenGateClient", &OracleClient{initClientFn: initGoldengateGoldenGateClient})
+	RegisterOracleClient("oci_golden_gate.GoldenGateClient", &OracleClient{InitClientFn: initGoldengateGoldenGateClient})
 }
 
 func initGoldengateGoldenGateClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -18,7 +18,7 @@ func ComputeinstanceagentInstanceAgentPluginsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readComputeinstanceagentInstanceAgentPlugins,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"instanceagent_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -108,7 +108,7 @@ func (s *ComputeinstanceagentInstanceAgentPluginsDataSourceCrud) Get() error {
 		request.Status = oci_computeinstanceagent.ListInstanceAgentPluginsStatusEnum(status.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "computeinstanceagent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "computeinstanceagent")
 
 	response, err := s.Client.ListInstanceAgentPlugins(context.Background(), request)
 	if err != nil {

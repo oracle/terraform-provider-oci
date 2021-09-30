@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_apm_synthetics.ApmSyntheticClient", &OracleClient{initClientFn: initApmsyntheticsApmSyntheticClient})
+	RegisterOracleClient("oci_apm_synthetics.ApmSyntheticClient", &OracleClient{InitClientFn: initApmsyntheticsApmSyntheticClient})
 }
 
 func initApmsyntheticsApmSyntheticClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

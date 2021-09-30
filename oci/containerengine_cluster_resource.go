@@ -29,9 +29,9 @@ func ContainerengineClusterResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createContainerengineCluster,
 		Read:   readContainerengineCluster,
@@ -81,7 +81,7 @@ func ContainerengineClusterResource() *schema.Resource {
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
-							Set:      literalTypeHashCodeForSets,
+							Set:      LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -469,7 +469,7 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.CreateCluster(context.Background(), request)
 	if err != nil {
@@ -488,7 +488,7 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 
 			delReq := oci_containerengine.DeleteClusterRequest{}
 			delReq.ClusterId = clusterID
-			delReq.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+			delReq.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 			delRes, delErr := s.Client.DeleteCluster(context.Background(), delReq)
 			if delErr != nil {
@@ -507,7 +507,7 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 
 	requestGet := oci_containerengine.GetClusterRequest{}
 	requestGet.ClusterId = clusterID
-	requestGet.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	requestGet.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 	responseGet, err := s.Client.GetCluster(context.Background(), requestGet)
 	if err != nil {
 		return err
@@ -555,7 +555,7 @@ func clusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 
 func clusterWaitForWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "containerengine")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "containerengine")
 	retryPolicy.ShouldRetryOperation = clusterWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_containerengine.GetWorkRequestResponse{}
@@ -642,7 +642,7 @@ func (s *ContainerengineClusterResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ClusterId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.GetCluster(context.Background(), request)
 	if err != nil {
@@ -707,7 +707,7 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.UpdateCluster(context.Background(), request)
 	if err != nil {
@@ -715,7 +715,7 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getClusterFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getClusterFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 func (s *ContainerengineClusterResourceCrud) updateClusterEndpointConfig(clusterID string, endpointConfig interface{}) error {
 	request := oci_containerengine.UpdateClusterEndpointConfigRequest{}
@@ -735,7 +735,7 @@ func (s *ContainerengineClusterResourceCrud) updateClusterEndpointConfig(cluster
 	}
 
 	workID := response.OpcWorkRequestId
-	return s.getClusterFromWorkRequest(workID, getRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getClusterFromWorkRequest(workID, GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ContainerengineClusterResourceCrud) migrateClusterToNativeVCN(clusterID string, endpointConfig interface{}) error {
@@ -757,7 +757,7 @@ func (s *ContainerengineClusterResourceCrud) migrateClusterToNativeVCN(clusterID
 	}
 
 	workID := response.OpcWorkRequestId
-	return s.getClusterFromWorkRequest(workID, getRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getClusterFromWorkRequest(workID, GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ContainerengineClusterResourceCrud) Delete() error {
@@ -766,7 +766,7 @@ func (s *ContainerengineClusterResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ClusterId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.DeleteCluster(context.Background(), request)
 	if err != nil {
@@ -1127,7 +1127,7 @@ func ClusterEndpointConfigToMap(obj *oci_containerengine.ClusterEndpointConfig, 
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.SubnetId != nil {

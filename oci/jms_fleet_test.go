@@ -21,32 +21,32 @@ import (
 
 var (
 	FleetRequiredOnlyResource = FleetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetRepresentation)
 
 	FleetResourceConfig = FleetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation)
 
 	fleetSingularDataSourceRepresentation = map[string]interface{}{
-		"fleet_id": Representation{repType: Required, create: `${oci_jms_fleet.test_fleet.id}`},
+		"fleet_id": Representation{RepType: Required, Create: `${oci_jms_fleet.test_fleet.id}`},
 	}
 
 	fleetDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `Created Fleet`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_jms_fleet.test_fleet.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `Created Fleet`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, fleetDataSourceFilterRepresentation}}
 	fleetDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_jms_fleet.test_fleet.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_jms_fleet.test_fleet.id}`}},
 	}
 
 	fleetRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `Created Fleet`, update: `displayName2`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `Created Fleet`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `Created Fleet`, Update: `displayName2`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `Created Fleet`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	FleetResourceDependencies = DefinedTagsDependencies
@@ -70,34 +70,34 @@ func TestJmsFleetResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_jms_fleet.test_fleet"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+FleetResourceDependencies+
-		generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create, fleetRepresentation), "jms", "fleet", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+FleetResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create, fleetRepresentation), "jms", "fleet", t)
 
 	ResourceTest(t, testAccCheckJmsFleetDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + FleetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Created Fleet"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + FleetResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + FleetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create, fleetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create, fleetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
@@ -113,9 +113,9 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -124,12 +124,12 @@ func TestJmsFleetResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FleetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create,
-					representationCopyWithNewProperties(fleetRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Create,
+					RepresentationCopyWithNewProperties(fleetRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
@@ -146,7 +146,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -158,7 +158,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + FleetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_application_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_installation_count"),
@@ -174,7 +174,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -185,9 +185,9 @@ func TestJmsFleetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_jms_fleets", "test_fleets", Optional, Update, fleetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_jms_fleets", "test_fleets", Optional, Update, fleetDataSourceRepresentation) +
 				compartmentIdVariableStr + FleetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Optional, Update, fleetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -201,7 +201,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_jms_fleet", "test_fleet", Required, Create, fleetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + FleetResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),
@@ -246,7 +246,7 @@ func testAccCheckJmsFleetDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.FleetId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "jms")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "jms")
 
 			response, err := client.GetFleet(context.Background(), request)
 
@@ -279,7 +279,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("JmsFleet") {
+	if !InSweeperExcludeList("JmsFleet") {
 		resource.AddTestSweepers("JmsFleet", &resource.Sweeper{
 			Name:         "JmsFleet",
 			Dependencies: DependencyGraph["fleet"],
@@ -300,13 +300,13 @@ func sweepJmsFleetResource(compartment string) error {
 
 			deleteFleetRequest.FleetId = &fleetId
 
-			deleteFleetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "jms")
+			deleteFleetRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "jms")
 			_, error := javaManagementServiceClient.DeleteFleet(context.Background(), deleteFleetRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Fleet %s %s, It is possible that the resource is already deleted. Please verify manually \n", fleetId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &fleetId, fleetSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &fleetId, fleetSweepWaitCondition, time.Duration(3*time.Minute),
 				fleetSweepResponseFetchOperation, "jms", true)
 		}
 	}
@@ -314,7 +314,7 @@ func sweepJmsFleetResource(compartment string) error {
 }
 
 func getFleetIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "FleetId")
+	ids := GetResourceIdsToSweep(compartment, "FleetId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -333,7 +333,7 @@ func getFleetIds(compartment string) ([]string, error) {
 	for _, fleet := range listFleetsResponse.Items {
 		id := *fleet.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "FleetId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "FleetId", id)
 	}
 	return resourceIds, nil
 }

@@ -21,7 +21,7 @@ func AuditAuditEventsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAuditAuditEvents,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -333,7 +333,7 @@ func (s *AuditAuditEventsDataSourceCrud) Get() error {
 		request.StartTime = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "audit")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "audit")
 
 	response, err := s.Client.ListEvents(context.Background(), request)
 	if err != nil {
@@ -530,13 +530,13 @@ func requestToMap(obj *oci_audit.Request) map[string]interface{} {
 		result["action"] = string(*obj.Action)
 	}
 
-	result["headers"], _ = convertMapOfStringSlicesToMapOfStrings(obj.Headers)
+	result["headers"], _ = ConvertMapOfStringSlicesToMapOfStrings(obj.Headers)
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
 
-	result["parameters"], _ = convertMapOfStringSlicesToMapOfStrings(obj.Parameters)
+	result["parameters"], _ = ConvertMapOfStringSlicesToMapOfStrings(obj.Parameters)
 
 	if obj.Path != nil {
 		result["path"] = string(*obj.Path)
@@ -548,7 +548,7 @@ func requestToMap(obj *oci_audit.Request) map[string]interface{} {
 func responseToMap(obj *oci_audit.Response) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["headers"], _ = convertMapOfStringSlicesToMapOfStrings(obj.Headers)
+	result["headers"], _ = ConvertMapOfStringSlicesToMapOfStrings(obj.Headers)
 
 	if obj.Message != nil {
 		result["message"] = string(*obj.Message)
@@ -570,9 +570,9 @@ func responseToMap(obj *oci_audit.Response) map[string]interface{} {
 func stateChangeToMap(obj *oci_audit.StateChange) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["current"] = genericMapToJsonMap(obj.Current)
+	result["current"] = GenericMapToJsonMap(obj.Current)
 
-	result["previous"] = genericMapToJsonMap(obj.Previous)
+	result["previous"] = GenericMapToJsonMap(obj.Previous)
 
 	return result
 }

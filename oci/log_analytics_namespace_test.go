@@ -14,28 +14,28 @@ import (
 
 var (
 	namespaceSingularDataSourceRepresentation2 = map[string]interface{}{
-		"namespace": Representation{repType: Required, create: `${lookup(data.oci_log_analytics_namespaces.test_namespaces.namespace_collection[0].items[0], "namespace")}`},
+		"namespace": Representation{RepType: Required, Create: `${lookup(data.oci_log_analytics_namespaces.test_namespaces.namespace_collection[0].items[0], "namespace")}`},
 	}
 
 	namespaceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 	}
 
 	namespaceResourceOnBoardRepresentation = map[string]interface{}{
-		"namespace":      Representation{repType: Required, create: `${lookup(data.oci_log_analytics_namespaces.test_namespaces.namespace_collection[0].items[0], "namespace")}`},
-		"is_onboarded":   Representation{repType: Required, create: `true`},
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"namespace":      Representation{RepType: Required, Create: `${lookup(data.oci_log_analytics_namespaces.test_namespaces.namespace_collection[0].items[0], "namespace")}`},
+		"is_onboarded":   Representation{RepType: Required, Create: `true`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 	}
 
 	namespaceResourceOffBoardRepresentation = map[string]interface{}{
-		"namespace":      Representation{repType: Required, create: `${lookup(data.oci_log_analytics_namespaces.test_namespaces.namespace_collection[0].items[0], "namespace")}`},
-		"is_onboarded":   Representation{repType: Required, create: `false`},
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"namespace":      Representation{RepType: Required, Create: `${lookup(data.oci_log_analytics_namespaces.test_namespaces.namespace_collection[0].items[0], "namespace")}`},
+		"is_onboarded":   Representation{RepType: Required, Create: `false`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 	}
 
-	NameSpaceResourceDependencies = generateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", Required, Create, namespaceDataSourceRepresentation)
+	NameSpaceResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", Required, Create, namespaceDataSourceRepresentation)
 
-	NameSpaceSingularDataSourceDependencies = NameSpaceResourceDependencies + generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOnBoardRepresentation)
+	NameSpaceSingularDataSourceDependencies = NameSpaceResourceDependencies + GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOnBoardRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -53,13 +53,13 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 	datasourceName := "data.oci_log_analytics_namespaces.test_namespaces"
 	singularDatasourceName := "data.oci_log_analytics_namespace.test_namespace"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource also works as a dependency for next step
 		{
 			Config: config + compartmentIdVariableStr +
-				generateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", Required, Create, namespaceDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespaces", "test_namespaces", Required, Create, namespaceDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
@@ -69,7 +69,7 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 		// verify onboard
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOnBoardRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOnBoardRepresentation) +
 				compartmentIdVariableStr + NameSpaceResourceDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -80,7 +80,7 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation2) +
+				GenerateDataSourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation2) +
 				compartmentIdVariableStr + NameSpaceSingularDataSourceDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
@@ -92,7 +92,7 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 		// verify offboard
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOffBoardRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", Required, Create, namespaceResourceOffBoardRepresentation) +
 				compartmentIdVariableStr + NameSpaceResourceDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),

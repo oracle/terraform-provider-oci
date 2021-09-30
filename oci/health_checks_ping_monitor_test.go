@@ -20,37 +20,37 @@ import (
 
 var (
 	PingMonitorRequiredOnlyResource = PingMonitorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorRepresentation)
 
 	PingMonitorResourceConfig = PingMonitorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Update, pingMonitorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Update, pingMonitorRepresentation)
 
 	pingMonitorSingularDataSourceRepresentation = map[string]interface{}{
-		"monitor_id": Representation{repType: Required, create: `${oci_health_checks_ping_monitor.test_ping_monitor.id}`},
+		"monitor_id": Representation{RepType: Required, Create: `${oci_health_checks_ping_monitor.test_ping_monitor.id}`},
 	}
 
 	pingMonitorDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"home_region":    Representation{repType: Optional, create: `${var.region}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"home_region":    Representation{RepType: Optional, Create: `${var.region}`},
 		"filter":         RepresentationGroup{Required, pingMonitorDataSourceFilterRepresentation}}
 	pingMonitorDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_health_checks_ping_monitor.test_ping_monitor.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_health_checks_ping_monitor.test_ping_monitor.id}`}},
 	}
 
 	pingMonitorRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"interval_in_seconds": Representation{repType: Required, create: `10`, update: `30`},
-		"protocol":            Representation{repType: Required, create: `TCP`},
-		"targets":             Representation{repType: Required, create: []string{`www.oracle.com`}, update: []string{`www.google.com`}},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":          Representation{repType: Optional, create: `false`, update: `true`},
-		"port":                Representation{repType: Optional, create: `80`},
-		"timeout_in_seconds":  Representation{repType: Optional, create: `10`, update: `30`},
-		"vantage_point_names": Representation{repType: Optional, create: []string{`goo-chs`}},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"interval_in_seconds": Representation{RepType: Required, Create: `10`, Update: `30`},
+		"protocol":            Representation{RepType: Required, Create: `TCP`},
+		"targets":             Representation{RepType: Required, Create: []string{`www.oracle.com`}, Update: []string{`www.google.com`}},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":          Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"port":                Representation{RepType: Optional, Create: `80`},
+		"timeout_in_seconds":  Representation{RepType: Optional, Create: `10`, Update: `30`},
+		"vantage_point_names": Representation{RepType: Optional, Create: []string{`goo-chs`}},
 	}
 
 	PingMonitorResourceDependencies = DefinedTagsDependencies
@@ -74,15 +74,15 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_health_checks_ping_monitor.test_ping_monitor"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PingMonitorResourceDependencies+
-		generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Create, pingMonitorRepresentation), "healthchecks", "pingMonitor", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PingMonitorResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Create, pingMonitorRepresentation), "healthchecks", "pingMonitor", t)
 
 	ResourceTest(t, testAccCheckHealthChecksPingMonitorDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -91,20 +91,20 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Create, pingMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Create, pingMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -119,9 +119,9 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -130,12 +130,12 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PingMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Create,
-					representationCopyWithNewProperties(pingMonitorRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Create,
+					RepresentationCopyWithNewProperties(pingMonitorRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -151,7 +151,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -163,7 +163,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + PingMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Update, pingMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Update, pingMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -178,7 +178,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -189,9 +189,9 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_health_checks_ping_monitors", "test_ping_monitors", Optional, Update, pingMonitorDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_health_checks_ping_monitors", "test_ping_monitors", Optional, Update, pingMonitorDataSourceRepresentation) +
 				compartmentIdVariableStr + PingMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Update, pingMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Update, pingMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -214,7 +214,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + PingMonitorResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
@@ -262,7 +262,7 @@ func testAccCheckHealthChecksPingMonitorDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.MonitorId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "health_checks")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "health_checks")
 
 			_, err := client.GetPingMonitor(context.Background(), request)
 
@@ -287,7 +287,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("HealthChecksPingMonitor") {
+	if !InSweeperExcludeList("HealthChecksPingMonitor") {
 		resource.AddTestSweepers("HealthChecksPingMonitor", &resource.Sweeper{
 			Name:         "HealthChecksPingMonitor",
 			Dependencies: DependencyGraph["pingMonitor"],
@@ -308,7 +308,7 @@ func sweepHealthChecksPingMonitorResource(compartment string) error {
 
 			deletePingMonitorRequest.MonitorId = &pingMonitorId
 
-			deletePingMonitorRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "health_checks")
+			deletePingMonitorRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "health_checks")
 			_, error := healthChecksClient.DeletePingMonitor(context.Background(), deletePingMonitorRequest)
 			if error != nil {
 				fmt.Printf("Error deleting PingMonitor %s %s, It is possible that the resource is already deleted. Please verify manually \n", pingMonitorId, error)
@@ -320,7 +320,7 @@ func sweepHealthChecksPingMonitorResource(compartment string) error {
 }
 
 func getPingMonitorIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "PingMonitorId")
+	ids := GetResourceIdsToSweep(compartment, "PingMonitorId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -338,7 +338,7 @@ func getPingMonitorIds(compartment string) ([]string, error) {
 	for _, pingMonitor := range listPingMonitorsResponse.Items {
 		id := *pingMonitor.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "PingMonitorId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "PingMonitorId", id)
 	}
 	return resourceIds, nil
 }

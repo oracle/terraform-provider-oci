@@ -49,7 +49,7 @@ func (s *DataSafeOnPremConnectorDataSourceCrud) Get() error {
 		request.OnPremConnectorId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.GetOnPremConnector(context.Background(), request)
 	if err != nil {

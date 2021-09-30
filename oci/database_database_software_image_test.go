@@ -22,38 +22,38 @@ import (
 
 var (
 	DatabaseSoftwareImageRequiredOnlyResource = DatabaseSoftwareImageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageRepresentation)
 
 	DatabaseSoftwareImageResourceConfig = DatabaseSoftwareImageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentation)
 
 	databaseSoftwareImageSingularDataSourceRepresentation = map[string]interface{}{
-		"database_software_image_id": Representation{repType: Required, create: `${oci_database_database_software_image.test_database_software_image.id}`},
+		"database_software_image_id": Representation{RepType: Required, Create: `${oci_database_database_software_image.test_database_software_image.id}`},
 	}
 
 	databaseSoftwareImageDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":       Representation{repType: Optional, create: `image1`, update: `displayName2`},
-		"image_shape_family": Representation{repType: Optional, create: `VM_BM_SHAPE`},
-		"image_type":         Representation{repType: Optional, create: `DATABASE_IMAGE`},
-		"state":              Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":       Representation{RepType: Optional, Create: `image1`, Update: `displayName2`},
+		"image_shape_family": Representation{RepType: Optional, Create: `VM_BM_SHAPE`},
+		"image_type":         Representation{RepType: Optional, Create: `DATABASE_IMAGE`},
+		"state":              Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":             RepresentationGroup{Required, databaseSoftwareImageDataSourceFilterRepresentation}}
 	databaseSoftwareImageDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_database_software_image.test_database_software_image.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_database_software_image.test_database_software_image.id}`}},
 	}
 
 	databaseSoftwareImageRepresentation = map[string]interface{}{
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
-		"database_version": Representation{repType: Required, create: `19.0.0.0`},
-		"display_name":     Representation{repType: Required, create: `image1`, update: `displayName2`},
-		"patch_set":        Representation{repType: Required, create: `19.6.0.0.0`},
-		"database_software_image_one_off_patches": Representation{repType: Optional, create: []string{"31113249", "27929509"}},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"image_shape_family": Representation{repType: Optional, create: `VM_BM_SHAPE`},
-		"image_type":         Representation{repType: Optional, create: `DATABASE_IMAGE`},
-		"ls_inventory":       Representation{repType: Optional, create: `lsInventory`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"database_version": Representation{RepType: Required, Create: `19.0.0.0`},
+		"display_name":     Representation{RepType: Required, Create: `image1`, Update: `displayName2`},
+		"patch_set":        Representation{RepType: Required, Create: `19.6.0.0.0`},
+		"database_software_image_one_off_patches": Representation{RepType: Optional, Create: []string{"31113249", "27929509"}},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"image_shape_family": Representation{RepType: Optional, Create: `VM_BM_SHAPE`},
+		"image_type":         Representation{RepType: Optional, Create: `DATABASE_IMAGE`},
+		"ls_inventory":       Representation{RepType: Optional, Create: `lsInventory`},
 	}
 
 	DatabaseSoftwareImageResourceDependencies = DefinedTagsDependencies
@@ -81,35 +81,35 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_database_software_image.test_database_software_image"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DatabaseSoftwareImageResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentation), "database", "databaseSoftwareImage", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DatabaseSoftwareImageResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentation), "database", "databaseSoftwareImage", t)
 
 	ResourceTest(t, testAccCheckDatabaseDatabaseSoftwareImageDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create, databaseSoftwareImageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
@@ -125,9 +125,9 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -136,12 +136,12 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseSoftwareImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create,
-					representationCopyWithNewProperties(databaseSoftwareImageRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Create,
+					RepresentationCopyWithNewProperties(databaseSoftwareImageRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -158,7 +158,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -170,7 +170,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_software_image_one_off_patches.#", "2"),
@@ -186,7 +186,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -196,12 +196,12 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			PreConfig: waitTillCondition(testAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
+			PreConfig: WaitTillCondition(testAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
 				databaseSoftwareImageSweepResponseFetchOperationExa, "database", true),
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", Optional, Update, databaseSoftwareImageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", Optional, Update, databaseSoftwareImageDataSourceRepresentation) +
 				compartmentIdVariableStr + DatabaseSoftwareImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Optional, Update, databaseSoftwareImageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -229,7 +229,7 @@ func TestDatabaseDatabaseSoftwareImageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_database_software_image", "test_database_software_image", Required, Create, databaseSoftwareImageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DatabaseSoftwareImageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_software_image_id"),
@@ -276,7 +276,7 @@ func testAccCheckDatabaseDatabaseSoftwareImageDestroy(s *terraform.State) error 
 			tmp := rs.Primary.ID
 			request.DatabaseSoftwareImageId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetDatabaseSoftwareImage(context.Background(), request)
 
@@ -309,7 +309,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseDatabaseSoftwareImage") {
+	if !InSweeperExcludeList("DatabaseDatabaseSoftwareImage") {
 		resource.AddTestSweepers("DatabaseDatabaseSoftwareImage", &resource.Sweeper{
 			Name:         "DatabaseDatabaseSoftwareImage",
 			Dependencies: DependencyGraph["databaseSoftwareImage"],
@@ -330,13 +330,13 @@ func sweepDatabaseDatabaseSoftwareImageResource(compartment string) error {
 
 			deleteDatabaseSoftwareImageRequest.DatabaseSoftwareImageId = &databaseSoftwareImageId
 
-			deleteDatabaseSoftwareImageRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteDatabaseSoftwareImageRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteDatabaseSoftwareImage(context.Background(), deleteDatabaseSoftwareImageRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DatabaseSoftwareImage %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseSoftwareImageId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &databaseSoftwareImageId, databaseSoftwareImageSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &databaseSoftwareImageId, databaseSoftwareImageSweepWaitCondition, time.Duration(3*time.Minute),
 				databaseSoftwareImageSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -344,7 +344,7 @@ func sweepDatabaseDatabaseSoftwareImageResource(compartment string) error {
 }
 
 func getDatabaseSoftwareImageIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DatabaseSoftwareImageId")
+	ids := GetResourceIdsToSweep(compartment, "DatabaseSoftwareImageId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -363,7 +363,7 @@ func getDatabaseSoftwareImageIds(compartment string) ([]string, error) {
 	for _, databaseSoftwareImage := range listDatabaseSoftwareImagesResponse.Items {
 		id := *databaseSoftwareImage.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DatabaseSoftwareImageId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DatabaseSoftwareImageId", id)
 	}
 	return resourceIds, nil
 }

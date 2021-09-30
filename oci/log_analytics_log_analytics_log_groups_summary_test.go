@@ -14,11 +14,11 @@ import (
 
 var (
 	logAnalyticsLogGroupsSummarySingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"namespace":      Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	LogAnalyticsLogGroupsSummaryResourceDependencies = generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsLogGroupsSummaryResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 
 	LogAnalyticsLogGroupsSummaryResourceConfig = ""
 )
@@ -35,7 +35,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupsSummaryResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_log_analytics_log_analytics_log_groups_summary.test_log_analytics_log_groups_summary"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
@@ -44,7 +44,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupsSummaryResource_basic(t *testing.T) {
 				compartmentIdVariableStr +
 				LogAnalyticsLogGroupsSummaryResourceDependencies +
 				LogAnalyticsLogGroupsSummaryResourceConfig +
-				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_groups_summary", "test_log_analytics_log_groups_summary", Required, Create, logAnalyticsLogGroupsSummarySingularDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_log_groups_summary", "test_log_analytics_log_groups_summary", Required, Create, logAnalyticsLogGroupsSummarySingularDataSourceRepresentation),
 
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

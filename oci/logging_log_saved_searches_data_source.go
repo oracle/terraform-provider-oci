@@ -18,7 +18,7 @@ func LoggingLogSavedSearchesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoggingLogSavedSearches,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -85,7 +85,7 @@ func (s *LoggingLogSavedSearchesDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "logging")
 
 	response, err := s.Client.ListLogSavedSearches(context.Background(), request)
 	if err != nil {

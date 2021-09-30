@@ -19,7 +19,7 @@ func FileStorageFileSystemsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFileStorageFileSystems,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -112,7 +112,7 @@ func (s *FileStorageFileSystemsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_file_storage.ListFileSystemsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "file_storage")
 
 	response, err := s.Client.ListFileSystems(context.Background(), request)
 	if err != nil {

@@ -69,8 +69,8 @@ func LoadBalancerListenerResource() *schema.Resource {
 						"idle_timeout_in_seconds": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 
 						// Optional
@@ -332,7 +332,7 @@ func (s *LoadBalancerListenerResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.CreateListener(context.Background(), request)
 	if err != nil {
@@ -342,13 +342,13 @@ func (s *LoadBalancerListenerResourceCrud) Create() error {
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -357,7 +357,7 @@ func (s *LoadBalancerListenerResourceCrud) Create() error {
 
 func (s *LoadBalancerListenerResourceCrud) Get() (e error) {
 	// key: {workRequestID} || {loadBalancerID,name}
-	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -385,7 +385,7 @@ func (s *LoadBalancerListenerResourceCrud) Get() (e error) {
 func (s *LoadBalancerListenerResourceCrud) GetListener(loadBalancerID, name string) (*oci_load_balancer.Listener, error) {
 	request := oci_load_balancer.GetLoadBalancerRequest{}
 	request.LoadBalancerId = &loadBalancerID
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.GetLoadBalancer(context.Background(), request)
 	if err != nil {
@@ -488,7 +488,7 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.UpdateListener(context.Background(), request)
 	if err != nil {
@@ -498,13 +498,13 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -525,7 +525,7 @@ func (s *LoadBalancerListenerResourceCrud) Delete() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.DeleteListener(context.Background(), request)
 	if err != nil {
@@ -535,13 +535,13 @@ func (s *LoadBalancerListenerResourceCrud) Delete() error {
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}

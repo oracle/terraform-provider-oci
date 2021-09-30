@@ -14,8 +14,8 @@ import (
 
 var (
 	publisherDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"publisher_id":   Representation{repType: Optional, create: `${oci_marketplace_publisher.test_publisher.id}`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"publisher_id":   Representation{RepType: Optional, Create: `${oci_marketplace_publisher.test_publisher.id}`},
 	}
 
 	PublisherResourceConfig = ``
@@ -33,13 +33,13 @@ func TestMarketplacePublisherResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_marketplace_publishers.test_publishers"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_publishers", "test_publishers", Required, Create, publisherDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_publishers", "test_publishers", Required, Create, publisherDataSourceRepresentation) +
 				compartmentIdVariableStr + PublisherResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

@@ -49,7 +49,7 @@ func (s *BastionBastionDataSourceCrud) Get() error {
 		request.BastionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "bastion")
 
 	response, err := s.Client.GetBastion(context.Background(), request)
 	if err != nil {

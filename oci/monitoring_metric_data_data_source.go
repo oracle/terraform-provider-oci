@@ -20,7 +20,7 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMonitoringMetricData,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -82,7 +82,7 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
+							DiffSuppressFunc: TimeDiffSuppressFunction,
 						},
 						"resolution": {
 							Type:     schema.TypeString,
@@ -98,7 +98,7 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
+							DiffSuppressFunc: TimeDiffSuppressFunction,
 						},
 
 						// Computed
@@ -211,7 +211,7 @@ func (s *MonitoringMetricDataDataSourceCrud) Get() error {
 		request.StartTime = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "monitoring")
 
 	response, err := s.Client.SummarizeMetricsData(context.Background(), request)
 	if err != nil {

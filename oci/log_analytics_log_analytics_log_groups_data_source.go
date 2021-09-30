@@ -18,7 +18,7 @@ func LogAnalyticsLogAnalyticsLogGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLogAnalyticsLogAnalyticsLogGroups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -85,7 +85,7 @@ func (s *LogAnalyticsLogAnalyticsLogGroupsDataSourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "log_analytics")
 
 	response, err := s.Client.ListLogAnalyticsLogGroups(context.Background(), request)
 	if err != nil {

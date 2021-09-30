@@ -18,7 +18,7 @@ func MonitoringAlarmStatusesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMonitoringAlarmStatuses,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -131,7 +131,7 @@ func (s *MonitoringAlarmStatusesDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "monitoring")
 
 	response, err := s.Client.ListAlarmsStatus(context.Background(), request)
 	if err != nil {

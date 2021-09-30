@@ -228,7 +228,7 @@ func (s *CoreVcnResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isIpv6Enabled, ok := s.D.GetOkExists("is_ipv6enabled"); ok {
@@ -236,7 +236,7 @@ func (s *CoreVcnResourceCrud) Create() error {
 		request.IsIpv6Enabled = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVcn(context.Background(), request)
 	if err != nil {
@@ -253,7 +253,7 @@ func (s *CoreVcnResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VcnId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetVcn(context.Background(), request)
 	if err != nil {
@@ -279,7 +279,7 @@ func (s *CoreVcnResourceCrud) Update() error {
 		enableIPv6Request := oci_core.AddIpv6VcnCidrRequest{}
 		tmp := s.D.Id()
 		enableIPv6Request.VcnId = &tmp
-		enableIPv6Request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		enableIPv6Request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 		_, err := s.Client.AddIpv6VcnCidr(context.Background(), enableIPv6Request)
 		if err != nil {
@@ -313,13 +313,13 @@ func (s *CoreVcnResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.VcnId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateVcn(context.Background(), request)
 	if err != nil {
@@ -336,7 +336,7 @@ func (s *CoreVcnResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VcnId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteVcn(context.Background(), request)
 	return err
@@ -409,7 +409,7 @@ func (s *CoreVcnResourceCrud) updateCompartment(compartment interface{}) error {
 	idTmp := s.D.Id()
 	changeCompartmentRequest.VcnId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeVcnCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -446,7 +446,7 @@ func (s *CoreVcnResourceCrud) updateCidrBlocks(oldRaw interface{}, newRaw interf
 		addVcnCidrRequest := oci_core.AddVcnCidrRequest{}
 		idTmp := s.D.Id()
 		addVcnCidrRequest.VcnId = &idTmp
-		addVcnCidrRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		addVcnCidrRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		addVcnCidrRequest.CidrBlock = &newCidr
 		_, err := s.Client.AddVcnCidr(context.Background(), addVcnCidrRequest)
 		if err != nil {
@@ -457,7 +457,7 @@ func (s *CoreVcnResourceCrud) updateCidrBlocks(oldRaw interface{}, newRaw interf
 		removeVcnCidrRequest := oci_core.RemoveVcnCidrRequest{}
 		idTmp := s.D.Id()
 		removeVcnCidrRequest.VcnId = &idTmp
-		removeVcnCidrRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		removeVcnCidrRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		removeVcnCidrRequest.CidrBlock = &oldCidr
 		_, err := s.Client.RemoveVcnCidr(context.Background(), removeVcnCidrRequest)
 		if err != nil {
@@ -468,7 +468,7 @@ func (s *CoreVcnResourceCrud) updateCidrBlocks(oldRaw interface{}, newRaw interf
 		modifyVcnCidrRequest := oci_core.ModifyVcnCidrRequest{}
 		idTmp := s.D.Id()
 		modifyVcnCidrRequest.VcnId = &idTmp
-		modifyVcnCidrRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		modifyVcnCidrRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		modifyVcnCidrRequest.OriginalCidrBlock = &oldCidr
 		modifyVcnCidrRequest.NewCidrBlock = &newCidr
 		_, err := s.Client.ModifyVcnCidr(context.Background(), modifyVcnCidrRequest)

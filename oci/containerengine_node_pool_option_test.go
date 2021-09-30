@@ -15,8 +15,8 @@ import (
 
 var (
 	nodePoolOptionSingularDataSourceRepresentation = map[string]interface{}{
-		"node_pool_option_id": Representation{repType: Required, create: `all`},
-		"compartment_id":      Representation{repType: Optional, create: `${var.compartment_id}`},
+		"node_pool_option_id": Representation{RepType: Required, Create: `all`},
+		"compartment_id":      Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
 	NodePoolOptionResourceConfig = ""
@@ -34,13 +34,13 @@ func TestContainerengineNodePoolOptionResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_containerengine_node_pool_option.test_node_pool_option"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NodePoolOptionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_option_id"),
@@ -54,7 +54,7 @@ func TestContainerengineNodePoolOptionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Optional, Create, nodePoolOptionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Optional, Create, nodePoolOptionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NodePoolOptionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

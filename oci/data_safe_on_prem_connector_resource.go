@@ -188,10 +188,10 @@ func (s *DataSafeOnPremConnectorResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.CreateOnPremConnector(context.Background(), request)
 	if err != nil {
@@ -199,7 +199,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOnPremConnectorFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOnPremConnectorFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeOnPremConnectorResourceCrud) getOnPremConnectorFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -244,7 +244,7 @@ func onPremConnectorWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 
 func onPremConnectorWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "data_safe")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = onPremConnectorWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}
@@ -323,7 +323,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.OnPremConnectorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.GetOnPremConnector(context.Background(), request)
 	if err != nil {
@@ -365,13 +365,13 @@ func (s *DataSafeOnPremConnectorResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.OnPremConnectorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.UpdateOnPremConnector(context.Background(), request)
 	if err != nil {
@@ -379,7 +379,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOnPremConnectorFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOnPremConnectorFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataSafeOnPremConnectorResourceCrud) Delete() error {
@@ -388,7 +388,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.OnPremConnectorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.DeleteOnPremConnector(context.Background(), request)
 	if err != nil {
@@ -453,7 +453,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) updateCompartment(compartment inte
 	idTmp := s.D.Id()
 	changeCompartmentRequest.OnPremConnectorId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	_, err := s.Client.ChangeOnPremConnectorCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

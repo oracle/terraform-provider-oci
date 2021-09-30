@@ -14,9 +14,9 @@ import (
 
 var (
 	dedicatedVmHostShapeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"instance_shape_name": Representation{repType: Optional, create: `VM.Standard2.1`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"instance_shape_name": Representation{RepType: Optional, Create: `VM.Standard2.1`},
 	}
 
 	DedicatedVmHostShapeResourceConfig = AvailabilityDomainConfig
@@ -34,13 +34,13 @@ func TestCoreDedicatedVmHostShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_dedicated_vm_host_shapes.test_dedicated_vm_host_shapes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host_shapes", "test_dedicated_vm_host_shapes", Optional, Create, dedicatedVmHostShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host_shapes", "test_dedicated_vm_host_shapes", Optional, Create, dedicatedVmHostShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + DedicatedVmHostShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),

@@ -20,32 +20,32 @@ import (
 
 var (
 	QuotaRequiredOnlyResource = QuotaResourceDependencies +
-		generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Required, Create, quotaRepresentation)
+		GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Required, Create, quotaRepresentation)
 
 	QuotaResourceConfig = QuotaResourceDependencies +
-		generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Update, quotaRepresentation)
+		GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Update, quotaRepresentation)
 
 	quotaSingularDataSourceRepresentation = map[string]interface{}{
-		"quota_id": Representation{repType: Required, create: `${oci_limits_quota.test_quota.id}`},
+		"quota_id": Representation{RepType: Required, Create: `${oci_limits_quota.test_quota.id}`},
 	}
 
 	quotaDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"name":           Representation{repType: Optional, create: `ComputeQuotas`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"name":           Representation{RepType: Optional, Create: `ComputeQuotas`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, quotaDataSourceFilterRepresentation}}
 	quotaDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_limits_quota.test_quota.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_limits_quota.test_quota.id}`}},
 	}
 
 	quotaRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"description":    Representation{repType: Required, create: `Quotas for Compute VM.DenseIO1.16 resources`, update: `description2`},
-		"name":           Representation{repType: Required, create: `ComputeQuotas`},
-		"statements":     Representation{repType: Required, create: []string{`Set notifications quota topic-count to 99 in tenancy`}, update: []string{`Set notifications quota topic-count to 99 in tenancy`, `Set resource-manager quota stack-count to 499 in tenancy`}},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"description":    Representation{RepType: Required, Create: `Quotas for Compute VM.DenseIO1.16 resources`, Update: `description2`},
+		"name":           Representation{RepType: Required, Create: `ComputeQuotas`},
+		"statements":     Representation{RepType: Required, Create: []string{`Set notifications quota topic-count to 99 in tenancy`}, Update: []string{`Set notifications quota topic-count to 99 in tenancy`, `Set resource-manager quota stack-count to 499 in tenancy`}},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	QuotaResourceDependencies = DefinedTagsDependencies
@@ -67,15 +67,15 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_limits_quota.test_quota"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+QuotaResourceDependencies+
-		generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Create, quotaRepresentation), "limits", "quota", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+QuotaResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Create, quotaRepresentation), "limits", "quota", t)
 
 	ResourceTest(t, testAccCheckLimitsQuotaDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
-				generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Required, Create, quotaRepresentation),
+				GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Required, Create, quotaRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Quotas for Compute VM.DenseIO1.16 resources"),
@@ -83,20 +83,20 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + QuotaResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
-				generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Create, quotaRepresentation),
+				GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Create, quotaRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -108,9 +108,9 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,7 +122,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + QuotaResourceDependencies +
-				generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Update, quotaRepresentation),
+				GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Update, quotaRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -134,7 +134,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -145,9 +145,9 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_limits_quotas", "test_quotas", Optional, Update, quotaDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_limits_quotas", "test_quotas", Optional, Update, quotaDataSourceRepresentation) +
 				compartmentIdVariableStr + QuotaResourceDependencies +
-				generateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Update, quotaRepresentation),
+				GenerateResourceFromRepresentationMap("oci_limits_quota", "test_quota", Optional, Update, quotaRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "ComputeQuotas"),
@@ -167,7 +167,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_limits_quota", "test_quota", Required, Create, quotaSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_limits_quota", "test_quota", Required, Create, quotaSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + QuotaResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "quota_id"),
@@ -209,7 +209,7 @@ func testAccCheckLimitsQuotaDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.QuotaId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "limits")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "limits")
 
 			_, err := client.GetQuota(context.Background(), request)
 
@@ -234,7 +234,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LimitsQuota") {
+	if !InSweeperExcludeList("LimitsQuota") {
 		resource.AddTestSweepers("LimitsQuota", &resource.Sweeper{
 			Name:         "LimitsQuota",
 			Dependencies: DependencyGraph["quota"],
@@ -257,7 +257,7 @@ func sweepLimitsQuotaResource(compartment string) error {
 
 			deleteQuotaRequest.QuotaId = &quotaId
 
-			deleteQuotaRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "limits")
+			deleteQuotaRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "limits")
 			_, error := quotasClient.DeleteQuota(context.Background(), deleteQuotaRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Quota %s %s, It is possible that the resource is already deleted. Please verify manually \n", quotaId, error)
@@ -269,7 +269,7 @@ func sweepLimitsQuotaResource(compartment string) error {
 }
 
 func getQuotaIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "QuotaId")
+	ids := GetResourceIdsToSweep(compartment, "QuotaId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -287,7 +287,7 @@ func getQuotaIds(compartment string) ([]string, error) {
 	for _, quota := range listQuotasResponse.Items {
 		id := *quota.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "QuotaId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "QuotaId", id)
 	}
 	return resourceIds, nil
 }

@@ -175,14 +175,14 @@ func (s *DnsViewResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if scope, ok := s.D.GetOkExists("scope"); ok {
 		request.Scope = oci_dns.CreateViewScopeEnum(scope.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.CreateView(context.Background(), request)
 	if err != nil {
@@ -213,7 +213,7 @@ func (s *DnsViewResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ViewId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.GetView(context.Background(), request)
 	if err != nil {
@@ -250,7 +250,7 @@ func (s *DnsViewResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if scope, ok := s.D.GetOkExists("scope"); ok {
@@ -260,7 +260,7 @@ func (s *DnsViewResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ViewId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.UpdateView(context.Background(), request)
 	if err != nil {
@@ -281,7 +281,7 @@ func (s *DnsViewResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ViewId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.DeleteView(context.Background(), request)
 	return err
@@ -336,7 +336,7 @@ func (s *DnsViewResourceCrud) updateCompartment(compartment interface{}) error {
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ViewId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.ChangeViewCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

@@ -21,35 +21,35 @@ import (
 
 var (
 	ServiceGatewayRequiredOnlyResource = ServiceGatewayResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Required, Create, serviceGatewayRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Required, Create, serviceGatewayRepresentation)
 
 	serviceGatewayDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
-		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
+		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, serviceGatewayDataSourceFilterRepresentation}}
 	serviceGatewayDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_service_gateway.test_service_gateway.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_service_gateway.test_service_gateway.id}`}},
 	}
 
 	serviceGatewayRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"services":       RepresentationGroup{Required, serviceGatewayServicesRepresentation},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `MyServiceGateway`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"route_table_id": Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_route_table_id}`, update: `${oci_core_route_table.test_route_table.id}`},
+		"vcn_id":         Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `MyServiceGateway`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"route_table_id": Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`, Update: `${oci_core_route_table.test_route_table.id}`},
 	}
 	serviceGatewayServicesRepresentation = map[string]interface{}{
-		"service_id": Representation{repType: Required, create: `${lookup(data.oci_core_services.test_services.services[0], "id")}`},
+		"service_id": Representation{RepType: Required, Create: `${lookup(data.oci_core_services.test_services.services[0], "id")}`},
 	}
 
-	ServiceGatewayResourceDependencies = generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	ServiceGatewayResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -70,15 +70,15 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_service_gateways.test_service_gateways"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ServiceGatewayResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Create, serviceGatewayRepresentation), "core", "serviceGateway", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ServiceGatewayResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Create, serviceGatewayRepresentation), "core", "serviceGateway", t)
 
 	ResourceTest(t, testAccCheckCoreServiceGatewayDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Required, Create, serviceGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Required, Create, serviceGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
@@ -89,20 +89,20 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Create, serviceGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Create, serviceGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -121,9 +121,9 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -132,12 +132,12 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ServiceGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Create,
-					representationCopyWithNewProperties(serviceGatewayRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Create,
+					RepresentationCopyWithNewProperties(serviceGatewayRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
@@ -157,7 +157,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -169,7 +169,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ServiceGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Update, serviceGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Update, serviceGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -188,7 +188,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -199,9 +199,9 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_service_gateways", "test_service_gateways", Optional, Update, serviceGatewayDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_service_gateways", "test_service_gateways", Optional, Update, serviceGatewayDataSourceRepresentation) +
 				compartmentIdVariableStr + ServiceGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Update, serviceGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Optional, Update, serviceGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -247,7 +247,7 @@ func testAccCheckCoreServiceGatewayDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ServiceGatewayId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetServiceGateway(context.Background(), request)
 
@@ -280,7 +280,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreServiceGateway") {
+	if !InSweeperExcludeList("CoreServiceGateway") {
 		resource.AddTestSweepers("CoreServiceGateway", &resource.Sweeper{
 			Name:         "CoreServiceGateway",
 			Dependencies: DependencyGraph["serviceGateway"],
@@ -301,13 +301,13 @@ func sweepCoreServiceGatewayResource(compartment string) error {
 
 			deleteServiceGatewayRequest.ServiceGatewayId = &serviceGatewayId
 
-			deleteServiceGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteServiceGatewayRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteServiceGateway(context.Background(), deleteServiceGatewayRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ServiceGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", serviceGatewayId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &serviceGatewayId, serviceGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &serviceGatewayId, serviceGatewaySweepWaitCondition, time.Duration(3*time.Minute),
 				serviceGatewaySweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -315,7 +315,7 @@ func sweepCoreServiceGatewayResource(compartment string) error {
 }
 
 func getServiceGatewayIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ServiceGatewayId")
+	ids := GetResourceIdsToSweep(compartment, "ServiceGatewayId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -334,7 +334,7 @@ func getServiceGatewayIds(compartment string) ([]string, error) {
 	for _, serviceGateway := range listServiceGatewaysResponse.Items {
 		id := *serviceGateway.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ServiceGatewayId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ServiceGatewayId", id)
 	}
 	return resourceIds, nil
 }

@@ -20,7 +20,7 @@ func DatacatalogConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatacatalogConnections,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"catalog_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -48,7 +48,7 @@ func DatacatalogConnectionsDataSource() *schema.Resource {
 			"fields": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -203,7 +203,7 @@ func (s *DatacatalogConnectionsDataSourceCrud) Get() error {
 		request.UpdatedById = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datacatalog")
 
 	response, err := s.Client.ListConnections(context.Background(), request)
 	if err != nil {

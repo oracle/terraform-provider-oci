@@ -29,30 +29,30 @@ variable "identity_provider_metadata_file" { default = "{{.metadata_file}}" }
 
 var (
 	IdentityProviderRequiredOnlyResource = IdentityProviderResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation)
 
 	identityProviderDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"protocol":       Representation{repType: Required, create: `SAML2`},
-		"name":           Representation{repType: Optional, create: `test-idp-saml2-adfs`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"protocol":       Representation{RepType: Required, Create: `SAML2`},
+		"name":           Representation{RepType: Optional, Create: `test-idp-saml2-adfs`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, identityProviderDataSourceFilterRepresentation}}
 	identityProviderDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_identity_provider.test_identity_provider.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_identity_provider.test_identity_provider.id}`}},
 	}
 
 	identityProviderRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"description":         Representation{repType: Required, create: `description`, update: `description2`},
-		"metadata":            Representation{repType: Required, create: `${file("${var.identity_provider_metadata_file}")}`},
-		"metadata_url":        Representation{repType: Required, create: `metadataUrl`, update: `metadataUrl2`},
-		"name":                Representation{repType: Required, create: `test-idp-saml2-adfs`},
-		"product_type":        Representation{repType: Required, create: `ADFS`},
-		"protocol":            Representation{repType: Required, create: `SAML2`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_attributes": Representation{repType: Optional, create: map[string]string{"clientId": "app_sf3kdjf3"}},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"description":         Representation{RepType: Required, Create: `description`, Update: `description2`},
+		"metadata":            Representation{RepType: Required, Create: `${file("${var.identity_provider_metadata_file}")}`},
+		"metadata_url":        Representation{RepType: Required, Create: `metadataUrl`, Update: `metadataUrl2`},
+		"name":                Representation{RepType: Required, Create: `test-idp-saml2-adfs`},
+		"product_type":        Representation{RepType: Required, Create: `ADFS`},
+		"protocol":            Representation{RepType: Required, Create: `SAML2`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_attributes": Representation{RepType: Optional, Create: map[string]string{"clientId": "app_sf3kdjf3"}},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	IdentityProviderResourceDependencies = IdentityProviderPropertyVariables +
@@ -79,9 +79,9 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_identity_providers.test_identity_providers"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+IdentityProviderResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation), "identity", "identityProvider", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+IdentityProviderResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation), "identity", "identityProvider", t)
 
 	metadataContents, err := ioutil.ReadFile(metadataFile)
 	if err != nil {
@@ -89,14 +89,14 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	}
 	metadata := string(metadataContents)
 
-	_, tokenFn := tokenizeWithHttpReplay("identity_provider")
+	_, tokenFn := TokenizeWithHttpReplay("identity_provider")
 	IdentityProviderResourceDependencies = tokenFn(IdentityProviderResourceDependencies, map[string]string{"metadata_file": metadataFile})
 
 	ResourceTest(t, testAccCheckIdentityIdentityProviderDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -107,21 +107,21 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies,
 		},
 
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -139,9 +139,9 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -153,7 +153,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -171,7 +171,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -182,9 +182,9 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", Optional, Update, identityProviderDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", Optional, Update, identityProviderDataSourceRepresentation) +
 				compartmentIdVariableStr + IdentityProviderResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
@@ -230,7 +230,7 @@ func testAccCheckIdentityIdentityProviderDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.IdentityProviderId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 
 			response, err := client.GetIdentityProvider(context.Background(), request)
 

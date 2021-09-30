@@ -60,7 +60,7 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: timeDiffSuppressFunction,
+				DiffSuppressFunc: TimeDiffSuppressFunction,
 			},
 
 			// Computed
@@ -226,7 +226,7 @@ func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 		request.TimeScheduled = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateMaintenanceRun(context.Background(), request)
 	if err != nil {
@@ -248,7 +248,7 @@ func (s *DatabaseMaintenanceRunResourceCrud) Get() error {
 	}
 	request.MaintenanceRunId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetMaintenanceRun(context.Background(), request)
 	if err != nil {
@@ -293,17 +293,17 @@ func (s *DatabaseMaintenanceRunResourceCrud) Update() error {
 		request.TimeScheduled = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.UpdateMaintenanceRun(context.Background(), request)
 	if err != nil {
 		return err
 	}
-	// Workaround: Sleep for some time before polling the configuration. Because update happens asynchronously, polling too
+	// Workaround: Sleep for some time before polling the configuration. Because Update happens asynchronously, polling too
 	// soon may result in service returning stale configuration values.
 	time.Sleep(time.Second * 10)
 
-	// Requests to update may succeed instantly but may not see the actual update take effect
+	// Requests to Update may succeed instantly but may not see the actual Update take effect
 	// until minutes later. Add polling here to return only when the change has taken effect.
 	maintenanceRunUpdatePatchingModeFunc := func() bool { return s.Res.LifecycleState != oci_database.MaintenanceRunLifecycleStateUpdating }
 	return WaitForResourceCondition(s, maintenanceRunUpdatePatchingModeFunc, s.D.Timeout(schema.TimeoutUpdate))

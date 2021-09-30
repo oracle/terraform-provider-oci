@@ -95,7 +95,7 @@ func (s *CoreShapeResourceCrud) Create() error {
 		request.ShapeName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.AddImageShapeCompatibilityEntry(context.Background(), request)
 	if err != nil {
@@ -118,7 +118,7 @@ func (s *CoreShapeResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.ListShapes(context.Background(), request)
 	if err != nil {
@@ -148,7 +148,7 @@ func (s *CoreShapeResourceCrud) Delete() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err = s.Client.RemoveImageShapeCompatibilityEntry(context.Background(), request)
 	return err

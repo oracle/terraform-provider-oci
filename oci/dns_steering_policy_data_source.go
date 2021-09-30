@@ -49,7 +49,7 @@ func (s *DnsSteeringPolicyDataSourceCrud) Get() error {
 		request.SteeringPolicyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.GetSteeringPolicy(context.Background(), request)
 	if err != nil {

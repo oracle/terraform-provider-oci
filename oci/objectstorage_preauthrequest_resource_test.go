@@ -29,7 +29,7 @@ type ResourceObjectstoragePARTestSuite struct {
 }
 
 func (s *ResourceObjectstoragePARTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenizeWithHttpReplay("object_storage_resource")
+	s.Token, s.TokenFn = TokenizeWithHttpReplay("object_storage_resource")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
@@ -59,7 +59,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config + `
 				resource "oci_objectstorage_preauthrequest" "t" {
@@ -84,7 +84,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 				),
 			},
-			// verify access_uri is still available after subsequent refreshes (api only returns this value on create)
+			// verify access_uri is still available after subsequent refreshes (api only returns this value on Create)
 			{
 				Config: s.Config + `
 				resource "oci_objectstorage_preauthrequest" "t" {
@@ -163,21 +163,21 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 	datasourceName := "data.oci_objectstorage_preauthrequests.test_preauthenticated_requests"
 	singularDatasourceName := "data.oci_objectstorage_preauthrequest.test_preauthenticated_request"
 
-	updatedRepresentation := representationCopyWithNewProperties(
-		representationCopyWithRemovedProperties(
+	updatedRepresentation := RepresentationCopyWithNewProperties(
+		RepresentationCopyWithRemovedProperties(
 			preauthenticatedRequestRepresentation,
 			[]string{"object"}), map[string]interface{}{
 			"object_name": Representation{
-				repType: Optional,
-				create:  `my-test-object-1`,
+				RepType: Optional,
+				Create:  `my-test-object-1`,
 			},
 		})
 
 	var resId string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PreauthenticatedRequestResourceDependencies+
-		generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Create, updatedRepresentation), "objectstorage", "preauthenticatedRequest", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PreauthenticatedRequestResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Create, updatedRepresentation), "objectstorage", "preauthenticatedRequest", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -186,10 +186,10 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 		},
 		CheckDestroy: testAccCheckObjectStoragePreauthenticatedRequestDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, updatedRepresentation),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, updatedRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "AnyObjectWrite"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testPreAuthBucketName),
@@ -199,14 +199,14 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 				),
 			},
 
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies,
 			},
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, updatedRepresentation),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, updatedRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttr(resourceName, "bucket_listing_action", ""),
@@ -220,9 +220,9 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 					resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -234,9 +234,9 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", Optional, Update, preauthenticatedRequestDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequests", "test_preauthenticated_requests", Optional, Update, preauthenticatedRequestDataSourceRepresentation) +
 					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, updatedRepresentation),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, updatedRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", testPreAuthBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -254,9 +254,9 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + PreauthenticatedRequestResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, updatedRepresentation),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, updatedRepresentation),
 
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testPreAuthBucketName),

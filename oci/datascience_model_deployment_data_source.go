@@ -49,7 +49,7 @@ func (s *DatascienceModelDeploymentDataSourceCrud) Get() error {
 		request.ModelDeploymentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	response, err := s.Client.GetModelDeployment(context.Background(), request)
 	if err != nil {

@@ -131,7 +131,7 @@ func (s *ApmSyntheticsPublicVantagePointDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm_synthetics")
 
 	response, err := s.Client.ListPublicVantagePoints(context.Background(), request)
 	if err != nil {

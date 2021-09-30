@@ -49,7 +49,7 @@ func (s *OnsNotificationTopicDataSourceCrud) Get() error {
 		request.TopicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ons")
 
 	response, err := s.Client.GetTopic(context.Background(), request)
 	if err != nil {

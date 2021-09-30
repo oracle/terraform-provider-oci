@@ -21,58 +21,58 @@ import (
 
 var (
 	LogAnalyticsObjectCollectionRuleRequiredOnlyResource = LogAnalyticsObjectCollectionRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleRepresentation)
 
 	LogAnalyticsObjectCollectionRuleResourceConfig = LogAnalyticsObjectCollectionRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation)
 
 	logAnalyticsObjectCollectionRuleSingularDataSourceRepresentation = map[string]interface{}{
-		"log_analytics_object_collection_rule_id": Representation{repType: Required, create: `${oci_log_analytics_log_analytics_object_collection_rule.test_log_analytics_object_collection_rule.id}`},
-		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"log_analytics_object_collection_rule_id": Representation{RepType: Required, Create: `${oci_log_analytics_log_analytics_object_collection_rule.test_log_analytics_object_collection_rule.id}`},
+		"namespace": Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
 	logAnalyticsObjectCollectionRuleDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"name":           Representation{repType: Optional, create: `test_terraform_rule`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"namespace":      Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"name":           Representation{RepType: Optional, Create: `test_terraform_rule`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, logAnalyticsObjectCollectionRuleDataSourceFilterRepresentation}}
 	logAnalyticsObjectCollectionRuleDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_log_analytics_log_analytics_object_collection_rule.test_log_analytics_object_collection_rule.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_log_analytics_log_analytics_object_collection_rule.test_log_analytics_object_collection_rule.id}`}},
 	}
 
 	logAnalyticsObjectCollectionRulePropertyOverridesRepresentation = map[string]interface{}{
-		"match_type":     Representation{repType: Optional, create: `contains`, update: `contains`},
-		"match_value":    Representation{repType: Optional, create: `db`, update: `db`},
-		"property_name":  Representation{repType: Optional, create: `charEncoding`, update: `charEncoding`},
-		"property_value": Representation{repType: Optional, create: `utf-8`, update: `utf-16`},
+		"match_type":     Representation{RepType: Optional, Create: `contains`, Update: `contains`},
+		"match_value":    Representation{RepType: Optional, Create: `db`, Update: `db`},
+		"property_name":  Representation{RepType: Optional, Create: `charEncoding`, Update: `charEncoding`},
+		"property_value": Representation{RepType: Optional, Create: `utf-8`, Update: `utf-16`},
 	}
 
 	logAnalyticsObjectCollectionRuleRepresentation = map[string]interface{}{
-		"compartment_id":  Representation{repType: Required, create: `${var.compartment_id}`},
-		"log_group_id":    Representation{repType: Required, create: `${oci_log_analytics_log_analytics_log_group.test_log_analytics_log_group.id}`},
-		"log_source_name": Representation{repType: Required, create: `LinuxSyslogSource`, update: `LinuxSyslogSource`},
-		"name":            Representation{repType: Required, create: `test_terraform_rule`},
-		"namespace":       Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"os_bucket_name":  Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"os_namespace":    Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"char_encoding":   Representation{repType: Optional, create: `utf-8`, update: `utf-16`},
-		"collection_type": Representation{repType: Optional, create: `HISTORIC`},
-		"defined_tags":    Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":     Representation{repType: Optional, create: `test terraform rule create`, update: `test terraform rule update`},
-		"entity_id":       Representation{repType: Optional, create: `${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`},
-		"freeform_tags":   Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"log_group_id":    Representation{RepType: Required, Create: `${oci_log_analytics_log_analytics_log_group.test_log_analytics_log_group.id}`},
+		"log_source_name": Representation{RepType: Required, Create: `LinuxSyslogSource`, Update: `LinuxSyslogSource`},
+		"name":            Representation{RepType: Required, Create: `test_terraform_rule`},
+		"namespace":       Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"os_bucket_name":  Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"os_namespace":    Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"char_encoding":   Representation{RepType: Optional, Create: `utf-8`, Update: `utf-16`},
+		"collection_type": Representation{RepType: Optional, Create: `HISTORIC`},
+		"defined_tags":    Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":     Representation{RepType: Optional, Create: `test terraform rule Create`, Update: `test terraform rule Update`},
+		"entity_id":       Representation{RepType: Optional, Create: `${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`},
+		"freeform_tags":   Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"overrides":       RepresentationGroup{Optional, logAnalyticsObjectCollectionRulePropertyOverridesRepresentation},
-		"poll_since":      Representation{repType: Optional, create: `2020-04-01T00:00:00.000Z`},
-		"poll_till":       Representation{repType: Optional, create: `2021-04-01T00:00:00.000Z`},
+		"poll_since":      Representation{RepType: Optional, Create: `2020-04-01T00:00:00.000Z`},
+		"poll_till":       Representation{RepType: Optional, Create: `2021-04-01T00:00:00.000Z`},
 	}
 
 	LogAnalyticsObjectCollectionRuleResourceDependencies = DefinedTagsDependencies +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", Required, Create, logAnalyticsLogGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation)
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_log_group", "test_log_analytics_log_group", Required, Create, logAnalyticsLogGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation)
 )
 
 func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T) {
@@ -98,15 +98,15 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 	singularDatasourceName := "data.oci_log_analytics_log_analytics_object_collection_rule.test_log_analytics_object_collection_rule"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+LogAnalyticsObjectCollectionRuleResourceDependencies+
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create, logAnalyticsObjectCollectionRuleRepresentation), "loganalytics", "logAnalyticsObjectCollectionRule", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+LogAnalyticsObjectCollectionRuleResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create, logAnalyticsObjectCollectionRuleRepresentation), "loganalytics", "logAnalyticsObjectCollectionRule", t)
 
 	ResourceTest(t, testAccCheckLogAnalyticsLogAnalyticsObjectCollectionRuleDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
@@ -117,26 +117,26 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create, logAnalyticsObjectCollectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create, logAnalyticsObjectCollectionRuleRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-8"),
 				resource.TestCheckResourceAttr(resourceName, "collection_type", "HISTORIC"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule create"),
+				resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule Create"),
 				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -156,9 +156,9 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -167,19 +167,19 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create,
-					representationCopyWithNewProperties(logAnalyticsObjectCollectionRuleRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Create,
+					RepresentationCopyWithNewProperties(logAnalyticsObjectCollectionRuleRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-8"),
 				resource.TestCheckResourceAttr(resourceName, "collection_type", "HISTORIC"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule create"),
+				resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule Create"),
 				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -199,7 +199,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", fmt.Sprintf(resId), fmt.Sprintf(resId2))
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
@@ -212,13 +212,13 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "char_encoding", "utf-16"),
 				resource.TestCheckResourceAttr(resourceName, "collection_type", "HISTORIC"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule update"),
+				resource.TestCheckResourceAttr(resourceName, "description", "test terraform rule Update"),
 				resource.TestCheckResourceAttrSet(resourceName, "entity_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -238,7 +238,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						Logf("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource:: resource Ids not matching \n%s\n%s", fmt.Sprintf(resId), fmt.Sprintf(resId2))
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
@@ -250,9 +250,9 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rules", "test_log_analytics_object_collection_rules", Optional, Update, logAnalyticsObjectCollectionRuleDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rules", "test_log_analytics_object_collection_rules", Optional, Update, logAnalyticsObjectCollectionRuleDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Optional, Update, logAnalyticsObjectCollectionRuleRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test_terraform_rule"),
@@ -266,7 +266,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_object_collection_rule", "test_log_analytics_object_collection_rule", Required, Create, logAnalyticsObjectCollectionRuleSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr + LogAnalyticsObjectCollectionRuleResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_analytics_object_collection_rule_id"),
@@ -276,7 +276,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(singularDatasourceName, "collection_type", "HISTORIC"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "test terraform rule update"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "test terraform rule Update"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_source_name", "LinuxSyslogSource"),
@@ -323,7 +323,7 @@ func testAccCheckLogAnalyticsLogAnalyticsObjectCollectionRuleDestroy(s *terrafor
 				request.NamespaceName = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "log_analytics")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "log_analytics")
 
 			response, err := client.GetLogAnalyticsObjectCollectionRule(context.Background(), request)
 
@@ -356,7 +356,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LogAnalyticsLogAnalyticsObjectCollectionRule") {
+	if !InSweeperExcludeList("LogAnalyticsLogAnalyticsObjectCollectionRule") {
 		resource.AddTestSweepers("LogAnalyticsLogAnalyticsObjectCollectionRule", &resource.Sweeper{
 			Name:         "LogAnalyticsLogAnalyticsObjectCollectionRule",
 			Dependencies: DependencyGraph["logAnalyticsObjectCollectionRule"],
@@ -377,13 +377,13 @@ func sweepLogAnalyticsLogAnalyticsObjectCollectionRuleResource(compartment strin
 
 			deleteLogAnalyticsObjectCollectionRuleRequest.LogAnalyticsObjectCollectionRuleId = &logAnalyticsObjectCollectionRuleId
 
-			deleteLogAnalyticsObjectCollectionRuleRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "log_analytics")
+			deleteLogAnalyticsObjectCollectionRuleRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "log_analytics")
 			_, error := logAnalyticsClient.DeleteLogAnalyticsObjectCollectionRule(context.Background(), deleteLogAnalyticsObjectCollectionRuleRequest)
 			if error != nil {
 				fmt.Printf("Error deleting LogAnalyticsObjectCollectionRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", logAnalyticsObjectCollectionRuleId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &logAnalyticsObjectCollectionRuleId, logAnalyticsObjectCollectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &logAnalyticsObjectCollectionRuleId, logAnalyticsObjectCollectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
 				logAnalyticsObjectCollectionRuleSweepResponseFetchOperation, "log_analytics", true)
 		}
 	}
@@ -391,7 +391,7 @@ func sweepLogAnalyticsLogAnalyticsObjectCollectionRuleResource(compartment strin
 }
 
 func getLogAnalyticsObjectCollectionRuleIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "LogAnalyticsObjectCollectionRuleId")
+	ids := GetResourceIdsToSweep(compartment, "LogAnalyticsObjectCollectionRuleId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -418,7 +418,7 @@ func getLogAnalyticsObjectCollectionRuleIds(compartment string) ([]string, error
 		for _, logAnalyticsObjectCollectionRule := range listLogAnalyticsObjectCollectionRulesResponse.Items {
 			id := *logAnalyticsObjectCollectionRule.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "LogAnalyticsObjectCollectionRuleId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "LogAnalyticsObjectCollectionRuleId", id)
 		}
 
 	}

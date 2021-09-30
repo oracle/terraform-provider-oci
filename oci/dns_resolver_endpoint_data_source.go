@@ -67,7 +67,7 @@ func (s *DnsResolverEndpointDataSourceCrud) Get() error {
 		request.Scope = oci_dns.GetResolverEndpointScopeEnum(scope.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.GetResolverEndpoint(context.Background(), request)
 	if err != nil {

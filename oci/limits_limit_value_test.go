@@ -14,15 +14,15 @@ import (
 
 var (
 	limitValueDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"service_name":        Representation{repType: Required, create: `${data.oci_limits_services.test_services.services.0.name}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"name":                Representation{repType: Optional, create: `custom-image-count`},
-		"scope_type":          Representation{repType: Optional, create: `AD`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"service_name":        Representation{RepType: Required, Create: `${data.oci_limits_services.test_services.services.0.name}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"name":                Representation{RepType: Optional, Create: `custom-image-count`},
+		"scope_type":          Representation{RepType: Optional, Create: `AD`},
 	}
 
 	LimitValueResourceConfig = AvailabilityDomainConfig +
-		generateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
+		GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
 )
 
 // issue-routing-tag: limits/default
@@ -38,13 +38,13 @@ func TestLimitsLimitValueResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_limits_limit_values.test_limit_values"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_limits_limit_values", "test_limit_values", Required, Create, limitValueDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_limits_limit_values", "test_limit_values", Required, Create, limitValueDataSourceRepresentation) +
 				compartmentIdVariableStr + LimitValueResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),

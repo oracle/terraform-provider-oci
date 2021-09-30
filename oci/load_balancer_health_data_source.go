@@ -82,7 +82,7 @@ func (s *LoadBalancerLoadBalancerHealthDataSourceCrud) Get() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "load_balancer")
 
 	response, err := s.Client.GetLoadBalancerHealth(context.Background(), request)
 	if err != nil {

@@ -58,7 +58,7 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyDataSourceCrud) Get() error {
 		request.RoutingPolicyName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "load_balancer")
 
 	response, err := s.Client.GetRoutingPolicy(context.Background(), request)
 	if err != nil {

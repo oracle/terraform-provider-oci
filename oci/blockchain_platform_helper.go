@@ -21,7 +21,7 @@ func blockchainPlatformComputeShapeDiffSuppressFunction(key string, old string, 
 	upperCaseNewValue := strings.ToUpper(new)
 	upperCaseOldValue := strings.ToUpper(old)
 
-	// ENTERPRISE_CUSTOM is auto changed when update totalOcpuCapacity
+	// ENTERPRISE_CUSTOM is auto changed when Update totalOcpuCapacity
 	if upperCaseNewValue == "ENTERPRISE_CUSTOM" || upperCaseOldValue == "ENTERPRISE_CUSTOM" {
 		return true
 	}
@@ -30,7 +30,7 @@ func blockchainPlatformComputeShapeDiffSuppressFunction(key string, old string, 
 }
 
 func sendUpdateBlockchainPlatformRequest(s *BlockchainBlockchainPlatformResourceCrud, request oci_blockchain.UpdateBlockchainPlatformRequest) error {
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.UpdateBlockchainPlatform(context.Background(), request)
 	if err != nil {
@@ -38,7 +38,7 @@ func sendUpdateBlockchainPlatformRequest(s *BlockchainBlockchainPlatformResource
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getBlockchainPlatformFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getBlockchainPlatformFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

@@ -14,29 +14,29 @@ import (
 
 var (
 	AutonomousDatabaseWalletRequiredOnlyResource = AutonomousDatabaseWalletResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletRepresentation)
 
 	AutonomousDatabaseWalletResourceConfig = AutonomousDatabaseWalletResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Update, autonomousDatabaseWalletRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Update, autonomousDatabaseWalletRepresentation)
 
-	adbWalletDbName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbWalletDbName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
 
 	autonomousDatabaseWalletSingularDataSourceRepresentation = map[string]interface{}{
-		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"password":               Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"generate_type":          Representation{repType: Optional, create: `ALL`},
-		"base64_encode_content":  Representation{repType: Optional, create: `true`},
+		"autonomous_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"password":               Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"generate_type":          Representation{RepType: Optional, Create: `ALL`},
+		"base64_encode_content":  Representation{RepType: Optional, Create: `true`},
 	}
 
 	autonomousDatabaseWalletRepresentation = map[string]interface{}{
-		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"password":               Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"base64_encode_content":  Representation{repType: Optional, create: `true`},
-		"generate_type":          Representation{repType: Optional, create: `ALL`},
+		"autonomous_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"password":               Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"base64_encode_content":  Representation{RepType: Optional, Create: `true`},
+		"generate_type":          Representation{RepType: Optional, Create: `ALL`},
 	}
 
-	AutonomousDatabaseWalletResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
-		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbWalletDbName}, autonomousDatabaseRepresentation))
+	AutonomousDatabaseWalletResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
+		GetUpdatedRepresentationCopy("db_name", Representation{RepType: Required, Create: adbWalletDbName}, autonomousDatabaseRepresentation))
 )
 
 // issue-routing-tag: database/dbaas-adb
@@ -53,29 +53,29 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_database_autonomous_database_wallet.test_autonomous_database_wallet"
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseWalletResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletRepresentation), "database", "autonomousDatabaseWallet", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseWalletResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletRepresentation), "database", "autonomousDatabaseWallet", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "base64_encode_content", "true"),
@@ -88,7 +88,7 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
@@ -101,14 +101,14 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDatabaseWalletResourceDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "generate_type", "ALL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
-				testCheckAttributeBase64Encoded(singularDatasourceName, "content", true),
+				TestCheckAttributeBase64Encoded(singularDatasourceName, "content", true),
 			),
 		},
 	})

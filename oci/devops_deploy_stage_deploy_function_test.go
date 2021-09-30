@@ -16,29 +16,29 @@ import (
 
 var (
 	DeployFunctionStageRequiredOnlyResource = DeployFunctionStageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageRepresentation)
 
 	DeployFunctionStageResourceConfig = DeployFunctionStageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation)
 
 	deployFunctionStageSingularDataSourceRepresentation = map[string]interface{}{
-		"deploy_stage_id": Representation{repType: Required, create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
+		"deploy_stage_id": Representation{RepType: Required, Create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
 	}
 
-	deployFunctionStageRepresentation = getUpdatedRepresentationCopy("deploy_stage_type", Representation{repType: Required, create: `DEPLOY_FUNCTION`},
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
-			"function_deploy_environment_id":  Representation{repType: Required, create: `${oci_devops_deploy_environment.test_deploy_function_environment.id}`},
-			"docker_image_deploy_artifact_id": Representation{repType: Required, create: `${oci_devops_deploy_artifact.test_deploy_ocir_artifact.id}`},
-			"function_timeout_in_seconds":     Representation{repType: Required, create: `30`, update: `20`},
-			"max_memory_in_mbs":               Representation{repType: Required, create: `128`, update: `256`},
+	deployFunctionStageRepresentation = GetUpdatedRepresentationCopy("deploy_stage_type", Representation{RepType: Required, Create: `DEPLOY_FUNCTION`},
+		RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
+			"function_deploy_environment_id":  Representation{RepType: Required, Create: `${oci_devops_deploy_environment.test_deploy_function_environment.id}`},
+			"docker_image_deploy_artifact_id": Representation{RepType: Required, Create: `${oci_devops_deploy_artifact.test_deploy_ocir_artifact.id}`},
+			"function_timeout_in_seconds":     Representation{RepType: Required, Create: `30`, Update: `20`},
+			"max_memory_in_mbs":               Representation{RepType: Required, Create: `128`, Update: `256`},
 		}))
 
-	DeployFunctionStageResourceDependencies = generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_ocir_artifact", Required, Create, deployOcirArtifactRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_function_environment", Required, Create, deployFunctionEnvironmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
+	DeployFunctionStageResourceDependencies = GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_ocir_artifact", Required, Create, deployOcirArtifactRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_function_environment", Required, Create, deployFunctionEnvironmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -56,15 +56,15 @@ func TestDevopsDeployStageResource_deployFunction(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deploy_stage.test_deploy_stage"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeployFunctionStageResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployFunctionStageRepresentation), "devops", "deployStage", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeployFunctionStageResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployFunctionStageRepresentation), "devops", "deployStage", t)
 
 	ResourceTest(t, testAccCheckDevopsDeployStageDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
@@ -77,20 +77,20 @@ func TestDevopsDeployStageResource_deployFunction(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "max_memory_in_mbs", "128"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployFunctionStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployFunctionStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -110,9 +110,9 @@ func TestDevopsDeployStageResource_deployFunction(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "max_memory_in_mbs", "128"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -124,7 +124,7 @@ func TestDevopsDeployStageResource_deployFunction(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -142,7 +142,7 @@ func TestDevopsDeployStageResource_deployFunction(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "max_memory_in_mbs", "256"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -153,9 +153,9 @@ func TestDevopsDeployStageResource_deployFunction(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployFunctionStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployFunctionStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
@@ -166,7 +166,7 @@ func TestDevopsDeployStageResource_deployFunction(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployFunctionStageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployFunctionStageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_id"),

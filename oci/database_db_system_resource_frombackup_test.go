@@ -73,7 +73,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 	var resId string
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create
+		// Create
 		{
 			Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
 				data "oci_database_databases" "t" {
@@ -82,14 +82,14 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 				}`,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, "data.oci_database_databases.t", "databases.0.id")
+					resId, err = FromInstanceState(s, "data.oci_database_databases.t", "databases.0.id")
 					return err
 				},
 			),
 		},
-		// wait for backup and create new db from it
+		// wait for backup and Create new db from it
 		{
-			PreConfig: waitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, DBWaitConditionDuration,
+			PreConfig: WaitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, DBWaitConditionDuration,
 				listBackupsFetchOperation, "core", false),
 			Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
 				data "oci_database_databases" "t" {

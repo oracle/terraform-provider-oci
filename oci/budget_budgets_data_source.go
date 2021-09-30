@@ -18,7 +18,7 @@ func BudgetBudgetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBudgetBudgets,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -83,7 +83,7 @@ func (s *BudgetBudgetsDataSourceCrud) Get() error {
 		request.TargetType = oci_budget.ListBudgetsTargetTypeEnum(targetType.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "budget")
 
 	response, err := s.Client.ListBudgets(context.Background(), request)
 	if err != nil {

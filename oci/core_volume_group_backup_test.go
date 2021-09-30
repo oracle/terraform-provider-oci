@@ -21,28 +21,28 @@ import (
 
 var (
 	VolumeGroupBackupRequiredOnlyResource = VolumeGroupBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Required, Create, volumeGroupBackupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Required, Create, volumeGroupBackupRepresentation)
 
 	volumeGroupBackupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":  Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":    Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"volume_group_id": Representation{repType: Optional, create: `${oci_core_volume_group.test_volume_group.id}`},
+		"compartment_id":  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":    Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"volume_group_id": Representation{RepType: Optional, Create: `${oci_core_volume_group.test_volume_group.id}`},
 		"filter":          RepresentationGroup{Required, volumeGroupBackupDataSourceFilterRepresentation}}
 	volumeGroupBackupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_volume_group_backup.test_volume_group_backup.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_volume_group_backup.test_volume_group_backup.id}`}},
 	}
 
 	volumeGroupBackupRepresentation = map[string]interface{}{
-		"volume_group_id": Representation{repType: Required, create: `${oci_core_volume_group.test_volume_group.id}`},
-		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
-		"defined_tags":    Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":    Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":   Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"type":            Representation{repType: Optional, create: `INCREMENTAL`},
+		"volume_group_id": Representation{RepType: Required, Create: `${oci_core_volume_group.test_volume_group.id}`},
+		"compartment_id":  Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"defined_tags":    Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":    Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":   Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"type":            Representation{RepType: Optional, Create: `INCREMENTAL`},
 	}
 
-	VolumeGroupBackupResourceDependencies = generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) +
+	VolumeGroupBackupResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) +
 		SourceVolumeListDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
@@ -65,33 +65,33 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_volume_group_backups.test_volume_group_backups"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+VolumeGroupBackupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create, volumeGroupBackupRepresentation), "core", "volumeGroupBackup", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+VolumeGroupBackupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create, volumeGroupBackupRepresentation), "core", "volumeGroupBackup", t)
 
 	ResourceTest(t, testAccCheckCoreVolumeGroupBackupDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Required, Create, volumeGroupBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Required, Create, volumeGroupBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create, volumeGroupBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create, volumeGroupBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -105,9 +105,9 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -116,12 +116,12 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeGroupBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create,
-					representationCopyWithNewProperties(volumeGroupBackupRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Create,
+					RepresentationCopyWithNewProperties(volumeGroupBackupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -136,7 +136,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -148,7 +148,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Update, volumeGroupBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Update, volumeGroupBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -162,7 +162,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -173,9 +173,9 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_volume_group_backups", "test_volume_group_backups", Optional, Update, volumeGroupBackupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_volume_group_backups", "test_volume_group_backups", Optional, Update, volumeGroupBackupDataSourceRepresentation) +
 				compartmentIdVariableStr + VolumeGroupBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Update, volumeGroupBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_group_backup", "test_volume_group_backup", Optional, Update, volumeGroupBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -227,7 +227,7 @@ func testAccCheckCoreVolumeGroupBackupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VolumeGroupBackupId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetVolumeGroupBackup(context.Background(), request)
 
@@ -260,7 +260,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreVolumeGroupBackup") {
+	if !InSweeperExcludeList("CoreVolumeGroupBackup") {
 		resource.AddTestSweepers("CoreVolumeGroupBackup", &resource.Sweeper{
 			Name:         "CoreVolumeGroupBackup",
 			Dependencies: DependencyGraph["volumeGroupBackup"],
@@ -281,13 +281,13 @@ func sweepCoreVolumeGroupBackupResource(compartment string) error {
 
 			deleteVolumeGroupBackupRequest.VolumeGroupBackupId = &volumeGroupBackupId
 
-			deleteVolumeGroupBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteVolumeGroupBackupRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := blockstorageClient.DeleteVolumeGroupBackup(context.Background(), deleteVolumeGroupBackupRequest)
 			if error != nil {
 				fmt.Printf("Error deleting VolumeGroupBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeGroupBackupId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &volumeGroupBackupId, volumeGroupBackupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &volumeGroupBackupId, volumeGroupBackupSweepWaitCondition, time.Duration(3*time.Minute),
 				volumeGroupBackupSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -295,7 +295,7 @@ func sweepCoreVolumeGroupBackupResource(compartment string) error {
 }
 
 func getVolumeGroupBackupIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "VolumeGroupBackupId")
+	ids := GetResourceIdsToSweep(compartment, "VolumeGroupBackupId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -313,7 +313,7 @@ func getVolumeGroupBackupIds(compartment string) ([]string, error) {
 	for _, volumeGroupBackup := range listVolumeGroupBackupsResponse.Items {
 		id := *volumeGroupBackup.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "VolumeGroupBackupId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "VolumeGroupBackupId", id)
 	}
 	return resourceIds, nil
 }

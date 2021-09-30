@@ -94,7 +94,7 @@ func (s *IdentityCompartmentDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetCompartment(context.Background(), request)
 	if err != nil {

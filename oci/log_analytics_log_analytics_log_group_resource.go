@@ -150,7 +150,7 @@ func (s *LogAnalyticsLogAnalyticsLogGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
@@ -158,7 +158,7 @@ func (s *LogAnalyticsLogAnalyticsLogGroupResourceCrud) Create() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	response, err := s.Client.CreateLogAnalyticsLogGroup(context.Background(), request)
 	if err != nil {
@@ -188,7 +188,7 @@ func (s *LogAnalyticsLogAnalyticsLogGroupResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	response, err := s.Client.GetLogAnalyticsLogGroup(context.Background(), request)
 	if err != nil {
@@ -230,7 +230,7 @@ func (s *LogAnalyticsLogAnalyticsLogGroupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -241,7 +241,7 @@ func (s *LogAnalyticsLogAnalyticsLogGroupResourceCrud) Update() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	response, err := s.Client.UpdateLogAnalyticsLogGroup(context.Background(), request)
 	if err != nil {
@@ -263,7 +263,7 @@ func (s *LogAnalyticsLogAnalyticsLogGroupResourceCrud) Delete() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	_, err := s.Client.DeleteLogAnalyticsLogGroup(context.Background(), request)
 	return err
@@ -378,7 +378,7 @@ func (s *LogAnalyticsLogAnalyticsLogGroupResourceCrud) updateCompartment(compart
 		changeCompartmentRequest.NamespaceName = &tmp
 	}
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	_, err := s.Client.ChangeLogAnalyticsLogGroupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

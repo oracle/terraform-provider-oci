@@ -18,7 +18,7 @@ func CoreIpSecConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreIpSecConnections,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -76,7 +76,7 @@ func (s *CoreIpSecConnectionsDataSourceCrud) Get() error {
 		request.DrgId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListIPSecConnections(context.Background(), request)
 	if err != nil {

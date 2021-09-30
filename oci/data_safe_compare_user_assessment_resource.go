@@ -89,7 +89,7 @@ func (s *DataSafeCompareUserAssessmentResourceCrud) Get() error {
 		request.UserAssessmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.GetUserAssessmentComparison(context.Background(), request)
 	if err != nil {
@@ -113,7 +113,7 @@ func (s *DataSafeCompareUserAssessmentResourceCrud) Create() error {
 		request.UserAssessmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.CompareUserAssessment(context.Background(), request)
 	if err != nil {
@@ -121,7 +121,7 @@ func (s *DataSafeCompareUserAssessmentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCompareUserAssessmentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCompareUserAssessmentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeCompareUserAssessmentResourceCrud) getCompareUserAssessmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -164,7 +164,7 @@ func compareUserAssessmentWorkRequestShouldRetryFunc(timeout time.Duration) func
 
 func compareUserAssessmentWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "data_safe")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = compareUserAssessmentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}

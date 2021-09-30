@@ -22,7 +22,7 @@ type DatasourceIdentitySwiftPasswordsTestSuite struct {
 }
 
 func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
-	_, tokenFn := tokenizeWithHttpReplay("swiff_pass_data_source")
+	_, tokenFn := TokenizeWithHttpReplay("swiff_pass_data_source")
 
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())

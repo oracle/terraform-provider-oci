@@ -16,11 +16,11 @@ import (
 
 var (
 	PurgeCacheRequiredOnlyResource = PurgeCacheResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Required, Create, purgeCacheRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Required, Create, purgeCacheRepresentation)
 
 	purgeCacheRepresentation = map[string]interface{}{
-		"waas_policy_id": Representation{repType: Required, create: `${oci_waas_waas_policy.test_scenario_waas_policy.id}`},
-		"resources":      Representation{repType: Optional, create: []string{`/about`, `/home`}},
+		"waas_policy_id": Representation{RepType: Required, Create: `${oci_waas_waas_policy.test_scenario_waas_policy.id}`},
+		"resources":      Representation{RepType: Optional, Create: []string{`/about`, `/home`}},
 	}
 
 	PurgeCacheResourceDependencies = WaasPolicyResourceCachingOnlyConfig
@@ -39,36 +39,36 @@ func TestWaasPurgeCacheResource_basic(t *testing.T) {
 	resourceName := "oci_waas_purge_cache.test_purge_cache"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PurgeCacheResourceDependencies+
-		generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Optional, Create, purgeCacheRepresentation), "waas", "purgeCache", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PurgeCacheResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Optional, Create, purgeCacheRepresentation), "waas", "purgeCache", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify purge select resources
 		{
 			Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Optional, Create, purgeCacheRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Optional, Create, purgeCacheRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies,
 		},
 		// verify purge all resources
 		{
 			Config: config + compartmentIdVariableStr + PurgeCacheResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Required, Create, purgeCacheRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Required, Create, purgeCacheRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "waas_policy_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

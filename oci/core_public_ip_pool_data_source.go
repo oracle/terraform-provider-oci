@@ -49,7 +49,7 @@ func (s *CorePublicIpPoolDataSourceCrud) Get() error {
 		request.PublicIpPoolId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetPublicIpPool(context.Background(), request)
 	if err != nil {

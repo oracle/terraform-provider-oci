@@ -181,7 +181,7 @@ func (s *UserCapabilitiesManagementResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s with err %v", s.D.Id(), err)
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetUser(context.Background(), request)
 	if err != nil {

@@ -18,7 +18,7 @@ func DatabaseDbHomePatchHistoryEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbHomePatchHistoryEntries,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"db_home_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -94,7 +94,7 @@ func (s *DatabaseDbHomePatchHistoryEntriesDataSourceCrud) Get() error {
 		request.DbHomeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDbHomePatchHistoryEntries(context.Background(), request)
 	if err != nil {

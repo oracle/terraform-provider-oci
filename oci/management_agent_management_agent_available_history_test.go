@@ -14,9 +14,9 @@ import (
 
 var (
 	managementAgentAvailableHistoryDataSourceRepresentation = map[string]interface{}{
-		"management_agent_id":                         Representation{repType: Required, create: `${var.managed_agent_id}`},
-		"time_availability_status_ended_greater_than": Representation{repType: Optional, create: `2020-01-01T01:01:01.000Z`},
-		"time_availability_status_started_less_than":  Representation{repType: Optional, create: `2030-01-01T01:01:01.000Z`},
+		"management_agent_id":                         Representation{RepType: Required, Create: `${var.managed_agent_id}`},
+		"time_availability_status_ended_greater_than": Representation{RepType: Optional, Create: `2020-01-01T01:01:01.000Z`},
+		"time_availability_status_started_less_than":  Representation{RepType: Optional, Create: `2030-01-01T01:01:01.000Z`},
 	}
 
 	ManagementAgentAvailableHistoryResourceConfig = ""
@@ -40,13 +40,13 @@ func TestManagementAgentManagementAgentAvailableHistoryResource_basic(t *testing
 	managementAgentIdVariableStr := fmt.Sprintf("variable \"managed_agent_id\" { default = \"%s\" }\n", managementAgentId)
 	datasourceName := "data.oci_management_agent_management_agent_available_histories.test_management_agent_available_histories"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_available_histories", "test_management_agent_available_histories", Required, Create, managementAgentAvailableHistoryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_available_histories", "test_management_agent_available_histories", Required, Create, managementAgentAvailableHistoryDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_id"),
@@ -62,7 +62,7 @@ func TestManagementAgentManagementAgentAvailableHistoryResource_basic(t *testing
 		// verify datasource with optionals
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_available_histories", "test_management_agent_available_histories", Optional, Create, managementAgentAvailableHistoryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_available_histories", "test_management_agent_available_histories", Optional, Create, managementAgentAvailableHistoryDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_id"),

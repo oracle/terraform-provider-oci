@@ -14,12 +14,12 @@ import (
 
 var (
 	metricDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
-		"dimension_filters":         Representation{repType: Optional, create: map[string]string{"resourceId": "${oci_load_balancer_load_balancer.test_load_balancer.id}"}},
-		"name":                      Representation{repType: Optional, create: `AcceptedConnections`},
-		"namespace":                 Representation{repType: Optional, create: `oci_lbaas`},
-		"resource_group":            Representation{repType: Optional, create: `resourceGroup`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"dimension_filters":         Representation{RepType: Optional, Create: map[string]string{"resourceId": "${oci_load_balancer_load_balancer.test_load_balancer.id}"}},
+		"name":                      Representation{RepType: Optional, Create: `AcceptedConnections`},
+		"namespace":                 Representation{RepType: Optional, Create: `oci_lbaas`},
+		"resource_group":            Representation{RepType: Optional, Create: `resourceGroup`},
 	}
 
 	MetricResourceConfig = LoadBalancerResourceConfig
@@ -37,15 +37,15 @@ func TestMonitoringMetricResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_monitoring_metrics.test_metrics"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics", Optional, Create, metricDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics_with_group_by", Required, Create, representationCopyWithNewProperties(metricDataSourceRepresentation, map[string]interface{}{
-					"group_by": Representation{repType: Required, create: []string{`namespace`}},
+				GenerateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics", Optional, Create, metricDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_monitoring_metrics", "test_metrics_with_group_by", Required, Create, RepresentationCopyWithNewProperties(metricDataSourceRepresentation, map[string]interface{}{
+					"group_by": Representation{RepType: Required, Create: []string{`namespace`}},
 				})) +
 				compartmentIdVariableStr + MetricResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(

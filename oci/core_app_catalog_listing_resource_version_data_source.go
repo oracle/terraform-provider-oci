@@ -102,7 +102,7 @@ func (s *CoreAppCatalogListingResourceVersionDataSourceCrud) Get() error {
 		request.ResourceVersion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetAppCatalogListingResourceVersion(context.Background(), request)
 	if err != nil {

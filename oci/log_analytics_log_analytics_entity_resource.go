@@ -227,7 +227,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostname, ok := s.D.GetOkExists("hostname"); ok {
@@ -251,7 +251,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Create() error {
 	}
 
 	if properties, ok := s.D.GetOkExists("properties"); ok {
-		request.Properties = objectMapToStringMap(properties.(map[string]interface{}))
+		request.Properties = ObjectMapToStringMap(properties.(map[string]interface{}))
 	}
 
 	if sourceId, ok := s.D.GetOkExists("source_id"); ok {
@@ -264,7 +264,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Create() error {
 		request.TimezoneRegion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	response, err := s.Client.CreateLogAnalyticsEntity(context.Background(), request)
 	if err != nil {
@@ -294,7 +294,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	response, err := s.Client.GetLogAnalyticsEntity(context.Background(), request)
 	if err != nil {
@@ -326,7 +326,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostname, ok := s.D.GetOkExists("hostname"); ok {
@@ -353,7 +353,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Update() error {
 	}
 
 	if properties, ok := s.D.GetOkExists("properties"); ok {
-		request.Properties = objectMapToStringMap(properties.(map[string]interface{}))
+		request.Properties = ObjectMapToStringMap(properties.(map[string]interface{}))
 	}
 
 	if timezoneRegion, ok := s.D.GetOkExists("timezone_region"); ok {
@@ -361,7 +361,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Update() error {
 		request.TimezoneRegion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	response, err := s.Client.UpdateLogAnalyticsEntity(context.Background(), request)
 	if err != nil {
@@ -383,7 +383,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Delete() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	_, err := s.Client.DeleteLogAnalyticsEntity(context.Background(), request)
 	return err
@@ -572,7 +572,7 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) updateCompartment(compartme
 		changeCompartmentRequest.NamespaceName = &tmp
 	}
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	_, err := s.Client.ChangeLogAnalyticsEntityCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

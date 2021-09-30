@@ -18,7 +18,7 @@ func MarketplaceCategoriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMarketplaceCategories,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -70,7 +70,7 @@ func (s *MarketplaceCategoriesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.ListCategories(context.Background(), request)
 	if err != nil {

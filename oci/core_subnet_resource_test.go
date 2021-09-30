@@ -74,7 +74,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + `
 				resource "oci_core_subnet" "s" {` + commonSubnetParams + extraSecurityListIds + `
@@ -98,12 +98,12 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 				// TODO: Add test for scenario where subnet_domain_name is set?
 				resource.TestCheckNoResourceAttr(resourceName, "subnet_domain_name"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// verify update
+		// verify Update
 		{
 			Config: config + `
 				resource "oci_core_subnet" "s" {
@@ -113,7 +113,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "-tf-subnet"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Expected same subnet ocid, got the different.")
 					}
@@ -131,7 +131,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 			PlanOnly:           true,
 			ExpectNonEmptyPlan: false,
 		},
-		// test a destructive update results in a new resource
+		// test a destructive Update results in a new resource
 		{
 			Config: config + `
 				resource "oci_core_subnet" "s" {
@@ -144,7 +144,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "true"),
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "mytestlabel"),
 				func(s *terraform.State) (err error) {
-					resId3, err := fromInstanceState(s, resourceName, "id")
+					resId3, err := FromInstanceState(s, resourceName, "id")
 					if resId2 == resId3 {
 						return fmt.Errorf("Expected new subnet ocid, got the same.")
 					}

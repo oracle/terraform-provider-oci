@@ -153,7 +153,7 @@ func (s *MarketplaceAcceptedAgreementResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if listingId, ok := s.D.GetOkExists("listing_id"); ok {
@@ -171,7 +171,7 @@ func (s *MarketplaceAcceptedAgreementResourceCrud) Create() error {
 		request.Signature = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "marketplace")
 
 	response, err := s.Client.CreateAcceptedAgreement(context.Background(), request)
 	if err != nil {
@@ -188,7 +188,7 @@ func (s *MarketplaceAcceptedAgreementResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AcceptedAgreementId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "marketplace")
 
 	response, err := s.Client.GetAcceptedAgreement(context.Background(), request)
 	if err != nil {
@@ -219,10 +219,10 @@ func (s *MarketplaceAcceptedAgreementResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "marketplace")
 
 	response, err := s.Client.UpdateAcceptedAgreement(context.Background(), request)
 	if err != nil {
@@ -244,7 +244,7 @@ func (s *MarketplaceAcceptedAgreementResourceCrud) Delete() error {
 		request.Signature = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "marketplace")
 
 	_, err := s.Client.DeleteAcceptedAgreement(context.Background(), request)
 	return err

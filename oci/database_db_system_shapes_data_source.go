@@ -18,7 +18,7 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbSystemShapes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -160,7 +160,7 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDbSystemShapes(context.Background(), request)
 	if err != nil {

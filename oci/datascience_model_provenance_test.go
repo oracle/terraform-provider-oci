@@ -16,27 +16,27 @@ import (
 
 var (
 	ModelProvenanceRequiredOnlyResource = ModelProvenanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceRepresentation)
 
 	ModelProvenanceResourceConfig = ModelProvenanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Update, modelProvenanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Update, modelProvenanceRepresentation)
 
 	modelProvenanceSingularDataSourceRepresentation = map[string]interface{}{
-		"model_id": Representation{repType: Required, create: `${oci_datascience_model.test_model.id}`},
+		"model_id": Representation{RepType: Required, Create: `${oci_datascience_model.test_model.id}`},
 	}
 
 	modelProvenanceRepresentation = map[string]interface{}{
-		"model_id":        Representation{repType: Required, create: `${oci_datascience_model.test_model.id}`},
-		"git_branch":      Representation{repType: Optional, create: `gitBranch`, update: `gitBranch2`},
-		"git_commit":      Representation{repType: Optional, create: `gitCommit`, update: `gitCommit2`},
-		"repository_url":  Representation{repType: Optional, create: `repositoryUrl`, update: `repositoryUrl2`},
-		"script_dir":      Representation{repType: Optional, create: `scriptDir`, update: `scriptDir2`},
-		"training_id":     Representation{repType: Optional, create: `ocid1.datasciencenotebooksession.oc1.iad.amaaaaaav66vvniaiasz7njfotab2z7i6yvnk4tnbaamqqc7g45tvme3doyq`},
-		"training_script": Representation{repType: Optional, create: `trainingScript`, update: `trainingScript2`},
+		"model_id":        Representation{RepType: Required, Create: `${oci_datascience_model.test_model.id}`},
+		"git_branch":      Representation{RepType: Optional, Create: `gitBranch`, Update: `gitBranch2`},
+		"git_commit":      Representation{RepType: Optional, Create: `gitCommit`, Update: `gitCommit2`},
+		"repository_url":  Representation{RepType: Optional, Create: `repositoryUrl`, Update: `repositoryUrl2`},
+		"script_dir":      Representation{RepType: Optional, Create: `scriptDir`, Update: `scriptDir2`},
+		"training_id":     Representation{RepType: Optional, Create: `ocid1.datasciencenotebooksession.oc1.iad.amaaaaaav66vvniaiasz7njfotab2z7i6yvnk4tnbaamqqc7g45tvme3doyq`},
+		"training_script": Representation{RepType: Optional, Create: `trainingScript`, Update: `trainingScript2`},
 	}
 
-	ModelProvenanceResourceDependencies = generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelRepresentation) +
-		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation)
+	ModelProvenanceResourceDependencies = GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Required, Create, modelRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation)
 )
 
 // issue-routing-tag: datascience/default
@@ -54,20 +54,20 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datascience_model_provenance.test_model_provenance"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ModelProvenanceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Create, modelProvenanceRepresentation), "datascience", "modelProvenance", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ModelProvenanceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Create, modelProvenanceRepresentation), "datascience", "modelProvenance", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "model_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -75,7 +75,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 
 		{
 			Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Create, modelProvenanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Create, modelProvenanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch"),
 				resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit"),
@@ -86,9 +86,9 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "training_script", "trainingScript"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -100,7 +100,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ModelProvenanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Update, modelProvenanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Optional, Update, modelProvenanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "git_branch", "gitBranch2"),
 				resource.TestCheckResourceAttr(resourceName, "git_commit", "gitCommit2"),
@@ -111,7 +111,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "training_script", "trainingScript2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -122,7 +122,7 @@ func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_model_provenance", "test_model_provenance", Required, Create, modelProvenanceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ModelProvenanceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),

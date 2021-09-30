@@ -18,7 +18,7 @@ func DatabaseAutonomousDatabaseDataguardAssociationsDataSource() *schema.Resourc
 	return &schema.Resource{
 		Read: readDatabaseAutonomousDatabaseDataguardAssociations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"autonomous_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -126,7 +126,7 @@ func (s *DatabaseAutonomousDatabaseDataguardAssociationsDataSourceCrud) Get() er
 		request.AutonomousDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListAutonomousDatabaseDataguardAssociations(context.Background(), request)
 	if err != nil {

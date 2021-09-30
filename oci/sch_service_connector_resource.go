@@ -453,7 +453,7 @@ func (s *SchServiceConnectorResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if source, ok := s.D.GetOkExists("source"); ok {
@@ -495,7 +495,7 @@ func (s *SchServiceConnectorResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "sch")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
 	response, err := s.Client.CreateServiceConnector(context.Background(), request)
 	if err != nil {
@@ -503,7 +503,7 @@ func (s *SchServiceConnectorResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getServiceConnectorFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getServiceConnectorFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *SchServiceConnectorResourceCrud) getServiceConnectorFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -548,7 +548,7 @@ func serviceConnectorWorkRequestShouldRetryFunc(timeout time.Duration) func(resp
 
 func serviceConnectorWaitForWorkRequest(wId *string, entityType string, action oci_sch.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_sch.ServiceConnectorClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "sch")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "sch")
 	retryPolicy.ShouldRetryOperation = serviceConnectorWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_sch.GetWorkRequestResponse{}
@@ -629,7 +629,7 @@ func (s *SchServiceConnectorResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ServiceConnectorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "sch")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
 	response, err := s.Client.GetServiceConnector(context.Background(), request)
 	if err != nil {
@@ -671,7 +671,7 @@ func (s *SchServiceConnectorResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -716,7 +716,7 @@ func (s *SchServiceConnectorResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "sch")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
 	response, err := s.Client.UpdateServiceConnector(context.Background(), request)
 	if err != nil {
@@ -724,7 +724,7 @@ func (s *SchServiceConnectorResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getServiceConnectorFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getServiceConnectorFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *SchServiceConnectorResourceCrud) Delete() error {
@@ -733,7 +733,7 @@ func (s *SchServiceConnectorResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ServiceConnectorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "sch")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
 	response, err := s.Client.DeleteServiceConnector(context.Background(), request)
 	if err != nil {
@@ -1263,7 +1263,7 @@ func (s *SchServiceConnectorResourceCrud) updateCompartment(compartment interfac
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ServiceConnectorId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "sch")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
 	response, err := s.Client.ChangeServiceConnectorCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -1271,7 +1271,7 @@ func (s *SchServiceConnectorResourceCrud) updateCompartment(compartment interfac
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getServiceConnectorFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "serviceConnector"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getServiceConnectorFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "serviceConnector"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *SchServiceConnectorResourceCrud) StartSchResource() error {
@@ -1280,7 +1280,7 @@ func (s *SchServiceConnectorResourceCrud) StartSchResource() error {
 	tmp := s.D.Id()
 	request.ServiceConnectorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "sch")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
 	response, err := s.Client.ActivateServiceConnector(context.Background(), request)
 	if err != nil {
@@ -1288,7 +1288,7 @@ func (s *SchServiceConnectorResourceCrud) StartSchResource() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getServiceConnectorFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getServiceConnectorFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *SchServiceConnectorResourceCrud) StopSchResource() error {
@@ -1297,7 +1297,7 @@ func (s *SchServiceConnectorResourceCrud) StopSchResource() error {
 	tmp := s.D.Id()
 	request.ServiceConnectorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "sch")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
 	response, err := s.Client.DeactivateServiceConnector(context.Background(), request)
 	if err != nil {
@@ -1305,5 +1305,5 @@ func (s *SchServiceConnectorResourceCrud) StopSchResource() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getServiceConnectorFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getServiceConnectorFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "sch"), oci_sch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -147,15 +147,15 @@ func CoreBootVolumeResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 			},
 			"vpus_per_gb": {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 			},
 
 			// Computed
@@ -326,7 +326,7 @@ func (s *CoreBootVolumeResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoTuneEnabled, ok := s.D.GetOkExists("is_auto_tune_enabled"); ok {
@@ -368,7 +368,7 @@ func (s *CoreBootVolumeResourceCrud) Create() error {
 		request.VpusPerGB = &tmpInt64
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateBootVolume(context.Background(), request)
 	if err != nil {
@@ -385,7 +385,7 @@ func (s *CoreBootVolumeResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.BootVolumeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetBootVolume(context.Background(), request)
 	if err != nil {
@@ -449,7 +449,7 @@ func (s *CoreBootVolumeResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoTuneEnabled, ok := s.D.GetOkExists("is_auto_tune_enabled"); ok {
@@ -466,7 +466,7 @@ func (s *CoreBootVolumeResourceCrud) Update() error {
 		tmp := s.D.Get("kms_key_id").(string)
 		keyUpdateRequest.KmsKeyId = &tmp
 
-		keyUpdateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		keyUpdateRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 		_, err := s.Client.UpdateBootVolumeKmsKey(context.Background(), keyUpdateRequest)
 		if err != nil {
@@ -492,7 +492,7 @@ func (s *CoreBootVolumeResourceCrud) Update() error {
 		request.VpusPerGB = &tmpInt64
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateBootVolume(context.Background(), request)
 	if err != nil {
@@ -509,7 +509,7 @@ func (s *CoreBootVolumeResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.BootVolumeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteBootVolume(context.Background(), request)
 	return err
@@ -716,7 +716,7 @@ func (s *CoreBootVolumeResourceCrud) updateCompartment(compartment interface{}) 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeBootVolumeCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

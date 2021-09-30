@@ -21,37 +21,37 @@ import (
 
 var (
 	CrossConnectRequiredOnlyResource = CrossConnectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation)
 
 	CrossConnectResourceConfig = CrossConnectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation)
 
 	crossConnectSingularDataSourceRepresentation = map[string]interface{}{
-		"cross_connect_id": Representation{repType: Required, create: `${oci_core_cross_connect.test_cross_connect.id}`},
+		"cross_connect_id": Representation{RepType: Required, Create: `${oci_core_cross_connect.test_cross_connect.id}`},
 	}
 
 	crossConnectDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"filter":         RepresentationGroup{Required, crossConnectDataSourceFilterRepresentation}}
 	crossConnectDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_cross_connect.test_cross_connect.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_cross_connect.test_cross_connect.id}`}},
 	}
 
 	crossConnectRepresentation = map[string]interface{}{
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"location_name":           Representation{repType: Required, create: `${data.oci_core_cross_connect_locations.test_cross_connect_locations.cross_connect_locations.0.name}`},
-		"port_speed_shape_name":   Representation{repType: Required, create: `10 Gbps`},
-		"customer_reference_name": Representation{repType: Optional, create: `customerReferenceName`, update: `customerReferenceName2`},
-		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":            Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_active":               Representation{repType: Optional, create: `true`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"location_name":           Representation{RepType: Required, Create: `${data.oci_core_cross_connect_locations.test_cross_connect_locations.cross_connect_locations.0.name}`},
+		"port_speed_shape_name":   Representation{RepType: Required, Create: `10 Gbps`},
+		"customer_reference_name": Representation{RepType: Optional, Create: `customerReferenceName`, Update: `customerReferenceName2`},
+		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":            Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_active":               Representation{RepType: Optional, Create: `true`},
 	}
 
-	CrossConnectResourceDependencies = generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation) +
+	CrossConnectResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -73,15 +73,15 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_cross_connect.test_cross_connect"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CrossConnectResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectRepresentation), "core", "crossConnect", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CrossConnectResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectRepresentation), "core", "crossConnect", t)
 
 	ResourceTest(t, testAccCheckCoreCrossConnectDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "location_name"),
@@ -89,20 +89,20 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "PENDING_CUSTOMER"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
@@ -114,9 +114,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -125,12 +125,12 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CrossConnectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create,
-					representationCopyWithNewProperties(crossConnectRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create,
+					RepresentationCopyWithNewProperties(crossConnectRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -140,7 +140,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -152,7 +152,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
@@ -164,7 +164,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -175,9 +175,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_cross_connects", "test_cross_connects", Optional, Update, crossConnectDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_cross_connects", "test_cross_connects", Optional, Update, crossConnectDataSourceRepresentation) +
 				compartmentIdVariableStr + CrossConnectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -200,7 +200,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CrossConnectResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
@@ -224,7 +224,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CrossConnectResourceConfig,
 		},
 		// verify resource import
-		// import requires full configuration to handle cross connect dependency on cross connect group during destroy
+		// import requires full configuration to handle cross connect dependency on cross connect Group during destroy
 		{
 			Config:            config + compartmentIdVariableStr + CrossConnectResourceConfig,
 			ImportState:       true,
@@ -251,7 +251,7 @@ func testAccCheckCoreCrossConnectDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CrossConnectId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetCrossConnect(context.Background(), request)
 
@@ -284,7 +284,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreCrossConnect") {
+	if !InSweeperExcludeList("CoreCrossConnect") {
 		resource.AddTestSweepers("CoreCrossConnect", &resource.Sweeper{
 			Name:         "CoreCrossConnect",
 			Dependencies: DependencyGraph["crossConnect"],
@@ -305,13 +305,13 @@ func sweepCoreCrossConnectResource(compartment string) error {
 
 			deleteCrossConnectRequest.CrossConnectId = &crossConnectId
 
-			deleteCrossConnectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteCrossConnectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteCrossConnect(context.Background(), deleteCrossConnectRequest)
 			if error != nil {
 				fmt.Printf("Error deleting CrossConnect %s %s, It is possible that the resource is already deleted. Please verify manually \n", crossConnectId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &crossConnectId, crossConnectSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &crossConnectId, crossConnectSweepWaitCondition, time.Duration(3*time.Minute),
 				crossConnectSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -319,7 +319,7 @@ func sweepCoreCrossConnectResource(compartment string) error {
 }
 
 func getCrossConnectIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "CrossConnectId")
+	ids := GetResourceIdsToSweep(compartment, "CrossConnectId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -338,7 +338,7 @@ func getCrossConnectIds(compartment string) ([]string, error) {
 	for _, crossConnect := range listCrossConnectsResponse.Items {
 		id := *crossConnect.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "CrossConnectId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "CrossConnectId", id)
 	}
 	return resourceIds, nil
 }

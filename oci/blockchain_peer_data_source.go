@@ -58,7 +58,7 @@ func (s *BlockchainPeerDataSourceCrud) Get() error {
 		request.PeerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "blockchain")
 
 	response, err := s.Client.GetPeer(context.Background(), request)
 	if err != nil {

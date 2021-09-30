@@ -21,16 +21,16 @@ import (
 
 var (
 	backupDataSourceRepresentation = map[string]interface{}{
-		"database_id": Representation{repType: Optional, create: `${data.oci_database_databases.db.databases.0.id}`},
+		"database_id": Representation{RepType: Optional, Create: `${data.oci_database_databases.db.databases.0.id}`},
 		"filter":      RepresentationGroup{Required, backupDataSourceFilterRepresentation}}
 	backupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_backup.test_backup.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_backup.test_backup.id}`}},
 	}
 
 	backupRepresentation = map[string]interface{}{
-		"database_id":  Representation{repType: Required, create: `${data.oci_database_databases.db.databases.0.id}`},
-		"display_name": Representation{repType: Required, create: `Monthly Backup`},
+		"database_id":  Representation{RepType: Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
+		"display_name": Representation{RepType: Required, Create: `Monthly Backup`},
 	}
 
 	BackupResourceDependencies = DbSystemResourceConfig + `
@@ -54,23 +54,23 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_backups.test_backups"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+BackupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation), "database", "backup", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+BackupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation), "database", "backup", t)
 
 	ResourceTest(t, testAccCheckDatabaseBackupDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + BackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -82,9 +82,9 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", Optional, Update, backupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", Optional, Update, backupDataSourceRepresentation) +
 				compartmentIdVariableStr + BackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Optional, Update, backupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", Optional, Update, backupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
@@ -130,7 +130,7 @@ func testAccCheckDatabaseBackupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.BackupId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetBackup(context.Background(), request)
 
@@ -163,7 +163,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseBackup") {
+	if !InSweeperExcludeList("DatabaseBackup") {
 		resource.AddTestSweepers("DatabaseBackup", &resource.Sweeper{
 			Name:         "DatabaseBackup",
 			Dependencies: DependencyGraph["backup"],
@@ -184,13 +184,13 @@ func sweepDatabaseBackupResource(compartment string) error {
 
 			deleteBackupRequest.BackupId = &backupId
 
-			deleteBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteBackupRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteBackup(context.Background(), deleteBackupRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Backup %s %s, It is possible that the resource is already deleted. Please verify manually \n", backupId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &backupId, backupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &backupId, backupSweepWaitCondition, time.Duration(3*time.Minute),
 				backupSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -198,7 +198,7 @@ func sweepDatabaseBackupResource(compartment string) error {
 }
 
 func getBackupIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "BackupId")
+	ids := GetResourceIdsToSweep(compartment, "BackupId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -216,7 +216,7 @@ func getBackupIds(compartment string) ([]string, error) {
 	for _, backup := range listBackupsResponse.Items {
 		id := *backup.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "BackupId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "BackupId", id)
 	}
 	return resourceIds, nil
 }

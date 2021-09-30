@@ -50,7 +50,7 @@ func (s *CoreComputeCapacityReservationDataSourceCrud) Get() error {
 		request.CapacityReservationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetComputeCapacityReservation(context.Background(), request)
 	if err != nil {

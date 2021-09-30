@@ -51,7 +51,7 @@ func ManagementAgentManagementAgentInstallKeyResource() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: timeDiffSuppressFunction,
+				DiffSuppressFunc: TimeDiffSuppressFunction,
 			},
 
 			// Computed
@@ -182,7 +182,7 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) Create() error {
 		request.TimeExpires = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
 	response, err := s.Client.CreateManagementAgentInstallKey(context.Background(), request)
 	if err != nil {
@@ -199,7 +199,7 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ManagementAgentInstallKeyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
 	response, err := s.Client.GetManagementAgentInstallKey(context.Background(), request)
 	if err != nil {
@@ -226,7 +226,7 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ManagementAgentInstallKeyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
 	response, err := s.Client.UpdateManagementAgentInstallKey(context.Background(), request)
 	if err != nil {
@@ -243,7 +243,7 @@ func (s *ManagementAgentManagementAgentInstallKeyResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ManagementAgentInstallKeyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
 	_, err := s.Client.DeleteManagementAgentInstallKey(context.Background(), request)
 	return err

@@ -91,7 +91,7 @@ func (s *NetworkLoadBalancerBackendSetHealthDataSourceCrud) Get() error {
 		request.NetworkLoadBalancerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "network_load_balancer")
 
 	response, err := s.Client.GetBackendSetHealth(context.Background(), request)
 	if err != nil {

@@ -27,9 +27,9 @@ func DataSafeUserAssessmentResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("45m"),
-			Update: getTimeoutDuration("45m"),
-			Delete: getTimeoutDuration("45m"),
+			Create: GetTimeoutDuration("45m"),
+			Update: GetTimeoutDuration("45m"),
+			Delete: GetTimeoutDuration("45m"),
 		},
 		Create: createDataSafeUserAssessment,
 		Read:   readDataSafeUserAssessment,
@@ -258,7 +258,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if schedule, ok := s.D.GetOkExists("schedule"); ok {
@@ -271,7 +271,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Create() error {
 		request.TargetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.CreateUserAssessment(context.Background(), request)
 	if err != nil {
@@ -279,7 +279,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUserAssessmentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getUserAssessmentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeUserAssessmentResourceCrud) getUserAssessmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -322,7 +322,7 @@ func userAssessmentWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 
 func userAssessmentWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "data_safe")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = userAssessmentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}
@@ -401,7 +401,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.UserAssessmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.GetUserAssessment(context.Background(), request)
 	if err != nil {
@@ -443,7 +443,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if schedule, ok := s.D.GetOkExists("schedule"); ok {
@@ -454,7 +454,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.UserAssessmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.UpdateUserAssessment(context.Background(), request)
 	if err != nil {
@@ -462,7 +462,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUserAssessmentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUserAssessmentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataSafeUserAssessmentResourceCrud) Delete() error {
@@ -471,7 +471,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.UserAssessmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.DeleteUserAssessment(context.Background(), request)
 	if err != nil {
@@ -580,7 +580,7 @@ func (s *DataSafeUserAssessmentResourceCrud) updateCompartment(compartment inter
 	idTmp := s.D.Id()
 	changeCompartmentRequest.UserAssessmentId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	_, err := s.Client.ChangeUserAssessmentCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

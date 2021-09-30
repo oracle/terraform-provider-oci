@@ -252,7 +252,7 @@ func (s *OsmanagementSoftwareSourceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maintainerEmail, ok := s.D.GetOkExists("maintainer_email"); ok {
@@ -275,7 +275,7 @@ func (s *OsmanagementSoftwareSourceResourceCrud) Create() error {
 		request.ParentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.CreateSoftwareSource(context.Background(), request)
 	if err != nil {
@@ -292,7 +292,7 @@ func (s *OsmanagementSoftwareSourceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SoftwareSourceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.GetSoftwareSource(context.Background(), request)
 	if err != nil {
@@ -338,7 +338,7 @@ func (s *OsmanagementSoftwareSourceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maintainerEmail, ok := s.D.GetOkExists("maintainer_email"); ok {
@@ -359,7 +359,7 @@ func (s *OsmanagementSoftwareSourceResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SoftwareSourceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.UpdateSoftwareSource(context.Background(), request)
 	if err != nil {
@@ -376,7 +376,7 @@ func (s *OsmanagementSoftwareSourceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SoftwareSourceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	_, err := s.Client.DeleteSoftwareSource(context.Background(), request)
 	return err
@@ -471,7 +471,7 @@ func (s *OsmanagementSoftwareSourceResourceCrud) updateCompartment(compartment i
 	idTmp := s.D.Id()
 	changeCompartmentRequest.SoftwareSourceId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	_, err := s.Client.ChangeSoftwareSourceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

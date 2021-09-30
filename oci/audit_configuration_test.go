@@ -16,15 +16,15 @@ import (
 
 var (
 	ConfigurationResourceConfig = ConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation)
 
 	configurationSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 	}
 
 	configurationRepresentation = map[string]interface{}{
-		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"retention_period_days": Representation{repType: Required, create: `365`},
+		"compartment_id":        Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"retention_period_days": Representation{RepType: Required, Create: `365`},
 	}
 
 	ConfigurationResourceDependencies = ""
@@ -44,23 +44,23 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_audit_configuration.test_configuration"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+ConfigurationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation), "audit", "configuration", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+ConfigurationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation), "audit", "configuration", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + ConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "retention_period_days", "365"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -72,13 +72,13 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + ConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "retention_period_days", "365"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -89,7 +89,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationSingularDataSourceRepresentation) +
 				ConfigurationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

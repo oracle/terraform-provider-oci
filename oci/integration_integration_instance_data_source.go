@@ -49,7 +49,7 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) Get() error {
 		request.IntegrationInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "integration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "integration")
 
 	response, err := s.Client.GetIntegrationInstance(context.Background(), request)
 	if err != nil {

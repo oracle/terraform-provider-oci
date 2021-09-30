@@ -10,10 +10,10 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_apigateway.ApiGatewayClient", &OracleClient{initClientFn: initApigatewayApiGatewayClient})
-	RegisterOracleClient("oci_apigateway.WorkRequestsClient", &OracleClient{initClientFn: initApigatewayWorkRequestsClient})
-	RegisterOracleClient("oci_apigateway.DeploymentClient", &OracleClient{initClientFn: initApigatewayDeploymentClient})
-	RegisterOracleClient("oci_apigateway.GatewayClient", &OracleClient{initClientFn: initApigatewayGatewayClient})
+	RegisterOracleClient("oci_apigateway.ApiGatewayClient", &OracleClient{InitClientFn: initApigatewayApiGatewayClient})
+	RegisterOracleClient("oci_apigateway.WorkRequestsClient", &OracleClient{InitClientFn: initApigatewayWorkRequestsClient})
+	RegisterOracleClient("oci_apigateway.DeploymentClient", &OracleClient{InitClientFn: initApigatewayDeploymentClient})
+	RegisterOracleClient("oci_apigateway.GatewayClient", &OracleClient{InitClientFn: initApigatewayGatewayClient})
 }
 
 func initApigatewayApiGatewayClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

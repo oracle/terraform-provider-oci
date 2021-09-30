@@ -18,7 +18,7 @@ func CoreComputeImageCapabilitySchemasDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreComputeImageCapabilitySchemas,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -76,7 +76,7 @@ func (s *CoreComputeImageCapabilitySchemasDataSourceCrud) Get() error {
 		request.ImageId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListComputeImageCapabilitySchemas(context.Background(), request)
 	if err != nil {

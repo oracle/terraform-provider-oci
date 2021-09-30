@@ -18,7 +18,7 @@ func DatabaseDataGuardAssociationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDataGuardAssociations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"database_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -58,7 +58,7 @@ func (s *DatabaseDataGuardAssociationsDataSourceCrud) Get() error {
 		request.DatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDataGuardAssociations(context.Background(), request)
 	if err != nil {

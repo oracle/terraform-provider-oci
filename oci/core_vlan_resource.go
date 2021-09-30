@@ -71,7 +71,7 @@ func CoreVlanResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -201,7 +201,7 @@ func (s *CoreVlanResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -233,7 +233,7 @@ func (s *CoreVlanResourceCrud) Create() error {
 		request.VlanTag = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVlan(context.Background(), request)
 	if err != nil {
@@ -250,7 +250,7 @@ func (s *CoreVlanResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VlanId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetVlan(context.Background(), request)
 	if err != nil {
@@ -292,7 +292,7 @@ func (s *CoreVlanResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -317,7 +317,7 @@ func (s *CoreVlanResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.VlanId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateVlan(context.Background(), request)
 	if err != nil {
@@ -334,7 +334,7 @@ func (s *CoreVlanResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VlanId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteVlan(context.Background(), request)
 	return err
@@ -367,7 +367,7 @@ func (s *CoreVlanResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.RouteTableId != nil {
 		s.D.Set("route_table_id", *s.Res.RouteTableId)
@@ -399,7 +399,7 @@ func (s *CoreVlanResourceCrud) updateCompartment(compartment interface{}) error 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.VlanId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeVlanCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

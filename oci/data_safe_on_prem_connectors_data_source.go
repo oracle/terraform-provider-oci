@@ -18,7 +18,7 @@ func DataSafeOnPremConnectorsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataSafeOnPremConnectors,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -101,7 +101,7 @@ func (s *DataSafeOnPremConnectorsDataSourceCrud) Get() error {
 		request.OnPremConnectorLifecycleState = oci_data_safe.ListOnPremConnectorsOnPremConnectorLifecycleStateEnum(onPremConnectorLifecycleState.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListOnPremConnectors(context.Background(), request)
 	if err != nil {

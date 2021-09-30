@@ -21,29 +21,29 @@ import (
 
 var (
 	InternetGatewayRequiredOnlyResource = InternetGatewayResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation)
 
 	internetGatewayDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `MyInternetGateway`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
-		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `MyInternetGateway`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
+		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, internetGatewayDataSourceFilterRepresentation}}
 	internetGatewayDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_internet_gateway.test_internet_gateway.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_internet_gateway.test_internet_gateway.id}`}},
 	}
 
 	internetGatewayRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `MyInternetGateway`, update: `displayName2`},
-		"enabled":        Representation{repType: Optional, create: `false`, update: `true`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"vcn_id":         Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `MyInternetGateway`, Update: `displayName2`},
+		"enabled":        Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	InternetGatewayResourceDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	InternetGatewayResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -64,34 +64,34 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_internet_gateways.test_internet_gateways"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+InternetGatewayResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation), "core", "internetGateway", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+InternetGatewayResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation), "core", "internetGateway", t)
 
 	ResourceTest(t, testAccCheckCoreInternetGatewayDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -103,9 +103,9 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -114,12 +114,12 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InternetGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create,
-					representationCopyWithNewProperties(internetGatewayRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create,
+					RepresentationCopyWithNewProperties(internetGatewayRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -132,7 +132,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -144,7 +144,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Update, internetGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Update, internetGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -156,7 +156,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -167,9 +167,9 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_internet_gateways", "test_internet_gateways", Optional, Update, internetGatewayDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_internet_gateways", "test_internet_gateways", Optional, Update, internetGatewayDataSourceRepresentation) +
 				compartmentIdVariableStr + InternetGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Update, internetGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Update, internetGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -210,7 +210,7 @@ func testAccCheckCoreInternetGatewayDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.IgId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetInternetGateway(context.Background(), request)
 
@@ -243,7 +243,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreInternetGateway") {
+	if !InSweeperExcludeList("CoreInternetGateway") {
 		resource.AddTestSweepers("CoreInternetGateway", &resource.Sweeper{
 			Name:         "CoreInternetGateway",
 			Dependencies: DependencyGraph["internetGateway"],
@@ -264,13 +264,13 @@ func sweepCoreInternetGatewayResource(compartment string) error {
 
 			deleteInternetGatewayRequest.IgId = &internetGatewayId
 
-			deleteInternetGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteInternetGatewayRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteInternetGateway(context.Background(), deleteInternetGatewayRequest)
 			if error != nil {
 				fmt.Printf("Error deleting InternetGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", internetGatewayId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &internetGatewayId, internetGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &internetGatewayId, internetGatewaySweepWaitCondition, time.Duration(3*time.Minute),
 				internetGatewaySweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -278,7 +278,7 @@ func sweepCoreInternetGatewayResource(compartment string) error {
 }
 
 func getInternetGatewayIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "InternetGatewayId")
+	ids := GetResourceIdsToSweep(compartment, "InternetGatewayId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -297,7 +297,7 @@ func getInternetGatewayIds(compartment string) ([]string, error) {
 	for _, internetGateway := range listInternetGatewaysResponse.Items {
 		id := *internetGateway.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "InternetGatewayId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "InternetGatewayId", id)
 	}
 	return resourceIds, nil
 }

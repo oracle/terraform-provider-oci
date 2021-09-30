@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_resourcemanager.ResourceManagerClient", &OracleClient{initClientFn: initResourcemanagerResourceManagerClient})
+	RegisterOracleClient("oci_resourcemanager.ResourceManagerClient", &OracleClient{InitClientFn: initResourcemanagerResourceManagerClient})
 }
 
 func initResourcemanagerResourceManagerClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -21,36 +21,36 @@ import (
 
 var (
 	GenericArtifactResourceConfig = GenericArtifactResourceDependencies +
-		generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Optional, Update, genericArtifactRepresentation)
+		GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Optional, Update, genericArtifactRepresentation)
 
 	genericArtifactSingularDataSourceRepresentation = map[string]interface{}{
-		"artifact_id": Representation{repType: Required, create: `${oci_artifacts_generic_artifact.test_generic_artifact.id}`},
+		"artifact_id": Representation{RepType: Required, Create: `${oci_artifacts_generic_artifact.test_generic_artifact.id}`},
 	}
 
 	genericArtifactDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"repository_id":  Representation{repType: Required, create: `${oci_artifacts_repository.test_repository.id}`},
-		"artifact_path":  Representation{repType: Optional, create: `artifactPath`},
-		"display_name":   Representation{repType: Optional, create: `displayName`},
-		"id":             Representation{repType: Optional, create: `${oci_artifacts_generic_artifact.test_generic_artifact.id}`},
-		"sha256":         Representation{repType: Optional, create: `sha256`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
-		"version":        Representation{repType: Optional, create: `1.0`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"repository_id":  Representation{RepType: Required, Create: `${oci_artifacts_repository.test_repository.id}`},
+		"artifact_path":  Representation{RepType: Optional, Create: `artifactPath`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`},
+		"id":             Representation{RepType: Optional, Create: `${oci_artifacts_generic_artifact.test_generic_artifact.id}`},
+		"sha256":         Representation{RepType: Optional, Create: `sha256`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
+		"version":        Representation{RepType: Optional, Create: `1.0`},
 		"filter":         RepresentationGroup{Required, genericArtifactDataSourceFilterRepresentation}}
 	genericArtifactDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_artifacts_generic_artifact.test_generic_artifact.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_artifacts_generic_artifact.test_generic_artifact.id}`}},
 	}
 
 	genericArtifactRepresentation = map[string]interface{}{
-		"artifact_id":   Representation{repType: Required, create: `${oci_generic_artifacts_content_artifact_by_path.test_artifact_by_path.id}`},
-		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"artifact_id":   Representation{RepType: Required, Create: `${oci_generic_artifacts_content_artifact_by_path.test_artifact_by_path.id}`},
+		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":  Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 	}
 
 	GenericArtifactResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation) +
-		generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation)
+		GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation)
 )
 
 // issue-routing-tag: artifacts/default
@@ -68,21 +68,21 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_artifacts_generic_artifact.test_generic_artifact"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+GenericArtifactResourceDependencies+
-		generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactRepresentation), "artifacts", "genericArtifact", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+GenericArtifactResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactRepresentation), "artifacts", "genericArtifact", t)
 
 	ResourceTest(t, testAccCheckArtifactsGenericArtifactDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + GenericArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -94,7 +94,7 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + GenericArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Optional, Update, genericArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Optional, Update, genericArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_path"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -110,7 +110,7 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "version"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -121,9 +121,9 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_artifacts_generic_artifacts", "test_generic_artifacts", Optional, Update, genericArtifactDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_generic_artifacts", "test_generic_artifacts", Optional, Update, genericArtifactDataSourceRepresentation) +
 				compartmentIdVariableStr + GenericArtifactResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Optional, Update, genericArtifactRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Optional, Update, genericArtifactRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "artifact_path", "artifactPath"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -140,7 +140,7 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + GenericArtifactResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
@@ -170,7 +170,7 @@ func testAccCheckArtifactsGenericArtifactDestroy(s *terraform.State) error {
 				request.ArtifactId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "artifacts")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "artifacts")
 
 			response, err := client.GetGenericArtifact(context.Background(), request)
 
@@ -203,7 +203,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ArtifactsGenericArtifact") {
+	if !InSweeperExcludeList("ArtifactsGenericArtifact") {
 		resource.AddTestSweepers("ArtifactsGenericArtifact", &resource.Sweeper{
 			Name:         "ArtifactsGenericArtifact",
 			Dependencies: DependencyGraph["genericArtifact"],
@@ -222,13 +222,13 @@ func sweepArtifactsGenericArtifactResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[genericArtifactId]; !ok {
 			deleteGenericArtifactRequest := oci_artifacts.DeleteGenericArtifactRequest{}
 
-			deleteGenericArtifactRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "artifacts")
+			deleteGenericArtifactRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "artifacts")
 			_, error := artifactsClient.DeleteGenericArtifact(context.Background(), deleteGenericArtifactRequest)
 			if error != nil {
 				fmt.Printf("Error deleting GenericArtifact %s %s, It is possible that the resource is already deleted. Please verify manually \n", genericArtifactId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &genericArtifactId, genericArtifactSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &genericArtifactId, genericArtifactSweepWaitCondition, time.Duration(3*time.Minute),
 				genericArtifactSweepResponseFetchOperation, "artifacts", true)
 		}
 	}
@@ -236,7 +236,7 @@ func sweepArtifactsGenericArtifactResource(compartment string) error {
 }
 
 func getGenericArtifactIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "GenericArtifactId")
+	ids := GetResourceIdsToSweep(compartment, "GenericArtifactId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -264,7 +264,7 @@ func getGenericArtifactIds(compartment string) ([]string, error) {
 		for _, genericArtifact := range listGenericArtifactsResponse.Items {
 			id := *genericArtifact.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "GenericArtifactId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "GenericArtifactId", id)
 		}
 
 	}

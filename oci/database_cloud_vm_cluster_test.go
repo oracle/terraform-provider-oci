@@ -21,50 +21,50 @@ import (
 
 var (
 	CloudVmClusterRequiredOnlyResource = CloudVmClusterResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation)
 
 	CloudVmClusterResourceConfig = CloudVmClusterResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Update, cloudVmClusterRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Update, cloudVmClusterRepresentation)
 
 	cloudVmClusterSingularDataSourceRepresentation = map[string]interface{}{
-		"cloud_vm_cluster_id": Representation{repType: Required, create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
+		"cloud_vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 	}
 
 	cloudVmClusterDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                  Representation{repType: Required, create: `${var.compartment_id}`},
-		"cloud_exadata_infrastructure_id": Representation{repType: Optional, create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
-		"display_name":                    Representation{repType: Optional, create: `cloudVmCluster`, update: `displayName2`},
-		"state":                           Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id":                  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"cloud_exadata_infrastructure_id": Representation{RepType: Optional, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
+		"display_name":                    Representation{RepType: Optional, Create: `cloudVmCluster`, Update: `displayName2`},
+		"state":                           Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":                          RepresentationGroup{Required, cloudVmClusterDataSourceFilterRepresentation}}
 	cloudVmClusterDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`}},
 	}
 
 	cloudVmClusterRepresentation = map[string]interface{}{
-		"backup_subnet_id":                Representation{repType: Required, create: `${oci_core_subnet.test_subnet_backup.id}`},
-		"cloud_exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
-		"compartment_id":                  Representation{repType: Required, create: `${var.compartment_id}`},
-		"cpu_core_count":                  Representation{repType: Required, create: `4`},
-		"display_name":                    Representation{repType: Required, create: `cloudVmCluster`, update: `displayName2`},
-		"gi_version":                      Representation{repType: Required, create: `19.0.0.0`},
-		"hostname":                        Representation{repType: Required, create: `apollo`},
-		"ssh_public_keys":                 Representation{repType: Required, create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
-		"subnet_id":                       Representation{repType: Required, create: `${oci_core_subnet.test_subnet1.id}`},
-		"domain":                          Representation{repType: Required, create: `${oci_core_subnet.test_subnet1.subnet_domain_name}`},
-		"backup_network_nsg_ids":          Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group_backup.id}`}},
-		"cluster_name":                    Representation{repType: Optional, create: `clusterName`},
-		"data_storage_percentage":         Representation{repType: Optional, create: `40`},
-		"defined_tags":                    Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                   Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_local_backup_enabled":         Representation{repType: Optional, create: `true`},
-		"is_sparse_diskgroup_enabled":     Representation{repType: Optional, create: `false`},
-		"license_model":                   Representation{repType: Optional, create: `LICENSE_INCLUDED`},
-		"nsg_ids":                         Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"time_zone":                       Representation{repType: Optional, create: `US/Pacific`},
+		"backup_subnet_id":                Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet_backup.id}`},
+		"cloud_exadata_infrastructure_id": Representation{RepType: Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
+		"compartment_id":                  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"cpu_core_count":                  Representation{RepType: Required, Create: `4`},
+		"display_name":                    Representation{RepType: Required, Create: `cloudVmCluster`, Update: `displayName2`},
+		"gi_version":                      Representation{RepType: Required, Create: `19.0.0.0`},
+		"hostname":                        Representation{RepType: Required, Create: `apollo`},
+		"ssh_public_keys":                 Representation{RepType: Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
+		"subnet_id":                       Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet1.id}`},
+		"domain":                          Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet1.subnet_domain_name}`},
+		"backup_network_nsg_ids":          Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group_backup.id}`}},
+		"cluster_name":                    Representation{RepType: Optional, Create: `clusterName`},
+		"data_storage_percentage":         Representation{RepType: Optional, Create: `40`},
+		"defined_tags":                    Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                   Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_local_backup_enabled":         Representation{RepType: Optional, Create: `true`},
+		"is_sparse_diskgroup_enabled":     Representation{RepType: Optional, Create: `false`},
+		"license_model":                   Representation{RepType: Optional, Create: `LICENSE_INCLUDED`},
+		"nsg_ids":                         Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"time_zone":                       Representation{RepType: Optional, Create: `US/Pacific`},
 	}
 
-	CloudVmClusterResourceDependencies = generateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Required, Create, cloudExadataInfrastructureRepresentation) +
+	CloudVmClusterResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", Required, Create, cloudExadataInfrastructureRepresentation) +
 		`
 				data "oci_identity_availability_domains" "ADs" {
 					compartment_id = "${var.compartment_id}"
@@ -199,15 +199,15 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CloudVmClusterResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create, cloudVmClusterRepresentation), "database", "cloudVmCluster", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CloudVmClusterResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create, cloudVmClusterRepresentation), "database", "cloudVmCluster", t)
 
 	ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),
@@ -220,20 +220,20 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create, cloudVmClusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create, cloudVmClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
@@ -259,9 +259,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -270,12 +270,12 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create,
-					representationCopyWithNewProperties(cloudVmClusterRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Create,
+					RepresentationCopyWithNewProperties(cloudVmClusterRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -302,7 +302,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -314,7 +314,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Update, cloudVmClusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Update, cloudVmClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
@@ -340,7 +340,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -351,9 +351,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_cloud_vm_clusters", "test_cloud_vm_clusters", Optional, Update, cloudVmClusterDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_clusters", "test_cloud_vm_clusters", Optional, Update, cloudVmClusterDataSourceRepresentation) +
 				compartmentIdVariableStr + CloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
-				generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Update, cloudVmClusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Optional, Update, cloudVmClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -395,7 +395,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CloudVmClusterResourceConfig + DefinedTagsDependencies + AvailabilityDomainConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_vm_cluster_id"),
@@ -456,7 +456,7 @@ func testAccCheckDatabaseCloudVmClusterDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CloudVmClusterId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetCloudVmCluster(context.Background(), request)
 
@@ -489,7 +489,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseCloudVmCluster") {
+	if !InSweeperExcludeList("DatabaseCloudVmCluster") {
 		resource.AddTestSweepers("DatabaseCloudVmCluster", &resource.Sweeper{
 			Name:         "DatabaseCloudVmCluster",
 			Dependencies: DependencyGraph["cloudVmCluster"],
@@ -510,13 +510,13 @@ func sweepDatabaseCloudVmClusterResource(compartment string) error {
 
 			deleteCloudVmClusterRequest.CloudVmClusterId = &cloudVmClusterId
 
-			deleteCloudVmClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteCloudVmClusterRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteCloudVmCluster(context.Background(), deleteCloudVmClusterRequest)
 			if error != nil {
 				fmt.Printf("Error deleting CloudVmCluster %s %s, It is possible that the resource is already deleted. Please verify manually \n", cloudVmClusterId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &cloudVmClusterId, cloudVmClusterSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &cloudVmClusterId, cloudVmClusterSweepWaitCondition, time.Duration(3*time.Minute),
 				cloudVmClusterSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -524,7 +524,7 @@ func sweepDatabaseCloudVmClusterResource(compartment string) error {
 }
 
 func getCloudVmClusterIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "CloudVmClusterId")
+	ids := GetResourceIdsToSweep(compartment, "CloudVmClusterId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -543,7 +543,7 @@ func getCloudVmClusterIds(compartment string) ([]string, error) {
 	for _, cloudVmCluster := range listCloudVmClustersResponse.Items {
 		id := *cloudVmCluster.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "CloudVmClusterId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "CloudVmClusterId", id)
 	}
 	return resourceIds, nil
 }

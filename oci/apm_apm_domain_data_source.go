@@ -49,7 +49,7 @@ func (s *ApmApmDomainDataSourceCrud) Get() error {
 		request.ApmDomainId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm")
 
 	response, err := s.Client.GetApmDomain(context.Background(), request)
 	if err != nil {

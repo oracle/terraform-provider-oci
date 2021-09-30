@@ -323,7 +323,7 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpgradeDatabase(context.Background(), request)
 	if err != nil {
@@ -440,7 +440,7 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetDatabase(context.Background(), request)
 	if err != nil {

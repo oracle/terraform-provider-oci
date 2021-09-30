@@ -19,7 +19,7 @@ func DataflowRunLogsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataflowRunLogs,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"run_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -91,7 +91,7 @@ func (s *DataflowRunLogsDataSourceCrud) Get() error {
 		request.RunId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataflow")
 
 	response, err := s.Client.ListRunLogs(context.Background(), request)
 	if err != nil {

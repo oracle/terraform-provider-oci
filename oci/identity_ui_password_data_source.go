@@ -49,7 +49,7 @@ func (s *IdentityUiPasswordDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetUserUIPasswordInformation(context.Background(), request)
 	if err != nil {

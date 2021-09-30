@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_management_dashboard.DashxApisClient", &OracleClient{initClientFn: initManagementdashboardDashxApisClient})
+	RegisterOracleClient("oci_management_dashboard.DashxApisClient", &OracleClient{InitClientFn: initManagementdashboardDashxApisClient})
 }
 
 func initManagementdashboardDashxApisClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

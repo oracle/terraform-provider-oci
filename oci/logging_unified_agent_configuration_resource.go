@@ -488,7 +488,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if groupAssociation, ok := s.D.GetOkExists("group_association"); ok {
@@ -518,7 +518,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.CreateUnifiedAgentConfiguration(context.Background(), request)
 	if err != nil {
@@ -526,7 +526,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *LoggingUnifiedAgentConfigurationResourceCrud) getUnifiedAgentConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -569,7 +569,7 @@ func unifiedAgentConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) 
 
 func unifiedAgentConfigurationWaitForWorkRequest(wId *string, entityType string, action oci_logging.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_logging.LoggingManagementClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "logging")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "logging")
 	retryPolicy.ShouldRetryOperation = unifiedAgentConfigurationWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_logging.GetWorkRequestResponse{}
@@ -650,7 +650,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.UnifiedAgentConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.GetUnifiedAgentConfiguration(context.Background(), request)
 	if err != nil {
@@ -692,7 +692,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if groupAssociation, ok := s.D.GetOkExists("group_association"); ok {
@@ -725,7 +725,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.UnifiedAgentConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.UpdateUnifiedAgentConfiguration(context.Background(), request)
 	if err != nil {
@@ -733,7 +733,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *LoggingUnifiedAgentConfigurationResourceCrud) Delete() error {
@@ -742,7 +742,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.UnifiedAgentConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.DeleteUnifiedAgentConfiguration(context.Background(), request)
 	if err != nil {
@@ -1092,7 +1092,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("APACHE_ERROR"):
@@ -1122,7 +1122,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("AUDITD"):
@@ -1152,7 +1152,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("CSV"):
@@ -1198,7 +1198,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("GROK"):
@@ -1252,7 +1252,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("JSON"):
@@ -1289,7 +1289,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("MSGPACK"):
@@ -1319,7 +1319,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("MULTILINE"):
@@ -1365,7 +1365,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("MULTILINE_GROK"):
@@ -1423,7 +1423,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("NONE"):
@@ -1457,7 +1457,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("REGEXP"):
@@ -1495,7 +1495,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("SYSLOG"):
@@ -1547,7 +1547,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	case strings.ToLower("TSV"):
@@ -1593,7 +1593,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			details.TimeoutInMilliseconds = &tmp
 		}
 		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
-			details.Types = objectMapToStringMap(types.(map[string]interface{}))
+			details.Types = ObjectMapToStringMap(types.(map[string]interface{}))
 		}
 		baseObject = details
 	default:
@@ -2070,7 +2070,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) updateCompartment(compart
 	idTmp := s.D.Id()
 	changeCompartmentRequest.UnifiedAgentConfigurationId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.ChangeUnifiedAgentConfigurationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -2078,5 +2078,5 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) updateCompartment(compart
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
 }

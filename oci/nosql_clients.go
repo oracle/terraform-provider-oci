@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_nosql.NosqlClient", &OracleClient{initClientFn: initNosqlNosqlClient})
+	RegisterOracleClient("oci_nosql.NosqlClient", &OracleClient{InitClientFn: initNosqlNosqlClient})
 }
 
 func initNosqlNosqlClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

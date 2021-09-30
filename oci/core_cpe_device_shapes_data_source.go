@@ -18,7 +18,7 @@ func CoreCpeDeviceShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreCpeDeviceShapes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"cpe_device_shapes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -88,7 +88,7 @@ func (s *CoreCpeDeviceShapesDataSourceCrud) VoidState() {
 func (s *CoreCpeDeviceShapesDataSourceCrud) Get() error {
 	request := oci_core.ListCpeDeviceShapesRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListCpeDeviceShapes(context.Background(), request)
 	if err != nil {

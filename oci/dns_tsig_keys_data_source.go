@@ -18,7 +18,7 @@ func DnsTsigKeysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDnsTsigKeys,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *DnsTsigKeysDataSourceCrud) Get() error {
 		request.LifecycleState = oci_dns.TsigKeySummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.ListTsigKeys(context.Background(), request)
 	if err != nil {

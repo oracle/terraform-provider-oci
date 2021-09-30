@@ -16,28 +16,28 @@ import (
 
 var (
 	protectionRuleRepresentation = map[string]interface{}{
-		"waas_policy_id": Representation{repType: Required, create: `${oci_waas_waas_policy.test_waas_policy.id}`},
-		"key":            Representation{repType: Required, create: `933161`, update: `933111`},
-		"action":         Representation{repType: Required, create: `BLOCK`, update: `DETECT`},
+		"waas_policy_id": Representation{RepType: Required, Create: `${oci_waas_waas_policy.test_waas_policy.id}`},
+		"key":            Representation{RepType: Required, Create: `933161`, Update: `933111`},
+		"action":         Representation{RepType: Required, Create: `BLOCK`, Update: `DETECT`},
 		"exclusions":     RepresentationGroup{Optional, protectionRuleExclusionsRepresentation},
 	}
 
 	protectionRuleExclusionsRepresentation = map[string]interface{}{
-		"exclusions": Representation{repType: Optional, create: []string{`example.com`}, update: []string{`OAMAuthnCookie`}},
-		"target":     Representation{repType: Optional, create: `REQUEST_COOKIES`, update: `REQUEST_COOKIE_NAMES`},
+		"exclusions": Representation{RepType: Optional, Create: []string{`example.com`}, Update: []string{`OAMAuthnCookie`}},
+		"target":     Representation{RepType: Optional, Create: `REQUEST_COOKIES`, Update: `REQUEST_COOKIE_NAMES`},
 	}
 
 	protectionRuleSingularDataSourceRepresentation = map[string]interface{}{
-		"protection_rule_key": Representation{repType: Required, create: `${oci_waas_protection_rule.test_protection_rule.key}`},
-		"waas_policy_id":      Representation{repType: Required, create: `${oci_waas_waas_policy.test_waas_policy.id}`},
+		"protection_rule_key": Representation{RepType: Required, Create: `${oci_waas_protection_rule.test_protection_rule.key}`},
+		"waas_policy_id":      Representation{RepType: Required, Create: `${oci_waas_waas_policy.test_waas_policy.id}`},
 	}
 
 	protectionRuleDataSourceRepresentation = map[string]interface{}{
-		"waas_policy_id": Representation{repType: Required, create: `${oci_waas_waas_policy.test_waas_policy.id}`},
-		"action":         Representation{repType: Optional, create: []string{`DETECT`}},
+		"waas_policy_id": Representation{RepType: Required, Create: `${oci_waas_waas_policy.test_waas_policy.id}`},
+		"action":         Representation{RepType: Optional, Create: []string{`DETECT`}},
 	}
 
-	ProtectionRuleResourceConfig = WaasPolicyResourceDependencies + generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create, waasPolicyRepresentation)
+	ProtectionRuleResourceConfig = WaasPolicyResourceDependencies + GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create, waasPolicyRepresentation)
 )
 
 // issue-routing-tag: waas/default
@@ -55,15 +55,15 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_waas_protection_rule.test_protection_rule"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ProtectionRuleResourceConfig+
-		generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleRepresentation), "waas", "protectionRule", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ProtectionRuleResourceConfig+
+		GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleRepresentation), "waas", "protectionRule", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
-				generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "key", "933161"),
 				resource.TestCheckResourceAttr(resourceName, "action", "BLOCK"),
@@ -73,9 +73,9 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "name"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -86,7 +86,7 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ProtectionRuleResourceConfig +
-				generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "key", "933111"),
 				resource.TestCheckResourceAttr(resourceName, "action", "DETECT"),
@@ -99,8 +99,8 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_protection_rules", "test_protection_rules", Optional, Update, protectionRuleDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_protection_rules", "test_protection_rules", Optional, Update, protectionRuleDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
 				compartmentIdVariableStr + ProtectionRuleResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "action.#", "1"),
@@ -117,8 +117,8 @@ func TestWaasProtectionRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleSingularDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Required, Create, protectionRuleSingularDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_waas_protection_rule", "test_protection_rule", Optional, Update, protectionRuleRepresentation) +
 				compartmentIdVariableStr + ProtectionRuleResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "protection_rule_key"),

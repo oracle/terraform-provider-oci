@@ -18,7 +18,7 @@ func CoreVirtualCircuitBandwidthShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreVirtualCircuitBandwidthShapes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"provider_service_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -74,7 +74,7 @@ func (s *CoreVirtualCircuitBandwidthShapesDataSourceCrud) Get() error {
 		request.ProviderServiceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListFastConnectProviderVirtualCircuitBandwidthShapes(context.Background(), request)
 	if err != nil {

@@ -128,7 +128,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Create() error
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			request.EnableExternalContainerDatabaseDatabaseManagementDetails.LicenseModel = oci_database.EnableExternalContainerDatabaseDatabaseManagementDetailsLicenseModelEnum(licenseModel.(string))
 		}
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalContainerDatabaseDatabaseManagement(context.Background(), request)
 		if err != nil {
@@ -153,7 +153,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Create() error
 		request.ExternalContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalContainerDatabaseDatabaseManagement(context.Background(), request)
 	if err != nil {
@@ -195,7 +195,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Update() error
 			request.EnableExternalContainerDatabaseDatabaseManagementDetails.LicenseModel = oci_database.EnableExternalContainerDatabaseDatabaseManagementDetailsLicenseModelEnum(licenseModel.(string))
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalContainerDatabaseDatabaseManagement(context.Background(), request)
 		if err != nil {
@@ -220,7 +220,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Update() error
 		request.ExternalContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalContainerDatabaseDatabaseManagement(context.Background(), request)
 	if err != nil {
@@ -256,7 +256,7 @@ func (s *DatabaseExternalContainerDatabaseManagementResourceCrud) Delete() error
 		request.ExternalContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalContainerDatabaseDatabaseManagement(context.Background(), request)
 	if err != nil {

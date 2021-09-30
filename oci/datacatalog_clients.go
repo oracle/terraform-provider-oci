@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_datacatalog.DataCatalogClient", &OracleClient{initClientFn: initDatacatalogDataCatalogClient})
+	RegisterOracleClient("oci_datacatalog.DataCatalogClient", &OracleClient{InitClientFn: initDatacatalogDataCatalogClient})
 }
 
 func initDatacatalogDataCatalogClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

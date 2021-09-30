@@ -18,7 +18,7 @@ func DataSafeDataSafePrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataSafeDataSafePrivateEndpoints,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -101,7 +101,7 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) Get() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListDataSafePrivateEndpoints(context.Background(), request)
 	if err != nil {

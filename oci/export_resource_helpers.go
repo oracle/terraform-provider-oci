@@ -377,7 +377,7 @@ func (r *resourceDiscoveryBaseStep) writeTmpState() error {
 	totalChunks := totalResources/chunkSize + additionalChunks
 	var importWg sync.WaitGroup
 	importWg.Add(totalChunks) // we need to wait for all chunks to finish importing resources
-	// we create buffered channel to control max parallel chunks that can be executed in parallel
+	// we Create buffered channel to control max parallel chunks that can be executed in parallel
 	semImport := make(chan struct{}, MaxParallelChunks)
 	// loop over chunks
 	for chunkIdx := 0; chunkIdx < totalResources; chunkIdx += chunkSize {
@@ -711,7 +711,7 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 				 1. Current closure graph generates only related resources but we may need to filter resources in future as the graph grows
 					Because hints use datasources and if data source does not take parent param then it may generate unrelated resources
 				 2. With current implementation, resource.omitFromExport will be true for child resources but we do not filter resources. If we add filtering to handle #1,
-				 	then logic to set resource.omitFromExport will also need update to handle related resources
+				 	then logic to set resource.omitFromExport will also need Update to handle related resources
 			*/
 			r.discoveredResources = append(r.discoveredResources, ociResources...)
 		}
@@ -1072,7 +1072,7 @@ func filterSecondaryVnicAttachments(ctx *resourceDiscoveryContext, resources []*
 	results := []*OCIResource{}
 
 	for _, attachment := range resources {
-		// Filter out any primary vnics, as it's not necessary to create separate TF resources for those.
+		// Filter out any primary vnics, as it's not necessary to Create separate TF resources for those.
 		datasourceSchema := datasourcesMap["oci_core_vnic"]
 		if vnicReadFn := datasourceSchema.Read; vnicReadFn != nil {
 			d := datasourceSchema.TestResourceData()
@@ -1128,7 +1128,7 @@ func processMysqlDbSystem(ctx *resourceDiscoveryContext, resources []*OCIResourc
 func filterSourcedBootVolumes(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
-	// Filter out boot volumes that don't have source details. We cannot create boot volumes unless they have source details.
+	// Filter out boot volumes that don't have source details. We cannot Create boot volumes unless they have source details.
 	for _, bootVolume := range resources {
 		sourceDetails, exists := bootVolume.sourceAttributes["source_details"]
 		if !exists {
@@ -1220,8 +1220,8 @@ func filterCustomImages(ctx *resourceDiscoveryContext, resources []*OCIResource)
 }
 
 func processVolumeGroups(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	// Replace the volume group's source details volume list with the actual volume list
-	// The source details only captures the list of volumes that were known when the group was created.
+	// Replace the volume Group's source details volume list with the actual volume list
+	// The source details only captures the list of volumes that were known when the Group was created.
 	// Additional volumes may have been added since and should be part of the source_details that we generate.
 	// TODO: This is a shortcoming that should be addressed by the service and/or the Terraform
 	for _, group := range resources {
@@ -1486,7 +1486,7 @@ func findIdentityTags(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAs
 
 	request.TagNamespaceId = &tagNamespaceId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 	results := []*OCIResource{}
 
 	response, err := ctx.clients.identityClient().ListTags(context.Background(), request)
@@ -1547,7 +1547,7 @@ func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformR
 
 	request := oci_load_balancer.GetLoadBalancerRequest{}
 	request.LoadBalancerId = &loadBalancerId
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 
 	response, err := ctx.clients.loadBalancerClient().GetLoadBalancer(context.Background(), request)
 	if err != nil {
@@ -1620,7 +1620,7 @@ func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta
 	request.CompartmentId = ctx.CompartmentId
 	request.LifecycleState = oci_log_analytics.ListLogAnalyticsObjectCollectionRulesLifecycleStateActive
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "log_analytics")
 
 	response, err := ctx.clients.logAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
 	if err != nil {
@@ -1911,8 +1911,8 @@ func getValidDbVersion(dbVersion string) string {
 		service will be returning 11.2.0.4.xxxxxx where the last part is the PSU version.
 		For 18.0.0.0 and 19.0.0.0 onwards, the second digit specifies the PSU version and the fifth digit specifies the date for that PSU.
 		(The PSU-date pair change hand in hand)
-		* For pre 18 versions, service returns 5th digit in response and 5 digit version is valid for create
-		* For 18+ versions, service will return PSU date but only 4 digit version is valid for create.
+		* For pre 18 versions, service returns 5th digit in response and 5 digit version is valid for Create
+		* For 18+ versions, service will return PSU date but only 4 digit version is valid for Create.
 		* Resource discovery will keep only 4 digits in config and dbVersionDiffSuppress will handle the diff
 	*/
 	parts := strings.Split(dbVersion, ".")

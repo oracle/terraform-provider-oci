@@ -379,7 +379,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if modelDeploymentConfigurationDetails, ok := s.D.GetOkExists("model_deployment_configuration_details"); ok {
@@ -398,7 +398,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Create() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.CreateModelDeployment(context.Background(), request)
 	if err != nil {
@@ -406,7 +406,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getModelDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getModelDeploymentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DatascienceModelDeploymentResourceCrud) getModelDeploymentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -461,7 +461,7 @@ func modelDeploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 
 func modelDeploymentWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "datascience")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = modelDeploymentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_datascience.GetWorkRequestResponse{}
@@ -542,7 +542,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ModelDeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.GetModelDeployment(context.Background(), request)
 	if err != nil {
@@ -595,7 +595,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if modelDeploymentConfigurationDetails, ok := s.D.GetOkExists("model_deployment_configuration_details"); ok {
@@ -612,7 +612,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ModelDeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateModelDeployment(context.Background(), request)
 	if err != nil {
@@ -620,7 +620,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getModelDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getModelDeploymentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatascienceModelDeploymentResourceCrud) Delete() error {
@@ -629,7 +629,7 @@ func (s *DatascienceModelDeploymentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ModelDeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.DeleteModelDeployment(context.Background(), request)
 	if err != nil {
@@ -1049,7 +1049,7 @@ func (s *DatascienceModelDeploymentResourceCrud) updateCompartment(compartment i
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ModelDeploymentId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.ChangeModelDeploymentCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

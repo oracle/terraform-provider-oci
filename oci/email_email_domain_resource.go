@@ -179,7 +179,7 @@ func (s *EmailEmailDomainResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -187,7 +187,7 @@ func (s *EmailEmailDomainResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.CreateEmailDomain(context.Background(), request)
 	if err != nil {
@@ -195,7 +195,7 @@ func (s *EmailEmailDomainResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEmailDomainFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getEmailDomainFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *EmailEmailDomainResourceCrud) getEmailDomainFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -240,7 +240,7 @@ func emailDomainWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 
 func emailDomainWaitForWorkRequest(wId *string, entityType string, action oci_email.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_email.EmailClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "email")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "email")
 	retryPolicy.ShouldRetryOperation = emailDomainWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_email.GetWorkRequestResponse{}
@@ -321,7 +321,7 @@ func (s *EmailEmailDomainResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.EmailDomainId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.GetEmailDomain(context.Background(), request)
 	if err != nil {
@@ -361,10 +361,10 @@ func (s *EmailEmailDomainResourceCrud) Update() error {
 	request.EmailDomainId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.UpdateEmailDomain(context.Background(), request)
 	if err != nil {
@@ -372,7 +372,7 @@ func (s *EmailEmailDomainResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEmailDomainFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEmailDomainFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *EmailEmailDomainResourceCrud) Delete() error {
@@ -381,7 +381,7 @@ func (s *EmailEmailDomainResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.EmailDomainId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.DeleteEmailDomain(context.Background(), request)
 	if err != nil {
@@ -486,7 +486,7 @@ func (s *EmailEmailDomainResourceCrud) updateCompartment(compartment interface{}
 	idTmp := s.D.Id()
 	changeCompartmentRequest.EmailDomainId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.ChangeEmailDomainCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -494,5 +494,5 @@ func (s *EmailEmailDomainResourceCrud) updateCompartment(compartment interface{}
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEmailDomainFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEmailDomainFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

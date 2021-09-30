@@ -21,34 +21,34 @@ import (
 
 var (
 	RuleRequiredOnlyResource = RuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Required, Create, ruleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", Required, Create, ruleRepresentation)
 
 	RuleResourceConfig = RuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update, ruleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update, ruleRepresentation)
 
 	ruleSingularDataSourceRepresentation = map[string]interface{}{
-		"rule_id": Representation{repType: Required, create: `${oci_events_rule.test_rule.id}`},
+		"rule_id": Representation{RepType: Required, Create: `${oci_events_rule.test_rule.id}`},
 	}
 
 	ruleDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `This rule sends a notification upon completion of DbaaS backup`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `INACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `This rule sends a notification upon completion of DbaaS backup`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `INACTIVE`},
 		"filter":         RepresentationGroup{Required, ruleDataSourceFilterRepresentation}}
 	ruleDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_events_rule.test_rule.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_events_rule.test_rule.id}`}},
 	}
 
 	ruleRepresentation = map[string]interface{}{
 		"actions":        RepresentationGroup{Required, ruleActionsRepresentation},
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"condition":      Representation{repType: Required, create: `{\"eventType\":\"com.oraclecloud.databaseservice.autonomous.database.backup.end\"}`, update: `{}`},
-		"display_name":   Representation{repType: Required, create: `This rule sends a notification upon completion of DbaaS backup`, update: `displayName2`},
-		"is_enabled":     Representation{repType: Required, create: `true`, update: `false`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"condition":      Representation{RepType: Required, Create: `{\"eventType\":\"com.oraclecloud.databaseservice.autonomous.database.backup.end\"}`, Update: `{}`},
+		"display_name":   Representation{RepType: Required, Create: `This rule sends a notification upon completion of DbaaS backup`, Update: `displayName2`},
+		"is_enabled":     Representation{RepType: Required, Create: `true`, Update: `false`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	ruleActionsRepresentation = map[string]interface{}{
 		"actions": []RepresentationGroup{{Optional, ruleActionsOSSActionsRepresentation}},
@@ -57,32 +57,32 @@ var (
 		"actions": []RepresentationGroup{{Optional, ruleActionsOSSActionsRepresentation}, {Optional, ruleActionsONSActionsRepresentation}, {Optional, ruleActionsFAASActionsRepresentation}},
 	}
 	ruleActionsONSActionsRepresentation = map[string]interface{}{
-		"action_type": Representation{repType: Required, create: `ONS`, update: `ONS`},
-		"is_enabled":  Representation{repType: Required, create: `false`, update: `true`},
-		"description": Representation{repType: Optional, create: `description`, update: `description2`},
-		"topic_id":    Representation{repType: Optional, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"action_type": Representation{RepType: Required, Create: `ONS`, Update: `ONS`},
+		"is_enabled":  Representation{RepType: Required, Create: `false`, Update: `true`},
+		"description": Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"topic_id":    Representation{RepType: Optional, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 	}
 	ruleActionsOSSActionsRepresentation = map[string]interface{}{
-		"action_type": Representation{repType: Required, create: `OSS`, update: `ONS`},
-		"is_enabled":  Representation{repType: Required, create: `false`, update: `true`},
-		"description": Representation{repType: Optional, create: `description`, update: `rule type updated`},
-		"stream_id":   Representation{repType: Optional, create: `${oci_streaming_stream.test_stream.id}`, update: ``},
-		"topic_id":    Representation{repType: Optional, create: ``, update: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"action_type": Representation{RepType: Required, Create: `OSS`, Update: `ONS`},
+		"is_enabled":  Representation{RepType: Required, Create: `false`, Update: `true`},
+		"description": Representation{RepType: Optional, Create: `description`, Update: `rule type updated`},
+		"stream_id":   Representation{RepType: Optional, Create: `${oci_streaming_stream.test_stream.id}`, Update: ``},
+		"topic_id":    Representation{RepType: Optional, Create: ``, Update: `${oci_ons_notification_topic.test_notification_topic.id}`},
 	}
 	ruleActionsFAASActionsRepresentation = map[string]interface{}{
-		"action_type": Representation{repType: Required, create: `FAAS`, update: `FAAS`},
-		"is_enabled":  Representation{repType: Required, create: `false`, update: `true`},
-		"description": Representation{repType: Optional, create: `description`, update: `description2`},
-		"function_id": Representation{repType: Optional, create: `${oci_functions_function.test_function.id}`},
+		"action_type": Representation{RepType: Required, Create: `FAAS`, Update: `FAAS`},
+		"is_enabled":  Representation{RepType: Required, Create: `false`, Update: `true`},
+		"description": Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"function_id": Representation{RepType: Optional, Create: `${oci_functions_function.test_function.id}`},
 	}
 
-	RuleResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
-		generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
+	RuleResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation) +
-		generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
 )
 
 // issue-routing-tag: events/default
@@ -106,15 +106,15 @@ func TestEventsRuleResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_events_rule.test_rule"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+RuleResourceDependencies+
-		generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create, ruleRepresentation), "events", "rule", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+RuleResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create, ruleRepresentation), "events", "rule", t)
 
 	ResourceTest(t, testAccCheckEventsRuleDestroy, []resource.TestStep{
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create, ruleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create, ruleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "1"),
@@ -140,9 +140,9 @@ func TestEventsRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -151,12 +151,12 @@ func TestEventsRuleResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + compartmentIdUVariableStr + RuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create,
-					representationCopyWithNewProperties(ruleRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Create,
+					RepresentationCopyWithNewProperties(ruleRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
@@ -183,7 +183,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -195,8 +195,8 @@ func TestEventsRuleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update,
-					getUpdatedRepresentationCopy("actions", RepresentationGroup{Optional, ruleActionsUpdateRepresentation}, ruleRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update,
+					GetUpdatedRepresentationCopy("actions", RepresentationGroup{Optional, ruleActionsUpdateRepresentation}, ruleRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "actions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.actions.#", "3"),
@@ -242,7 +242,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -253,9 +253,9 @@ func TestEventsRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_events_rules", "test_rules", Optional, Update, ruleDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_events_rules", "test_rules", Optional, Update, ruleDataSourceRepresentation) +
 				compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update, ruleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_events_rule", "test_rule", Optional, Update, ruleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -277,7 +277,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_events_rule", "test_rule", Required, Create, ruleSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_events_rule", "test_rule", Required, Create, ruleSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + imageVariableStr + RuleResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "rule_id"),
@@ -322,7 +322,7 @@ func testAccCheckEventsRuleDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.RuleId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "events")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "events")
 
 			response, err := client.GetRule(context.Background(), request)
 
@@ -355,7 +355,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("EventsRule") {
+	if !InSweeperExcludeList("EventsRule") {
 		resource.AddTestSweepers("EventsRule", &resource.Sweeper{
 			Name:         "EventsRule",
 			Dependencies: DependencyGraph["rule"],
@@ -376,13 +376,13 @@ func sweepEventsRuleResource(compartment string) error {
 
 			deleteRuleRequest.RuleId = &ruleId
 
-			deleteRuleRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "events")
+			deleteRuleRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "events")
 			_, error := eventsClient.DeleteRule(context.Background(), deleteRuleRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Rule %s %s, It is possible that the resource is already deleted. Please verify manually \n", ruleId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &ruleId, ruleSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &ruleId, ruleSweepWaitCondition, time.Duration(3*time.Minute),
 				ruleSweepResponseFetchOperation, "events", true)
 		}
 	}
@@ -390,7 +390,7 @@ func sweepEventsRuleResource(compartment string) error {
 }
 
 func getRuleIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "RuleId")
+	ids := GetResourceIdsToSweep(compartment, "RuleId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -409,7 +409,7 @@ func getRuleIds(compartment string) ([]string, error) {
 	for _, rule := range listRulesResponse.Items {
 		id := *rule.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "RuleId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "RuleId", id)
 	}
 	return resourceIds, nil
 }

@@ -57,7 +57,7 @@ func DatabaseManagementDbManagementPrivateEndpointResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -189,7 +189,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Create() err
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.CreateDbManagementPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -197,7 +197,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Create() err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDbManagementPrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDbManagementPrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) getDbManagementPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -241,7 +241,7 @@ func dbManagementPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration
 
 func dbManagementPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "database_management")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = dbManagementPrivateEndpointWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_database_management.GetWorkRequestResponse{}
@@ -323,7 +323,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Get() error 
 	tmp := s.D.Id()
 	request.DbManagementPrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.GetDbManagementPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -373,7 +373,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Update() err
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.UpdateDbManagementPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -390,7 +390,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Delete() err
 	tmp := s.D.Id()
 	request.DbManagementPrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.DeleteDbManagementPrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -421,7 +421,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) SetData() er
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.PrivateIp != nil {
 		s.D.Set("private_ip", *s.Res.PrivateIp)
@@ -489,7 +489,7 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) updateCompar
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DbManagementPrivateEndpointId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	_, err := s.Client.ChangeDbManagementPrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

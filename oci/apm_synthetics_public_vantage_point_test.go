@@ -14,15 +14,15 @@ import (
 
 var (
 	publicVantagePointSingularDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"display_name":  Representation{repType: Optional, create: `US East (Ashburn)`},
-		"name":          Representation{repType: Optional, create: `OraclePublic-us-ashburn-1`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":  Representation{RepType: Optional, Create: `US East (Ashburn)`},
+		"name":          Representation{RepType: Optional, Create: `OraclePublic-us-ashburn-1`},
 	}
 
 	publicVantagePointDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"display_name":  Representation{repType: Optional, create: `US East (Ashburn)`},
-		"name":          Representation{repType: Optional, create: `OraclePublic-us-ashburn-1`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":  Representation{RepType: Optional, Create: `US East (Ashburn)`},
+		"name":          Representation{RepType: Optional, Create: `OraclePublic-us-ashburn-1`},
 	}
 
 	PublicVantagePointResourceConfig = ""
@@ -41,13 +41,13 @@ func TestApmSyntheticsPublicVantagePointResource_basic(t *testing.T) {
 	datasourceName := "data.oci_apm_synthetics_public_vantage_points.test_public_vantage_points"
 	singularDatasourceName := "data.oci_apm_synthetics_public_vantage_point.test_public_vantage_point"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config + generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_apm_synthetics_public_vantage_points", "test_public_vantage_points", Optional, Create, publicVantagePointDataSourceRepresentation) +
+			Config: config + GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_public_vantage_points", "test_public_vantage_points", Optional, Create, publicVantagePointDataSourceRepresentation) +
 				compartmentIdVariableStr + PublicVantagePointResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
@@ -59,8 +59,8 @@ func TestApmSyntheticsPublicVantagePointResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_apm_synthetics_public_vantage_point", "test_public_vantage_point", Optional, Create, publicVantagePointSingularDataSourceRepresentation) +
+			Config: config + GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_public_vantage_point", "test_public_vantage_point", Optional, Create, publicVantagePointSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + PublicVantagePointResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),

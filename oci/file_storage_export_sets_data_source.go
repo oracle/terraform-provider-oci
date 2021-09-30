@@ -18,7 +18,7 @@ func FileStorageExportSetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFileStorageExportSets,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -93,7 +93,7 @@ func (s *FileStorageExportSetsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_file_storage.ListExportSetsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "file_storage")
 
 	response, err := s.Client.ListExportSets(context.Background(), request)
 	if err != nil {

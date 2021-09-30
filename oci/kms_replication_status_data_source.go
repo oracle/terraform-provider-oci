@@ -89,7 +89,7 @@ func (s *KmsReplicationStatusDataSourceCrud) Get() error {
 		request.ReplicationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "kms")
 
 	response, err := s.Client.GetReplicationStatus(context.Background(), request)
 	if err != nil {

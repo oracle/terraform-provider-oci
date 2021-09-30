@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_bds.BdsClient", &OracleClient{initClientFn: initBdsBdsClient})
+	RegisterOracleClient("oci_bds.BdsClient", &OracleClient{InitClientFn: initBdsBdsClient})
 }
 
 func initBdsBdsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

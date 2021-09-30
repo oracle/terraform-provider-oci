@@ -18,7 +18,7 @@ func CoreInstancePoolsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreInstancePools,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *CoreInstancePoolsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.InstancePoolSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListInstancePools(context.Background(), request)
 	if err != nil {

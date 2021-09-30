@@ -160,7 +160,7 @@ func (s *OptimizerRecommendationStrategyDataSourceCrud) Get() error {
 		request.RecommendationName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "optimizer")
 
 	response, err := s.Client.ListRecommendationStrategies(context.Background(), request)
 	if err != nil {

@@ -14,7 +14,7 @@ import (
 
 var (
 	autonomousPatchSingularDataSourceRepresentation = map[string]interface{}{
-		"autonomous_patch_id": Representation{repType: Required, create: "LATEST"},
+		"autonomous_patch_id": Representation{RepType: Required, Create: "LATEST"},
 	}
 
 	AutonomousPatchResourceConfig = ""
@@ -33,13 +33,13 @@ func TestDatabaseAutonomousPatchResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_database_autonomous_patch.test_autonomous_patch"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_patch", "test_autonomous_patch", Required, Create, autonomousPatchSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_patch", "test_autonomous_patch", Required, Create, autonomousPatchSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_patch_id"),

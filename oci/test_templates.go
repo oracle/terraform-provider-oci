@@ -60,7 +60,7 @@ func testInstance1() string {
 		shape = "VM.Standard2.1"
 		metadata = {}
 		timeouts {
-			create = "15m"
+			Create = "15m"
 		}
 	}`
 }

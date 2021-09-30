@@ -73,7 +73,7 @@ func (s *AvailabilityDomainDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListAvailabilityDomains(context.Background(), request)
 	if err != nil {

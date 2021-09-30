@@ -18,7 +18,7 @@ func OpsiHostInsightsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOpsiHostInsights,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -135,7 +135,7 @@ func (s *OpsiHostInsightsDataSourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "opsi")
 
 	response, err := s.Client.ListHostInsights(context.Background(), request)
 	if err != nil {

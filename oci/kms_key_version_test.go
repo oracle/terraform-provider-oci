@@ -17,29 +17,29 @@ import (
 
 var (
 	KeyVersionResourceConfig = KeyVersionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation)
 
 	keyVersionSingularDataSourceRepresentation = map[string]interface{}{
-		"key_id":              Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"key_version_id":      Representation{repType: Required, create: `${oci_kms_key_version.test_key_version.key_version_id}`},
-		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"key_id":              Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"key_version_id":      Representation{RepType: Required, Create: `${oci_kms_key_version.test_key_version.key_version_id}`},
+		"management_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 	}
 
 	keyVersionDataSourceRepresentation = map[string]interface{}{
-		"key_id":              Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"key_id":              Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"management_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 		"filter":              RepresentationGroup{Required, keyVersionDataSourceFilterRepresentation}}
 	keyVersionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `key_version_id`},
-		"values": Representation{repType: Required, create: []string{`${oci_kms_key_version.test_key_version.key_version_id}`}},
+		"name":   Representation{RepType: Required, Create: `key_version_id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_kms_key_version.test_key_version.key_version_id}`}},
 	}
 
 	keyVersionDeletionTime = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
 
 	keyVersionRepresentation = map[string]interface{}{
-		"key_id":              Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
-		"time_of_deletion":    Representation{repType: Required, create: keyVersionDeletionTime.Format(time.RFC3339Nano)},
+		"key_id":              Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"management_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"time_of_deletion":    Representation{RepType: Required, Create: keyVersionDeletionTime.Format(time.RFC3339Nano)},
 	}
 
 	KeyVersionResourceDependencies = KeyResourceDependencyConfig
@@ -61,21 +61,21 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_kms_key_versions.test_key_versions"
 	singularDatasourceName := "data.oci_kms_key_version.test_key_version"
 
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+KeyVersionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation), "keymanagement", "keyVersion", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+KeyVersionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation), "keymanagement", "keyVersion", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + KeyVersionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
 
 				func(s *terraform.State) (err error) {
-					_, err = fromInstanceState(s, resourceName, "id")
+					_, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -84,9 +84,9 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_kms_key_versions", "test_key_versions", Optional, Update, keyVersionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_kms_key_versions", "test_key_versions", Optional, Update, keyVersionDataSourceRepresentation) +
 				compartmentIdVariableStr + KeyVersionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Optional, Update, keyVersionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Optional, Update, keyVersionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "key_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_endpoint"),
@@ -103,7 +103,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_kms_key_version", "test_key_version", Required, Create, keyVersionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + KeyVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
@@ -146,5 +146,5 @@ func keyVersionImportId(state *terraform.State) (string, error) {
 		}
 	}
 
-	return "", fmt.Errorf("unable to create import id as no resource of type oci_kms_key_version in state")
+	return "", fmt.Errorf("unable to Create import id as no resource of type oci_kms_key_version in state")
 }

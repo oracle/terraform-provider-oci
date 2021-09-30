@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_oce.OceInstanceClient", &OracleClient{initClientFn: initOceOceInstanceClient})
+	RegisterOracleClient("oci_oce.OceInstanceClient", &OracleClient{InitClientFn: initOceOceInstanceClient})
 }
 
 func initOceOceInstanceClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

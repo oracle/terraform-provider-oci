@@ -49,7 +49,7 @@ func (s *MeteringComputationQueryDataSourceCrud) Get() error {
 		request.QueryId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "metering_computation")
 
 	response, err := s.Client.GetQuery(context.Background(), request)
 	if err != nil {

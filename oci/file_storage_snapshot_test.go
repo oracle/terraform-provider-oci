@@ -19,33 +19,33 @@ import (
 
 var (
 	SnapshotRequiredOnlyResource = SnapshotResourceDependencies +
-		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation)
+		GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation)
 
 	SnapshotResourceConfig = SnapshotResourceDependencies +
-		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation)
+		GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation)
 
 	snapshotSingularDataSourceRepresentation = map[string]interface{}{
-		"snapshot_id": Representation{repType: Required, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"snapshot_id": Representation{RepType: Required, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
 	}
 
 	snapshotDataSourceRepresentation = map[string]interface{}{
-		"file_system_id": Representation{repType: Required, create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"id":             Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"file_system_id": Representation{RepType: Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"id":             Representation{RepType: Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, snapshotDataSourceFilterRepresentation}}
 	snapshotDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_file_storage_snapshot.test_snapshot.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_file_storage_snapshot.test_snapshot.id}`}},
 	}
 
 	snapshotRepresentation = map[string]interface{}{
-		"file_system_id": Representation{repType: Required, create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"name":           Representation{repType: Required, create: `snapshot-1`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"file_system_id": Representation{RepType: Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"name":           Representation{RepType: Required, Create: `snapshot-1`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	SnapshotResourceDependencies = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation) +
+	SnapshotResourceDependencies = GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -65,34 +65,34 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_file_storage_snapshot.test_snapshot"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SnapshotResourceDependencies+
-		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentation), "filestorage", "snapshot", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SnapshotResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentation), "filestorage", "snapshot", t)
 
 	ResourceTest(t, testAccCheckFileStorageSnapshotDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
@@ -103,9 +103,9 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -117,7 +117,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
@@ -128,7 +128,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -139,9 +139,9 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_file_storage_snapshots", "test_snapshots", Optional, Update, snapshotDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_file_storage_snapshots", "test_snapshots", Optional, Update, snapshotDataSourceRepresentation) +
 				compartmentIdVariableStr + SnapshotResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -161,7 +161,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SnapshotResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
@@ -202,7 +202,7 @@ func testAccCheckFileStorageSnapshotDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SnapshotId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "file_storage")
 
 			response, err := client.GetSnapshot(context.Background(), request)
 

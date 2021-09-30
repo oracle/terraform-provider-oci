@@ -18,7 +18,7 @@ func CorePublicIpPoolsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCorePublicIpPools,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"byoip_range_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,7 +85,7 @@ func (s *CorePublicIpPoolsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListPublicIpPools(context.Background(), request)
 	if err != nil {

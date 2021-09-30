@@ -49,7 +49,7 @@ func (s *StreamingConnectHarnessDataSourceCrud) Get() error {
 		request.ConnectHarnessId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "streaming")
 
 	response, err := s.Client.GetConnectHarness(context.Background(), request)
 	if err != nil {

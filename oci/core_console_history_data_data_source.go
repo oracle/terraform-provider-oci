@@ -75,7 +75,7 @@ func (s *CoreConsoleHistoryContentDataSourceCrud) Get() error {
 		request.Offset = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetConsoleHistoryContent(context.Background(), request)
 	if err != nil {

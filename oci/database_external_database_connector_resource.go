@@ -257,7 +257,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateExternalDatabaseConnector(context.Background(), request)
 	if err != nil {
@@ -283,7 +283,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ExternalDatabaseConnectorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetExternalDatabaseConnector(context.Background(), request)
 	if err != nil {
@@ -301,7 +301,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Update() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateExternalDatabaseConnector(context.Background(), request)
 	if err != nil {
@@ -325,7 +325,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ExternalDatabaseConnectorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DeleteExternalDatabaseConnector(context.Background(), request)
 	if err != nil {
@@ -586,7 +586,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) populateTopLevelPolymorp
 			details.ExternalDatabaseId = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateExternalDatabaseConnectorDetails = details
 	default:
@@ -641,7 +641,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) populateTopLevelPolymorp
 		tmp := s.D.Id()
 		request.ExternalDatabaseConnectorId = &tmp
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateExternalDatabaseConnectorDetails = details
 	default:

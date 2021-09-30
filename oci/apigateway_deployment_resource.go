@@ -1494,7 +1494,7 @@ func (s *ApigatewayDeploymentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
@@ -1518,7 +1518,7 @@ func (s *ApigatewayDeploymentResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.CreateDeployment(context.Background(), request)
 	if err != nil {
@@ -1526,7 +1526,7 @@ func (s *ApigatewayDeploymentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeploymentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *ApigatewayDeploymentResourceCrud) getDeploymentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -1581,7 +1581,7 @@ func deploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 
 func deploymentWaitForWorkRequest(wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.WorkRequestsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "apigateway")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "apigateway")
 	retryPolicy.ShouldRetryOperation = deploymentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_apigateway.GetWorkRequestResponse{}
@@ -1662,7 +1662,7 @@ func (s *ApigatewayDeploymentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.GetDeployment(context.Background(), request)
 	if err != nil {
@@ -1702,7 +1702,7 @@ func (s *ApigatewayDeploymentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if specification, ok := s.D.GetOkExists("specification"); ok {
@@ -1716,7 +1716,7 @@ func (s *ApigatewayDeploymentResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.UpdateDeployment(context.Background(), request)
 	if err != nil {
@@ -1724,7 +1724,7 @@ func (s *ApigatewayDeploymentResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDeploymentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ApigatewayDeploymentResourceCrud) Delete() error {
@@ -1733,7 +1733,7 @@ func (s *ApigatewayDeploymentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.DeleteDeployment(context.Background(), request)
 	if err != nil {
@@ -3991,7 +3991,7 @@ func (s *ApigatewayDeploymentResourceCrud) updateCompartment(compartment interfa
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DeploymentId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.ChangeDeploymentCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -3999,7 +3999,7 @@ func (s *ApigatewayDeploymentResourceCrud) updateCompartment(compartment interfa
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDeploymentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func mediaTypeHashCodeForBodyValidationContentSets(v interface{}) int {

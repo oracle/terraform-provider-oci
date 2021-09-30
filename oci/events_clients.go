@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_events.EventsClient", &OracleClient{initClientFn: initEventsEventsClient})
+	RegisterOracleClient("oci_events.EventsClient", &OracleClient{InitClientFn: initEventsEventsClient})
 }
 
 func initEventsEventsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

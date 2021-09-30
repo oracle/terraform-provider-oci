@@ -235,7 +235,7 @@ func (s *DatacatalogConnectionResourceCrud) Create() error {
 		request.TypeKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.CreateConnection(context.Background(), request)
 	if err != nil {
@@ -284,7 +284,7 @@ func (s *DatacatalogConnectionResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.GetConnection(context.Background(), request)
 	if err != nil {
@@ -342,7 +342,7 @@ func (s *DatacatalogConnectionResourceCrud) Update() error {
 		request.Properties = convertedProperties
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.UpdateConnection(context.Background(), request)
 	if err != nil {
@@ -374,7 +374,7 @@ func (s *DatacatalogConnectionResourceCrud) Delete() error {
 		request.DataAssetKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	_, err := s.Client.DeleteConnection(context.Background(), request)
 	return err

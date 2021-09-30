@@ -49,7 +49,7 @@ func (s *BudgetBudgetDataSourceCrud) Get() error {
 		request.BudgetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "budget")
 
 	response, err := s.Client.GetBudget(context.Background(), request)
 	if err != nil {

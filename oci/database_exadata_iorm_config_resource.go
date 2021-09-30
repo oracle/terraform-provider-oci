@@ -172,7 +172,7 @@ func (s *DatabaseExadataIormConfigResourceCrud) Create() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	if _, err := s.Client.GetExadataIormConfig(context.Background(), request); err != nil {
 		return err
@@ -196,7 +196,7 @@ func (s *DatabaseExadataIormConfigResourceCrud) Get() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetExadataIormConfig(context.Background(), request)
 	if err != nil {
@@ -237,7 +237,7 @@ func (s *DatabaseExadataIormConfigResourceCrud) Update() error {
 		request.Objective = oci_database.ExadataIormConfigUpdateDetailsObjectiveEnum(objective.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateExadataIormConfig(context.Background(), request)
 	if err != nil {
@@ -339,7 +339,7 @@ func (s *DatabaseExadataIormConfigResourceCrud) Delete() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateExadataIormConfig(context.Background(), request)
 	if err != nil {

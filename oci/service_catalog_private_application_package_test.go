@@ -14,18 +14,18 @@ import (
 
 var (
 	privateApplicationPackageSingularDataSourceRepresentation = map[string]interface{}{
-		"private_application_package_id": Representation{repType: Required, create: `${data.oci_service_catalog_private_application_packages.test_private_application_packages.private_application_package_collection.0.items.0.id}`},
+		"private_application_package_id": Representation{RepType: Required, Create: `${data.oci_service_catalog_private_application_packages.test_private_application_packages.private_application_package_collection.0.items.0.id}`},
 	}
 
 	privateApplicationPackageDataSourceRepresentation = map[string]interface{}{
-		"private_application_id":         Representation{repType: Required, create: `${oci_service_catalog_private_application.test_private_application.id}`},
-		"display_name":                   Representation{repType: Optional, create: `displayName`},
-		"package_type":                   Representation{repType: Optional, create: []string{`packageType`}},
-		"private_application_package_id": Representation{repType: Optional, create: `${oci_service_catalog_private_application_package.test_private_application_package.id}`},
+		"private_application_id":         Representation{RepType: Required, Create: `${oci_service_catalog_private_application.test_private_application.id}`},
+		"display_name":                   Representation{RepType: Optional, Create: `displayName`},
+		"package_type":                   Representation{RepType: Optional, Create: []string{`packageType`}},
+		"private_application_package_id": Representation{RepType: Optional, Create: `${oci_service_catalog_private_application_package.test_private_application_package.id}`},
 	}
 
-	PrivateApplicationPackageResourceConfig = generateDataSourceFromRepresentationMap("oci_service_catalog_private_application_packages", "test_private_application_packages", Required, Create, privateApplicationPackageDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation)
+	PrivateApplicationPackageResourceConfig = GenerateDataSourceFromRepresentationMap("oci_service_catalog_private_application_packages", "test_private_application_packages", Required, Create, privateApplicationPackageDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation)
 )
 
 // issue-routing-tag: service_catalog/default
@@ -41,7 +41,7 @@ func TestServiceCatalogPrivateApplicationPackageResource_basic(t *testing.T) {
 	datasourceName := "data.oci_service_catalog_private_application_packages.test_private_application_packages"
 	singularDatasourceName := "data.oci_service_catalog_private_application_package.test_private_application_package"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
@@ -60,7 +60,7 @@ func TestServiceCatalogPrivateApplicationPackageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_service_catalog_private_application_package", "test_private_application_package", Required, Create, privateApplicationPackageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_service_catalog_private_application_package", "test_private_application_package", Required, Create, privateApplicationPackageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + PrivateApplicationPackageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_application_package_id"),

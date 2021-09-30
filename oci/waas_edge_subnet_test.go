@@ -30,13 +30,13 @@ func TestWaasEdgeSubnetResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_waas_edge_subnets.test_edge_subnets"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_edge_subnets", "test_edge_subnets", Required, Create, edgeSubnetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_edge_subnets", "test_edge_subnets", Required, Create, edgeSubnetDataSourceRepresentation) +
 				compartmentIdVariableStr + EdgeSubnetResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

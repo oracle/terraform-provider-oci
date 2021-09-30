@@ -23,27 +23,27 @@ import (
 
 var (
 	recordDataSourceRepresentation = map[string]interface{}{
-		"zone_name_or_id":   Representation{repType: Required, create: `${oci_dns_zone.test_global_zone.name}`},
-		"if_modified_since": Representation{repType: Optional, create: `ifModifiedSince`},
-		"if_none_match":     Representation{repType: Optional, create: `ifNoneMatch`},
-		"compartment_id":    Representation{repType: Optional, create: `${var.compartment_id}`},
-		"domain":            Representation{repType: Optional, create: `domain`},
-		"domain_contains":   Representation{repType: Optional, create: `domainContains`},
-		"rtype":             Representation{repType: Optional, create: `rtype`},
-		"zone_version":      Representation{repType: Optional, create: `zoneVersion`},
+		"zone_name_or_id":   Representation{RepType: Required, Create: `${oci_dns_zone.test_global_zone.name}`},
+		"if_modified_since": Representation{RepType: Optional, Create: `ifModifiedSince`},
+		"if_none_match":     Representation{RepType: Optional, Create: `ifNoneMatch`},
+		"compartment_id":    Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"domain":            Representation{RepType: Optional, Create: `domain`},
+		"domain_contains":   Representation{RepType: Optional, Create: `domainContains`},
+		"rtype":             Representation{RepType: Optional, Create: `rtype`},
+		"zone_version":      Representation{RepType: Optional, Create: `zoneVersion`},
 		"filter":            RepresentationGroup{Required, recordDataSourceFilterRepresentation}}
 	recordDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dns_record.test_record.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dns_record.test_record.id}`}},
 	}
 
 	recordRepresentation = map[string]interface{}{
-		"domain":          Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
-		"rdata":           Representation{repType: Required, create: `192.168.0.1`, update: `77.77.77.77`},
-		"rtype":           Representation{repType: Required, create: `A`},
-		"ttl":             Representation{repType: Required, create: `3600`, update: `1000`},
-		"zone_name_or_id": Representation{repType: Required, create: `${oci_dns_zone.test_global_zone.name}`},
-		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
+		"domain":          Representation{RepType: Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
+		"rdata":           Representation{RepType: Required, Create: `192.168.0.1`, Update: `77.77.77.77`},
+		"rtype":           Representation{RepType: Required, Create: `A`},
+		"ttl":             Representation{RepType: Required, Create: `3600`, Update: `1000`},
+		"zone_name_or_id": Representation{RepType: Required, Create: `${oci_dns_zone.test_global_zone.name}`},
+		"compartment_id":  Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
 	RecordResourceDependencies = `
@@ -71,24 +71,24 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	resourceName := "oci_dns_record.test_record"
 
-	_, tokenFn := tokenizeWithHttpReplay("dns_resource")
+	_, tokenFn := TokenizeWithHttpReplay("dns_resource")
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), nil), "dns", "record", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), nil), "dns", "record", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "zone_name_or_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -97,14 +97,14 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies, nil),
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Create, recordRepresentation), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Create, recordRepresentation), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
@@ -117,7 +117,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 				TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_global_zone", "name"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId == resId2 {
 						return fmt.Errorf("resource was not recreated after delete")
 					}
@@ -130,7 +130,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+RecordResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Update, recordRepresentation), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_record", "test_record", Optional, Update, recordRepresentation), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "domain", regexp.MustCompile("\\.oci-record-test")),
@@ -143,9 +143,9 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 				TestCheckResourceAttributesEqual(resourceName, "zone_name_or_id", "oci_dns_zone.test_global_zone", "name"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId == resId2 {
-						return fmt.Errorf("record hash was the same after an update, it should be different")
+						return fmt.Errorf("record hash was the same after an Update, it should be different")
 					}
 					return err
 				},
@@ -155,7 +155,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 }
 
 // The datasource tests are kept separate from the previous test steps.
-// This was because the datasource steps do not create a record resource (and won't need one because, because a zone has default records).
+// This was because the datasource steps do not Create a record resource (and won't need one because, because a zone has default records).
 // If this was kept in the previous test case, the CheckDestroy step would run after the datasource steps ran and would fail
 // because it wouldn't have a record resource to delete and to verify destruction for.
 // issue-routing-tag: dns/default
@@ -167,7 +167,7 @@ func TestDnsRecordsResource_datasources(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	_, tokenFn := tokenizeWithHttpReplay("dns_data_source")
+	_, tokenFn := TokenizeWithHttpReplay("dns_data_source")
 	datasourceName := "data.oci_dns_records.test_records"
 
 	ResourceTest(t, nil, []resource.TestStep{
@@ -214,7 +214,7 @@ func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	_, tokenFn := tokenizeWithHttpReplay("dns_diff")
+	_, tokenFn := TokenizeWithHttpReplay("dns_diff")
 	resourceName := "oci_dns_record.test_record"
 	var resId, resId2 string
 
@@ -234,7 +234,7 @@ resource "oci_dns_record" "test_record" {
 				resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -253,7 +253,7 @@ resource "oci_dns_record" "test_record" {
 				resource.TestCheckResourceAttr(resourceName, "rdata", "2001:db8:85a3::8a2e:370:7334"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -326,7 +326,7 @@ func TestDnsRecordsResource_badUpdate(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	_, tokenFn := tokenizeWithHttpReplay("dns_bad_update")
+	_, tokenFn := TokenizeWithHttpReplay("dns_bad_update")
 	resourceName := "oci_dns_record.test_record"
 
 	ResourceTest(t, nil, []resource.TestStep{
@@ -354,7 +354,7 @@ resource "oci_dns_record" "test_record" {
 }`, nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 			//resource.TestCheckResourceAttr(resourceName, "rdata", "192.168.0.1"),
-			// todo: this test was attempting to verify the resource is not changed if the update operation fails
+			// todo: this test was attempting to verify the resource is not changed if the Update operation fails
 			// but this terraform testing library does not run "Checks" if you add an error expectation ;_;
 			),
 			ExpectError: regexp.MustCompile("-1 is not a valid value for TTL"),

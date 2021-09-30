@@ -49,7 +49,7 @@ func (s *KmsVaultDataSourceCrud) Get() error {
 		request.VaultId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "kms")
 
 	response, err := s.Client.GetVault(context.Background(), request)
 	if err != nil {

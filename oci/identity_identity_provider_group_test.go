@@ -14,12 +14,12 @@ import (
 
 var (
 	identityProviderGroupDataSourceRepresentation = map[string]interface{}{
-		"identity_provider_id": Representation{repType: Required, create: `${oci_identity_identity_provider.test_identity_provider.id}`},
-		"name":                 Representation{repType: Optional, create: `test-idp-saml2-adfs`},
-		"state":                Representation{repType: Optional, create: `ACTIVE`},
+		"identity_provider_id": Representation{RepType: Required, Create: `${oci_identity_identity_provider.test_identity_provider.id}`},
+		"name":                 Representation{RepType: Optional, Create: `test-idp-saml2-adfs`},
+		"state":                Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
-	IdentityProviderGroupResourceConfig = generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation) +
+	IdentityProviderGroupResourceConfig = GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation) +
 		IdentityProviderPropertyVariables
 )
 
@@ -40,16 +40,16 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_identity_identity_provider_groups.test_identity_provider_groups"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
-	_, tokenFn := tokenizeWithHttpReplay("identity_group_resource")
+	_, tokenFn := TokenizeWithHttpReplay("identity_group_resource")
 	IdentityProviderGroupResourceConfig = tokenFn(IdentityProviderGroupResourceConfig, map[string]string{"metadata_file": metadataFile})
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Optional, Create, identityProviderGroupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Optional, Create, identityProviderGroupDataSourceRepresentation) +
 				compartmentIdVariableStr + IdentityProviderGroupResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),

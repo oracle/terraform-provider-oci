@@ -25,7 +25,7 @@ type DatasourceCoreInstanceTestSuite struct {
 }
 
 func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenizeWithHttpReplay("instance_data_source")
+	s.Token, s.TokenFn = TokenizeWithHttpReplay("instance_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
@@ -73,7 +73,7 @@ func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
 		timeouts {
-			create = "15m"
+			Create = "15m"
 		}
 	}`, nil)
 

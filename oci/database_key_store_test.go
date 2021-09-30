@@ -21,36 +21,36 @@ import (
 
 var (
 	KeyStoreRequiredOnlyResource = KeyStoreResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreRepresentation)
 
 	KeyStoreResourceConfig = KeyStoreResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation)
 
 	keyStoreSingularDataSourceRepresentation = map[string]interface{}{
-		"key_store_id": Representation{repType: Required, create: `${oci_database_key_store.test_key_store.id}`},
+		"key_store_id": Representation{RepType: Required, Create: `${oci_database_key_store.test_key_store.id}`},
 	}
 
 	keyStoreDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"filter":         RepresentationGroup{Required, keyStoreDataSourceFilterRepresentation}}
 	keyStoreDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_key_store.test_key_store.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_key_store.test_key_store.id}`}},
 	}
 
 	keyStoreRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `Key Store1`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `Key Store1`},
 		"type_details":   RepresentationGroup{Required, keyStoreTypeDetailsRepresentation},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	keyStoreTypeDetailsRepresentation = map[string]interface{}{
-		"admin_username": Representation{repType: Required, create: `username1`, update: `adminUsername2`},
-		"connection_ips": Representation{repType: Required, create: []string{`192.1.1.1`}, update: []string{`192.1.1.1`, `192.1.1.2`}},
-		"secret_id":      Representation{repType: Required, create: `${var.okv_secret}`},
-		"type":           Representation{repType: Required, create: `ORACLE_KEY_VAULT`},
-		"vault_id":       Representation{repType: Required, create: `${var.kms_vault_id}`},
+		"admin_username": Representation{RepType: Required, Create: `username1`, Update: `adminUsername2`},
+		"connection_ips": Representation{RepType: Required, Create: []string{`192.1.1.1`}, Update: []string{`192.1.1.1`, `192.1.1.2`}},
+		"secret_id":      Representation{RepType: Required, Create: `${var.okv_secret}`},
+		"type":           Representation{RepType: Required, Create: `ORACLE_KEY_VAULT`},
+		"vault_id":       Representation{RepType: Required, Create: `${var.kms_vault_id}`},
 	}
 
 	okvSecret            = getEnvSettingWithBlankDefault("okv_secret")
@@ -77,15 +77,15 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_key_store.test_key_store"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+KeyStoreResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation), "database", "keyStore", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+KeyStoreResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation), "database", "keyStore", t)
 
 	ResourceTest(t, testAccCheckDatabaseKeyStoreDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
@@ -96,20 +96,20 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -124,9 +124,9 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -135,12 +135,12 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + KeyStoreResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create,
-					representationCopyWithNewProperties(keyStoreRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create,
+					RepresentationCopyWithNewProperties(keyStoreRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -156,7 +156,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -168,7 +168,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + KeyStoreResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -183,7 +183,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -194,9 +194,9 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_key_stores", "test_key_stores", Optional, Update, keyStoreDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_key_stores", "test_key_stores", Optional, Update, keyStoreDataSourceRepresentation) +
 				compartmentIdVariableStr + KeyStoreResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -219,7 +219,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_key_store", "test_key_store", Required, Create, keyStoreSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + KeyStoreResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_store_id"),
@@ -263,7 +263,7 @@ func testAccCheckDatabaseKeyStoreDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.KeyStoreId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetKeyStore(context.Background(), request)
 
@@ -296,7 +296,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseKeyStore") {
+	if !InSweeperExcludeList("DatabaseKeyStore") {
 		resource.AddTestSweepers("DatabaseKeyStore", &resource.Sweeper{
 			Name:         "DatabaseKeyStore",
 			Dependencies: DependencyGraph["keyStore"],
@@ -317,13 +317,13 @@ func sweepDatabaseKeyStoreResource(compartment string) error {
 
 			deleteKeyStoreRequest.KeyStoreId = &keyStoreId
 
-			deleteKeyStoreRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteKeyStoreRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteKeyStore(context.Background(), deleteKeyStoreRequest)
 			if error != nil {
 				fmt.Printf("Error deleting KeyStore %s %s, It is possible that the resource is already deleted. Please verify manually \n", keyStoreId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &keyStoreId, keyStoreSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &keyStoreId, keyStoreSweepWaitCondition, time.Duration(3*time.Minute),
 				keyStoreSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -331,7 +331,7 @@ func sweepDatabaseKeyStoreResource(compartment string) error {
 }
 
 func getKeyStoreIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "KeyStoreId")
+	ids := GetResourceIdsToSweep(compartment, "KeyStoreId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -349,7 +349,7 @@ func getKeyStoreIds(compartment string) ([]string, error) {
 	for _, keyStore := range listKeyStoresResponse.Items {
 		id := *keyStore.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "KeyStoreId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "KeyStoreId", id)
 	}
 	return resourceIds, nil
 }

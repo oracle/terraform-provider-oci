@@ -30,13 +30,13 @@ func TestCorePeerRegionForRemotePeeringResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_peer_region_for_remote_peerings.test_peer_region_for_remote_peerings"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_peer_region_for_remote_peerings", "test_peer_region_for_remote_peerings", Required, Create, peerRegionForRemotePeeringDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_peer_region_for_remote_peerings", "test_peer_region_for_remote_peerings", Required, Create, peerRegionForRemotePeeringDataSourceRepresentation) +
 				compartmentIdVariableStr + PeerRegionForRemotePeeringResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

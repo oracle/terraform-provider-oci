@@ -18,7 +18,7 @@ func CoreIpv6sDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreIpv6s,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"ip_address": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -76,7 +76,7 @@ func (s *CoreIpv6sDataSourceCrud) Get() error {
 		request.VnicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListIpv6s(context.Background(), request)
 	if err != nil {

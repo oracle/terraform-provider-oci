@@ -164,7 +164,7 @@ func (s *CoreIpv6ResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
@@ -177,7 +177,7 @@ func (s *CoreIpv6ResourceCrud) Create() error {
 		request.VnicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateIpv6(context.Background(), request)
 	if err != nil {
@@ -194,7 +194,7 @@ func (s *CoreIpv6ResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.Ipv6Id = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetIpv6(context.Background(), request)
 	if err != nil {
@@ -222,7 +222,7 @@ func (s *CoreIpv6ResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -233,7 +233,7 @@ func (s *CoreIpv6ResourceCrud) Update() error {
 		request.VnicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateIpv6(context.Background(), request)
 	if err != nil {
@@ -250,7 +250,7 @@ func (s *CoreIpv6ResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.Ipv6Id = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteIpv6(context.Background(), request)
 	return err

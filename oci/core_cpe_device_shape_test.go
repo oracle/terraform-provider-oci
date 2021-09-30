@@ -14,7 +14,7 @@ import (
 
 var (
 	cpeDeviceShapeSingularDataSourceRepresentation = map[string]interface{}{
-		"cpe_device_shape_id": Representation{repType: Required, create: `${data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id}`},
+		"cpe_device_shape_id": Representation{RepType: Required, Create: `${data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id}`},
 	}
 
 	cpeDeviceShapeDataSourceRepresentation = map[string]interface{}{}
@@ -35,13 +35,13 @@ func TestCoreCpeDeviceShapeResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_cpe_device_shapes.test_cpe_device_shapes"
 	singularDatasourceName := "data.oci_core_cpe_device_shape.test_cpe_device_shape"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + CpeDeviceShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
@@ -52,8 +52,8 @@ func TestCoreCpeDeviceShapeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_cpe_device_shape", "test_cpe_device_shape", Required, Create, cpeDeviceShapeSingularDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shape", "test_cpe_device_shape", Required, Create, cpeDeviceShapeSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + CpeDeviceShapeResourceConfig,
 
 			Check: ComposeAggregateTestCheckFuncWrapper(

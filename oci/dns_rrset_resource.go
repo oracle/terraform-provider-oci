@@ -216,7 +216,7 @@ func (s *DnsRrsetResourceCrud) Create() error {
 		request.ZoneNameOrId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.UpdateRRSet(context.Background(), request)
 	if err != nil {
@@ -277,7 +277,7 @@ func (s *DnsRrsetResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.GetRRSet(context.Background(), request)
 	if err != nil {
@@ -339,7 +339,7 @@ func (s *DnsRrsetResourceCrud) Update() error {
 		request.ZoneNameOrId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.UpdateRRSet(context.Background(), request)
 	if err != nil {
@@ -384,7 +384,7 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 		request.ZoneNameOrId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.DeleteRRSet(context.Background(), request)
 	return err

@@ -62,7 +62,7 @@ func (s *ContainerengineMigrateToNativeVcnStatusDataSourceCrud) Get() error {
 		request.ClusterId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "containerengine")
 
 	response, err := s.Client.GetClusterMigrateToNativeVcnStatus(context.Background(), request)
 	if err != nil {

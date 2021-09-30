@@ -33,9 +33,9 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("20m"),
-			Update: getTimeoutDuration("20m"),
-			Delete: getTimeoutDuration("20m"),
+			Create: GetTimeoutDuration("20m"),
+			Update: GetTimeoutDuration("20m"),
+			Delete: GetTimeoutDuration("20m"),
 		},
 		Create: createContainerengineNodePool,
 		Read:   readContainerengineNodePool,
@@ -134,7 +134,7 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
-							Set:      literalTypeHashCodeForSets,
+							Set:      LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -220,8 +220,8 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 
 						// Computed
@@ -244,7 +244,7 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Optional:      true,
 				Computed:      true,
 				ConflictsWith: []string{"node_config_details"},
-				Set:           literalTypeHashCodeForSets,
+				Set:           LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -472,7 +472,7 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	}
 
 	if nodeMetadata, ok := s.D.GetOkExists("node_metadata"); ok {
-		request.NodeMetadata = objectMapToStringMap(nodeMetadata.(map[string]interface{}))
+		request.NodeMetadata = ObjectMapToStringMap(nodeMetadata.(map[string]interface{}))
 	}
 
 	if nodeShape, ok := s.D.GetOkExists("node_shape"); ok {
@@ -526,7 +526,7 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.CreateNodePool(context.Background(), request)
 	if err != nil {
@@ -545,7 +545,7 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 
 			delReq := oci_containerengine.DeleteNodePoolRequest{}
 			delReq.NodePoolId = nodePoolID
-			delReq.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+			delReq.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 			delRes, delErr := s.Client.DeleteNodePool(context.Background(), delReq)
 			if delErr != nil {
@@ -565,7 +565,7 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 
 	requestGet := oci_containerengine.GetNodePoolRequest{}
 	requestGet.NodePoolId = nodePoolID
-	requestGet.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	requestGet.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 	responseGet, err := s.Client.GetNodePool(context.Background(), requestGet)
 	if err != nil {
 		return err
@@ -612,7 +612,7 @@ func nodePoolWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 
 func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "containerengine")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "containerengine")
 	retryPolicy.ShouldRetryOperation = nodePoolWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_containerengine.GetWorkRequestResponse{}
@@ -699,7 +699,7 @@ func (s *ContainerengineNodePoolResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.NodePoolId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.GetNodePool(context.Background(), request)
 	if err != nil {
@@ -756,7 +756,7 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	}
 
 	if nodeMetadata, ok := s.D.GetOkExists("node_metadata"); ok {
-		request.NodeMetadata = objectMapToStringMap(nodeMetadata.(map[string]interface{}))
+		request.NodeMetadata = ObjectMapToStringMap(nodeMetadata.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -811,7 +811,7 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		request.SubnetIds = tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.UpdateNodePool(context.Background(), request)
 	if err != nil {
@@ -819,7 +819,7 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNodePoolFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getNodePoolFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ContainerengineNodePoolResourceCrud) Delete() error {
@@ -828,7 +828,7 @@ func (s *ContainerengineNodePoolResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.NodePoolId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.DeleteNodePool(context.Background(), request)
 	if err != nil {
@@ -930,7 +930,7 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		for _, item := range s.Res.SubnetIds {
 			subnetIds = append(subnetIds, item)
 		}
-		s.D.Set("subnet_ids", schema.NewSet(literalTypeHashCodeForSets, subnetIds))
+		s.D.Set("subnet_ids", schema.NewSet(LiteralTypeHashCodeForSets, subnetIds))
 	} else {
 		s.D.Set("subnet_ids", nil)
 	}
@@ -991,7 +991,7 @@ func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigD
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	placementConfigs := []interface{}{}
@@ -1032,7 +1032,7 @@ func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodeShapeConfigDetails(
 
 	if memory_in_gbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memory_in_gbs.(float64))
-		// prevent update with 0 value
+		// prevent Update with 0 value
 		if tmp != 0 {
 			result.MemoryInGBs = &tmp
 		}
@@ -1040,7 +1040,7 @@ func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodeShapeConfigDetails(
 
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
 		tmp := float32(ocpus.(float64))
-		// prevent update with 0 value
+		// prevent Update with 0 value
 		if tmp != 0 {
 			result.Ocpus = &tmp
 		}

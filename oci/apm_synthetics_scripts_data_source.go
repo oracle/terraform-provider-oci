@@ -18,7 +18,7 @@ func ApmSyntheticsScriptsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readApmSyntheticsScripts,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"apm_domain_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -85,7 +85,7 @@ func (s *ApmSyntheticsScriptsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm_synthetics")
 
 	response, err := s.Client.ListScripts(context.Background(), request)
 	if err != nil {

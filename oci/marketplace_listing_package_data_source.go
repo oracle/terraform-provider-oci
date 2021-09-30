@@ -233,7 +233,7 @@ func (s *MarketplaceListingPackageDataSourceCrud) Get() error {
 		request.PackageVersion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.GetPackage(context.Background(), request)
 	if err != nil {

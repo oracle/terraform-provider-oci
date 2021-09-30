@@ -18,7 +18,7 @@ func CoreCpesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreCpes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -58,7 +58,7 @@ func (s *CoreCpesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListCpes(context.Background(), request)
 	if err != nil {

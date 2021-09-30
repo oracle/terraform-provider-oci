@@ -110,7 +110,7 @@ func (s *CorePublicIpPoolCapacityResourceCrud) Create() error {
 		request.CidrBlock = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.AddPublicIpPoolCapacity(context.Background(), request)
 	if err != nil {
@@ -131,7 +131,7 @@ func (s *CorePublicIpPoolCapacityResourceCrud) Get() error {
 
 	request.PublicIpPoolId = &publicIpPoolId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetPublicIpPool(context.Background(), request)
 	if err != nil {
@@ -184,7 +184,7 @@ func (s *CorePublicIpPoolCapacityResourceCrud) Delete() error {
 		request.CidrBlock = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.RemovePublicIpPoolCapacity(context.Background(), request)
 	return err

@@ -14,14 +14,14 @@ import (
 
 var (
 	dedicatedVmHostsInstanceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
-		"dedicated_vm_host_id": Representation{repType: Required, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
-		"availability_domain":  Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"dedicated_vm_host_id": Representation{RepType: Required, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
+		"availability_domain":  Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 	}
 
 	DedicatedVmHostsInstanceResourceConfig = InstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, getUpdatedRepresentationCopy("dedicated_vm_host_id",
-			Representation{repType: Required, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`}, instanceRepresentation))
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, GetUpdatedRepresentationCopy("dedicated_vm_host_id",
+			Representation{RepType: Required, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`}, instanceRepresentation))
 )
 
 // issue-routing-tag: core/default
@@ -36,7 +36,7 @@ func TestCoreDedicatedVmHostsInstanceResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_dedicated_vm_hosts_instances.test_dedicated_vm_hosts_instances"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
@@ -45,7 +45,7 @@ func TestCoreDedicatedVmHostsInstanceResource_basic(t *testing.T) {
 		},
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts_instances", "test_dedicated_vm_hosts_instances", Required, Create, dedicatedVmHostsInstanceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts_instances", "test_dedicated_vm_hosts_instances", Required, Create, dedicatedVmHostsInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr + DedicatedVmHostsInstanceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

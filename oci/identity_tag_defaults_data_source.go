@@ -18,7 +18,7 @@ func IdentityTagDefaultsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityTagDefaults,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -84,7 +84,7 @@ func (s *IdentityTagDefaultsDataSourceCrud) Get() error {
 		request.TagDefinitionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListTagDefaults(context.Background(), request)
 	if err != nil {

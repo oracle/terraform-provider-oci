@@ -21,19 +21,19 @@ import (
 
 var (
 	apiKeyDataSourceRepresentation = map[string]interface{}{
-		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"user_id": Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 		"filter":  RepresentationGroup{Required, apiKeyDataSourceFilterRepresentation}}
 	apiKeyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_api_key.test_api_key.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_api_key.test_api_key.id}`}},
 	}
 
 	apiKeyRepresentation = map[string]interface{}{
-		"key_value": Representation{repType: Required, create: `${var.api_key_value}`},
-		"user_id":   Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"key_value": Representation{RepType: Required, Create: `${var.api_key_value}`},
+		"user_id":   Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	ApiKeyResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation) + publicKeyVariableStr
+	ApiKeyResourceDependencies = GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation) + publicKeyVariableStr
 
 	publicKey            = getEnvSettingWithBlankDefault("public_key")
 	publicKeyVariableStr = fmt.Sprintf("variable \"api_key_value\" { default = \"%s\" }\n", publicKey)
@@ -57,39 +57,39 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 
 	var compositeId, fingerprint string
 
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ApiKeyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation), "identity", "apiKey", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ApiKeyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation), "identity", "apiKey", t)
 
 	ResourceTest(t, testAccCheckIdentityApiKeyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies,
 		},
-		// verify create with export
+		// verify Create with export
 		{
 			Config: config + compartmentIdVariableStr + ApiKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 				func(s *terraform.State) (err error) {
-					fingerprint, _ = fromInstanceState(s, resourceName, "fingerprint")
-					userId, _ := fromInstanceState(s, resourceName, "user_id")
+					fingerprint, _ = FromInstanceState(s, resourceName, "fingerprint")
+					userId, _ := FromInstanceState(s, resourceName, "user_id")
 					compositeId = "oci_identity_api_key:users/" + userId + "/apiKeys/" + fingerprint
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -101,9 +101,9 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", Optional, Update, apiKeyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", Optional, Update, apiKeyDataSourceRepresentation) +
 				compartmentIdVariableStr + ApiKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Optional, Update, apiKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Optional, Update, apiKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
@@ -150,7 +150,7 @@ func testAccCheckIdentityApiKeyDestroy(s *terraform.State) error {
 				request.UserId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 			response, err := client.ListApiKeys(context.Background(), request)
 
 			if err == nil {

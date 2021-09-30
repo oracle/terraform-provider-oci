@@ -24,7 +24,7 @@ type DatasourceCoreVirtualNetworkTestSuite struct {
 }
 
 func (s *DatasourceCoreVirtualNetworkTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenizeWithHttpReplay("vcn")
+	s.Token, s.TokenFn = TokenizeWithHttpReplay("vcn")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`

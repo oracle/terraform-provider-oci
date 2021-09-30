@@ -16,16 +16,16 @@ const zipFile = "../examples/log_analytics/files/TFSource1.zip"
 
 var (
 	LogAnalyticsImportCustomContentRequiredOnlyResource = LogAnalyticsImportCustomContentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", Required, Create, logAnalyticsImportCustomContentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", Required, Create, logAnalyticsImportCustomContentRepresentation)
 
 	logAnalyticsImportCustomContentRepresentation = map[string]interface{}{
-		"import_custom_content_file": Representation{repType: Required, create: zipFile},
-		"namespace":                  Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"is_overwrite":               Representation{repType: Optional, create: `true`},
+		"import_custom_content_file": Representation{RepType: Required, Create: zipFile},
+		"namespace":                  Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"is_overwrite":               Representation{RepType: Optional, Create: `true`},
 	}
 
 	LogAnalyticsImportCustomContentResourceDependencies = "" +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -40,29 +40,29 @@ func TestLogAnalyticsLogAnalyticsImportCustomContentResource_basic(t *testing.T)
 
 	resourceName := "oci_log_analytics_log_analytics_import_custom_content.test_log_analytics_import_custom_content"
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+LogAnalyticsImportCustomContentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", Optional, Create, logAnalyticsImportCustomContentRepresentation), "loganalytics", "logAnalyticsImportCustomContent", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+LogAnalyticsImportCustomContentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", Optional, Create, logAnalyticsImportCustomContentRepresentation), "loganalytics", "logAnalyticsImportCustomContent", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + LogAnalyticsImportCustomContentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", Required, Create, logAnalyticsImportCustomContentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", Required, Create, logAnalyticsImportCustomContentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "import_custom_content_file", zipFile),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + LogAnalyticsImportCustomContentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + LogAnalyticsImportCustomContentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", Optional, Create, logAnalyticsImportCustomContentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_import_custom_content", "test_log_analytics_import_custom_content", Optional, Create, logAnalyticsImportCustomContentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "import_custom_content_file", zipFile),
 				resource.TestCheckResourceAttr(resourceName, "is_overwrite", "true"),

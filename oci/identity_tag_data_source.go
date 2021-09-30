@@ -58,7 +58,7 @@ func (s *IdentityTagDataSourceCrud) Get() error {
 		request.TagNamespaceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetTag(context.Background(), request)
 	if err != nil {

@@ -127,8 +127,8 @@ func KmsVaultResource() *schema.Resource {
 						"content_length": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 
 						// Optional
@@ -303,14 +303,14 @@ func (s *KmsVaultResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if vaultType, ok := s.D.GetOkExists("vault_type"); ok {
 		request.VaultType = oci_kms.CreateVaultDetailsVaultTypeEnum(vaultType.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.CreateVault(context.Background(), request)
 	if err != nil {
@@ -327,7 +327,7 @@ func (s *KmsVaultResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VaultId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.GetVault(context.Background(), request)
 	if err != nil {
@@ -379,11 +379,11 @@ func (s *KmsVaultResourceCrud) UpdateVaultDetails() error {
 		request.DisplayName = &tmp
 	}
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 	tmp := s.D.Id()
 	request.VaultId = &tmp
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.UpdateVault(context.Background(), request)
 	if err != nil {
@@ -408,7 +408,7 @@ func (s *KmsVaultResourceCrud) Delete() error {
 		request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	_, err := s.Client.ScheduleVaultDeletion(context.Background(), request)
 	return err
@@ -485,7 +485,7 @@ func (s *KmsVaultResourceCrud) updateCompartment(compartment interface{}) error 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.VaultId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	_, err := s.Client.ChangeVaultCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -518,7 +518,7 @@ func (s *KmsVaultResourceCrud) RestoreVaultFromObjectStore() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.RestoreVaultFromObjectStore(context.Background(), request)
 	if err != nil {
@@ -558,7 +558,7 @@ func (s *KmsVaultResourceCrud) RestoreVaultFromFile() error {
 		request.ContentMd5 = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.RestoreVaultFromFile(context.Background(), request)
 	if err != nil {

@@ -21,32 +21,32 @@ import (
 
 var (
 	BootVolumeBackupRequiredOnlyResource = BootVolumeBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation)
 
 	BootVolumeBackupResourceConfig = BootVolumeBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update, bootVolumeBackupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update, bootVolumeBackupRepresentation)
 
 	bootVolumeBackupSingularDataSourceRepresentation = map[string]interface{}{
-		"boot_volume_backup_id": Representation{repType: Required, create: `${oci_core_boot_volume_backup.test_boot_volume_backup.id}`},
+		"boot_volume_backup_id": Representation{RepType: Required, Create: `${oci_core_boot_volume_backup.test_boot_volume_backup.id}`},
 	}
 
 	bootVolumeBackupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"boot_volume_id": Representation{repType: Optional, create: `${oci_core_boot_volume.test_boot_volume.id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"boot_volume_id": Representation{RepType: Optional, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, bootVolumeBackupDataSourceFilterRepresentation}}
 	bootVolumeBackupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_boot_volume_backup.test_boot_volume_backup.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_boot_volume_backup.test_boot_volume_backup.id}`}},
 	}
 
 	bootVolumeBackupRepresentation = map[string]interface{}{
-		"boot_volume_id": Representation{repType: Required, create: `${oci_core_boot_volume.test_boot_volume.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"type":           Representation{repType: Optional, create: `INCREMENTAL`},
+		"boot_volume_id": Representation{RepType: Required, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"type":           Representation{RepType: Optional, Create: `INCREMENTAL`},
 	}
 	bootVolumeBackupId, bootVolumeId, instanceId string
 	BootVolumeBackupResourceDependencies         = BootVolumeOptionalResource
@@ -74,38 +74,38 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_boot_volume_backup.test_boot_volume_backup"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+BootVolumeBackupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Create,
-			representationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
-				"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+BootVolumeBackupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Create,
+			RepresentationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
+				"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 			})), "core", "bootVolumeBackup", t)
 
 	ResourceTest(t, testAccCheckCoreBootVolumeBackupDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BootVolumeBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Create,
-					representationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Create,
+					RepresentationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -119,9 +119,9 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentIdU, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentIdU, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -133,9 +133,9 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update,
-					representationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update,
+					RepresentationCopyWithNewProperties(bootVolumeBackupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -149,7 +149,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -160,9 +160,9 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_boot_volume_backups", "test_boot_volume_backups", Optional, Update, bootVolumeBackupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_backups", "test_boot_volume_backups", Optional, Update, bootVolumeBackupDataSourceRepresentation) +
 				compartmentIdVariableStr + BootVolumeBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update, bootVolumeBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update, bootVolumeBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -190,7 +190,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + BootVolumeBackupResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_backup_id"),
@@ -241,7 +241,7 @@ func testAccCheckCoreBootVolumeBackupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.BootVolumeBackupId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetBootVolumeBackup(context.Background(), request)
 
@@ -274,7 +274,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreBootVolumeBackup") {
+	if !InSweeperExcludeList("CoreBootVolumeBackup") {
 		resource.AddTestSweepers("CoreBootVolumeBackup", &resource.Sweeper{
 			Name:         "CoreBootVolumeBackup",
 			Dependencies: DependencyGraph["bootVolumeBackup"],
@@ -295,13 +295,13 @@ func sweepCoreBootVolumeBackupResource(compartment string) error {
 
 			deleteBootVolumeBackupRequest.BootVolumeBackupId = &bootVolumeBackupId
 
-			deleteBootVolumeBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteBootVolumeBackupRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := blockstorageClient.DeleteBootVolumeBackup(context.Background(), deleteBootVolumeBackupRequest)
 			if error != nil {
 				fmt.Printf("Error deleting BootVolumeBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", bootVolumeBackupId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &bootVolumeBackupId, bootVolumeBackupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &bootVolumeBackupId, bootVolumeBackupSweepWaitCondition, time.Duration(3*time.Minute),
 				bootVolumeBackupSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -309,7 +309,7 @@ func sweepCoreBootVolumeBackupResource(compartment string) error {
 }
 
 func getBootVolumeBackupIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "BootVolumeBackupId")
+	ids := GetResourceIdsToSweep(compartment, "BootVolumeBackupId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -328,7 +328,7 @@ func getBootVolumeBackupIds(compartment string) ([]string, error) {
 	for _, bootVolumeBackup := range listBootVolumeBackupsResponse.Items {
 		id := *bootVolumeBackup.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeBackupId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeBackupId", id)
 	}
 	return resourceIds, nil
 }

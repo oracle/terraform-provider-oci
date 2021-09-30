@@ -161,7 +161,7 @@ func (s *CorePrivateIpResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok {
@@ -184,7 +184,7 @@ func (s *CorePrivateIpResourceCrud) Create() error {
 		request.VnicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreatePrivateIp(context.Background(), request)
 	if err != nil {
@@ -201,7 +201,7 @@ func (s *CorePrivateIpResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PrivateIpId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetPrivateIp(context.Background(), request)
 	if err != nil {
@@ -229,7 +229,7 @@ func (s *CorePrivateIpResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok {
@@ -245,7 +245,7 @@ func (s *CorePrivateIpResourceCrud) Update() error {
 		request.VnicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdatePrivateIp(context.Background(), request)
 	if err != nil {
@@ -262,7 +262,7 @@ func (s *CorePrivateIpResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PrivateIpId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeletePrivateIp(context.Background(), request)
 	return err

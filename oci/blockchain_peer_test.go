@@ -20,37 +20,37 @@ import (
 
 var (
 	PeerRequiredOnlyResource = PeerResourceDependencies +
-		generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerRepresentation)
+		GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerRepresentation)
 
 	PeerResourceConfig = PeerResourceDependencies +
-		generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation)
+		GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation)
 
 	peerSingularDataSourceRepresentation = map[string]interface{}{
-		"blockchain_platform_id": Representation{repType: Required, create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
-		"peer_id":                Representation{repType: Required, create: `${oci_blockchain_peer.test_peer.id}`},
+		"blockchain_platform_id": Representation{RepType: Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
+		"peer_id":                Representation{RepType: Required, Create: `${oci_blockchain_peer.test_peer.id}`},
 	}
 
 	peerDataSourceRepresentation = map[string]interface{}{
-		"blockchain_platform_id": Representation{repType: Required, create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`},
+		"blockchain_platform_id": Representation{RepType: Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
+		"display_name":           Representation{RepType: Optional, Create: `displayName`},
 		"filter":                 RepresentationGroup{Required, peerDataSourceFilterRepresentation}}
 	peerDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `peer_key`},
-		"values": Representation{repType: Required, create: []string{`${oci_blockchain_peer.test_peer.id}`}},
+		"name":   Representation{RepType: Required, Create: `peer_key`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_blockchain_peer.test_peer.id}`}},
 	}
 
 	peerRepresentation = map[string]interface{}{
-		"ad":                     Representation{repType: Required, create: `AD1`},
-		"blockchain_platform_id": Representation{repType: Required, create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
+		"ad":                     Representation{RepType: Required, Create: `AD1`},
+		"blockchain_platform_id": Representation{RepType: Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
 		"ocpu_allocation_param":  RepresentationGroup{Required, peerOcpuAllocationParamRepresentation},
-		"role":                   Representation{repType: Required, create: `MEMBER`},
-		"alias":                  Representation{repType: Optional, create: `alias`},
+		"role":                   Representation{RepType: Required, Create: `MEMBER`},
+		"alias":                  Representation{RepType: Optional, Create: `alias`},
 	}
 	peerOcpuAllocationParamRepresentation = map[string]interface{}{
-		"ocpu_allocation_number": Representation{repType: Required, create: `0.5`, update: `0.6`},
+		"ocpu_allocation_number": Representation{RepType: Required, Create: `0.5`, Update: `0.6`},
 	}
 
-	PeerResourceDependencies = generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)
+	PeerResourceDependencies = GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)
 )
 
 // issue-routing-tag: blockchain/default
@@ -72,15 +72,15 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 
 	var resId, resId2, compositeId string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PeerResourceDependencies+
-		generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Create, peerRepresentation), "blockchain", "peer", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PeerResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Create, peerRepresentation), "blockchain", "peer", t)
 
 	ResourceTest(t, testAccCheckBlockchainPeerDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
-				generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
@@ -89,20 +89,20 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
-				generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Create, peerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Create, peerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 				resource.TestCheckResourceAttr(resourceName, "alias", "alias"),
@@ -114,11 +114,11 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
-					blockchainPlatformId, _ := fromInstanceState(s, resourceName, "blockchain_platform_id")
+					resId, err = FromInstanceState(s, resourceName, "id")
+					blockchainPlatformId, _ := FromInstanceState(s, resourceName, "blockchain_platform_id")
 					compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/peers/" + resId
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -130,7 +130,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
-				generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 				resource.TestCheckResourceAttr(resourceName, "alias", "alias"),
@@ -142,7 +142,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "role", "MEMBER"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -153,9 +153,9 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_blockchain_peers", "test_peers", Optional, Update, peerDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_blockchain_peers", "test_peers", Optional, Update, peerDataSourceRepresentation) +
 				compartmentIdVariableStr + PeerResourceDependencies + idcsAccessTokenVariableStr +
-				generateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Optional, Update, peerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
@@ -164,7 +164,7 @@ func TestBlockchainPeerResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_blockchain_peer", "test_peer", Required, Create, peerSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + idcsAccessTokenVariableStr + PeerResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
@@ -222,7 +222,7 @@ func testAccCheckBlockchainPeerDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PeerId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "blockchain")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "blockchain")
 
 			_, err := client.GetPeer(context.Background(), request)
 
@@ -247,7 +247,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("BlockchainPeer") {
+	if !InSweeperExcludeList("BlockchainPeer") {
 		resource.AddTestSweepers("BlockchainPeer", &resource.Sweeper{
 			Name:         "BlockchainPeer",
 			Dependencies: DependencyGraph["peer"],
@@ -268,7 +268,7 @@ func sweepBlockchainPeerResource(compartment string) error {
 
 			deletePeerRequest.PeerId = &peerId
 
-			deletePeerRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "blockchain")
+			deletePeerRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "blockchain")
 			_, error := blockchainPlatformClient.DeletePeer(context.Background(), deletePeerRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Peer %s %s, It is possible that the resource is already deleted. Please verify manually \n", peerId, error)
@@ -280,7 +280,7 @@ func sweepBlockchainPeerResource(compartment string) error {
 }
 
 func getPeerIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "PeerId")
+	ids := GetResourceIdsToSweep(compartment, "PeerId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -305,7 +305,7 @@ func getPeerIds(compartment string) ([]string, error) {
 		for _, peer := range listPeersResponse.Items {
 			id := *peer.PeerKey
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "PeerId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "PeerId", id)
 		}
 
 	}

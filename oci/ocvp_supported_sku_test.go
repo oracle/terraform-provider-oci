@@ -14,7 +14,7 @@ import (
 
 var (
 	supportedSkuDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	SupportedSkuResourceConfig = ""
@@ -32,13 +32,13 @@ func TestOcvpSupportedSkuResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_ocvp_supported_skus.test_supported_skus"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ocvp_supported_skus", "test_supported_skus", Required, Create, supportedSkuDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_skus", "test_supported_skus", Required, Create, supportedSkuDataSourceRepresentation) +
 				compartmentIdVariableStr + SupportedSkuResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

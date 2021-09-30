@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_metering_computation.UsageapiClient", &OracleClient{initClientFn: initUsageapiUsageapiClient})
+	RegisterOracleClient("oci_metering_computation.UsageapiClient", &OracleClient{InitClientFn: initUsageapiUsageapiClient})
 }
 
 func initUsageapiUsageapiClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

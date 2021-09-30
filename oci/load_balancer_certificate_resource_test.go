@@ -60,7 +60,7 @@ func (s *ResourceLoadBalancerCertificateTestSuite) TestAccResourceLoadBalancerCe
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create
+			// test Create
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_certificate" "t" {

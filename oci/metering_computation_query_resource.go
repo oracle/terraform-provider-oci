@@ -118,7 +118,7 @@ func MeteringComputationQueryResource() *schema.Resource {
 												"time_forecast_ended": {
 													Type:             schema.TypeString,
 													Required:         true,
-													DiffSuppressFunc: timeDiffSuppressFunction,
+													DiffSuppressFunc: TimeDiffSuppressFunction,
 												},
 
 												// Optional
@@ -131,7 +131,7 @@ func MeteringComputationQueryResource() *schema.Resource {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: timeDiffSuppressFunction,
+													DiffSuppressFunc: TimeDiffSuppressFunction,
 												},
 
 												// Computed
@@ -189,13 +189,13 @@ func MeteringComputationQueryResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: timeDiffSuppressFunction,
+										DiffSuppressFunc: TimeDiffSuppressFunction,
 									},
 									"time_usage_started": {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: timeDiffSuppressFunction,
+										DiffSuppressFunc: TimeDiffSuppressFunction,
 									},
 
 									// Computed
@@ -284,7 +284,7 @@ func (s *MeteringComputationQueryResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
 
 	response, err := s.Client.CreateQuery(context.Background(), request)
 	if err != nil {
@@ -301,7 +301,7 @@ func (s *MeteringComputationQueryResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.QueryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
 
 	response, err := s.Client.GetQuery(context.Background(), request)
 	if err != nil {
@@ -329,7 +329,7 @@ func (s *MeteringComputationQueryResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.QueryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
 
 	response, err := s.Client.UpdateQuery(context.Background(), request)
 	if err != nil {
@@ -346,7 +346,7 @@ func (s *MeteringComputationQueryResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.QueryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
 
 	_, err := s.Client.DeleteQuery(context.Background(), request)
 	return err

@@ -18,7 +18,7 @@ func DnsViewsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDnsViews,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -92,7 +92,7 @@ func (s *DnsViewsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_dns.ViewSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.ListViews(context.Background(), request)
 	if err != nil {

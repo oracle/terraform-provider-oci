@@ -515,7 +515,7 @@ func (s *MarketplaceListingDataSourceCrud) Get() error {
 		request.ListingId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.GetListing(context.Background(), request)
 	if err != nil {

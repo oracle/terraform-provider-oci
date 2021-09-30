@@ -188,11 +188,11 @@ func (s *HealthChecksHttpMonitorResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if headers, ok := s.D.GetOkExists("headers"); ok {
-		request.Headers = objectMapToStringMap(headers.(map[string]interface{}))
+		request.Headers = ObjectMapToStringMap(headers.(map[string]interface{}))
 	}
 
 	if intervalInSeconds, ok := s.D.GetOkExists("interval_in_seconds"); ok {
@@ -254,7 +254,7 @@ func (s *HealthChecksHttpMonitorResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	response, err := s.Client.CreateHttpMonitor(context.Background(), request)
 	if err != nil {
@@ -271,7 +271,7 @@ func (s *HealthChecksHttpMonitorResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.MonitorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	response, err := s.Client.GetHttpMonitor(context.Background(), request)
 	if err != nil {
@@ -308,11 +308,11 @@ func (s *HealthChecksHttpMonitorResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if headers, ok := s.D.GetOkExists("headers"); ok {
-		request.Headers = objectMapToStringMap(headers.(map[string]interface{}))
+		request.Headers = ObjectMapToStringMap(headers.(map[string]interface{}))
 	}
 
 	if intervalInSeconds, ok := s.D.GetOkExists("interval_in_seconds"); ok {
@@ -377,7 +377,7 @@ func (s *HealthChecksHttpMonitorResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	response, err := s.Client.UpdateHttpMonitor(context.Background(), request)
 	if err != nil {
@@ -394,7 +394,7 @@ func (s *HealthChecksHttpMonitorResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.MonitorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	_, err := s.Client.DeleteHttpMonitor(context.Background(), request)
 	return err
@@ -469,7 +469,7 @@ func (s *HealthChecksHttpMonitorResourceCrud) updateCompartment(compartment inte
 	idTmp := s.D.Id()
 	changeCompartmentRequest.MonitorId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	_, err := s.Client.ChangeHttpMonitorCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

@@ -228,7 +228,7 @@ func (s *DnsZoneResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		createZoneDetailsRequest.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		createZoneDetailsRequest.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -251,7 +251,7 @@ func (s *DnsZoneResourceCrud) Create() error {
 	}
 	request.CreateZoneDetails = createZoneDetailsRequest
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.CreateZone(context.Background(), request)
 	if err != nil {
@@ -296,7 +296,7 @@ func (s *DnsZoneResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ZoneNameOrId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.GetZone(context.Background(), request)
 	if err != nil {
@@ -350,7 +350,7 @@ func (s *DnsZoneResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if scope, ok := s.D.GetOkExists("scope"); ok {
@@ -365,7 +365,7 @@ func (s *DnsZoneResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ZoneNameOrId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.UpdateZone(context.Background(), request)
 	if err != nil {
@@ -396,7 +396,7 @@ func (s *DnsZoneResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ZoneNameOrId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.DeleteZone(context.Background(), request)
 	return err
@@ -520,7 +520,7 @@ func (s *DnsZoneResourceCrud) updateCompartment(compartment interface{}) error {
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ZoneId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.ChangeZoneCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

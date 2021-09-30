@@ -267,7 +267,7 @@ func (s *OsmanagementManagedInstanceResourceCrud) Create() error {
 		request.NotificationTopicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.UpdateManagedInstance(context.Background(), request)
 	if err != nil {
@@ -284,7 +284,7 @@ func (s *OsmanagementManagedInstanceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ManagedInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.GetManagedInstance(context.Background(), request)
 	if err != nil {
@@ -311,7 +311,7 @@ func (s *OsmanagementManagedInstanceResourceCrud) Update() error {
 		request.NotificationTopicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.UpdateManagedInstance(context.Background(), request)
 	if err != nil {

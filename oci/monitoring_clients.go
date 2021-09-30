@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_monitoring.MonitoringClient", &OracleClient{initClientFn: initMonitoringMonitoringClient})
+	RegisterOracleClient("oci_monitoring.MonitoringClient", &OracleClient{InitClientFn: initMonitoringMonitoringClient})
 }
 
 func initMonitoringMonitoringClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

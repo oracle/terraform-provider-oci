@@ -16,17 +16,17 @@ import (
 
 var (
 	DeployInstanceGroupEnvironmentRequiredOnlyResource = DeployEnvironmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployInstanceGroupEnvironmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployInstanceGroupEnvironmentRepresentation)
 
 	DeployInstanceGroupEnvironmentResourceConfig = DeployEnvironmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployInstanceGroupEnvironmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployInstanceGroupEnvironmentRepresentation)
 
 	deployInstanceGroupEnvironmentSingularDataSourceRepresentation = map[string]interface{}{
-		"deploy_environment_id": Representation{repType: Required, create: `${oci_devops_deploy_environment.test_deploy_environment.id}`},
+		"deploy_environment_id": Representation{RepType: Required, Create: `${oci_devops_deploy_environment.test_deploy_environment.id}`},
 	}
 
-	deployInstanceGroupEnvironmentRepresentation = getUpdatedRepresentationCopy("deploy_environment_type", Representation{repType: Required, create: `COMPUTE_INSTANCE_GROUP`},
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(deployEnvironmentRepresentation, []string{"cluster_id"}), map[string]interface{}{
+	deployInstanceGroupEnvironmentRepresentation = GetUpdatedRepresentationCopy("deploy_environment_type", Representation{RepType: Required, Create: `COMPUTE_INSTANCE_GROUP`},
+		RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(deployEnvironmentRepresentation, []string{"cluster_id"}), map[string]interface{}{
 			"compute_instance_group_selectors": RepresentationGroup{Required, deployComputeInstanceGroupEnvironmentSelectorCollectionRepresentation},
 		}))
 
@@ -34,8 +34,8 @@ var (
 		"items": RepresentationGroup{Required, deployComputeInstanceGroupEnvironmentSelectorCollectionItemsRepresentation},
 	}
 	deployComputeInstanceGroupEnvironmentSelectorCollectionItemsRepresentation = map[string]interface{}{
-		"selector_type":        Representation{repType: Required, create: `INSTANCE_IDS`},
-		"compute_instance_ids": Representation{repType: Required, create: []string{`ocid1.instance.oc1.phx.anuwcljtnsx72macffe5fbkzbj4eerle5ot56g2cexj3jvfsr242pye44ghq`}},
+		"selector_type":        Representation{RepType: Required, Create: `INSTANCE_IDS`},
+		"compute_instance_ids": Representation{RepType: Required, Create: []string{`ocid1.instance.oc1.phx.anuwcljtnsx72macffe5fbkzbj4eerle5ot56g2cexj3jvfsr242pye44ghq`}},
 	}
 )
 
@@ -53,15 +53,15 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deploy_environment.test_deploy_environment"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeployEnvironmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployInstanceGroupEnvironmentRepresentation), "devops", "deployEnvironment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeployEnvironmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployInstanceGroupEnvironmentRepresentation), "devops", "deployEnvironment", t)
 
 	ResourceTest(t, testAccCheckDevopsDeployEnvironmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployInstanceGroupEnvironmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployInstanceGroupEnvironmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.0.items.#", "1"),
@@ -69,20 +69,20 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployInstanceGroupEnvironmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployInstanceGroupEnvironmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.0.items.#", "1"),
@@ -96,9 +96,9 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -110,7 +110,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployInstanceGroupEnvironmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployInstanceGroupEnvironmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.0.items.#", "1"),
@@ -124,7 +124,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -135,9 +135,9 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", Optional, Update, deployEnvironmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environments", "test_deploy_environments", Optional, Update, deployEnvironmentDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployEnvironmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployInstanceGroupEnvironmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Update, deployInstanceGroupEnvironmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -151,7 +151,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployInstanceGroupEnvironmentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployInstanceGroupEnvironmentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployInstanceGroupEnvironmentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_environment_id"),

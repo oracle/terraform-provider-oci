@@ -20,39 +20,39 @@ import (
 
 var (
 	LoadBalancerRoutingPolicyResourceConfig = LoadBalancerRoutingPolicyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation)
 
 	loadBalancerRoutingPolicySingularDataSourceRepresentation = map[string]interface{}{
-		"load_balancer_id":    Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"routing_policy_name": Representation{repType: Required, create: `example_routing_rules`},
+		"load_balancer_id":    Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"routing_policy_name": Representation{RepType: Required, Create: `example_routing_rules`},
 	}
 
 	loadBalancerRoutingPolicyDataSourceRepresentation = map[string]interface{}{
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"filter":           RepresentationGroup{Required, loadBalancerRoutingPolicyDataSourceFilterRepresentation}}
 	loadBalancerRoutingPolicyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name}`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name}`}},
 	}
 
 	loadBalancerRoutingPolicyRepresentation = map[string]interface{}{
-		"condition_language_version": Representation{repType: Required, create: `V1`},
-		"load_balancer_id":           Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":                       Representation{repType: Required, create: `example_routing_rules`},
+		"condition_language_version": Representation{RepType: Required, Create: `V1`},
+		"load_balancer_id":           Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":                       Representation{RepType: Required, Create: `example_routing_rules`},
 		"rules":                      RepresentationGroup{Required, loadBalancerRoutingPolicyRulesRepresentation},
 	}
 	loadBalancerRoutingPolicyRulesRepresentation = map[string]interface{}{
 		"actions":   RepresentationGroup{Required, loadBalancerRoutingPolicyRulesActionsRepresentation},
-		"condition": Representation{repType: Required, create: `all(http.request.url.path eq (i ''))`},
-		"name":      Representation{repType: Required, create: `example_routing_rules`, update: `name2`},
+		"condition": Representation{RepType: Required, Create: `all(http.request.url.path eq (i ''))`},
+		"name":      Representation{RepType: Required, Create: `example_routing_rules`, Update: `name2`},
 	}
 	loadBalancerRoutingPolicyRulesActionsRepresentation = map[string]interface{}{
-		"name":             Representation{repType: Required, create: `FORWARD_TO_BACKENDSET`, update: `FORWARD_TO_BACKENDSET`},
-		"backend_set_name": Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"name":             Representation{RepType: Required, Create: `FORWARD_TO_BACKENDSET`, Update: `FORWARD_TO_BACKENDSET`},
+		"backend_set_name": Representation{RepType: Required, Create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
 	}
 
-	LoadBalancerRoutingPolicyResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+	LoadBalancerRoutingPolicyResourceDependencies = GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies
 )
 
@@ -73,10 +73,10 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckLoadBalancerLoadBalancerRoutingPolicyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "condition_language_version", "V1"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -88,9 +88,9 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rules.0.name", "example_routing_rules"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -102,7 +102,7 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "condition_language_version", "V1"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -115,7 +115,7 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rules.0.name", "name2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -126,9 +126,9 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policies", "test_load_balancer_routing_policies", Optional, Update, loadBalancerRoutingPolicyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policies", "test_load_balancer_routing_policies", Optional, Update, loadBalancerRoutingPolicyDataSourceRepresentation) +
 				compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Optional, Update, loadBalancerRoutingPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
@@ -146,7 +146,7 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + LoadBalancerRoutingPolicyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
@@ -194,7 +194,7 @@ func testAccCheckLoadBalancerLoadBalancerRoutingPolicyDestroy(s *terraform.State
 				request.RoutingPolicyName = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 
 			_, err := client.GetRoutingPolicy(context.Background(), request)
 
@@ -219,7 +219,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoadBalancerLoadBalancerRoutingPolicy") {
+	if !InSweeperExcludeList("LoadBalancerLoadBalancerRoutingPolicy") {
 		resource.AddTestSweepers("LoadBalancerLoadBalancerRoutingPolicy", &resource.Sweeper{
 			Name:         "LoadBalancerLoadBalancerRoutingPolicy",
 			Dependencies: DependencyGraph["loadBalancerRoutingPolicy"],
@@ -238,7 +238,7 @@ func sweepLoadBalancerLoadBalancerRoutingPolicyResource(compartment string) erro
 		if ok := SweeperDefaultResourceId[loadBalancerRoutingPolicyId]; !ok {
 			deleteRoutingPolicyRequest := oci_load_balancer.DeleteRoutingPolicyRequest{}
 
-			deleteRoutingPolicyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			deleteRoutingPolicyRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 			_, error := loadBalancerClient.DeleteRoutingPolicy(context.Background(), deleteRoutingPolicyRequest)
 			if error != nil {
 				fmt.Printf("Error deleting LoadBalancerRoutingPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", loadBalancerRoutingPolicyId, error)
@@ -250,7 +250,7 @@ func sweepLoadBalancerLoadBalancerRoutingPolicyResource(compartment string) erro
 }
 
 func getLoadBalancerRoutingPolicyIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "LoadBalancerRoutingPolicyId")
+	ids := GetResourceIdsToSweep(compartment, "LoadBalancerRoutingPolicyId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -275,7 +275,7 @@ func getLoadBalancerRoutingPolicyIds(compartment string) ([]string, error) {
 		for _, loadBalancerRoutingPolicy := range listRoutingPoliciesResponse.Items {
 			id := *loadBalancerRoutingPolicy.Name
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "LoadBalancerRoutingPolicyId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "LoadBalancerRoutingPolicyId", id)
 		}
 
 	}

@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_audit.AuditClient", &OracleClient{initClientFn: initAuditAuditClient})
+	RegisterOracleClient("oci_audit.AuditClient", &OracleClient{InitClientFn: initAuditAuditClient})
 }
 
 func initAuditAuditClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

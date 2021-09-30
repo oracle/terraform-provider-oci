@@ -49,7 +49,7 @@ func (s *DatacatalogCatalogPrivateEndpointDataSourceCrud) Get() error {
 		request.CatalogPrivateEndpointId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datacatalog")
 
 	response, err := s.Client.GetCatalogPrivateEndpoint(context.Background(), request)
 	if err != nil {

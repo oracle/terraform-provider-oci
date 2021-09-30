@@ -76,7 +76,7 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create minimal
+			// test Create minimal
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backend" "t" {
@@ -97,12 +97,12 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					resource.TestCheckResourceAttrSet(s.ResourceName, "name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res, err = fromInstanceState(ts, s.ResourceName, "name")
+						res, err = FromInstanceState(ts, s.ResourceName, "name")
 						return err
 					},
 				),
 			},
-			// test partial update: "weight" only, omitted bool properties should be not be named and null in the update request
+			// test partial Update: "weight" only, omitted bool properties should be not be named and null in the Update request
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backend" "t" {
@@ -124,12 +124,12 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					resource.TestCheckResourceAttrSet(s.ResourceName, "name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res, err = fromInstanceState(ts, s.ResourceName, "name")
+						res, err = FromInstanceState(ts, s.ResourceName, "name")
 						return err
 					},
 				),
 			},
-			// test partial update - previously omitted bools explicitly set to a mix of true and false
+			// test partial Update - previously omitted bools explicitly set to a mix of true and false
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backend" "t" {
@@ -154,12 +154,12 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					resource.TestCheckResourceAttrSet(s.ResourceName, "name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res, err = fromInstanceState(ts, s.ResourceName, "name")
+						res, err = FromInstanceState(ts, s.ResourceName, "name")
 						return err
 					},
 				),
 			},
-			// test full update - invert bools
+			// test full Update - invert bools
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backend" "t" {
@@ -183,7 +183,7 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 					resource.TestCheckResourceAttrSet(s.ResourceName, "name"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("resource was unexpectedly recreated while updating updatable properties")
 						}

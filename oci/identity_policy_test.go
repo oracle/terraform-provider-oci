@@ -19,26 +19,26 @@ import (
 
 var (
 	PolicyRequiredOnlyResource = PolicyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation)
 
 	policyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"name":           Representation{repType: Optional, create: `LaunchInstances`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"name":           Representation{RepType: Optional, Create: `LaunchInstances`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, policyDataSourceFilterRepresentation}}
 	policyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_policy.test_policy.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_policy.test_policy.id}`}},
 	}
 
 	policyRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"description":    Representation{repType: Required, create: `Policy for users who need to launch instances, attach volumes, manage images`, update: `description2`},
-		"name":           Representation{repType: Required, create: `LaunchInstances`},
-		"statements":     Representation{repType: Required, create: []string{`Allow group Administrators to read instances in tenancy`}},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"version_date":   Representation{repType: Optional, create: ``, update: `2018-01-01`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"description":    Representation{RepType: Required, Create: `Policy for users who need to launch instances, attach volumes, manage images`, Update: `description2`},
+		"name":           Representation{RepType: Required, Create: `LaunchInstances`},
+		"statements":     Representation{RepType: Required, Create: []string{`Allow Group Administrators to read instances in tenancy`}},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"version_date":   Representation{RepType: Optional, Create: ``, Update: `2018-01-01`},
 	}
 
 	PolicyResourceDependencies = DefinedTagsDependencies
@@ -59,15 +59,15 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_policies.test_policies"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PolicyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation), "identity", "policy", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PolicyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation), "identity", "policy", t)
 
 	ResourceTest(t, testAccCheckIdentityPolicyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -75,20 +75,20 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PolicyResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -102,9 +102,9 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "version_date"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -116,7 +116,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -130,7 +130,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "version_date", "2018-01-01"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -141,9 +141,9 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", Optional, Update, policyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", Optional, Update, policyDataSourceRepresentation) +
 				compartmentIdVariableStr + PolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "LaunchInstances"),
@@ -192,7 +192,7 @@ func testAccCheckIdentityPolicyDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PolicyId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 
 			response, err := client.GetPolicy(context.Background(), request)
 

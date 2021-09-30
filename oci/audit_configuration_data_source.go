@@ -49,7 +49,7 @@ func (s *AuditConfigurationDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "audit")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "audit")
 
 	response, err := s.Client.GetConfiguration(context.Background(), request)
 	if err != nil {

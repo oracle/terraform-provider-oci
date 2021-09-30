@@ -140,7 +140,7 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 	}
 
 	if headers, ok := s.D.GetOkExists("headers"); ok {
-		request.Headers = objectMapToStringMap(headers.(map[string]interface{}))
+		request.Headers = ObjectMapToStringMap(headers.(map[string]interface{}))
 	}
 
 	if method, ok := s.D.GetOkExists("method"); ok {
@@ -193,7 +193,7 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	response, err := s.Client.CreateOnDemandHttpProbe(context.Background(), request)
 	if err != nil {

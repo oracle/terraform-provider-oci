@@ -25,9 +25,9 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createMysqlMysqlDbSystem,
 		Read:   readMysqlMysqlDbSystem,
@@ -770,7 +770,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok {
@@ -835,7 +835,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.CreateDbSystem(context.Background(), request)
 	if err != nil {
@@ -852,7 +852,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.GetDbSystem(context.Background(), request)
 	if err != nil {
@@ -899,7 +899,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maintenance, ok := s.D.GetOkExists("maintenance"); ok && s.D.HasChange("maintenance") {
@@ -913,7 +913,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.UpdateDbSystem(context.Background(), request)
 	if err != nil {
@@ -929,7 +929,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.DeleteDbSystem(context.Background(), request)
 	return err
@@ -1278,7 +1278,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateBackupPolicyDetails(fieldKey
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
@@ -1406,7 +1406,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateBackupPolicyDetails(fieldKey
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
@@ -1444,7 +1444,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) StartMysqlDbInstance() error {
 	tmp := s.D.Id()
 	request.DbSystemId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.StartDbSystem(context.Background(), request)
 	if err != nil {
@@ -1481,7 +1481,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) StopMysqlDbInstance() error {
 		return fmt.Errorf("unknown shutdown_type '%v' was specified", shutdown_type)
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.StopDbSystem(context.Background(), request)
 	if err != nil {

@@ -132,7 +132,7 @@ func (s *CorePublicIpDataSourceCrud) getById(id string) error {
 	request := oci_core.GetPublicIpRequest{}
 	request.PublicIpId = &id
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetPublicIp(context.Background(), request)
 	if err != nil {
@@ -149,7 +149,7 @@ func (s *CorePublicIpDataSourceCrud) getByPrivateIpId(privateIpId string) error 
 		tmp := privateIpId.(string)
 		request.PrivateIpId = &tmp
 	}
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 	response, err := s.Client.GetPublicIpByPrivateIpId(context.Background(), request)
 
 	if err != nil {
@@ -167,7 +167,7 @@ func (s *CorePublicIpDataSourceCrud) getByPublicIp(ipAddress string) error {
 		request.IpAddress = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 	response, err := s.Client.GetPublicIpByIpAddress(context.Background(), request)
 
 	if err != nil {

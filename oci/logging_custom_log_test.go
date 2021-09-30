@@ -20,30 +20,30 @@ import (
 
 var (
 	CustomLogRequiredOnlyResource = LogResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, customLogRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, customLogRepresentation)
 
 	CustomLogResourceConfig = LogResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation)
 
 	customLogDataSourceRepresentation = map[string]interface{}{
-		"log_group_id": Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`, update: `${oci_logging_log_group.test_update_log_group.id}`},
-		"display_name": Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"log_type":     Representation{repType: Optional, create: `CUSTOM`},
-		"state":        Representation{repType: Optional, create: `ACTIVE`},
+		"log_group_id": Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
+		"display_name": Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"log_type":     Representation{RepType: Optional, Create: `CUSTOM`},
+		"state":        Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":       RepresentationGroup{Required, logDataSourceFilterRepresentation}}
 
 	customLogRepresentation = map[string]interface{}{
-		"display_name":       Representation{repType: Required, create: `log`, update: `displayName2`},
-		"log_group_id":       Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`, update: `${oci_logging_log_group.test_update_log_group.id}`},
-		"log_type":           Representation{repType: Required, create: `CUSTOM`},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":         Representation{repType: Optional, create: `false`, update: `true`},
-		"retention_duration": Representation{repType: Optional, create: `30`, update: `60`},
+		"display_name":       Representation{RepType: Required, Create: `log`, Update: `displayName2`},
+		"log_group_id":       Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
+		"log_type":           Representation{RepType: Required, Create: `CUSTOM`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":         Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"retention_duration": Representation{RepType: Optional, Create: `30`, Update: `60`},
 	}
 
 	CustomLogResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation)
 )
 
 // issue-routing-tag: logging/default
@@ -71,30 +71,30 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckLoggingCustomLogDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + CustomLogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, customLogRepresentation),
+					GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, customLogRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "log"),
 					resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "log_type", "CUSTOM"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
 
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + CustomLogResourceDependencies,
 			},
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + CustomLogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, customLogRepresentation),
+					GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, customLogRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "log"),
@@ -107,11 +107,11 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							logGroupId, _ := fromInstanceState(s, resourceName, "log_group_id")
+							logGroupId, _ := FromInstanceState(s, resourceName, "log_group_id")
 							compositeId = getLogCompositeId(logGroupId, resId)
-							if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -123,8 +123,8 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + CustomLogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation) +
-					generateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Update, logGroupRepresentation),
+					GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation) +
+					GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Update, logGroupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -137,7 +137,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -148,10 +148,10 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", Optional, Update, customLogDataSourceRepresentation) +
-					generateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Update, logGroupRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_logging_logs", "test_logs", Optional, Update, customLogDataSourceRepresentation) +
+					GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Update, logGroupRepresentation) +
 					compartmentIdVariableStr + CustomLogResourceDependencies +
-					generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation),
+					GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "log_group_id"),
@@ -175,7 +175,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CustomLogResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
@@ -226,7 +226,7 @@ func testAccCheckLoggingCustomLogDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.LogId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 
 			_, err := client.GetLog(context.Background(), request)
 
@@ -251,7 +251,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CustomLoggingLog") {
+	if !InSweeperExcludeList("CustomLoggingLog") {
 		resource.AddTestSweepers("CustomLoggingLog", &resource.Sweeper{
 			Name:         "CustomLoggingLog",
 			Dependencies: DependencyGraph["log"],
@@ -272,7 +272,7 @@ func sweepLoggingCustomLogResource(compartment string) error {
 
 			deleteLogRequest.LogId = &logId
 
-			deleteLogRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			deleteLogRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 			_, error := loggingManagementClient.DeleteLog(context.Background(), deleteLogRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Log %s %s, It is possible that the resource is already deleted. Please verify manually \n", logId, error)

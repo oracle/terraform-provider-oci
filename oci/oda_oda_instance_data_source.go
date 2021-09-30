@@ -49,7 +49,7 @@ func (s *OdaOdaInstanceDataSourceCrud) Get() error {
 		request.OdaInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "oda")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "oda")
 
 	response, err := s.Client.GetOdaInstance(context.Background(), request)
 	if err != nil {

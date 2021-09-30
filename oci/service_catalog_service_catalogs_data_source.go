@@ -18,7 +18,7 @@ func ServiceCatalogServiceCatalogsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readServiceCatalogServiceCatalogs,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -85,7 +85,7 @@ func (s *ServiceCatalogServiceCatalogsDataSourceCrud) Get() error {
 		request.ServiceCatalogId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "service_catalog")
 
 	response, err := s.Client.ListServiceCatalogs(context.Background(), request)
 	if err != nil {

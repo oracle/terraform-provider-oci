@@ -82,7 +82,7 @@ func (s *AuditConfigurationResourceCrud) ID() string {
 }
 
 func (s *AuditConfigurationResourceCrud) Create() error {
-	// This resource can't actually be created. So treat it as an update instead.
+	// This resource can't actually be created. So treat it as an Update instead.
 	return s.Update()
 }
 
@@ -94,7 +94,7 @@ func (s *AuditConfigurationResourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "audit")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "audit")
 
 	response, err := s.Client.GetConfiguration(context.Background(), request)
 	if err != nil {
@@ -118,18 +118,18 @@ func (s *AuditConfigurationResourceCrud) Update() error {
 		request.RetentionPeriodDays = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "audit")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "audit")
 
 	_, err := s.Client.UpdateConfiguration(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	// Workaround: Sleep for some time before polling the configuration. Because update happens asynchronously, polling too
+	// Workaround: Sleep for some time before polling the configuration. Because Update happens asynchronously, polling too
 	// soon may result in service returning stale configuration values.
 	time.Sleep(time.Second * 5)
 
-	// Requests to update the retention policy may succeed instantly but may not see the actual update take effect
+	// Requests to Update the retention policy may succeed instantly but may not see the actual Update take effect
 	// until minutes later. Add polling here to return only when the change has taken effect.
 	retentionPolicyFunc := func() bool { return *s.Res.RetentionPeriodDays == *request.RetentionPeriodDays }
 	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))

@@ -49,7 +49,7 @@ func (s *OcvpSddcDataSourceCrud) Get() error {
 		request.SddcId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ocvp")
 
 	response, err := s.Client.GetSddc(context.Background(), request)
 	if err != nil {

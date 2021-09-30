@@ -20,7 +20,7 @@ func DnsSteeringPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDnsSteeringPolicies,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -137,7 +137,7 @@ func (s *DnsSteeringPoliciesDataSourceCrud) Get() error {
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.ListSteeringPolicies(context.Background(), request)
 	if err != nil {

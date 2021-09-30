@@ -19,32 +19,32 @@ import (
 
 var (
 	GroupRequiredOnlyResource = GroupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
 
 	groupSingularDataSourceRepresentation = map[string]interface{}{
-		"group_id": Representation{repType: Required, create: `${oci_identity_group.test_group.id}`},
+		"group_id": Representation{RepType: Required, Create: `${oci_identity_group.test_group.id}`},
 	}
 
 	groupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"name":           Representation{repType: Optional, create: `NetworkAdmins`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"name":           Representation{RepType: Optional, Create: `NetworkAdmins`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, groupDataSourceFilterRepresentation}}
 	groupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_group.test_group.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_group.test_group.id}`}},
 	}
 
 	groupRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"description":    Representation{repType: Required, create: `Group for network administrators`, update: `description2`},
-		"name":           Representation{repType: Required, create: `NetworkAdmins`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"description":    Representation{RepType: Required, Create: `Group for network administrators`, Update: `description2`},
+		"name":           Representation{RepType: Required, Create: `NetworkAdmins`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	GroupResourceDependencies = DefinedTagsDependencies
-	GroupResourceConfig       = generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
+	GroupResourceConfig       = GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -63,35 +63,35 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_identity_group.test_group"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+GroupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Create, groupRepresentation), "identity", "group", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+GroupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Create, groupRepresentation), "identity", "Group", t)
 
 	ResourceTest(t, testAccCheckIdentityGroupDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + GroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Group for network administrators"),
 				resource.TestCheckResourceAttr(resourceName, "name", "NetworkAdmins"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + GroupResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + GroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Create, groupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Create, groupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -103,9 +103,9 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -117,7 +117,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + GroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -129,7 +129,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -140,9 +140,9 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_groups", "test_groups", Optional, Update, groupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_groups", "test_groups", Optional, Update, groupDataSourceRepresentation) +
 				compartmentIdVariableStr + GroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "NetworkAdmins"),
@@ -162,9 +162,9 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + GroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "group_id"),
 
@@ -181,7 +181,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + GroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
 		},
 		// verify resource import
 		{
@@ -205,7 +205,7 @@ func testAccCheckIdentityGroupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.GroupId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 
 			response, err := client.GetGroup(context.Background(), request)
 

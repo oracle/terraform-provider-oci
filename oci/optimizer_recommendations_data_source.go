@@ -18,7 +18,7 @@ func OptimizerRecommendationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOptimizerRecommendations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"category_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -110,7 +110,7 @@ func (s *OptimizerRecommendationsDataSourceCrud) Get() error {
 		request.Status = oci_optimizer.ListRecommendationsStatusEnum(status.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "optimizer")
 
 	response, err := s.Client.ListRecommendations(context.Background(), request)
 	if err != nil {

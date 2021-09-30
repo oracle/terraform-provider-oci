@@ -196,7 +196,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) ConnectLocalPeeringGateway() error
 
 		connectRequest.LocalPeeringGatewayId = s.Res.Id
 
-		connectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		connectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 		_, err := s.Client.ConnectLocalPeeringGateways(context.Background(), connectRequest)
 		if err != nil {
@@ -252,7 +252,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
@@ -265,7 +265,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateLocalPeeringGateway(context.Background(), request)
 	if err != nil {
@@ -282,7 +282,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.LocalPeeringGatewayId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetLocalPeeringGateway(context.Background(), request)
 	if err != nil {
@@ -319,7 +319,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -330,7 +330,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) Update() error {
 		request.RouteTableId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateLocalPeeringGateway(context.Background(), request)
 	if err != nil {
@@ -347,7 +347,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.LocalPeeringGatewayId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteLocalPeeringGateway(context.Background(), request)
 	return err
@@ -414,7 +414,7 @@ func (s *CoreLocalPeeringGatewayResourceCrud) updateCompartment(compartment inte
 	idTmp := s.D.Id()
 	changeCompartmentRequest.LocalPeeringGatewayId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeLocalPeeringGatewayCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

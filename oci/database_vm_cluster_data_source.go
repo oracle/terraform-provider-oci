@@ -49,7 +49,7 @@ func (s *DatabaseVmClusterDataSourceCrud) Get() error {
 		request.VmClusterId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetVmCluster(context.Background(), request)
 	if err != nil {

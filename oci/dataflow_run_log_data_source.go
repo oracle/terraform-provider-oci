@@ -78,7 +78,7 @@ func (s *DataflowRunLogDataSourceCrud) Get() error {
 		request.RunId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataflow")
 
 	response, err := s.Client.GetRunLog(context.Background(), request)
 	if err != nil {

@@ -18,9 +18,9 @@ func init() {
 func DatabaseAutonomousDatabaseRegionalWalletManagementResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("2h"),
-			Update: getTimeoutDuration("2h"),
-			Delete: getTimeoutDuration("2h"),
+			Create: GetTimeoutDuration("2h"),
+			Update: GetTimeoutDuration("2h"),
+			Delete: GetTimeoutDuration("2h"),
 		},
 		Create: createDatabaseAutonomousDatabaseRegionalWalletManagement,
 		Read:   readDatabaseAutonomousDatabaseRegionalWalletManagement,
@@ -134,7 +134,7 @@ func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Create(
 func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Get() error {
 	request := oci_database.GetAutonomousDatabaseRegionalWalletRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetAutonomousDatabaseRegionalWallet(context.Background(), request)
 	if err != nil {
@@ -153,7 +153,7 @@ func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Update(
 		request.ShouldRotate = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.UpdateAutonomousDatabaseRegionalWallet(context.Background(), request)
 	if err != nil {

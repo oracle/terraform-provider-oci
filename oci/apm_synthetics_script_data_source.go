@@ -65,7 +65,7 @@ func (s *ApmSyntheticsScriptDataSourceCrud) Get() error {
 			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 		}
 	}
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm_synthetics")
 
 	response, err := s.Client.GetScript(context.Background(), request)
 	if err != nil {

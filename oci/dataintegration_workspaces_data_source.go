@@ -18,7 +18,7 @@ func DataintegrationWorkspacesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataintegrationWorkspaces,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *DataintegrationWorkspacesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_dataintegration.WorkspaceLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataintegration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataintegration")
 
 	response, err := s.Client.ListWorkspaces(context.Background(), request)
 	if err != nil {

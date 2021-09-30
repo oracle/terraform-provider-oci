@@ -20,7 +20,7 @@ func DnsZonesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDnsZones,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -162,7 +162,7 @@ func (s *DnsZonesDataSourceCrud) Get() error {
 		request.ZoneType = oci_dns.ListZonesZoneTypeEnum(zoneType.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.ListZones(context.Background(), request)
 	if err != nil {

@@ -21,40 +21,40 @@ import (
 
 var (
 	Ipv6RequiredOnlyResource = Ipv6ResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6Representation)
+		GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6Representation)
 
 	Ipv6ResourceConfig = Ipv6ResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation)
+		GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation)
 
 	ipv6SingularDataSourceRepresentation = map[string]interface{}{
-		"ipv6id": Representation{repType: Required, create: `${oci_core_ipv6.test_ipv6.id}`},
+		"ipv6id": Representation{RepType: Required, Create: `${oci_core_ipv6.test_ipv6.id}`},
 	}
 
 	ipv6DataSourceRepresentation = map[string]interface{}{
-		"vnic_id": Representation{repType: Optional, create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
+		"vnic_id": Representation{RepType: Optional, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
 		"filter":  RepresentationGroup{Required, ipv6DataSourceFilterRepresentation}}
 	ipv6DataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_ipv6.test_ipv6.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_ipv6.test_ipv6.id}`}},
 	}
 
 	ipv6Representation = map[string]interface{}{
-		"vnic_id":       Representation{repType: Required, create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
-		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"ip_address":    Representation{repType: Optional, create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 4)}5901:cede:a617:8bba`},
+		"vnic_id":       Representation{RepType: Required, Create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
+		"defined_tags":  Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":  Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ip_address":    Representation{RepType: Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 4)}5901:cede:a617:8bba`},
 	}
 
 	Ipv6ResourceDependencies = OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-			"dns_label":      Representation{repType: Required, create: `dnslabel`},
-			"ipv6cidr_block": Representation{repType: Optional, create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label":      Representation{RepType: Required, Create: `dnslabel`},
+			"ipv6cidr_block": Representation{RepType: Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label":      Representation{repType: Required, create: `dnslabel`},
-			"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label":      Representation{RepType: Required, Create: `dnslabel`},
+			"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies + `
@@ -82,33 +82,33 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_ipv6.test_ipv6"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+Ipv6ResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Create, ipv6Representation), "core", "ipv6", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+Ipv6ResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Create, ipv6Representation), "core", "ipv6", t)
 
 	ResourceTest(t, testAccCheckCoreIpv6Destroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6Representation),
+				GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6Representation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Create, ipv6Representation),
+				GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Create, ipv6Representation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -122,9 +122,9 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -136,7 +136,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + Ipv6ResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
+				GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -150,7 +150,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -161,9 +161,9 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_ipv6s", "test_ipv6s", Optional, Update, ipv6DataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_ipv6s", "test_ipv6s", Optional, Update, ipv6DataSourceRepresentation) +
 				compartmentIdVariableStr + Ipv6ResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
+				GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
@@ -181,7 +181,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6SingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Required, Create, ipv6SingularDataSourceRepresentation) +
 				compartmentIdVariableStr + Ipv6ResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6id"),
@@ -220,7 +220,7 @@ func testAccCheckCoreIpv6Destroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.Ipv6Id = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetIpv6(context.Background(), request)
 
@@ -253,7 +253,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreIpv6") {
+	if !InSweeperExcludeList("CoreIpv6") {
 		resource.AddTestSweepers("CoreIpv6", &resource.Sweeper{
 			Name:         "CoreIpv6",
 			Dependencies: DependencyGraph["ipv6"],
@@ -274,13 +274,13 @@ func sweepCoreIpv6Resource(compartment string) error {
 
 			deleteIpv6Request.Ipv6Id = &ipv6Id
 
-			deleteIpv6Request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteIpv6Request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteIpv6(context.Background(), deleteIpv6Request)
 			if error != nil {
 				fmt.Printf("Error deleting Ipv6 %s %s, It is possible that the resource is already deleted. Please verify manually \n", ipv6Id, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &ipv6Id, ipv6SweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &ipv6Id, ipv6SweepWaitCondition, time.Duration(3*time.Minute),
 				ipv6SweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -288,7 +288,7 @@ func sweepCoreIpv6Resource(compartment string) error {
 }
 
 func getIpv6Ids(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "Ipv6Id")
+	ids := GetResourceIdsToSweep(compartment, "Ipv6Id")
 	if ids != nil {
 		return ids, nil
 	}
@@ -305,7 +305,7 @@ func getIpv6Ids(compartment string) ([]string, error) {
 	for _, ipv6 := range listIpv6sResponse.Items {
 		id := *ipv6.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "Ipv6Id", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "Ipv6Id", id)
 	}
 	return resourceIds, nil
 }

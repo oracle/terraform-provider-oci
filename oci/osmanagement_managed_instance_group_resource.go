@@ -191,14 +191,14 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
 		request.OsFamily = oci_osmanagement.OsFamiliesEnum(osFamily.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.CreateManagedInstanceGroup(context.Background(), request)
 	if err != nil {
@@ -215,7 +215,7 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ManagedInstanceGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.GetManagedInstanceGroup(context.Background(), request)
 	if err != nil {
@@ -257,13 +257,13 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.ManagedInstanceGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	response, err := s.Client.UpdateManagedInstanceGroup(context.Background(), request)
 	if err != nil {
@@ -280,7 +280,7 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ManagedInstanceGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	_, err := s.Client.DeleteManagedInstanceGroup(context.Background(), request)
 	return err
@@ -341,7 +341,7 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) updateCompartment(compart
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ManagedInstanceGroupId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
 
 	_, err := s.Client.ChangeManagedInstanceGroupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

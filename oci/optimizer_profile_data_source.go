@@ -49,7 +49,7 @@ func (s *OptimizerProfileDataSourceCrud) Get() error {
 		request.ProfileId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "optimizer")
 
 	response, err := s.Client.GetProfile(context.Background(), request)
 	if err != nil {

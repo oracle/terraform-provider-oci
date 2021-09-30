@@ -120,7 +120,7 @@ func (s *ResourcemanagerStackDataSourceCrud) Get() error {
 		request.StackId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "resourcemanager")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "resourcemanager")
 
 	response, err := s.Client.GetStack(context.Background(), request)
 	if err != nil {

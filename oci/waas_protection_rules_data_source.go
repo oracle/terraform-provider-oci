@@ -18,7 +18,7 @@ func WaasProtectionRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readWaasProtectionRules,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"action": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -98,7 +98,7 @@ func (s *WaasProtectionRulesDataSourceCrud) Get() error {
 		request.WaasPolicyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "waas")
 
 	response, err := s.Client.ListProtectionRules(context.Background(), request)
 	if err != nil {

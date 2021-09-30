@@ -27,7 +27,7 @@ func DatacatalogDataAssetDataSource() *schema.Resource {
 	fieldMap["fields"] = &schema.Schema{
 		Type:     schema.TypeSet,
 		Optional: true,
-		Set:      literalTypeHashCodeForSets,
+		Set:      LiteralTypeHashCodeForSets,
 		Elem: &schema.Schema{
 			Type: schema.TypeString,
 		},
@@ -80,7 +80,7 @@ func (s *DatacatalogDataAssetDataSourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datacatalog")
 
 	response, err := s.Client.GetDataAsset(context.Background(), request)
 	if err != nil {

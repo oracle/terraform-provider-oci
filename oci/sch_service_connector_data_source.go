@@ -49,7 +49,7 @@ func (s *SchServiceConnectorDataSourceCrud) Get() error {
 		request.ServiceConnectorId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "sch")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "sch")
 
 	response, err := s.Client.GetServiceConnector(context.Background(), request)
 	if err != nil {

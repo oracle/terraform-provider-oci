@@ -15,7 +15,7 @@ import (
 
 var (
 	migrationRepresentation = map[string]interface{}{
-		"db_system_id": Representation{repType: Required, create: `${oci_database_db_system.t.id}`},
+		"db_system_id": Representation{RepType: Required, Create: `${oci_database_db_system.t.id}`},
 	}
 
 	// Copy from TestAccResourceDatabaseDBSystem_Exadata
@@ -127,10 +127,10 @@ func TestDatabaseMigrationResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: MigrationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_migration", "test_migration", Required, Create, migrationRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_migration", "test_migration", Required, Create, migrationRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "cloud_exadata_infrastructure_id"),

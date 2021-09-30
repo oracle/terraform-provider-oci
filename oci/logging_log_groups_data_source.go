@@ -18,7 +18,7 @@ func LoggingLogGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoggingLogGroups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -76,7 +76,7 @@ func (s *LoggingLogGroupsDataSourceCrud) Get() error {
 		request.IsCompartmentIdInSubtree = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "logging")
 
 	response, err := s.Client.ListLogGroups(context.Background(), request)
 	if err != nil {

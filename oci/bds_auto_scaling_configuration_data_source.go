@@ -58,7 +58,7 @@ func (s *BdsAutoScalingConfigurationDataSourceCrud) Get() error {
 		request.BdsInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "bds")
 
 	response, err := s.Client.GetAutoScalingConfiguration(context.Background(), request)
 	if err != nil {

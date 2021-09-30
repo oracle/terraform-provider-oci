@@ -156,7 +156,7 @@ func (s *ArtifactsContainerImageDataSourceCrud) Get() error {
 		request.ImageId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "artifacts")
 
 	response, err := s.Client.GetContainerImage(context.Background(), request)
 	if err != nil {

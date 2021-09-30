@@ -67,7 +67,7 @@ func (s *DatabaseDbNodeConsoleConnectionDataSourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetConsoleConnection(context.Background(), request)
 	if err != nil {

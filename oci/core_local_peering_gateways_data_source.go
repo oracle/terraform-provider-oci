@@ -18,7 +18,7 @@ func CoreLocalPeeringGatewaysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreLocalPeeringGateways,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -67,7 +67,7 @@ func (s *CoreLocalPeeringGatewaysDataSourceCrud) Get() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListLocalPeeringGateways(context.Background(), request)
 	if err != nil {

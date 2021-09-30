@@ -15,10 +15,10 @@ import (
 
 var (
 	govSubnetResourceDependencies = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource + VcnResourceDependencies + ObjectStorageCoreService +
-		generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+		GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 		}))
 )
 
@@ -42,10 +42,10 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckCoreSubnetDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + govSubnetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
@@ -65,7 +65,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -74,8 +74,8 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + govSubnetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-					"ipv6cidr_block": Representation{repType: Optional, update: subnetCidrBlock},
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+					"ipv6cidr_block": Representation{RepType: Optional, Update: subnetCidrBlock},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -98,7 +98,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -109,9 +109,9 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", Optional, Update, subnetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", Optional, Update, subnetDataSourceRepresentation) +
 				compartmentIdVariableStr + govSubnetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -144,7 +144,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SubnetResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),

@@ -49,7 +49,7 @@ func (s *DevopsDeployArtifactDataSourceCrud) Get() error {
 		request.DeployArtifactId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.GetDeployArtifact(context.Background(), request)
 	if err != nil {

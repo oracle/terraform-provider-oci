@@ -50,7 +50,7 @@ func (s *DatabaseExternalDatabaseConnectorDataSourceCrud) Get() error {
 		request.ExternalDatabaseConnectorId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetExternalDatabaseConnector(context.Background(), request)
 	if err != nil {

@@ -18,7 +18,7 @@ func DatabaseAutonomousExadataInfrastructureShapesDataSource() *schema.Resource 
 	return &schema.Resource{
 		Read: readDatabaseAutonomousExadataInfrastructureShapes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -99,7 +99,7 @@ func (s *DatabaseAutonomousExadataInfrastructureShapesDataSourceCrud) Get() erro
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListAutonomousExadataInfrastructureShapes(context.Background(), request)
 	if err != nil {

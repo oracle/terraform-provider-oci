@@ -18,7 +18,7 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readManagementAgentManagementAgents,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_status": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -169,7 +169,7 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.ListManagementAgents(context.Background(), request)
 	if err != nil {

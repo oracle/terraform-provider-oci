@@ -44,7 +44,7 @@ func OptimizerResourceActionResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: timeDiffSuppressFunction,
+				DiffSuppressFunc: TimeDiffSuppressFunction,
 			},
 			// Computed
 			"action": {
@@ -221,7 +221,7 @@ func (s *OptimizerResourceActionResourceCrud) Create() error {
 		request.TimeStatusEnd = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.UpdateResourceAction(context.Background(), request)
 	if err != nil {
@@ -238,7 +238,7 @@ func (s *OptimizerResourceActionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ResourceActionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.GetResourceAction(context.Background(), request)
 	if err != nil {
@@ -267,7 +267,7 @@ func (s *OptimizerResourceActionResourceCrud) Update() error {
 		request.TimeStatusEnd = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.UpdateResourceAction(context.Background(), request)
 	if err != nil {

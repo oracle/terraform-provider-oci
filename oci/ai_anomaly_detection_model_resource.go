@@ -335,7 +335,7 @@ func (s *AiAnomalyDetectionModelResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if modelTrainingDetails, ok := s.D.GetOkExists("model_training_details"); ok {
@@ -354,7 +354,7 @@ func (s *AiAnomalyDetectionModelResourceCrud) Create() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.CreateModel(context.Background(), request)
 	if err != nil {
@@ -362,7 +362,7 @@ func (s *AiAnomalyDetectionModelResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getModelFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getModelFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *AiAnomalyDetectionModelResourceCrud) getModelFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -417,7 +417,7 @@ func modelWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 
 func modelWaitForWorkRequest(wId *string, entityType string, action oci_ai_anomaly_detection.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ai_anomaly_detection.AnomalyDetectionClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "ai_anomaly_detection")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "ai_anomaly_detection")
 	retryPolicy.ShouldRetryOperation = modelWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_ai_anomaly_detection.GetWorkRequestResponse{}
@@ -499,7 +499,7 @@ func (s *AiAnomalyDetectionModelResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.GetModel(context.Background(), request)
 	if err != nil {
@@ -541,13 +541,13 @@ func (s *AiAnomalyDetectionModelResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.UpdateModel(context.Background(), request)
 	if err != nil {
@@ -555,7 +555,7 @@ func (s *AiAnomalyDetectionModelResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getModelFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getModelFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AiAnomalyDetectionModelResourceCrud) Delete() error {
@@ -564,7 +564,7 @@ func (s *AiAnomalyDetectionModelResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.DeleteModel(context.Background(), request)
 	if err != nil {
@@ -830,7 +830,7 @@ func (s *AiAnomalyDetectionModelResourceCrud) updateCompartment(compartment inte
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ModelId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	_, err := s.Client.ChangeModelCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_optimizer.OptimizerClient", &OracleClient{initClientFn: initOptimizerOptimizerClient})
+	RegisterOracleClient("oci_optimizer.OptimizerClient", &OracleClient{InitClientFn: initOptimizerOptimizerClient})
 }
 
 func initOptimizerOptimizerClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

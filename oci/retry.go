@@ -25,8 +25,8 @@ const (
 	kmsService           = "kms"
 	objectstorageService = "object_storage"
 	deleteResource       = "delete"
-	updateResource       = "update"
-	createResource       = "create"
+	updateResource       = "Update"
+	createResource       = "Create"
 	getResource          = "get"
 )
 
@@ -93,7 +93,7 @@ func getElapsedRetryDuration(firstAttemptTime time.Time) time.Duration {
 
 func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration {
 	// Get the override retry duration function if it exists. This gives the most granular control over what value to return, and is passed
-	// into getRetryPolicy function as an optional argument to override retry durations on a per API basis.
+	// into GetRetryPolicy function as an optional argument to override retry durations on a per API basis.
 	if len(optionals) > 0 {
 		if overrideRetryDurationFn, ok := optionals[0].(expectedRetryDurationFn); ok {
 			return overrideRetryDurationFn(response, disableNotFoundRetries, service, optionals)
@@ -297,7 +297,7 @@ func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetrie
 
 // Because this function notes the start time for making should retry decisions, it's advised
 // for this function call to be made immediately before the client API call.
-func getRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
+func GetRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
 	if serviceRetryPolicyFn, ok := serviceRetryPolicyFnMap[service]; ok {
 		return serviceRetryPolicyFn(disableNotFoundRetries, service, optionals...)
 	}

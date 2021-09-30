@@ -137,7 +137,7 @@ func (s *IdentityUserGroupMembershipResourceCrud) Create() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.AddUserToGroup(context.Background(), request)
 	if err != nil {
@@ -154,7 +154,7 @@ func (s *IdentityUserGroupMembershipResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.UserGroupMembershipId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetUserGroupMembership(context.Background(), request)
 	if err != nil {
@@ -171,7 +171,7 @@ func (s *IdentityUserGroupMembershipResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.UserGroupMembershipId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.RemoveUserFromGroup(context.Background(), request)
 	return err

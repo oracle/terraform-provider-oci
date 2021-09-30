@@ -57,7 +57,7 @@ func (s *DnsViewDataSourceCrud) Get() error {
 		request.ViewId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.GetView(context.Background(), request)
 	if err != nil {

@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_auto_scaling.AutoScalingClient", &OracleClient{initClientFn: initAutoscalingAutoScalingClient})
+	RegisterOracleClient("oci_auto_scaling.AutoScalingClient", &OracleClient{InitClientFn: initAutoscalingAutoScalingClient})
 }
 
 func initAutoscalingAutoScalingClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

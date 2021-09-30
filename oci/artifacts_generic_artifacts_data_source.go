@@ -18,7 +18,7 @@ func ArtifactsGenericArtifactsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readArtifactsGenericArtifacts,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"artifact_path": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -130,7 +130,7 @@ func (s *ArtifactsGenericArtifactsDataSourceCrud) Get() error {
 		request.Version = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "artifacts")
 
 	response, err := s.Client.ListGenericArtifacts(context.Background(), request)
 	if err != nil {

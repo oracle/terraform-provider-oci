@@ -19,7 +19,7 @@ func LoggingUnifiedAgentConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoggingUnifiedAgentConfigurations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -173,7 +173,7 @@ func (s *LoggingUnifiedAgentConfigurationsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_logging.ListUnifiedAgentConfigurationsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "logging")
 
 	response, err := s.Client.ListUnifiedAgentConfigurations(context.Background(), request)
 	if err != nil {

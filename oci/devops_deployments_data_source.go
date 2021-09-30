@@ -20,7 +20,7 @@ func DevopsDeploymentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDevopsDeployments,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -137,7 +137,7 @@ func (s *DevopsDeploymentsDataSourceCrud) Get() error {
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.ListDeployments(context.Background(), request)
 	if err != nil {

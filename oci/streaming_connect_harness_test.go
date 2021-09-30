@@ -21,31 +21,31 @@ import (
 
 var (
 	ConnectHarnessRequiredOnlyResource = ConnectHarnessResourceDependencies +
-		generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Required, Create, connectHarnessRepresentation)
+		GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Required, Create, connectHarnessRepresentation)
 
 	ConnectHarnessResourceConfig = ConnectHarnessResourceDependencies +
-		generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Update, connectHarnessRepresentation)
+		GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Update, connectHarnessRepresentation)
 
 	connectHarnessSingularDataSourceRepresentation = map[string]interface{}{
-		"connect_harness_id": Representation{repType: Required, create: `${oci_streaming_connect_harness.test_connect_harness.id}`},
+		"connect_harness_id": Representation{RepType: Required, Create: `${oci_streaming_connect_harness.test_connect_harness.id}`},
 	}
 
 	connectHarnessDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"id":             Representation{repType: Optional, create: `${oci_streaming_connect_harness.test_connect_harness.id}`},
-		"name":           Representation{repType: Optional, create: `mynewconnectharness`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"id":             Representation{RepType: Optional, Create: `${oci_streaming_connect_harness.test_connect_harness.id}`},
+		"name":           Representation{RepType: Optional, Create: `mynewconnectharness`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, connectHarnessDataSourceFilterRepresentation}}
 	connectHarnessDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_streaming_connect_harness.test_connect_harness.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_streaming_connect_harness.test_connect_harness.id}`}},
 	}
 
 	connectHarnessRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: `mynewconnectharness`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Required, Create: `mynewconnectharness`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	ConnectHarnessResourceDependencies = DefinedTagsDependencies
@@ -69,34 +69,34 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_streaming_connect_harness.test_connect_harness"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ConnectHarnessResourceDependencies+
-		generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Create, connectHarnessRepresentation), "streaming", "connectHarness", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ConnectHarnessResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Create, connectHarnessRepresentation), "streaming", "connectHarness", t)
 
 	ResourceTest(t, testAccCheckStreamingConnectHarnessDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Required, Create, connectHarnessRepresentation),
+				GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Required, Create, connectHarnessRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "mynewconnectharness"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Create, connectHarnessRepresentation),
+				GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Create, connectHarnessRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -107,9 +107,9 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -118,12 +118,12 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ConnectHarnessResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Create,
-					representationCopyWithNewProperties(connectHarnessRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Create,
+					RepresentationCopyWithNewProperties(connectHarnessRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -135,7 +135,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -147,7 +147,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ConnectHarnessResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Update, connectHarnessRepresentation),
+				GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Update, connectHarnessRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -158,7 +158,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -169,9 +169,9 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_streaming_connect_harnesses", "test_connect_harnesses", Optional, Update, connectHarnessDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_streaming_connect_harnesses", "test_connect_harnesses", Optional, Update, connectHarnessDataSourceRepresentation) +
 				compartmentIdVariableStr + ConnectHarnessResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Update, connectHarnessRepresentation),
+				GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Update, connectHarnessRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -191,7 +191,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Required, Create, connectHarnessSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Required, Create, connectHarnessSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ConnectHarnessResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connect_harness_id"),
@@ -231,7 +231,7 @@ func testAccCheckStreamingConnectHarnessDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ConnectHarnessId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "streaming")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "streaming")
 
 			response, err := client.GetConnectHarness(context.Background(), request)
 
@@ -264,7 +264,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("StreamingConnectHarness") {
+	if !InSweeperExcludeList("StreamingConnectHarness") {
 		resource.AddTestSweepers("StreamingConnectHarness", &resource.Sweeper{
 			Name:         "StreamingConnectHarness",
 			Dependencies: DependencyGraph["connectHarness"],
@@ -285,13 +285,13 @@ func sweepStreamingConnectHarnessResource(compartment string) error {
 
 			deleteConnectHarnessRequest.ConnectHarnessId = &connectHarnessId
 
-			deleteConnectHarnessRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "streaming")
+			deleteConnectHarnessRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "streaming")
 			_, error := streamAdminClient.DeleteConnectHarness(context.Background(), deleteConnectHarnessRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ConnectHarness %s %s, It is possible that the resource is already deleted. Please verify manually \n", connectHarnessId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &connectHarnessId, connectHarnessSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &connectHarnessId, connectHarnessSweepWaitCondition, time.Duration(3*time.Minute),
 				connectHarnessSweepResponseFetchOperation, "streaming", true)
 		}
 	}
@@ -299,7 +299,7 @@ func sweepStreamingConnectHarnessResource(compartment string) error {
 }
 
 func getConnectHarnessIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ConnectHarnessId")
+	ids := GetResourceIdsToSweep(compartment, "ConnectHarnessId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -318,7 +318,7 @@ func getConnectHarnessIds(compartment string) ([]string, error) {
 	for _, connectHarness := range listConnectHarnessesResponse.Items {
 		id := *connectHarness.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ConnectHarnessId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ConnectHarnessId", id)
 	}
 	return resourceIds, nil
 }

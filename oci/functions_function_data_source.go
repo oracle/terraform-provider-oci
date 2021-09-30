@@ -50,7 +50,7 @@ func (s *FunctionsFunctionDataSourceCrud) Get() error {
 		request.FunctionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "functions")
 
 	response, err := s.Client.GetFunction(context.Background(), request)
 	if err != nil {

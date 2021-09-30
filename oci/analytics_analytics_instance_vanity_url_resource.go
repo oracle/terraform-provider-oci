@@ -179,7 +179,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Create() error {
 		request.PublicCertificate = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 	response, err := s.Client.CreateVanityUrl(context.Background(), request)
 	if err != nil {
 		return err
@@ -187,10 +187,10 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Create() error {
 
 	workId := response.OpcWorkRequestId
 
-	returnError := s.getAnalyticsInstanceVanityUrlFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultVanityUrlCreated, s.D.Timeout(schema.TimeoutCreate))
+	returnError := s.getAnalyticsInstanceVanityUrlFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultVanityUrlCreated, s.D.Timeout(schema.TimeoutCreate))
 	getWorkRequestRequest := oci_analytics.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workId
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	s.WorkRequest = &workRequestResponse.WorkRequest
 	return returnError
@@ -229,7 +229,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) getAnalyticsInstanceVa
 		request.AnalyticsInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -297,7 +297,7 @@ func analyticsInstanceVanityUrlWorkRequestShouldRetryFunc(timeout time.Duration)
 
 func analyticsInstanceVanityUrlWaitForWorkRequest(wId *string, entityType string, action oci_analytics.WorkRequestActionResultEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_analytics.AnalyticsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "analytics")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "analytics")
 	retryPolicy.ShouldRetryOperation = analyticsInstanceVanityUrlWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_analytics.GetWorkRequestResponse{}
@@ -382,7 +382,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Get() error {
 	request := oci_analytics.GetAnalyticsInstanceRequest{}
 	request.AnalyticsInstanceId = &analyticsInstanceId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -431,7 +431,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Update() error {
 		request.VanityUrlKey = &vanityUrlKey
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.UpdateVanityUrl(context.Background(), request)
 	if err != nil {
@@ -439,7 +439,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceVanityUrlFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultVanityUrlUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAnalyticsInstanceVanityUrlFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultVanityUrlUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Delete() error {
@@ -455,7 +455,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Delete() error {
 		request.VanityUrlKey = &vanityUrlKey
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.DeleteVanityUrl(context.Background(), request)
 	if err != nil {

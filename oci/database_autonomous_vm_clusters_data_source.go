@@ -18,7 +18,7 @@ func DatabaseAutonomousVmClustersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseAutonomousVmClusters,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.AutonomousVmClusterSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListAutonomousVmClusters(context.Background(), request)
 	if err != nil {

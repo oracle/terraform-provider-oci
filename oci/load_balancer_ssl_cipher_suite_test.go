@@ -20,28 +20,28 @@ import (
 
 var (
 	SslCipherSuiteResourceConfig = SslCipherSuiteResourceDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Update, sslCipherSuiteRepresentation)
+		GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Update, sslCipherSuiteRepresentation)
 
 	sslCipherSuiteSingularDataSourceRepresentation = map[string]interface{}{
-		"name":             Representation{repType: Required, create: `example_cipher_suite`},
-		"load_balancer_id": Representation{repType: Optional, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             Representation{RepType: Required, Create: `example_cipher_suite`},
+		"load_balancer_id": Representation{RepType: Optional, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 	}
 
 	sslCipherSuiteDataSourceRepresentation = map[string]interface{}{
-		"load_balancer_id": Representation{repType: Optional, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"load_balancer_id": Representation{RepType: Optional, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"filter":           RepresentationGroup{Required, sslCipherSuiteDataSourceFilterRepresentation}}
 	sslCipherSuiteDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite.name}`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite.name}`}},
 	}
 
 	sslCipherSuiteRepresentation = map[string]interface{}{
-		"name":             Representation{repType: Required, create: `example_cipher_suite`},
-		"ciphers":          Representation{repType: Required, create: []string{`AES128-SHA`, `AES256-SHA`}},
-		"load_balancer_id": Representation{repType: Optional, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             Representation{RepType: Required, Create: `example_cipher_suite`},
+		"ciphers":          Representation{RepType: Required, Create: []string{`AES128-SHA`, `AES256-SHA`}},
+		"load_balancer_id": Representation{RepType: Optional, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 	}
 
-	SslCipherSuiteResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+	SslCipherSuiteResourceDependencies = GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies
 )
 
@@ -60,36 +60,36 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SslCipherSuiteResourceDependencies+
-		generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation), "loadbalancer", "sslCipherSuite", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SslCipherSuiteResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation), "loadbalancer", "sslCipherSuite", t)
 
 	ResourceTest(t, testAccCheckLoadBalancerSslCipherSuiteDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -101,9 +101,9 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suites", "test_ssl_cipher_suites", Optional, Update, sslCipherSuiteDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suites", "test_ssl_cipher_suites", Optional, Update, sslCipherSuiteDataSourceRepresentation) +
 				compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Update, sslCipherSuiteRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Update, sslCipherSuiteRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
@@ -114,7 +114,7 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", Optional, Create, sslCipherSuiteSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SslCipherSuiteResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
@@ -157,7 +157,7 @@ func testAccCheckLoadBalancerSslCipherSuiteDestroy(s *terraform.State) error {
 				request.Name = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 
 			_, err := client.GetSSLCipherSuite(context.Background(), request)
 
@@ -182,7 +182,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoadBalancerSslCipherSuite") {
+	if !InSweeperExcludeList("LoadBalancerSslCipherSuite") {
 		resource.AddTestSweepers("LoadBalancerSslCipherSuite", &resource.Sweeper{
 			Name:         "LoadBalancerSslCipherSuite",
 			Dependencies: DependencyGraph["sslCipherSuite"],
@@ -201,7 +201,7 @@ func sweepLoadBalancerSslCipherSuiteResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[sslCipherSuiteId]; !ok {
 			deleteSSLCipherSuiteRequest := oci_load_balancer.DeleteSSLCipherSuiteRequest{}
 
-			deleteSSLCipherSuiteRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			deleteSSLCipherSuiteRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 			_, error := loadBalancerClient.DeleteSSLCipherSuite(context.Background(), deleteSSLCipherSuiteRequest)
 			if error != nil {
 				fmt.Printf("Error deleting SslCipherSuite %s %s, It is possible that the resource is already deleted. Please verify manually \n", sslCipherSuiteId, error)
@@ -213,7 +213,7 @@ func sweepLoadBalancerSslCipherSuiteResource(compartment string) error {
 }
 
 func getSslCipherSuiteIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SslCipherSuiteId")
+	ids := GetResourceIdsToSweep(compartment, "SslCipherSuiteId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -230,7 +230,7 @@ func getSslCipherSuiteIds(compartment string) ([]string, error) {
 	for _, sslCipherSuite := range listSSLCipherSuitesResponse.Items {
 		id := *sslCipherSuite.Name
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SslCipherSuiteId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SslCipherSuiteId", id)
 	}
 	return resourceIds, nil
 }

@@ -494,7 +494,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if gateway, ok := s.D.GetOkExists("gateway"); ok {
@@ -552,7 +552,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.TimeZone = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateExadataInfrastructure(context.Background(), request)
 	if err != nil {
@@ -583,7 +583,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ExadataInfrastructureId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetExadataInfrastructure(context.Background(), request)
 	if err != nil {
@@ -675,7 +675,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 	request.ExadataInfrastructureId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if gateway, ok := s.D.GetOkExists("gateway"); ok && s.D.HasChange("gateway") {
@@ -723,7 +723,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		request.TimeZone = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	if s.D.Get("state").(string) == string(oci_database.ExadataInfrastructureLifecycleStateRequiresActivation) ||
 		s.D.Get("additional_storage_count").(int) > 0 {
@@ -759,7 +759,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ExadataInfrastructureId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeleteExadataInfrastructure(context.Background(), request)
 	return err
@@ -1107,7 +1107,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) updateCompartment(compartmen
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ExadataInfrastructureId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -1134,7 +1134,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) activateExadataInfrastructur
 
 	request.ExadataInfrastructureId = &exadataInfrastructureId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.ActivateExadataInfrastructure(context.Background(), request)
 	if err != nil {

@@ -18,7 +18,7 @@ func LogAnalyticsLogAnalyticsObjectCollectionRulesDataSource() *schema.Resource 
 	return &schema.Resource{
 		Read: readLogAnalyticsLogAnalyticsObjectCollectionRules,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -93,7 +93,7 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRulesDataSourceCrud) Get() erro
 		request.LifecycleState = oci_log_analytics.ListLogAnalyticsObjectCollectionRulesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "log_analytics")
 
 	response, err := s.Client.ListLogAnalyticsObjectCollectionRules(context.Background(), request)
 	if err != nil {

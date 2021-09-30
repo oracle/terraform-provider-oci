@@ -18,7 +18,7 @@ func DatabaseCloudExadataInfrastructuresDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseCloudExadataInfrastructures,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.CloudExadataInfrastructureSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListCloudExadataInfrastructures(context.Background(), request)
 	if err != nil {

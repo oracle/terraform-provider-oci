@@ -58,7 +58,7 @@ func (s *DatabaseDataGuardAssociationDataSourceCrud) Get() error {
 		request.DatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetDataGuardAssociation(context.Background(), request)
 	if err != nil {

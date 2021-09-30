@@ -221,7 +221,7 @@ func (s *DatabaseManagementManagedDatabaseGroupResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.CreateManagedDatabaseGroup(context.Background(), request)
 	if err != nil {
@@ -287,7 +287,7 @@ func (s *DatabaseManagementManagedDatabaseGroupResourceCrud) GetManagedDatabaseG
 	request := oci_database_management.GetManagedDatabaseGroupRequest{}
 	request.ManagedDatabaseGroupId = &managedDatabaseGroupId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.GetManagedDatabaseGroup(context.Background(), request)
 	if err != nil {
@@ -304,7 +304,7 @@ func (s *DatabaseManagementManagedDatabaseGroupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ManagedDatabaseGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.GetManagedDatabaseGroup(context.Background(), request)
 	if err != nil {
@@ -347,7 +347,7 @@ func (s *DatabaseManagementManagedDatabaseGroupResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ManagedDatabaseGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.UpdateManagedDatabaseGroup(context.Background(), request)
 	if err != nil {
@@ -420,7 +420,7 @@ func (s *DatabaseManagementManagedDatabaseGroupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ManagedDatabaseGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	mderr := s.removeAllManagedDatabases(request.ManagedDatabaseGroupId)
 	if mderr != nil {
@@ -534,7 +534,7 @@ func (s *DatabaseManagementManagedDatabaseGroupResourceCrud) updateCompartment(c
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ManagedDatabaseGroupId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	_, err := s.Client.ChangeManagedDatabaseGroupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

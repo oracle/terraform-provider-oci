@@ -102,7 +102,7 @@ func (s *LimitsResourceAvailabilityDataSourceCrud) Get() error {
 		request.ServiceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "limits")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "limits")
 
 	response, err := s.Client.GetResourceAvailability(context.Background(), request)
 	if err != nil {

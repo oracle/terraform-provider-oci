@@ -23,7 +23,7 @@ type ResourceIdentityUIPasswordTestSuite struct {
 }
 
 func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
-	_, tokenFn := tokenizeWithHttpReplay("ui_pass_resource")
+	_, tokenFn := TokenizeWithHttpReplay("ui_pass_resource")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
@@ -40,7 +40,7 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestAccIdentityUIPassword_basic() 
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config + `
 				resource "oci_identity_ui_password" "t" {

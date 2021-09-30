@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_log_analytics.LogAnalyticsClient", &OracleClient{initClientFn: initLoganalyticsLogAnalyticsClient})
+	RegisterOracleClient("oci_log_analytics.LogAnalyticsClient", &OracleClient{InitClientFn: initLoganalyticsLogAnalyticsClient})
 }
 
 func initLoganalyticsLogAnalyticsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

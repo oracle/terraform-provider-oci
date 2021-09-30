@@ -21,37 +21,37 @@ import (
 
 var (
 	DedicatedVmHostRequiredOnlyResource = DedicatedVmHostResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostRepresentation)
 
 	DedicatedVmHostResourceConfig = DedicatedVmHostResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation)
 
 	dedicatedVmHostSingularDataSourceRepresentation = map[string]interface{}{
-		"dedicated_vm_host_id": Representation{repType: Required, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
+		"dedicated_vm_host_id": Representation{RepType: Required, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
 	}
 
 	dedicatedVmHostDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"instance_shape_name": Representation{repType: Optional, create: `VM.Standard2.1`},
-		"remaining_memory_in_gbs_greater_than_or_equal_to": Representation{repType: Optional, create: `15.0`},
-		"remaining_ocpus_greater_than_or_equal_to":         Representation{repType: Optional, create: `1.0`},
-		"state":  Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"instance_shape_name": Representation{RepType: Optional, Create: `VM.Standard2.1`},
+		"remaining_memory_in_gbs_greater_than_or_equal_to": Representation{RepType: Optional, Create: `15.0`},
+		"remaining_ocpus_greater_than_or_equal_to":         Representation{RepType: Optional, Create: `1.0`},
+		"state":  Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter": RepresentationGroup{Required, dedicatedVmHostDataSourceFilterRepresentation}}
 	dedicatedVmHostDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`}},
 	}
 
 	dedicatedVmHostRepresentation = map[string]interface{}{
-		"availability_domain":     Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"dedicated_vm_host_shape": Representation{repType: Required, create: `DVH.Standard2.52`},
-		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":            Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"fault_domain":            Representation{repType: Optional, create: `FAULT-DOMAIN-3`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"availability_domain":     Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"dedicated_vm_host_shape": Representation{RepType: Required, Create: `DVH.Standard2.52`},
+		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":            Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"fault_domain":            Representation{RepType: Optional, Create: `FAULT-DOMAIN-3`},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	DedicatedVmHostResourceDependencies = AvailabilityDomainConfig +
@@ -76,35 +76,35 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_dedicated_vm_host.test_dedicated_vm_host"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DedicatedVmHostResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create, dedicatedVmHostRepresentation), "core", "dedicatedVmHost", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DedicatedVmHostResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create, dedicatedVmHostRepresentation), "core", "dedicatedVmHost", t)
 
 	ResourceTest(t, testAccCheckCoreDedicatedVmHostDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "dedicated_vm_host_shape", "DVH.Standard2.52"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create, dedicatedVmHostRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create, dedicatedVmHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -120,9 +120,9 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "total_ocpus"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -131,12 +131,12 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DedicatedVmHostResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create,
-					representationCopyWithNewProperties(dedicatedVmHostRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Create,
+					RepresentationCopyWithNewProperties(dedicatedVmHostRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -153,7 +153,7 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "total_ocpus"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -165,7 +165,7 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -181,7 +181,7 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "total_ocpus"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -192,9 +192,9 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts", Optional, Update, dedicatedVmHostDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_hosts", "test_dedicated_vm_hosts", Optional, Update, dedicatedVmHostDataSourceRepresentation) +
 				compartmentIdVariableStr + DedicatedVmHostResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -222,7 +222,7 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Required, Create, dedicatedVmHostSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DedicatedVmHostResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_vm_host_id"),
@@ -269,7 +269,7 @@ func testAccCheckCoreDedicatedVmHostDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DedicatedVmHostId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetDedicatedVmHost(context.Background(), request)
 
@@ -302,7 +302,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreDedicatedVmHost") {
+	if !InSweeperExcludeList("CoreDedicatedVmHost") {
 		resource.AddTestSweepers("CoreDedicatedVmHost", &resource.Sweeper{
 			Name:         "CoreDedicatedVmHost",
 			Dependencies: DependencyGraph["dedicatedVmHost"],
@@ -323,13 +323,13 @@ func sweepCoreDedicatedVmHostResource(compartment string) error {
 
 			deleteDedicatedVmHostRequest.DedicatedVmHostId = &dedicatedVmHostId
 
-			deleteDedicatedVmHostRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteDedicatedVmHostRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeClient.DeleteDedicatedVmHost(context.Background(), deleteDedicatedVmHostRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DedicatedVmHost %s %s, It is possible that the resource is already deleted. Please verify manually \n", dedicatedVmHostId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &dedicatedVmHostId, dedicatedVmHostSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &dedicatedVmHostId, dedicatedVmHostSweepWaitCondition, time.Duration(3*time.Minute),
 				dedicatedVmHostSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -337,7 +337,7 @@ func sweepCoreDedicatedVmHostResource(compartment string) error {
 }
 
 func getDedicatedVmHostIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DedicatedVmHostId")
+	ids := GetResourceIdsToSweep(compartment, "DedicatedVmHostId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -356,7 +356,7 @@ func getDedicatedVmHostIds(compartment string) ([]string, error) {
 	for _, dedicatedVmHost := range listDedicatedVmHostsResponse.Items {
 		id := *dedicatedVmHost.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DedicatedVmHostId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DedicatedVmHostId", id)
 	}
 	return resourceIds, nil
 }

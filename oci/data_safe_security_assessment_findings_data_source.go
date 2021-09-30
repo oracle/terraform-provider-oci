@@ -18,7 +18,7 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataSafeSecurityAssessmentFindings,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -164,7 +164,7 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
 		request.Severity = oci_data_safe.ListFindingsSeverityEnum(severity.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListFindings(context.Background(), request)
 	if err != nil {

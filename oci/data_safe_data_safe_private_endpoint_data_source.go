@@ -49,7 +49,7 @@ func (s *DataSafeDataSafePrivateEndpointDataSourceCrud) Get() error {
 		request.DataSafePrivateEndpointId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.GetDataSafePrivateEndpoint(context.Background(), request)
 	if err != nil {

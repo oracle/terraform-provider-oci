@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_sch.ServiceConnectorClient", &OracleClient{initClientFn: initSchServiceConnectorClient})
+	RegisterOracleClient("oci_sch.ServiceConnectorClient", &OracleClient{InitClientFn: initSchServiceConnectorClient})
 }
 
 func initSchServiceConnectorClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

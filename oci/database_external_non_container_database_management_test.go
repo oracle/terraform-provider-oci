@@ -14,14 +14,14 @@ import (
 
 var (
 	externalNonContainerDatabaseManagementRepresentation = map[string]interface{}{
-		"external_database_connector_id":     Representation{repType: Required, create: `${oci_database_external_database_connector.test_external_database_connector.id}`},
-		"external_non_container_database_id": Representation{repType: Required, create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
-		"license_model":                      Representation{repType: Required, create: `BRING_YOUR_OWN_LICENSE`},
-		"enable_management":                  Representation{repType: Required, create: `true`, update: `false`},
+		"external_database_connector_id":     Representation{RepType: Required, Create: `${oci_database_external_database_connector.test_external_database_connector.id}`},
+		"external_non_container_database_id": Representation{RepType: Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
+		"license_model":                      Representation{RepType: Required, Create: `BRING_YOUR_OWN_LICENSE`},
+		"enable_management":                  Representation{RepType: Required, Create: `true`, Update: `false`},
 	}
 
-	ExternalNonContainerDatabaseManagementResourceDependencies = generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation)
+	ExternalNonContainerDatabaseManagementResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -37,15 +37,15 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 	resourceName := "oci_database_external_non_container_database_management.test_external_non_container_database_management"
 	resourceNonCDB := "oci_database_external_non_container_database.test_external_non_container_database"
 
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseManagementResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Required, Create, externalNonContainerDatabaseManagementRepresentation), "database", "externalNonContainerDatabaseManagement", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseManagementResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Required, Create, externalNonContainerDatabaseManagementRepresentation), "database", "externalNonContainerDatabaseManagement", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create (Enable Database Management)
+		// verify Create (Enable Database Management)
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Required, Create, externalNonContainerDatabaseManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Required, Create, externalNonContainerDatabaseManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
@@ -54,29 +54,29 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 		// Verify Enablement
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Required, Create, externalNonContainerDatabaseManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Required, Create, externalNonContainerDatabaseManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNonCDB, "database_management_config.0.database_management_status", "ENABLED"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies,
 		},
-		// verify update (Enable Database Management)
+		// verify Update (Enable Database Management)
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Optional, Create, externalNonContainerDatabaseManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Optional, Create, externalNonContainerDatabaseManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
 			),
 		},
-		// verify update (Disable Database Management)
+		// verify Update (Disable Database Management)
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Optional, Update, externalNonContainerDatabaseManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Optional, Update, externalNonContainerDatabaseManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
@@ -85,7 +85,7 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 		// Verify Disablement
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Optional, Update, externalNonContainerDatabaseManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_management", "test_external_non_container_database_management", Optional, Update, externalNonContainerDatabaseManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNonCDB, "database_management_config.0.database_management_status", "NOT_ENABLED"),
 			),

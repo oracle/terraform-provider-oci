@@ -196,7 +196,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if objectStorageBucketName, ok := s.D.GetOkExists("object_storage_bucket_name"); ok {
@@ -204,7 +204,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Create() error {
 		request.ObjectStorageBucketName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.CreateEnterpriseManagerBridge(context.Background(), request)
 	if err != nil {
@@ -212,7 +212,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEnterpriseManagerBridgeFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getEnterpriseManagerBridgeFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *OpsiEnterpriseManagerBridgeResourceCrud) getEnterpriseManagerBridgeFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -255,7 +255,7 @@ func enterpriseManagerBridgeWorkRequestShouldRetryFunc(timeout time.Duration) fu
 
 func enterpriseManagerBridgeWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "opsi")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = enterpriseManagerBridgeWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_opsi.GetWorkRequestResponse{}
@@ -336,7 +336,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.EnterpriseManagerBridgeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.GetEnterpriseManagerBridge(context.Background(), request)
 	if err != nil {
@@ -381,10 +381,10 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Update() error {
 	request.EnterpriseManagerBridgeId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.UpdateEnterpriseManagerBridge(context.Background(), request)
 	if err != nil {
@@ -392,7 +392,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEnterpriseManagerBridgeFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEnterpriseManagerBridgeFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *OpsiEnterpriseManagerBridgeResourceCrud) Delete() error {
@@ -401,7 +401,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.EnterpriseManagerBridgeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.DeleteEnterpriseManagerBridge(context.Background(), request)
 	if err != nil {
@@ -530,7 +530,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) updateCompartment(compartment 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.EnterpriseManagerBridgeId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.ChangeEnterpriseManagerBridgeCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -538,5 +538,5 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) updateCompartment(compartment 
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEnterpriseManagerBridgeFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEnterpriseManagerBridgeFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

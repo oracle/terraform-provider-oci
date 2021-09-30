@@ -22,9 +22,9 @@ func DatabaseBackupResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createDatabaseBackup,
 		Read:   readDatabaseBackup,
@@ -171,7 +171,7 @@ func (s *DatabaseBackupResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateBackup(context.Background(), request)
 	if err != nil {
@@ -188,7 +188,7 @@ func (s *DatabaseBackupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.BackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetBackup(context.Background(), request)
 	if err != nil {
@@ -205,7 +205,7 @@ func (s *DatabaseBackupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.BackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeleteBackup(context.Background(), request)
 	return err

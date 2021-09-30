@@ -27,7 +27,7 @@ resource "oci_core_default_route_table" "default" {
 `
 
 	RouteTableScenarioTestDependencies = VcnResourceConfig + VcnResourceDependencies + ObjectStorageCoreService +
-		generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation) +
 		`
 	resource "oci_core_internet_gateway" "test_internet_gateway" {
 		compartment_id = "${var.compartment_id}"
@@ -54,31 +54,31 @@ resource "oci_core_default_route_table" "default" {
 	`
 
 	routeTableRouteRulesRepresentationWithCidrBlock = map[string]interface{}{
-		"network_entity_id": Representation{repType: Required, create: `${oci_core_internet_gateway.test_internet_gateway.id}`},
-		"cidr_block":        Representation{repType: Required, create: `0.0.0.0/0`, update: `10.0.0.0/8`},
+		"network_entity_id": Representation{RepType: Required, Create: `${oci_core_internet_gateway.test_internet_gateway.id}`},
+		"cidr_block":        Representation{RepType: Required, Create: `0.0.0.0/0`, Update: `10.0.0.0/8`},
 	}
 	routeTableRouteRulesRepresentationWithServiceCidr = map[string]interface{}{
-		"network_entity_id": Representation{repType: Required, create: `${oci_core_service_gateway.test_service_gateway.id}`},
-		"destination":       Representation{repType: Required, create: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"destination_type":  Representation{repType: Required, create: `SERVICE_CIDR_BLOCK`},
+		"network_entity_id": Representation{RepType: Required, Create: `${oci_core_service_gateway.test_service_gateway.id}`},
+		"destination":       Representation{RepType: Required, Create: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"destination_type":  Representation{RepType: Required, Create: `SERVICE_CIDR_BLOCK`},
 	}
 	routeTableRouteRulesRepresentationWithServiceCidrAddingCidrBlock = map[string]interface{}{
-		"network_entity_id": Representation{repType: Required, create: `${oci_core_service_gateway.test_service_gateway.id}`},
-		"cidr_block":        Representation{repType: Required, create: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"destination":       Representation{repType: Required, create: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"destination_type":  Representation{repType: Required, create: `SERVICE_CIDR_BLOCK`},
+		"network_entity_id": Representation{RepType: Required, Create: `${oci_core_service_gateway.test_service_gateway.id}`},
+		"cidr_block":        Representation{RepType: Required, Create: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"destination":       Representation{RepType: Required, Create: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"destination_type":  Representation{RepType: Required, Create: `SERVICE_CIDR_BLOCK`},
 	}
-	routeTableRepresentationWithServiceCidr = getUpdatedRepresentationCopy("route_rules", []RepresentationGroup{
+	routeTableRepresentationWithServiceCidr = GetUpdatedRepresentationCopy("route_rules", []RepresentationGroup{
 		{Required, routeTableRouteRulesRepresentationWithServiceCidr},
 		{Required, routeTableRouteRulesRepresentationWithCidrBlock}},
 		routeTableRepresentationWithRouteRulesReqired,
 	)
-	routeTableRepresentationWithServiceCidrAddingCidrBlock = getUpdatedRepresentationCopy("route_rules", []RepresentationGroup{
+	routeTableRepresentationWithServiceCidrAddingCidrBlock = GetUpdatedRepresentationCopy("route_rules", []RepresentationGroup{
 		{Required, routeTableRouteRulesRepresentationWithServiceCidrAddingCidrBlock},
 		{Required, routeTableRouteRulesRepresentationWithCidrBlock}},
 		routeTableRepresentationWithRouteRulesReqired,
 	)
-	routeTableRepresentationWithRouteRulesReqired = representationCopyWithNewProperties(routeTableRepresentation, map[string]interface{}{
+	routeTableRepresentationWithRouteRulesReqired = RepresentationCopyWithNewProperties(routeTableRepresentation, map[string]interface{}{
 		"route_rules": RepresentationGroup{Required, routeTableRouteRulesRepresentationWithCidrBlock},
 	})
 )
@@ -100,10 +100,10 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckCoreRouteTableDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentationWithRouteRulesReqired),
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentationWithRouteRulesReqired),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
@@ -116,15 +116,15 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// verify update to deprecated cidr_block
+		// verify Update to deprecated cidr_block
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update, routeTableRepresentationWithRouteRulesReqired),
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update, routeTableRepresentationWithRouteRulesReqired),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -134,7 +134,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -142,11 +142,11 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 				},
 			),
 		},
-		// verify update to network_id
+		// verify Update to network_id
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update,
-					getUpdatedRepresentationCopy("route_rules.network_entity_id", Representation{repType: Required, create: `${oci_core_local_peering_gateway.test_local_peering_gateway.id}`},
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update,
+					GetUpdatedRepresentationCopy("route_rules.network_entity_id", Representation{RepType: Required, Create: `${oci_core_local_peering_gateway.test_local_peering_gateway.id}`},
 						routeTableRepresentationWithRouteRulesReqired,
 					)),
 
@@ -159,7 +159,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -167,10 +167,10 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 				},
 			),
 		},
-		// verify create with destination_type
+		// verify Create with destination_type
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentationWithServiceCidr),
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentationWithServiceCidr),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -181,10 +181,10 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 			),
 		},
-		// verify update after having a destination_type rule
+		// verify Update after having a destination_type rule
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update, routeTableRepresentationWithServiceCidr),
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update, routeTableRepresentationWithServiceCidr),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -198,7 +198,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 		// verify adding cidr_block to a rule that has destination already
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update, routeTableRepresentationWithServiceCidrAddingCidrBlock),
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update, routeTableRepresentationWithServiceCidrAddingCidrBlock),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -210,14 +210,14 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 			),
 		},
 		// We need to test that updating network entity also works when specifying destination instead of cidr_block
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies,
 		},
-		//create with optionals and destination
+		//Create with optionals and destination
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Update, routeTableRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Update, routeTableRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -236,7 +236,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -244,8 +244,8 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 		// verify updates to network entity when using destination
 		{
 			Config: config + compartmentIdVariableStr + RouteTableScenarioTestDependencies +
-				generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Update,
-					getUpdatedRepresentationCopy("route_rules.network_entity_id", Representation{repType: Required, create: `${oci_core_local_peering_gateway.test_local_peering_gateway.id}`},
+				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Update,
+					GetUpdatedRepresentationCopy("route_rules.network_entity_id", Representation{RepType: Required, Create: `${oci_core_local_peering_gateway.test_local_peering_gateway.id}`},
 						routeTableRepresentation,
 					)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -260,7 +260,7 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -303,7 +303,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create without rules
+			// verify Create without rules
 			{
 				Config: config + `
 					resource "oci_core_route_table" "t" {
@@ -364,7 +364,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 						}),
 				),
 			},
-			// verify update
+			// verify Update
 			{
 				Config: compartmentIdUVariableStr + config + `
 					resource "oci_core_route_table" "t" {

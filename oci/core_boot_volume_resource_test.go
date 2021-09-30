@@ -119,7 +119,7 @@ func (s *ResourceCoreBootVolumeTestSuite) TestResourceCoreBootVolume_basic() {
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config +
 					`
@@ -152,7 +152,7 @@ func (s *ResourceCoreBootVolumeTestSuite) TestResourceCoreBootVolume_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-bootVolume-clone"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					func(ts *terraform.State) (err error) {
-						_, err = fromInstanceState(ts, s.ResourceName, "id")
+						_, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
@@ -188,7 +188,7 @@ func (s *ResourceCoreBootVolumeTestSuite) TestResourceCoreBootVolume_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-bootVolume-2"),
 					func(ts *terraform.State) (err error) {
-						_, err = fromInstanceState(ts, s.ResourceName, "id")
+						_, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),

@@ -14,10 +14,10 @@ import (
 
 var (
 	pluggableDatabasesLocalCloneRepresentation = map[string]interface{}{
-		"cloned_pdb_name":            Representation{repType: Required, create: `NewSalesPdb`},
-		"pdb_admin_password":         Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"pluggable_database_id":      Representation{repType: Required, create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
-		"target_tde_wallet_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"cloned_pdb_name":            Representation{RepType: Required, Create: `NewSalesPdb`},
+		"pdb_admin_password":         Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"pluggable_database_id":      Representation{RepType: Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
+		"target_tde_wallet_password": Representation{RepType: Required, Create: `BEstrO0ng_#11`},
 		"lifecycle":                  RepresentationGroup{Required, ignoreChangesLBRepresentation},
 	}
 )
@@ -34,16 +34,16 @@ func TestDatabasePluggableDatabasesLocalCloneResource_basic(t *testing.T) {
 
 	resourceName := "oci_database_pluggable_databases_local_clone.test_pluggable_databases_local_clone"
 
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_pluggable_databases_local_clone", "test_pluggable_databases_local_clone", Required, Create, pluggableDatabasesLocalCloneRepresentation), "database", "pluggableDatabasesLocalClone", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_local_clone", "test_pluggable_databases_local_clone", Required, Create, pluggableDatabasesLocalCloneRepresentation), "database", "pluggableDatabasesLocalClone", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify local clone
 		{
 			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseRepresentation) +
-				generateResourceFromRepresentationMap("oci_database_pluggable_databases_local_clone", "test_pluggable_databases_local_clone", Required, Create, pluggableDatabasesLocalCloneRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_local_clone", "test_pluggable_databases_local_clone", Required, Create, pluggableDatabasesLocalCloneRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloned_pdb_name", "NewSalesPdb"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),

@@ -27,9 +27,9 @@ func MysqlAnalyticsClusterResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createMysqlAnalyticsCluster,
 		Read:   readMysqlAnalyticsCluster,
@@ -254,7 +254,7 @@ func (s *MysqlAnalyticsClusterResourceCrud) Create() error {
 		request.ShapeName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.AddAnalyticsCluster(context.Background(), request)
 	if err != nil {
@@ -280,7 +280,7 @@ func (s *MysqlAnalyticsClusterResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.GetAnalyticsCluster(context.Background(), request)
 	if err != nil {
@@ -309,7 +309,7 @@ func (s *MysqlAnalyticsClusterResourceCrud) Update() error {
 		request.ShapeName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.UpdateAnalyticsCluster(context.Background(), request)
 	if err != nil {
@@ -327,7 +327,7 @@ func (s *MysqlAnalyticsClusterResourceCrud) Delete() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.DeleteAnalyticsCluster(context.Background(), request)
 	return err
@@ -403,7 +403,7 @@ func (s *MysqlAnalyticsClusterResourceCrud) StartAnalyticsCluster() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.StartAnalyticsCluster(context.Background(), request)
 	if err != nil {
@@ -422,7 +422,7 @@ func (s *MysqlAnalyticsClusterResourceCrud) StopAnalyticsCluster() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.StopAnalyticsCluster(context.Background(), request)
 	if err != nil {

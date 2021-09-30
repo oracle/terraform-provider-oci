@@ -14,8 +14,8 @@ import (
 
 var (
 	flexComponentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Optional, create: `Exadata.X8M.StorageServer`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Optional, Create: `Exadata.X8M.StorageServer`},
 	}
 
 	FlexComponentResourceConfig = ""
@@ -33,13 +33,13 @@ func TestDatabaseFlexComponentResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_flex_components.test_flex_components"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_flex_components", "test_flex_components", Optional, Create, flexComponentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_flex_components", "test_flex_components", Optional, Create, flexComponentDataSourceRepresentation) +
 				compartmentIdVariableStr + FlexComponentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

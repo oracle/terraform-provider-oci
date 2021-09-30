@@ -116,7 +116,7 @@ func (s *MonitoringAlarmHistoryCollectionDataSourceCrud) Get() error {
 		request.TimestampLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "monitoring")
 
 	response, err := s.Client.GetAlarmHistory(context.Background(), request)
 	if err != nil {

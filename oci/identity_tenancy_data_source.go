@@ -79,7 +79,7 @@ func (s *IdentityTenancyDataSourceCrud) Get() error {
 		request.TenancyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetTenancy(context.Background(), request)
 	if err != nil {

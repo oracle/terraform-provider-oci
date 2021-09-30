@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	RegisterOracleClient("oci_streaming.StreamAdminClient", &OracleClient{initClientFn: initStreamingStreamAdminClient})
+	RegisterOracleClient("oci_streaming.StreamAdminClient", &OracleClient{InitClientFn: initStreamingStreamAdminClient})
 }
 
 func initStreamingStreamAdminClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

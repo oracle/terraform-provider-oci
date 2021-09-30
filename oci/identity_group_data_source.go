@@ -50,7 +50,7 @@ func (s *IdentityGroupDataSourceCrud) Get() error {
 		request.GroupId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetGroup(context.Background(), request)
 	if err != nil {

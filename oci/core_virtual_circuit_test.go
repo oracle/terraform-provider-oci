@@ -21,85 +21,85 @@ import (
 
 var (
 	VirtualCircuitRequiredOnlyResource = VirtualCircuitResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitRequiredOnlyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitRequiredOnlyRepresentation)
 
 	virtualCircuitSingularDataSourceRepresentation = map[string]interface{}{
-		"virtual_circuit_id": Representation{repType: Required, create: `${oci_core_virtual_circuit.test_virtual_circuit.id}`},
+		"virtual_circuit_id": Representation{RepType: Required, Create: `${oci_core_virtual_circuit.test_virtual_circuit.id}`},
 	}
 
 	virtualCircuitDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `PROVISIONED`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `PROVISIONED`},
 		"filter":         RepresentationGroup{Required, virtualCircuitDataSourceFilterRepresentation}}
 	virtualCircuitDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_virtual_circuit.test_virtual_circuit.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_virtual_circuit.test_virtual_circuit.id}`}},
 	}
 
 	virtualCircuitPublicRequiredOnlyRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"type":                   Representation{RepType: Required, Create: `${var.virtual_circuit_type}`},
 		"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsPublicRequiredOnlyRepresentation},
-		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
+		"customer_bgp_asn":       Representation{RepType: Required, Create: `10`, Update: `11`},
 		"public_prefixes":        RepresentationGroup{Required, virtualCircuitPublicPrefixesRepresentation},
 	}
-	virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation = representationCopyWithNewProperties(
-		representationCopyWithRemovedProperties(virtualCircuitPublicRequiredOnlyRepresentation, []string{"customer_bgp_asn"}), map[string]interface{}{
-			"customer_asn": Representation{repType: Required, create: `10`, update: `11`},
+	virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation = RepresentationCopyWithNewProperties(
+		RepresentationCopyWithRemovedProperties(virtualCircuitPublicRequiredOnlyRepresentation, []string{"customer_bgp_asn"}), map[string]interface{}{
+			"customer_asn": Representation{RepType: Required, Create: `10`, Update: `11`},
 		})
 
 	virtualCircuitRequiredOnlyRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"type":                   Representation{RepType: Required, Create: `${var.virtual_circuit_type}`},
 		"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsRequiredOnlyRepresentation},
-		"customer_asn":           Representation{repType: Required, create: `10`, update: `11`},
-		"gateway_id":             Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"customer_asn":           Representation{RepType: Required, Create: `10`, Update: `11`},
+		"gateway_id":             Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
 	}
 	virtualCircuitRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
-		"bandwidth_shape_name":   Representation{repType: Optional, create: `10 Gbps`, update: `20 Gbps`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"type":                   Representation{RepType: Required, Create: `${var.virtual_circuit_type}`},
+		"bandwidth_shape_name":   Representation{RepType: Optional, Create: `10 Gbps`, Update: `20 Gbps`},
 		"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsRequiredOnlyRepresentation},
-		"customer_asn":           Representation{repType: Required, create: `10`, update: `11`},
-		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"gateway_id":             Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
-		"region":                 Representation{repType: Optional, create: `us-phoenix-1`},
-		"routing_policy":         Representation{repType: Optional, create: []string{`REGIONAL`}, update: []string{`GLOBAL`}},
+		"customer_asn":           Representation{RepType: Required, Create: `10`, Update: `11`},
+		"defined_tags":           Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":           Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":          Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"gateway_id":             Representation{RepType: Optional, Create: `${oci_core_drg.test_drg.id}`},
+		"region":                 Representation{RepType: Optional, Create: `us-phoenix-1`},
+		"routing_policy":         Representation{RepType: Optional, Create: []string{`REGIONAL`}, Update: []string{`GLOBAL`}},
 	}
 
 	virtualCircuitWithProviderRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
-		"bandwidth_shape_name":   Representation{repType: Optional, create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes.virtual_circuit_bandwidth_shapes.0.name}"},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"type":                   Representation{RepType: Required, Create: `${var.virtual_circuit_type}`},
+		"bandwidth_shape_name":   Representation{RepType: Optional, Create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes.virtual_circuit_bandwidth_shapes.0.name}"},
 		"cross_connect_mappings": RepresentationGroup{Required, virtualCircuitCrossConnectMappingsRepresentation},
-		"customer_asn":           Representation{repType: Required, create: `10`, update: `11`},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"gateway_id":             Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
-		"provider_service_id":    Representation{repType: Optional, create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
+		"customer_asn":           Representation{RepType: Required, Create: `10`, Update: `11`},
+		"display_name":           Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"gateway_id":             Representation{RepType: Optional, Create: `${oci_core_drg.test_drg.id}`},
+		"provider_service_id":    Representation{RepType: Optional, Create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
 		// provider_service_key_name can only be updated by a Fast Connect Service Provider
-		// "provider_service_key_name": Representation{repType: Optional, create: `d8f7a443-28c2-4dcf-996c-286351908c58`},
-		"region": Representation{repType: Optional, create: `us-phoenix-1`},
+		// "provider_service_key_name": Representation{RepType: Optional, Create: `d8f7a443-28c2-4dcf-996c-286351908c58`},
+		"region": Representation{RepType: Optional, Create: `us-phoenix-1`},
 	}
 
 	crossConnectMappingsPublicRequiredOnlyRepresentation = map[string]interface{}{
-		"cross_connect_or_cross_connect_group_id": Representation{repType: Required, create: `${oci_core_cross_connect.test_cross_connect.cross_connect_group_id}`},
-		"vlan": Representation{repType: Required, create: `200`, update: `300`},
+		"cross_connect_or_cross_connect_group_id": Representation{RepType: Required, Create: `${oci_core_cross_connect.test_cross_connect.cross_connect_group_id}`},
+		"vlan": Representation{RepType: Required, Create: `200`, Update: `300`},
 	}
 	crossConnectMappingsRequiredOnlyRepresentation = map[string]interface{}{
-		"cross_connect_or_cross_connect_group_id": Representation{repType: Required, create: `${oci_core_cross_connect.test_cross_connect.cross_connect_group_id}`},
-		"customer_bgp_peering_ip":                 Representation{repType: Required, create: `10.0.0.18/31`, update: `10.0.0.20/31`},
-		"oracle_bgp_peering_ip":                   Representation{repType: Required, create: `10.0.0.19/31`, update: `10.0.0.21/31`},
-		"vlan":                                    Representation{repType: Required, create: `200`, update: `300`},
+		"cross_connect_or_cross_connect_group_id": Representation{RepType: Required, Create: `${oci_core_cross_connect.test_cross_connect.cross_connect_group_id}`},
+		"customer_bgp_peering_ip":                 Representation{RepType: Required, Create: `10.0.0.18/31`, Update: `10.0.0.20/31`},
+		"oracle_bgp_peering_ip":                   Representation{RepType: Required, Create: `10.0.0.19/31`, Update: `10.0.0.21/31`},
+		"vlan":                                    Representation{RepType: Required, Create: `200`, Update: `300`},
 	}
 	virtualCircuitCrossConnectMappingsRepresentation = map[string]interface{}{
-		"customer_bgp_peering_ip": Representation{repType: Required, create: `10.0.0.18/31`, update: `10.0.0.20/31`},
-		"oracle_bgp_peering_ip":   Representation{repType: Required, create: `10.0.0.19/31`, update: `10.0.0.21/31`},
+		"customer_bgp_peering_ip": Representation{RepType: Required, Create: `10.0.0.18/31`, Update: `10.0.0.20/31`},
+		"oracle_bgp_peering_ip":   Representation{RepType: Required, Create: `10.0.0.19/31`, Update: `10.0.0.21/31`},
 	}
 	virtualCircuitPublicPrefixesRepresentation = map[string]interface{}{
-		"cidr_block": Representation{repType: Required, create: `11.0.0.0/24`, update: `11.0.1.0/24`},
+		"cidr_block": Representation{RepType: Required, Create: `11.0.0.0/24`, Update: `11.0.1.0/24`},
 	}
 
 	VirtualCircuitWithProviderResourceConfigFilter = `
@@ -169,15 +169,15 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_virtual_circuit.test_virtual_circuit"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPublicPropertyVariables+
-		generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation), "core", "virtualCircuit", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPublicPropertyVariables+
+		GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation), "core", "virtualCircuit", t)
 
 	ResourceTest(t, testAccCheckCoreVirtualCircuitDestroy, []resource.TestStep{
-		// verify create - PUBLIC Virtual Circuit
+		// verify Create - PUBLIC Virtual Circuit
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -192,23 +192,23 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
-					representationCopyWithNewProperties(representationCopyWithRemovedProperties(virtualCircuitRepresentation, []string{"gateway_id", "cross_connect_mappings", "customer_asn"}),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
+					RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(virtualCircuitRepresentation, []string{"gateway_id", "cross_connect_mappings", "customer_asn"}),
 						map[string]interface{}{
 							"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsPublicRequiredOnlyRepresentation},
-							"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
+							"customer_bgp_asn":       Representation{RepType: Required, Create: `10`, Update: `11`},
 						})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -218,15 +218,15 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// verify update from customer_bgp_asn to customer_asn
+		// verify Update from customer_bgp_asn to customer_asn
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -241,7 +241,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -249,10 +249,10 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify update - PUBLIC Virtual Circuit
+		// verify Update - PUBLIC Virtual Circuit
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -267,7 +267,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -275,14 +275,14 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
 		},
-		// verify create - PRIVATE Virtual Circuit with Provider
+		// verify Create - PRIVATE Virtual Circuit with Provider
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitWithProviderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitWithProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -295,15 +295,15 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// verify update - PRIVATE Virtual Circuit with Provider
+		// verify Update - PRIVATE Virtual Circuit with Provider
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitWithProviderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitWithProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -316,7 +316,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -324,12 +324,12 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
 		},
 
-		// verify create - PRIVATE Virtual Circuit
+		// verify Create - PRIVATE Virtual Circuit
 		{
 			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitRequiredOnlyResource,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -344,21 +344,21 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
 		},
 
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -377,9 +377,9 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -388,12 +388,12 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
-					representationCopyWithNewProperties(virtualCircuitRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
+					RepresentationCopyWithNewProperties(virtualCircuitRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
@@ -411,7 +411,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -423,7 +423,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "20 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -442,7 +442,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -452,9 +452,9 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config + generateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", Optional, Update, virtualCircuitDataSourceRepresentation) +
+			Config: config + GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", Optional, Update, virtualCircuitDataSourceRepresentation) +
 				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -487,9 +487,9 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + generateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitSingularDataSourceRepresentation) +
+			Config: config + GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_circuit_id"),
@@ -522,7 +522,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-				generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
 		},
 		// verify resource import
 		{
@@ -548,7 +548,7 @@ func testAccCheckCoreVirtualCircuitDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VirtualCircuitId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetVirtualCircuit(context.Background(), request)
 
@@ -581,7 +581,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreVirtualCircuit") {
+	if !InSweeperExcludeList("CoreVirtualCircuit") {
 		resource.AddTestSweepers("CoreVirtualCircuit", &resource.Sweeper{
 			Name:         "CoreVirtualCircuit",
 			Dependencies: DependencyGraph["virtualCircuit"],
@@ -602,13 +602,13 @@ func sweepCoreVirtualCircuitResource(compartment string) error {
 
 			deleteVirtualCircuitRequest.VirtualCircuitId = &virtualCircuitId
 
-			deleteVirtualCircuitRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteVirtualCircuitRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteVirtualCircuit(context.Background(), deleteVirtualCircuitRequest)
 			if error != nil {
 				fmt.Printf("Error deleting VirtualCircuit %s %s, It is possible that the resource is already deleted. Please verify manually \n", virtualCircuitId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &virtualCircuitId, virtualCircuitSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &virtualCircuitId, virtualCircuitSweepWaitCondition, time.Duration(3*time.Minute),
 				virtualCircuitSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -616,7 +616,7 @@ func sweepCoreVirtualCircuitResource(compartment string) error {
 }
 
 func getVirtualCircuitIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "VirtualCircuitId")
+	ids := GetResourceIdsToSweep(compartment, "VirtualCircuitId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -635,7 +635,7 @@ func getVirtualCircuitIds(compartment string) ([]string, error) {
 	for _, virtualCircuit := range listVirtualCircuitsResponse.Items {
 		id := *virtualCircuit.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "VirtualCircuitId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "VirtualCircuitId", id)
 	}
 	return resourceIds, nil
 }

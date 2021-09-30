@@ -18,7 +18,7 @@ func OpsiEnterpriseManagerBridgesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOpsiEnterpriseManagerBridges,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -105,7 +105,7 @@ func (s *OpsiEnterpriseManagerBridgesDataSourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "opsi")
 
 	response, err := s.Client.ListEnterpriseManagerBridges(context.Background(), request)
 	if err != nil {

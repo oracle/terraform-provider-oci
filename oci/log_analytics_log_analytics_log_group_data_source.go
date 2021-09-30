@@ -58,7 +58,7 @@ func (s *LogAnalyticsLogAnalyticsLogGroupDataSourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "log_analytics")
 
 	response, err := s.Client.GetLogAnalyticsLogGroup(context.Background(), request)
 	if err != nil {

@@ -14,8 +14,8 @@ import (
 
 var (
 	autonomousDbVersionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"db_workload":    Representation{repType: Optional, create: `OLTP`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"db_workload":    Representation{RepType: Optional, Create: `OLTP`},
 	}
 
 	AutonomousDbVersionResourceConfig = ""
@@ -33,13 +33,13 @@ func TestDatabaseAutonomousDbVersionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_autonomous_db_versions.test_autonomous_db_versions"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Required, Create, autonomousDbVersionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Required, Create, autonomousDbVersionDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDbVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -54,7 +54,7 @@ func TestDatabaseAutonomousDbVersionResource_basic(t *testing.T) {
 
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Optional, Create, autonomousDbVersionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Optional, Create, autonomousDbVersionDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDbVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

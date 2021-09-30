@@ -49,7 +49,7 @@ func (s *HealthChecksHttpMonitorDataSourceCrud) Get() error {
 		request.MonitorId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "health_checks")
 
 	response, err := s.Client.GetHttpMonitor(context.Background(), request)
 	if err != nil {

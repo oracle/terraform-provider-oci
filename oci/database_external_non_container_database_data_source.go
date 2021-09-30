@@ -49,7 +49,7 @@ func (s *DatabaseExternalNonContainerDatabaseDataSourceCrud) Get() error {
 		request.ExternalNonContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GetExternalNonContainerDatabase(context.Background(), request)
 	if err != nil {

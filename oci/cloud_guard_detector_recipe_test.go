@@ -21,75 +21,75 @@ import (
 
 var (
 	DetectorRecipeRequiredOnlyResource = DetectorRecipeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create, detectorRecipeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create, detectorRecipeRepresentation)
 
 	DetectorRecipeResourceConfig = DetectorRecipeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Update, detectorRecipeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Update, detectorRecipeRepresentation)
 
 	detectorRecipeSingularDataSourceRepresentation = map[string]interface{}{
-		"detector_recipe_id": Representation{repType: Required, create: `${oci_cloud_guard_detector_recipe.test_detector_recipe.id}`},
+		"detector_recipe_id": Representation{RepType: Required, Create: `${oci_cloud_guard_detector_recipe.test_detector_recipe.id}`},
 	}
 
 	detectorRecipeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"access_level":              Representation{repType: Optional, create: `ACCESSIBLE`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `true`},
-		"display_name":              Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"resource_metadata_only":    Representation{repType: Optional, create: `false`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"access_level":              Representation{RepType: Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `true`},
+		"display_name":              Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"resource_metadata_only":    Representation{RepType: Optional, Create: `false`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                    RepresentationGroup{Required, detectorRecipeDataSourceFilterRepresentation}}
 	detectorRecipeDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_cloud_guard_detector_recipe.test_detector_recipe.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_cloud_guard_detector_recipe.test_detector_recipe.id}`}},
 	}
 
 	//Making a list call and getting a source detectorRecipeId
 	detectorRecipeId             = `${data.oci_cloud_guard_detector_recipes.oracle_detector_recipe.detector_recipe_collection.0.items.0.id}`
 	detectorRecipeRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":              Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"source_detector_recipe_id": Representation{repType: Required, create: detectorRecipeId},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":               Representation{repType: Optional, create: `description`, update: `description2`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":              Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"source_detector_recipe_id": Representation{RepType: Required, Create: detectorRecipeId},
+		"defined_tags":              Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":               Representation{RepType: Optional, Create: `description`, Update: `description2`},
 		"detector_rules":            RepresentationGroup{Optional, detectorRecipeDetectorRulesRepresentation},
-		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":             Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	//Configurations and Conditions are dependent on the detectorRuleId selected, hence hardcoding one for testing purposes
 	detectorRecipeDetectorRulesRepresentation = map[string]interface{}{
 		"details":          RepresentationGroup{Required, detectorRecipeDetectorRulesDetailsRepresentation},
-		"detector_rule_id": Representation{repType: Required, create: `LB_CERTIFICATE_EXPIRING_SOON`},
+		"detector_rule_id": Representation{RepType: Required, Create: `LB_CERTIFICATE_EXPIRING_SOON`},
 	}
 	detectorRecipeDetectorRulesDetailsRepresentation = map[string]interface{}{
-		"is_enabled": Representation{repType: Required, create: `false`, update: `true`},
+		"is_enabled": Representation{RepType: Required, Create: `false`, Update: `true`},
 		//Only valid riskLevels allowed
-		"risk_level": Representation{repType: Required, create: `CRITICAL`, update: `LOW`},
+		"risk_level": Representation{RepType: Required, Create: `CRITICAL`, Update: `LOW`},
 		//Making a valid condition Object
-		"condition":      Representation{repType: Optional, create: `{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}`, update: `{\"kind\":\"COMPOSITE\",\"leftOperand\":{\"kind\" :\"COMPOSITE\",\"leftOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"NOT_EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"}},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}}`},
+		"condition":      Representation{RepType: Optional, Create: `{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}`, Update: `{\"kind\":\"COMPOSITE\",\"leftOperand\":{\"kind\" :\"COMPOSITE\",\"leftOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"NOT_EQUALS\",\"value\":\"12\",\"valueType\":\"CUSTOM\"}},\"compositeOperator\":\"AND\",\"rightOperand\":{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"operator\":\"EQUALS\",\"value\":\"10\",\"valueType\":\"CUSTOM\"}}`},
 		"configurations": RepresentationGroup{Optional, detectorRecipeDetectorRulesDetailsConfigurationsRepresentation},
-		"labels":         Representation{repType: Optional, create: []string{`labels`}, update: []string{`labels2`}},
+		"labels":         Representation{RepType: Optional, Create: []string{`labels`}, Update: []string{`labels2`}},
 	}
 	//Making a valid configuration Object
 	detectorRecipeDetectorRulesDetailsConfigurationsRepresentation = map[string]interface{}{
-		"config_key": Representation{repType: Required, create: `lbCertificateExpiringSoonConfig`, update: `lbCertificateExpiringSoonConfig`},
-		"name":       Representation{repType: Required, create: `Days before expiring - 1`, update: `Days before expiring - 2`},
-		"data_type":  Representation{repType: Optional, create: `multiList`, update: `multiList`},
-		"value":      Representation{repType: Optional, create: `30`, update: `20`},
+		"config_key": Representation{RepType: Required, Create: `lbCertificateExpiringSoonConfig`, Update: `lbCertificateExpiringSoonConfig`},
+		"name":       Representation{RepType: Required, Create: `Days before expiring - 1`, Update: `Days before expiring - 2`},
+		"data_type":  Representation{RepType: Optional, Create: `multiList`, Update: `multiList`},
+		"value":      Representation{RepType: Optional, Create: `30`, Update: `20`},
 		"values":     RepresentationGroup{Optional, detectorRecipeDetectorRulesDetailsConfigurationsValuesRepresentation},
 	}
 	//Making a valid configuration values object
 	detectorRecipeDetectorRulesDetailsConfigurationsValuesRepresentation = map[string]interface{}{
-		"list_type":         Representation{repType: Required, create: `CUSTOM`, update: `MANAGED`},
-		"managed_list_type": Representation{repType: Required, create: `RESOURCE_OCID`, update: `RESOURCE_OCID`},
-		"value":             Representation{repType: Required, create: `resourceOcid1`, update: `resourceOcid2`},
+		"list_type":         Representation{RepType: Required, Create: `CUSTOM`, Update: `MANAGED`},
+		"managed_list_type": Representation{RepType: Required, Create: `RESOURCE_OCID`, Update: `RESOURCE_OCID`},
+		"value":             Representation{RepType: Required, Create: `resourceOcid1`, Update: `resourceOcid2`},
 	}
 	//Make a representation for plural datasource
 	detectorRecipeDataSourceRepresentationPluralDataSource = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: getEnvSettingWithBlankDefault("tenancy_ocid")},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: getEnvSettingWithBlankDefault("tenancy_ocid")},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
 	//Corrected the dependencies.
-	DetectorRecipeResourceDependencies = generateDataSourceFromRepresentationMap("oci_cloud_guard_detector_recipes", "oracle_detector_recipe", Required, Create, detectorRecipeDataSourceRepresentationPluralDataSource) +
+	DetectorRecipeResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_cloud_guard_detector_recipes", "oracle_detector_recipe", Required, Create, detectorRecipeDataSourceRepresentationPluralDataSource) +
 		DefinedTagsDependencies
 )
 
@@ -111,35 +111,35 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_cloud_guard_detector_recipe.test_detector_recipe"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DetectorRecipeResourceDependencies+
-		generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Create, detectorRecipeRepresentation), "cloudguard", "detectorRecipe", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DetectorRecipeResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Create, detectorRecipeRepresentation), "cloudguard", "detectorRecipe", t)
 
 	ResourceTest(t, testAccCheckCloudGuardDetectorRecipeDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DetectorRecipeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create, detectorRecipeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create, detectorRecipeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_detector_recipe_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DetectorRecipeResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DetectorRecipeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Create, detectorRecipeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Create, detectorRecipeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -172,9 +172,9 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "source_detector_recipe_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -183,12 +183,12 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DetectorRecipeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Create,
-					representationCopyWithNewProperties(detectorRecipeRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Create,
+					RepresentationCopyWithNewProperties(detectorRecipeRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -221,7 +221,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "source_detector_recipe_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -233,7 +233,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DetectorRecipeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Update, detectorRecipeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Update, detectorRecipeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -265,7 +265,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "source_detector_recipe_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -276,9 +276,9 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_detector_recipes", "test_detector_recipes", Optional, Update, detectorRecipeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_detector_recipes", "test_detector_recipes", Optional, Update, detectorRecipeDataSourceRepresentation) +
 				compartmentIdVariableStr + DetectorRecipeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Update, detectorRecipeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Optional, Update, detectorRecipeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -294,7 +294,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create, detectorRecipeSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", Required, Create, detectorRecipeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DetectorRecipeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_recipe_id"),
@@ -368,7 +368,7 @@ func testAccCheckCloudGuardDetectorRecipeDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DetectorRecipeId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 
 			response, err := client.GetDetectorRecipe(context.Background(), request)
 
@@ -401,7 +401,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CloudGuardDetectorRecipe") {
+	if !InSweeperExcludeList("CloudGuardDetectorRecipe") {
 		resource.AddTestSweepers("CloudGuardDetectorRecipe", &resource.Sweeper{
 			Name:         "CloudGuardDetectorRecipe",
 			Dependencies: DependencyGraph["detectorRecipe"],
@@ -422,13 +422,13 @@ func sweepCloudGuardDetectorRecipeResource(compartment string) error {
 
 			deleteDetectorRecipeRequest.DetectorRecipeId = &detectorRecipeId
 
-			deleteDetectorRecipeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			deleteDetectorRecipeRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 			_, error := cloudGuardClient.DeleteDetectorRecipe(context.Background(), deleteDetectorRecipeRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DetectorRecipe %s %s, It is possible that the resource is already deleted. Please verify manually \n", detectorRecipeId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &detectorRecipeId, detectorRecipeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &detectorRecipeId, detectorRecipeSweepWaitCondition, time.Duration(3*time.Minute),
 				detectorRecipeSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}
@@ -436,7 +436,7 @@ func sweepCloudGuardDetectorRecipeResource(compartment string) error {
 }
 
 func getDetectorRecipeIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DetectorRecipeId")
+	ids := GetResourceIdsToSweep(compartment, "DetectorRecipeId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -455,7 +455,7 @@ func getDetectorRecipeIds(compartment string) ([]string, error) {
 	for _, detectorRecipe := range listDetectorRecipesResponse.Items {
 		id := *detectorRecipe.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DetectorRecipeId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DetectorRecipeId", id)
 	}
 	return resourceIds, nil
 }

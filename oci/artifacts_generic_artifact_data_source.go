@@ -50,7 +50,7 @@ func (s *ArtifactsGenericArtifactDataSourceCrud) Get() error {
 		request.ArtifactId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "artifacts")
 
 	response, err := s.Client.GetGenericArtifact(context.Background(), request)
 	if err != nil {

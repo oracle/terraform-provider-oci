@@ -138,7 +138,7 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Create() error {
 		request.PublicKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateConsoleConnection(context.Background(), request)
 	if err != nil {
@@ -173,7 +173,7 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetConsoleConnection(context.Background(), request)
 	if err != nil {
@@ -200,7 +200,7 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Delete() error {
 		log.Printf("[WARN] Delete() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeleteConsoleConnection(context.Background(), request)
 	return err

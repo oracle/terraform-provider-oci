@@ -19,7 +19,7 @@ func CoreVirtualCircuitsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreVirtualCircuits,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -76,7 +76,7 @@ func (s *CoreVirtualCircuitsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.VirtualCircuitLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListVirtualCircuits(context.Background(), request)
 	if err != nil {

@@ -18,7 +18,7 @@ func DatabaseDatabaseSoftwareImagesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDatabaseSoftwareImages,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -100,7 +100,7 @@ func (s *DatabaseDatabaseSoftwareImagesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.DatabaseSoftwareImageSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDatabaseSoftwareImages(context.Background(), request)
 	if err != nil {

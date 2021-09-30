@@ -16,38 +16,38 @@ import (
 
 var (
 	RecommendationRequiredOnlyResource = RecommendationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation)
 
 	RecommendationResourceConfig = RecommendationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Update, recommendationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Update, recommendationRepresentation)
 
 	recommendationSingularDataSourceRepresentation = map[string]interface{}{
-		"recommendation_id": Representation{repType: Required, create: `${data.oci_optimizer_recommendations.test_recommendations.recommendation_collection.0.items.0.id}`},
+		"recommendation_id": Representation{RepType: Required, Create: `${data.oci_optimizer_recommendations.test_recommendations.recommendation_collection.0.items.0.id}`},
 	}
 
 	recommendationDataSourceRepresentation = map[string]interface{}{
-		"category_id":               Representation{repType: Required, create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Required, create: `true`},
-		"name":                      Representation{repType: Optional, create: `name`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
-		"status":                    Representation{repType: Optional, create: `PENDING`, update: `DISMISSED`},
+		"category_id":               Representation{RepType: Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Required, Create: `true`},
+		"name":                      Representation{RepType: Optional, Create: `name`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
+		"status":                    Representation{RepType: Optional, Create: `PENDING`, Update: `DISMISSED`},
 		"filter":                    RepresentationGroup{Required, recommendationDataSourceFilterRepresentation}}
 
 	// to filter the list of recommendation and get one recommendation containing the supportlevels
-	// we will use the supportlevels to create the optimizer profile
+	// we will use the supportlevels to Create the optimizer profile
 	recommendationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`cost-management-compute-host-underutilized-name`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`cost-management-compute-host-underutilized-name`}},
 	}
 
 	recommendationRepresentation = map[string]interface{}{
-		"recommendation_id": Representation{repType: Required, create: `${data.oci_optimizer_recommendations.test_recommendations.recommendation_collection.0.items.0.id}`},
-		"status":            Representation{repType: Required, create: `PENDING`, update: `DISMISSED`},
+		"recommendation_id": Representation{RepType: Required, Create: `${data.oci_optimizer_recommendations.test_recommendations.recommendation_collection.0.items.0.id}`},
+		"status":            Representation{RepType: Required, Create: `PENDING`, Update: `DISMISSED`},
 	}
 
-	RecommendationResourceDependencies = generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", Required, Create, recommendationDataSourceRepresentation)
+	RecommendationResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", Required, Create, recommendationDataSourceRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -65,34 +65,34 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_optimizer_recommendation.test_recommendation"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+RecommendationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Create, recommendationRepresentation), "optimizer", "recommendation", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+RecommendationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Create, recommendationRepresentation), "optimizer", "recommendation", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + RecommendationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "recommendation_id"),
 				resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + RecommendationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + RecommendationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Create, recommendationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Create, recommendationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -108,9 +108,9 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_status_begin"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,7 +122,7 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + RecommendationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Update, recommendationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Optional, Update, recommendationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -138,7 +138,7 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_status_begin"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -149,8 +149,8 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr +
-				generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", Required, Create, recommendationDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", Required, Create, recommendationDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "category_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -166,7 +166,7 @@ func TestOptimizerRecommendationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + RecommendationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "recommendation_id"),

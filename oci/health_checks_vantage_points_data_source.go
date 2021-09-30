@@ -18,7 +18,7 @@ func HealthChecksVantagePointsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readHealthChecksVantagePoints,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -159,7 +159,7 @@ func (s *HealthChecksVantagePointsDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "health_checks")
 
 	response, err := s.Client.ListHealthChecksVantagePoints(context.Background(), request)
 	if err != nil {

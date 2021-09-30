@@ -18,7 +18,7 @@ func EventsRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readEventsRules,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *EventsRulesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_events.RuleLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "events")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "events")
 
 	response, err := s.Client.ListRules(context.Background(), request)
 	if err != nil {

@@ -105,7 +105,7 @@ func (s *DatabaseAutonomousDatabaseWalletResourceCrud) Create() error {
 		request.Password = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GenerateAutonomousDatabaseWallet(context.Background(), request)
 	if err != nil {

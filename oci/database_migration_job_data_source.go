@@ -49,7 +49,7 @@ func (s *DatabaseMigrationJobDataSourceCrud) Get() error {
 		request.JobId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_migration")
 
 	response, err := s.Client.GetJob(context.Background(), request)
 	if err != nil {

@@ -66,31 +66,31 @@ time_forecast_ended= "2021-03-21T00:00:00Z"
 `
 
 	UsageRequiredOnlyResource = UsageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Required, Create, usageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Required, Create, usageRepresentation)
 
 	usageRepresentation = map[string]interface{}{
-		"granularity":        Representation{repType: Required, create: `DAILY`},
-		"tenant_id":          Representation{repType: Required, create: `${var.tenancy_id}`},
-		"time_usage_ended":   Representation{repType: Required, create: `2021-03-19T00:00:00Z`},
-		"time_usage_started": Representation{repType: Required, create: `2021-03-18T00:00:00Z`},
-		"compartment_depth":  Representation{repType: Optional, create: `1`},
-		//"filter":               Representation{repType: Optional, create: },
-		"filter":   Representation{repType: Optional, create: `{\"operator\":\"OR\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"dxterraformtest\"}],\"tags\":[],\"filters\":[]}`, update: `{\"operator\":\"OR\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"dxterraformtest\"}],\"tags\":[],\"filters\":[]}`},
+		"granularity":        Representation{RepType: Required, Create: `DAILY`},
+		"tenant_id":          Representation{RepType: Required, Create: `${var.tenancy_id}`},
+		"time_usage_ended":   Representation{RepType: Required, Create: `2021-03-19T00:00:00Z`},
+		"time_usage_started": Representation{RepType: Required, Create: `2021-03-18T00:00:00Z`},
+		"compartment_depth":  Representation{RepType: Optional, Create: `1`},
+		//"filter":               Representation{RepType: Optional, Create: },
+		"filter":   Representation{RepType: Optional, Create: `{\"operator\":\"OR\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"dxterraformtest\"}],\"tags\":[],\"filters\":[]}`, Update: `{\"operator\":\"OR\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"dxterraformtest\"}],\"tags\":[],\"filters\":[]}`},
 		"forecast": RepresentationGroup{Optional, usageForecastRepresentation},
-		"group_by": Representation{repType: Optional, create: []string{`service`}},
+		"group_by": Representation{RepType: Optional, Create: []string{`service`}},
 		//"group_by_tag":         RepresentationGroup{Optional, usageGroupByTagRepresentation},
-		"is_aggregate_by_time": Representation{repType: Optional, create: `false`},
-		"query_type":           Representation{repType: Optional, create: `COST`},
+		"is_aggregate_by_time": Representation{RepType: Optional, Create: `false`},
+		"query_type":           Representation{RepType: Optional, Create: `COST`},
 	}
 	usageForecastRepresentation = map[string]interface{}{
-		"time_forecast_ended":   Representation{repType: Required, create: `2021-03-20T00:00:00Z`},
-		"forecast_type":         Representation{repType: Optional, create: `BASIC`},
-		"time_forecast_started": Representation{repType: Optional, create: `2021-03-19T00:00:00Z`},
+		"time_forecast_ended":   Representation{RepType: Required, Create: `2021-03-20T00:00:00Z`},
+		"forecast_type":         Representation{RepType: Optional, Create: `BASIC`},
+		"time_forecast_started": Representation{RepType: Optional, Create: `2021-03-19T00:00:00Z`},
 	}
 	usageGroupByTagRepresentation = map[string]interface{}{
-		"key":       Representation{repType: Optional, create: `key`},
-		"namespace": Representation{repType: Optional, create: `namespace`},
-		"value":     Representation{repType: Optional, create: `value`},
+		"key":       Representation{RepType: Optional, Create: `key`},
+		"namespace": Representation{RepType: Optional, Create: `namespace`},
+		"value":     Representation{RepType: Optional, Create: `value`},
 	}
 
 	UsageResourceDependencies = ""
@@ -114,18 +114,18 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 	resourceName := "oci_metering_computation_usage.test_usage"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+UsageResourceDependencies+
-		generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation), "usageapi", "usage", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+UsageResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation), "usageapi", "usage", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			PreConfig: func() {
-				fmt.Printf("config is : %s", generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation))
+				fmt.Printf("config is : %s", GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation))
 			},
 			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Required, Create, usageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Required, Create, usageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "granularity", "DAILY"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
@@ -134,14 +134,14 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + tenancyIdVariableStr + usgaeEndTimeVariableStr + usageStartTimeVariableStr + UsageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_metering_computation_usage", "test_usage", Optional, Create, usageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_depth", "1"),
 				resource.TestCheckResourceAttr(resourceName, "forecast.#", "1"),
@@ -157,9 +157,9 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_usage_started"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

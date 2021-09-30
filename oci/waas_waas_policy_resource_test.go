@@ -16,8 +16,8 @@ import (
 
 var (
 	waasPolicyScenarioRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"domain":         Representation{repType: Required, create: waasPolicyDomain},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"domain":         Representation{RepType: Required, Create: waasPolicyDomain},
 		"origins":        []RepresentationGroup{{Optional, waasOriginRepresentationMap1}, {Optional, waasOriginRepresentationMap2}},
 		"waf_config":     RepresentationGroup{Optional, waasPolicyWafConfigScenarioRepresentation},
 		"timeouts":       RepresentationGroup{Required, waasPolicyTimeoutsRepresentation},
@@ -25,34 +25,34 @@ var (
 
 	waasPolicyWafConfigScenarioRepresentation = map[string]interface{}{
 		"caching_rules": RepresentationGroup{Optional, waasPolicyWafConfigCachingRulesScenarioRepresentation},
-		"origin":        Representation{repType: Optional, create: `primary`, update: `primary2`},
+		"origin":        Representation{RepType: Optional, Create: `primary`, Update: `primary2`},
 	}
 
 	waasPolicyWafConfigCachingRulesScenarioRepresentation = map[string]interface{}{
-		"action":                    Representation{repType: Required, create: `BYPASS_CACHE`},
+		"action":                    Representation{RepType: Required, Create: `BYPASS_CACHE`},
 		"criteria":                  RepresentationGroup{Required, waasPolicyWafConfigCachingRulesCriteriaRepresentation},
-		"name":                      Representation{repType: Required, create: `name`, update: `name2`},
-		"is_client_caching_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"key":                       Representation{repType: Optional, create: `key`, update: `key2`},
+		"name":                      Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"is_client_caching_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"key":                       Representation{RepType: Optional, Create: `key`, Update: `key2`},
 	}
 
 	waasPolicyWafConfigScenarioRepresentation2 = map[string]interface{}{
 		"caching_rules": RepresentationGroup{Optional, waasPolicyWafConfigCachingRulesScenarioRepresentation2},
-		"origin":        Representation{repType: Optional, create: `primary`, update: `primary2`},
+		"origin":        Representation{RepType: Optional, Create: `primary`, Update: `primary2`},
 	}
 
 	waasPolicyWafConfigCachingRulesScenarioRepresentation2 = map[string]interface{}{
-		"action":                    Representation{repType: Required, create: `CACHE`},
+		"action":                    Representation{RepType: Required, Create: `CACHE`},
 		"criteria":                  RepresentationGroup{Required, waasPolicyWafConfigCachingRulesCriteriaRepresentation},
-		"caching_duration":          Representation{repType: Optional, create: `PT1S`, update: `PT2S`},
-		"client_caching_duration":   Representation{repType: Optional, create: `PT1S`, update: `PT2S`},
-		"name":                      Representation{repType: Required, create: `name`, update: `name2`},
-		"is_client_caching_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"key":                       Representation{repType: Optional, create: `key`, update: `key2`},
+		"caching_duration":          Representation{RepType: Optional, Create: `PT1S`, Update: `PT2S`},
+		"client_caching_duration":   Representation{RepType: Optional, Create: `PT1S`, Update: `PT2S`},
+		"name":                      Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"is_client_caching_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"key":                       Representation{RepType: Optional, Create: `key`, Update: `key2`},
 	}
 
-	WaasPolicyResourceCachingOnlyConfig = generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_scenario_waas_policy", Optional, Update,
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(waasPolicyScenarioRepresentation, []string{"waf_config"}),
+	WaasPolicyResourceCachingOnlyConfig = GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_scenario_waas_policy", Optional, Update,
+		RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(waasPolicyScenarioRepresentation, []string{"waf_config"}),
 			map[string]interface{}{"waf_config": RepresentationGroup{Optional, waasPolicyWafConfigScenarioRepresentation2}}))
 )
 
@@ -71,10 +71,10 @@ func TestResourceWaasWaasPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	ResourceTest(t, testAccCheckWaasWaasPolicyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_scenario_waas_policy", Optional, Create, waasPolicyScenarioRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_scenario_waas_policy", Optional, Create, waasPolicyScenarioRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
@@ -87,14 +87,14 @@ func TestResourceWaasWaasPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.key", "key"),
 				resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.name", "name"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -102,7 +102,7 @@ func TestResourceWaasWaasPolicyResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify update
+		// verify Update
 		{
 			Config: config + compartmentIdVariableStr + WaasPolicyResourceCachingOnlyConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -119,7 +119,7 @@ func TestResourceWaasWaasPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.key", "key2"),
 				resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.name", "name2"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}

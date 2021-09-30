@@ -239,7 +239,7 @@ func (s *CoreDrgAttachmentManagementResourceCrud) Get() error {
 		request.NetworkId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListDrgAttachments(context.Background(), request)
 	if err != nil {
@@ -290,7 +290,7 @@ func (s *CoreDrgAttachmentManagementResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if networkDetails, ok := s.D.GetOkExists("network_details"); ok && s.D.HasChange("network_details") {
@@ -309,7 +309,7 @@ func (s *CoreDrgAttachmentManagementResourceCrud) Update() error {
 		request.RouteTableId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateDrgAttachment(context.Background(), request)
 	if err != nil {
@@ -447,7 +447,7 @@ func (s *CoreDrgAttachmentManagementResourceCrud) removeExportDrgRouteDistributi
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.RemoveExportDrgRouteDistribution(context.Background(), request)
 	if err != nil {

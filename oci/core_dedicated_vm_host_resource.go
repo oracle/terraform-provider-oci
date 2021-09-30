@@ -209,10 +209,10 @@ func (s *CoreDedicatedVmHostResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateDedicatedVmHost(context.Background(), request)
 	if err != nil {
@@ -241,7 +241,7 @@ func (s *CoreDedicatedVmHostResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DedicatedVmHostId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetDedicatedVmHost(context.Background(), request)
 	if err != nil {
@@ -281,10 +281,10 @@ func (s *CoreDedicatedVmHostResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateDedicatedVmHost(context.Background(), request)
 	if err != nil {
@@ -301,7 +301,7 @@ func (s *CoreDedicatedVmHostResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DedicatedVmHostId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.DeleteDedicatedVmHost(context.Background(), request)
 	if err != nil {
@@ -380,7 +380,7 @@ func (s *CoreDedicatedVmHostResourceCrud) updateCompartment(compartment interfac
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DedicatedVmHostId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.ChangeDedicatedVmHostCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

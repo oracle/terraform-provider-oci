@@ -172,7 +172,7 @@ func (s *HealthChecksPingMonitorResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if intervalInSeconds, ok := s.D.GetOkExists("interval_in_seconds"); ok {
@@ -225,7 +225,7 @@ func (s *HealthChecksPingMonitorResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	response, err := s.Client.CreatePingMonitor(context.Background(), request)
 	if err != nil {
@@ -242,7 +242,7 @@ func (s *HealthChecksPingMonitorResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.MonitorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	response, err := s.Client.GetPingMonitor(context.Background(), request)
 	if err != nil {
@@ -279,7 +279,7 @@ func (s *HealthChecksPingMonitorResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if intervalInSeconds, ok := s.D.GetOkExists("interval_in_seconds"); ok {
@@ -335,7 +335,7 @@ func (s *HealthChecksPingMonitorResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	response, err := s.Client.UpdatePingMonitor(context.Background(), request)
 	if err != nil {
@@ -352,7 +352,7 @@ func (s *HealthChecksPingMonitorResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.MonitorId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	_, err := s.Client.DeletePingMonitor(context.Background(), request)
 	return err
@@ -419,7 +419,7 @@ func (s *HealthChecksPingMonitorResourceCrud) updateCompartment(compartment inte
 	idTmp := s.D.Id()
 	changeCompartmentRequest.MonitorId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	_, err := s.Client.ChangePingMonitorCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

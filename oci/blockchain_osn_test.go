@@ -20,35 +20,35 @@ import (
 
 var (
 	OsnRequiredOnlyResource = OsnResourceDependencies +
-		generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnRepresentation)
+		GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnRepresentation)
 
 	OsnResourceConfig = OsnResourceDependencies +
-		generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation)
+		GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation)
 
 	osnSingularDataSourceRepresentation = map[string]interface{}{
-		"blockchain_platform_id": Representation{repType: Required, create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
-		"osn_id":                 Representation{repType: Required, create: `${oci_blockchain_osn.test_osn.id}`},
+		"blockchain_platform_id": Representation{RepType: Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
+		"osn_id":                 Representation{RepType: Required, Create: `${oci_blockchain_osn.test_osn.id}`},
 	}
 
 	osnDataSourceRepresentation = map[string]interface{}{
-		"blockchain_platform_id": Representation{repType: Required, create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`},
+		"blockchain_platform_id": Representation{RepType: Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
+		"display_name":           Representation{RepType: Optional, Create: `displayName`},
 		"filter":                 RepresentationGroup{Required, osnDataSourceFilterRepresentation}}
 	osnDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `osn_key`},
-		"values": Representation{repType: Required, create: []string{`${oci_blockchain_osn.test_osn.id}`}},
+		"name":   Representation{RepType: Required, Create: `osn_key`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_blockchain_osn.test_osn.id}`}},
 	}
 
 	osnRepresentation = map[string]interface{}{
-		"ad":                     Representation{repType: Required, create: `AD1`},
-		"blockchain_platform_id": Representation{repType: Required, create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
+		"ad":                     Representation{RepType: Required, Create: `AD1`},
+		"blockchain_platform_id": Representation{RepType: Required, Create: `${oci_blockchain_blockchain_platform.test_blockchain_platform.id}`},
 		"ocpu_allocation_param":  RepresentationGroup{Optional, osnOcpuAllocationParamRepresentation},
 	}
 	osnOcpuAllocationParamRepresentation = map[string]interface{}{
-		"ocpu_allocation_number": Representation{repType: Required, create: `0.0`, update: `0.0`},
+		"ocpu_allocation_number": Representation{RepType: Required, Create: `0.0`, Update: `0.0`},
 	}
 
-	OsnResourceDependencies = generateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)
+	OsnResourceDependencies = GenerateResourceFromRepresentationMap("oci_blockchain_blockchain_platform", "test_blockchain_platform", Required, Create, blockchainPlatformRepresentation)
 )
 
 // issue-routing-tag: blockchain/default
@@ -70,34 +70,34 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 
 	var resId, resId2, compositeId string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+OsnResourceDependencies+
-		generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Create, osnRepresentation), "blockchain", "osn", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+OsnResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Create, osnRepresentation), "blockchain", "osn", t)
 
 	ResourceTest(t, testAccCheckBlockchainOsnDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
-				generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
-				generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Create, osnRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Create, osnRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
@@ -106,11 +106,11 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "osn_key"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
-					blockchainPlatformId, _ := fromInstanceState(s, resourceName, "blockchain_platform_id")
+					resId, err = FromInstanceState(s, resourceName, "id")
+					blockchainPlatformId, _ := FromInstanceState(s, resourceName, "blockchain_platform_id")
 					compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/osns/" + resId
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,7 +122,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
-				generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ad", "AD1"),
 				resource.TestCheckResourceAttrSet(resourceName, "blockchain_platform_id"),
@@ -131,7 +131,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "osn_key"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -142,9 +142,9 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_blockchain_osns", "test_osns", Optional, Update, osnDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_blockchain_osns", "test_osns", Optional, Update, osnDataSourceRepresentation) +
 				compartmentIdVariableStr + OsnResourceDependencies + idcsAccessTokenVariableStr +
-				generateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
+				GenerateResourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Optional, Update, osnRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "blockchain_platform_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
@@ -155,7 +155,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_blockchain_osn", "test_osn", Required, Create, osnSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + idcsAccessTokenVariableStr + OsnResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "blockchain_platform_id"),
@@ -210,7 +210,7 @@ func testAccCheckBlockchainOsnDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.OsnId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "blockchain")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "blockchain")
 
 			_, err := client.GetOsn(context.Background(), request)
 
@@ -235,7 +235,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("BlockchainOsn") {
+	if !InSweeperExcludeList("BlockchainOsn") {
 		resource.AddTestSweepers("BlockchainOsn", &resource.Sweeper{
 			Name:         "BlockchainOsn",
 			Dependencies: DependencyGraph["osn"],
@@ -256,7 +256,7 @@ func sweepBlockchainOsnResource(compartment string) error {
 
 			deleteOsnRequest.OsnId = &osnId
 
-			deleteOsnRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "blockchain")
+			deleteOsnRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "blockchain")
 			_, error := blockchainPlatformClient.DeleteOsn(context.Background(), deleteOsnRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Osn %s %s, It is possible that the resource is already deleted. Please verify manually \n", osnId, error)
@@ -268,7 +268,7 @@ func sweepBlockchainOsnResource(compartment string) error {
 }
 
 func getOsnIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "OsnId")
+	ids := GetResourceIdsToSweep(compartment, "OsnId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -293,7 +293,7 @@ func getOsnIds(compartment string) ([]string, error) {
 		for _, osn := range listOsnsResponse.Items {
 			id := *osn.OsnKey
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "OsnId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "OsnId", id)
 		}
 
 	}

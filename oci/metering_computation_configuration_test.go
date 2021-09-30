@@ -14,7 +14,7 @@ import (
 
 var (
 	usageapiConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"tenant_id": Representation{repType: Required, create: `${var.tenancy_id}`},
+		"tenant_id": Representation{RepType: Required, Create: `${var.tenancy_id}`},
 	}
 
 	usageapiConfigurationResourceConfig = ""
@@ -34,13 +34,13 @@ func TestMeteringComputationConfigurationResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_metering_computation_configuration.test_configuration"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config + tenancyIdVariableStr +
-				generateDataSourceFromRepresentationMap("oci_metering_computation_configuration", "test_configuration", Required, Create, usageapiConfigurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_metering_computation_configuration", "test_configuration", Required, Create, usageapiConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + usageapiConfigurationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenant_id"),

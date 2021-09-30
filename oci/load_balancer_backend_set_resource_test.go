@@ -75,7 +75,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create
+			// test Create
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backendset" "t" {
@@ -108,12 +108,12 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res, err = fromInstanceState(ts, s.ResourceName, "name")
+						res, err = FromInstanceState(ts, s.ResourceName, "name")
 						return err
 					},
 				),
 			},
-			// test update
+			// test Update
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backendset" "t" {
@@ -145,7 +145,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -192,7 +192,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -247,7 +247,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -255,7 +255,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					},
 				),
 			},
-			// update prop which is not force new
+			// Update prop which is not force new
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backendset" "t" {
@@ -309,7 +309,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -371,7 +371,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -427,7 +427,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -435,7 +435,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					},
 				),
 			},
-			// update session persistence attribute
+			// Update session persistence attribute
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backendset" "t" {
@@ -483,7 +483,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -491,8 +491,8 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					},
 				),
 			},
-			// test create backend and update backendset (the two operations may happen concurrently)
-			// This test is needed because CreateBackend and UpdateBackendSet both update the same backend set
+			// test Create backend and Update backendset (the two operations may happen concurrently)
+			// This test is needed because CreateBackend and UpdateBackendSet both Update the same backend set
 			// resource. Test that both changes are applied sequentially.
 			{
 				Config: s.Config + `
@@ -563,8 +563,8 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 				),
 				ExpectNonEmptyPlan: true,
 			},
-			// test ForceNew backend and update backendset (the operations may happen concurrently)
-			// This test is needed because DeleteBackend, CreateBackend and UpdateBackendSet all update the same backend set
+			// test ForceNew backend and Update backendset (the operations may happen concurrently)
+			// This test is needed because DeleteBackend, CreateBackend and UpdateBackendSet all Update the same backend set
 			// resource. Test that all changes are applied sequentially.
 			{
 				Config: s.Config + `
@@ -645,7 +645,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create
+			// test Create
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backendset" "t" {
@@ -678,7 +678,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res, err = fromInstanceState(ts, s.ResourceName, "name")
+						res, err = FromInstanceState(ts, s.ResourceName, "name")
 						return err
 					},
 				),
@@ -718,7 +718,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -726,7 +726,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					},
 				),
 			},
-			// test update
+			// test Update
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backendset" "t" {
@@ -762,7 +762,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -815,7 +815,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -876,7 +876,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -932,7 +932,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -989,7 +989,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -997,7 +997,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					},
 				),
 			},
-			// update non force-new property without update lb cookie session
+			// Update non force-new property without Update lb cookie session
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backendset" "t" {
@@ -1046,7 +1046,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -1054,7 +1054,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					},
 				),
 			},
-			// update lb cookie session persistence attribute
+			// Update lb cookie session persistence attribute
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_backendset" "t" {
@@ -1103,7 +1103,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						res2, err = FromInstanceState(ts, s.ResourceName, "name")
 						if res != res2 {
 							return fmt.Errorf("new resource created when it should not have been")
 						}
@@ -1111,8 +1111,8 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					},
 				),
 			},
-			// test create backend and update backendset (the two operations may happen concurrently)
-			// This test is needed because CreateBackend and UpdateBackendSet both update the same backend set
+			// test Create backend and Update backendset (the two operations may happen concurrently)
+			// This test is needed because CreateBackend and UpdateBackendSet both Update the same backend set
 			// resource. Test that both changes are applied sequentially.
 			{
 				Config: s.Config + `
@@ -1186,8 +1186,8 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 				),
 				ExpectNonEmptyPlan: true,
 			},
-			// test ForceNew backend and update backendset (the operations may happen concurrently)
-			// This test is needed because DeleteBackend, CreateBackend and UpdateBackendSet all update the same backend set
+			// test ForceNew backend and Update backendset (the operations may happen concurrently)
+			// This test is needed because DeleteBackend, CreateBackend and UpdateBackendSet all Update the same backend set
 			// resource. Test that all changes are applied sequentially.
 			{
 				Config: s.Config + `

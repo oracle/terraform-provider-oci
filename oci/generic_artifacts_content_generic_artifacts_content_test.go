@@ -14,7 +14,7 @@ import (
 
 var (
 	genericArtifactsContentSingularDataSourceRepresentation = map[string]interface{}{
-		"artifact_id": Representation{repType: Required, create: `${oci_generic_artifacts_content_artifact.test_artifact.id}`},
+		"artifact_id": Representation{RepType: Required, Create: `${oci_generic_artifacts_content_artifact.test_artifact.id}`},
 	}
 
 	GenericArtifactsContentResourceConfig = ""
@@ -32,13 +32,13 @@ func TestGenericArtifactsContentGenericArtifactsContentResource_basic(t *testing
 
 	singularDatasourceName := "data.oci_generic_artifacts_content_generic_artifacts_content.test_generic_artifacts_content"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_generic_artifacts_content_generic_artifacts_content", "test_generic_artifacts_content", Required, Create, genericArtifactsContentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_generic_artifacts_content_generic_artifacts_content", "test_generic_artifacts_content", Required, Create, genericArtifactsContentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + GenericArtifactsContentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "artifact_id"),
