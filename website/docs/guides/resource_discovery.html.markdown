@@ -688,6 +688,11 @@ opsi
 * oci\_opsi\_database\_insight
 * oci\_opsi\_host\_insight
 * oci\_opsi\_exadata\_insight
+* oci\_opsi\_awr\_hub
+* oci\_opsi\_operations\_insights\_warehouse\_user
+* oci\_opsi\_operations\_insights\_warehouse
+* oci\_opsi\_operations\_insights\_warehouse\_download\_warehouse\_wallet
+* oci\_opsi\_operations\_insights\_warehouse\_rotate\_warehouse\_wallet
 
 optimizer
     

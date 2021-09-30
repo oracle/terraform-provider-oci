@@ -2545,6 +2545,18 @@ var exportOpsiHostInsightHints = &TerraformResourceHints{
 	},
 }
 
+var exportOpsiAwrHubHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_awr_hub",
+	datasourceClass:        "oci_opsi_awr_hubs",
+	datasourceItemsAttr:    "awr_hub_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "awr_hub",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.AwrHubLifecycleStateActive),
+	},
+}
+
 var exportOpsiExadataInsightHints = &TerraformResourceHints{
 	resourceClass:          "oci_opsi_exadata_insight",
 	datasourceClass:        "oci_opsi_exadata_insights",
@@ -2555,6 +2567,40 @@ var exportOpsiExadataInsightHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_opsi.ExadataInsightLifecycleStateActive),
 	},
+}
+
+var exportOpsiOperationsInsightsWarehouseUserHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_operations_insights_warehouse_user",
+	datasourceClass:        "oci_opsi_operations_insights_warehouse_users",
+	datasourceItemsAttr:    "operations_insights_warehouse_user_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operations_insights_warehouse_user",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.OperationsInsightsWarehouseUserLifecycleStateActive),
+	},
+}
+
+var exportOpsiOperationsInsightsWarehouseHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_operations_insights_warehouse",
+	datasourceClass:        "oci_opsi_operations_insights_warehouses",
+	datasourceItemsAttr:    "operations_insights_warehouse_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operations_insights_warehouse",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.OperationsInsightsWarehouseLifecycleStateActive),
+	},
+}
+
+var exportOpsiOperationsInsightsWarehouseDownloadWarehouseWalletHints = &TerraformResourceHints{
+	resourceClass:        "oci_opsi_operations_insights_warehouse_download_warehouse_wallet",
+	resourceAbbreviation: "operations_insights_warehouse_download_warehouse_wallet",
+}
+
+var exportOpsiOperationsInsightsWarehouseRotateWarehouseWalletHints = &TerraformResourceHints{
+	resourceClass:        "oci_opsi_operations_insights_warehouse_rotate_warehouse_wallet",
+	resourceAbbreviation: "operations_insights_warehouse_rotate_warehouse_wallet",
 }
 
 var exportOptimizerProfileHints = &TerraformResourceHints{

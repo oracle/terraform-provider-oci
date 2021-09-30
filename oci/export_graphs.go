@@ -1027,6 +1027,21 @@ var opsiResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportOpsiDatabaseInsightHints},
 		{TerraformResourceHints: exportOpsiHostInsightHints},
 		{TerraformResourceHints: exportOpsiExadataInsightHints},
+		{TerraformResourceHints: exportOpsiOperationsInsightsWarehouseHints},
+	},
+	"oci_opsi_operations_insights_warehouse": {
+		{
+			TerraformResourceHints: exportOpsiAwrHubHints,
+			datasourceQueryParams: map[string]string{
+				"operations_insights_warehouse_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportOpsiOperationsInsightsWarehouseUserHints,
+			datasourceQueryParams: map[string]string{
+				"operations_insights_warehouse_id": "id",
+			},
+		},
 	},
 }
 
