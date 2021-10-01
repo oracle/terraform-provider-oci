@@ -16,10 +16,13 @@ type OdmsJobPhasesEnum string
 const (
 	OdmsJobPhasesOdmsValidateTgt                 OdmsJobPhasesEnum = "ODMS_VALIDATE_TGT"
 	OdmsJobPhasesOdmsValidateSrc                 OdmsJobPhasesEnum = "ODMS_VALIDATE_SRC"
+	OdmsJobPhasesOdmsValidatePremigrationAdvisor OdmsJobPhasesEnum = "ODMS_VALIDATE_PREMIGRATION_ADVISOR"
 	OdmsJobPhasesOdmsValidateGgHub               OdmsJobPhasesEnum = "ODMS_VALIDATE_GG_HUB"
 	OdmsJobPhasesOdmsValidateDatapumpSettings    OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SETTINGS"
 	OdmsJobPhasesOdmsValidateDatapumpSettingsSrc OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SETTINGS_SRC"
 	OdmsJobPhasesOdmsValidateDatapumpSettingsTgt OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SETTINGS_TGT"
+	OdmsJobPhasesOdmsValidateDatapumpSrc         OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SRC"
+	OdmsJobPhasesOdmsValidateDatapumpEstimateSrc OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_ESTIMATE_SRC"
 	OdmsJobPhasesOdmsValidate                    OdmsJobPhasesEnum = "ODMS_VALIDATE"
 	OdmsJobPhasesOdmsPrepare                     OdmsJobPhasesEnum = "ODMS_PREPARE"
 	OdmsJobPhasesOdmsInitialLoadExport           OdmsJobPhasesEnum = "ODMS_INITIAL_LOAD_EXPORT"
@@ -35,10 +38,13 @@ const (
 var mappingOdmsJobPhases = map[string]OdmsJobPhasesEnum{
 	"ODMS_VALIDATE_TGT":                   OdmsJobPhasesOdmsValidateTgt,
 	"ODMS_VALIDATE_SRC":                   OdmsJobPhasesOdmsValidateSrc,
+	"ODMS_VALIDATE_PREMIGRATION_ADVISOR":  OdmsJobPhasesOdmsValidatePremigrationAdvisor,
 	"ODMS_VALIDATE_GG_HUB":                OdmsJobPhasesOdmsValidateGgHub,
 	"ODMS_VALIDATE_DATAPUMP_SETTINGS":     OdmsJobPhasesOdmsValidateDatapumpSettings,
 	"ODMS_VALIDATE_DATAPUMP_SETTINGS_SRC": OdmsJobPhasesOdmsValidateDatapumpSettingsSrc,
 	"ODMS_VALIDATE_DATAPUMP_SETTINGS_TGT": OdmsJobPhasesOdmsValidateDatapumpSettingsTgt,
+	"ODMS_VALIDATE_DATAPUMP_SRC":          OdmsJobPhasesOdmsValidateDatapumpSrc,
+	"ODMS_VALIDATE_DATAPUMP_ESTIMATE_SRC": OdmsJobPhasesOdmsValidateDatapumpEstimateSrc,
 	"ODMS_VALIDATE":                       OdmsJobPhasesOdmsValidate,
 	"ODMS_PREPARE":                        OdmsJobPhasesOdmsPrepare,
 	"ODMS_INITIAL_LOAD_EXPORT":            OdmsJobPhasesOdmsInitialLoadExport,

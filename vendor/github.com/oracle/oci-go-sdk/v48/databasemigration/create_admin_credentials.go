@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// CreateAdminCredentials Note: Deprecated. Use the new resource model APIs instead.
-// Database Administrator Credentials details.
+// CreateAdminCredentials Database Administrator Credentials details.
 type CreateAdminCredentials struct {
 
 	// Administrator username

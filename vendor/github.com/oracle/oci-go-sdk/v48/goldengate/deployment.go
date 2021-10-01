@@ -55,6 +55,9 @@ type Deployment struct {
 	// Possible lifecycle states.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// Possible GGS lifecycle sub-states.
+	LifecycleSubState LifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
+
 	// Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -93,6 +96,9 @@ type Deployment struct {
 
 	// Indicates if the resource is the the latest available version.
 	IsLatestVersion *bool `mandatory:"false" json:"isLatestVersion"`
+
+	// The date the existing version in use will no longer be considered as usable and an upgrade will be required.  This date is typically 6 months after the version was released for use by GGS.  The format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeUpgradeRequired *common.SDKTime `mandatory:"false" json:"timeUpgradeRequired"`
 
 	OggData *OggDeployment `mandatory:"false" json:"oggData"`
 }

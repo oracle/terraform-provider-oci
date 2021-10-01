@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// PrivateEndpointDetails Note: Deprecated. Use the new resource model APIs instead.
-// OCI Private Endpoint configuration details.
+// PrivateEndpointDetails OCI Private Endpoint configuration details.
 type PrivateEndpointDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the

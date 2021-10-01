@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// JobOutputSummaryCollection Note: Deprecated. Use the new resource model APIs instead.
-// Results of a Job output listing. Contains JobOutputSummary items.
+// JobOutputSummaryCollection Results of a Job output listing. Contains JobOutputSummary items.
 type JobOutputSummaryCollection struct {
 
 	// Items in collection.

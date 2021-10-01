@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// UpdateJobDetails Note: Deprecated. Use the new resource model APIs instead.
-// Update Job Details
+// UpdateJobDetails Update Job Details
 type UpdateJobDetails struct {
 
 	// Name of the job.

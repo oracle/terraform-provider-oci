@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// UnsupportedDatabaseObject Note: Deprecated. Use the new resource model APIs instead.
-// Database objects to exclude from migration
+// UnsupportedDatabaseObject Database objects to exclude from migration
 type UnsupportedDatabaseObject struct {
 
 	// Owner of the object (regular expression is allowed)

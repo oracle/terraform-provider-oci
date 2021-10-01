@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// Extract Note: Deprecated. Use the new resource model APIs instead.
-// Parameters for Extract processes.
+// Extract Parameters for Extract processes.
 type Extract struct {
 
 	// Extract performance.

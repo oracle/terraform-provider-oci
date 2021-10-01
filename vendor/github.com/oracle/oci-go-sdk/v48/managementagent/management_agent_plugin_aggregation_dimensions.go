@@ -18,6 +18,9 @@ type ManagementAgentPluginAggregationDimensions struct {
 
 	// Management Agent Plugin Name
 	PluginName *string `mandatory:"false" json:"pluginName"`
+
+	// Management Agent Plugin Display Name
+	PluginDisplayName *string `mandatory:"false" json:"pluginDisplayName"`
 }
 
 func (m ManagementAgentPluginAggregationDimensions) String() string {

@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// UpdateSshDetails Note: Deprecated. Use the new resource model APIs instead.
-// Details of the SSH key that will be used.
+// UpdateSshDetails Details of the SSH key that will be used.
 type UpdateSshDetails struct {
 
 	// Name of the host the SSH key is valid for.

@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// DatabaseObject Note: Deprecated. Use the new resource model APIs instead.
-// Database objects to exclude from migration
+// DatabaseObject Database objects to include or exclude from migration
 type DatabaseObject struct {
 
 	// Owner of the object (regular expression is allowed)
@@ -22,6 +21,10 @@ type DatabaseObject struct {
 
 	// Name of the object (regular expression is allowed)
 	ObjectName *string `mandatory:"true" json:"objectName"`
+
+	// Type of object to exclude.
+	// If not specified, matching owners and object names of type TABLE would be excluded.
+	Type *string `mandatory:"false" json:"type"`
 }
 
 func (m DatabaseObject) String() string {

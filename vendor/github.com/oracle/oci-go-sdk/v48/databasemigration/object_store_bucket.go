@@ -13,8 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// ObjectStoreBucket Note: Deprecated. Use the new resource model APIs instead.
-// In lieu of a network database link, OCI Object Storage bucket will be used to store Data Pump dump files for the migration.
+// ObjectStoreBucket In lieu of a network database link, OCI Object Storage bucket will be used to store Data Pump dump files for the migration.
+// Additionally, it can be specified alongside a database link data transfer medium.
 type ObjectStoreBucket struct {
 
 	// Namespace name of the object store bucket.

@@ -27,6 +27,9 @@ type ManagementAgentAggregationDimensions struct {
 
 	// Whether or not a managementAgent has at least one plugin
 	HasPlugins *bool `mandatory:"false" json:"hasPlugins"`
+
+	// The install type, either AGENT or GATEWAY
+	InstallType InstallTypesEnum `mandatory:"false" json:"installType,omitempty"`
 }
 
 func (m ManagementAgentAggregationDimensions) String() string {

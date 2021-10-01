@@ -97,23 +97,33 @@ type ListDatabaseRegistrationsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListDatabaseRegistrationsLifecycleStateEnum
 const (
-	ListDatabaseRegistrationsLifecycleStateCreating ListDatabaseRegistrationsLifecycleStateEnum = "CREATING"
-	ListDatabaseRegistrationsLifecycleStateUpdating ListDatabaseRegistrationsLifecycleStateEnum = "UPDATING"
-	ListDatabaseRegistrationsLifecycleStateActive   ListDatabaseRegistrationsLifecycleStateEnum = "ACTIVE"
-	ListDatabaseRegistrationsLifecycleStateInactive ListDatabaseRegistrationsLifecycleStateEnum = "INACTIVE"
-	ListDatabaseRegistrationsLifecycleStateDeleting ListDatabaseRegistrationsLifecycleStateEnum = "DELETING"
-	ListDatabaseRegistrationsLifecycleStateDeleted  ListDatabaseRegistrationsLifecycleStateEnum = "DELETED"
-	ListDatabaseRegistrationsLifecycleStateFailed   ListDatabaseRegistrationsLifecycleStateEnum = "FAILED"
+	ListDatabaseRegistrationsLifecycleStateCreating       ListDatabaseRegistrationsLifecycleStateEnum = "CREATING"
+	ListDatabaseRegistrationsLifecycleStateUpdating       ListDatabaseRegistrationsLifecycleStateEnum = "UPDATING"
+	ListDatabaseRegistrationsLifecycleStateActive         ListDatabaseRegistrationsLifecycleStateEnum = "ACTIVE"
+	ListDatabaseRegistrationsLifecycleStateInactive       ListDatabaseRegistrationsLifecycleStateEnum = "INACTIVE"
+	ListDatabaseRegistrationsLifecycleStateDeleting       ListDatabaseRegistrationsLifecycleStateEnum = "DELETING"
+	ListDatabaseRegistrationsLifecycleStateDeleted        ListDatabaseRegistrationsLifecycleStateEnum = "DELETED"
+	ListDatabaseRegistrationsLifecycleStateFailed         ListDatabaseRegistrationsLifecycleStateEnum = "FAILED"
+	ListDatabaseRegistrationsLifecycleStateNeedsAttention ListDatabaseRegistrationsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListDatabaseRegistrationsLifecycleStateInProgress     ListDatabaseRegistrationsLifecycleStateEnum = "IN_PROGRESS"
+	ListDatabaseRegistrationsLifecycleStateCanceling      ListDatabaseRegistrationsLifecycleStateEnum = "CANCELING"
+	ListDatabaseRegistrationsLifecycleStateCanceled       ListDatabaseRegistrationsLifecycleStateEnum = "CANCELED"
+	ListDatabaseRegistrationsLifecycleStateSucceeded      ListDatabaseRegistrationsLifecycleStateEnum = "SUCCEEDED"
 )
 
 var mappingListDatabaseRegistrationsLifecycleState = map[string]ListDatabaseRegistrationsLifecycleStateEnum{
-	"CREATING": ListDatabaseRegistrationsLifecycleStateCreating,
-	"UPDATING": ListDatabaseRegistrationsLifecycleStateUpdating,
-	"ACTIVE":   ListDatabaseRegistrationsLifecycleStateActive,
-	"INACTIVE": ListDatabaseRegistrationsLifecycleStateInactive,
-	"DELETING": ListDatabaseRegistrationsLifecycleStateDeleting,
-	"DELETED":  ListDatabaseRegistrationsLifecycleStateDeleted,
-	"FAILED":   ListDatabaseRegistrationsLifecycleStateFailed,
+	"CREATING":        ListDatabaseRegistrationsLifecycleStateCreating,
+	"UPDATING":        ListDatabaseRegistrationsLifecycleStateUpdating,
+	"ACTIVE":          ListDatabaseRegistrationsLifecycleStateActive,
+	"INACTIVE":        ListDatabaseRegistrationsLifecycleStateInactive,
+	"DELETING":        ListDatabaseRegistrationsLifecycleStateDeleting,
+	"DELETED":         ListDatabaseRegistrationsLifecycleStateDeleted,
+	"FAILED":          ListDatabaseRegistrationsLifecycleStateFailed,
+	"NEEDS_ATTENTION": ListDatabaseRegistrationsLifecycleStateNeedsAttention,
+	"IN_PROGRESS":     ListDatabaseRegistrationsLifecycleStateInProgress,
+	"CANCELING":       ListDatabaseRegistrationsLifecycleStateCanceling,
+	"CANCELED":        ListDatabaseRegistrationsLifecycleStateCanceled,
+	"SUCCEEDED":       ListDatabaseRegistrationsLifecycleStateSucceeded,
 }
 
 // GetListDatabaseRegistrationsLifecycleStateEnumValues Enumerates the set of values for ListDatabaseRegistrationsLifecycleStateEnum

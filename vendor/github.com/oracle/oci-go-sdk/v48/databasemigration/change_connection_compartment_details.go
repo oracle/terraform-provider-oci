@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// ChangeConnectionCompartmentDetails Note: Deprecated. Use the new resource model APIs instead.
-// Change Database Connection compartment details.
+// ChangeConnectionCompartmentDetails Change Database Connection compartment details.
 type ChangeConnectionCompartmentDetails struct {
 
 	// The OCID of the compartment to move the resource to.

@@ -86,8 +86,21 @@ type ConfigurationVariables struct {
 	// ("sql_warnings")
 	SqlWarnings *bool `mandatory:"false" json:"sqlWarnings"`
 
-	// ("binlog_expire_logs_seconds") DEPRECATED -- variable should not be settable and will be ignored
+	// Sets the binary log expiration period in seconds.
+	// binlogExpireLogsSeconds corresponds to the MySQL binary logging system variable binlog_expire_logs_seconds (https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_expire_logs_seconds).
 	BinlogExpireLogsSeconds *int `mandatory:"false" json:"binlogExpireLogsSeconds"`
+
+	// Configures the amount of table metadata added to the binary log when using row-based logging.
+	// binlogRowMetadata corresponds to the MySQL binary logging system variable binlog_row_metadata (https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_row_metadata).
+	BinlogRowMetadata ConfigurationVariablesBinlogRowMetadataEnum `mandatory:"false" json:"binlogRowMetadata,omitempty"`
+
+	// When set to PARTIAL_JSON, this enables use of a space-efficient binary log format for updates that modify only a small portion of a JSON document.
+	// binlogRowValueOptions corresponds to the MySQL binary logging system variable binlog_row_value_options (https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_row_value_options).
+	BinlogRowValueOptions *string `mandatory:"false" json:"binlogRowValueOptions"`
+
+	// Enables compression for transactions that are written to binary log files on this server.
+	// binlogTransactionCompression corresponds to the MySQL binary logging system variable binlog_transaction_compression (https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_transaction_compression).
+	BinlogTransactionCompression *bool `mandatory:"false" json:"binlogTransactionCompression"`
 
 	// ("innodb_buffer_pool_size")
 	InnodbBufferPoolSize *int64 `mandatory:"false" json:"innodbBufferPoolSize"`
@@ -305,6 +318,29 @@ var mappingConfigurationVariablesGroupReplicationConsistency = map[string]Config
 func GetConfigurationVariablesGroupReplicationConsistencyEnumValues() []ConfigurationVariablesGroupReplicationConsistencyEnum {
 	values := make([]ConfigurationVariablesGroupReplicationConsistencyEnum, 0)
 	for _, v := range mappingConfigurationVariablesGroupReplicationConsistency {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ConfigurationVariablesBinlogRowMetadataEnum Enum with underlying type: string
+type ConfigurationVariablesBinlogRowMetadataEnum string
+
+// Set of constants representing the allowable values for ConfigurationVariablesBinlogRowMetadataEnum
+const (
+	ConfigurationVariablesBinlogRowMetadataFull    ConfigurationVariablesBinlogRowMetadataEnum = "FULL"
+	ConfigurationVariablesBinlogRowMetadataMinimal ConfigurationVariablesBinlogRowMetadataEnum = "MINIMAL"
+)
+
+var mappingConfigurationVariablesBinlogRowMetadata = map[string]ConfigurationVariablesBinlogRowMetadataEnum{
+	"FULL":    ConfigurationVariablesBinlogRowMetadataFull,
+	"MINIMAL": ConfigurationVariablesBinlogRowMetadataMinimal,
+}
+
+// GetConfigurationVariablesBinlogRowMetadataEnumValues Enumerates the set of values for ConfigurationVariablesBinlogRowMetadataEnum
+func GetConfigurationVariablesBinlogRowMetadataEnumValues() []ConfigurationVariablesBinlogRowMetadataEnum {
+	values := make([]ConfigurationVariablesBinlogRowMetadataEnum, 0)
+	for _, v := range mappingConfigurationVariablesBinlogRowMetadata {
 		values = append(values, v)
 	}
 	return values

@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// MigrationSummary Note: Deprecated. Use the new resource model APIs instead.
-// Migration resource
+// MigrationSummary Migration resource
 type MigrationSummary struct {
 
 	// The OCID of the resource
@@ -39,7 +38,7 @@ type MigrationSummary struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The current state of the Migration.
-	LifecycleState LifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState MigrationLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The OCID of the Source Container Database Connection.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`

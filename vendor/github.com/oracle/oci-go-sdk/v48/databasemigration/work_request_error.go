@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// WorkRequestError Note: Deprecated. Use the new resource model APIs instead.
-// An error encountered while executing an operation that is tracked by a work request.
+// WorkRequestError An error encountered while executing an operation that is tracked by a work request.
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occured. Error codes are listed on
@@ -25,7 +24,7 @@ type WorkRequestError struct {
 	Message *string `mandatory:"true" json:"message"`
 
 	// The time the error occured. An RFC3339 formatted datetime string.
-	TimeStamp *common.SDKTime `mandatory:"true" json:"timeStamp"`
+	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 
 func (m WorkRequestError) String() string {

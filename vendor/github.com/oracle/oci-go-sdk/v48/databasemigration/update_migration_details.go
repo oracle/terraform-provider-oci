@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// UpdateMigrationDetails Note: Deprecated. Use the new resource model APIs instead.
-// Update Migration resource parameters.
+// UpdateMigrationDetails Update Migration resource parameters.
 type UpdateMigrationDetails struct {
 
 	// Migration type.
@@ -39,11 +38,19 @@ type UpdateMigrationDetails struct {
 
 	DataTransferMediumDetails *UpdateDataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
 
+	DumpTransferDetails *UpdateDumpTransferDetails `mandatory:"false" json:"dumpTransferDetails"`
+
 	DatapumpSettings *UpdateDataPumpSettings `mandatory:"false" json:"datapumpSettings"`
 
-	// Database objects to exclude from migration.
+	AdvisorSettings *UpdateAdvisorSettings `mandatory:"false" json:"advisorSettings"`
+
+	// Database objects to exclude from migration, cannot be specified alongside 'includeObjects'.
 	// If specified, the list will be replaced entirely. Empty list will remove stored excludeObjects details.
 	ExcludeObjects []DatabaseObject `mandatory:"false" json:"excludeObjects"`
+
+	// Database objects to include from migration, cannot be specified alongside 'excludeObjects'.
+	// If specified, the list will be replaced entirely. Empty list will remove stored includeObjects details.
+	IncludeObjects []DatabaseObject `mandatory:"false" json:"includeObjects"`
 
 	GoldenGateDetails *UpdateGoldenGateDetails `mandatory:"false" json:"goldenGateDetails"`
 

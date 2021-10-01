@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// GoldenGateSettings Note: Deprecated. Use the new resource model APIs instead.
-// Optional settings for Oracle GoldenGate processes
+// GoldenGateSettings Optional settings for Oracle GoldenGate processes
 type GoldenGateSettings struct {
 	Extract *Extract `mandatory:"false" json:"extract"`
 

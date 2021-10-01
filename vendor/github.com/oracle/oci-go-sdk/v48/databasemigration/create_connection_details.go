@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// CreateConnectionDetails Note: Deprecated. Use the new resource model APIs instead.
-// Details to create a Database Connection resource.
+// CreateConnectionDetails Details to create a Database Connection resource.
 type CreateConnectionDetails struct {
 
 	// OCID of the compartment

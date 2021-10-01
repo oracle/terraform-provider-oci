@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// ResumeJobDetails Note: Deprecated. Use the new resource model APIs instead.
-// Parameters to specify to resume a Migration Job.
+// ResumeJobDetails Parameters to specify to resume a Migration Job.
 type ResumeJobDetails struct {
 
 	// Name of a migration phase. The Job will wait after executing this

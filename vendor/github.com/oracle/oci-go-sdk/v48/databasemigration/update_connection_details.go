@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// UpdateConnectionDetails Note: Deprecated. Use the new resource model APIs instead.
-// Details to update in a Database Connection resource.
+// UpdateConnectionDetails Details to update in a Database Connection resource.
 type UpdateConnectionDetails struct {
 
 	// Database Connection display name identifier.

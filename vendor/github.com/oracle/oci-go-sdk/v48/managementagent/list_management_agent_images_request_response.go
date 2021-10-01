@@ -47,6 +47,9 @@ type ListManagementAgentImagesRequest struct {
 	// Filter to return only Management Agents in the particular lifecycle state.
 	LifecycleState ListManagementAgentImagesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
+	InstallType ListManagementAgentImagesInstallTypeEnum `mandatory:"false" contributesTo:"query" name:"installType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -178,6 +181,29 @@ var mappingListManagementAgentImagesLifecycleState = map[string]ListManagementAg
 func GetListManagementAgentImagesLifecycleStateEnumValues() []ListManagementAgentImagesLifecycleStateEnum {
 	values := make([]ListManagementAgentImagesLifecycleStateEnum, 0)
 	for _, v := range mappingListManagementAgentImagesLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListManagementAgentImagesInstallTypeEnum Enum with underlying type: string
+type ListManagementAgentImagesInstallTypeEnum string
+
+// Set of constants representing the allowable values for ListManagementAgentImagesInstallTypeEnum
+const (
+	ListManagementAgentImagesInstallTypeAgent   ListManagementAgentImagesInstallTypeEnum = "AGENT"
+	ListManagementAgentImagesInstallTypeGateway ListManagementAgentImagesInstallTypeEnum = "GATEWAY"
+)
+
+var mappingListManagementAgentImagesInstallType = map[string]ListManagementAgentImagesInstallTypeEnum{
+	"AGENT":   ListManagementAgentImagesInstallTypeAgent,
+	"GATEWAY": ListManagementAgentImagesInstallTypeGateway,
+}
+
+// GetListManagementAgentImagesInstallTypeEnumValues Enumerates the set of values for ListManagementAgentImagesInstallTypeEnum
+func GetListManagementAgentImagesInstallTypeEnumValues() []ListManagementAgentImagesInstallTypeEnum {
+	values := make([]ListManagementAgentImagesInstallTypeEnum, 0)
+	for _, v := range mappingListManagementAgentImagesInstallType {
 		values = append(values, v)
 	}
 	return values

@@ -16,6 +16,7 @@ type OperationStatusEnum string
 const (
 	OperationStatusAccepted   OperationStatusEnum = "ACCEPTED"
 	OperationStatusInProgress OperationStatusEnum = "IN_PROGRESS"
+	OperationStatusWaiting    OperationStatusEnum = "WAITING"
 	OperationStatusFailed     OperationStatusEnum = "FAILED"
 	OperationStatusSucceeded  OperationStatusEnum = "SUCCEEDED"
 	OperationStatusCanceling  OperationStatusEnum = "CANCELING"
@@ -25,6 +26,7 @@ const (
 var mappingOperationStatus = map[string]OperationStatusEnum{
 	"ACCEPTED":    OperationStatusAccepted,
 	"IN_PROGRESS": OperationStatusInProgress,
+	"WAITING":     OperationStatusWaiting,
 	"FAILED":      OperationStatusFailed,
 	"SUCCEEDED":   OperationStatusSucceeded,
 	"CANCELING":   OperationStatusCanceling,

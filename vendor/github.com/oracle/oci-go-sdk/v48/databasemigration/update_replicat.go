@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// UpdateReplicat Note: Deprecated. Use the new resource model APIs instead.
-// Parameters for Replicat processes.
+// UpdateReplicat Parameters for Replicat processes.
 // If an empty object is specified, the stored Replicat details will be removed.
 type UpdateReplicat struct {
 
