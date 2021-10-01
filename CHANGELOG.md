@@ -1,3 +1,12 @@
+## 4.47.0 (Unreleased)
+
+### Added
+- Support for MySQL MDS Outbound replication added
+- Support for GoldenGate deployment upgrades
+- Support for scheduled job status in database management
+- Operator driven backup
+- Gateway plugin support for Management Agent
+
 ## 4.46.0 (September 29, 2021)
 
 ### Added
