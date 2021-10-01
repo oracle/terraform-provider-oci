@@ -22,8 +22,14 @@ type ListDeploymentsRequest struct {
 	// A filter to return only the resources that match the 'lifecycleState' given.
 	LifecycleState ListDeploymentsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only the resources that match the 'lifecycleSubState' given.
+	LifecycleSubState ListDeploymentsLifecycleSubStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleSubState" omitEmpty:"true"`
+
 	// A filter to return only the resources that match the entire 'displayName' given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
+
+	// A filter to return only the resources that match the 'fqdn' given.
+	Fqdn *string `mandatory:"false" contributesTo:"query" name:"fqdn"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -97,29 +103,72 @@ type ListDeploymentsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListDeploymentsLifecycleStateEnum
 const (
-	ListDeploymentsLifecycleStateCreating ListDeploymentsLifecycleStateEnum = "CREATING"
-	ListDeploymentsLifecycleStateUpdating ListDeploymentsLifecycleStateEnum = "UPDATING"
-	ListDeploymentsLifecycleStateActive   ListDeploymentsLifecycleStateEnum = "ACTIVE"
-	ListDeploymentsLifecycleStateInactive ListDeploymentsLifecycleStateEnum = "INACTIVE"
-	ListDeploymentsLifecycleStateDeleting ListDeploymentsLifecycleStateEnum = "DELETING"
-	ListDeploymentsLifecycleStateDeleted  ListDeploymentsLifecycleStateEnum = "DELETED"
-	ListDeploymentsLifecycleStateFailed   ListDeploymentsLifecycleStateEnum = "FAILED"
+	ListDeploymentsLifecycleStateCreating       ListDeploymentsLifecycleStateEnum = "CREATING"
+	ListDeploymentsLifecycleStateUpdating       ListDeploymentsLifecycleStateEnum = "UPDATING"
+	ListDeploymentsLifecycleStateActive         ListDeploymentsLifecycleStateEnum = "ACTIVE"
+	ListDeploymentsLifecycleStateInactive       ListDeploymentsLifecycleStateEnum = "INACTIVE"
+	ListDeploymentsLifecycleStateDeleting       ListDeploymentsLifecycleStateEnum = "DELETING"
+	ListDeploymentsLifecycleStateDeleted        ListDeploymentsLifecycleStateEnum = "DELETED"
+	ListDeploymentsLifecycleStateFailed         ListDeploymentsLifecycleStateEnum = "FAILED"
+	ListDeploymentsLifecycleStateNeedsAttention ListDeploymentsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListDeploymentsLifecycleStateInProgress     ListDeploymentsLifecycleStateEnum = "IN_PROGRESS"
+	ListDeploymentsLifecycleStateCanceling      ListDeploymentsLifecycleStateEnum = "CANCELING"
+	ListDeploymentsLifecycleStateCanceled       ListDeploymentsLifecycleStateEnum = "CANCELED"
+	ListDeploymentsLifecycleStateSucceeded      ListDeploymentsLifecycleStateEnum = "SUCCEEDED"
 )
 
 var mappingListDeploymentsLifecycleState = map[string]ListDeploymentsLifecycleStateEnum{
-	"CREATING": ListDeploymentsLifecycleStateCreating,
-	"UPDATING": ListDeploymentsLifecycleStateUpdating,
-	"ACTIVE":   ListDeploymentsLifecycleStateActive,
-	"INACTIVE": ListDeploymentsLifecycleStateInactive,
-	"DELETING": ListDeploymentsLifecycleStateDeleting,
-	"DELETED":  ListDeploymentsLifecycleStateDeleted,
-	"FAILED":   ListDeploymentsLifecycleStateFailed,
+	"CREATING":        ListDeploymentsLifecycleStateCreating,
+	"UPDATING":        ListDeploymentsLifecycleStateUpdating,
+	"ACTIVE":          ListDeploymentsLifecycleStateActive,
+	"INACTIVE":        ListDeploymentsLifecycleStateInactive,
+	"DELETING":        ListDeploymentsLifecycleStateDeleting,
+	"DELETED":         ListDeploymentsLifecycleStateDeleted,
+	"FAILED":          ListDeploymentsLifecycleStateFailed,
+	"NEEDS_ATTENTION": ListDeploymentsLifecycleStateNeedsAttention,
+	"IN_PROGRESS":     ListDeploymentsLifecycleStateInProgress,
+	"CANCELING":       ListDeploymentsLifecycleStateCanceling,
+	"CANCELED":        ListDeploymentsLifecycleStateCanceled,
+	"SUCCEEDED":       ListDeploymentsLifecycleStateSucceeded,
 }
 
 // GetListDeploymentsLifecycleStateEnumValues Enumerates the set of values for ListDeploymentsLifecycleStateEnum
 func GetListDeploymentsLifecycleStateEnumValues() []ListDeploymentsLifecycleStateEnum {
 	values := make([]ListDeploymentsLifecycleStateEnum, 0)
 	for _, v := range mappingListDeploymentsLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListDeploymentsLifecycleSubStateEnum Enum with underlying type: string
+type ListDeploymentsLifecycleSubStateEnum string
+
+// Set of constants representing the allowable values for ListDeploymentsLifecycleSubStateEnum
+const (
+	ListDeploymentsLifecycleSubStateRecovering       ListDeploymentsLifecycleSubStateEnum = "RECOVERING"
+	ListDeploymentsLifecycleSubStateStarting         ListDeploymentsLifecycleSubStateEnum = "STARTING"
+	ListDeploymentsLifecycleSubStateStopping         ListDeploymentsLifecycleSubStateEnum = "STOPPING"
+	ListDeploymentsLifecycleSubStateMoving           ListDeploymentsLifecycleSubStateEnum = "MOVING"
+	ListDeploymentsLifecycleSubStateUpgrading        ListDeploymentsLifecycleSubStateEnum = "UPGRADING"
+	ListDeploymentsLifecycleSubStateRestoring        ListDeploymentsLifecycleSubStateEnum = "RESTORING"
+	ListDeploymentsLifecycleSubStateBackupInProgress ListDeploymentsLifecycleSubStateEnum = "BACKUP_IN_PROGRESS"
+)
+
+var mappingListDeploymentsLifecycleSubState = map[string]ListDeploymentsLifecycleSubStateEnum{
+	"RECOVERING":         ListDeploymentsLifecycleSubStateRecovering,
+	"STARTING":           ListDeploymentsLifecycleSubStateStarting,
+	"STOPPING":           ListDeploymentsLifecycleSubStateStopping,
+	"MOVING":             ListDeploymentsLifecycleSubStateMoving,
+	"UPGRADING":          ListDeploymentsLifecycleSubStateUpgrading,
+	"RESTORING":          ListDeploymentsLifecycleSubStateRestoring,
+	"BACKUP_IN_PROGRESS": ListDeploymentsLifecycleSubStateBackupInProgress,
+}
+
+// GetListDeploymentsLifecycleSubStateEnumValues Enumerates the set of values for ListDeploymentsLifecycleSubStateEnum
+func GetListDeploymentsLifecycleSubStateEnumValues() []ListDeploymentsLifecycleSubStateEnum {
+	values := make([]ListDeploymentsLifecycleSubStateEnum, 0)
+	for _, v := range mappingListDeploymentsLifecycleSubState {
 		values = append(values, v)
 	}
 	return values

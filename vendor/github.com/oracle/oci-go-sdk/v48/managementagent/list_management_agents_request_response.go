@@ -43,6 +43,9 @@ type ListManagementAgentsRequest struct {
 	// true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
 	IsCustomerDeployed *bool `mandatory:"false" contributesTo:"query" name:"isCustomerDeployed"`
 
+	// A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
+	InstallType ListManagementAgentsInstallTypeEnum `mandatory:"false" contributesTo:"query" name:"installType" omitEmpty:"true"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -168,6 +171,29 @@ var mappingListManagementAgentsAvailabilityStatus = map[string]ListManagementAge
 func GetListManagementAgentsAvailabilityStatusEnumValues() []ListManagementAgentsAvailabilityStatusEnum {
 	values := make([]ListManagementAgentsAvailabilityStatusEnum, 0)
 	for _, v := range mappingListManagementAgentsAvailabilityStatus {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListManagementAgentsInstallTypeEnum Enum with underlying type: string
+type ListManagementAgentsInstallTypeEnum string
+
+// Set of constants representing the allowable values for ListManagementAgentsInstallTypeEnum
+const (
+	ListManagementAgentsInstallTypeAgent   ListManagementAgentsInstallTypeEnum = "AGENT"
+	ListManagementAgentsInstallTypeGateway ListManagementAgentsInstallTypeEnum = "GATEWAY"
+)
+
+var mappingListManagementAgentsInstallType = map[string]ListManagementAgentsInstallTypeEnum{
+	"AGENT":   ListManagementAgentsInstallTypeAgent,
+	"GATEWAY": ListManagementAgentsInstallTypeGateway,
+}
+
+// GetListManagementAgentsInstallTypeEnumValues Enumerates the set of values for ListManagementAgentsInstallTypeEnum
+func GetListManagementAgentsInstallTypeEnumValues() []ListManagementAgentsInstallTypeEnum {
+	values := make([]ListManagementAgentsInstallTypeEnum, 0)
+	for _, v := range mappingListManagementAgentsInstallType {
 		values = append(values, v)
 	}
 	return values

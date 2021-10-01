@@ -13,12 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// UpdateAgentDetails Note: Deprecated. Use the new resource model APIs instead.
-// ODMS Agent Details
+// UpdateAgentDetails ODMS Agent Details
 type UpdateAgentDetails struct {
-
-	// The OCID of the compartment.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// ODMS Agent name
 	DisplayName *string `mandatory:"false" json:"displayName"`

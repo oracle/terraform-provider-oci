@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// Connection Note: Deprecated. Use the new resource model APIs instead.
-// Database Connection resource used for migrations.
+// Connection Database Connection resource used for migrations.
 type Connection struct {
 
 	// The OCID of the resource

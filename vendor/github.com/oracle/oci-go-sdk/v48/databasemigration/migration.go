@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// Migration Note: Deprecated. Use the new resource model APIs instead.
-// Migration resource
+// Migration Migration resource
 type Migration struct {
 
 	// The OCID of the resource
@@ -39,7 +38,7 @@ type Migration struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The current state of the Migration resource.
-	LifecycleState LifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState MigrationLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Name of a migration phase. The Job will wait after executing this
 	// phase until the Resume Job endpoint is called.
@@ -59,10 +58,18 @@ type Migration struct {
 
 	DataTransferMediumDetails *DataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
 
+	DumpTransferDetails *DumpTransferDetails `mandatory:"false" json:"dumpTransferDetails"`
+
 	DatapumpSettings *DataPumpSettings `mandatory:"false" json:"datapumpSettings"`
 
+	AdvisorSettings *AdvisorSettings `mandatory:"false" json:"advisorSettings"`
+
 	// Database objects to exclude from migration.
+	// If 'includeObjects' are specified, only exclude object types can be specified with general wildcards (.*) for owner and objectName.
 	ExcludeObjects []DatabaseObject `mandatory:"false" json:"excludeObjects"`
+
+	// Database objects to include from migration.
+	IncludeObjects []DatabaseObject `mandatory:"false" json:"includeObjects"`
 
 	GoldenGateDetails *GoldenGateDetails `mandatory:"false" json:"goldenGateDetails"`
 

@@ -100,23 +100,33 @@ type ListDeploymentBackupsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListDeploymentBackupsLifecycleStateEnum
 const (
-	ListDeploymentBackupsLifecycleStateCreating ListDeploymentBackupsLifecycleStateEnum = "CREATING"
-	ListDeploymentBackupsLifecycleStateUpdating ListDeploymentBackupsLifecycleStateEnum = "UPDATING"
-	ListDeploymentBackupsLifecycleStateActive   ListDeploymentBackupsLifecycleStateEnum = "ACTIVE"
-	ListDeploymentBackupsLifecycleStateInactive ListDeploymentBackupsLifecycleStateEnum = "INACTIVE"
-	ListDeploymentBackupsLifecycleStateDeleting ListDeploymentBackupsLifecycleStateEnum = "DELETING"
-	ListDeploymentBackupsLifecycleStateDeleted  ListDeploymentBackupsLifecycleStateEnum = "DELETED"
-	ListDeploymentBackupsLifecycleStateFailed   ListDeploymentBackupsLifecycleStateEnum = "FAILED"
+	ListDeploymentBackupsLifecycleStateCreating       ListDeploymentBackupsLifecycleStateEnum = "CREATING"
+	ListDeploymentBackupsLifecycleStateUpdating       ListDeploymentBackupsLifecycleStateEnum = "UPDATING"
+	ListDeploymentBackupsLifecycleStateActive         ListDeploymentBackupsLifecycleStateEnum = "ACTIVE"
+	ListDeploymentBackupsLifecycleStateInactive       ListDeploymentBackupsLifecycleStateEnum = "INACTIVE"
+	ListDeploymentBackupsLifecycleStateDeleting       ListDeploymentBackupsLifecycleStateEnum = "DELETING"
+	ListDeploymentBackupsLifecycleStateDeleted        ListDeploymentBackupsLifecycleStateEnum = "DELETED"
+	ListDeploymentBackupsLifecycleStateFailed         ListDeploymentBackupsLifecycleStateEnum = "FAILED"
+	ListDeploymentBackupsLifecycleStateNeedsAttention ListDeploymentBackupsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListDeploymentBackupsLifecycleStateInProgress     ListDeploymentBackupsLifecycleStateEnum = "IN_PROGRESS"
+	ListDeploymentBackupsLifecycleStateCanceling      ListDeploymentBackupsLifecycleStateEnum = "CANCELING"
+	ListDeploymentBackupsLifecycleStateCanceled       ListDeploymentBackupsLifecycleStateEnum = "CANCELED"
+	ListDeploymentBackupsLifecycleStateSucceeded      ListDeploymentBackupsLifecycleStateEnum = "SUCCEEDED"
 )
 
 var mappingListDeploymentBackupsLifecycleState = map[string]ListDeploymentBackupsLifecycleStateEnum{
-	"CREATING": ListDeploymentBackupsLifecycleStateCreating,
-	"UPDATING": ListDeploymentBackupsLifecycleStateUpdating,
-	"ACTIVE":   ListDeploymentBackupsLifecycleStateActive,
-	"INACTIVE": ListDeploymentBackupsLifecycleStateInactive,
-	"DELETING": ListDeploymentBackupsLifecycleStateDeleting,
-	"DELETED":  ListDeploymentBackupsLifecycleStateDeleted,
-	"FAILED":   ListDeploymentBackupsLifecycleStateFailed,
+	"CREATING":        ListDeploymentBackupsLifecycleStateCreating,
+	"UPDATING":        ListDeploymentBackupsLifecycleStateUpdating,
+	"ACTIVE":          ListDeploymentBackupsLifecycleStateActive,
+	"INACTIVE":        ListDeploymentBackupsLifecycleStateInactive,
+	"DELETING":        ListDeploymentBackupsLifecycleStateDeleting,
+	"DELETED":         ListDeploymentBackupsLifecycleStateDeleted,
+	"FAILED":          ListDeploymentBackupsLifecycleStateFailed,
+	"NEEDS_ATTENTION": ListDeploymentBackupsLifecycleStateNeedsAttention,
+	"IN_PROGRESS":     ListDeploymentBackupsLifecycleStateInProgress,
+	"CANCELING":       ListDeploymentBackupsLifecycleStateCanceling,
+	"CANCELED":        ListDeploymentBackupsLifecycleStateCanceled,
+	"SUCCEEDED":       ListDeploymentBackupsLifecycleStateSucceeded,
 }
 
 // GetListDeploymentBackupsLifecycleStateEnumValues Enumerates the set of values for ListDeploymentBackupsLifecycleStateEnum

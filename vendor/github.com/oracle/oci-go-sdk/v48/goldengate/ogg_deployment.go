@@ -22,6 +22,9 @@ type OggDeployment struct {
 	// The GoldenGate deployment console username.
 	AdminUsername *string `mandatory:"true" json:"adminUsername"`
 
+	// Version of OGG
+	OggVersion *string `mandatory:"false" json:"oggVersion"`
+
 	// A PEM-encoded SSL certificate.
 	Certificate *string `mandatory:"false" json:"certificate"`
 }

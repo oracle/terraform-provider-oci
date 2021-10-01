@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// AgentSummary Note: Deprecated. Use the new resource model APIs instead.
-// ODMS Agent Details
+// AgentSummary ODMS Agent Details
 type AgentSummary struct {
 
 	// The OCID of the resource

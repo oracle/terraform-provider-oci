@@ -184,5 +184,11 @@
         "realmDomainComponent": "oraclecloud8.com", 
         "regionIdentifier": "ap-chiyoda-1", 
         "realmKey": "oc8"
+    }, 
+    {
+        "regionKey": "ukb", 
+        "realmDomainComponent": "oraclecloud8.com", 
+        "regionIdentifier": "ap-ibaraki-1", 
+        "realmKey": "oc8"
     }
 ]

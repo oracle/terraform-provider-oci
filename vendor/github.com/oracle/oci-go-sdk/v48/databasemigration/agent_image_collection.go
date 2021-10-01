@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// AgentImageCollection Note: Deprecated. Use the new resource model APIs instead.
-// Results of an ODMS Agent Image search. Contains AgentImageSummary items.
+// AgentImageCollection Results of an ODMS Agent Image search. Contains AgentImageSummary items.
 type AgentImageCollection struct {
 
 	// Items in collection.

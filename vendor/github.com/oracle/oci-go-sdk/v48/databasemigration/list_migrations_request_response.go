@@ -39,7 +39,7 @@ type ListMigrationsRequest struct {
 	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListMigrationsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The current state of the Database Migration Deployment.
+	// The lifecycle state of the Migration.
 	LifecycleState ListMigrationsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The lifecycle detailed status of the Migration.
@@ -151,23 +151,35 @@ type ListMigrationsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListMigrationsLifecycleStateEnum
 const (
-	ListMigrationsLifecycleStateCreating ListMigrationsLifecycleStateEnum = "CREATING"
-	ListMigrationsLifecycleStateUpdating ListMigrationsLifecycleStateEnum = "UPDATING"
-	ListMigrationsLifecycleStateActive   ListMigrationsLifecycleStateEnum = "ACTIVE"
-	ListMigrationsLifecycleStateInactive ListMigrationsLifecycleStateEnum = "INACTIVE"
-	ListMigrationsLifecycleStateDeleting ListMigrationsLifecycleStateEnum = "DELETING"
-	ListMigrationsLifecycleStateDeleted  ListMigrationsLifecycleStateEnum = "DELETED"
-	ListMigrationsLifecycleStateFailed   ListMigrationsLifecycleStateEnum = "FAILED"
+	ListMigrationsLifecycleStateCreating       ListMigrationsLifecycleStateEnum = "CREATING"
+	ListMigrationsLifecycleStateUpdating       ListMigrationsLifecycleStateEnum = "UPDATING"
+	ListMigrationsLifecycleStateActive         ListMigrationsLifecycleStateEnum = "ACTIVE"
+	ListMigrationsLifecycleStateInProgress     ListMigrationsLifecycleStateEnum = "IN_PROGRESS"
+	ListMigrationsLifecycleStateAccepted       ListMigrationsLifecycleStateEnum = "ACCEPTED"
+	ListMigrationsLifecycleStateSucceeded      ListMigrationsLifecycleStateEnum = "SUCCEEDED"
+	ListMigrationsLifecycleStateCanceled       ListMigrationsLifecycleStateEnum = "CANCELED"
+	ListMigrationsLifecycleStateWaiting        ListMigrationsLifecycleStateEnum = "WAITING"
+	ListMigrationsLifecycleStateNeedsAttention ListMigrationsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListMigrationsLifecycleStateInactive       ListMigrationsLifecycleStateEnum = "INACTIVE"
+	ListMigrationsLifecycleStateDeleting       ListMigrationsLifecycleStateEnum = "DELETING"
+	ListMigrationsLifecycleStateDeleted        ListMigrationsLifecycleStateEnum = "DELETED"
+	ListMigrationsLifecycleStateFailed         ListMigrationsLifecycleStateEnum = "FAILED"
 )
 
 var mappingListMigrationsLifecycleState = map[string]ListMigrationsLifecycleStateEnum{
-	"CREATING": ListMigrationsLifecycleStateCreating,
-	"UPDATING": ListMigrationsLifecycleStateUpdating,
-	"ACTIVE":   ListMigrationsLifecycleStateActive,
-	"INACTIVE": ListMigrationsLifecycleStateInactive,
-	"DELETING": ListMigrationsLifecycleStateDeleting,
-	"DELETED":  ListMigrationsLifecycleStateDeleted,
-	"FAILED":   ListMigrationsLifecycleStateFailed,
+	"CREATING":        ListMigrationsLifecycleStateCreating,
+	"UPDATING":        ListMigrationsLifecycleStateUpdating,
+	"ACTIVE":          ListMigrationsLifecycleStateActive,
+	"IN_PROGRESS":     ListMigrationsLifecycleStateInProgress,
+	"ACCEPTED":        ListMigrationsLifecycleStateAccepted,
+	"SUCCEEDED":       ListMigrationsLifecycleStateSucceeded,
+	"CANCELED":        ListMigrationsLifecycleStateCanceled,
+	"WAITING":         ListMigrationsLifecycleStateWaiting,
+	"NEEDS_ATTENTION": ListMigrationsLifecycleStateNeedsAttention,
+	"INACTIVE":        ListMigrationsLifecycleStateInactive,
+	"DELETING":        ListMigrationsLifecycleStateDeleting,
+	"DELETED":         ListMigrationsLifecycleStateDeleted,
+	"FAILED":          ListMigrationsLifecycleStateFailed,
 }
 
 // GetListMigrationsLifecycleStateEnumValues Enumerates the set of values for ListMigrationsLifecycleStateEnum

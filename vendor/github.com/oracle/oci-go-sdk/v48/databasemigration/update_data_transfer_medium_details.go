@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// UpdateDataTransferMediumDetails Note: Deprecated. Use the new resource model APIs instead.
-// Data Transfer Medium details for the Migration.
+// UpdateDataTransferMediumDetails Data Transfer Medium details for the Migration.
 // Only one type of data transfer medium can be specified and will replace the stored Data Transfer Medium details.
 // If an empty object is specified, the stored Data Transfer Medium details will be removed.
 type UpdateDataTransferMediumDetails struct {

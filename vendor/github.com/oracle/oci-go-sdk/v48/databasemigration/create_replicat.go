@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// CreateReplicat Note: Deprecated. Use the new resource model APIs instead.
-// Parameters for GoldenGate Replicat processes.
+// CreateReplicat Parameters for GoldenGate Replicat processes.
 type CreateReplicat struct {
 
 	// Number of threads used to read trail files (valid for Parallel Replicat)

@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// CloneMigrationDetails Note: Deprecated. Use the new resource model APIs instead.
-// Details that will override an existing Migration configuration that will be cloned.
+// CloneMigrationDetails Details that will override an existing Migration configuration that will be cloned.
 type CloneMigrationDetails struct {
 
 	// The OCID of the Source Database Connection.
@@ -36,8 +35,11 @@ type CloneMigrationDetails struct {
 	// Only Connections of type Non-Autonomous can be used as source container databases.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
 
-	// Database objects to exclude from migration.
+	// Database objects to exclude from migration, cannot be specified alongside 'includeObjects'
 	ExcludeObjects []DatabaseObject `mandatory:"false" json:"excludeObjects"`
+
+	// Database objects to include from migration, cannot be specified alongside 'excludeObjects'
+	IncludeObjects []DatabaseObject `mandatory:"false" json:"includeObjects"`
 
 	VaultDetails *CreateVaultDetails `mandatory:"false" json:"vaultDetails"`
 

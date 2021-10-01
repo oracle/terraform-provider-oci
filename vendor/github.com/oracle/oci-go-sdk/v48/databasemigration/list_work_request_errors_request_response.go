@@ -25,15 +25,11 @@ type ListWorkRequestErrorsRequest struct {
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending.
-	// Default order for displayName is ascending. If no value is specified timeCreated is default.
+	// The field to sort by. Only one sort order may be provided. Default order for timestamp is descending.
 	SortBy ListWorkRequestErrorsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListWorkRequestErrorsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
-
-	// A filter to return only resources that match the entire display name given.
-	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
@@ -99,13 +95,11 @@ type ListWorkRequestErrorsSortByEnum string
 
 // Set of constants representing the allowable values for ListWorkRequestErrorsSortByEnum
 const (
-	ListWorkRequestErrorsSortByTimecreated ListWorkRequestErrorsSortByEnum = "timeCreated"
-	ListWorkRequestErrorsSortByDisplayname ListWorkRequestErrorsSortByEnum = "displayName"
+	ListWorkRequestErrorsSortByTimestamp ListWorkRequestErrorsSortByEnum = "timestamp"
 )
 
 var mappingListWorkRequestErrorsSortBy = map[string]ListWorkRequestErrorsSortByEnum{
-	"timeCreated": ListWorkRequestErrorsSortByTimecreated,
-	"displayName": ListWorkRequestErrorsSortByDisplayname,
+	"timestamp": ListWorkRequestErrorsSortByTimestamp,
 }
 
 // GetListWorkRequestErrorsSortByEnumValues Enumerates the set of values for ListWorkRequestErrorsSortByEnum

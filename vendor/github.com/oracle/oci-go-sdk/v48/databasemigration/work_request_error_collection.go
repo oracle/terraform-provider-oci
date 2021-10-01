@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// WorkRequestErrorCollection Note: Deprecated. Use the new resource model APIs instead.
-// Results of a Work Request search. Contains WorkRequestError items.
+// WorkRequestErrorCollection Results of a Work Request search. Contains WorkRequestError items.
 type WorkRequestErrorCollection struct {
 
 	// Items in collection.

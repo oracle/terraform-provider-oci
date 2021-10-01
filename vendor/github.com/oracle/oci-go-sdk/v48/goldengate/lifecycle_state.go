@@ -14,23 +14,33 @@ type LifecycleStateEnum string
 
 // Set of constants representing the allowable values for LifecycleStateEnum
 const (
-	LifecycleStateCreating LifecycleStateEnum = "CREATING"
-	LifecycleStateUpdating LifecycleStateEnum = "UPDATING"
-	LifecycleStateActive   LifecycleStateEnum = "ACTIVE"
-	LifecycleStateInactive LifecycleStateEnum = "INACTIVE"
-	LifecycleStateDeleting LifecycleStateEnum = "DELETING"
-	LifecycleStateDeleted  LifecycleStateEnum = "DELETED"
-	LifecycleStateFailed   LifecycleStateEnum = "FAILED"
+	LifecycleStateCreating       LifecycleStateEnum = "CREATING"
+	LifecycleStateUpdating       LifecycleStateEnum = "UPDATING"
+	LifecycleStateActive         LifecycleStateEnum = "ACTIVE"
+	LifecycleStateInactive       LifecycleStateEnum = "INACTIVE"
+	LifecycleStateDeleting       LifecycleStateEnum = "DELETING"
+	LifecycleStateDeleted        LifecycleStateEnum = "DELETED"
+	LifecycleStateFailed         LifecycleStateEnum = "FAILED"
+	LifecycleStateNeedsAttention LifecycleStateEnum = "NEEDS_ATTENTION"
+	LifecycleStateInProgress     LifecycleStateEnum = "IN_PROGRESS"
+	LifecycleStateCanceling      LifecycleStateEnum = "CANCELING"
+	LifecycleStateCanceled       LifecycleStateEnum = "CANCELED"
+	LifecycleStateSucceeded      LifecycleStateEnum = "SUCCEEDED"
 )
 
 var mappingLifecycleState = map[string]LifecycleStateEnum{
-	"CREATING": LifecycleStateCreating,
-	"UPDATING": LifecycleStateUpdating,
-	"ACTIVE":   LifecycleStateActive,
-	"INACTIVE": LifecycleStateInactive,
-	"DELETING": LifecycleStateDeleting,
-	"DELETED":  LifecycleStateDeleted,
-	"FAILED":   LifecycleStateFailed,
+	"CREATING":        LifecycleStateCreating,
+	"UPDATING":        LifecycleStateUpdating,
+	"ACTIVE":          LifecycleStateActive,
+	"INACTIVE":        LifecycleStateInactive,
+	"DELETING":        LifecycleStateDeleting,
+	"DELETED":         LifecycleStateDeleted,
+	"FAILED":          LifecycleStateFailed,
+	"NEEDS_ATTENTION": LifecycleStateNeedsAttention,
+	"IN_PROGRESS":     LifecycleStateInProgress,
+	"CANCELING":       LifecycleStateCanceling,
+	"CANCELED":        LifecycleStateCanceled,
+	"SUCCEEDED":       LifecycleStateSucceeded,
 }
 
 // GetLifecycleStateEnumValues Enumerates the set of values for LifecycleStateEnum

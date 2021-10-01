@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// WorkRequest Note: Deprecated. Use the new resource model APIs instead.
-// An asynchronous work request.
+// WorkRequest An asynchronous work request.
 type WorkRequest struct {
 
 	// Type of the work request

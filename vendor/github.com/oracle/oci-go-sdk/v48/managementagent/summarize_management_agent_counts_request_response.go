@@ -25,6 +25,9 @@ type SummarizeManagementAgentCountsRequest struct {
 	// When set to true then agents that have at least one plugin deployed will be returned. When set to false only agents that have no plugins deployed will be returned.
 	HasPlugins *bool `mandatory:"false" contributesTo:"query" name:"hasPlugins"`
 
+	// A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
+	InstallType SummarizeManagementAgentCountsInstallTypeEnum `mandatory:"false" contributesTo:"query" name:"installType" omitEmpty:"true"`
+
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
@@ -84,4 +87,27 @@ func (response SummarizeManagementAgentCountsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response SummarizeManagementAgentCountsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// SummarizeManagementAgentCountsInstallTypeEnum Enum with underlying type: string
+type SummarizeManagementAgentCountsInstallTypeEnum string
+
+// Set of constants representing the allowable values for SummarizeManagementAgentCountsInstallTypeEnum
+const (
+	SummarizeManagementAgentCountsInstallTypeAgent   SummarizeManagementAgentCountsInstallTypeEnum = "AGENT"
+	SummarizeManagementAgentCountsInstallTypeGateway SummarizeManagementAgentCountsInstallTypeEnum = "GATEWAY"
+)
+
+var mappingSummarizeManagementAgentCountsInstallType = map[string]SummarizeManagementAgentCountsInstallTypeEnum{
+	"AGENT":   SummarizeManagementAgentCountsInstallTypeAgent,
+	"GATEWAY": SummarizeManagementAgentCountsInstallTypeGateway,
+}
+
+// GetSummarizeManagementAgentCountsInstallTypeEnumValues Enumerates the set of values for SummarizeManagementAgentCountsInstallTypeEnum
+func GetSummarizeManagementAgentCountsInstallTypeEnumValues() []SummarizeManagementAgentCountsInstallTypeEnum {
+	values := make([]SummarizeManagementAgentCountsInstallTypeEnum, 0)
+	for _, v := range mappingSummarizeManagementAgentCountsInstallType {
+		values = append(values, v)
+	}
+	return values
 }

@@ -22,21 +22,20 @@ type ListWorkRequestsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
+	// A filter to return only resources their lifecycleState matches the given OperationStatus.
+	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending.
-	// Default order for displayName is ascending. If no value is specified timeCreated is default.
+	// The field to sort by. Only one sort order may be provided. Default order for timeAccepted is descending.
 	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
-
-	// A filter to return only resources that match the entire display name given.
-	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
@@ -97,18 +96,49 @@ func (response ListWorkRequestsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
 
+// ListWorkRequestsStatusEnum Enum with underlying type: string
+type ListWorkRequestsStatusEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsStatusEnum
+const (
+	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
+	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
+	ListWorkRequestsStatusWaiting    ListWorkRequestsStatusEnum = "WAITING"
+	ListWorkRequestsStatusFailed     ListWorkRequestsStatusEnum = "FAILED"
+	ListWorkRequestsStatusSucceeded  ListWorkRequestsStatusEnum = "SUCCEEDED"
+	ListWorkRequestsStatusCanceling  ListWorkRequestsStatusEnum = "CANCELING"
+	ListWorkRequestsStatusCanceled   ListWorkRequestsStatusEnum = "CANCELED"
+)
+
+var mappingListWorkRequestsStatus = map[string]ListWorkRequestsStatusEnum{
+	"ACCEPTED":    ListWorkRequestsStatusAccepted,
+	"IN_PROGRESS": ListWorkRequestsStatusInProgress,
+	"WAITING":     ListWorkRequestsStatusWaiting,
+	"FAILED":      ListWorkRequestsStatusFailed,
+	"SUCCEEDED":   ListWorkRequestsStatusSucceeded,
+	"CANCELING":   ListWorkRequestsStatusCanceling,
+	"CANCELED":    ListWorkRequestsStatusCanceled,
+}
+
+// GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
+func GetListWorkRequestsStatusEnumValues() []ListWorkRequestsStatusEnum {
+	values := make([]ListWorkRequestsStatusEnum, 0)
+	for _, v := range mappingListWorkRequestsStatus {
+		values = append(values, v)
+	}
+	return values
+}
+
 // ListWorkRequestsSortByEnum Enum with underlying type: string
 type ListWorkRequestsSortByEnum string
 
 // Set of constants representing the allowable values for ListWorkRequestsSortByEnum
 const (
-	ListWorkRequestsSortByTimecreated ListWorkRequestsSortByEnum = "timeCreated"
-	ListWorkRequestsSortByDisplayname ListWorkRequestsSortByEnum = "displayName"
+	ListWorkRequestsSortByTimeaccepted ListWorkRequestsSortByEnum = "timeAccepted"
 )
 
 var mappingListWorkRequestsSortBy = map[string]ListWorkRequestsSortByEnum{
-	"timeCreated": ListWorkRequestsSortByTimecreated,
-	"displayName": ListWorkRequestsSortByDisplayname,
+	"timeAccepted": ListWorkRequestsSortByTimeaccepted,
 }
 
 // GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum

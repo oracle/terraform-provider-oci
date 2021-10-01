@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// UpdateAdminCredentials Note: Deprecated. Use the new resource model APIs instead.
-// Database Administrator Credentials details. An empty object would result in the removal of the stored details.
+// UpdateAdminCredentials Database Administrator Credentials details. An empty object would result in the removal of the stored details.
 type UpdateAdminCredentials struct {
 
 	// Administrator username

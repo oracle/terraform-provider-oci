@@ -13,12 +13,13 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// DatabaseLinkDetails Note: Deprecated. Use the new resource model APIs instead.
-// Optional details for creating a network database link from OCI database to on-premise database.
+// DatabaseLinkDetails Optional details for creating a network database link from OCI database to on-premise database.
 type DatabaseLinkDetails struct {
 
 	// Name of database link from OCI database to on-premise database. ODMS will create link, if the link does not already exist.
-	Name *string `mandatory:"true" json:"name"`
+	Name *string `mandatory:"false" json:"name"`
+
+	WalletBucket *ObjectStoreBucket `mandatory:"false" json:"walletBucket"`
 }
 
 func (m DatabaseLinkDetails) String() string {

@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v48/common"
 )
 
-// CreateSshDetails Note: Deprecated. Use the new resource model APIs instead.
-// Details of the SSH key that will be used. Required for source database Manual and UserManagerOci connection types.
+// CreateSshDetails Details of the SSH key that will be used. Required for source database Manual and UserManagerOci connection types.
 // Not required for source container database connections.
 type CreateSshDetails struct {
 
