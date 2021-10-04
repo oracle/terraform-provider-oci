@@ -56,6 +56,17 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	ocpu_count = var.autonomous_database_ocpu_count
 	private_endpoint_label = var.autonomous_database_private_endpoint_label
 	refreshable_mode = var.autonomous_database_refreshable_mode
+	scheduled_operations {
+		#Required
+		day_of_week {
+			#Required
+			name = var.autonomous_database_scheduled_operations_day_of_week_name
+		}
+
+		#Optional
+		scheduled_start_time = var.autonomous_database_scheduled_operations_scheduled_start_time
+		scheduled_stop_time = var.autonomous_database_scheduled_operations_scheduled_stop_time
+	}
 	source = var.autonomous_database_source
 	source_id = oci_database_source.test_source.id
 	standby_whitelisted_ips = var.autonomous_database_standby_whitelisted_ips
@@ -130,6 +141,11 @@ The following arguments are supported:
 * `operations_insights_status` - (Optional) (Updatable) Status of Operations Insights for this Autonomous Database. Values supported are `ENABLED` and `NOT_ENABLED`
 * `private_endpoint_label` - (Optional) (Updatable) The private endpoint label for the resource.
 * `refreshable_mode` - (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
+* `scheduled_operations` - (Optional) (Updatable) list of scheduled operations
+	* `day_of_week` - (Required) (Updatable) Day of the week.
+		* `name` - (Required) (Updatable) Name of the day of the week.
+	* `scheduled_start_time` - (Optional) (Updatable) auto start time. value must be of ISO-8601 format "HH:mm"
+	* `scheduled_stop_time` - (Optional) (Updatable) auto stop time. value must be of ISO-8601 format "HH:mm"
 * `source` - (Optional) The source of the database: Use `NONE` for creating a new Autonomous Database. Use `DATABASE` for creating a new Autonomous Database by cloning an existing Autonomous Database.
 
 	For Autonomous Databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI), the following cloning options are available: Use `BACKUP_FROM_ID` for creating a new Autonomous Database from a specified backup. Use `BACKUP_FROM_TIMESTAMP` for creating a point-in-time Autonomous Database clone using backups. For more information, see [Cloning an Autonomous Database](https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/adbcloning.htm). 
@@ -261,6 +277,11 @@ The following attributes are exported:
 * `refreshable_mode` - The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 * `refreshable_status` - The refresh status of the clone. REFRESHING indicates that the clone is currently being refreshed with data from the source Autonomous Database.
 * `role` - The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled. 
+* `scheduled_operations` - list of scheduled operations
+	* `day_of_week` - Day of the week.
+		* `name` - Name of the day of the week.
+	* `scheduled_start_time` - auto start time. value must be of ISO-8601 format "HH:mm"
+	* `scheduled_stop_time` - auto stop time. value must be of ISO-8601 format "HH:mm"
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
 * `source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that was cloned to create the current Autonomous Database.
 * `standby_db` - Autonomous Data Guard standby database details. 

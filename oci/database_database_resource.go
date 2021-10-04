@@ -128,7 +128,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Optional: true,
 													ForceNew: true,
 												},
-
+												"vpc_user": {
+													Type:     schema.TypeString,
+													Optional: true,
+												},
 												// Computed
 											},
 										},
@@ -340,6 +343,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 									"type": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"vpc_user": {
+										Type:     schema.TypeString,
+										Optional: true,
 									},
 								},
 							},

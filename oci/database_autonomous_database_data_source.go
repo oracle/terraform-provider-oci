@@ -249,6 +249,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("role", s.Res.Role)
 
+	scheduledOperations := []interface{}{}
+	for _, item := range s.Res.ScheduledOperations {
+		scheduledOperations = append(scheduledOperations, ScheduledOperationDetailsToMap(item))
+	}
+	s.D.Set("scheduled_operations", scheduledOperations)
+
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
 	}

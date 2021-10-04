@@ -244,6 +244,49 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					string(oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeManual),
 				}, false),
 			},
+			"scheduled_operations": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"day_of_week": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+						"scheduled_start_time": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"scheduled_stop_time": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"source": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -1156,6 +1199,23 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.RefreshableMode = oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeEnum(refreshableMode.(string))
 	}
 
+	if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok && s.D.HasChange("scheduled_operations") {
+		interfaces := scheduledOperations.([]interface{})
+		tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
+			converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
+			request.ScheduledOperations = tmp
+		}
+	}
+
 	if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 		interfaces := standbyWhitelistedIps.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1405,6 +1465,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("role", s.Res.Role)
 
+	scheduledOperations := []interface{}{}
+	for _, item := range s.Res.ScheduledOperations {
+		scheduledOperations = append(scheduledOperations, ScheduledOperationDetailsToMap(item))
+	}
+	s.D.Set("scheduled_operations", scheduledOperations)
+
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
 	}
@@ -1650,6 +1716,69 @@ func DatabaseConnectionStringProfileToMap(obj oci_database.DatabaseConnectionStr
 	return result
 }
 
+func (s *DatabaseAutonomousDatabaseResourceCrud) adbMapToDayOfWeek(fieldKeyFormat string) (oci_database.DayOfWeek, error) {
+	result := oci_database.DayOfWeek{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		result.Name = oci_database.DayOfWeekNameEnum(name.(string))
+	}
+
+	return result, nil
+}
+
+func AdbDayOfWeekToMap(obj *oci_database.DayOfWeek) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["name"] = string(obj.Name)
+
+	return result
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) mapToScheduledOperationDetails(fieldKeyFormat string) (oci_database.ScheduledOperationDetails, error) {
+	result := oci_database.ScheduledOperationDetails{}
+
+	if dayOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "day_of_week")); ok {
+		if tmpList := dayOfWeek.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "day_of_week"), 0)
+			tmp, err := s.adbMapToDayOfWeek(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert day_of_week, encountered error: %v", err)
+			}
+			result.DayOfWeek = &tmp
+		}
+	}
+
+	if scheduledStartTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scheduled_start_time")); ok {
+		tmp := scheduledStartTime.(string)
+		result.ScheduledStartTime = &tmp
+	}
+
+	if scheduledStopTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scheduled_stop_time")); ok {
+		tmp := scheduledStopTime.(string)
+		result.ScheduledStopTime = &tmp
+	}
+
+	return result, nil
+}
+
+func ScheduledOperationDetailsToMap(obj oci_database.ScheduledOperationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DayOfWeek != nil {
+		result["day_of_week"] = []interface{}{AdbDayOfWeekToMap(obj.DayOfWeek)}
+	}
+
+	if obj.ScheduledStartTime != nil {
+		result["scheduled_start_time"] = string(*obj.ScheduledStartTime)
+	}
+
+	if obj.ScheduledStopTime != nil {
+		result["scheduled_stop_time"] = string(*obj.ScheduledStopTime)
+	}
+
+	return result
+}
+
 func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCreateAutonomousDatabaseRequest(request *oci_database.CreateAutonomousDatabaseRequest) error {
 	//discriminator
 	sourceRaw, ok := s.D.GetOkExists("source")
@@ -1793,7 +1922,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
-
+		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+			interfaces := scheduledOperations.([]interface{})
+			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
+				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
+				details.ScheduledOperations = tmp
+			}
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1969,7 +2113,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
-
+		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+			interfaces := scheduledOperations.([]interface{})
+			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
+				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
+				details.ScheduledOperations = tmp
+			}
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2140,6 +2299,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok {
 			details.RefreshableMode = oci_database.CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum(refreshableMode.(string))
+		}
+		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+			interfaces := scheduledOperations.([]interface{})
+			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
+				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
+				details.ScheduledOperations = tmp
+			}
 		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
@@ -2313,7 +2488,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
-
+		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+			interfaces := scheduledOperations.([]interface{})
+			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
+				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
+				details.ScheduledOperations = tmp
+			}
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2477,7 +2667,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
-
+		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+			interfaces := scheduledOperations.([]interface{})
+			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
+				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
+				details.ScheduledOperations = tmp
+			}
+		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
