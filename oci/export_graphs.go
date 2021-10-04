@@ -557,6 +557,20 @@ var devopsResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDevopsDeployPipelineHints},
 		{TerraformResourceHints: exportDevopsDeployStageHints},
 		{TerraformResourceHints: exportDevopsDeploymentHints},
+		{TerraformResourceHints: exportDevopsRepositoryHints},
+		{TerraformResourceHints: exportDevopsBuildPipelineHints},
+		{TerraformResourceHints: exportDevopsBuildRunHints},
+		{TerraformResourceHints: exportDevopsConnectionHints},
+		{TerraformResourceHints: exportDevopsBuildPipelineStageHints},
+		{TerraformResourceHints: exportDevopsTriggerHints},
+	},
+	"oci_devops_repository": {
+		{
+			TerraformResourceHints: exportDevopsRepositoryRefHints,
+			datasourceQueryParams: map[string]string{
+				"repository_id": "id",
+			},
+		},
 	},
 }
 

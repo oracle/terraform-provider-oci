@@ -481,6 +481,14 @@ devops
 * oci\_devops\_deploy\_pipeline
 * oci\_devops\_deploy\_stage
 * oci\_devops\_deployment
+* oci\_devops\_repository
+* oci\_devops\_repository\_ref
+* oci\_devops\_build\_pipeline
+* oci\_devops\_build\_run
+* oci\_devops\_connection
+* oci\_devops\_build\_pipeline\_stage
+* oci\_devops\_trigger
+* oci\_devops\_repository\_mirror
 
 dns
     

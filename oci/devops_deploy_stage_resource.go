@@ -1864,23 +1864,6 @@ func (s *DevopsDeployStageResourceCrud) mapToWaitCriteria(fieldKeyFormat string)
 	return baseObject, nil
 }
 
-func WaitCriteriaToMap(obj *oci_devops.WaitCriteria) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
-	case oci_devops.AbsoluteWaitCriteria:
-		result["wait_type"] = "ABSOLUTE_WAIT"
-
-		if v.WaitDuration != nil {
-			result["wait_duration"] = string(*v.WaitDuration)
-		}
-	default:
-		log.Printf("[WARN] Received 'wait_type' of unknown type %v", *obj)
-		return nil
-	}
-
-	return result
-}
-
 func (s *DevopsDeployStageResourceCrud) mapToWaitCriteriaSummary(fieldKeyFormat string) (oci_devops.WaitCriteriaSummary, error) {
 	var baseObject oci_devops.WaitCriteriaSummary
 	//discriminator
