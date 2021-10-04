@@ -1444,6 +1444,92 @@ var exportDevopsDeploymentHints = &TerraformResourceHints{
 	},
 }
 
+var exportDevopsRepositoryHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_repository",
+	datasourceClass:        "oci_devops_repositories",
+	datasourceItemsAttr:    "repository_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "repository",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.RepositoryLifecycleStateActive),
+	},
+}
+
+var exportDevopsRepositoryRefHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_repository_ref",
+	datasourceClass:        "oci_devops_repository_refs",
+	datasourceItemsAttr:    "repository_ref_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "repository_ref",
+	requireResourceRefresh: true,
+}
+
+var exportDevopsBuildPipelineHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_build_pipeline",
+	datasourceClass:        "oci_devops_build_pipelines",
+	datasourceItemsAttr:    "build_pipeline_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "build_pipeline",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.BuildPipelineLifecycleStateActive),
+	},
+}
+
+var exportDevopsBuildRunHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_build_run",
+	datasourceClass:        "oci_devops_build_runs",
+	datasourceItemsAttr:    "build_run_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "build_run",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.BuildRunLifecycleStateSucceeded),
+	},
+}
+
+var exportDevopsConnectionHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_connection",
+	datasourceClass:        "oci_devops_connections",
+	datasourceItemsAttr:    "connection_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "connection",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.ConnectionLifecycleStateActive),
+	},
+}
+
+var exportDevopsBuildPipelineStageHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_build_pipeline_stage",
+	datasourceClass:        "oci_devops_build_pipeline_stages",
+	datasourceItemsAttr:    "build_pipeline_stage_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "build_pipeline_stage",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.BuildPipelineStageLifecycleStateActive),
+	},
+}
+
+var exportDevopsTriggerHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_trigger",
+	datasourceClass:        "oci_devops_triggers",
+	datasourceItemsAttr:    "trigger_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "trigger",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.TriggerLifecycleStateActive),
+	},
+}
+
+var exportDevopsRepositoryMirrorHints = &TerraformResourceHints{
+	resourceClass:        "oci_devops_repository_mirror",
+	resourceAbbreviation: "repository_mirror",
+}
+
 var exportDnsZoneHints = &TerraformResourceHints{
 	resourceClass:          "oci_dns_zone",
 	datasourceClass:        "oci_dns_zones",
