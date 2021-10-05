@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/database"
 )
 
 // TestAccResourceDatabaseDBSystem_allBM tests DBsystems using Bare Metal instances.

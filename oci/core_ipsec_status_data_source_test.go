@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/stretchr/testify/suite"
-	//"github.com/oracle/oci-go-sdk/v48/core"
+	//"github.com/oracle/oci-go-sdk/v49/core"
 )
 
 type DatasourceCoreIPSecStatusTestSuite struct {

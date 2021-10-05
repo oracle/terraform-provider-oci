@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_kms "github.com/oracle/oci-go-sdk/v48/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v49/keymanagement"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
