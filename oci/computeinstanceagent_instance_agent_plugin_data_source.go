@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v48/computeinstanceagent"
+	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v49/computeinstanceagent"
 )
 
 func init() {

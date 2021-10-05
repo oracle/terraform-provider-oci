@@ -8,13 +8,13 @@ import (
 	"context"
 	"fmt"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {

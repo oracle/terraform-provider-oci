@@ -7,11 +7,11 @@ import (
 	"context"
 	"time"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
