@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -1402,8 +1403,13 @@ func getDbHomeRetryDurationFunction(retryTimeout time.Duration) expectedRetryDur
 		if response.Response == nil || response.Response.HTTPResponse() == nil {
 			return defaultRetryTime
 		}
+		e := response.Error
 		switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 		case 409:
+			if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+				log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
+				return 0
+			}
 			if e := response.Error; e != nil {
 				if strings.Contains(e.Error(), "IncorrectState") {
 					defaultRetryTime = retryTimeout
