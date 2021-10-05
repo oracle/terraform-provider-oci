@@ -152,6 +152,11 @@ func ObjectStorageObjectResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"opc_sse_kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"source": {
 				Type:          schema.TypeString,
 				Optional:      true,
@@ -297,6 +302,11 @@ func (s *ObjectStorageObjectResourceCrud) createMultiPartObject() error {
 		multipartUploadData.StorageTier = StorageTierEnumFromString(tmp)
 	}
 
+	if opcSseKmsKeyId, ok := s.D.GetOkExists("opc_sse_kms_key_id"); ok {
+		tmp := opcSseKmsKeyId.(string)
+		multipartUploadData.OpcSseKmsKeyId = &tmp
+	}
+
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		multipartUploadData.Metadata = metadata.(map[string]interface{})
 	}
@@ -401,6 +411,11 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 	if storageTier, ok := s.D.GetOkExists("storage_tier"); ok {
 		tmp := storageTier.(string)
 		copyObjectRequest.DestinationObjectStorageTier = StorageTierEnumFromString(tmp)
+	}
+
+	if opcSseKmsKeyId, ok := s.D.GetOkExists("opc_sse_kms_key_id"); ok {
+		tmp := opcSseKmsKeyId.(string)
+		copyObjectRequest.OpcSseKmsKeyId = &tmp
 	}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
@@ -635,6 +650,11 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 	if storageTier, ok := s.D.GetOkExists("storage_tier"); ok {
 		tmp := storageTier.(string)
 		request.StorageTier = PutObjectStorageTierEnumFromString(tmp)
+	}
+
+	if opcSseKmsKeyId, ok := s.D.GetOkExists("opc_sse_kms_key_id"); ok {
+		tmp := opcSseKmsKeyId.(string)
+		request.OpcSseKmsKeyId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
