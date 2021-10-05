@@ -42,6 +42,7 @@ type MultipartUploadData struct {
 	ContentLanguage     *string
 	ContentEncoding     *string
 	StorageTier         oci_object_storage.StorageTierEnum
+	OpcSseKmsKeyId      *string
 	Metadata            map[string]interface{}
 	OpcClientRequestID  *string
 	RequestMetadata     common.RequestMetadata

@@ -75,6 +75,7 @@ var (
 		"content_md5":                Representation{RepType: Optional, Create: `${md5("content")}`, Update: Md5Base64Encoded2},
 		"content_type":               Representation{RepType: Optional, Create: `text/plain`, Update: `text/xml`},
 		"storage_tier":               Representation{RepType: Optional, Create: `Standard`, Update: `InfrequentAccess`},
+		"opc_sse_kms_key_id":         Representation{RepType: Optional, Create: getEnvSettingWithBlankDefault("kms_key_ocid")},
 		"delete_all_object_versions": Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"metadata":                   Representation{RepType: Optional, Create: map[string]string{"content-type": "text/plain"}, Update: map[string]string{"content-type": "text/xml"}},
 	}
@@ -202,6 +203,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 				resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
+				resource.TestCheckResourceAttr(resourceName, "opc_sse_kms_key_id", getEnvSettingWithBlankDefault("kms_key_ocid")),
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
@@ -410,6 +412,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				"delete_all_object_versions",
 				"metadata",
 				"storage_tier",
+				"opc_sse_kms_key_id",
 			},
 			ResourceName: resourceName,
 		},
