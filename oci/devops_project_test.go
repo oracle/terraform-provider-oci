@@ -13,57 +13,57 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v48/devops"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DevopsProjectRequiredOnlyResource = DevopsProjectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation)
 
 	DevopsProjectResourceConfig = DevopsProjectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Update, devopsProjectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Update, devopsProjectRepresentation)
 
 	devopsProjectSingularDataSourceRepresentation = map[string]interface{}{
-		"project_id": Representation{repType: Required, create: `${oci_devops_project.test_project.id}`},
+		"project_id": Representation{RepType: Required, Create: `${oci_devops_project.test_project.id}`},
 	}
 
-	devopsProjectName = randomString(10, charsetWithoutDigits)
+	devopsProjectName = RandomString(10, charsetWithoutDigits)
 
 	devopsProjectDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"id":             Representation{repType: Optional, create: `${oci_devops_project.test_project.id}`},
-		"name":           Representation{repType: Optional, create: devopsProjectName},
-		"state":          Representation{repType: Optional, create: `Active`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"id":             Representation{RepType: Optional, Create: `${oci_devops_project.test_project.id}`},
+		"name":           Representation{RepType: Optional, Create: devopsProjectName},
+		"state":          Representation{RepType: Optional, Create: `Active`},
 		"filter":         RepresentationGroup{Required, devopsProjectDataSourceFilterRepresentation}}
 	devopsProjectDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_devops_project.test_project.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_devops_project.test_project.id}`}},
 	}
 
 	devopsProjectRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":                Representation{repType: Required, create: devopsProjectName},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":                Representation{RepType: Required, Create: devopsProjectName},
 		"notification_config": RepresentationGroup{Required, projectNotificationConfigRepresentation},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":         Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":         Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	projectLoggingConfigRepresentation = map[string]interface{}{
-		"log_group_id":             Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`},
-		"retention_period_in_days": Representation{repType: Required, create: `30`, update: `60`},
-		"display_name_prefix":      Representation{repType: Optional, create: `displayNamePrefix`, update: `displayNamePrefix2`},
-		"is_archiving_enabled":     Representation{repType: Optional, create: `false`, update: `true`},
+		"log_group_id":             Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"retention_period_in_days": Representation{RepType: Required, Create: `30`, Update: `60`},
+		"display_name_prefix":      Representation{RepType: Optional, Create: `displayNamePrefix`, Update: `displayNamePrefix2`},
+		"is_archiving_enabled":     Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	projectNotificationConfigRepresentation = map[string]interface{}{
-		"topic_id": Representation{repType: Required, create: `${oci_ons_notification_topic.test_notification_topic.id}`},
+		"topic_id": Representation{RepType: Required, Create: `${oci_ons_notification_topic.test_notification_topic.id}`},
 	}
 
 	DevopsProjectResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -84,15 +84,15 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_project.test_project"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DevopsProjectResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Create, devopsProjectRepresentation), "devops", "project", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DevopsProjectResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Create, devopsProjectRepresentation), "devops", "project", t)
 
 	ResourceTest(t, testAccCheckDevopsProjectDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", devopsProjectName),
@@ -100,20 +100,20 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "notification_config.0.topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Create, devopsProjectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Create, devopsProjectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -125,9 +125,9 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "notification_config.0.topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -136,12 +136,12 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DevopsProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Create,
-					representationCopyWithNewProperties(devopsProjectRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Create,
+					RepresentationCopyWithNewProperties(devopsProjectRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -154,7 +154,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "notification_config.0.topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -166,7 +166,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DevopsProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Update, devopsProjectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Update, devopsProjectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -178,7 +178,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "notification_config.0.topic_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -189,9 +189,9 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_projects", "test_projects", Optional, Update, devopsProjectDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_projects", "test_projects", Optional, Update, devopsProjectDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Update, devopsProjectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Optional, Update, devopsProjectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -205,7 +205,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsProjectResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
@@ -248,7 +248,7 @@ func testAccCheckDevopsProjectDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ProjectId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "devops")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "devops")
 
 			response, err := client.GetProject(context.Background(), request)
 
@@ -281,7 +281,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DevopsProject") {
+	if !InSweeperExcludeList("DevopsProject") {
 		resource.AddTestSweepers("DevopsProject", &resource.Sweeper{
 			Name:         "DevopsProject",
 			Dependencies: DependencyGraph["project"],
@@ -302,13 +302,13 @@ func sweepDevopsProjectResource(compartment string) error {
 
 			deleteProjectRequest.ProjectId = &projectId
 
-			deleteProjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "devops")
+			deleteProjectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "devops")
 			_, error := projectClient.DeleteProject(context.Background(), deleteProjectRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Project %s %s, It is possible that the resource is already deleted. Please verify manually \n", projectId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &projectId, devopsProjectSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &projectId, devopsProjectSweepWaitCondition, time.Duration(3*time.Minute),
 				devopsProjectSweepResponseFetchOperation, "devops", true)
 		}
 	}
@@ -316,7 +316,7 @@ func sweepDevopsProjectResource(compartment string) error {
 }
 
 func getDevopsProjectIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ProjectId")
+	ids := GetResourceIdsToSweep(compartment, "ProjectId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -335,7 +335,7 @@ func getDevopsProjectIds(compartment string) ([]string, error) {
 	for _, project := range listProjectsResponse.Items {
 		id := *project.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ProjectId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ProjectId", id)
 	}
 	return resourceIds, nil
 }

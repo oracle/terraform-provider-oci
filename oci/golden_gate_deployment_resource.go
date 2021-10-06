@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v48/goldengate"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v49/goldengate"
 )
 
 func init() {
@@ -27,9 +27,9 @@ func GoldenGateDeploymentResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("90m"),
-			Update: getTimeoutDuration("60m"),
-			Delete: getTimeoutDuration("30m"),
+			Create: GetTimeoutDuration("90m"),
+			Update: GetTimeoutDuration("60m"),
+			Delete: GetTimeoutDuration("30m"),
 		},
 		Create: createGoldenGateDeployment,
 		Read:   readGoldenGateDeployment,
@@ -106,7 +106,7 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -148,6 +148,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 						},
 
 						// Computed
+						"ogg_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -166,6 +170,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_sub_state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -191,6 +199,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_upgrade_required": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -245,12 +257,15 @@ func (s *GoldenGateDeploymentResourceCrud) ID() string {
 func (s *GoldenGateDeploymentResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_golden_gate.LifecycleStateCreating),
+		string(oci_golden_gate.LifecycleStateInProgress),
 	}
 }
 
 func (s *GoldenGateDeploymentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_golden_gate.LifecycleStateActive),
+		string(oci_golden_gate.LifecycleStateNeedsAttention),
+		string(oci_golden_gate.LifecycleStateSucceeded),
 	}
 }
 
@@ -312,7 +327,7 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
@@ -359,7 +374,7 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.CreateDeployment(context.Background(), request)
 	if err != nil {
@@ -367,7 +382,7 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeploymentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *GoldenGateDeploymentResourceCrud) getDeploymentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -412,7 +427,7 @@ func goldenGateDeploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(
 
 func goldenGateDeploymentWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "golden_gate")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = goldenGateDeploymentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_golden_gate.GetWorkRequestResponse{}
@@ -492,7 +507,7 @@ func (s *GoldenGateDeploymentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.GetDeployment(context.Background(), request)
 	if err != nil {
@@ -547,7 +562,7 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
@@ -594,7 +609,7 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 		request.SubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.UpdateDeployment(context.Background(), request)
 	if err != nil {
@@ -602,7 +617,7 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeploymentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDeploymentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *GoldenGateDeploymentResourceCrud) Delete() error {
@@ -611,7 +626,7 @@ func (s *GoldenGateDeploymentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DeploymentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.DeleteDeployment(context.Background(), request)
 	if err != nil {
@@ -684,11 +699,13 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
 	nsgIds := []interface{}{}
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.OggData != nil {
 		s.D.Set("ogg_data", []interface{}{OggDeploymentToMap(s.Res.OggData, s.D)})
@@ -720,6 +737,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.TimeUpgradeRequired != nil {
+		s.D.Set("time_upgrade_required", s.Res.TimeUpgradeRequired.String())
 	}
 
 	return nil
@@ -812,6 +833,10 @@ func OggDeploymentToMap(obj *oci_golden_gate.OggDeployment, resourceData *schema
 		result["deployment_name"] = string(*obj.DeploymentName)
 	}
 
+	if obj.OggVersion != nil {
+		result["ogg_version"] = string(*obj.OggVersion)
+	}
+
 	return result
 }
 
@@ -872,6 +897,8 @@ func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	result["lifecycle_sub_state"] = string(obj.LifecycleSubState)
+
 	if obj.PrivateIpAddress != nil {
 		result["private_ip_address"] = string(*obj.PrivateIpAddress)
 	}
@@ -898,6 +925,10 @@ func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
 
+	if obj.TimeUpgradeRequired != nil {
+		result["time_upgrade_required"] = obj.TimeUpgradeRequired.String()
+	}
+
 	return result
 }
 
@@ -910,7 +941,7 @@ func (s *GoldenGateDeploymentResourceCrud) updateCompartment(compartment interfa
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DeploymentId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.ChangeDeploymentCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

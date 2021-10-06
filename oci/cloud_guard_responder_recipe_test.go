@@ -13,64 +13,64 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ResponderRecipeRequiredOnlyResource = ResponderRecipeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeRepresentation)
 
 	ResponderRecipeResourceConfig = ResponderRecipeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation)
 
 	responderRecipeSingularDataSourceRepresentation = map[string]interface{}{
-		"responder_recipe_id": Representation{repType: Required, create: `${oci_cloud_guard_responder_recipe.test_responder_recipe.id}`},
+		"responder_recipe_id": Representation{RepType: Required, Create: `${oci_cloud_guard_responder_recipe.test_responder_recipe.id}`},
 	}
 
 	responderRecipeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"access_level":              Representation{repType: Optional, create: `ACCESSIBLE`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `true`},
-		"display_name":              Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"resource_metadata_only":    Representation{repType: Optional, create: `false`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"access_level":              Representation{RepType: Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `true`},
+		"display_name":              Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"resource_metadata_only":    Representation{RepType: Optional, Create: `false`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                    RepresentationGroup{Required, responderRecipeDataSourceFilterRepresentation}}
 	responderRecipeDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_cloud_guard_responder_recipe.test_responder_recipe.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_cloud_guard_responder_recipe.test_responder_recipe.id}`}},
 	}
 
 	//Making a list call and getting a source responderRecipeId
 	responderRecipeId             = `${data.oci_cloud_guard_responder_recipes.oracle_responder_recipe.responder_recipe_collection.0.items.0.id}`
 	responderRecipeRepresentation = map[string]interface{}{
-		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":               Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"source_responder_recipe_id": Representation{repType: Required, create: responderRecipeId},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":               Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"source_responder_recipe_id": Representation{RepType: Required, Create: responderRecipeId},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"responder_rules":            RepresentationGroup{Optional, responderRecipeResponderRulesRepresentation},
 	}
 	//hardcoding a responder-rule-id for testing purposes
 	responderRecipeResponderRulesRepresentation = map[string]interface{}{
 		"details":           RepresentationGroup{Required, responderRecipeResponderRulesDetailsRepresentation},
-		"responder_rule_id": Representation{repType: Required, create: `MAKE_BUCKET_PRIVATE`},
+		"responder_rule_id": Representation{RepType: Required, Create: `MAKE_BUCKET_PRIVATE`},
 	}
 	responderRecipeResponderRulesDetailsRepresentation = map[string]interface{}{
-		"is_enabled": Representation{repType: Required, create: `false`, update: `true`},
+		"is_enabled": Representation{RepType: Required, Create: `false`, Update: `true`},
 	}
 	//Make a representation for plural datasource
 	responderRecipeDataSourceRepresentationPluralDataSource = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: getEnvSettingWithBlankDefault("tenancy_ocid")},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: getEnvSettingWithBlankDefault("tenancy_ocid")},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
 	//Corrected the dependencies.
 	//Removed tag dependencies and put in individual calls as the same is used in target and target will have from detectorRecipeDependencies as well so tags will be duplicated.
-	ResponderRecipeResourceDependencies = generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipes", "oracle_responder_recipe", Required, Create, responderRecipeDataSourceRepresentationPluralDataSource)
+	ResponderRecipeResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipes", "oracle_responder_recipe", Required, Create, responderRecipeDataSourceRepresentationPluralDataSource)
 )
 
 // issue-routing-tag: cloud_guard/default
@@ -91,35 +91,35 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_cloud_guard_responder_recipe.test_responder_recipe"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ResponderRecipeResourceDependencies+
-		generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create, responderRecipeRepresentation), "cloudguard", "responderRecipe", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ResponderRecipeResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create, responderRecipeRepresentation), "cloudguard", "responderRecipe", t)
 
 	ResourceTest(t, testAccCheckCloudGuardResponderRecipeDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create, responderRecipeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create, responderRecipeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -134,9 +134,9 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -145,12 +145,12 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create,
-					representationCopyWithNewProperties(responderRecipeRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Create,
+					RepresentationCopyWithNewProperties(responderRecipeRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -166,7 +166,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -178,7 +178,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -193,7 +193,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "source_responder_recipe_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -204,9 +204,9 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipes", "test_responder_recipes", Optional, Update, responderRecipeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipes", "test_responder_recipes", Optional, Update, responderRecipeDataSourceRepresentation) +
 				compartmentIdVariableStr + ResponderRecipeResourceDependencies + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Optional, Update, responderRecipeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -222,7 +222,7 @@ func TestCloudGuardResponderRecipeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_responder_recipe", "test_responder_recipe", Required, Create, responderRecipeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ResponderRecipeResourceConfig + DefinedTagsDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "responder_recipe_id"),
@@ -287,7 +287,7 @@ func testAccCheckCloudGuardResponderRecipeDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ResponderRecipeId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 
 			response, err := client.GetResponderRecipe(context.Background(), request)
 
@@ -320,7 +320,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CloudGuardResponderRecipe") {
+	if !InSweeperExcludeList("CloudGuardResponderRecipe") {
 		resource.AddTestSweepers("CloudGuardResponderRecipe", &resource.Sweeper{
 			Name:         "CloudGuardResponderRecipe",
 			Dependencies: DependencyGraph["responderRecipe"],
@@ -341,13 +341,13 @@ func sweepCloudGuardResponderRecipeResource(compartment string) error {
 
 			deleteResponderRecipeRequest.ResponderRecipeId = &responderRecipeId
 
-			deleteResponderRecipeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			deleteResponderRecipeRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 			_, error := cloudGuardClient.DeleteResponderRecipe(context.Background(), deleteResponderRecipeRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ResponderRecipe %s %s, It is possible that the resource is already deleted. Please verify manually \n", responderRecipeId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &responderRecipeId, responderRecipeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &responderRecipeId, responderRecipeSweepWaitCondition, time.Duration(3*time.Minute),
 				responderRecipeSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}
@@ -355,7 +355,7 @@ func sweepCloudGuardResponderRecipeResource(compartment string) error {
 }
 
 func getResponderRecipeIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ResponderRecipeId")
+	ids := GetResourceIdsToSweep(compartment, "ResponderRecipeId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -374,7 +374,7 @@ func getResponderRecipeIds(compartment string) ([]string, error) {
 	for _, responderRecipe := range listResponderRecipesResponse.Items {
 		id := *responderRecipe.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ResponderRecipeId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ResponderRecipeId", id)
 	}
 	return resourceIds, nil
 }

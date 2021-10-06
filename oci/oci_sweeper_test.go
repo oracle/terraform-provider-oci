@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 /* This map holds the list of ocids for a given resourceType by compartment
@@ -42,7 +42,7 @@ func TestMain(m *testing.M) {
 	resource.TestMain(m)
 }
 
-func addResourceIdToSweeperResourceIdMap(compartmentId string, resourceType string, resourceId string) {
+func AddResourceIdToSweeperResourceIdMap(compartmentId string, resourceType string, resourceId string) {
 	if _, ok := SweeperResourceCompartmentIdMap[compartmentId]; ok {
 		resourceCompartmentIdMap := SweeperResourceCompartmentIdMap[compartmentId]
 		if _, ok := resourceCompartmentIdMap[resourceType]; ok {
@@ -62,7 +62,7 @@ func addResourceIdToSweeperResourceIdMap(compartmentId string, resourceType stri
 	}
 }
 
-func getResourceIdsToSweep(compartmentId string, resourceName string) []string {
+func GetResourceIdsToSweep(compartmentId string, resourceName string) []string {
 	if _, ok := SweeperResourceCompartmentIdMap[compartmentId]; ok {
 		resourceIdMap := SweeperResourceCompartmentIdMap[compartmentId]
 		if _, ok := resourceIdMap[resourceName]; ok {
@@ -72,7 +72,7 @@ func getResourceIdsToSweep(compartmentId string, resourceName string) []string {
 	return nil
 }
 
-func getAvalabilityDomains(compartmentId string) (map[string]string, error) {
+func GetAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	availabilityDomains := make(map[string]string)
 	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
 	adRequest := oci_identity.ListAvailabilityDomainsRequest{}
@@ -87,7 +87,7 @@ func getAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	return availabilityDomains, nil
 }
 
-func inSweeperExcludeList(sweeperName string) bool {
+func InSweeperExcludeList(sweeperName string) bool {
 	excludeListSweeper := strings.Split(getEnvSettingWithBlankDefault("sweep_exclude_list"), ",")
 
 	for _, sweeper := range excludeListSweeper {

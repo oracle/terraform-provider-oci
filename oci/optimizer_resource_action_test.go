@@ -16,52 +16,52 @@ import (
 
 var (
 	recommendationDataSourceRepresentationForResourceAction = map[string]interface{}{
-		"category_id":               Representation{repType: Required, create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Required, create: `true`},
-		"name":                      Representation{repType: Optional, create: `name`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
-		"status":                    Representation{repType: Optional, create: `PENDING`, update: `DISMISSED`},
+		"category_id":               Representation{RepType: Required, Create: `${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Required, Create: `true`},
+		"name":                      Representation{RepType: Optional, Create: `name`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
+		"status":                    Representation{RepType: Optional, Create: `PENDING`, Update: `DISMISSED`},
 		"filter":                    RepresentationGroup{Required, recommendationDataSourceFilterForResourceAction}}
 
 	recommendationDataSourceFilterForResourceAction = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`cost-management-object-storage-enable-olm-name`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`cost-management-object-storage-enable-olm-name`}},
 	}
 
 	ResourceActionRequiredOnlyResource = ResourceActionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionRepresentation)
 
 	ResourceActionResourceConfig = ResourceActionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Update, resourceActionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Update, resourceActionRepresentation)
 
 	resourceActionSingularDataSourceRepresentation = map[string]interface{}{
-		"resource_action_id": Representation{repType: Required, create: `${data.oci_optimizer_resource_actions.test_resource_actions.resource_action_collection.0.items.0.id}`},
+		"resource_action_id": Representation{RepType: Required, Create: `${data.oci_optimizer_resource_actions.test_resource_actions.resource_action_collection.0.items.0.id}`},
 	}
 
 	resourceActionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Required, create: `true`},
-		"recommendation_id":         Representation{repType: Required, create: `${data.oci_optimizer_recommendations.test_recommendations.recommendation_collection.0.items.0.id}`},
-		"name":                      Representation{repType: Optional, create: `name`},
-		"resource_type":             Representation{repType: Optional, create: `resourceType`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
-		"status":                    Representation{repType: Optional, create: `PENDING`, update: `DISMISSED`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Required, Create: `true`},
+		"recommendation_id":         Representation{RepType: Required, Create: `${data.oci_optimizer_recommendations.test_recommendations.recommendation_collection.0.items.0.id}`},
+		"name":                      Representation{RepType: Optional, Create: `name`},
+		"resource_type":             Representation{RepType: Optional, Create: `resourceType`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
+		"status":                    Representation{RepType: Optional, Create: `PENDING`, Update: `DISMISSED`},
 		"filter":                    RepresentationGroup{Required, resourceActionDataSourceFilterRepresentation}}
 
 	resourceActionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `status`},
-		"values": Representation{repType: Required, create: []string{`PENDING`, `DISMISSED`, `POSTPONED`}},
+		"name":   Representation{RepType: Required, Create: `status`},
+		"values": Representation{RepType: Required, Create: []string{`PENDING`, `DISMISSED`, `POSTPONED`}},
 	}
 
 	resourceActionRepresentation = map[string]interface{}{
-		"resource_action_id": Representation{repType: Required, create: `${data.oci_optimizer_resource_actions.test_resource_actions.resource_action_collection.0.items.0.id}`},
-		"status":             Representation{repType: Required, create: `PENDING`, update: `DISMISSED`},
+		"resource_action_id": Representation{RepType: Required, Create: `${data.oci_optimizer_resource_actions.test_resource_actions.resource_action_collection.0.items.0.id}`},
+		"status":             Representation{RepType: Required, Create: `PENDING`, Update: `DISMISSED`},
 	}
 
-	ResourceActionResourceDependencies = generateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", Required, Create, recommendationDataSourceRepresentationForResourceAction) +
-		generateDataSourceFromRepresentationMap("oci_optimizer_resource_actions", "test_resource_actions", Required, Create, resourceActionDataSourceRepresentation)
+	ResourceActionResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_optimizer_categories", "test_categories", Required, Create, optimizerCategoryDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendations", "test_recommendations", Required, Create, recommendationDataSourceRepresentationForResourceAction) +
+		GenerateDataSourceFromRepresentationMap("oci_optimizer_resource_actions", "test_resource_actions", Required, Create, resourceActionDataSourceRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -79,34 +79,34 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_optimizer_resource_action.test_resource_action"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ResourceActionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Create, resourceActionRepresentation), "optimizer", "resourceAction", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ResourceActionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Create, resourceActionRepresentation), "optimizer", "resourceAction", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "resource_action_id"),
 				resource.TestCheckResourceAttr(resourceName, "status", "PENDING"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Create, resourceActionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Create, resourceActionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "action.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
@@ -124,9 +124,9 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_status_begin"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -138,7 +138,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ResourceActionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Update, resourceActionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Optional, Update, resourceActionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "action.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "category_id"),
@@ -156,7 +156,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_status_begin"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -183,7 +183,7 @@ func TestOptimizerResourceActionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + ResourceActionResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_resource_action", "test_resource_action", Required, Create, resourceActionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_action_id"),

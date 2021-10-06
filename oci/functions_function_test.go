@@ -13,55 +13,55 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v49/functions"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	FunctionRequiredOnlyResource = FunctionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation)
 
 	FunctionResourceConfig = FunctionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation)
 
 	functionSingularDataSourceRepresentation = map[string]interface{}{
-		"function_id": Representation{repType: Required, create: `${oci_functions_function.test_function.id}`},
+		"function_id": Representation{RepType: Required, Create: `${oci_functions_function.test_function.id}`},
 	}
 
 	functionDataSourceRepresentation = map[string]interface{}{
-		"application_id": Representation{repType: Required, create: `${oci_functions_application.test_application.id}`},
-		"display_name":   Representation{repType: Optional, create: `ExampleFunction`},
-		"id":             Representation{repType: Optional, create: `${oci_functions_function.test_function.id}`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"application_id": Representation{RepType: Required, Create: `${oci_functions_application.test_application.id}`},
+		"display_name":   Representation{RepType: Optional, Create: `ExampleFunction`},
+		"id":             Representation{RepType: Optional, Create: `${oci_functions_function.test_function.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, functionDataSourceFilterRepresentation}}
 	functionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_functions_function.test_function.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_functions_function.test_function.id}`}},
 	}
 
 	functionRepresentation = map[string]interface{}{
-		"application_id":     Representation{repType: Required, create: `${oci_functions_application.test_application.id}`},
-		"display_name":       Representation{repType: Required, create: `ExampleFunction`},
-		"image":              Representation{repType: Required, create: `${var.image}`, update: `${var.image_for_update}`},
-		"memory_in_mbs":      Representation{repType: Required, create: `128`, update: `256`},
-		"config":             Representation{repType: Optional, create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"image_digest":       Representation{repType: Optional, create: `${var.image_digest}`, update: `${var.image_digest_for_update}`},
-		"timeout_in_seconds": Representation{repType: Optional, create: `30`, update: `31`},
+		"application_id":     Representation{RepType: Required, Create: `${oci_functions_application.test_application.id}`},
+		"display_name":       Representation{RepType: Required, Create: `ExampleFunction`},
+		"image":              Representation{RepType: Required, Create: `${var.image}`, Update: `${var.image_for_update}`},
+		"memory_in_mbs":      Representation{RepType: Required, Create: `128`, Update: `256`},
+		"config":             Representation{RepType: Optional, Create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"image_digest":       Representation{RepType: Optional, Create: `${var.image_digest}`, Update: `${var.image_digest_for_update}`},
+		"timeout_in_seconds": Representation{RepType: Optional, Create: `30`, Update: `31`},
 		"trace_config":       RepresentationGroup{Optional, functionTraceConfigRepresentation},
 	}
 	functionTraceConfigRepresentation = map[string]interface{}{
-		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"is_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
-	functionApplicationDisplayName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	functionApplicationDisplayName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
 
-	FunctionResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+	FunctionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
 )
@@ -93,15 +93,15 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_functions_function.test_function"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+FunctionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionRepresentation), "functions", "function", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+FunctionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionRepresentation), "functions", "function", t)
 
 	ResourceTest(t, testAccCheckFunctionsFunctionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
@@ -109,20 +109,20 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + FunctionResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
@@ -138,9 +138,9 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -152,7 +152,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
@@ -168,7 +168,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -179,14 +179,14 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_functions_functions", "test_functions", Optional, Update, functionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_functions_functions", "test_functions", Optional, Update, functionDataSourceRepresentation) +
 				compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "ExampleFunction"),
 				//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "functions.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.application_id"),
@@ -210,7 +210,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "function_id"),
@@ -259,7 +259,7 @@ func testAccCheckFunctionsFunctionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.FunctionId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "functions")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "functions")
 
 			response, err := client.GetFunction(context.Background(), request)
 
@@ -292,7 +292,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("FunctionsFunction") {
+	if !InSweeperExcludeList("FunctionsFunction") {
 		resource.AddTestSweepers("FunctionsFunction", &resource.Sweeper{
 			Name:         "FunctionsFunction",
 			Dependencies: DependencyGraph["function"],
@@ -313,13 +313,13 @@ func sweepFunctionsFunctionResource(compartment string) error {
 
 			deleteFunctionRequest.FunctionId = &functionId
 
-			deleteFunctionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "functions")
+			deleteFunctionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "functions")
 			_, error := functionsManagementClient.DeleteFunction(context.Background(), deleteFunctionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Function %s %s, It is possible that the resource is already deleted. Please verify manually \n", functionId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &functionId, functionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &functionId, functionSweepWaitCondition, time.Duration(3*time.Minute),
 				functionSweepResponseFetchOperation, "functions", true)
 		}
 	}
@@ -327,7 +327,7 @@ func sweepFunctionsFunctionResource(compartment string) error {
 }
 
 func getFunctionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "FunctionId")
+	ids := GetResourceIdsToSweep(compartment, "FunctionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -353,7 +353,7 @@ func getFunctionIds(compartment string) ([]string, error) {
 		for _, function := range listFunctionsResponse.Items {
 			id := *function.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "FunctionId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "FunctionId", id)
 		}
 
 	}

@@ -14,14 +14,14 @@ import (
 
 var (
 	pluggableDatabasesRemoteCloneRepresentation = map[string]interface{}{
-		"cloned_pdb_name":                    Representation{repType: Required, create: `NewSalesPdb`},
-		"pdb_admin_password":                 Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"pluggable_database_id":              Representation{repType: Required, create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
-		"source_container_db_admin_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"target_container_database_id":       Representation{repType: Required, create: `${data.oci_database_database.tClone.id}`},
-		"target_tde_wallet_password":         Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"cloned_pdb_name":                    Representation{RepType: Required, Create: `NewSalesPdb`},
+		"pdb_admin_password":                 Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"pluggable_database_id":              Representation{RepType: Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
+		"source_container_db_admin_password": Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"target_container_database_id":       Representation{RepType: Required, Create: `${data.oci_database_database.tClone.id}`},
+		"target_tde_wallet_password":         Representation{RepType: Required, Create: `BEstrO0ng_#11`},
 	}
-	AvailabilityDomainConfigClone = generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains_clone", Required, Create, availabilityDomainDataSourceRepresentation)
+	AvailabilityDomainConfigClone = GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains_clone", Required, Create, availabilityDomainDataSourceRepresentation)
 
 	ResourcePluggableDatabaseBaseCloneConfig = `
 
@@ -172,17 +172,17 @@ func TestDatabasePluggableDatabasesRemoteCloneResource_basic(t *testing.T) {
 
 	resourceName := "oci_database_pluggable_databases_remote_clone.test_pluggable_databases_remote_clone"
 
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+PluggableDatabaseResourceCloneDependencies+
-		generateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", Required, Create, pluggableDatabasesRemoteCloneRepresentation), "database", "pluggableDatabasesRemoteClone", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+PluggableDatabaseResourceCloneDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", Required, Create, pluggableDatabasesRemoteCloneRepresentation), "database", "pluggableDatabasesRemoteClone", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 
 		//Remote Clone
 		{
 			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies + AvailabilityDomainConfigClone + PluggableDatabaseResourceCloneDependencies +
-				generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseRepresentation) +
-				generateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", Required, Create, pluggableDatabasesRemoteCloneRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_database_pluggable_databases_remote_clone", "test_pluggable_databases_remote_clone", Required, Create, pluggableDatabasesRemoteCloneRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloned_pdb_name", "NewSalesPdb"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),

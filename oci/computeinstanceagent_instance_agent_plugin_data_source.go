@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v48/computeinstanceagent"
+	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v49/computeinstanceagent"
 )
 
 func init() {
@@ -87,7 +87,7 @@ func (s *ComputeinstanceagentInstanceAgentPluginDataSourceCrud) Get() error {
 		request.PluginName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "computeinstanceagent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "computeinstanceagent")
 
 	response, err := s.Client.GetInstanceAgentPlugin(context.Background(), request)
 	if err != nil {

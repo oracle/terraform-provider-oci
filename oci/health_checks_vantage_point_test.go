@@ -14,8 +14,8 @@ import (
 
 var (
 	vantagePointDataSourceRepresentation = map[string]interface{}{
-		"display_name": Representation{repType: Optional, create: `AWS Asia Pacific South 1`},
-		"name":         Representation{repType: Optional, create: `aws-bom`},
+		"display_name": Representation{RepType: Optional, Create: `AWS Asia Pacific South 1`},
+		"name":         Representation{RepType: Optional, Create: `aws-bom`},
 	}
 
 	VantagePointResourceConfig = ""
@@ -33,13 +33,13 @@ func TestHealthChecksVantagePointResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_health_checks_vantage_points.test_vantage_points"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_health_checks_vantage_points", "test_vantage_points", Optional, Create, vantagePointDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_health_checks_vantage_points", "test_vantage_points", Optional, Create, vantagePointDataSourceRepresentation) +
 				compartmentIdVariableStr + VantagePointResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "AWS Asia Pacific South 1"),

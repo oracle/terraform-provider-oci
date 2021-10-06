@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v48/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v49/objectstorage"
 )
 
 func init() {
@@ -65,7 +65,7 @@ func (s *ObjectStorageBucketDataSourceCrud) Get() error {
 	}
 
 	request.Fields = oci_object_storage.GetGetBucketFieldsEnumValues()
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "object_storage")
 
 	response, err := s.Client.GetBucket(context.Background(), request)
 	if err != nil {
@@ -75,7 +75,7 @@ func (s *ObjectStorageBucketDataSourceCrud) Get() error {
 	s.Res = &response
 
 	// using list call as summary and get response is same for a retention rule
-	listRetentionRulesRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	listRetentionRulesRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 	listRetentionRulesResponse, e := s.Client.ListRetentionRules(context.Background(), listRetentionRulesRequest)
 	if e != nil {
 		return e

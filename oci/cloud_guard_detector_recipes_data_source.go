@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func CloudGuardDetectorRecipesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCloudGuardDetectorRecipes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -110,7 +110,7 @@ func (s *CloudGuardDetectorRecipesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_cloud_guard.ListDetectorRecipesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "cloud_guard")
 
 	response, err := s.Client.ListDetectorRecipes(context.Background(), request)
 	if err != nil {

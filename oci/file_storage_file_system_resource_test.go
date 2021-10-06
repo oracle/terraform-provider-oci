@@ -16,50 +16,50 @@ import (
 
 var (
 	fileSystemDataSourceRepresentationKMSKey = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
-		"id":                  Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"state":               Representation{repType: Optional, create: `ACTIVE`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Optional, Create: `media-files-1`, Update: `displayName2`},
+		"id":                  Representation{RepType: Optional, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"state":               Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":              RepresentationGroup{Required, fileSystemDataSourceFilterRepresentationKMSKey}}
 	fileSystemDataSourceFilterRepresentationKMSKey = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_file_storage_file_system.test_file_system.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_file_storage_file_system.test_file_system.id}`}},
 	}
 	fileSystemRepresentationKMSKey = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
-		"display_name":        Representation{repType: Optional, create: `media-files-1`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}},
-		"kms_key_id":          Representation{repType: Optional, create: `${var.kms_key_id_for_create}`, update: ``},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"display_name":        Representation{RepType: Optional, Create: `media-files-1`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}},
+		"kms_key_id":          Representation{RepType: Optional, Create: `${var.kms_key_id_for_create}`, Update: ``},
 	}
 	snapshotRepresentationNoTags = map[string]interface{}{
-		"file_system_id": Representation{repType: Required, create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"name":           Representation{repType: Required, create: `snapshot-1`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"file_system_id": Representation{RepType: Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"name":           Representation{RepType: Required, Create: `snapshot-1`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	fileSystemRepresentationNoTags = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"source_snapshot_id":  Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Optional, Create: `media-files-1`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"source_snapshot_id":  Representation{RepType: Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
 	}
 
-	SnapshotResourceDependenciesNoTags = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentationNoTags) +
+	SnapshotResourceDependenciesNoTags = GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentationNoTags) +
 		AvailabilityDomainConfig
 
 	fileSystemRepresentationClone = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"source_snapshot_id":  Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Optional, Create: `media-files-1`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"source_snapshot_id":  Representation{RepType: Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
 	}
 
-	FileSystemResourceDependenciesNoTags = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentationNoTags) +
-		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentationNoTags) +
+	FileSystemResourceDependenciesNoTags = GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentationNoTags) +
+		GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentationNoTags) +
 		AvailabilityDomainConfig
 )
 
@@ -80,11 +80,11 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckFileStorageFileSystemDestroy, []resource.TestStep{
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AvailabilityDomainConfig + DefinedTagsDependencies +
 				KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
-				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentationKMSKey),
+				GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentationKMSKey),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -98,7 +98,7 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -107,7 +107,7 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AvailabilityDomainConfig + DefinedTagsDependencies +
 				KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
-				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentationKMSKey),
+				GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentationKMSKey),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -121,7 +121,7 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -132,10 +132,10 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentationKMSKey) +
+				GenerateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentationKMSKey) +
 				compartmentIdVariableStr + AvailabilityDomainConfig + DefinedTagsDependencies +
 				KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
-				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentationKMSKey),
+				GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Update, fileSystemRepresentationKMSKey),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -175,10 +175,10 @@ func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
 	var resId string
 
 	ResourceTest(t, testAccCheckFileStorageFileSystemDestroy, []resource.TestStep{
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SnapshotResourceDependenciesNoTags +
-				generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentationNoTags),
+				GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentationNoTags),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -187,9 +187,9 @@ func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -197,10 +197,10 @@ func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
 				},
 			),
 		},
-		// verify create FileSystem via cloning Snapshot
+		// verify Create FileSystem via cloning Snapshot
 		{
 			Config: config + compartmentIdVariableStr + FileSystemResourceDependenciesNoTags +
-				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system_clone", Optional, Create, fileSystemRepresentationClone),
+				GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system_clone", Optional, Create, fileSystemRepresentationClone),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName2, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName2, "compartment_id", compartmentId),
@@ -213,7 +213,7 @@ func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName2, "time_created"),
 				//verify ids match
 				func(s *terraform.State) (err error) {
-					snapshotId, err := fromInstanceState(s, resourceName2, "source_snapshot_id")
+					snapshotId, err := FromInstanceState(s, resourceName2, "source_snapshot_id")
 					if resId != snapshotId {
 						return fmt.Errorf("Resource source snapshot id [%v] was different from expected [%v].", snapshotId, resId)
 					}

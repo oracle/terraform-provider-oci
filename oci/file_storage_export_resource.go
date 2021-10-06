@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_file_storage "github.com/oracle/oci-go-sdk/v48/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v49/filestorage"
 )
 
 func init() {
@@ -68,15 +68,15 @@ func FileStorageExportResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 						"anonymous_uid": {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 						"identity_squash": {
 							Type:     schema.TypeString,
@@ -210,7 +210,7 @@ func (s *FileStorageExportResourceCrud) Create() error {
 		request.Path = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.CreateExport(context.Background(), request)
 	if err != nil {
@@ -227,7 +227,7 @@ func (s *FileStorageExportResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ExportId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.GetExport(context.Background(), request)
 	if err != nil {
@@ -261,7 +261,7 @@ func (s *FileStorageExportResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.UpdateExport(context.Background(), request)
 	if err != nil {
@@ -278,7 +278,7 @@ func (s *FileStorageExportResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ExportId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	_, err := s.Client.DeleteExport(context.Background(), request)
 	return err

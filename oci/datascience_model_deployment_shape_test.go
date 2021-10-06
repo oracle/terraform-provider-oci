@@ -14,7 +14,7 @@ import (
 
 var (
 	modelDeploymentShapeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	ModelDeploymentShapeResourceConfig = ""
@@ -36,7 +36,7 @@ func TestDatascienceModelDeploymentShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_model_deployment_shapes", "test_model_deployment_shapes", Required, Create, modelDeploymentShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployment_shapes", "test_model_deployment_shapes", Required, Create, modelDeploymentShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + ModelDeploymentShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

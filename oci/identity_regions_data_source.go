@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func IdentityRegionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityRegions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"regions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -65,7 +65,7 @@ func (s *IdentityRegionsDataSourceCrud) VoidState() {
 func (s *IdentityRegionsDataSourceCrud) Get() error {
 	request := oci_identity.ListRegionsRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListRegions(context.Background())
 	if err != nil {

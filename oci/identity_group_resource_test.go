@@ -16,7 +16,7 @@ import (
 
 	"fmt"
 
-	"github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -36,16 +36,16 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 
 func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 	var resId, resId2 string
-	token, tokenFn := tokenizeWithHttpReplay("identity_group_resource")
+	token, tokenFn := TokenizeWithHttpReplay("identity_group_resource")
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create w/ compartment
+			// verify Create w/ compartment
 			{
 				Config: s.Config + tokenFn(`
 				resource "oci_identity_group" "t0" {
 					name = "{{.token}}"
-					description = "tf test group"
+					description = "tf test Group"
 					compartment_id = "${var.compartment_id}"
 				}`, nil),
 				ExpectError: regexp.MustCompile("Tenant id is not equal to compartment id"),
@@ -54,46 +54,46 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 				Config: s.Config + tokenFn(`
 				resource "oci_identity_group" "t0" {
 					name = "{{.token}}"
-					description = "tf test group"
+					description = "tf test Group"
 					compartment_id = "${var.tenancy_ocid}"
 				}`, nil),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "compartment_id", getEnvSettingWithBlankDefault("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "name", token),
-					resource.TestCheckResourceAttr(s.ResourceName+"0", "description", "tf test group"),
+					resource.TestCheckResourceAttr(s.ResourceName+"0", "description", "tf test Group"),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "state", string(identity.GroupLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName+"0", "time_created"),
 					resource.TestCheckNoResourceAttr(s.ResourceName+"0", "inactive_state"),
 				),
 			},
-			// verify create w/o compartment, verify that it defaults to tenancy
+			// verify Create w/o compartment, verify that it defaults to tenancy
 			{
-				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test group"), nil),
+				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test Group"), nil),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getEnvSettingWithBlankDefault("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test Group"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.GroupLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_identity_group.t", "id")
+						resId, err = FromInstanceState(s, "oci_identity_group.t", "id")
 						return err
 					},
 				),
 			},
-			// verify update
+			// verify Update
 			{
-				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test group (updated)"), nil),
+				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test Group (updated)"), nil),
 				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group (updated)"),
+					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test Group (updated)"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.GroupLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_identity_group.t", "id")
+						resId2, err = FromInstanceState(s, "oci_identity_group.t", "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource was recreated when it should not have been")
 						}

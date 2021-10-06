@@ -14,11 +14,11 @@ import (
 
 var (
 	autonomousContainerPatchDataSourceRepresentation = map[string]interface{}{
-		"autonomous_container_database_id": Representation{repType: Required, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
-		"compartment_id":                   Representation{repType: Required, create: `${var.compartment_id}`},
+		"autonomous_container_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+		"compartment_id":                   Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
-	AutonomousContainerPatchResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseRepresentation) +
+	AutonomousContainerPatchResourceConfig = GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseRepresentation) +
 		AutonomousExadataInfrastructureResourceConfig
 )
 
@@ -34,13 +34,13 @@ func TestDatabaseAutonomousContainerPatchResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_autonomous_container_patches.test_autonomous_container_patches"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_container_patches", "test_autonomous_container_patches", Required, Create, autonomousContainerPatchDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_patches", "test_autonomous_container_patches", Required, Create, autonomousContainerPatchDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousContainerPatchResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),

@@ -24,7 +24,7 @@ type DatasourceObjectstorageBucketSummaryTestSuite struct {
 }
 
 func (s *DatasourceObjectstorageBucketSummaryTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenizeWithHttpReplay("objectstorage")
+	s.Token, s.TokenFn = TokenizeWithHttpReplay("objectstorage")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`

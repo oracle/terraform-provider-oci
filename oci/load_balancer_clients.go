@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v48/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v49/loadbalancer"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_load_balancer.LoadBalancerClient", &OracleClient{initClientFn: initLoadbalancerLoadBalancerClient})
+	RegisterOracleClient("oci_load_balancer.LoadBalancerClient", &OracleClient{InitClientFn: initLoadbalancerLoadBalancerClient})
 }
 
 func initLoadbalancerLoadBalancerClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

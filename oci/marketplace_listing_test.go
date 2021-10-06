@@ -14,21 +14,21 @@ import (
 
 var (
 	listingSingularDataSourceRepresentation = map[string]interface{}{
-		"listing_id":     Representation{repType: Required, create: `${data.oci_marketplace_listings.test_listings.listings.0.id}`},
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"listing_id":     Representation{RepType: Required, Create: `${data.oci_marketplace_listings.test_listings.listings.0.id}`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
 	listingDataSourceRepresentation = map[string]interface{}{
-		"category":          Representation{repType: Optional, create: []string{`category`}},
-		"compartment_id":    Representation{repType: Optional, create: `${var.compartment_id}`},
-		"is_featured":       Representation{repType: Optional, create: `false`},
-		"listing_id":        Representation{repType: Optional, create: `${oci_marketplace_listing.test_listing.id}`},
-		"listing_types":     Representation{repType: Optional, create: []string{`listingTypes`}},
-		"name":              Representation{repType: Optional, create: []string{`name`}},
-		"operating_systems": Representation{repType: Optional, create: []string{`operatingSystems`}},
-		"package_type":      Representation{repType: Optional, create: `packageType`},
-		"pricing":           Representation{repType: Optional, create: []string{`pricing`}},
-		"publisher_id":      Representation{repType: Optional, create: `${oci_marketplace_publisher.test_publisher.id}`},
+		"category":          Representation{RepType: Optional, Create: []string{`category`}},
+		"compartment_id":    Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"is_featured":       Representation{RepType: Optional, Create: `false`},
+		"listing_id":        Representation{RepType: Optional, Create: `${oci_marketplace_listing.test_listing.id}`},
+		"listing_types":     Representation{RepType: Optional, Create: []string{`listingTypes`}},
+		"name":              Representation{RepType: Optional, Create: []string{`name`}},
+		"operating_systems": Representation{RepType: Optional, Create: []string{`operatingSystems`}},
+		"package_type":      Representation{RepType: Optional, Create: `packageType`},
+		"pricing":           Representation{RepType: Optional, Create: []string{`pricing`}},
+		"publisher_id":      Representation{RepType: Optional, Create: `${oci_marketplace_publisher.test_publisher.id}`},
 	}
 
 	ListingResourceConfig = ``
@@ -47,15 +47,15 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 	datasourceName := "data.oci_marketplace_listings.test_listings"
 	singularDatasourceName := "data.oci_marketplace_listing.test_listing"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create,
-					representationCopyWithNewProperties(listingDataSourceRepresentation, map[string]interface{}{
-						"name": Representation{repType: Required, create: []string{`FortiGate Next-Gen Firewall (2 cores)`}},
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create,
+					RepresentationCopyWithNewProperties(listingDataSourceRepresentation, map[string]interface{}{
+						"name": Representation{RepType: Required, Create: []string{`FortiGate Next-Gen Firewall (2 cores)`}},
 					})) +
 				compartmentIdVariableStr + ListingResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -76,8 +76,8 @@ func TestMarketplaceListingResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ListingResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),

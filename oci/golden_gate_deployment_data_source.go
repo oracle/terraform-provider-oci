@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v48/goldengate"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v49/goldengate"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *GoldenGateDeploymentDataSourceCrud) Get() error {
 		request.DeploymentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "golden_gate")
 
 	response, err := s.Client.GetDeployment(context.Background(), request)
 	if err != nil {
@@ -125,6 +125,8 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 
 	if s.Res.OggData != nil {
@@ -157,6 +159,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.TimeUpgradeRequired != nil {
+		s.D.Set("time_upgrade_required", s.Res.TimeUpgradeRequired.String())
 	}
 
 	return nil

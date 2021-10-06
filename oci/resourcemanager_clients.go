@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v48/resourcemanager"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v49/resourcemanager"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_resourcemanager.ResourceManagerClient", &OracleClient{initClientFn: initResourcemanagerResourceManagerClient})
+	RegisterOracleClient("oci_resourcemanager.ResourceManagerClient", &OracleClient{InitClientFn: initResourcemanagerResourceManagerClient})
 }
 
 func initResourcemanagerResourceManagerClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

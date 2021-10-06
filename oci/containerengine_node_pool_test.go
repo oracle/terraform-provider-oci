@@ -12,61 +12,61 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v48/containerengine"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v49/containerengine"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	NodePoolRequiredOnlyResource = NodePoolResourceDependencies +
-		generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation)
+		GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation)
 
 	NodePoolResourceConfig = NodePoolResourceDependencies +
-		generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation)
+		GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation)
 
 	nodePoolSingularDataSourceRepresentation = map[string]interface{}{
-		"node_pool_id": Representation{repType: Required, create: `${oci_containerengine_node_pool.test_node_pool.id}`},
+		"node_pool_id": Representation{RepType: Required, Create: `${oci_containerengine_node_pool.test_node_pool.id}`},
 	}
 
 	nodePoolDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"cluster_id":     Representation{repType: Optional, create: `${oci_containerengine_cluster.test_cluster.id}`},
-		"name":           Representation{repType: Optional, create: `name`, update: `name2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"cluster_id":     Representation{RepType: Optional, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"name":           Representation{RepType: Optional, Create: `name`, Update: `name2`},
 		"filter":         RepresentationGroup{Required, nodePoolDataSourceFilterRepresentation}}
 	nodePoolDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_containerengine_node_pool.test_node_pool.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_containerengine_node_pool.test_node_pool.id}`}},
 	}
 
 	nodePoolRepresentation = map[string]interface{}{
-		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version":  Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
-		"name":                Representation{repType: Required, create: `name`, update: `name2`},
-		"node_image_name":     Representation{repType: Required, create: `Oracle-Linux-7.6`},
-		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`, update: `VM.Standard2.2`},
-		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
+		"cluster_id":          Representation{RepType: Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"kubernetes_version":  Representation{RepType: Required, Create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
+		"name":                Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"node_image_name":     Representation{RepType: Required, Create: `Oracle-Linux-7.6`},
+		"node_shape":          Representation{RepType: Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
+		"subnet_ids":          Representation{RepType: Required, Create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
 		"initial_node_labels": RepresentationGroup{Optional, nodePoolInitialNodeLabelsRepresentation},
-		"node_metadata":       Representation{repType: Optional, create: map[string]string{"nodeMetadata": "nodeMetadata"}, update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
-		"quantity_per_subnet": Representation{repType: Optional, create: `1`, update: `2`},
-		"ssh_public_key":      Representation{repType: Optional, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}}
+		"node_metadata":       Representation{RepType: Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
+		"quantity_per_subnet": Representation{RepType: Optional, Create: `1`, Update: `2`},
+		"ssh_public_key":      Representation{RepType: Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}}
 	nodePoolInitialNodeLabelsRepresentation = map[string]interface{}{
-		"key":   Representation{repType: Optional, create: `key`, update: `key2`},
-		"value": Representation{repType: Optional, create: `value`, update: `value2`},
+		"key":   Representation{RepType: Optional, Create: `key`, Update: `key2`},
+		"value": Representation{RepType: Optional, Create: `value`, Update: `value2`},
 	}
 
-	NodePoolResourceDependencies = generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.22.0/24`}, "dns_label": Representation{repType: Required, create: `nodepool1`}})) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.23.0/24`}, "dns_label": Representation{repType: Required, create: `nodepool2`}})) +
-		generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.20.0/24`}, "dns_label": Representation{repType: Required, create: `cluster1`}})) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.21.0/24`}, "dns_label": Representation{repType: Required, create: `cluster2`}})) +
+	NodePoolResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{RepType: Required, Create: `10.0.22.0/24`}, "dns_label": Representation{RepType: Required, Create: `nodepool1`}})) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{RepType: Required, Create: `10.0.23.0/24`}, "dns_label": Representation{RepType: Required, Create: `nodepool2`}})) +
+		GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{RepType: Required, Create: `10.0.20.0/24`}, "dns_label": Representation{RepType: Required, Create: `cluster1`}})) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{RepType: Required, Create: `10.0.21.0/24`}, "dns_label": Representation{RepType: Required, Create: `cluster2`}})) +
 		AvailabilityDomainConfig +
-		generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		}))
 )
 
@@ -85,14 +85,14 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_containerengine_node_pool.test_node_pool"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+NodePoolResourceDependencies+nodePoolResourceConfigForVMStandard+
-		generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation), "containerengine", "nodePool", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+NodePoolResourceDependencies+nodePoolResourceConfigForVMStandard+
+		GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation), "containerengine", "nodePool", t)
 
 	ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation),
+			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Required, Create, nodePoolRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -102,20 +102,20 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
-				generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation),
+				GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Create, nodePoolRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -132,9 +132,9 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -145,7 +145,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, getUpdatedRepresentationCopy("node_metadata", Representation{repType: Optional, update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolRepresentation)),
+			Config: config + compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard + GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, GetUpdatedRepresentationCopy("node_metadata", Representation{RepType: Optional, Update: map[string]string{"nodeMetadata": "nodeMetadata"}}, nodePoolRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -163,7 +163,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -174,9 +174,9 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", Optional, Update, nodePoolDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pools", "test_node_pools", Optional, Update, nodePoolDataSourceRepresentation) +
 				compartmentIdVariableStr + NodePoolResourceDependencies + nodePoolResourceConfigForVMStandard +
-				generateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation),
+				GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", Optional, Update, nodePoolRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -202,7 +202,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool",
+				GenerateDataSourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool",
 					Required, Create,
 					nodePoolSingularDataSourceRepresentation) + nodePoolResourceConfigForVMStandard + compartmentIdVariableStr + NodePoolResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -252,7 +252,7 @@ func testAccCheckContainerengineNodePoolDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.NodePoolId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "containerengine")
 
 			_, err := client.GetNodePool(context.Background(), request)
 
@@ -277,7 +277,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ContainerengineNodePool") {
+	if !InSweeperExcludeList("ContainerengineNodePool") {
 		resource.AddTestSweepers("ContainerengineNodePool", &resource.Sweeper{
 			Name:         "ContainerengineNodePool",
 			Dependencies: DependencyGraph["nodePool"],
@@ -298,7 +298,7 @@ func sweepContainerengineNodePoolResource(compartment string) error {
 
 			deleteNodePoolRequest.NodePoolId = &nodePoolId
 
-			deleteNodePoolRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+			deleteNodePoolRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "containerengine")
 			_, error := containerEngineClient.DeleteNodePool(context.Background(), deleteNodePoolRequest)
 			if error != nil {
 				fmt.Printf("Error deleting NodePool %s %s, It is possible that the resource is already deleted. Please verify manually \n", nodePoolId, error)
@@ -310,7 +310,7 @@ func sweepContainerengineNodePoolResource(compartment string) error {
 }
 
 func getNodePoolIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "NodePoolId")
+	ids := GetResourceIdsToSweep(compartment, "NodePoolId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -328,7 +328,7 @@ func getNodePoolIds(compartment string) ([]string, error) {
 	for _, nodePool := range listNodePoolsResponse.Items {
 		id := *nodePool.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "NodePoolId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "NodePoolId", id)
 	}
 	return resourceIds, nil
 }

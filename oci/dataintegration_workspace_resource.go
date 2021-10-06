@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v48/dataintegration"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v49/dataintegration"
 )
 
 func init() {
@@ -28,9 +28,9 @@ func DataintegrationWorkspaceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createDataintegrationWorkspace,
 		Read:   readDataintegrationWorkspace,
@@ -232,7 +232,7 @@ func (s *DataintegrationWorkspaceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isPrivateNetworkEnabled, ok := s.D.GetOkExists("is_private_network_enabled"); ok {
@@ -250,7 +250,7 @@ func (s *DataintegrationWorkspaceResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
 	response, err := s.Client.CreateWorkspace(context.Background(), request)
 	if err != nil {
@@ -258,7 +258,7 @@ func (s *DataintegrationWorkspaceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWorkspaceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getWorkspaceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataintegrationWorkspaceResourceCrud) getWorkspaceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -303,7 +303,7 @@ func workspaceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 
 func workspaceWaitForWorkRequest(wId *string, entityType string, action oci_dataintegration.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dataintegration.DataIntegrationClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "dataintegration")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "dataintegration")
 	retryPolicy.ShouldRetryOperation = workspaceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_dataintegration.GetWorkRequestResponse{}
@@ -384,7 +384,7 @@ func (s *DataintegrationWorkspaceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.WorkspaceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
 	response, err := s.Client.GetWorkspace(context.Background(), request)
 	if err != nil {
@@ -426,13 +426,13 @@ func (s *DataintegrationWorkspaceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.WorkspaceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
 	response, err := s.Client.UpdateWorkspace(context.Background(), request)
 	if err != nil {
@@ -440,7 +440,7 @@ func (s *DataintegrationWorkspaceResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWorkspaceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWorkspaceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataintegrationWorkspaceResourceCrud) Delete() error {
@@ -463,7 +463,7 @@ func (s *DataintegrationWorkspaceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.WorkspaceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
 	response, err := s.Client.DeleteWorkspace(context.Background(), request)
 	if err != nil {
@@ -542,7 +542,7 @@ func (s *DataintegrationWorkspaceResourceCrud) updateCompartment(compartment int
 	idTmp := s.D.Id()
 	changeCompartmentRequest.WorkspaceId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration")
 
 	response, err := s.Client.ChangeCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -550,5 +550,5 @@ func (s *DataintegrationWorkspaceResourceCrud) updateCompartment(compartment int
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWorkspaceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWorkspaceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "dataintegration"), oci_dataintegration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

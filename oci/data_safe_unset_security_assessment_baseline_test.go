@@ -15,11 +15,11 @@ import (
 
 var (
 	UnsetSecurityAssessmentBaselineRepresentation = map[string]interface{}{
-		"security_assessment_id": Representation{repType: Required, create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
+		"security_assessment_id": Representation{RepType: Required, Create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
 	}
 
 	UnsetSecurityAssessmentBaselineResourceDependencies = SetSecurityAssessmentBaselineResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", Required, Create, setSecurityAssessmentBaselineRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", Required, Create, setSecurityAssessmentBaselineRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -32,15 +32,15 @@ func TestDataSafeUnsetSecurityAssessmentBaselineResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+UnsetSecurityAssessmentBaselineResourceDependencies+
-		generateResourceFromRepresentationMap("oci_data_safe_unset_security_assessment_baseline", "test_unset_security_assessment_baseline", Required, Create, UnsetSecurityAssessmentBaselineRepresentation), "datasafe", "unsetSecurityAssessmentBaseline", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+UnsetSecurityAssessmentBaselineResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_data_safe_unset_security_assessment_baseline", "test_unset_security_assessment_baseline", Required, Create, UnsetSecurityAssessmentBaselineRepresentation), "datasafe", "unsetSecurityAssessmentBaseline", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + UnsetSecurityAssessmentBaselineResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_unset_security_assessment_baseline", "test_unset_security_assessment_baseline", Required, Create, UnsetSecurityAssessmentBaselineRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_unset_security_assessment_baseline", "test_unset_security_assessment_baseline", Required, Create, UnsetSecurityAssessmentBaselineRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					return nil

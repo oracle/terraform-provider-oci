@@ -17,63 +17,63 @@ import (
 
 var (
 	ResolverRequiredOnlyResource = ResolverResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation)
 
 	ResolverResourceConfig = ResolverResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Update, resolverRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Update, resolverRepresentation)
 
 	resolverSingularDataSourceRepresentation = map[string]interface{}{
-		"resolver_id": Representation{repType: Required, create: `${oci_dns_resolver.test_resolver.id}`},
-		"scope":       Representation{repType: Required, create: `PRIVATE`},
+		"resolver_id": Representation{RepType: Required, Create: `${oci_dns_resolver.test_resolver.id}`},
+		"scope":       Representation{RepType: Required, Create: `PRIVATE`},
 	}
 
 	resolverDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`},
-		"id":             Representation{repType: Optional, create: `${oci_dns_resolver.test_resolver.id}`},
-		"scope":          Representation{repType: Required, create: `PRIVATE`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`},
+		"id":             Representation{RepType: Optional, Create: `${oci_dns_resolver.test_resolver.id}`},
+		"scope":          Representation{RepType: Required, Create: `PRIVATE`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, resolverDataSourceFilterRepresentation}}
 
 	resolverDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dns_resolver.test_resolver.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dns_resolver.test_resolver.id}`}},
 	}
 
 	resolverRepresentation = map[string]interface{}{
-		"resolver_id":    Representation{repType: Required, create: `${data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association.dns_resolver_id}`},
+		"resolver_id":    Representation{RepType: Required, Create: `${data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association.dns_resolver_id}`},
 		"attached_views": RepresentationGroup{Optional, resolverAttachedViewsRepresentation},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"scope":          Representation{repType: Required, create: `PRIVATE`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"scope":          Representation{RepType: Required, Create: `PRIVATE`},
 	}
 	resolverAttachedViewsRepresentation = map[string]interface{}{
-		"view_id": Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
+		"view_id": Representation{RepType: Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 
-	resolverRepresentationRules = representationCopyWithNewProperties(resolverRepresentation, map[string]interface{}{
+	resolverRepresentationRules = RepresentationCopyWithNewProperties(resolverRepresentation, map[string]interface{}{
 		"rules": []RepresentationGroup{{Optional, resolverRulesItemsRepresentationClientAddr}, {Optional, resolverRulesItemsRepresentationQname}},
 	})
 
 	resolverRulesItemsRepresentationClientAddr = map[string]interface{}{
-		"action":                    Representation{repType: Required, create: `FORWARD`},
-		"destination_addresses":     Representation{repType: Required, create: []string{`10.0.0.11`}, update: []string{`10.0.0.12`}},
-		"source_endpoint_name":      Representation{repType: Required, create: `endpointName`},
-		"client_address_conditions": Representation{repType: Optional, create: []string{`192.0.20.0/24`}, update: []string{`192.0.21.0/24`}},
-		"qname_cover_conditions":    Representation{repType: Optional, update: []string{}},
+		"action":                    Representation{RepType: Required, Create: `FORWARD`},
+		"destination_addresses":     Representation{RepType: Required, Create: []string{`10.0.0.11`}, Update: []string{`10.0.0.12`}},
+		"source_endpoint_name":      Representation{RepType: Required, Create: `endpointName`},
+		"client_address_conditions": Representation{RepType: Optional, Create: []string{`192.0.20.0/24`}, Update: []string{`192.0.21.0/24`}},
+		"qname_cover_conditions":    Representation{RepType: Optional, Update: []string{}},
 	}
 	resolverRulesItemsRepresentationQname = map[string]interface{}{
-		"action":                    Representation{repType: Required, create: `FORWARD`},
-		"destination_addresses":     Representation{repType: Required, create: []string{`10.0.0.11`}, update: []string{`10.0.0.12`}},
-		"source_endpoint_name":      Representation{repType: Required, create: `endpointName`},
-		"client_address_conditions": Representation{repType: Optional, create: []string{}},
-		"qname_cover_conditions":    Representation{repType: Optional, create: []string{`internal.example.com`}, update: []string{`internal2.example.com`}},
+		"action":                    Representation{RepType: Required, Create: `FORWARD`},
+		"destination_addresses":     Representation{RepType: Required, Create: []string{`10.0.0.11`}, Update: []string{`10.0.0.12`}},
+		"source_endpoint_name":      Representation{RepType: Required, Create: `endpointName`},
+		"client_address_conditions": Representation{RepType: Optional, Create: []string{}},
+		"qname_cover_conditions":    Representation{RepType: Optional, Create: []string{`internal.example.com`}, Update: []string{`internal2.example.com`}},
 	}
 
 	ResolverResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
 )
 
 // issue-routing-tag: dns/default
@@ -94,13 +94,13 @@ func TestDnsResolverResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_dns_resolver.test_resolver"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ResolverResourceDependencies+
-		generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation)+
-		generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation), "dns", "resolver", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ResolverResourceDependencies+
+		GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation)+
+		GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation), "dns", "resolver", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create dependencies
+		// Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + ResolverResourceDependencies,
 			Check: func(s *terraform.State) (err error) {
@@ -109,46 +109,46 @@ func TestDnsResolverResource_basic(t *testing.T) {
 				return nil
 			},
 		},
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ResolverResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "resolver_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ResolverResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation),
 		},
-		// create resolver with endpoint
+		// Create resolver with endpoint
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ResolverResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-				generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Create,
-					representationCopyWithNewProperties(resolverRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Create,
+					RepresentationCopyWithNewProperties(resolverRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})) +
-				generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentationWithoutNsgId),
+				GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentationWithoutNsgId),
 		},
-		// verify create with optionals and resolver rules
+		// verify Create with optionals and resolver rules
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ResolverResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-				generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Create,
-					representationCopyWithNewProperties(resolverRepresentationRules, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Create,
+					RepresentationCopyWithNewProperties(resolverRepresentationRules, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})) +
-				generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentationWithoutNsgId),
+				GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentationWithoutNsgId),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "attached_views.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "attached_views.0.view_id"),
@@ -184,10 +184,10 @@ func TestDnsResolverResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rules.1.source_endpoint_name", "endpointName"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					// Resource discovery is disabled for Resolver
 					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//	if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 					//		return errExport
 					//	}
 					//}
@@ -198,13 +198,13 @@ func TestDnsResolverResource_basic(t *testing.T) {
 		// verify updates to updatable parameters and add resolver rules
 		{
 			Config: config + compartmentIdVariableStr + ResolverResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-				generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Update,
-					representationCopyWithNewProperties(resolverRepresentationRules, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+				GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Update,
+					RepresentationCopyWithNewProperties(resolverRepresentationRules, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 					})) +
-				generateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentationWithoutNsgId),
+				GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", Optional, Create, resolverEndpointRepresentationWithoutNsgId),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "attached_views.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "attached_views.0.view_id"),
@@ -240,7 +240,7 @@ func TestDnsResolverResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rules.1.source_endpoint_name", "endpointName"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -251,10 +251,10 @@ func TestDnsResolverResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_dns_resolvers", "test_resolvers", Optional, Update, resolverDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dns_resolvers", "test_resolvers", Optional, Update, resolverDataSourceRepresentation) +
 				compartmentIdVariableStr + ResolverResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Update, resolverRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Optional, Update, resolverRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
@@ -277,8 +277,8 @@ func TestDnsResolverResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dns_resolver", "test_resolver", Required, Create, resolverSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ResolverResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resolver_id"),
@@ -299,7 +299,7 @@ func TestDnsResolverResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + ResolverResourceConfig + generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation),
+			Config: config + compartmentIdVariableStr + ResolverResourceConfig + GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation),
 		},
 		// verify resource import
 		{

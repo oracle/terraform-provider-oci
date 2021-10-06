@@ -12,47 +12,47 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v48/logging"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v49/logging"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	LogGroupRequiredOnlyResource = LogGroupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation)
 
 	LogGroupResourceConfig = LogGroupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Update, logGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Update, logGroupRepresentation)
 
 	logGroupSingularDataSourceRepresentation = map[string]interface{}{
-		"log_group_id": Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_group_id": Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`},
 	}
 
 	logGroupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":                 Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"is_compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
+		"compartment_id":               Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                 Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"is_compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
 		"filter":                       RepresentationGroup{Required, logGroupDataSourceFilterRepresentation}}
 	logGroupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_logging_log_group.test_log_group.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_logging_log_group.test_log_group.id}`}},
 	}
 
 	logGroupRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	logGroupUpdateRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayNameUpdate`, update: `displayNameUpdate2`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayNameUpdate`, Update: `displayNameUpdate2`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	LogGroupResourceDependencies = DefinedTagsDependencies
@@ -76,34 +76,34 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_logging_log_group.test_log_group"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+LogGroupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Create, logGroupRepresentation), "logging", "logGroup", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+LogGroupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Create, logGroupRepresentation), "logging", "logGroup", t)
 
 	ResourceTest(t, testAccCheckLoggingLogGroupDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + LogGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + LogGroupResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + LogGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Create, logGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Create, logGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -113,9 +113,9 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -124,12 +124,12 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LogGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Create,
-					representationCopyWithNewProperties(logGroupRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Create,
+					RepresentationCopyWithNewProperties(logGroupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -140,7 +140,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -152,7 +152,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + LogGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Update, logGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Update, logGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -162,7 +162,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -173,9 +173,9 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_logging_log_groups", "test_log_groups", Optional, Update, logGroupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_logging_log_groups", "test_log_groups", Optional, Update, logGroupDataSourceRepresentation) +
 				compartmentIdVariableStr + LogGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Update, logGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Update, logGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -196,7 +196,7 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + LogGroupResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
@@ -238,7 +238,7 @@ func testAccCheckLoggingLogGroupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.LogGroupId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 
 			_, err := client.GetLogGroup(context.Background(), request)
 
@@ -263,7 +263,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoggingLogGroup") {
+	if !InSweeperExcludeList("LoggingLogGroup") {
 		resource.AddTestSweepers("LoggingLogGroup", &resource.Sweeper{
 			Name:         "LoggingLogGroup",
 			Dependencies: DependencyGraph["logGroup"],
@@ -284,7 +284,7 @@ func sweepLoggingLogGroupResource(compartment string) error {
 
 			deleteLogGroupRequest.LogGroupId = &logGroupId
 
-			deleteLogGroupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			deleteLogGroupRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 			_, error := loggingManagementClient.DeleteLogGroup(context.Background(), deleteLogGroupRequest)
 			if error != nil {
 				fmt.Printf("Error deleting LogGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", logGroupId, error)
@@ -296,7 +296,7 @@ func sweepLoggingLogGroupResource(compartment string) error {
 }
 
 func getLogGroupIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "LogGroupId")
+	ids := GetResourceIdsToSweep(compartment, "LogGroupId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -314,7 +314,7 @@ func getLogGroupIds(compartment string) ([]string, error) {
 	for _, logGroup := range listLogGroupsResponse.Items {
 		id := *logGroup.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "LogGroupId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "LogGroupId", id)
 	}
 	return resourceIds, nil
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 )
 
 func init() {
@@ -60,7 +60,6 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 			},
 			"is_agent_auto_upgradable": {
 				Type:     schema.TypeBool,
-				Optional: true,
 				Computed: true,
 			},
 			"deploy_plugins_id": {
@@ -93,6 +92,10 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 				Computed: true,
 			},
 			"install_path": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"install_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -148,6 +151,10 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"resource_artifact_version": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -294,7 +301,7 @@ func managementAgentWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 
 func managementAgentWaitForWorkRequest(wId *string, entityType string, action oci_management_agent.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_management_agent.ManagementAgentClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "management_agent")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "management_agent")
 	retryPolicy.ShouldRetryOperation = managementAgentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_management_agent.GetWorkRequestResponse{}
@@ -379,7 +386,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) Get() error {
 
 	managedInstanceId := s.D.Id() // For import case
 	request.ManagementAgentId = &managedInstanceId
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
 	response, err := s.Client.GetManagementAgent(context.Background(), request)
 	if err != nil {
@@ -407,18 +414,18 @@ func (s *ManagementAgentManagementAgentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if isAgentAutoUpgradable, ok := s.D.GetOkExists("is_agent_auto_upgradable"); ok {
+	/*if isAgentAutoUpgradable, ok := s.D.GetOkExists("is_agent_auto_upgradable"); ok {
 		tmp := isAgentAutoUpgradable.(bool)
 		request.IsAgentAutoUpgradable = &tmp
-	}
+	}*/
 
 	agentId := s.D.Id()
 	request.ManagementAgentId = &agentId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
 	response, err := s.Client.UpdateManagementAgent(context.Background(), request)
 	if err != nil {
@@ -451,7 +458,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ManagementAgentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
 	_, err := s.Client.DeleteManagementAgent(context.Background(), request)
 	return err
@@ -495,6 +502,8 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 		s.D.Set("install_path", *s.Res.InstallPath)
 	}
 
+	s.D.Set("install_type", s.Res.InstallType)
+
 	if s.Res.IsAgentAutoUpgradable != nil {
 		s.D.Set("is_agent_auto_upgradable", *s.Res.IsAgentAutoUpgradable)
 	}
@@ -522,6 +531,10 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 		pluginList = append(pluginList, ManagementAgentPluginDetailsToMap(item))
 	}
 	s.D.Set("plugin_list", pluginList)
+
+	if s.Res.ResourceArtifactVersion != nil {
+		s.D.Set("resource_artifact_version", *s.Res.ResourceArtifactVersion)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -585,7 +598,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) deployPlugin(pluginIds []st
 	request.AgentCompartmentId = &compartmentId
 	request.PluginIds = pluginIds
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
 	response, err := s.Client.DeployPlugins(context.Background(), request)
 	if err != nil {

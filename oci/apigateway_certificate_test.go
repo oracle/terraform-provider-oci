@@ -14,41 +14,41 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v48/apigateway"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v49/apigateway"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ApiGatewayCertificateRequiredOnlyResource = ApiGatewayCertificateResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation)
 
 	CertificateResourceConfig = ApiGatewayCertificateResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Update, apiGatewaycertificateRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Update, apiGatewaycertificateRepresentation)
 
 	apiGatewaycertificateSingularDataSourceRepresentation = map[string]interface{}{
-		"certificate_id": Representation{repType: Required, create: `${oci_apigateway_certificate.test_certificate.id}`},
+		"certificate_id": Representation{RepType: Required, Create: `${oci_apigateway_certificate.test_certificate.id}`},
 	}
 
 	apiGatewaycertificateDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, apiGatewaycertificateDataSourceFilterRepresentation}}
 	apiGatewaycertificateDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_apigateway_certificate.test_certificate.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_apigateway_certificate.test_certificate.id}`}},
 	}
 
 	apiGatewaycertificateRepresentation = map[string]interface{}{
-		"certificate":               Representation{repType: Required, create: "${var.api_certificate_value}"},
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"private_key":               Representation{repType: Required, create: "${var.api_private_key_value}"},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":              Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"intermediate_certificates": Representation{repType: Optional, create: "${var.api_intermediate_certificate_value}"},
+		"certificate":               Representation{RepType: Required, Create: "${var.api_certificate_value}"},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"private_key":               Representation{RepType: Required, Create: "${var.api_private_key_value}"},
+		"defined_tags":              Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":             Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"intermediate_certificates": Representation{RepType: Optional, Create: "${var.api_intermediate_certificate_value}"},
 	}
 
 	apiCertificate            = getEnvSettingWithBlankDefault("api_certificate")
@@ -81,35 +81,35 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_apigateway_certificate.test_certificate"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CertificateResourceDependencies+
-		generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Create, certificateRepresentation), "apigateway", "certificate", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CertificateResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Create, certificateRepresentation), "apigateway", "certificate", t)
 
 	ResourceTest(t, testAccCheckApigatewayCertificateDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN RSA.*")),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Create, apiGatewaycertificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Create, apiGatewaycertificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "certificate"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -124,9 +124,9 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_after"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -135,12 +135,12 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApiGatewayCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Create,
-					representationCopyWithNewProperties(apiGatewaycertificateRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Create,
+					RepresentationCopyWithNewProperties(apiGatewaycertificateRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "certificate"),
@@ -156,7 +156,7 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_after"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -168,7 +168,7 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Update, apiGatewaycertificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Update, apiGatewaycertificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "certificate"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -183,7 +183,7 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_not_valid_after"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -194,9 +194,9 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apigateway_certificates", "test_certificates", Optional, Update, apiGatewaycertificateDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apigateway_certificates", "test_certificates", Optional, Update, apiGatewaycertificateDataSourceRepresentation) +
 				compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Update, apiGatewaycertificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Update, apiGatewaycertificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -209,8 +209,8 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Update, apiGatewaycertificateRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateSingularDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Optional, Update, apiGatewaycertificateRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ApiGatewayCertificateResourceDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_id"),
@@ -256,7 +256,7 @@ func testAccCheckApigatewayCertificateDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CertificateId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apigateway")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apigateway")
 
 			response, err := client.GetCertificate(context.Background(), request)
 
@@ -289,7 +289,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ApigatewayCertificate") {
+	if !InSweeperExcludeList("ApigatewayCertificate") {
 		resource.AddTestSweepers("ApigatewayCertificate", &resource.Sweeper{
 			Name:         "ApigatewayCertificate",
 			Dependencies: DependencyGraph["certificate"],
@@ -310,13 +310,13 @@ func sweepApigatewayCertificateResource(compartment string) error {
 
 			deleteCertificateRequest.CertificateId = &certificateId
 
-			deleteCertificateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apigateway")
+			deleteCertificateRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apigateway")
 			_, error := apiGatewayClient.DeleteCertificate(context.Background(), deleteCertificateRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Certificate %s %s, It is possible that the resource is already deleted. Please verify manually \n", certificateId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &certificateId, apiGatewayCertificateSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &certificateId, apiGatewayCertificateSweepWaitCondition, time.Duration(3*time.Minute),
 				apiGatewayCertificateSweepResponseFetchOperation, "apigateway", true)
 		}
 	}
@@ -324,7 +324,7 @@ func sweepApigatewayCertificateResource(compartment string) error {
 }
 
 func getApiGatewayCertificateIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "CertificateId")
+	ids := GetResourceIdsToSweep(compartment, "CertificateId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -343,7 +343,7 @@ func getApiGatewayCertificateIds(compartment string) ([]string, error) {
 	for _, certificate := range listCertificatesResponse.Items {
 		id := *certificate.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "CertificateId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "CertificateId", id)
 	}
 	return resourceIds, nil
 }

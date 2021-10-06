@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_jms "github.com/oracle/oci-go-sdk/v48/jms"
+	oci_jms "github.com/oracle/oci-go-sdk/v49/jms"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *JmsFleetDataSourceCrud) Get() error {
 		request.FleetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "jms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "jms")
 
 	response, err := s.Client.GetFleet(context.Background(), request)
 	if err != nil {

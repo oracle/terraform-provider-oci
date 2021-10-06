@@ -13,48 +13,48 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v48/artifacts"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v49/artifacts"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ContainerRepositoryRequiredOnlyResource = ContainerRepositoryResourceDependencies +
-		generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositoryRepresentation)
+		GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositoryRepresentation)
 
 	ContainerRepositoryResourceConfig = ContainerRepositoryResourceDependencies +
-		generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation)
+		GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation)
 
 	containerRepositorySingularDataSourceRepresentation = map[string]interface{}{
-		"repository_id": Representation{repType: Required, create: `${oci_artifacts_container_repository.test_container_repository.id}`},
+		"repository_id": Representation{RepType: Required, Create: `${oci_artifacts_container_repository.test_container_repository.id}`},
 	}
 
 	containerRepositoryDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
-		"is_public":                 Representation{repType: Optional, create: `false`, update: `true`},
-		"repository_id":             Representation{repType: Optional, create: `${oci_artifacts_container_repository.test_container_repository.id}`},
-		"state":                     Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"is_public":                 Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"repository_id":             Representation{RepType: Optional, Create: `${oci_artifacts_container_repository.test_container_repository.id}`},
+		"state":                     Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":                    RepresentationGroup{Required, containerRepositoryDataSourceFilterRepresentation}}
 	containerRepositoryDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_artifacts_container_repository.test_container_repository.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_artifacts_container_repository.test_container_repository.id}`}},
 	}
 
 	containerRepositoryRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: randomString(15, charsetLowerCaseWithoutDigits)},
-		"is_immutable":   Representation{repType: Optional, create: `false`, update: `false`},
-		"is_public":      Representation{repType: Optional, create: `false`, update: `true`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: RandomString(15, charsetLowerCaseWithoutDigits)},
+		"is_immutable":   Representation{RepType: Optional, Create: `false`, Update: `false`},
+		"is_public":      Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"readme":         RepresentationGroup{Optional, containerRepositoryReadmeRepresentation},
 	}
 	containerRepositoryReadmeRepresentation = map[string]interface{}{
-		"content": Representation{repType: Required, create: `content`, update: `content2`},
-		"format":  Representation{repType: Required, create: `TEXT_MARKDOWN`, update: `TEXT_PLAIN`},
+		"content": Representation{RepType: Required, Create: `content`, Update: `content2`},
+		"format":  Representation{RepType: Required, Create: `TEXT_MARKDOWN`, Update: `TEXT_PLAIN`},
 	}
 
-	ContainerRepositoryResourceDependencies = generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation)
+	ContainerRepositoryResourceDependencies = GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation)
 )
 
 // issue-routing-tag: artifacts/default
@@ -75,34 +75,34 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_artifacts_container_repository.test_container_repository"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ContainerRepositoryResourceDependencies+
-		generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation), "artifacts", "containerRepository", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ContainerRepositoryResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation), "artifacts", "containerRepository", t)
 
 	ResourceTest(t, testAccCheckArtifactsContainerRepositoryDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create, containerRepositoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -121,9 +121,9 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -132,12 +132,12 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ContainerRepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create,
-					representationCopyWithNewProperties(containerRepositoryRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Create,
+					RepresentationCopyWithNewProperties(containerRepositoryRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
@@ -157,7 +157,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -169,7 +169,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billable_size_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -188,7 +188,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -199,9 +199,9 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_artifacts_container_repositories", "test_container_repositories", Optional, Update, containerRepositoryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repositories", "test_container_repositories", Optional, Update, containerRepositoryDataSourceRepresentation) +
 				compartmentIdVariableStr + ContainerRepositoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Optional, Update, containerRepositoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -220,7 +220,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositorySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repository", "test_container_repository", Required, Create, containerRepositorySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ContainerRepositoryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
@@ -269,7 +269,7 @@ func testAccCheckArtifactsContainerRepositoryDestroy(s *terraform.State) error {
 				request.RepositoryId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "artifacts")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "artifacts")
 
 			response, err := client.GetContainerRepository(context.Background(), request)
 
@@ -302,7 +302,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ArtifactsContainerRepository") {
+	if !InSweeperExcludeList("ArtifactsContainerRepository") {
 		resource.AddTestSweepers("ArtifactsContainerRepository", &resource.Sweeper{
 			Name:         "ArtifactsContainerRepository",
 			Dependencies: DependencyGraph["containerRepository"],
@@ -321,13 +321,13 @@ func sweepArtifactsContainerRepositoryResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[containerRepositoryId]; !ok {
 			deleteContainerRepositoryRequest := oci_artifacts.DeleteContainerRepositoryRequest{}
 
-			deleteContainerRepositoryRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "artifacts")
+			deleteContainerRepositoryRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "artifacts")
 			_, error := artifactsClient.DeleteContainerRepository(context.Background(), deleteContainerRepositoryRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ContainerRepository %s %s, It is possible that the resource is already deleted. Please verify manually \n", containerRepositoryId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &containerRepositoryId, containerRepositorySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &containerRepositoryId, containerRepositorySweepWaitCondition, time.Duration(3*time.Minute),
 				containerRepositorySweepResponseFetchOperation, "artifacts", true)
 		}
 	}
@@ -335,7 +335,7 @@ func sweepArtifactsContainerRepositoryResource(compartment string) error {
 }
 
 func getContainerRepositoryIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ContainerRepositoryId")
+	ids := GetResourceIdsToSweep(compartment, "ContainerRepositoryId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -355,7 +355,7 @@ func getContainerRepositoryIds(compartment string) ([]string, error) {
 	for _, containerRepository := range listContainerRepositoriesResponse.Items {
 		id := *containerRepository.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ContainerRepositoryId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ContainerRepositoryId", id)
 	}
 	return resourceIds, nil
 }

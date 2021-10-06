@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 )
 
 func init() {
@@ -118,7 +118,7 @@ func CloudGuardTargetResource() *schema.Resource {
 															"condition": {
 																Type:             schema.TypeString,
 																Required:         true,
-																DiffSuppressFunc: jsonStringDiffSuppressFunction,
+																DiffSuppressFunc: JsonStringDiffSuppressFunction,
 															},
 
 															// Optional
@@ -512,7 +512,7 @@ func CloudGuardTargetResource() *schema.Resource {
 													Type:             schema.TypeString,
 													Optional:         true,
 													Computed:         true,
-													DiffSuppressFunc: jsonStringDiffSuppressFunction,
+													DiffSuppressFunc: JsonStringDiffSuppressFunction,
 												},
 												"configurations": {
 													Type:     schema.TypeList,
@@ -888,7 +888,7 @@ func (s *CloudGuardTargetResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -938,7 +938,7 @@ func (s *CloudGuardTargetResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.CreateTarget(context.Background(), request)
 	if err != nil {
@@ -955,7 +955,7 @@ func (s *CloudGuardTargetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.TargetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.GetTarget(context.Background(), request)
 	if err != nil {
@@ -983,7 +983,7 @@ func (s *CloudGuardTargetResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -1027,7 +1027,7 @@ func (s *CloudGuardTargetResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.UpdateTarget(context.Background(), request)
 	if err != nil {
@@ -1044,7 +1044,7 @@ func (s *CloudGuardTargetResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.TargetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	_, err := s.Client.DeleteTarget(context.Background(), request)
 	return err
@@ -1122,7 +1122,7 @@ func ConditionGroupToMap(obj oci_cloud_guard.ConditionGroup) map[string]interfac
 	}
 
 	if obj.Condition != nil {
-		condition, err := convertObjectToJsonString(obj.Condition)
+		condition, err := ConvertObjectToJsonString(obj.Condition)
 		if err == nil {
 			result["condition"] = condition
 		}

@@ -14,13 +14,13 @@ import (
 
 var (
 	externalNonContainerDatabaseOperationsInsightsManagementRepresentation = map[string]interface{}{
-		"external_database_connector_id":     Representation{repType: Required, create: `${oci_database_external_database_connector.test_external_database_connector.id}`},
-		"external_non_container_database_id": Representation{repType: Required, create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
-		"enable_operations_insights":         Representation{repType: Required, create: `true`, update: `false`},
+		"external_database_connector_id":     Representation{RepType: Required, Create: `${oci_database_external_database_connector.test_external_database_connector.id}`},
+		"external_non_container_database_id": Representation{RepType: Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
+		"enable_operations_insights":         Representation{RepType: Required, Create: `true`, Update: `false`},
 	}
 
-	ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies = generateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation)
+	ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_external_database_connector", "test_external_database_connector", Required, Create, externalDatabaseConnectorRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -35,15 +35,15 @@ func TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 	resourceName := "oci_database_external_non_container_database_operations_insights_management.test_external_non_container_database_operations_insights_management"
 	resourceNonCDB := "oci_database_external_non_container_database.test_external_non_container_database"
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Required, Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation), "database", "externalNonContainerDatabaseOperationsInsightsManagement", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Required, Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation), "database", "externalNonContainerDatabaseOperationsInsightsManagement", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Required, Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Required, Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
@@ -53,29 +53,29 @@ func TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 		// verify enabled
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Required, Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Required, Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNonCDB, "operations_insights_config.0.operations_insights_status", "ENABLED"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies,
 		},
-		// verify update (Enable Operations Insights)
+		// verify Update (Enable Operations Insights)
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Optional, Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Optional, Create, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
 			),
 		},
-		// verify update (Disable Operations Insights)
+		// verify Update (Disable Operations Insights)
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Optional, Update, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Optional, Update, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_non_container_database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_database_connector_id"),
@@ -84,7 +84,7 @@ func TestDatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 		// Verify Disablement
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseOperationsInsightsManagementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Optional, Update, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database_operations_insights_management", "test_external_non_container_database_operations_insights_management", Optional, Update, externalNonContainerDatabaseOperationsInsightsManagementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceNonCDB, "operations_insights_config.0.operations_insights_status", "NOT_ENABLED"),
 			),

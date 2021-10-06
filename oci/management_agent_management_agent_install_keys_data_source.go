@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 )
 
 func init() {
@@ -19,7 +19,7 @@ func ManagementAgentManagementAgentInstallKeysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readManagementAgentManagementAgentInstallKeys,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -94,7 +94,7 @@ func (s *ManagementAgentManagementAgentInstallKeysDataSourceCrud) Get() error {
 		request.LifecycleState = oci_management_agent.ListManagementAgentInstallKeysLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.ListManagementAgentInstallKeys(context.Background(), request)
 	if err != nil {

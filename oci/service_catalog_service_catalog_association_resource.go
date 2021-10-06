@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v48/servicecatalog"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v49/servicecatalog"
 )
 
 func init() {
@@ -108,7 +108,7 @@ func (s *ServiceCatalogServiceCatalogAssociationResourceCrud) Create() error {
 		request.ServiceCatalogId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.CreateServiceCatalogAssociation(context.Background(), request)
 	if err != nil {
@@ -125,7 +125,7 @@ func (s *ServiceCatalogServiceCatalogAssociationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ServiceCatalogAssociationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.GetServiceCatalogAssociation(context.Background(), request)
 	if err != nil {
@@ -142,7 +142,7 @@ func (s *ServiceCatalogServiceCatalogAssociationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ServiceCatalogAssociationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	_, err := s.Client.DeleteServiceCatalogAssociation(context.Background(), request)
 	return err

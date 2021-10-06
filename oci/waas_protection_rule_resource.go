@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 )
 
 func init() {
@@ -29,9 +29,9 @@ func WaasProtectionRuleResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("2h"),
-			Update: getTimeoutDuration("2h"),
-			Delete: getTimeoutDuration("2h"),
+			Create: GetTimeoutDuration("2h"),
+			Update: GetTimeoutDuration("2h"),
+			Delete: GetTimeoutDuration("2h"),
 		},
 		Create: createWaasProtectionRule,
 		Read:   readWaasProtectionRule,
@@ -222,7 +222,7 @@ func protectionRuleWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 
 func protectionRuleWaitForWorkRequest(wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_waas.WaasClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "waas")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "waas")
 	retryPolicy.ShouldRetryOperation = protectionRuleWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_waas.GetWorkRequestResponse{}
@@ -299,7 +299,7 @@ func (s *WaasProtectionRuleResourceCrud) Get() error {
 	}
 	s.D.Set("waas_policy_id", waasPolicyId) // Response doesn't have this field
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.GetProtectionRule(context.Background(), request)
 	if err != nil {
@@ -349,7 +349,7 @@ func (s *WaasProtectionRuleResourceCrud) Update() error {
 
 	request.ProtectionRules = append(request.ProtectionRules, protectionRuleAction)
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.UpdateProtectionRules(context.Background(), request)
 	if err != nil {
@@ -357,7 +357,7 @@ func (s *WaasProtectionRuleResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProtectionRuleFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProtectionRuleFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *WaasProtectionRuleResourceCrud) SetData() error {

@@ -16,38 +16,38 @@ import (
 
 var (
 	DrgRouteTableRouteRuleRequiredOnlyResource = DrgRouteTableRouteRuleResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Required, Create, drgRouteTableRouteRuleRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Required, Create, drgRouteTableRouteRuleRepresentation)
 
 	drgRouteTableRouteRuleDataSourceRepresentation = map[string]interface{}{
-		"drg_route_table_id": Representation{repType: Required, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"drg_route_table_id": Representation{RepType: Required, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
 	}
 
 	drgRouteTableRouteRuleRepresentation = map[string]interface{}{
-		"drg_route_table_id":         Representation{repType: Required, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
-		"destination_type":           Representation{repType: Required, create: `CIDR_BLOCK`},
-		"destination":                Representation{repType: Required, create: `0.0.0.0/0`, update: `192.0.0.0/24`},
-		"next_hop_drg_attachment_id": Representation{repType: Required, create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
+		"drg_route_table_id":         Representation{RepType: Required, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"destination_type":           Representation{RepType: Required, Create: `CIDR_BLOCK`},
+		"destination":                Representation{RepType: Required, Create: `0.0.0.0/0`, Update: `192.0.0.0/24`},
+		"next_hop_drg_attachment_id": Representation{RepType: Required, Create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
 	}
 
 	drgRouteTableRouteRuleRepresentation2 = map[string]interface{}{
-		"drg_route_table_id":         Representation{repType: Required, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
-		"destination_type":           Representation{repType: Required, create: `CIDR_BLOCK`},
-		"destination":                Representation{repType: Required, create: `1.1.1.0/24`, update: `1.1.11.0/24`},
-		"next_hop_drg_attachment_id": Representation{repType: Required, create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
+		"drg_route_table_id":         Representation{RepType: Required, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"destination_type":           Representation{RepType: Required, Create: `CIDR_BLOCK`},
+		"destination":                Representation{RepType: Required, Create: `1.1.1.0/24`, Update: `1.1.11.0/24`},
+		"next_hop_drg_attachment_id": Representation{RepType: Required, Create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
 	}
 
 	drgRouteTableRouteRuleRepresentation3 = map[string]interface{}{
-		"drg_route_table_id":         Representation{repType: Required, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
-		"destination_type":           Representation{repType: Required, create: `CIDR_BLOCK`},
-		"destination":                Representation{repType: Required, create: `1.1.2.0/24`, update: `1.1.12.0/24`},
-		"next_hop_drg_attachment_id": Representation{repType: Required, create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
+		"drg_route_table_id":         Representation{RepType: Required, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"destination_type":           Representation{RepType: Required, Create: `CIDR_BLOCK`},
+		"destination":                Representation{RepType: Required, Create: `1.1.2.0/24`, Update: `1.1.12.0/24`},
+		"next_hop_drg_attachment_id": Representation{RepType: Required, Create: `${oci_core_drg_attachment.test_drg_attachment.id}`},
 	}
 
-	DrgRouteTableRouteRuleResourceDependencies = generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation)
+	DrgRouteTableRouteRuleResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation)
 )
 
 // issue-routing-tag: core/pnp
@@ -67,28 +67,28 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 	resourceName3 := "oci_core_drg_route_table_route_rule.test_drg_route_table_route_rule3"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DrgRouteTableRouteRuleResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Create, drgRouteTableRouteRuleRepresentation), "core", "drgRouteTableRouteRule", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DrgRouteTableRouteRuleResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Create, drgRouteTableRouteRuleRepresentation), "core", "drgRouteTableRouteRule", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Required, Create, drgRouteTableRouteRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Required, Create, drgRouteTableRouteRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Create, drgRouteTableRouteRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Create, drgRouteTableRouteRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "destination"),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_type"),
@@ -97,9 +97,9 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "next_hop_drg_attachment_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -110,14 +110,14 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Update,
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Update,
 					drgRouteTableRouteRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "destination", "192.0.0.0/24"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updatedr")
 					}
@@ -129,9 +129,9 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_drg_route_table_route_rules", "test_drg_route_table_route_rules", Optional, Create, drgRouteTableRouteRuleDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_drg_route_table_route_rules", "test_drg_route_table_route_rules", Optional, Create, drgRouteTableRouteRuleDataSourceRepresentation) +
 				compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Update, drgRouteTableRouteRuleRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule", Optional, Update, drgRouteTableRouteRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_table_id"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_rules.0.destination_type", "CIDR_BLOCK"),
@@ -148,15 +148,15 @@ func TestCoreDrgRouteTableRouteRuleResource_basic(t *testing.T) {
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies,
 		},
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteTableRouteRuleResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule2", Optional, Create, drgRouteTableRouteRuleRepresentation2) +
-				generateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule3", Required, Create, drgRouteTableRouteRuleRepresentation3),
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule2", Optional, Create, drgRouteTableRouteRuleRepresentation2) +
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_table_route_rule", "test_drg_route_table_route_rule3", Required, Create, drgRouteTableRouteRuleRepresentation3),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				//check first resource
 				resource.TestCheckResourceAttrSet(resourceName2, "destination"),

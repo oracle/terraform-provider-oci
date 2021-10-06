@@ -13,129 +13,129 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	InstancePoolRequiredOnlyResource = InstancePoolResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation)
 
 	InstancePoolResourceConfig = InstancePoolResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation)
 
 	instancePoolSingularDataSourceRepresentation = map[string]interface{}{
-		"instance_pool_id": Representation{repType: Required, create: `${oci_core_instance_pool.test_instance_pool.id}`},
+		"instance_pool_id": Representation{RepType: Required, Create: `${oci_core_instance_pool.test_instance_pool.id}`},
 	}
 
 	instancePoolDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `backend-servers-pool`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `RUNNING`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `backend-servers-pool`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `RUNNING`},
 		"filter":         RepresentationGroup{Required, instancePoolDataSourceFilterRepresentation}}
 	instancePoolDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_instance_pool.test_instance_pool.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_instance_pool.test_instance_pool.id}`}},
 	}
 
 	instancePoolRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"instance_configuration_id": Representation{repType: Required, create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"instance_configuration_id": Representation{RepType: Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
 		"placement_configurations":  RepresentationGroup{Required, instancePoolPlacementConfigurationsRepresentation},
-		"size":                      Representation{repType: Required, create: `2`, update: `3`},
-		"state":                     Representation{repType: Optional, create: `Running`},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":              Representation{repType: Optional, create: `backend-servers-pool`, update: `displayName2`},
-		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"size":                      Representation{RepType: Required, Create: `2`, Update: `3`},
+		"state":                     Representation{RepType: Optional, Create: `Running`},
+		"defined_tags":              Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{RepType: Optional, Create: `backend-servers-pool`, Update: `displayName2`},
+		"freeform_tags":             Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"load_balancers":            RepresentationGroup{Optional, instancePoolLoadBalancersRepresentation},
 	}
 	instancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
-		"availability_domain":    Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"primary_subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"fault_domains":          Representation{repType: Optional, create: []string{`FAULT-DOMAIN-1`}, update: []string{`FAULT-DOMAIN-2`}},
+		"availability_domain":    Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"primary_subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"fault_domains":          Representation{RepType: Optional, Create: []string{`FAULT-DOMAIN-1`}, Update: []string{`FAULT-DOMAIN-2`}},
 		"secondary_vnic_subnets": RepresentationGroup{Optional, instancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
 	}
 	instancePoolLoadBalancersRepresentation = map[string]interface{}{
-		"backend_set_name": Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"port":             Representation{repType: Required, create: `10`},
-		"vnic_selection":   Representation{repType: Required, create: `PrimaryVnic`},
+		"backend_set_name": Representation{RepType: Required, Create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"port":             Representation{RepType: Required, Create: `10`},
+		"vnic_selection":   Representation{RepType: Required, Create: `PrimaryVnic`},
 	}
 	instancePoolLoadBalancers2Representation = map[string]interface{}{
-		"backend_set_name": Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set2.name}`},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer2.id}`},
-		"port":             Representation{repType: Required, create: `10`},
-		"vnic_selection":   Representation{repType: Required, create: `PrimaryVnic`},
+		"backend_set_name": Representation{RepType: Required, Create: `${oci_load_balancer_backend_set.test_backend_set2.name}`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer2.id}`},
+		"port":             Representation{RepType: Required, Create: `10`},
+		"vnic_selection":   Representation{RepType: Required, Create: `PrimaryVnic`},
 	}
 	instancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation = map[string]interface{}{
-		"subnet_id": Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"subnet_id": Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		//the display_name should be the same as in the instance configuration
-		"display_name": Representation{repType: Required, create: `backend-servers-pool`},
+		"display_name": Representation{RepType: Required, Create: `backend-servers-pool`},
 	}
 
 	instanceConfigurationPoolRepresentation = map[string]interface{}{
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"instance_details": RepresentationGroup{Required, instanceConfigurationInstanceDetailsPoolRepresentation},
-		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":     Representation{repType: Optional, create: `backend-servers`, update: `displayName2`},
-		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":     Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":     Representation{RepType: Optional, Create: `backend-servers`, Update: `displayName2`},
+		"freeform_tags":    Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	instanceConfigurationInstanceDetailsPoolRepresentation = map[string]interface{}{
-		"instance_type":   Representation{repType: Required, create: `compute`},
+		"instance_type":   Representation{RepType: Required, Create: `compute`},
 		"secondary_vnics": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation},
 		"launch_details":  RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation},
 	}
 	instanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation = map[string]interface{}{
 		"create_vnic_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
 		//the display_name should be the same as in the secondary_vnic_subnets
-		"display_name": Representation{repType: Optional, create: `backend-servers-pool`},
+		"display_name": Representation{RepType: Optional, Create: `backend-servers-pool`},
 	}
 	instanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation = map[string]interface{}{
-		"compartment_id":                      Representation{repType: Optional, create: `${var.compartment_id}`},
+		"compartment_id":                      Representation{RepType: Optional, Create: `${var.compartment_id}`},
 		"create_vnic_details":                 RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
-		"defined_tags":                        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                        Representation{repType: Optional, create: `backend-servers`},
-		"extended_metadata":                   Representation{repType: Optional, create: map[string]string{"extendedMetadata": "extendedMetadata"}, update: map[string]string{"extendedMetadata2": "extendedMetadata2"}},
-		"freeform_tags":                       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"ipxe_script":                         Representation{repType: Optional, create: `ipxeScript`},
-		"metadata":                            Representation{repType: Optional, create: map[string]string{"metadata": "metadata"}, update: map[string]string{"metadata2": "metadata2"}},
-		"shape":                               Representation{repType: Optional, create: InstanceConfigurationVmShape},
+		"defined_tags":                        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                        Representation{RepType: Optional, Create: `backend-servers`},
+		"extended_metadata":                   Representation{RepType: Optional, Create: map[string]string{"extendedMetadata": "extendedMetadata"}, Update: map[string]string{"extendedMetadata2": "extendedMetadata2"}},
+		"freeform_tags":                       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ipxe_script":                         Representation{RepType: Optional, Create: `ipxeScript`},
+		"metadata":                            Representation{RepType: Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
+		"shape":                               Representation{RepType: Optional, Create: InstanceConfigurationVmShape},
 		"source_details":                      RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation},
 		"agent_config":                        RepresentationGroup{Optional, instanceAgentConfigRepresentation},
 		"launch_options":                      RepresentationGroup{Optional, instanceLaunchOptionsRepresentation},
-		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
-		"launch_mode":                         Representation{repType: Optional, create: `NATIVE`},
-		"preferred_maintenance_action":        Representation{repType: Optional, create: `LIVE_MIGRATE`},
+		"is_pv_encryption_in_transit_enabled": Representation{RepType: Optional, Create: `false`},
+		"launch_mode":                         Representation{RepType: Optional, Create: `NATIVE`},
+		"preferred_maintenance_action":        Representation{RepType: Optional, Create: `LIVE_MIGRATE`},
 		"shape_config":                        RepresentationGroup{Optional, instanceShapeConfigRepresentation},
 	}
 	instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation = map[string]interface{}{
-		"assign_public_ip":       Representation{repType: Optional, create: `true`},
-		"display_name":           Representation{repType: Optional, create: `backend-servers`},
-		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
+		"assign_public_ip":       Representation{RepType: Optional, Create: `true`},
+		"display_name":           Representation{RepType: Optional, Create: `backend-servers`},
+		"skip_source_dest_check": Representation{RepType: Optional, Create: `false`},
 	}
 
 	InstancePoolResourceDependenciesWithoutSecondaryVnic = SubnetResourceConfig + OciImageIdsVariable + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}` +
-		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-			getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
-				representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, instanceConfigurationInstanceDetailsPoolRepresentation), []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
+		GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+			GetUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
+				RepresentationCopyWithRemovedProperties(GetUpdatedRepresentationCopy("launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, instanceConfigurationInstanceDetailsPoolRepresentation), []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
 
 	InstancePoolResourceDependencies = OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, getUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, instanceConfigurationPoolRepresentation)) +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, GetUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, instanceConfigurationPoolRepresentation)) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set2", Required, Create, backendSet2Representation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer2", Required, Create, loadBalancer2Representation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set2", Required, Create, backendSet2Representation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer2", Required, Create, loadBalancer2Representation) +
 		LoadBalancerSubnetDependencies
 )
 
@@ -157,15 +157,15 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_instance_pool.test_instance_pool"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+InstancePoolResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create, instancePoolRepresentation), "core", "instancePool", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+InstancePoolResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create, instancePoolRepresentation), "core", "instancePool", t)
 
 	ResourceTest(t, testAccCheckCoreInstancePoolDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + InstancePoolResourceDependenciesWithoutSecondaryVnic +
-				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
@@ -175,20 +175,20 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "size", "2"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create, instancePoolRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create, instancePoolRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -216,9 +216,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -227,12 +227,12 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InstancePoolResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create,
-					representationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create,
+					RepresentationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -258,7 +258,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -270,7 +270,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -295,7 +295,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -306,7 +306,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		// verify attach
 		{
 			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, representationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, RepresentationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
 					"load_balancers": []RepresentationGroup{{Optional, instancePoolLoadBalancersRepresentation}, {Optional, instancePoolLoadBalancers2Representation}},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -340,7 +340,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -351,7 +351,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		// verify detach
 		{
 			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -376,7 +376,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -387,8 +387,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		// verify stop the Instance Pool
 		{
 			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update,
-					getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "Stopped"}, instancePoolRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update,
+					GetUpdatedRepresentationCopy("state", Representation{RepType: Optional, Create: "Stopped"}, instancePoolRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -404,7 +404,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -415,7 +415,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		// verify start the Instance Pool
 		{
 			Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -431,7 +431,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -442,9 +442,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		// verify datasource the state will be updated to RUNNING
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_instance_pools", "test_instance_pools", Optional, Update, instancePoolDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_instance_pools", "test_instance_pools", Optional, Update, instancePoolDataSourceRepresentation) +
 				compartmentIdVariableStr + InstancePoolResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Update, instancePoolRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -464,7 +464,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + InstancePoolResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
@@ -515,7 +515,7 @@ func testAccCheckCoreInstancePoolDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.InstancePoolId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetInstancePool(context.Background(), request)
 
@@ -548,7 +548,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreInstancePool") {
+	if !InSweeperExcludeList("CoreInstancePool") {
 		resource.AddTestSweepers("CoreInstancePool", &resource.Sweeper{
 			Name:         "CoreInstancePool",
 			Dependencies: DependencyGraph["instancePool"],
@@ -569,13 +569,13 @@ func sweepCoreInstancePoolResource(compartment string) error {
 
 			terminateInstancePoolRequest.InstancePoolId = &instancePoolId
 
-			terminateInstancePoolRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			terminateInstancePoolRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeManagementClient.TerminateInstancePool(context.Background(), terminateInstancePoolRequest)
 			if error != nil {
 				fmt.Printf("Error deleting InstancePool %s %s, It is possible that the resource is already deleted. Please verify manually \n", instancePoolId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &instancePoolId, instancePoolSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &instancePoolId, instancePoolSweepWaitCondition, time.Duration(3*time.Minute),
 				instancePoolSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -583,7 +583,7 @@ func sweepCoreInstancePoolResource(compartment string) error {
 }
 
 func getInstancePoolIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "InstancePoolId")
+	ids := GetResourceIdsToSweep(compartment, "InstancePoolId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -602,7 +602,7 @@ func getInstancePoolIds(compartment string) ([]string, error) {
 	for _, instancePool := range listInstancePoolsResponse.Items {
 		id := *instancePool.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "InstancePoolId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "InstancePoolId", id)
 	}
 	return resourceIds, nil
 }

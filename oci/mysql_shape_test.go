@@ -14,10 +14,10 @@ import (
 
 var (
 	mysqlShapeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"is_supported_for":    Representation{repType: Optional, create: []string{`DBSYSTEM`}},
-		"name":                Representation{repType: Optional, create: `name`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"is_supported_for":    Representation{RepType: Optional, Create: []string{`DBSYSTEM`}},
+		"name":                Representation{RepType: Optional, Create: `name`},
 	}
 
 	MySQLShapeResourceConfig = AvailabilityDomainConfig
@@ -35,13 +35,13 @@ func TestMysqlShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_mysql_shapes.test_shapes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Required, Create, mysqlShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Required, Create, mysqlShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + MySQLShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -55,7 +55,7 @@ func TestMysqlShapeResource_basic(t *testing.T) {
 		// verify datasource with optionals
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Optional, Create, mysqlShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Optional, Create, mysqlShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + MySQLShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),

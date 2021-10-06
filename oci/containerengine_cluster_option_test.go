@@ -15,8 +15,8 @@ import (
 
 var (
 	clusterOptionSingularDataSourceRepresentation = map[string]interface{}{
-		"cluster_option_id": Representation{repType: Required, create: `all`},
-		"compartment_id":    Representation{repType: Optional, create: `${var.compartment_id}`},
+		"cluster_option_id": Representation{RepType: Required, Create: `all`},
+		"compartment_id":    Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
 	ClusterOptionResourceConfig = ""
@@ -34,13 +34,13 @@ func TestContainerengineClusterOptionResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_containerengine_cluster_option.test_cluster_option"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ClusterOptionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_option_id"),
@@ -51,7 +51,7 @@ func TestContainerengineClusterOptionResource_basic(t *testing.T) {
 		// verify singular datasource with compartment_id
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Optional, Create, clusterOptionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Optional, Create, clusterOptionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ClusterOptionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_option_id"),

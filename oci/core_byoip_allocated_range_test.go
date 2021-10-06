@@ -17,11 +17,11 @@ import (
 
 var (
 	byoipAllocatedRangeDataSourceRepresentation = map[string]interface{}{
-		"byoip_range_id": Representation{repType: Required, create: `${var.byoip_range_id}`},
+		"byoip_range_id": Representation{RepType: Required, Create: `${var.byoip_range_id}`},
 	}
 
 	ByoipAllocatedRangeResourceConfig = PublicIpPoolAddCapacityResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation)
 )
 
 // issue-routing-tag: core/vcnip
@@ -36,10 +36,10 @@ func TestCoreByoipAllocatedRangeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_byoip_allocated_ranges.test_byoip_allocated_ranges"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create dependencies
+		// Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + ByoipAllocatedRangeResourceConfig,
 			Check: func(s *terraform.State) (err error) {
@@ -51,7 +51,7 @@ func TestCoreByoipAllocatedRangeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_byoip_allocated_ranges", "test_byoip_allocated_ranges", Required, Create, byoipAllocatedRangeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_byoip_allocated_ranges", "test_byoip_allocated_ranges", Required, Create, byoipAllocatedRangeDataSourceRepresentation) +
 				compartmentIdVariableStr + ByoipAllocatedRangeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "byoip_range_id"),

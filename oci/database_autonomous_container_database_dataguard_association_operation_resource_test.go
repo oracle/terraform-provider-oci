@@ -15,37 +15,37 @@ import (
 )
 
 var (
-	AutonomousContainerDatabaseDataguardAssociationOperationSwitchOverResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "switchover", Optional, Create,
+	AutonomousContainerDatabaseDataguardAssociationOperationSwitchOverResourceConfig = GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "switchover", Optional, Create,
 		map[string]interface{}{
-			"operation":                        Representation{repType: Required, create: `switchover`},
-			"autonomous_container_database_id": Representation{repType: Required, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
-			"autonomous_container_database_dataguard_association_id": Representation{repType: Required, create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["id"]}`},
+			"operation":                        Representation{RepType: Required, Create: `switchover`},
+			"autonomous_container_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+			"autonomous_container_database_dataguard_association_id": Representation{RepType: Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["id"]}`},
 		})
 
-	ExaccAutonomousContainerDatabaseDataguardAssociationOperationSwitchOverResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "switchover", Optional, Create,
+	ExaccAutonomousContainerDatabaseDataguardAssociationOperationSwitchOverResourceConfig = GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "switchover", Optional, Create,
 		map[string]interface{}{
-			"operation":                        Representation{repType: Required, create: `switchover`},
-			"autonomous_container_database_id": Representation{repType: Required, create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
-			"autonomous_container_database_dataguard_association_id": Representation{repType: Required, create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["id"]}`},
+			"operation":                        Representation{RepType: Required, Create: `switchover`},
+			"autonomous_container_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
+			"autonomous_container_database_dataguard_association_id": Representation{RepType: Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["id"]}`},
 		})
-	AutonomousContainerDatabaseDataguardAssociationOperationFailOverResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "failover", Optional, Create,
+	AutonomousContainerDatabaseDataguardAssociationOperationFailOverResourceConfig = GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "failover", Optional, Create,
 		map[string]interface{}{
-			"operation":                        Representation{repType: Required, create: `failover`},
-			"autonomous_container_database_id": Representation{repType: Required, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
-			"autonomous_container_database_dataguard_association_id": Representation{repType: Required, create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["id"]}`},
+			"operation":                        Representation{RepType: Required, Create: `failover`},
+			"autonomous_container_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+			"autonomous_container_database_dataguard_association_id": Representation{RepType: Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["id"]}`},
 		})
 
-	ExaccAutonomousContainerDatabaseDataguardAssociationOperationFailOverResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "failover", Optional, Create,
+	ExaccAutonomousContainerDatabaseDataguardAssociationOperationFailOverResourceConfig = GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "failover", Optional, Create,
 		map[string]interface{}{
-			"operation":                        Representation{repType: Required, create: `failover`},
-			"autonomous_container_database_id": Representation{repType: Required, create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
-			"autonomous_container_database_dataguard_association_id": Representation{repType: Required, create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["id"]}`},
+			"operation":                        Representation{RepType: Required, Create: `failover`},
+			"autonomous_container_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.exacc_test_autonomous_container_database.id}`},
+			"autonomous_container_database_dataguard_association_id": Representation{RepType: Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["id"]}`},
 		})
-	AutonomousContainerDatabaseDataguardAssociationOperationReinstateResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "reinstate", Optional, Create,
+	AutonomousContainerDatabaseDataguardAssociationOperationReinstateResourceConfig = GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_association_operation", "reinstate", Optional, Create,
 		map[string]interface{}{
-			"operation":                        Representation{repType: Required, create: `reinstate`},
-			"autonomous_container_database_id": Representation{repType: Required, create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_id"]}`},
-			"autonomous_container_database_dataguard_association_id": Representation{repType: Required, create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_dataguard_association_id"]}`},
+			"operation":                        Representation{RepType: Required, Create: `reinstate`},
+			"autonomous_container_database_id": Representation{RepType: Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_id"]}`},
+			"autonomous_container_database_dataguard_association_id": Representation{RepType: Required, Create: `${data.oci_database_autonomous_container_database_dataguard_associations.test.autonomous_container_database_dataguard_associations[0]["peer_autonomous_container_database_dataguard_association_id"]}`},
 		})
 )
 
@@ -69,10 +69,10 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
@@ -92,7 +92,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			// switchover
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					AutonomousContainerDatabaseDataguardAssociationOperationSwitchOverResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -105,7 +105,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			// verify switchover result
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
@@ -118,7 +118,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			// failover
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					AutonomousContainerDatabaseDataguardAssociationOperationFailOverResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -131,7 +131,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			// verify failover result
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
@@ -144,7 +144,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			// reinstate
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					AutonomousContainerDatabaseDataguardAssociationOperationReinstateResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -157,7 +157,7 @@ func TestDatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			// verify reinstate result
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, autonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousContainerDatabaseDataguardAssociationResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
@@ -190,10 +190,10 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
@@ -213,7 +213,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 			// switchover
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					ExaccAutonomousContainerDatabaseDataguardAssociationOperationSwitchOverResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -226,7 +226,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 			// verify switchover result
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
@@ -239,7 +239,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 			// failover
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					ExaccAutonomousContainerDatabaseDataguardAssociationOperationFailOverResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -252,7 +252,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 			// verify failover result
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
@@ -265,7 +265,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 			// reinstate
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig +
 					AutonomousContainerDatabaseDataguardAssociationOperationReinstateResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -278,7 +278,7 @@ func TestDatabaseExaccAutonomousContainerDatabaseDataguardAssociationOperationRe
 			// verify reinstate result
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_dataguard_associations", "test", Optional, Create, exaccAutonomousContainerDatabaseDataguardAssociationDataSourceRepresentation) +
 					compartmentIdVariableStr + ExaccAutonomousContainerDatabaseDataguardAssociationResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),

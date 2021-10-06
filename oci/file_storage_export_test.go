@@ -13,48 +13,48 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v48/filestorage"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v49/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ExportRequiredOnlyResource = ExportResourceDependencies +
-		generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Required, Create, exportRepresentation)
+		GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Required, Create, exportRepresentation)
 
 	exportDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"export_set_id":  Representation{repType: Optional, create: `${oci_file_storage_export_set.test_export_set.id}`},
-		"file_system_id": Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"id":             Representation{repType: Optional, create: `${oci_file_storage_export.test_export.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"export_set_id":  Representation{RepType: Optional, Create: `${oci_file_storage_export_set.test_export_set.id}`},
+		"file_system_id": Representation{RepType: Optional, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"id":             Representation{RepType: Optional, Create: `${oci_file_storage_export.test_export.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, exportDataSourceFilterRepresentation}}
 	exportDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_file_storage_export.test_export.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_file_storage_export.test_export.id}`}},
 	}
 
 	exportRepresentation = map[string]interface{}{
-		"export_set_id":  Representation{repType: Required, create: `${oci_file_storage_export_set.test_export_set.id}`},
-		"file_system_id": Representation{repType: Required, create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"path":           Representation{repType: Required, create: `/files-5`},
+		"export_set_id":  Representation{RepType: Required, Create: `${oci_file_storage_export_set.test_export_set.id}`},
+		"file_system_id": Representation{RepType: Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"path":           Representation{RepType: Required, Create: `/files-5`},
 		"export_options": RepresentationGroup{Optional, exportExportOptionsRepresentation},
 	}
 	exportExportOptionsRepresentation = map[string]interface{}{
-		"source":                         Representation{repType: Required, create: `0.0.0.0/0`},
-		"access":                         Representation{repType: Optional, create: `READ_WRITE`, update: `READ_ONLY`},
-		"anonymous_gid":                  Representation{repType: Optional, create: `10`, update: `11`},
-		"anonymous_uid":                  Representation{repType: Optional, create: `10`, update: `11`},
-		"identity_squash":                Representation{repType: Optional, create: `NONE`, update: `ALL`},
-		"require_privileged_source_port": Representation{repType: Optional, create: `false`, update: `true`},
+		"source":                         Representation{RepType: Required, Create: `0.0.0.0/0`},
+		"access":                         Representation{RepType: Optional, Create: `READ_WRITE`, Update: `READ_ONLY`},
+		"anonymous_gid":                  Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"anonymous_uid":                  Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"identity_squash":                Representation{RepType: Optional, Create: `NONE`, Update: `ALL`},
+		"require_privileged_source_port": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
-	ExportResourceDependencies = generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation) +
-		generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation) +
+	ExportResourceDependencies = GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -72,35 +72,35 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 	datasourceName := "data.oci_file_storage_exports.test_exports"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ExportResourceDependencies+
-		generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation), "filestorage", "export", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ExportResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation), "filestorage", "export", t)
 
 	ResourceTest(t, testAccCheckFileStorageExportDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ExportResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Required, Create, exportRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Required, Create, exportRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ExportResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ExportResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_WRITE"),
@@ -117,9 +117,9 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -131,7 +131,7 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ExportResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_ONLY"),
@@ -148,7 +148,7 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -159,9 +159,9 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_file_storage_exports", "test_exports", Optional, Update, exportDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_file_storage_exports", "test_exports", Optional, Update, exportDataSourceRepresentation) +
 				compartmentIdVariableStr + ExportResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -196,7 +196,7 @@ func testAccCheckFileStorageExportDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ExportId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "file_storage")
 
 			response, err := client.GetExport(context.Background(), request)
 
@@ -229,7 +229,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("FileStorageExport") {
+	if !InSweeperExcludeList("FileStorageExport") {
 		resource.AddTestSweepers("FileStorageExport", &resource.Sweeper{
 			Name:         "FileStorageExport",
 			Dependencies: DependencyGraph["export"],
@@ -250,13 +250,13 @@ func sweepFileStorageExportResource(compartment string) error {
 
 			deleteExportRequest.ExportId = &exportId
 
-			deleteExportRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			deleteExportRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "file_storage")
 			_, error := fileStorageClient.DeleteExport(context.Background(), deleteExportRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Export %s %s, It is possible that the resource is already deleted. Please verify manually \n", exportId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &exportId, exportSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &exportId, exportSweepWaitCondition, time.Duration(3*time.Minute),
 				exportSweepResponseFetchOperation, "file_storage", true)
 		}
 	}
@@ -264,7 +264,7 @@ func sweepFileStorageExportResource(compartment string) error {
 }
 
 func getExportIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ExportId")
+	ids := GetResourceIdsToSweep(compartment, "ExportId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -283,7 +283,7 @@ func getExportIds(compartment string) ([]string, error) {
 	for _, export := range listExportsResponse.Items {
 		id := *export.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ExportId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ExportId", id)
 	}
 	return resourceIds, nil
 }

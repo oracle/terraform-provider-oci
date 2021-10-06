@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_jms "github.com/oracle/oci-go-sdk/v48/jms"
+	oci_jms "github.com/oracle/oci-go-sdk/v49/jms"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func JmsFleetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readJmsFleets,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -93,7 +93,7 @@ func (s *JmsFleetsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_jms.ListFleetsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "jms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "jms")
 
 	response, err := s.Client.ListFleets(context.Background(), request)
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_analytics "github.com/oracle/oci-go-sdk/v48/analytics"
+	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) Get() error {
 		request.AnalyticsInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "analytics")
 
 	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {

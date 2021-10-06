@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_limits "github.com/oracle/oci-go-sdk/v48/limits"
+	oci_limits "github.com/oracle/oci-go-sdk/v49/limits"
 )
 
 func init() {
@@ -162,7 +162,7 @@ func (s *LimitsQuotaResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -183,7 +183,7 @@ func (s *LimitsQuotaResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "limits")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "limits")
 
 	response, err := s.Client.CreateQuota(context.Background(), request)
 	if err != nil {
@@ -200,7 +200,7 @@ func (s *LimitsQuotaResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.QuotaId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "limits")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "limits")
 
 	response, err := s.Client.GetQuota(context.Background(), request)
 	if err != nil {
@@ -228,7 +228,7 @@ func (s *LimitsQuotaResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -247,7 +247,7 @@ func (s *LimitsQuotaResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "limits")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "limits")
 
 	response, err := s.Client.UpdateQuota(context.Background(), request)
 	if err != nil {
@@ -264,7 +264,7 @@ func (s *LimitsQuotaResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.QuotaId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "limits")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "limits")
 
 	_, err := s.Client.DeleteQuota(context.Background(), request)
 	return err

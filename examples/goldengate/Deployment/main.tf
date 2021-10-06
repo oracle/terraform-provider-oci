@@ -20,10 +20,6 @@ variable "deployment_cpu_core_count" {
   	default = 1
 }
 
-variable "deployment_defined_tags_value" {
-  	default = "value"
-}
-
 variable "deployment_deployment_type" {
   	default = "OGG"
 }
@@ -37,7 +33,6 @@ variable "deployment_display_name" {
 }
 
 variable "deployment_fqdn" {
-  	default = "fqdn.ggs.com"
 }
 
 variable "deployment_freeform_tags" {
@@ -69,20 +64,16 @@ variable "deployment_ogg_data_deployment_name" {
 }
 
 variable "deployment_ogg_data_certificate" {
-  	default = "certificate"
 }
 
 variable "deployment_ogg_data_key" {
-  	default = "key"
 }
 
 variable "deployment_state" {
   	default = "ACTIVE"
 }
 
-variable defined_tag_namespace_name { default = "" }
-
-
+#variable defined_tag_namespace_name { default = "" }
 
 provider "oci" {
   	tenancy_ocid     = var.tenancy_ocid
@@ -100,6 +91,7 @@ resource "oci_core_network_security_group" "test_network_security_group" {
 
 resource "oci_core_subnet" "test_subnet" {
 	cidr_block = "10.0.0.0/24"
+  display_name = "TestSubnet"
 	compartment_id = var.compartment_ocid
 	vcn_id = oci_core_vcn.test_vcn.id
 }
@@ -123,25 +115,9 @@ resource "oci_golden_gate_deployment_backup" "test_deployment_backup" {
 
 }
 
-resource "oci_identity_tag_namespace" "tag-namespace1" {
-  	#Required
-	compartment_id = var.tenancy_ocid
-  	description = "example tag namespace"
-  	name = var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"
-	is_retired = false
-}
-
-resource "oci_identity_tag" "tag1" {
-  	#Required
-  	description = "example tag"
-  	name = "example-tag"
-    tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
-	is_retired = false
-}
-
 resource "oci_objectstorage_bucket" "test_bucket" {
 	compartment_id = var.compartment_ocid
-	name = "tfTestBucket"
+	name = "tfTestBucketold"
 	namespace = data.oci_objectstorage_namespace.test_namespace.namespace
 }
 
@@ -153,13 +129,12 @@ resource "oci_golden_gate_deployment" "test_backup_deployment" {
   	display_name            = var.deployment_display_name
   	is_auto_scaling_enabled = var.deployment_is_auto_scaling_enabled
   	license_model           = var.deployment_license_model
-	subnet_id 				= oci_core_subnet.test_subnet.id  	
+	subnet_id 				= oci_core_subnet.test_subnet.id
   	ogg_data {
 		admin_password  = var.deployment_ogg_data_admin_password
     	admin_username  = var.deployment_ogg_data_admin_username
     	deployment_name = var.deployment_ogg_data_deployment_name
   	}
-	
 }
 
 resource "oci_golden_gate_deployment" "test_deployment" {
@@ -187,8 +162,8 @@ resource "oci_golden_gate_deployment" "test_deployment" {
     deployment_name = var.deployment_ogg_data_deployment_name
 
     #Optional
-    certificate = var.deployment_ogg_data_certificate
-    key         = var.deployment_ogg_data_key
+    #certificate = var.deployment_ogg_data_certificate
+    #key         = var.deployment_ogg_data_key
   }
 }
 

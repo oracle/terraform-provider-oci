@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 )
 
 func init() {
@@ -336,7 +336,7 @@ func (s *WaasCertificateResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isTrustVerificationDisabled, ok := s.D.GetOkExists("is_trust_verification_disabled"); ok {
@@ -349,7 +349,7 @@ func (s *WaasCertificateResourceCrud) Create() error {
 		request.PrivateKeyData = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.CreateCertificate(context.Background(), request)
 	if err != nil {
@@ -366,7 +366,7 @@ func (s *WaasCertificateResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CertificateId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.GetCertificate(context.Background(), request)
 	if err != nil {
@@ -406,10 +406,10 @@ func (s *WaasCertificateResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.UpdateCertificate(context.Background(), request)
 	if err != nil {
@@ -425,7 +425,7 @@ func (s *WaasCertificateResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.CertificateId = &tmp
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, waasService, certificateService, deleteResource)
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, waasService, certificateService, deleteResource)
 
 	_, err := s.Client.DeleteCertificate(context.Background(), request)
 	return err
@@ -624,7 +624,7 @@ func (s *WaasCertificateResourceCrud) updateCompartment(compartment interface{})
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	_, err := s.Client.ChangeCertificateCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

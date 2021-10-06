@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v48/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v49/optimizer"
 )
 
 func init() {
@@ -123,7 +123,7 @@ func (s *OptimizerCategoryDataSourceCrud) Get() error {
 		request.CategoryId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "optimizer")
 
 	response, err := s.Client.GetCategory(context.Background(), request)
 	if err != nil {

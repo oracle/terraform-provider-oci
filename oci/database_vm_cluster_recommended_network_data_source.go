@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -274,7 +274,7 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if networks, ok := s.D.GetOkExists("networks"); ok {
@@ -317,7 +317,7 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 		request.ScanListenerPortTcpSsl = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.GenerateRecommendedVmClusterNetwork(context.Background(), request)
 	if err != nil {

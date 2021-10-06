@@ -4,16 +4,16 @@
 package oci
 
 import (
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_core.BlockstorageClient", &OracleClient{initClientFn: initCoreBlockstorageClient})
-	RegisterOracleClient("oci_core.ComputeClient", &OracleClient{initClientFn: initCoreComputeClient})
-	RegisterOracleClient("oci_core.ComputeManagementClient", &OracleClient{initClientFn: initCoreComputeManagementClient})
-	RegisterOracleClient("oci_core.VirtualNetworkClient", &OracleClient{initClientFn: initCoreVirtualNetworkClient})
+	RegisterOracleClient("oci_core.BlockstorageClient", &OracleClient{InitClientFn: initCoreBlockstorageClient})
+	RegisterOracleClient("oci_core.ComputeClient", &OracleClient{InitClientFn: initCoreComputeClient})
+	RegisterOracleClient("oci_core.ComputeManagementClient", &OracleClient{InitClientFn: initCoreComputeManagementClient})
+	RegisterOracleClient("oci_core.VirtualNetworkClient", &OracleClient{InitClientFn: initCoreVirtualNetworkClient})
 }
 
 func initCoreBlockstorageClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

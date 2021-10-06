@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseAutonomousDatabases,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"autonomous_container_database_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -136,7 +136,7 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.AutonomousDatabaseSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListAutonomousDatabases(context.Background(), request)
 	if err != nil {

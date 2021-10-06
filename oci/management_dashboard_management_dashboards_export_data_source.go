@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_dashboard "github.com/oracle/oci-go-sdk/v48/managementdashboard"
+	oci_management_dashboard "github.com/oracle/oci-go-sdk/v49/managementdashboard"
 )
 
 func init() {
@@ -59,7 +59,7 @@ func (s *ManagementDashboardManagementDashboardsExportDataSourceCrud) Get() erro
 		request.ExportDashboardId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_dashboard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_dashboard")
 
 	response, err := s.Client.ExportDashboard(context.Background(), request)
 	if err != nil {

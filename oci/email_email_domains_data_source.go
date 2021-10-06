@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_email "github.com/oracle/oci-go-sdk/v48/email"
+	oci_email "github.com/oracle/oci-go-sdk/v49/email"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func EmailEmailDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readEmailEmailDomains,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -93,7 +93,7 @@ func (s *EmailEmailDomainsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_email.EmailDomainLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "email")
 
 	response, err := s.Client.ListEmailDomains(context.Background(), request)
 	if err != nil {

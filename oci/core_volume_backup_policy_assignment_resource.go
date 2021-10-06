@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -97,7 +97,7 @@ func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) Create() error {
 		request.PolicyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVolumeBackupPolicyAssignment(context.Background(), request)
 	if err != nil {
@@ -114,7 +114,7 @@ func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PolicyAssignmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetVolumeBackupPolicyAssignment(context.Background(), request)
 	if err != nil {
@@ -131,7 +131,7 @@ func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PolicyAssignmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteVolumeBackupPolicyAssignment(context.Background(), request)
 	return err

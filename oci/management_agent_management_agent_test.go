@@ -13,39 +13,39 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ManagementAgentResourceConfig = ManagementAgentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation)
 
 	managementAgentSingularDataSourceRepresentation = map[string]interface{}{
-		"management_agent_id": Representation{repType: Required, create: `${oci_management_agent_management_agent.test_management_agent.id}`},
+		"management_agent_id": Representation{RepType: Required, Create: `${oci_management_agent_management_agent.test_management_agent.id}`},
 	}
 
 	managementAgentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_status":  Representation{repType: Optional, create: `ACTIVE`},
-		"display_name":         Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"host_id":              Representation{repType: Optional, create: ``},
-		"is_customer_deployed": Representation{repType: Optional, create: `true`},
-		"platform_type":        Representation{repType: Optional, create: []string{`LINUX`}},
-		"state":                Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_status":  Representation{RepType: Optional, Create: `ACTIVE`},
+		"display_name":         Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"host_id":              Representation{RepType: Optional, Create: ``},
+		"install_type":         Representation{RepType: Optional, Create: `AGENT`},
+		"is_customer_deployed": Representation{RepType: Optional, Create: `true`},
+		"platform_type":        Representation{RepType: Optional, Create: []string{`LINUX`}},
+		"state":                Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":               RepresentationGroup{Required, managementAgentDataSourceFilterRepresentation}}
 	managementAgentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_management_agent_management_agent.test_management_agent.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_management_agent_management_agent.test_management_agent.id}`}},
 	}
 
 	managementAgentRepresentation = map[string]interface{}{
-		"managed_agent_id":         Representation{repType: Required, create: `${var.managed_agent_id}`},
-		"display_name":             Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"is_agent_auto_upgradable": Representation{repType: Optional, create: `false`},
-		"deploy_plugins_id":        Representation{repType: Optional, create: []string{`${data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id}`}},
+		"managed_agent_id":  Representation{RepType: Required, Create: `${var.managed_agent_id}`},
+		"display_name":      Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"deploy_plugins_id": Representation{RepType: Optional, Create: []string{`${data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id}`}},
 	}
 
 	ManagementAgentResourceDependencies = ""
@@ -72,22 +72,22 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_management_agent_management_agent.test_management_agent"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ManagementAgentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Create, managementAgentRepresentation), "managementagent", "managementAgent", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ManagementAgentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Create, managementAgentRepresentation), "managementagent", "managementAgent", t)
 
 	ResourceTest(t, testAccCheckManagementAgentManagementAgentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -99,8 +99,8 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -108,7 +108,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -119,14 +119,15 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agents", "test_management_agents", Optional, Update, managementAgentDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agents", "test_management_agents", Optional, Update, managementAgentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Optional, Update, managementAgentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "availability_status", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "install_type", "AGENT"),
 				resource.TestCheckResourceAttr(datasourceName, "is_customer_deployed", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "platform_type.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -138,6 +139,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.host"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_customer_deployed"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_agent_auto_upgradable"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_name"),
@@ -153,8 +155,8 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentSingularDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", Required, Create, managementAgentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
@@ -169,6 +171,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_key_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_path"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "install_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_agent_auto_upgradable"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_customer_deployed"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_name"),
@@ -183,7 +186,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceConfig +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation),
 		},
 		// verify resource import
 		{
@@ -207,7 +210,7 @@ func testAccCheckManagementAgentManagementAgentDestroy(s *terraform.State) error
 			tmp := rs.Primary.ID
 			request.ManagementAgentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "management_agent")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "management_agent")
 
 			response, err := client.GetManagementAgent(context.Background(), request)
 
@@ -240,7 +243,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ManagementAgentManagementAgent") {
+	if !InSweeperExcludeList("ManagementAgentManagementAgent") {
 		resource.AddTestSweepers("ManagementAgentManagementAgent", &resource.Sweeper{
 			Name:         "ManagementAgentManagementAgent",
 			Dependencies: DependencyGraph["managementAgent"],
@@ -261,13 +264,13 @@ func sweepManagementAgentManagementAgentResource(compartment string) error {
 
 			deleteManagementAgentRequest.ManagementAgentId = &managementAgentId
 
-			deleteManagementAgentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "management_agent")
+			deleteManagementAgentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "management_agent")
 			_, error := managementAgentClient.DeleteManagementAgent(context.Background(), deleteManagementAgentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ManagementAgent %s %s, It is possible that the resource is already deleted. Please verify manually \n", managementAgentId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &managementAgentId, managementAgentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &managementAgentId, managementAgentSweepWaitCondition, time.Duration(3*time.Minute),
 				managementAgentSweepResponseFetchOperation, "management_agent", true)
 		}
 	}
@@ -275,7 +278,7 @@ func sweepManagementAgentManagementAgentResource(compartment string) error {
 }
 
 func getManagementAgentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ManagementAgentId")
+	ids := GetResourceIdsToSweep(compartment, "ManagementAgentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -294,7 +297,7 @@ func getManagementAgentIds(compartment string) ([]string, error) {
 	for _, managementAgent := range listManagementAgentsResponse.Items {
 		id := *managementAgent.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ManagementAgentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ManagementAgentId", id)
 	}
 	return resourceIds, nil
 }

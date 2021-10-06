@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v48/usageapi"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v49/usageapi"
 )
 
 func init() {
@@ -188,7 +188,7 @@ func (s *MeteringComputationCustomTableResourceCrud) Create() error {
 		request.SavedReportId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
 
 	response, err := s.Client.CreateCustomTable(context.Background(), request)
 	if err != nil {
@@ -205,7 +205,7 @@ func (s *MeteringComputationCustomTableResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CustomTableId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
 
 	response, err := s.Client.GetCustomTable(context.Background(), request)
 	if err != nil {
@@ -233,7 +233,7 @@ func (s *MeteringComputationCustomTableResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
 
 	response, err := s.Client.UpdateCustomTable(context.Background(), request)
 	if err != nil {
@@ -250,7 +250,7 @@ func (s *MeteringComputationCustomTableResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CustomTableId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
 
 	_, err := s.Client.DeleteCustomTable(context.Background(), request)
 	return err

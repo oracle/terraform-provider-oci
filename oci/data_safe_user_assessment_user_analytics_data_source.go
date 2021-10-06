@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 )
 
 func init() {
@@ -21,7 +21,7 @@ func DataSafeUserAssessmentUserAnalyticsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataSafeUserAssessmentUserAnalytics,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -229,7 +229,7 @@ func (s *DataSafeUserAssessmentUserAnalyticsDataSourceCrud) Get() error {
 		request.UserName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListUserAnalytics(context.Background(), request)
 	fmt.Println("response in get ****************", response)

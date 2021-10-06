@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_streaming "github.com/oracle/oci-go-sdk/v48/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v49/streaming"
 )
 
 func init() {
@@ -189,7 +189,7 @@ func (s *StreamingStreamResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -212,7 +212,7 @@ func (s *StreamingStreamResourceCrud) Create() error {
 		request.StreamPoolId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.CreateStream(context.Background(), request)
 	if err != nil {
@@ -229,7 +229,7 @@ func (s *StreamingStreamResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.StreamId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.GetStream(context.Background(), request)
 	if err != nil {
@@ -261,7 +261,7 @@ func (s *StreamingStreamResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -272,7 +272,7 @@ func (s *StreamingStreamResourceCrud) Update() error {
 		request.StreamPoolId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.UpdateStream(context.Background(), request)
 	if err != nil {
@@ -289,7 +289,7 @@ func (s *StreamingStreamResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.StreamId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	_, err := s.Client.DeleteStream(context.Background(), request)
 	return err
@@ -348,7 +348,7 @@ func (s *StreamingStreamResourceCrud) updateCompartment(compartment interface{})
 	idTmp := s.D.Id()
 	changeCompartmentRequest.StreamId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	_, err := s.Client.ChangeStreamCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

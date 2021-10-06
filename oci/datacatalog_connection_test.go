@@ -12,64 +12,64 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v48/datacatalog"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v49/datacatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ConnectionRequiredOnlyResource = ConnectionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Required, Create, connectionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Required, Create, connectionRepresentation)
 
 	ConnectionResourceConfig = ConnectionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Update, connectionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Update, connectionRepresentation)
 
 	connectionSingularDataSourceRepresentation = map[string]interface{}{
-		"catalog_id":     Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"connection_key": Representation{repType: Required, create: `${oci_datacatalog_connection.test_connection.id}`},
-		"data_asset_key": Representation{repType: Required, create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
-		"fields":         Representation{repType: Optional, create: []string{}},
+		"catalog_id":     Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"connection_key": Representation{RepType: Required, Create: `${oci_datacatalog_connection.test_connection.id}`},
+		"data_asset_key": Representation{RepType: Required, Create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
+		"fields":         Representation{RepType: Optional, Create: []string{}},
 	}
 
 	connectionDataSourceRepresentation = map[string]interface{}{
-		"catalog_id":            Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"data_asset_key":        Representation{repType: Required, create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
-		"display_name":          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"display_name_contains": Representation{repType: Optional, create: `displayName`},
-		"fields":                Representation{repType: Optional, create: []string{}},
-		"is_default":            Representation{repType: Optional, create: `false`, update: `true`},
-		"state":                 Representation{repType: Optional, create: `ACTIVE`},
+		"catalog_id":            Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"data_asset_key":        Representation{RepType: Required, Create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
+		"display_name":          Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name_contains": Representation{RepType: Optional, Create: `displayName`},
+		"fields":                Representation{RepType: Optional, Create: []string{}},
+		"is_default":            Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"state":                 Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                RepresentationGroup{Required, connectionDataSourceFilterRepresentation}}
 	connectionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `is_default`},
-		"values": Representation{repType: Required, create: []string{`true`}},
+		"name":   Representation{RepType: Required, Create: `is_default`},
+		"values": Representation{RepType: Required, Create: []string{`true`}},
 	}
 
 	connectionRepresentation = map[string]interface{}{
-		"catalog_id":     Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"data_asset_key": Representation{repType: Required, create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"properties":     Representation{repType: Required, create: map[string]string{"default.username": "scott"}, update: map[string]string{"default.username": "wardon"}},
-		"type_key":       Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types_connection.type_collection.0.items.0.key}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"enc_properties": Representation{repType: Required, create: map[string]string{"default.password": "tiger"}, update: map[string]string{"default.password": "lion"}},
-		"is_default":     Representation{repType: Optional, create: `false`, update: `true`},
+		"catalog_id":     Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"data_asset_key": Representation{RepType: Required, Create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"properties":     Representation{RepType: Required, Create: map[string]string{"default.username": "scott"}, Update: map[string]string{"default.username": "wardon"}},
+		"type_key":       Representation{RepType: Required, Create: `${data.oci_datacatalog_catalog_types.test_catalog_types_connection.type_collection.0.items.0.key}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"enc_properties": Representation{RepType: Required, Create: map[string]string{"default.password": "tiger"}, Update: map[string]string{"default.password": "lion"}},
+		"is_default":     Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
-	ConnectionResourceDependencies = generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types_dataAssset", Optional, Create,
-			representationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
-				"type_category": Representation{repType: Optional, create: `dataAsset`},
-				"name":          Representation{repType: Optional, create: `Oracle Database`}})) +
-		generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types_connection", Optional, Create,
-			representationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
-				"type_category": Representation{repType: Optional, create: `connection`},
-				"name":          Representation{repType: Optional, create: `JDBC`},
+	ConnectionResourceDependencies = GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types_dataAssset", Optional, Create,
+			RepresentationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
+				"type_category": Representation{RepType: Optional, Create: `dataAsset`},
+				"name":          Representation{RepType: Optional, Create: `Oracle Database`}})) +
+		GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types_connection", Optional, Create,
+			RepresentationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
+				"type_category": Representation{RepType: Optional, Create: `connection`},
+				"name":          Representation{RepType: Optional, Create: `JDBC`},
 			})) +
-		generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create,
-			representationCopyWithNewProperties(dataAssetRepresentation, map[string]interface{}{
-				"type_key": Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types_dataAssset.type_collection.0.items.0.key}`}}))
+		GenerateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create,
+			RepresentationCopyWithNewProperties(dataAssetRepresentation, map[string]interface{}{
+				"type_key": Representation{RepType: Required, Create: `${data.oci_datacatalog_catalog_types.test_catalog_types_dataAssset.type_collection.0.items.0.key}`}}))
 )
 
 // issue-routing-tag: datacatalog/default
@@ -89,15 +89,15 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 	var resId, resId2 string
 	var compositeId string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ConnectionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Create, connectionRepresentation), "datacatalog", "connection", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ConnectionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Create, connectionRepresentation), "datacatalog", "connection", t)
 
 	ResourceTest(t, testAccCheckDatacatalogConnectionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Required, Create, connectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Required, Create, connectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
@@ -106,20 +106,20 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ConnectionResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Create, connectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Create, connectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
@@ -132,13 +132,13 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
-					dataAssetKey, _ := fromInstanceState(s, resourceName, "data_asset_key")
-					catalogId, _ := fromInstanceState(s, resourceName, "catalog_id")
+					resId, err = FromInstanceState(s, resourceName, "id")
+					dataAssetKey, _ := FromInstanceState(s, resourceName, "data_asset_key")
+					catalogId, _ := FromInstanceState(s, resourceName, "catalog_id")
 					compositeId = getConnectionCompositeId(catalogId, resId, dataAssetKey)
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -150,7 +150,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Update, connectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Update, connectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
@@ -163,7 +163,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -174,9 +174,9 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_connections", "test_connections", Optional, Update, connectionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_connections", "test_connections", Optional, Update, connectionDataSourceRepresentation) +
 				compartmentIdVariableStr + ConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Update, connectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Optional, Update, connectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "data_asset_key"),
@@ -190,7 +190,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Required, Create, connectionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_connection", "test_connection", Required, Create, connectionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ConnectionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
@@ -258,7 +258,7 @@ func testAccCheckDatacatalogConnectionDestroy(s *terraform.State) error {
 				request.DataAssetKey = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datacatalog")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datacatalog")
 
 			response, err := client.GetConnection(context.Background(), request)
 

@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/database"
 )
 
 // TestAccResourceDatabaseDBSystem_allVM tests DBsystems using Virtual Machines.
@@ -33,7 +33,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: ResourceDatabaseBaseConfig + ResourceDatabaseTokenFn(`
 				resource "oci_database_db_system" "t" {
@@ -297,9 +297,9 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				//resource.TestCheckResourceAttrSet("data.oci_database_db_node.t", "backup_vnic_id"),
 				resource.TestCheckResourceAttr("data.oci_database_db_node.t", "software_storage_size_in_gb", "200"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, ResourceDatabaseResourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, ResourceDatabaseResourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -307,7 +307,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				},
 			),
 		},
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: ResourceDatabaseBaseConfig + compartmentIdUVariableStr + ResourceDatabaseTokenFn(`
 				resource "oci_database_db_system" "t" {
@@ -358,7 +358,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "compartment_id", compartmentIdU),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}
@@ -417,7 +417,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "compartment_id", compartmentId),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}
@@ -425,7 +425,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				},
 			),
 		},
-		// verify update
+		// verify Update
 		{
 			Config: ResourceDatabaseBaseConfig + ResourceDatabaseTokenFn(`
 				resource "oci_database_db_system" "t" {
@@ -548,7 +548,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}

@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v48/networkloadbalancer"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v49/networkloadbalancer"
 )
 
 func init() {
@@ -138,8 +138,8 @@ type NetworkLoadBalancerBackendResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-// The create, update, and delete operations may implicitly modify the associated backend set resource. This
-// may happen concurrently with an update to oci_network_load_balancer_backend_set. Use a per-backend set
+// The Create, Update, and delete operations may implicitly modify the associated backend set resource. This
+// may happen concurrently with an Update to oci_network_load_balancer_backend_set. Use a per-backend set
 // mutex to synchronize accesses to the backend set.
 // This replicates the LBaaS (oci_loadbalancer_backend) behavior.
 func (s *NetworkLoadBalancerBackendResourceCrud) GetMutex() *sync.Mutex {
@@ -214,7 +214,7 @@ func (s *NetworkLoadBalancerBackendResourceCrud) Create() error {
 		request.Weight = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.CreateBackend(context.Background(), request)
 	if err != nil {
@@ -222,7 +222,7 @@ func (s *NetworkLoadBalancerBackendResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBackendFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBackendFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *NetworkLoadBalancerBackendResourceCrud) getBackendFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -265,7 +265,7 @@ func backendWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 
 func nlbBackendWaitForWorkRequest(wId *string, action oci_network_load_balancer.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_network_load_balancer.NetworkLoadBalancerClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "network_load_balancer")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "network_load_balancer")
 	retryPolicy.ShouldRetryOperation = networkLoadBalancerWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_network_load_balancer.GetWorkRequestResponse{}
@@ -367,7 +367,7 @@ func (s *NetworkLoadBalancerBackendResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.GetBackend(context.Background(), request)
 	if err != nil {
@@ -416,7 +416,7 @@ func (s *NetworkLoadBalancerBackendResourceCrud) Update() error {
 		request.Weight = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.UpdateBackend(context.Background(), request)
 	if err != nil {
@@ -424,7 +424,7 @@ func (s *NetworkLoadBalancerBackendResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBackendFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBackendFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *NetworkLoadBalancerBackendResourceCrud) Delete() error {
@@ -445,7 +445,7 @@ func (s *NetworkLoadBalancerBackendResourceCrud) Delete() error {
 		request.NetworkLoadBalancerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.DeleteBackend(context.Background(), request)
 	if err != nil {

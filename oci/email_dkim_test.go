@@ -13,43 +13,43 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_email "github.com/oracle/oci-go-sdk/v48/email"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_email "github.com/oracle/oci-go-sdk/v49/email"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DkimRequiredOnlyResource = DkimResourceDependencies +
-		generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimRepresentation)
+		GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimRepresentation)
 
 	DkimResourceConfig = DkimResourceDependencies +
-		generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation)
+		GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation)
 
 	dkimSingularDataSourceRepresentation = map[string]interface{}{
-		"dkim_id": Representation{repType: Required, create: `${oci_email_dkim.test_dkim.id}`},
+		"dkim_id": Representation{RepType: Required, Create: `${oci_email_dkim.test_dkim.id}`},
 	}
 
 	dkimDataSourceRepresentation = map[string]interface{}{
-		"email_domain_id": Representation{repType: Required, create: `${oci_email_email_domain.test_email_domain.id}`},
-		"id":              Representation{repType: Optional, create: `${oci_email_dkim.test_dkim.id}`},
-		"name":            Representation{repType: Optional, create: `testselector1`},
-		"state":           Representation{repType: Optional, create: `NEEDS_ATTENTION`},
+		"email_domain_id": Representation{RepType: Required, Create: `${oci_email_email_domain.test_email_domain.id}`},
+		"id":              Representation{RepType: Optional, Create: `${oci_email_dkim.test_dkim.id}`},
+		"name":            Representation{RepType: Optional, Create: `testselector1`},
+		"state":           Representation{RepType: Optional, Create: `NEEDS_ATTENTION`},
 		"filter":          RepresentationGroup{Required, dkimDataSourceFilterRepresentation}}
 	dkimDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_email_dkim.test_dkim.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_email_dkim.test_dkim.id}`}},
 	}
 
 	dkimRepresentation = map[string]interface{}{
-		"email_domain_id": Representation{repType: Required, create: `${oci_email_email_domain.test_email_domain.id}`},
-		"defined_tags":    Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
-		"description":     Representation{repType: Optional, create: `description`, update: `description`},
-		"freeform_tags":   Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Finance"}},
-		"name":            Representation{repType: Optional, create: `testselector1`},
+		"email_domain_id": Representation{RepType: Required, Create: `${oci_email_email_domain.test_email_domain.id}`},
+		"defined_tags":    Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"description":     Representation{RepType: Optional, Create: `description`, Update: `description`},
+		"freeform_tags":   Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
+		"name":            Representation{RepType: Optional, Create: `testselector1`},
 	}
 
-	DkimResourceDependencies = generateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Required, Create, emailDomainRepresentation) +
+	DkimResourceDependencies = GenerateResourceFromRepresentationMap("oci_email_email_domain", "test_email_domain", Required, Create, emailDomainRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -67,32 +67,32 @@ func TestEmailDkimResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_email_dkim.test_dkim"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DkimResourceDependencies+
-		generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Create, dkimRepresentation), "email", "dkim", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DkimResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Create, dkimRepresentation), "email", "dkim", t)
 
 	ResourceTest(t, testAccCheckEmailDkimDestroy, []resource.TestStep{
-		//verify create
+		//verify Create
 		{
 			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DkimResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Create, dkimRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Create, dkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -102,9 +102,9 @@ func TestEmailDkimResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "testselector1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -116,7 +116,7 @@ func TestEmailDkimResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -126,7 +126,7 @@ func TestEmailDkimResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "testselector1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -137,9 +137,9 @@ func TestEmailDkimResource_basic(t *testing.T) {
 		//verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_email_dkims", "test_dkims", Optional, Update, dkimDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_email_dkims", "test_dkims", Optional, Update, dkimDataSourceRepresentation) +
 				compartmentIdVariableStr + DkimResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "email_domain_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -153,7 +153,7 @@ func TestEmailDkimResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_email_dkim", "test_dkim", Required, Create, dkimSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DkimResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dkim_id"),
@@ -198,7 +198,7 @@ func testAccCheckEmailDkimDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DkimId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "email")
 
 			response, err := client.GetDkim(context.Background(), request)
 
@@ -231,7 +231,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("EmailDkim") {
+	if !InSweeperExcludeList("EmailDkim") {
 		resource.AddTestSweepers("EmailDkim", &resource.Sweeper{
 			Name:         "EmailDkim",
 			Dependencies: DependencyGraph["dkim"],
@@ -252,13 +252,13 @@ func sweepEmailDkimResource(compartment string) error {
 
 			deleteDkimRequest.DkimId = &dkimId
 
-			deleteDkimRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			deleteDkimRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "email")
 			_, error := emailClient.DeleteDkim(context.Background(), deleteDkimRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Dkim %s %s, It is possible that the resource is already deleted. Please verify manually \n", dkimId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &dkimId, dkimSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &dkimId, dkimSweepWaitCondition, time.Duration(3*time.Minute),
 				dkimSweepResponseFetchOperation, "email", true)
 		}
 	}
@@ -266,7 +266,7 @@ func sweepEmailDkimResource(compartment string) error {
 }
 
 func getDkimIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DkimId")
+	ids := GetResourceIdsToSweep(compartment, "DkimId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -293,7 +293,7 @@ func getDkimIds(compartment string) ([]string, error) {
 		for _, dkim := range listDkimsResponse.Items {
 			id := *dkim.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "DkimId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "DkimId", id)
 		}
 
 	}

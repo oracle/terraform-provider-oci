@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_streaming "github.com/oracle/oci-go-sdk/v48/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v49/streaming"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func StreamingStreamsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readStreamingStreams,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -93,7 +93,7 @@ func (s *StreamingStreamsDataSourceCrud) Get() error {
 		request.StreamPoolId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "streaming")
 
 	response, err := s.Client.ListStreams(context.Background(), request)
 	if err != nil {

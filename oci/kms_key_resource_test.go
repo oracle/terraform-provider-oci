@@ -38,7 +38,7 @@ func TestKmsKeyResource_ResourceDiscovery(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
-					managementEndpoint, errRead := fromInstanceState(s, "data.oci_kms_vault.test_vault", "management_endpoint")
+					managementEndpoint, errRead := FromInstanceState(s, "data.oci_kms_vault.test_vault", "management_endpoint")
 					if errRead != nil {
 						return errRead
 					}
@@ -46,7 +46,7 @@ func TestKmsKeyResource_ResourceDiscovery(t *testing.T) {
 					compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + kmsKeyId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

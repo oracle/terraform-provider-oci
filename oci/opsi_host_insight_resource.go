@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v48/opsi"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
 )
 
 func init() {
@@ -202,7 +202,7 @@ func (s *OpsiHostInsightResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.CreateHostInsight(context.Background(), request)
 	if err != nil {
@@ -224,7 +224,7 @@ func (s *OpsiHostInsightResourceCrud) Create() error {
 		wantedState := strings.ToUpper(status.(string))
 		if oci_opsi.ResourceStatusDisabled == oci_opsi.ResourceStatusEnum(wantedState) {
 			request := oci_opsi.DisableHostInsightRequest{}
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 			tmp := s.D.Id()
 			request.HostInsightId = &tmp
 			response, err := s.Client.DisableHostInsight(context.Background(), request)
@@ -287,7 +287,7 @@ func hostInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 
 func hostInsightWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "opsi")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = hostInsightWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_opsi.GetWorkRequestResponse{}
@@ -368,7 +368,7 @@ func (s *OpsiHostInsightResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.HostInsightId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.GetHostInsight(context.Background(), request)
 	if err != nil {
@@ -395,7 +395,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.UpdateHostInsight(context.Background(), request)
 	if err != nil {
@@ -426,7 +426,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 
 	if disableHostInsight {
 		request := oci_opsi.DisableHostInsightRequest{}
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp
 		response, err := s.Client.DisableHostInsight(context.Background(), request)
@@ -447,7 +447,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 
 	if enableHostInsight {
 		request := oci_opsi.EnableHostInsightRequest{}
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp
 		err := s.populateTopLevelPolymorphicEnableHostInsightRequest(&request)
@@ -479,7 +479,7 @@ func (s *OpsiHostInsightResourceCrud) Delete() error {
 	status, ok := s.D.GetOkExists("status")
 	if ok && oci_opsi.ResourceStatusEnabled == oci_opsi.ResourceStatusEnum(strings.ToUpper(status.(string))) {
 		request := oci_opsi.DisableHostInsightRequest{}
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp
 		response, err := s.Client.DisableHostInsight(context.Background(), request)
@@ -503,7 +503,7 @@ func (s *OpsiHostInsightResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.HostInsightId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.DeleteHostInsight(context.Background(), request)
 	if err != nil {
@@ -688,7 +688,7 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicCreateHostInsig
 			details.DefinedTags = convertedDefinedTags
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateHostInsightDetails = details
 	default:
@@ -717,7 +717,7 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicUpdateHostInsig
 			details.DefinedTags = convertedDefinedTags
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp
@@ -756,7 +756,7 @@ func (s *OpsiHostInsightResourceCrud) updateCompartment(compartment interface{})
 	idTmp := s.D.Id()
 	changeCompartmentRequest.HostInsightId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.ChangeHostInsightCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -764,5 +764,5 @@ func (s *OpsiHostInsightResourceCrud) updateCompartment(compartment interface{})
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getHostInsightFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getHostInsightFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

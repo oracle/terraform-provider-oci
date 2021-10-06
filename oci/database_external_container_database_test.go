@@ -13,38 +13,38 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ExternalContainerDatabaseRequiredOnlyResource = ExternalContainerDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Required, Create, externalContainerDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Required, Create, externalContainerDatabaseRepresentation)
 
 	ExternalContainerDatabaseResourceConfig = ExternalContainerDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Update, externalContainerDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Update, externalContainerDatabaseRepresentation)
 
 	externalContainerDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"external_container_database_id": Representation{repType: Required, create: `${oci_database_external_container_database.test_external_container_database.id}`},
+		"external_container_database_id": Representation{RepType: Required, Create: `${oci_database_external_container_database.test_external_container_database.id}`},
 	}
 
 	externalContainerDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `myTestExternalCdb`},
-		"state":          Representation{repType: Optional, create: `NOT_CONNECTED`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `myTestExternalCdb`},
+		"state":          Representation{RepType: Optional, Create: `NOT_CONNECTED`},
 		"filter":         RepresentationGroup{Required, externalContainerDatabaseDataSourceFilterRepresentation}}
 	externalContainerDatabaseDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_external_container_database.test_external_container_database.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_external_container_database.test_external_container_database.id}`}},
 	}
 
 	externalContainerDatabaseRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `myTestExternalCdb`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `myTestExternalCdb`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	ExternalContainerDatabaseResourceDependencies = DefinedTagsDependencies
@@ -68,34 +68,34 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_external_container_database.test_external_container_database"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ExternalContainerDatabaseResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Create, externalContainerDatabaseRepresentation), "database", "externalContainerDatabase", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ExternalContainerDatabaseResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Create, externalContainerDatabaseRepresentation), "database", "externalContainerDatabase", t)
 
 	ResourceTest(t, testAccCheckDatabaseExternalContainerDatabaseDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Required, Create, externalContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Required, Create, externalContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalCdb"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Create, externalContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Create, externalContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -106,9 +106,9 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -117,12 +117,12 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ExternalContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Create,
-					representationCopyWithNewProperties(externalContainerDatabaseRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Create,
+					RepresentationCopyWithNewProperties(externalContainerDatabaseRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -134,7 +134,7 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -146,7 +146,7 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Update, externalContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Update, externalContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -157,7 +157,7 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -168,9 +168,9 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_external_container_databases", "test_external_container_databases", Optional, Update, externalContainerDatabaseDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_external_container_databases", "test_external_container_databases", Optional, Update, externalContainerDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + ExternalContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Update, externalContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Optional, Update, externalContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "myTestExternalCdb"),
@@ -190,7 +190,7 @@ func TestDatabaseExternalContainerDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Required, Create, externalContainerDatabaseSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_external_container_database", "test_external_container_database", Required, Create, externalContainerDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ExternalContainerDatabaseResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_container_database_id"),
@@ -231,7 +231,7 @@ func testAccCheckDatabaseExternalContainerDatabaseDestroy(s *terraform.State) er
 			tmp := rs.Primary.ID
 			request.ExternalContainerDatabaseId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetExternalContainerDatabase(context.Background(), request)
 
@@ -264,7 +264,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseExternalContainerDatabase") {
+	if !InSweeperExcludeList("DatabaseExternalContainerDatabase") {
 		resource.AddTestSweepers("DatabaseExternalContainerDatabase", &resource.Sweeper{
 			Name:         "DatabaseExternalContainerDatabase",
 			Dependencies: DependencyGraph["externalContainerDatabase"],
@@ -285,13 +285,13 @@ func sweepDatabaseExternalContainerDatabaseResource(compartment string) error {
 
 			deleteExternalContainerDatabaseRequest.ExternalContainerDatabaseId = &externalContainerDatabaseId
 
-			deleteExternalContainerDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteExternalContainerDatabaseRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteExternalContainerDatabase(context.Background(), deleteExternalContainerDatabaseRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ExternalContainerDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", externalContainerDatabaseId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &externalContainerDatabaseId, externalContainerDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &externalContainerDatabaseId, externalContainerDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
 				externalContainerDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -299,7 +299,7 @@ func sweepDatabaseExternalContainerDatabaseResource(compartment string) error {
 }
 
 func getExternalContainerDatabaseIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ExternalContainerDatabaseId")
+	ids := GetResourceIdsToSweep(compartment, "ExternalContainerDatabaseId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -318,7 +318,7 @@ func getExternalContainerDatabaseIds(compartment string) ([]string, error) {
 	for _, externalContainerDatabase := range listExternalContainerDatabasesResponse.Items {
 		id := *externalContainerDatabase.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ExternalContainerDatabaseId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ExternalContainerDatabaseId", id)
 	}
 	return resourceIds, nil
 }

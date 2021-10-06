@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readManagementAgentManagementAgents,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_status": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -32,6 +32,10 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"host_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"install_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -113,6 +117,10 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 		request.HostId = &tmp
 	}
 
+	if installType, ok := s.D.GetOkExists("install_type"); ok {
+		request.InstallType = oci_management_agent.ListManagementAgentsInstallTypeEnum(installType.(string))
+	}
+
 	if isCustomerDeployed, ok := s.D.GetOkExists("is_customer_deployed"); ok {
 		tmp := isCustomerDeployed.(bool)
 		request.IsCustomerDeployed = &tmp
@@ -161,7 +169,7 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.ListManagementAgents(context.Background(), request)
 	if err != nil {
@@ -225,6 +233,8 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) SetData() error {
 			managementAgent["install_key_id"] = *r.InstallKeyId
 		}
 
+		managementAgent["install_type"] = r.InstallType
+
 		if r.IsAgentAutoUpgradable != nil {
 			managementAgent["is_agent_auto_upgradable"] = *r.IsAgentAutoUpgradable
 		}
@@ -252,6 +262,10 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) SetData() error {
 			pluginList = append(pluginList, ManagementAgentPluginDetailsToMap(item))
 		}
 		managementAgent["plugin_list"] = pluginList
+
+		if r.ResourceArtifactVersion != nil {
+			managementAgent["resource_artifact_version"] = *r.ResourceArtifactVersion
+		}
 
 		managementAgent["state"] = r.LifecycleState
 

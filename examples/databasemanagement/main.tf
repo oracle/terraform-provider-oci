@@ -209,3 +209,13 @@ data "oci_database_management_db_management_private_endpoints" "test_db_manageme
   vcn_id = oci_core_vcn.test_vcn.id
   state = var.db_management_private_endpoint_state
 }
+
+data "oci_database_management_job_executions_status" "test_job_executions_status" {
+  #Required
+  compartment_id = var.compartment_id
+  start_time = formatdate("YYYY-MM-DD'T'hh:mm:ss'.000'Z", timeadd(timestamp(), "-12h"))
+  end_time = formatdate("YYYY-MM-DD'T'hh:mm:ss'.000'Z", timestamp())
+
+  #Optional
+  managed_database_id = var.managed_database_id
+}

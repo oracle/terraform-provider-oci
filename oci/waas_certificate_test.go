@@ -14,49 +14,49 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	WaasCertificateRequiredOnlyResource = WaasCertificateResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation)
 
 	WaasCertificateResourceConfig = WaasCertificateResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation)
 
 	waasCertificateSingularDataSourceRepresentation = map[string]interface{}{
-		"certificate_id": Representation{repType: Required, create: `${oci_waas_certificate.test_certificate.id}`},
+		"certificate_id": Representation{RepType: Required, Create: `${oci_waas_certificate.test_certificate.id}`},
 	}
 
 	waasCertificateDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                        Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_names":                         Representation{repType: Optional, create: []string{`displayName2`}},
-		"ids":                                   Representation{repType: Optional, create: []string{`${oci_waas_certificate.test_certificate.id}`}},
-		"states":                                Representation{repType: Optional, create: []string{`ACTIVE`}},
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
-		"time_created_less_than":                Representation{repType: Optional, create: `${timestamp()}`},
+		"compartment_id":                        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_names":                         Representation{RepType: Optional, Create: []string{`displayName2`}},
+		"ids":                                   Representation{RepType: Optional, Create: []string{`${oci_waas_certificate.test_certificate.id}`}},
+		"states":                                Representation{RepType: Optional, Create: []string{`ACTIVE`}},
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"time_created_less_than":                Representation{RepType: Optional, Create: `${timestamp()}`},
 		"filter":                                RepresentationGroup{Required, waasCertificateDataSourceFilterRepresentation}}
 	waasCertificateDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_waas_certificate.test_certificate.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_waas_certificate.test_certificate.id}`}},
 	}
 
 	waasCertificateRepresentation = map[string]interface{}{
-		"certificate_data":               Representation{repType: Required, create: "${var.ca_certificate_value}"},
-		"compartment_id":                 Representation{repType: Required, create: `${var.compartment_id}`},
-		"private_key_data":               Representation{repType: Required, create: "${var.private_key_value}"},
-		"defined_tags":                   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_trust_verification_disabled": Representation{repType: Required, create: `true`},
+		"certificate_data":               Representation{RepType: Required, Create: "${var.ca_certificate_value}"},
+		"compartment_id":                 Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"private_key_data":               Representation{RepType: Required, Create: "${var.private_key_value}"},
+		"defined_tags":                   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_trust_verification_disabled": Representation{RepType: Required, Create: `true`},
 		"timeouts":                       RepresentationGroup{Required, waasCertificateTimeoutsRepresentation},
 	}
 	// Add timeout for delete upto the same time as the dependency to ensure clean delete
 	waasCertificateTimeoutsRepresentation = map[string]interface{}{
-		"delete": Representation{repType: Required, create: `60m`},
+		"delete": Representation{RepType: Required, Create: `60m`},
 	}
 
 	WaasCertificateResourceDependencies = DefinedTagsDependencies + caCertificateVariableStr + privateKeyVariableStr
@@ -80,35 +80,35 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_waas_certificate.test_certificate"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CertificateResourceDependencies+
-		generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create, certificateRepresentation), "waas", "certificate", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CertificateResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create, certificateRepresentation), "waas", "certificate", t)
 
 	ResourceTest(t, testAccCheckWaasCertificateDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "private_key_data", regexp.MustCompile("-----BEGIN RSA.*")),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create, waasCertificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create, waasCertificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -126,9 +126,9 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "version"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -137,12 +137,12 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create,
-					representationCopyWithNewProperties(waasCertificateRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Create,
+					RepresentationCopyWithNewProperties(waasCertificateRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
@@ -161,7 +161,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "version"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -173,7 +173,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + WaasCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "certificate_data", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -191,7 +191,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "version"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -202,9 +202,9 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_certificates", "test_certificates", Optional, Update, waasCertificateDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_certificates", "test_certificates", Optional, Update, waasCertificateDataSourceRepresentation) +
 				compartmentIdVariableStr + WaasCertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Optional, Update, waasCertificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
@@ -230,7 +230,7 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + WaasCertificateResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "certificate_id"),
@@ -267,7 +267,7 @@ func testAccCheckWaasCertificateDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CertificateId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 
 			response, err := client.GetCertificate(context.Background(), request)
 
@@ -300,7 +300,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("WaasCertificate") {
+	if !InSweeperExcludeList("WaasCertificate") {
 		resource.AddTestSweepers("WaasCertificate", &resource.Sweeper{
 			Name:         "WaasCertificate",
 			Dependencies: DependencyGraph["certificate"],
@@ -321,13 +321,13 @@ func sweepWaasCertificateResource(compartment string) error {
 
 			deleteCertificateRequest.CertificateId = &certificateId
 
-			deleteCertificateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			deleteCertificateRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 			_, error := waasClient.DeleteCertificate(context.Background(), deleteCertificateRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Certificate %s %s, It is possible that the resource is already deleted. Please verify manually \n", certificateId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &certificateId, certificateSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &certificateId, certificateSweepWaitCondition, time.Duration(3*time.Minute),
 				certificateSweepResponseFetchOperation, "waas", true)
 		}
 	}
@@ -335,7 +335,7 @@ func sweepWaasCertificateResource(compartment string) error {
 }
 
 func getCertificateIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "CertificateId")
+	ids := GetResourceIdsToSweep(compartment, "CertificateId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -353,7 +353,7 @@ func getCertificateIds(compartment string) ([]string, error) {
 	for _, certificate := range listCertificatesResponse.Items {
 		id := *certificate.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "CertificateId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "CertificateId", id)
 	}
 	return resourceIds, nil
 }

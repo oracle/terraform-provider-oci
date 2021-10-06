@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -257,7 +257,7 @@ func (s *CoreDrgAttachmentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if networkDetails, ok := s.D.GetOkExists("network_details"); ok {
@@ -281,7 +281,7 @@ func (s *CoreDrgAttachmentResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateDrgAttachment(context.Background(), request)
 	if err != nil {
@@ -299,7 +299,7 @@ func (s *CoreDrgAttachmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetDrgAttachment(context.Background(), request)
 	if err != nil {
@@ -342,7 +342,7 @@ func (s *CoreDrgAttachmentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if networkDetails, ok := s.D.GetOkExists("network_details"); ok && s.D.HasChange("network_details") {
@@ -361,7 +361,7 @@ func (s *CoreDrgAttachmentResourceCrud) Update() error {
 		request.RouteTableId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateDrgAttachment(context.Background(), request)
 	if err != nil {
@@ -378,7 +378,7 @@ func (s *CoreDrgAttachmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteDrgAttachment(context.Background(), request)
 	return err
@@ -522,7 +522,7 @@ func (s *CoreDrgAttachmentResourceCrud) removeExportDrgRouteDistribution() error
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.RemoveExportDrgRouteDistribution(context.Background(), request)
 	if err != nil {

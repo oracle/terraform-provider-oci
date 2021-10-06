@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 )
 
 func init() {
@@ -31,6 +31,10 @@ func ManagementAgentManagementAgentCountDataSource() *schema.Resource {
 			},
 			"has_plugins": {
 				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"install_type": {
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			// Computed
@@ -66,6 +70,10 @@ func ManagementAgentManagementAgentCountDataSource() *schema.Resource {
 									},
 									"has_plugins": {
 										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"install_type": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"platform_type": {
@@ -130,7 +138,11 @@ func (s *ManagementAgentManagementAgentCountDataSourceCrud) Get() error {
 		request.HasPlugins = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	if installType, ok := s.D.GetOkExists("install_type"); ok {
+		request.InstallType = oci_management_agent.SummarizeManagementAgentCountsInstallTypeEnum(installType.(string))
+	}
+
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.SummarizeManagementAgentCounts(context.Background(), request)
 	if err != nil {
@@ -179,6 +191,8 @@ func ManagementAgentAggregationDimensionsToMap(obj *oci_management_agent.Managem
 	if obj.HasPlugins != nil {
 		result["has_plugins"] = bool(*obj.HasPlugins)
 	}
+
+	result["install_type"] = string(obj.InstallType)
 
 	result["platform_type"] = string(obj.PlatformType)
 

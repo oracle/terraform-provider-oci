@@ -12,12 +12,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/oracle/oci-go-sdk/v48/common"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 )
 
 func init() {
@@ -40,8 +40,8 @@ func DatascienceModelResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 			},
 			"model_artifact": {
 				Type:     schema.TypeString,
@@ -392,7 +392,7 @@ func (s *DatascienceModelResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if inputSchema, ok := s.D.GetOkExists("input_schema"); ok {
@@ -410,7 +410,7 @@ func (s *DatascienceModelResourceCrud) Create() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.CreateModel(context.Background(), request)
 	if err != nil {
@@ -427,7 +427,7 @@ func (s *DatascienceModelResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.GetModel(context.Background(), request)
 	if err != nil {
@@ -513,13 +513,13 @@ func (s *DatascienceModelResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateModel(context.Background(), request)
 	if err != nil {
@@ -536,7 +536,7 @@ func (s *DatascienceModelResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.DeleteModel(context.Background(), request)
 	return err
@@ -674,7 +674,7 @@ func (s *DatascienceModelResourceCrud) updateCompartment(compartment interface{}
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ModelId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.ChangeModelCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -694,7 +694,7 @@ func (s *DatascienceModelResourceCrud) ActivateModel() error {
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.ActivateModel(context.Background(), request)
 	if err != nil {
@@ -711,7 +711,7 @@ func (s *DatascienceModelResourceCrud) DeactivateModel() error {
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.DeactivateModel(context.Background(), request)
 	if err != nil {
@@ -751,7 +751,7 @@ func (s *DatascienceModelResourceCrud) CreateArtifact() error {
 
 	request.ModelId = s.Res.Id
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.CreateModelArtifact(context.Background(), request)
 	if err != nil {
@@ -766,7 +766,7 @@ func (s *DatascienceModelResourceCrud) GetArtifactHead() error {
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 
 	response, err := s.Client.HeadModelArtifact(context.Background(), request)
 	if err != nil {

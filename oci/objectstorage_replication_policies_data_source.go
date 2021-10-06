@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v48/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v49/objectstorage"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func ObjectStorageReplicationPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readObjectStorageReplicationPolicies,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"bucket": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -67,7 +67,7 @@ func (s *ObjectStorageReplicationPoliciesDataSourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "object_storage")
 
 	response, err := s.Client.ListReplicationPolicies(context.Background(), request)
 	if err != nil {

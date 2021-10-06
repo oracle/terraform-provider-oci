@@ -14,170 +14,170 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DbHomeRequiredOnlyResource = DbHomeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceNone)
+		GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceNone)
 
 	DbHomeResourceConfig = DbHomeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Optional, Update, dbHomeRepresentationSourceNone)
+		GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Optional, Update, dbHomeRepresentationSourceNone)
 
 	dbHomeSingularDataSourceRepresentation = map[string]interface{}{
-		"db_home_id": Representation{repType: Required, create: `${oci_database_db_home.test_db_home_source_none.id}`},
+		"db_home_id": Representation{RepType: Required, Create: `${oci_database_db_home.test_db_home_source_none.id}`},
 	}
 
 	dbHomeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"db_system_id":   Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
-		"display_name":   Representation{repType: Optional, create: `createdDbHomeNone`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"db_system_id":   Representation{RepType: Required, Create: `${oci_database_db_system.test_db_system.id}`},
+		"display_name":   Representation{RepType: Optional, Create: `createdDbHomeNone`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, dbHomeDataSourceFilterRepresentation}}
 
 	dbHomeDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_db_home.test_db_home_source_none.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_db_home.test_db_home_source_none.id}`}},
 	}
 
 	dbHomeRepresentation = map[string]interface{}{
 		"database":                   RepresentationGroup{Required, dbHomeDatabaseRepresentation},
-		"database_software_image_id": Representation{repType: Optional, create: `${oci_database_database_software_image.test_database_software_image.id}`},
-		"db_system_id":               Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
-		"db_version":                 Representation{repType: Required, create: `12.1.0.2`},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":               Representation{repType: Optional, create: `createdDbHome`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_desupported_version":     Representation{repType: Optional, create: `false`},
-		"kms_key_id":                 Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"kms_key_version_id":         Representation{repType: Optional, create: `${oci_kms_key_version.test_key_version.id}`},
-		"source":                     Representation{repType: Optional, create: `DB_BACKUP`},
-		"vm_cluster_id":              Representation{repType: Optional, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"database_software_image_id": Representation{RepType: Optional, Create: `${oci_database_database_software_image.test_database_software_image.id}`},
+		"db_system_id":               Representation{RepType: Required, Create: `${oci_database_db_system.test_db_system.id}`},
+		"db_version":                 Representation{RepType: Required, Create: `12.1.0.2`},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":               Representation{RepType: Optional, Create: `createdDbHome`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_desupported_version":     Representation{RepType: Optional, Create: `false`},
+		"kms_key_id":                 Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"kms_key_version_id":         Representation{RepType: Optional, Create: `${oci_kms_key_version.test_key_version.id}`},
+		"source":                     Representation{RepType: Optional, Create: `DB_BACKUP`},
+		"vm_cluster_id":              Representation{RepType: Optional, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 	dbHomeDatabaseRepresentation = map[string]interface{}{
-		"admin_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"db_name":        Representation{repType: Required, create: `tfDbNam`},
+		"admin_password": Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"db_name":        Representation{RepType: Required, Create: `tfDbNam`},
 	}
 	dbHomeRepresentationBase = map[string]interface{}{
-		"db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
+		"db_system_id": Representation{RepType: Required, Create: `${oci_database_db_system.test_db_system.id}`},
 	}
-	dbHomeRepresentationSourceNone = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
+	dbHomeRepresentationSourceNone = RepresentationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
 		"database":     RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceNone},
-		"db_version":   Representation{repType: Required, create: `12.1.0.2`},
-		"source":       Representation{repType: Optional, create: `NONE`},
-		"display_name": Representation{repType: Optional, create: `createdDbHomeNone`},
+		"db_version":   Representation{RepType: Required, Create: `12.1.0.2`},
+		"source":       Representation{RepType: Optional, Create: `NONE`},
+		"display_name": Representation{RepType: Optional, Create: `createdDbHomeNone`},
 	})
 	dbHomeDatabaseRepresentationSourceNone = map[string]interface{}{
-		"admin_password":      Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
-		"tde_wallet_password": Representation{repType: Optional, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
-		"db_name":             Representation{repType: Required, create: `dbNone`},
-		"character_set":       Representation{repType: Optional, create: `AL32UTF8`},
+		"admin_password":      Representation{RepType: Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"tde_wallet_password": Representation{RepType: Optional, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"db_name":             Representation{RepType: Required, Create: `dbNone`},
+		"character_set":       Representation{RepType: Optional, Create: `AL32UTF8`},
 		"db_backup_config":    RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigRepresentation},
-		"db_workload":         Representation{repType: Optional, create: `OLTP`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"ncharacter_set":      Representation{repType: Optional, create: `AL16UTF16`},
-		"pdb_name":            Representation{repType: Optional, create: `pdbName`},
+		"db_workload":         Representation{RepType: Optional, Create: `OLTP`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set":      Representation{RepType: Optional, Create: `AL16UTF16`},
+		"pdb_name":            Representation{RepType: Optional, Create: `pdbName`},
 	}
-	dbHomeRepresentationSourceNoneRequiredOnly = representationCopyWithNewProperties(dbHomeRepresentationSourceNone, map[string]interface{}{
+	dbHomeRepresentationSourceNoneRequiredOnly = RepresentationCopyWithNewProperties(dbHomeRepresentationSourceNone, map[string]interface{}{
 		"database": RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceNoneRequiredOnly},
 	})
-	dbHomeDatabaseRepresentationSourceNoneRequiredOnly = representationCopyWithNewProperties(dbHomeDatabaseRepresentationSourceNone, map[string]interface{}{
-		"db_name": Representation{repType: Required, create: `dbNone0`},
+	dbHomeDatabaseRepresentationSourceNoneRequiredOnly = RepresentationCopyWithNewProperties(dbHomeDatabaseRepresentationSourceNone, map[string]interface{}{
+		"db_name": Representation{RepType: Required, Create: `dbNone0`},
 	})
 	dbHomeDatabaseDbBackupConfigRepresentation = map[string]interface{}{
-		"auto_backup_enabled":     Representation{repType: Optional, create: `true`},
-		"auto_backup_window":      Representation{repType: Optional, create: `SLOT_TWO`},
-		"recovery_window_in_days": Representation{repType: Optional, create: `10`},
+		"auto_backup_enabled":     Representation{RepType: Optional, Create: `true`},
+		"auto_backup_window":      Representation{RepType: Optional, Create: `SLOT_TWO`},
+		"recovery_window_in_days": Representation{RepType: Optional, Create: `10`},
 	}
-	dbHomeRepresentationSourceDbBackup = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
+	dbHomeRepresentationSourceDbBackup = RepresentationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
 		"database":     RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceDbBackup},
-		"source":       Representation{repType: Required, create: `DB_BACKUP`},
-		"display_name": Representation{repType: Required, create: `createdDbHomeBackup`},
+		"source":       Representation{RepType: Required, Create: `DB_BACKUP`},
+		"display_name": Representation{RepType: Required, Create: `createdDbHomeBackup`},
 	})
 	dbHomeDatabaseRepresentationSourceDbBackup = map[string]interface{}{
-		"admin_password":      Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"backup_id":           Representation{repType: Required, create: `${oci_database_backup.test_backup.id}`},
-		"backup_tde_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"admin_password":      Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"backup_id":           Representation{RepType: Required, Create: `${oci_database_backup.test_backup.id}`},
+		"backup_tde_password": Representation{RepType: Required, Create: `BEstrO0ng_#11`},
 		// Modifying db_name as mandatory. If not mandatory test fails with error "The specified database name 'tfDbName' exists."
 		// The test takes the backup of the DB created in the db_system which has the db_name=tfDbName.
 		// When db_home is created with source as "DB_BACKUP" and db_name is not provided, Service uses the db_name from the backup which is causing this test to fail.
-		"db_name": Representation{repType: Required, create: `dbBackup`},
+		"db_name": Representation{RepType: Required, Create: `dbBackup`},
 	}
 
 	dbHomeRepresentationSourceVmClusterNew = map[string]interface{}{
 		"database":      RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceVmClusterNew},
-		"display_name":  Representation{repType: Optional, create: `createdDbHomeVm`},
-		"source":        Representation{repType: Required, create: `VM_CLUSTER_NEW`},
-		"db_version":    Representation{repType: Required, create: `12.1.0.2`},
-		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
-		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"display_name":  Representation{RepType: Optional, Create: `createdDbHomeVm`},
+		"source":        Representation{RepType: Required, Create: `VM_CLUSTER_NEW`},
+		"db_version":    Representation{RepType: Required, Create: `12.1.0.2`},
+		"vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"defined_tags":  Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	dbHomeDatabaseRepresentationSourceVmClusterNew = map[string]interface{}{
-		"admin_password":   Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"character_set":    Representation{repType: Optional, create: `AL32UTF8`},
+		"admin_password":   Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"character_set":    Representation{RepType: Optional, Create: `AL32UTF8`},
 		"db_backup_config": RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigVmClusterNewRepresentation},
-		"db_name":          Representation{repType: Required, create: `dbVMClus`},
-		"db_workload":      Representation{repType: Optional, create: `OLTP`},
-		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"ncharacter_set":   Representation{repType: Optional, create: `AL16UTF16`},
-		"pdb_name":         Representation{repType: Optional, create: `pdbName`},
+		"db_name":          Representation{RepType: Required, Create: `dbVMClus`},
+		"db_workload":      Representation{RepType: Optional, Create: `OLTP`},
+		"defined_tags":     Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":    Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set":   Representation{RepType: Optional, Create: `AL16UTF16`},
+		"pdb_name":         Representation{RepType: Optional, Create: `pdbName`},
 	}
 
 	dbHomeDatabaseDbBackupConfigVmClusterNewRepresentation = map[string]interface{}{
-		"auto_backup_enabled":        Representation{repType: Optional, create: `true`, update: `false`},
-		"auto_backup_window":         Representation{repType: Optional, create: `SLOT_TWO`},
+		"auto_backup_enabled":        Representation{RepType: Optional, Create: `true`, Update: `false`},
+		"auto_backup_window":         Representation{RepType: Optional, Create: `SLOT_TWO`},
 		"backup_destination_details": RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigBackupDestinationDetails2Representation},
-		"recovery_window_in_days":    Representation{repType: Optional, create: `10`},
+		"recovery_window_in_days":    Representation{RepType: Optional, Create: `10`},
 	}
 
 	dbHomeDatabaseDbBackupConfigBackupDestinationDetails2Representation = map[string]interface{}{
-		"id":   Representation{repType: Optional, create: `${oci_database_backup_destination.test_backup_destination.id}`},
-		"type": Representation{repType: Required, create: `NFS`},
+		"id":   Representation{RepType: Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
+		"type": Representation{RepType: Required, Create: `NFS`},
 	}
-	dbHomeRepresentationSourceDatabase = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
+	dbHomeRepresentationSourceDatabase = RepresentationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
 		"database":     RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceDatabase},
-		"source":       Representation{repType: Required, create: `DATABASE`},
-		"display_name": Representation{repType: Optional, create: `createdDbHomeDatabase`},
+		"source":       Representation{RepType: Required, Create: `DATABASE`},
+		"display_name": Representation{RepType: Optional, Create: `createdDbHomeDatabase`},
 	})
 	dbHomeDatabaseRepresentationSourceDatabase = map[string]interface{}{
-		"admin_password":      Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"backup_tde_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"database_id":         Representation{repType: Required, create: `${data.oci_database_databases.db.databases.0.id}`},
-		"db_name":             Representation{repType: Required, create: `dbDb`},
+		"admin_password":      Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"backup_tde_password": Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"database_id":         Representation{RepType: Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
+		"db_name":             Representation{RepType: Required, Create: `dbDb`},
 	}
 
 	dbHomeRepresentationSourceVmClusterDatabase = map[string]interface{}{
 		"database":      RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceVmClusterDatabase},
-		"display_name":  Representation{repType: Optional, create: `createdDbHomeVmClusterDatabase`},
-		"source":        Representation{repType: Required, create: `VM_CLUSTER_DATABASE`},
-		"db_version":    Representation{repType: Required, create: `12.1.0.2`},
-		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"display_name":  Representation{RepType: Optional, Create: `createdDbHomeVmClusterDatabase`},
+		"source":        Representation{RepType: Required, Create: `VM_CLUSTER_DATABASE`},
+		"db_version":    Representation{RepType: Required, Create: `12.1.0.2`},
+		"vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 	dbHomeDatabaseRepresentationSourceVmClusterDatabase = map[string]interface{}{
-		"admin_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"character_set":  Representation{repType: Optional, create: `AL32UTF8`},
+		"admin_password": Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"character_set":  Representation{RepType: Optional, Create: `AL32UTF8`},
 		//"db_backup_config": RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigVmClusterDatabaseRepresentation},
-		"db_name":        Representation{repType: Required, create: `dbVMClusDb`},
-		"db_workload":    Representation{repType: Optional, create: `OLTP`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"ncharacter_set": Representation{repType: Optional, create: `AL16UTF16`},
-		"pdb_name":       Representation{repType: Optional, create: `pdbName`},
+		"db_name":        Representation{RepType: Required, Create: `dbVMClusDb`},
+		"db_workload":    Representation{RepType: Optional, Create: `OLTP`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set": Representation{RepType: Optional, Create: `AL16UTF16`},
+		"pdb_name":       Representation{RepType: Optional, Create: `pdbName`},
 	}
 
 	DbHomeResourceDependencies = BackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})) +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{RepType: Optional, Update: activationFilePath}})) +
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation) +
 		KeyResourceDependencyConfig +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -200,10 +200,10 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckDatabaseDbHomeDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + DbSystemResourceConfig +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly),
+					GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly),
 
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -214,14 +214,14 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 				),
 			},
 
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + DbSystemResourceConfig,
 			},
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + DbSystemResourceConfig +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone),
+					GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone),
 
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
@@ -250,7 +250,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + DbSystemResourceConfig +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone),
+					GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -293,18 +293,18 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_db_home.test_db_home"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DbHomeResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Optional, Create, dbHomeRepresentation), "database", "dbHome", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DbHomeResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Optional, Create, dbHomeRepresentation), "database", "dbHome", t)
 
 	ResourceTest(t, testAccCheckDatabaseDbHomeDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Required, Create, dbHomeRepresentationSourceDbBackup) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Required, Create, dbHomeRepresentationSourceVmClusterNew) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Required, Create, dbHomeRepresentationSourceDatabase),
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Required, Create, dbHomeRepresentationSourceDbBackup) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Required, Create, dbHomeRepresentationSourceVmClusterNew) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Required, Create, dbHomeRepresentationSourceDatabase),
 
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -337,17 +337,17 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Create, dbHomeRepresentationSourceDbBackup) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Create, dbHomeRepresentationSourceVmClusterNew) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Create, dbHomeRepresentationSourceDatabase),
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Create, dbHomeRepresentationSourceDbBackup) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Create, dbHomeRepresentationSourceVmClusterNew) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Create, dbHomeRepresentationSourceDatabase),
 
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
@@ -428,9 +428,9 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -441,10 +441,10 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Update, dbHomeRepresentationSourceVmClusterNew) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Update, dbHomeRepresentationSourceVmClusterNew) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
@@ -526,11 +526,11 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_db_homes", "test_db_homes", Optional, Update, dbHomeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_homes", "test_db_homes", Optional, Update, dbHomeDataSourceRepresentation) +
 				compartmentIdVariableStr + DbHomeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
@@ -552,11 +552,11 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DbHomeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", Optional, Update, dbHomeRepresentationSourceDatabase),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
@@ -573,8 +573,8 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 		{
 			Config: config +
 				compartmentIdVariableStr + DbHomeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-				generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+				GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
 		},
 		// verify resource import
 		{
@@ -603,7 +603,7 @@ func testAccCheckDatabaseDbHomeDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DbHomeId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetDbHome(context.Background(), request)
 
@@ -636,7 +636,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseDbHome") {
+	if !InSweeperExcludeList("DatabaseDbHome") {
 		resource.AddTestSweepers("DatabaseDbHome", &resource.Sweeper{
 			Name:         "DatabaseDbHome",
 			Dependencies: DependencyGraph["dbHome"],
@@ -657,13 +657,13 @@ func sweepDatabaseDbHomeResource(compartment string) error {
 
 			deleteDbHomeRequest.DbHomeId = &dbHomeId
 
-			deleteDbHomeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteDbHomeRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteDbHome(context.Background(), deleteDbHomeRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DbHome %s %s, It is possible that the resource is already deleted. Please verify manually \n", dbHomeId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &dbHomeId, dbHomeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &dbHomeId, dbHomeSweepWaitCondition, time.Duration(3*time.Minute),
 				dbHomeSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -671,7 +671,7 @@ func sweepDatabaseDbHomeResource(compartment string) error {
 }
 
 func getDbHomeIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DbHomeId")
+	ids := GetResourceIdsToSweep(compartment, "DbHomeId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -702,7 +702,7 @@ func getDbHomeIds(compartment string) ([]string, error) {
 		for _, dbHome := range listDbHomesResponse.Items {
 			id := *dbHome.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "DbHomeId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "DbHomeId", id)
 		}
 
 	}
@@ -724,7 +724,7 @@ func getDbHomeIds(compartment string) ([]string, error) {
 		for _, dbHome := range listDbHomesResponse.Items {
 			id := *dbHome.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "DbHomeId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "DbHomeId", id)
 		}
 
 	}

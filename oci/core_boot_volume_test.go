@@ -13,9 +13,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -24,54 +24,54 @@ var (
 	BootVolumeWaitConditionDuration = time.Duration(20 * time.Minute)
 
 	BootVolumeRequiredOnlyResource = BootVolumeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation)
 
 	BootVolumeOptionalResource = BootVolumeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, bootVolumeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, bootVolumeRepresentation)
 
 	BootVolumeResourceConfig = BootVolumeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation)
 
 	bootVolumeSingularDataSourceRepresentation = map[string]interface{}{
-		"boot_volume_id": Representation{repType: Required, create: `${oci_core_boot_volume.test_boot_volume.id}`},
+		"boot_volume_id": Representation{RepType: Required, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
 
 	bootVolumeDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"filter":              RepresentationGroup{Required, bootVolumeDataSourceFilterRepresentation}}
 	bootVolumeDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_boot_volume.test_boot_volume.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_boot_volume.test_boot_volume.id}`}},
 	}
 
 	bootVolumeRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"source_details":      RepresentationGroup{Required, bootVolumeSourceDetailsRepresentation},
-		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"size_in_gbs":         Representation{repType: Optional, create: `50`, update: `51`},
-		"vpus_per_gb":         Representation{repType: Optional, create: `10`, update: `20`},
+		"backup_policy_id":    Representation{RepType: Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":          Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"size_in_gbs":         Representation{RepType: Optional, Create: `50`, Update: `51`},
+		"vpus_per_gb":         Representation{RepType: Optional, Create: `10`, Update: `20`},
 	}
 	bootVolumeSourceDetailsRepresentation = map[string]interface{}{
-		"id":   Representation{repType: Required, create: `${oci_core_instance.test_instance.boot_volume_id}`},
-		"type": Representation{repType: Required, create: `bootVolume`},
+		"id":   Representation{RepType: Required, Create: `${oci_core_instance.test_instance.boot_volume_id}`},
+		"type": Representation{RepType: Required, Create: `bootVolume`},
 	}
 	bootVolumeBootVolumeReplicasRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, update: `availabilityDomain2`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, Update: `availabilityDomain2`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 	}
 
-	BootVolumeResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	BootVolumeResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		VolumeBackupPolicyDependency +
-		generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) +
 		SourceVolumeListDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
@@ -96,15 +96,15 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_boot_volume.test_boot_volume"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+BootVolumeResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, bootVolumeRepresentation), "core", "bootVolume", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+BootVolumeResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, bootVolumeRepresentation), "core", "bootVolume", t)
 
 	ResourceTest(t, testAccCheckCoreBootVolumeDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckNoResourceAttr(resourceName, "backup_policy_id"),
@@ -115,20 +115,20 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, bootVolumeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, bootVolumeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -149,9 +149,9 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -160,12 +160,12 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BootVolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create,
-					representationCopyWithNewProperties(bootVolumeRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create,
+					RepresentationCopyWithNewProperties(bootVolumeRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -187,7 +187,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -198,10 +198,10 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			PreConfig: waitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
+			PreConfig: WaitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
 				bootVolumeResponseFetchOperation, "core", false),
 			Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -222,7 +222,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -232,12 +232,12 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			PreConfig: waitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
+			PreConfig: WaitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
 				bootVolumeResponseFetchOperation, "core", false),
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_boot_volumes", "test_boot_volumes", Optional, Update, bootVolumeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_boot_volumes", "test_boot_volumes", Optional, Update, bootVolumeDataSourceRepresentation) +
 				compartmentIdVariableStr + BootVolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
@@ -265,7 +265,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + BootVolumeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckNoResourceAttr(singularDatasourceName, "backup_policy_id"),
@@ -318,7 +318,7 @@ func testAccCheckCoreBootVolumeDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.BootVolumeId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetBootVolume(context.Background(), request)
 
@@ -369,7 +369,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreBootVolume") {
+	if !InSweeperExcludeList("CoreBootVolume") {
 		resource.AddTestSweepers("CoreBootVolume", &resource.Sweeper{
 			Name:         "CoreBootVolume",
 			Dependencies: DependencyGraph["bootVolume"],
@@ -390,13 +390,13 @@ func sweepCoreBootVolumeResource(compartment string) error {
 
 			deleteBootVolumeRequest.BootVolumeId = &bootVolumeId
 
-			deleteBootVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteBootVolumeRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := blockstorageClient.DeleteBootVolume(context.Background(), deleteBootVolumeRequest)
 			if error != nil {
 				fmt.Printf("Error deleting BootVolume %s %s, It is possible that the resource is already deleted. Please verify manually \n", bootVolumeId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &bootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &bootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
 				bootVolumeSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -404,7 +404,7 @@ func sweepCoreBootVolumeResource(compartment string) error {
 }
 
 func getBootVolumeIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "BootVolumeId")
+	ids := GetResourceIdsToSweep(compartment, "BootVolumeId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -415,7 +415,7 @@ func getBootVolumeIds(compartment string) ([]string, error) {
 	listBootVolumesRequest := oci_core.ListBootVolumesRequest{}
 	listBootVolumesRequest.CompartmentId = &compartmentId
 
-	availabilityDomains, err := getAvalabilityDomains(compartment)
+	availabilityDomains, err := GetAvalabilityDomains(compartment)
 	if err != nil {
 		return resourceIds, fmt.Errorf("Error getting availabilityDomains required for BootVolume list for compartment id : %s , %s \n", compartmentId, err)
 	}
@@ -430,7 +430,7 @@ func getBootVolumeIds(compartment string) ([]string, error) {
 		for _, bootVolume := range listBootVolumesResponse.Items {
 			id := *bootVolume.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeId", id)
 		}
 
 	}

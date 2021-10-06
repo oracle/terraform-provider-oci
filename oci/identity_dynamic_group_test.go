@@ -12,33 +12,33 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DynamicGroupRequiredOnlyResource = DynamicGroupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation)
 
 	dynamicGroupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"name":           Representation{repType: Optional, create: `DevCompartmentDynamicGroup`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"name":           Representation{RepType: Optional, Create: `DevCompartmentDynamicGroup`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, dynamicGroupDataSourceFilterRepresentation}}
 	dynamicGroupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_dynamic_group.test_dynamic_group.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_dynamic_group.test_dynamic_group.id}`}},
 	}
 
 	dynamicGroupRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"description":    Representation{repType: Required, create: `Instance group for dev compartment`, update: `description2`},
-		"matching_rule":  Representation{repType: Required, create: `${var.dynamic_group_matching_rule}`, update: `${var.dynamic_group_matching_rule}`},
-		"name":           Representation{repType: Required, create: `DevCompartmentDynamicGroup`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"description":    Representation{RepType: Required, Create: `Instance Group for dev compartment`, Update: `description2`},
+		"matching_rule":  Representation{RepType: Required, Create: `${var.dynamic_group_matching_rule}`, Update: `${var.dynamic_group_matching_rule}`},
+		"name":           Representation{RepType: Required, Create: `DevCompartmentDynamicGroup`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	DynamicGroupResourceDependencies = DefinedTagsDependencies
@@ -64,9 +64,9 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_dynamic_groups.test_dynamic_groups"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+matchingRuleVariableStr+DynamicGroupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Create, dynamicGroupRepresentation), "identity", "dynamicGroup", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+matchingRuleVariableStr+DynamicGroupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Create, dynamicGroupRepresentation), "identity", "dynamicGroup", t)
 
 	ResourceTest(t, testAccCheckIdentityDynamicGroupDestroy, []resource.TestStep{
 		// verify matching rule syntax
@@ -75,38 +75,38 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 variable "dynamic_group_description" { default = "description2" }
 variable "dynamic_group_matching_rule" { default = "bad_matching_rule" }
 variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
-` + compartmentIdVariableStr + generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation),
+` + compartmentIdVariableStr + GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation),
 			ExpectError: regexp.MustCompile("Unable to parse matching rule"),
 		},
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "description", "Instance group for dev compartment"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Instance Group for dev compartment"),
 				resource.TestCheckResourceAttr(resourceName, "matching_rule", matchingRuleValueStr),
 				resource.TestCheckResourceAttr(resourceName, "name", "DevCompartmentDynamicGroup"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Create, dynamicGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Create, dynamicGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "description", "Instance group for dev compartment"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Instance Group for dev compartment"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "matching_rule", matchingRuleValueStr),
@@ -115,9 +115,9 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -129,7 +129,7 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + matchingRule2VariableStr + DynamicGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -142,7 +142,7 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -153,9 +153,9 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 		// verify datasource
 		{
 			Config: config + matchingRule2VariableStr +
-				generateDataSourceFromRepresentationMap("oci_identity_dynamic_groups", "test_dynamic_groups", Optional, Update, dynamicGroupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_dynamic_groups", "test_dynamic_groups", Optional, Update, dynamicGroupDataSourceRepresentation) +
 				compartmentIdVariableStr + DynamicGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "DevCompartmentDynamicGroup"),
@@ -195,7 +195,7 @@ func testAccCheckIdentityDynamicGroupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DynamicGroupId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 
 			response, err := client.GetDynamicGroup(context.Background(), request)
 

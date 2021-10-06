@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v48/computeinstanceagent"
+	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v49/computeinstanceagent"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func ComputeinstanceagentInstanceAvailablePluginsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readComputeinstanceagentInstanceAvailablePlugins,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -109,7 +109,7 @@ func (s *ComputeinstanceagentInstanceAvailablePluginsDataSourceCrud) Get() error
 		request.OsVersion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "computeinstanceagent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "computeinstanceagent")
 
 	response, err := s.Client.ListInstanceagentAvailablePlugins(context.Background(), request)
 	if err != nil {

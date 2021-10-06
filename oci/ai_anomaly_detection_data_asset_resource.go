@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v48/aianomalydetection"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v49/aianomalydetection"
 )
 
 func init() {
@@ -385,7 +385,7 @@ func (s *AiAnomalyDetectionDataAssetResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
@@ -398,7 +398,7 @@ func (s *AiAnomalyDetectionDataAssetResourceCrud) Create() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.CreateDataAsset(context.Background(), request)
 	if err != nil {
@@ -415,7 +415,7 @@ func (s *AiAnomalyDetectionDataAssetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DataAssetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.GetDataAsset(context.Background(), request)
 	if err != nil {
@@ -460,10 +460,10 @@ func (s *AiAnomalyDetectionDataAssetResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	response, err := s.Client.UpdateDataAsset(context.Background(), request)
 	if err != nil {
@@ -480,7 +480,7 @@ func (s *AiAnomalyDetectionDataAssetResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DataAssetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	_, err := s.Client.DeleteDataAsset(context.Background(), request)
 	return err
@@ -882,7 +882,7 @@ func (s *AiAnomalyDetectionDataAssetResourceCrud) updateCompartment(compartment 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DataAssetId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection")
 
 	_, err := s.Client.ChangeDataAssetCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

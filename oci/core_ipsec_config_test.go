@@ -14,7 +14,7 @@ import (
 
 var (
 	ipSecConnectionDeviceConfigSingularDataSourceRepresentation = map[string]interface{}{
-		"ipsec_id": Representation{repType: Required, create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
+		"ipsec_id": Representation{RepType: Required, Create: `${oci_core_ipsec.test_ip_sec_connection.id}`},
 	}
 
 	IpSecConnectionDeviceConfigResourceConfig = IpSecConnectionRequiredOnlyResource
@@ -32,13 +32,13 @@ func TestCoreIpSecConnectionDeviceConfigResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_core_ipsec_config.test_ip_sec_connection_device_config"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_ipsec_config", "test_ip_sec_connection_device_config", Required, Create, ipSecConnectionDeviceConfigSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_ipsec_config", "test_ip_sec_connection_device_config", Required, Create, ipSecConnectionDeviceConfigSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + IpSecConnectionDeviceConfigResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipsec_id"),

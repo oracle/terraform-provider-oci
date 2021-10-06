@@ -13,87 +13,87 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	AutonomousContainerDatabaseRequiredOnlyResource = AutonomousContainerDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseRepresentation)
 
 	AutonomousContainerDatabaseResourceConfig = AutonomousContainerDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, autonomousContainerDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, autonomousContainerDatabaseRepresentation)
 
 	autonomousContainerDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"autonomous_container_database_id": Representation{repType: Required, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+		"autonomous_container_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 	}
 
 	autonomousContainerDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                       Representation{repType: Required, create: `${var.compartment_id}`},
-		"autonomous_exadata_infrastructure_id": Representation{repType: Optional, create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
-		"availability_domain":                  Representation{repType: Optional, create: `${data.oci_identity_availability_domain.ad.name}`},
-		"display_name":                         Representation{repType: Optional, create: `containerdatabases2`, update: `displayName2`},
-		"state":                                Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id":                       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"autonomous_exadata_infrastructure_id": Representation{RepType: Optional, Create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
+		"availability_domain":                  Representation{RepType: Optional, Create: `${data.oci_identity_availability_domain.ad.name}`},
+		"display_name":                         Representation{RepType: Optional, Create: `containerdatabases2`, Update: `displayName2`},
+		"state":                                Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":                               RepresentationGroup{Required, autonomousContainerDatabaseDataSourceFilterRepresentation}}
 	autonomousContainerDatabaseDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_container_database.test_autonomous_container_database.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_autonomous_container_database.test_autonomous_container_database.id}`}},
 	}
 
 	autonomousContainerDatabaseRepresentation = map[string]interface{}{
-		"display_name":                         Representation{repType: Required, create: `containerdatabases2`, update: `displayName2`},
-		"patch_model":                          Representation{repType: Required, create: `RELEASE_UPDATES`, update: `RELEASE_UPDATE_REVISIONS`},
-		"autonomous_exadata_infrastructure_id": Representation{repType: Required, create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
+		"display_name":                         Representation{RepType: Required, Create: `containerdatabases2`, Update: `displayName2`},
+		"patch_model":                          Representation{RepType: Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
+		"autonomous_exadata_infrastructure_id": Representation{RepType: Required, Create: `${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}`},
 		"backup_config":                        RepresentationGroup{Optional, ACDatabaseBackupConfigRepresentation},
-		"compartment_id":                       Representation{repType: Optional, create: `${var.compartment_id}`},
-		"defined_tags":                         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":                           Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"compartment_id":                       Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"defined_tags":                         Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                        Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":                           Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"maintenance_window_details":           RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
-		"service_level_agreement_type":         Representation{repType: Optional, create: `STANDARD`},
-		"vault_id":                             Representation{repType: Optional, create: `${data.oci_kms_vault.test_vault.id}`},
+		"service_level_agreement_type":         Representation{RepType: Optional, Create: `STANDARD`},
+		"vault_id":                             Representation{RepType: Optional, Create: `${data.oci_kms_vault.test_vault.id}`},
 	}
 	autonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
 		"backup_destination_details": RepresentationGroup{Optional, autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation},
-		"recovery_window_in_days":    Representation{repType: Optional, create: `10`, update: `11`},
+		"recovery_window_in_days":    Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 	autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation = map[string]interface{}{
-		"preference": Representation{repType: Required, create: `NO_PREFERENCE`},
+		"preference": Representation{RepType: Required, Create: `NO_PREFERENCE`},
 	}
 	autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation = map[string]interface{}{
-		"preference":     Representation{repType: Required, create: `CUSTOM_PREFERENCE`},
+		"preference":     Representation{RepType: Required, Create: `CUSTOM_PREFERENCE`},
 		"days_of_week":   RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsDaysOfWeekRepresentation},
-		"hours_of_day":   Representation{repType: Optional, create: []string{`4`}, update: []string{`8`}},
+		"hours_of_day":   Representation{RepType: Optional, Create: []string{`4`}, Update: []string{`8`}},
 		"months":         []RepresentationGroup{{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation}, {Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2}, {Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3}, {Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation4}},
-		"weeks_of_month": Representation{repType: Optional, create: []string{`1`}, update: []string{`2`}},
+		"weeks_of_month": Representation{RepType: Optional, Create: []string{`1`}, Update: []string{`2`}},
 	}
 
 	autonomousContainerDatabaseMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `MONDAY`, update: `TUESDAY`},
+		"name": Representation{RepType: Required, Create: `MONDAY`, Update: `TUESDAY`},
 	}
 	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation = map[string]interface{}{
-		"name": Representation{repType: Required, create: `JANUARY`, update: `FEBRUARY`},
+		"name": Representation{RepType: Required, Create: `JANUARY`, Update: `FEBRUARY`},
 	}
 	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation2 = map[string]interface{}{
-		"name": Representation{repType: Required, create: `APRIL`, update: `MAY`},
+		"name": Representation{RepType: Required, Create: `APRIL`, Update: `MAY`},
 	}
 
 	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation3 = map[string]interface{}{
-		"name": Representation{repType: Required, create: `JULY`, update: `AUGUST`},
+		"name": Representation{RepType: Required, Create: `JULY`, Update: `AUGUST`},
 	}
 	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation4 = map[string]interface{}{
-		"name": Representation{repType: Required, create: `OCTOBER`, update: `NOVEMBER`},
+		"name": Representation{RepType: Required, Create: `OCTOBER`, Update: `NOVEMBER`},
 	}
 
 	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig +
-		generateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
 		KeyResourceDependencyConfig +
-		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
-			representationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": Representation{repType: Required, create: activationFilePath}})) +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
-			representationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{repType: Required, create: "true"}}))
+		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
+			RepresentationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": Representation{RepType: Required, Create: activationFilePath}})) +
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
+			RepresentationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{RepType: Required, Create: "true"}}))
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -114,36 +114,36 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_autonomous_container_database.test_autonomous_container_database"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AutonomousContainerDatabaseResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create, autonomousContainerDatabaseRepresentation), "database", "autonomousContainerDatabase", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AutonomousContainerDatabaseResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create, autonomousContainerDatabaseRepresentation), "database", "autonomousContainerDatabase", t)
 
 	ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
-					getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
+					GetUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
@@ -177,9 +177,9 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -188,12 +188,12 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step) and maintenance_window_details
+		// verify Update to the compartment (the compartment will be switched back in the next step) and maintenance_window_details
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
-					representationCopyWithNewProperties(autonomousContainerDatabaseRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
+					RepresentationCopyWithNewProperties(autonomousContainerDatabaseRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
@@ -230,7 +230,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -242,7 +242,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, autonomousContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, autonomousContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
@@ -278,7 +278,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -289,9 +289,9 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", Optional, Update, autonomousContainerDatabaseDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", Optional, Update, autonomousContainerDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, autonomousContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, autonomousContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
@@ -331,7 +331,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousContainerDatabaseResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
@@ -363,8 +363,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 
 		{
 			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update,
-					getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update,
+					GetUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
@@ -381,7 +381,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -426,7 +426,7 @@ func testAccCheckDatabaseAutonomousContainerDatabaseDestroy(s *terraform.State) 
 			tmp := rs.Primary.ID
 			request.AutonomousContainerDatabaseId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetAutonomousContainerDatabase(context.Background(), request)
 
@@ -459,7 +459,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseAutonomousContainerDatabase") {
+	if !InSweeperExcludeList("DatabaseAutonomousContainerDatabase") {
 		resource.AddTestSweepers("DatabaseAutonomousContainerDatabase", &resource.Sweeper{
 			Name:         "DatabaseAutonomousContainerDatabase",
 			Dependencies: DependencyGraph["autonomousContainerDatabase"],
@@ -480,13 +480,13 @@ func sweepDatabaseAutonomousContainerDatabaseResource(compartment string) error 
 
 			terminateAutonomousContainerDatabaseRequest.AutonomousContainerDatabaseId = &autonomousContainerDatabaseId
 
-			terminateAutonomousContainerDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			terminateAutonomousContainerDatabaseRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.TerminateAutonomousContainerDatabase(context.Background(), terminateAutonomousContainerDatabaseRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AutonomousContainerDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", autonomousContainerDatabaseId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &autonomousContainerDatabaseId, autonomousContainerDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &autonomousContainerDatabaseId, autonomousContainerDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
 				autonomousContainerDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -494,7 +494,7 @@ func sweepDatabaseAutonomousContainerDatabaseResource(compartment string) error 
 }
 
 func getAutonomousContainerDatabaseIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AutonomousContainerDatabaseId")
+	ids := GetResourceIdsToSweep(compartment, "AutonomousContainerDatabaseId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -513,7 +513,7 @@ func getAutonomousContainerDatabaseIds(compartment string) ([]string, error) {
 	for _, autonomousContainerDatabase := range listAutonomousContainerDatabasesResponse.Items {
 		id := *autonomousContainerDatabase.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousContainerDatabaseId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousContainerDatabaseId", id)
 	}
 	return resourceIds, nil
 }

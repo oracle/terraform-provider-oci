@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v48/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v49/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
@@ -208,10 +208,10 @@ func (s *ApigatewayApiResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.CreateApi(context.Background(), request)
 	if err != nil {
@@ -219,7 +219,7 @@ func (s *ApigatewayApiResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getApiFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getApiFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
@@ -278,7 +278,7 @@ func apiWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_comm
 
 func apiWaitForWorkRequest(wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.WorkRequestsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "apigateway")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "apigateway")
 	retryPolicy.ShouldRetryOperation = apiWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_apigateway.GetWorkRequestResponse{}
@@ -357,7 +357,7 @@ func (s *ApigatewayApiResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ApiId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.GetApi(context.Background(), request)
 	if err != nil {
@@ -402,10 +402,10 @@ func (s *ApigatewayApiResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.UpdateApi(context.Background(), request)
 	if err != nil {
@@ -413,7 +413,7 @@ func (s *ApigatewayApiResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getApiFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getApiFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -426,7 +426,7 @@ func (s *ApigatewayApiResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ApiId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.DeleteApi(context.Background(), request)
 	if err != nil {
@@ -551,7 +551,7 @@ func (s *ApigatewayApiResourceCrud) updateCompartment(compartment interface{}) e
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.ChangeApiCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -559,7 +559,7 @@ func (s *ApigatewayApiResourceCrud) updateCompartment(compartment interface{}) e
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getApiFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getApiFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func apiResourceShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -583,7 +583,7 @@ func apiResourceShouldRetryFunc(timeout time.Duration) func(response oci_common.
 }
 
 func apiWaitForValidation(apiId *string, timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.ApiGatewayClient) error {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "apigateway")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "apigateway")
 	retryPolicy.ShouldRetryOperation = apiResourceShouldRetryFunc(timeout)
 
 	response := oci_apigateway.GetApiResponse{}

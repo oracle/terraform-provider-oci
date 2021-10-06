@@ -13,42 +13,42 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ManagementAgentInstallKeyRequiredOnlyResource = ManagementAgentInstallKeyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeyRepresentation)
 
 	ManagementAgentInstallKeyResourceConfig = ManagementAgentInstallKeyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation)
 
 	managementAgentInstallKeySingularDataSourceRepresentation = map[string]interface{}{
-		"management_agent_install_key_id": Representation{repType: Required, create: `${oci_management_agent_management_agent_install_key.test_management_agent_install_key.id}`},
+		"management_agent_install_key_id": Representation{RepType: Required, Create: `${oci_management_agent_management_agent_install_key.test_management_agent_install_key.id}`},
 	}
 
 	managementAgentInstallKeyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"access_level":              Representation{repType: Optional, create: `ACCESSIBLE`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
-		"display_name":              Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"access_level":              Representation{RepType: Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"display_name":              Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                    RepresentationGroup{Required, managementAgentInstallKeyDataSourceFilterRepresentation}}
 	managementAgentInstallKeyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_management_agent_management_agent_install_key.test_management_agent_install_key.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_management_agent_management_agent_install_key.test_management_agent_install_key.id}`}},
 	}
 
 	expirationTimeForManagementAgentInstallKey = time.Now().UTC().AddDate(0, 0, 7).Truncate(time.Millisecond)
 
 	managementAgentInstallKeyRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":              Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"allowed_key_install_count": Representation{repType: Optional, create: `10`},
-		"time_expires":              Representation{repType: Optional, create: expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":              Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"allowed_key_install_count": Representation{RepType: Optional, Create: `10`},
+		"time_expires":              Representation{RepType: Optional, Create: expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)},
 	}
 
 	ManagementAgentInstallKeyResourceDependencies = ""
@@ -69,34 +69,34 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_management_agent_management_agent_install_key.test_management_agent_install_key"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ManagementAgentInstallKeyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Create, managementAgentInstallKeyRepresentation), "managementagent", "managementAgentInstallKey", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ManagementAgentInstallKeyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Create, managementAgentInstallKeyRepresentation), "managementagent", "managementAgentInstallKey", t)
 
 	ResourceTest(t, testAccCheckManagementAgentManagementAgentInstallKeyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Create, managementAgentInstallKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Create, managementAgentInstallKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "allowed_key_install_count", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -105,9 +105,9 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -119,7 +119,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "allowed_key_install_count", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -128,7 +128,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForManagementAgentInstallKey.Format(time.RFC3339Nano)),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -139,9 +139,9 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_keys", "test_management_agent_install_keys", Optional, Update, managementAgentInstallKeyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_keys", "test_management_agent_install_keys", Optional, Update, managementAgentInstallKeyDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagementAgentInstallKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Optional, Update, managementAgentInstallKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -164,7 +164,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_install_key", "test_management_agent_install_key", Required, Create, managementAgentInstallKeySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagementAgentInstallKeyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_agent_install_key_id"),
@@ -208,7 +208,7 @@ func testAccCheckManagementAgentManagementAgentInstallKeyDestroy(s *terraform.St
 			tmp := rs.Primary.ID
 			request.ManagementAgentInstallKeyId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "management_agent")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "management_agent")
 
 			response, err := client.GetManagementAgentInstallKey(context.Background(), request)
 
@@ -241,7 +241,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ManagementAgentManagementAgentInstallKey") {
+	if !InSweeperExcludeList("ManagementAgentManagementAgentInstallKey") {
 		resource.AddTestSweepers("ManagementAgentManagementAgentInstallKey", &resource.Sweeper{
 			Name:         "ManagementAgentManagementAgentInstallKey",
 			Dependencies: DependencyGraph["managementAgentInstallKey"],
@@ -262,13 +262,13 @@ func sweepManagementAgentManagementAgentInstallKeyResource(compartment string) e
 
 			deleteManagementAgentInstallKeyRequest.ManagementAgentInstallKeyId = &managementAgentInstallKeyId
 
-			deleteManagementAgentInstallKeyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "management_agent")
+			deleteManagementAgentInstallKeyRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "management_agent")
 			_, error := managementAgentClient.DeleteManagementAgentInstallKey(context.Background(), deleteManagementAgentInstallKeyRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ManagementAgentInstallKey %s %s, It is possible that the resource is already deleted. Please verify manually \n", managementAgentInstallKeyId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &managementAgentInstallKeyId, managementAgentInstallKeySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &managementAgentInstallKeyId, managementAgentInstallKeySweepWaitCondition, time.Duration(3*time.Minute),
 				managementAgentInstallKeySweepResponseFetchOperation, "management_agent", true)
 		}
 	}
@@ -276,7 +276,7 @@ func sweepManagementAgentManagementAgentInstallKeyResource(compartment string) e
 }
 
 func getManagementAgentInstallKeyIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ManagementAgentInstallKeyId")
+	ids := GetResourceIdsToSweep(compartment, "ManagementAgentInstallKeyId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -295,7 +295,7 @@ func getManagementAgentInstallKeyIds(compartment string) ([]string, error) {
 	for _, managementAgentInstallKey := range listManagementAgentInstallKeysResponse.Items {
 		id := *managementAgentInstallKey.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ManagementAgentInstallKeyId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ManagementAgentInstallKeyId", id)
 	}
 	return resourceIds, nil
 }

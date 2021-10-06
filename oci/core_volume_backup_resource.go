@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 )
 
 func init() {
@@ -177,11 +177,11 @@ func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 		sync.Res.CompartmentId = &tmp
 		err := sync.Get()
 		if err != nil {
-			log.Printf("error doing a Get() after compartment update: %v", err)
+			log.Printf("error doing a Get() after compartment Update: %v", err)
 		}
 		err = sync.SetData()
 		if err != nil {
-			log.Printf("error doing a SetData() after compartment update: %v", err)
+			log.Printf("error doing a SetData() after compartment Update: %v", err)
 		}
 	}
 	return nil
@@ -355,7 +355,7 @@ func (s *CoreVolumeBackupResourceCrud) CreateVolumeBackup() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {
@@ -367,7 +367,7 @@ func (s *CoreVolumeBackupResourceCrud) CreateVolumeBackup() error {
 		request.VolumeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVolumeBackup(context.Background(), request)
 	if err != nil {
@@ -384,7 +384,7 @@ func (s *CoreVolumeBackupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VolumeBackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetVolumeBackup(context.Background(), request)
 	if err != nil {
@@ -421,13 +421,13 @@ func (s *CoreVolumeBackupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.VolumeBackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateVolumeBackup(context.Background(), request)
 	if err != nil {
@@ -444,7 +444,7 @@ func (s *CoreVolumeBackupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VolumeBackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteVolumeBackup(context.Background(), request)
 	return err
@@ -527,7 +527,7 @@ func (s *CoreVolumeBackupResourceCrud) updateCompartment(compartment interface{}
 	idTmp := s.D.Id()
 	changeCompartmentRequest.VolumeBackupId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeVolumeBackupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

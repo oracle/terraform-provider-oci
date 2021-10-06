@@ -42,7 +42,7 @@ func TestResourceAppCatalogListingResourceVersionAgreement_basic(t *testing.T) {
 	resourceName := "oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement"
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create resource
+		// Create resource
 		{
 			Config: config + compartmentIdVariableStr + AppCatalogListingResourceVersionAgreementResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(

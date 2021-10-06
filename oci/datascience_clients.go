@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_datascience.DataScienceClient", &OracleClient{initClientFn: initDatascienceDataScienceClient})
+	RegisterOracleClient("oci_datascience.DataScienceClient", &OracleClient{InitClientFn: initDatascienceDataScienceClient})
 }
 
 func initDatascienceDataScienceClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

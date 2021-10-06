@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v48/goldengate"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v49/goldengate"
 )
 
 func init() {
@@ -18,12 +18,20 @@ func GoldenGateDeploymentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readGoldenGateDeployments,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"fqdn": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"lifecycle_sub_state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -80,11 +88,20 @@ func (s *GoldenGateDeploymentsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	if fqdn, ok := s.D.GetOkExists("fqdn"); ok {
+		tmp := fqdn.(string)
+		request.Fqdn = &tmp
+	}
+
+	if lifecycleSubState, ok := s.D.GetOkExists("lifecycle_sub_state"); ok {
+		request.LifecycleSubState = oci_golden_gate.ListDeploymentsLifecycleSubStateEnum(lifecycleSubState.(string))
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_golden_gate.ListDeploymentsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "golden_gate")
 
 	response, err := s.Client.ListDeployments(context.Background(), request)
 	if err != nil {

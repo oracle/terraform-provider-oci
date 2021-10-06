@@ -15,17 +15,17 @@ import (
 
 var (
 	hostInsightRequiredRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"entity_source":       Representation{repType: Required, create: `MACS_MANAGED_EXTERNAL_HOST`},
-		"management_agent_id": Representation{repType: Required, create: `${var.managed_agent_id}`},
-		"status":              Representation{repType: Required, create: `DISABLED`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"entity_source":       Representation{RepType: Required, Create: `MACS_MANAGED_EXTERNAL_HOST`},
+		"management_agent_id": Representation{RepType: Required, Create: `${var.managed_agent_id}`},
+		"status":              Representation{RepType: Required, Create: `DISABLED`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}},
 		"lifecycle":           RepresentationGroup{Required, ignoreHIChangesRepresentation},
 	}
 
 	ignoreHIChangesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 )
 
@@ -49,9 +49,9 @@ func TestResourceOpsiHostInsight(t *testing.T) {
 
 	resourceName := "oci_opsi_host_insight.test_host_insight"
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+HostInsightResourceDependencies+
-		generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Required, Create, hostInsightRequiredRepresentation), "opsi", "hostInsight", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+HostInsightResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Required, Create, hostInsightRequiredRepresentation), "opsi", "hostInsight", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -60,16 +60,16 @@ func TestResourceOpsiHostInsight(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckOpsiHostInsightDestroy,
 		Steps: []resource.TestStep{
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + HostInsightResourceDependencies +
-					generateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Required, Create, hostInsightRequiredRepresentation),
+					GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Required, Create, hostInsightRequiredRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
 
 					func(s *terraform.State) (err error) {
-						_, err = fromInstanceState(s, resourceName, "id")
+						_, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),

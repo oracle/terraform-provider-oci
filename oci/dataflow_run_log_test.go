@@ -14,17 +14,17 @@ import (
 
 var (
 	runLogSingularDataSourceRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `${data.oci_dataflow_run_logs.test_run_logs.run_logs.0.name}`},
-		"run_id": Representation{repType: Required, create: `${oci_dataflow_invoke_run.test_invoke_run.id}`},
+		"name":   Representation{RepType: Required, Create: `${data.oci_dataflow_run_logs.test_run_logs.run_logs.0.name}`},
+		"run_id": Representation{RepType: Required, Create: `${oci_dataflow_invoke_run.test_invoke_run.id}`},
 	}
 
 	runLogDataSourceRepresentation = map[string]interface{}{
-		"run_id": Representation{repType: Required, create: `${oci_dataflow_invoke_run.test_invoke_run.id}`},
+		"run_id": Representation{RepType: Required, Create: `${oci_dataflow_invoke_run.test_invoke_run.id}`},
 	}
 
-	RunLogResourceConfig = generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationRepresentation) +
-		generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Required, Create, representationCopyWithNewProperties(invokeRunRepresentation, map[string]interface{}{
-			"asynchronous": Representation{repType: Required, create: `false`},
+	RunLogResourceConfig = GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Required, Create, RepresentationCopyWithNewProperties(invokeRunRepresentation, map[string]interface{}{
+			"asynchronous": Representation{RepType: Required, Create: `false`},
 		}))
 )
 
@@ -44,13 +44,13 @@ func TestDataflowRunLogResource_basic(t *testing.T) {
 	datasourceName := "data.oci_dataflow_run_logs.test_run_logs"
 	singularDatasourceName := "data.oci_dataflow_run_log.test_run_log"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataflow_run_logs", "test_run_logs", Required, Create, runLogDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataflow_run_logs", "test_run_logs", Required, Create, runLogDataSourceRepresentation) +
 				compartmentIdVariableStr + fileUriVariableStr + RunLogResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "run_id"),
@@ -66,8 +66,8 @@ func TestDataflowRunLogResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataflow_run_logs", "test_run_logs", Required, Create, runLogDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_dataflow_run_log", "test_run_log", Required, Create, runLogSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataflow_run_logs", "test_run_logs", Required, Create, runLogDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataflow_run_log", "test_run_log", Required, Create, runLogSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + fileUriVariableStr + RunLogResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),

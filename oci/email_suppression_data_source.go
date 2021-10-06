@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_email "github.com/oracle/oci-go-sdk/v48/email"
+	oci_email "github.com/oracle/oci-go-sdk/v49/email"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *EmailSuppressionDataSourceCrud) Get() error {
 		request.SuppressionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "email")
 
 	response, err := s.Client.GetSuppression(context.Background(), request)
 	if err != nil {

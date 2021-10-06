@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func CoreDedicatedVmHostInstanceShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreDedicatedVmHostInstanceShapes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -92,7 +92,7 @@ func (s *CoreDedicatedVmHostInstanceShapesDataSourceCrud) Get() error {
 		request.DedicatedVmHostShape = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListDedicatedVmHostInstanceShapes(context.Background(), request)
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func MysqlMysqlConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMysqlMysqlConfigurations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -111,6 +111,21 @@ func MysqlMysqlConfigurationsDataSource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"binlog_row_metadata": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"binlog_row_value_options": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"binlog_transaction_compression": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
 									"completion_type": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -160,8 +175,8 @@ func MysqlMysqlConfigurationsDataSource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										ValidateFunc:     validateInt64TypeString,
-										DiffSuppressFunc: int64StringDiffSuppressFunction,
+										ValidateFunc:     ValidateInt64TypeString,
+										DiffSuppressFunc: Int64StringDiffSuppressFunction,
 									},
 									"innodb_ft_enable_stopword": {
 										Type:     schema.TypeBool,
@@ -450,7 +465,7 @@ func (s *MysqlMysqlConfigurationsDataSourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.ListConfigurations(context.Background(), request)
 	if err != nil {

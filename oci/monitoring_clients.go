@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_monitoring "github.com/oracle/oci-go-sdk/v48/monitoring"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v49/monitoring"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_monitoring.MonitoringClient", &OracleClient{initClientFn: initMonitoringMonitoringClient})
+	RegisterOracleClient("oci_monitoring.MonitoringClient", &OracleClient{InitClientFn: initMonitoringMonitoringClient})
 }
 
 func initMonitoringMonitoringClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

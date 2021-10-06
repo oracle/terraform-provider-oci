@@ -7,10 +7,11 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"strconv"
 	"strings"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -93,7 +94,7 @@ func getElapsedRetryDuration(firstAttemptTime time.Time) time.Duration {
 
 func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration {
 	// Get the override retry duration function if it exists. This gives the most granular control over what value to return, and is passed
-	// into getRetryPolicy function as an optional argument to override retry durations on a per API basis.
+	// into GetRetryPolicy function as an optional argument to override retry durations on a per API basis.
 	if len(optionals) > 0 {
 		if overrideRetryDurationFn, ok := optionals[0].(expectedRetryDurationFn); ok {
 			return overrideRetryDurationFn(response, disableNotFoundRetries, service, optionals)
@@ -139,6 +140,10 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 	case 404:
 		return 0
 	case 409:
+		if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+			log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
+			return 0
+		}
 		if e != nil && (strings.Contains(e.Error(), "InvalidatedRetryToken") ||
 			strings.Contains(e.Error(), "BucketNotEmpty")) {
 			return 0
@@ -213,6 +218,7 @@ func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
+	e := response.Error
 	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 	case 404:
 		return 0
@@ -225,6 +231,10 @@ func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 			} else if strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") {
 				defaultRetryTime = longRetryTime
 			}
+		}
+		if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+			log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
+			return 0
 		}
 	}
 	return defaultRetryTime
@@ -244,8 +254,13 @@ func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
+	e := response.Error
 	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 	case 409:
+		if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+			log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
+			return 0
+		}
 		if e := response.Error; e != nil {
 			if strings.Contains(e.Error(), "InvalidatedRetryToken") {
 				defaultRetryTime = 0
@@ -271,6 +286,7 @@ func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperati
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
+	e := response.Error
 	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 	case 404:
 		return 0
@@ -279,6 +295,10 @@ func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperati
 			if strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") {
 				defaultRetryTime = longRetryTime
 			}
+		}
+		if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+			log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
+			return 0
 		}
 	case 500:
 		if configuredRetryDuration != nil {
@@ -297,7 +317,7 @@ func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetrie
 
 // Because this function notes the start time for making should retry decisions, it's advised
 // for this function call to be made immediately before the client API call.
-func getRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
+func GetRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
 	if serviceRetryPolicyFn, ok := serviceRetryPolicyFnMap[service]; ok {
 		return serviceRetryPolicyFn(disableNotFoundRetries, service, optionals...)
 	}

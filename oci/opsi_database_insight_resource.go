@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v48/opsi"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
 )
 
 func init() {
@@ -220,7 +220,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.CreateDatabaseInsight(context.Background(), request)
 	if err != nil {
@@ -242,7 +242,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 		wantedState := strings.ToUpper(status.(string))
 		if oci_opsi.ResourceStatusDisabled == oci_opsi.ResourceStatusEnum(wantedState) {
 			request := oci_opsi.DisableDatabaseInsightRequest{}
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 			tmp := s.D.Id()
 			request.DatabaseInsightId = &tmp
 			response, err := s.Client.DisableDatabaseInsight(context.Background(), request)
@@ -305,7 +305,7 @@ func databaseInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 
 func databaseInsightWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "opsi")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = databaseInsightWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_opsi.GetWorkRequestResponse{}
@@ -386,7 +386,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DatabaseInsightId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.GetDatabaseInsight(context.Background(), request)
 	if err != nil {
@@ -413,7 +413,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.UpdateDatabaseInsight(context.Background(), request)
 	if err != nil {
@@ -443,7 +443,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 
 	if disableDatabaseInsight {
 		request := oci_opsi.DisableDatabaseInsightRequest{}
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
 		response, err := s.Client.DisableDatabaseInsight(context.Background(), request)
@@ -464,7 +464,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 
 	if enableDatabaseInsight {
 		request := oci_opsi.EnableDatabaseInsightRequest{}
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
 		err := s.populateTopLevelPolymorphicEnableDatabaseInsightRequest(&request)
@@ -495,7 +495,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
 	status, ok := s.D.GetOkExists("status")
 	if ok && oci_opsi.ResourceStatusEnabled == oci_opsi.ResourceStatusEnum(strings.ToUpper(status.(string))) {
 		request := oci_opsi.DisableDatabaseInsightRequest{}
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
 		response, err := s.Client.DisableDatabaseInsight(context.Background(), request)
@@ -518,7 +518,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DatabaseInsightId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.DeleteDatabaseInsight(context.Background(), request)
 	if err != nil {
@@ -832,7 +832,7 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 			details.EnterpriseManagerBridgeId = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDatabaseInsightDetails = details
 	default:
@@ -863,7 +863,7 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 			details.DefinedTags = convertedDefinedTags
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDatabaseInsightDetails = details
 	default:
@@ -900,7 +900,7 @@ func (s *OpsiDatabaseInsightResourceCrud) updateCompartment(compartment interfac
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DatabaseInsightId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "opsi")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.ChangeDatabaseInsightCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -908,5 +908,5 @@ func (s *OpsiDatabaseInsightResourceCrud) updateCompartment(compartment interfac
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseInsightFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseInsightFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

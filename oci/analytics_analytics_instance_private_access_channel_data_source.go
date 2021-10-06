@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_analytics "github.com/oracle/oci-go-sdk/v48/analytics"
+	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
 )
 
 func init() {
@@ -58,7 +58,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) Get() err
 		request.PrivateAccessChannelKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "analytics")
 
 	response, err := s.Client.GetPrivateAccessChannel(context.Background(), request)
 	if err != nil {

@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_bastion "github.com/oracle/oci-go-sdk/v48/bastion"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_bastion "github.com/oracle/oci-go-sdk/v49/bastion"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
@@ -237,7 +237,7 @@ func (s *BastionBastionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maxSessionTtlInSeconds, ok := s.D.GetOkExists("max_session_ttl_in_seconds"); ok {
@@ -273,7 +273,7 @@ func (s *BastionBastionResourceCrud) Create() error {
 		request.TargetSubnetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
 	response, err := s.Client.CreateBastion(context.Background(), request)
 	if err != nil {
@@ -281,7 +281,7 @@ func (s *BastionBastionResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBastionFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBastionFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *BastionBastionResourceCrud) getBastionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -324,7 +324,7 @@ func bastionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 
 func bastionWaitForWorkRequest(wId *string, entityType string, action oci_bastion.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bastion.BastionClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "bastion")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "bastion")
 	retryPolicy.ShouldRetryOperation = bastionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_bastion.GetWorkRequestResponse{}
@@ -405,7 +405,7 @@ func (s *BastionBastionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.BastionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
 	response, err := s.Client.GetBastion(context.Background(), request)
 	if err != nil {
@@ -453,7 +453,7 @@ func (s *BastionBastionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if maxSessionTtlInSeconds, ok := s.D.GetOkExists("max_session_ttl_in_seconds"); ok {
@@ -474,7 +474,7 @@ func (s *BastionBastionResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
 	response, err := s.Client.UpdateBastion(context.Background(), request)
 	if err != nil {
@@ -482,7 +482,7 @@ func (s *BastionBastionResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBastionFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBastionFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BastionBastionResourceCrud) Delete() error {
@@ -491,7 +491,7 @@ func (s *BastionBastionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.BastionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
 	response, err := s.Client.DeleteBastion(context.Background(), request)
 	if err != nil {
@@ -581,7 +581,7 @@ func (s *BastionBastionResourceCrud) updateCompartment(compartment interface{}) 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bastion")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
 	_, err := s.Client.ChangeBastionCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

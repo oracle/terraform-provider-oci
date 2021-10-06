@@ -13,42 +13,42 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	TsigKeyRequiredOnlyResource = TsigKeyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation)
 
 	TsigKeyResourceConfig = TsigKeyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation)
 
 	tsigKeySingularDataSourceRepresentation = map[string]interface{}{
-		"tsig_key_id": Representation{repType: Required, create: `${oci_dns_tsig_key.test_tsig_key.id}`},
+		"tsig_key_id": Representation{RepType: Required, Create: `${oci_dns_tsig_key.test_tsig_key.id}`},
 	}
 
-	tsigKeyName                     = randomString(7, charsetWithoutDigits) + "." + randomString(8, charsetWithoutDigits)
+	tsigKeyName                     = RandomString(7, charsetWithoutDigits) + "." + RandomString(8, charsetWithoutDigits)
 	tsigKeyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"id":             Representation{repType: Optional, create: `${oci_dns_tsig_key.test_tsig_key.id}`},
-		"name":           Representation{repType: Optional, create: tsigKeyName},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"id":             Representation{RepType: Optional, Create: `${oci_dns_tsig_key.test_tsig_key.id}`},
+		"name":           Representation{RepType: Optional, Create: tsigKeyName},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, tsigKeyDataSourceFilterRepresentation}}
 	tsigKeyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dns_tsig_key.test_tsig_key.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dns_tsig_key.test_tsig_key.id}`}},
 	}
 
 	tsigKeyRepresentation = map[string]interface{}{
-		"algorithm":      Representation{repType: Required, create: `hmac-sha1`},
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: tsigKeyName},
-		"secret":         Representation{repType: Required, create: `c2VjcmV0`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"algorithm":      Representation{RepType: Required, Create: `hmac-sha1`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Required, Create: tsigKeyName},
+		"secret":         Representation{RepType: Required, Create: `c2VjcmV0`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
 
 	TsigKeyResourceDependencies = DefinedTagsDependencies
@@ -72,15 +72,15 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_dns_tsig_key.test_tsig_key"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+TsigKeyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create, tsigKeyRepresentation), "dns", "tsigKey", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+TsigKeyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create, tsigKeyRepresentation), "dns", "tsigKey", t)
 
 	ResourceTest(t, testAccCheckDnsTsigKeyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -88,20 +88,20 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create, tsigKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create, tsigKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -111,9 +111,9 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,12 +122,12 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TsigKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create,
-					representationCopyWithNewProperties(tsigKeyRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Create,
+					RepresentationCopyWithNewProperties(tsigKeyRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
@@ -138,7 +138,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -150,7 +150,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + TsigKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -160,7 +160,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -171,9 +171,9 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dns_tsig_keys", "test_tsig_keys", Optional, Update, tsigKeyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dns_tsig_keys", "test_tsig_keys", Optional, Update, tsigKeyDataSourceRepresentation) +
 				compartmentIdVariableStr + TsigKeyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Optional, Update, tsigKeyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -195,7 +195,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + TsigKeyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tsig_key_id"),
@@ -239,7 +239,7 @@ func testAccCheckDnsTsigKeyDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.TsigKeyId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 
 			response, err := client.GetTsigKey(context.Background(), request)
 
@@ -272,7 +272,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DnsTsigKey") {
+	if !InSweeperExcludeList("DnsTsigKey") {
 		resource.AddTestSweepers("DnsTsigKey", &resource.Sweeper{
 			Name:         "DnsTsigKey",
 			Dependencies: DependencyGraph["tsigKey"],
@@ -293,13 +293,13 @@ func sweepDnsTsigKeyResource(compartment string) error {
 
 			deleteTsigKeyRequest.TsigKeyId = &tsigKeyId
 
-			deleteTsigKeyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			deleteTsigKeyRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 			_, error := dnsClient.DeleteTsigKey(context.Background(), deleteTsigKeyRequest)
 			if error != nil {
 				fmt.Printf("Error deleting TsigKey %s %s, It is possible that the resource is already deleted. Please verify manually \n", tsigKeyId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &tsigKeyId, tsigKeySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &tsigKeyId, tsigKeySweepWaitCondition, time.Duration(3*time.Minute),
 				tsigKeySweepResponseFetchOperation, "dns", true)
 		}
 	}
@@ -307,7 +307,7 @@ func sweepDnsTsigKeyResource(compartment string) error {
 }
 
 func getTsigKeyIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "TsigKeyId")
+	ids := GetResourceIdsToSweep(compartment, "TsigKeyId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -326,7 +326,7 @@ func getTsigKeyIds(compartment string) ([]string, error) {
 	for _, tsigKey := range listTsigKeysResponse.Items {
 		id := *tsigKey.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "TsigKeyId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "TsigKeyId", id)
 	}
 	return resourceIds, nil
 }

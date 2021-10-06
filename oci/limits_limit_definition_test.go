@@ -14,12 +14,12 @@ import (
 
 var (
 	limitDefinitionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"name":           Representation{repType: Optional, create: `custom-image-count`},
-		"service_name":   Representation{repType: Optional, create: `${data.oci_limits_services.test_services.services.0.name}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"name":           Representation{RepType: Optional, Create: `custom-image-count`},
+		"service_name":   Representation{RepType: Optional, Create: `${data.oci_limits_services.test_services.services.0.name}`},
 	}
 
-	LimitDefinitionResourceConfig = generateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
+	LimitDefinitionResourceConfig = GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
 )
 
 // issue-routing-tag: limits/default
@@ -35,13 +35,13 @@ func TestLimitsLimitDefinitionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_limits_limit_definitions.test_limit_definitions"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_limits_limit_definitions", "test_limit_definitions", Required, Create, limitDefinitionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_limits_limit_definitions", "test_limit_definitions", Required, Create, limitDefinitionDataSourceRepresentation) +
 				compartmentIdVariableStr + LimitDefinitionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),

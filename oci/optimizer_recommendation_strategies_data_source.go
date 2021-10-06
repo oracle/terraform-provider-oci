@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v48/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v49/optimizer"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func OptimizerRecommendationStrategiesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOptimizerRecommendationStrategies,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -167,7 +167,7 @@ func (s *OptimizerRecommendationStrategiesDataSourceCrud) Get() error {
 		request.RecommendationName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "optimizer")
 
 	response, err := s.Client.ListRecommendationStrategies(context.Background(), request)
 	if err != nil {

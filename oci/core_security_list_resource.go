@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -505,7 +505,7 @@ func (s *CoreSecurityListResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.IngressSecurityRules = []oci_core.IngressSecurityRule{}
@@ -530,7 +530,7 @@ func (s *CoreSecurityListResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateSecurityList(context.Background(), request)
 	if err != nil {
@@ -547,7 +547,7 @@ func (s *CoreSecurityListResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SecurityListId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetSecurityList(context.Background(), request)
 	if err != nil {
@@ -601,7 +601,7 @@ func (s *CoreSecurityListResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.IngressSecurityRules = []oci_core.IngressSecurityRule{}
@@ -624,7 +624,7 @@ func (s *CoreSecurityListResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SecurityListId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateSecurityList(context.Background(), request)
 	if err != nil {
@@ -641,7 +641,7 @@ func (s *CoreSecurityListResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SecurityListId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteSecurityList(context.Background(), request)
 	return err
@@ -1224,7 +1224,7 @@ func (s *CoreSecurityListResourceCrud) updateCompartment(compartment interface{}
 	idTmp := s.D.Id()
 	changeCompartmentRequest.SecurityListId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeSecurityListCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

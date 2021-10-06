@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v48/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v49/keymanagement"
 )
 
 func init() {
@@ -20,7 +20,7 @@ func KmsKeysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readKmsKeys,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"algorithm": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -105,7 +105,7 @@ func (s *KmsKeysDataSourceCrud) Get() error {
 		request.ProtectionMode = oci_kms.ListKeysProtectionModeEnum(protectionMode.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "kms")
 
 	response, err := s.Client.ListKeys(context.Background(), request)
 	if err != nil {

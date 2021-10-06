@@ -12,83 +12,83 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v48/logging"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v49/logging"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	UnifiedAgentConfigurationRequiredOnlyResource = UnifiedAgentConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Required, Create, unifiedAgentConfigurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Required, Create, unifiedAgentConfigurationRepresentation)
 
 	UnifiedAgentConfigurationResourceConfig = UnifiedAgentConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Update, unifiedAgentConfigurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Update, unifiedAgentConfigurationRepresentation)
 
 	unifiedAgentConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"unified_agent_configuration_id": Representation{repType: Required, create: `${oci_logging_unified_agent_configuration.test_unified_agent_configuration.id}`},
+		"unified_agent_configuration_id": Representation{RepType: Required, Create: `${oci_logging_unified_agent_configuration.test_unified_agent_configuration.id}`},
 	}
 
 	unifiedAgentConfigurationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":                 Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"group_id":                     Representation{repType: Optional, create: `${oci_identity_group.test_group.id}`},
-		"is_compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
-		"log_id":                       Representation{repType: Optional, create: `${oci_logging_log.test_log.id}`},
-		"state":                        Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id":               Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                 Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"group_id":                     Representation{RepType: Optional, Create: `${oci_identity_group.test_group.id}`},
+		"is_compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"log_id":                       Representation{RepType: Optional, Create: `${oci_logging_log.test_log.id}`},
+		"state":                        Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":                       RepresentationGroup{Required, unifiedAgentConfigurationDataSourceFilterRepresentation},
 	}
 
 	unifiedAgentConfigurationRepresentation = map[string]interface{}{
-		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
-		"is_enabled":            Representation{repType: Required, create: `true`, update: `false`},
+		"compartment_id":        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"is_enabled":            Representation{RepType: Required, Create: `true`, Update: `false`},
 		"service_configuration": RepresentationGroup{Required, unifiedAgentConfigurationServiceConfigurationRepresentation},
-		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":           Representation{repType: Required, create: `description`, update: `description2`},
-		"display_name":          Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":          Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":           Representation{RepType: Required, Create: `description`, Update: `description2`},
+		"display_name":          Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":         Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"group_association":     RepresentationGroup{Required, unifiedAgentConfigurationGroupAssociationRepresentation},
 	}
 
 	unifiedAgentConfigurationServiceConfigurationRepresentation = map[string]interface{}{
-		"configuration_type": Representation{repType: Required, create: `LOGGING`},
+		"configuration_type": Representation{RepType: Required, Create: `LOGGING`},
 		"destination":        RepresentationGroup{Required, unifiedAgentConfigurationServiceConfigurationDestinationRepresentation},
 		"sources":            RepresentationGroup{Required, unifiedAgentConfigurationServiceConfigurationSourcesRepresentation},
 	}
 
 	unifiedAgentConfigurationGroupAssociationRepresentation = map[string]interface{}{
-		"group_list": Representation{repType: Required, create: []string{`${oci_identity_group.test_group.id}`}}, // update: []string{`${oci_identity_group.test_group.id}`, `ocid1.group.oc1..aaaaaaaa5rvs7zjwdk3zdmysm7x7wcxyanbllutswe4xbl7ng4stohtg3sla`}},
+		"group_list": Representation{RepType: Required, Create: []string{`${oci_identity_group.test_group.id}`}}, // Update: []string{`${oci_identity_group.test_group.id}`, `ocid1.Group.oc1..aaaaaaaa5rvs7zjwdk3zdmysm7x7wcxyanbllutswe4xbl7ng4stohtg3sla`}},
 	}
 
 	unifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation = map[string]interface{}{
-		"parser_type":               Representation{repType: Required, create: `AUDITD`},
-		"field_time_key":            Representation{repType: Optional, create: `fieldTimeKey`},
-		"is_estimate_current_event": Representation{repType: Optional, create: `false`},
-		"is_keep_time_key":          Representation{repType: Optional, create: `false`},
-		"is_null_empty_string":      Representation{repType: Optional, create: `false`},
-		"null_value_pattern":        Representation{repType: Optional, create: `nullValuePattern`},
-		"timeout_in_milliseconds":   Representation{repType: Optional, create: `10`},
-		"types":                     Representation{repType: Optional, create: map[string]string{"types": "types"}},
+		"parser_type":               Representation{RepType: Required, Create: `AUDITD`},
+		"field_time_key":            Representation{RepType: Optional, Create: `fieldTimeKey`},
+		"is_estimate_current_event": Representation{RepType: Optional, Create: `false`},
+		"is_keep_time_key":          Representation{RepType: Optional, Create: `false`},
+		"is_null_empty_string":      Representation{RepType: Optional, Create: `false`},
+		"null_value_pattern":        Representation{RepType: Optional, Create: `nullValuePattern`},
+		"timeout_in_milliseconds":   Representation{RepType: Optional, Create: `10`},
+		"types":                     Representation{RepType: Optional, Create: map[string]string{"types": "types"}},
 	}
 
 	unifiedAgentConfigurationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_logging_unified_agent_configuration.test_unified_agent_configuration.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_logging_unified_agent_configuration.test_unified_agent_configuration.id}`}},
 	}
 
 	UnifiedAgentConfigurationResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create,
-			getUpdatedRepresentationCopy("name", Representation{repType: Required, create: `LoggingAgentIdentityGroup`}, groupRepresentation)) +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, customLogRepresentation) +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create,
+			GetUpdatedRepresentationCopy("name", Representation{RepType: Required, Create: `LoggingAgentIdentityGroup`}, groupRepresentation)) +
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, customLogRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation)
 
 	unifiedAgentConfigurationServiceConfigurationSourcesRepresentation = map[string]interface{}{
-		"source_type": Representation{repType: Required, create: `WINDOWS_EVENT_LOG`},
-		"channels":    Representation{repType: Required, create: []string{`Security`}, update: []string{`Security`, `Application`}},
-		"name":        Representation{repType: Required, create: `name`, update: `name2`},
+		"source_type": Representation{RepType: Required, Create: `WINDOWS_EVENT_LOG`},
+		"channels":    Representation{RepType: Required, Create: []string{`Security`}, Update: []string{`Security`, `Application`}},
+		"name":        Representation{RepType: Required, Create: `name`, Update: `name2`},
 	}
 )
 
@@ -110,15 +110,15 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_logging_unified_agent_configuration.test_unified_agent_configuration"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+UnifiedAgentConfigurationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Create, unifiedAgentConfigurationRepresentation), "logging", "unifiedAgentConfiguration", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+UnifiedAgentConfigurationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Create, unifiedAgentConfigurationRepresentation), "logging", "unifiedAgentConfiguration", t)
 
 	ResourceTest(t, testAccCheckLoggingUnifiedAgentConfigurationDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Required, Create, unifiedAgentConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Required, Create, unifiedAgentConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
@@ -126,19 +126,19 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.configuration_type", "LOGGING"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Create, unifiedAgentConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Create, unifiedAgentConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
@@ -161,9 +161,9 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -172,12 +172,12 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + UnifiedAgentConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Create,
-					representationCopyWithNewProperties(unifiedAgentConfigurationRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Create,
+					RepresentationCopyWithNewProperties(unifiedAgentConfigurationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -201,7 +201,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -213,7 +213,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Update, unifiedAgentConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Update, unifiedAgentConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "configuration_state"),
@@ -236,7 +236,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -247,9 +247,9 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_logging_unified_agent_configurations", "test_unified_agent_configurations", Optional, Update, unifiedAgentConfigurationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_logging_unified_agent_configurations", "test_unified_agent_configurations", Optional, Update, unifiedAgentConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + UnifiedAgentConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Update, unifiedAgentConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Optional, Update, unifiedAgentConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -265,7 +265,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Required, Create, unifiedAgentConfigurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", Required, Create, unifiedAgentConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + UnifiedAgentConfigurationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "unified_agent_configuration_id"),
@@ -318,7 +318,7 @@ func testAccCheckLoggingUnifiedAgentConfigurationDestroy(s *terraform.State) err
 			tmp := rs.Primary.ID
 			request.UnifiedAgentConfigurationId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 
 			_, err := client.GetUnifiedAgentConfiguration(context.Background(), request)
 
@@ -343,7 +343,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoggingUnifiedAgentConfiguration") {
+	if !InSweeperExcludeList("LoggingUnifiedAgentConfiguration") {
 		resource.AddTestSweepers("LoggingUnifiedAgentConfiguration", &resource.Sweeper{
 			Name:         "LoggingUnifiedAgentConfiguration",
 			Dependencies: DependencyGraph["unifiedAgentConfiguration"],
@@ -364,7 +364,7 @@ func sweepLoggingUnifiedAgentConfigurationResource(compartment string) error {
 
 			deleteUnifiedAgentConfigurationRequest.UnifiedAgentConfigurationId = &unifiedAgentConfigurationId
 
-			deleteUnifiedAgentConfigurationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			deleteUnifiedAgentConfigurationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 			_, error := loggingManagementClient.DeleteUnifiedAgentConfiguration(context.Background(), deleteUnifiedAgentConfigurationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting UnifiedAgentConfiguration %s %s, It is possible that the resource is already deleted. Please verify manually \n", unifiedAgentConfigurationId, error)
@@ -376,7 +376,7 @@ func sweepLoggingUnifiedAgentConfigurationResource(compartment string) error {
 }
 
 func getUnifiedAgentConfigurationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "UnifiedAgentConfigurationId")
+	ids := GetResourceIdsToSweep(compartment, "UnifiedAgentConfigurationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -394,7 +394,7 @@ func getUnifiedAgentConfigurationIds(compartment string) ([]string, error) {
 	for _, unifiedAgentConfiguration := range listUnifiedAgentConfigurationsResponse.Items {
 		id := *unifiedAgentConfiguration.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "UnifiedAgentConfigurationId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "UnifiedAgentConfigurationId", id)
 	}
 	return resourceIds, nil
 }

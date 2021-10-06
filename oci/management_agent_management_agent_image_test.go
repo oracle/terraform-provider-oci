@@ -14,8 +14,9 @@ import (
 
 var (
 	managementAgentImageDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"install_type":   Representation{RepType: Optional, Create: `AGENT`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
 	ManagementAgentImageResourceConfig = ""
@@ -33,17 +34,16 @@ func TestManagementAgentManagementAgentImageResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_management_agent_management_agent_images.test_management_agent_images"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_images", "test_management_agent_images", Required, Create, managementAgentImageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_images", "test_management_agent_images", Required, Create, managementAgentImageDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagementAgentImageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.checksum"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.id"),
@@ -53,6 +53,7 @@ func TestManagementAgentManagementAgentImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.size"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agent_images.0.version"),
+				resource.TestCheckResourceAttr(datasourceName, "management_agent_images.0.state", "ACTIVE"),
 			),
 		},
 	})

@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 )
 
 func init() {
@@ -80,7 +80,7 @@ func (s *DataSafeUnsetUserAssessmentBaselineResourceCrud) Get() error {
 		request.UserAssessmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.GetUserAssessment(context.Background(), request)
 	if err != nil {
@@ -99,7 +99,7 @@ func (s *DataSafeUnsetUserAssessmentBaselineResourceCrud) Create() error {
 		request.UserAssessmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.UnsetUserAssessmentBaseline(context.Background(), request)
 	if err != nil {
@@ -107,7 +107,7 @@ func (s *DataSafeUnsetUserAssessmentBaselineResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUnsetUserAssessmentBaselineFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutCreate))
+	return s.getUnsetUserAssessmentBaselineFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeUnsetUserAssessmentBaselineResourceCrud) getUnsetUserAssessmentBaselineFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -150,7 +150,7 @@ func unsetUserAssessmentBaselineWorkRequestShouldRetryFunc(timeout time.Duration
 
 func unsetUserAssessmentBaselineWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "data_safe")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = unsetUserAssessmentBaselineWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}

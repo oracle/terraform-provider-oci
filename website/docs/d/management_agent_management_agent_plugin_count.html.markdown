@@ -39,5 +39,6 @@ The following attributes are exported:
 * `items` - List in which each item describes an aggregation of Managment Agent Plugins
 	* `count` - The number of Management Agent Plugins in this group
 	* `dimensions` - The Aggregation of Management Agent Plugin Dimensions
+		* `plugin_display_name` - Management Agent Plugin Display Name
 		* `plugin_name` - Management Agent Plugin Name
 

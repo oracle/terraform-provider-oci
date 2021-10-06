@@ -13,44 +13,44 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	PluggableDatabaseRequiredOnlyResource = PluggableDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Create, pluggableDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Create, pluggableDatabaseRepresentation)
 
 	PluggableDatabaseResourceConfig = PluggableDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Update, pluggableDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Update, pluggableDatabaseRepresentation)
 
 	pluggableDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"pluggable_database_id": Representation{repType: Required, create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
+		"pluggable_database_id": Representation{RepType: Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
 	}
 	ignoreChangesPdbepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 	pluggableDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"pdb_name":       Representation{repType: Optional, create: `SalesPdb`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"pdb_name":       Representation{RepType: Optional, Create: `SalesPdb`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, pluggableDatabaseDataSourceFilterRepresentation}}
 	pluggableDatabaseDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_pluggable_database.test_pluggable_database.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_pluggable_database.test_pluggable_database.id}`}},
 	}
 
 	pluggableDatabaseRepresentation = map[string]interface{}{
-		"container_database_id": Representation{repType: Required, create: `${data.oci_database_database.t.id}`},
-		"pdb_admin_password":    Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"pdb_name":              Representation{repType: Required, create: `SalesPdb`},
-		"tde_wallet_password":   Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"container_database_id": Representation{RepType: Required, Create: `${data.oci_database_database.t.id}`},
+		"pdb_admin_password":    Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"pdb_name":              Representation{RepType: Required, Create: `SalesPdb`},
+		"tde_wallet_password":   Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"defined_tags":          Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":         Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":             RepresentationGroup{Required, ignoreChangesLBRepresentation},
-		"depends_on":            Representation{repType: Required, create: []string{"oci_database_db_system.t"}},
+		"depends_on":            Representation{RepType: Required, Create: []string{"oci_database_db_system.t"}},
 	}
 
 	ResourcePluggableDatabaseBaseConfig = `
@@ -206,15 +206,15 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_pluggable_database.test_pluggable_database"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Create, pluggableDatabaseRepresentation), "database", "pluggableDatabase", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PluggableDatabaseResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Create, pluggableDatabaseRepresentation), "database", "pluggableDatabase", t)
 
 	ResourceTest(t, testAccCheckDatabasePluggableDatabaseDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Create, pluggableDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Create, pluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
@@ -222,20 +222,20 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "tde_wallet_password", "BEstrO0ng_#11"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Create, pluggableDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Create, pluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
@@ -250,9 +250,9 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -264,7 +264,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Update, pluggableDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Update, pluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
@@ -279,7 +279,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -290,9 +290,9 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_pluggable_databases", "test_pluggable_databases", Optional, Update, pluggableDatabaseDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_pluggable_databases", "test_pluggable_databases", Optional, Update, pluggableDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + PluggableDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Update, pluggableDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Optional, Update, pluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "pdb_name", "SalesPdb"),
@@ -313,7 +313,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", Required, Update, pluggableDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + PluggableDatabaseResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pluggable_database_id"),
@@ -358,7 +358,7 @@ func testAccCheckDatabasePluggableDatabaseDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PluggableDatabaseId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetPluggableDatabase(context.Background(), request)
 
@@ -391,7 +391,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabasePluggableDatabase") {
+	if !InSweeperExcludeList("DatabasePluggableDatabase") {
 		resource.AddTestSweepers("DatabasePluggableDatabase", &resource.Sweeper{
 			Name:         "DatabasePluggableDatabase",
 			Dependencies: DependencyGraph["pluggableDatabase"],
@@ -412,13 +412,13 @@ func sweepDatabasePluggableDatabaseResource(compartment string) error {
 
 			deletePluggableDatabaseRequest.PluggableDatabaseId = &pluggableDatabaseId
 
-			deletePluggableDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deletePluggableDatabaseRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeletePluggableDatabase(context.Background(), deletePluggableDatabaseRequest)
 			if error != nil {
 				fmt.Printf("Error deleting PluggableDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", pluggableDatabaseId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &pluggableDatabaseId, pluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &pluggableDatabaseId, pluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
 				pluggableDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -426,7 +426,7 @@ func sweepDatabasePluggableDatabaseResource(compartment string) error {
 }
 
 func getPluggableDatabaseIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "PluggableDatabaseId")
+	ids := GetResourceIdsToSweep(compartment, "PluggableDatabaseId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -445,7 +445,7 @@ func getPluggableDatabaseIds(compartment string) ([]string, error) {
 	for _, pluggableDatabase := range listPluggableDatabasesResponse.Items {
 		id := *pluggableDatabase.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "PluggableDatabaseId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "PluggableDatabaseId", id)
 	}
 	return resourceIds, nil
 }

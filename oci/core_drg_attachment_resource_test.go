@@ -13,7 +13,7 @@ import (
 
 	"fmt"
 
-	"github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -61,12 +61,12 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.DrgAttachmentLifecycleStateAttached)),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_core_drg.t", "id")
+						resId, err = FromInstanceState(s, "oci_core_drg.t", "id")
 						return err
 					},
 				),
 			},
-			// verify drg attachment update
+			// verify drg attachment Update
 			{
 				Config: s.Config + `
 				resource "oci_core_drg_attachment" "t" {
@@ -83,7 +83,7 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.DrgAttachmentLifecycleStateAttached)),
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_core_drg.t", "id")
+						resId2, err = FromInstanceState(s, "oci_core_drg.t", "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}

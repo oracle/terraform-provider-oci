@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v48/ocvp"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v49/ocvp"
 )
 
 func init() {
@@ -26,7 +26,7 @@ func OcvpEsxiHostResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
 		},
 		Create: createOcvpEsxiHost,
 		Read:   readOcvpEsxiHost,
@@ -193,7 +193,7 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
@@ -205,7 +205,7 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		request.SddcId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.CreateEsxiHost(context.Background(), request)
 	if err != nil {
@@ -213,7 +213,7 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEsxiHostFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getEsxiHostFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *OcvpEsxiHostResourceCrud) getEsxiHostFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -256,7 +256,7 @@ func esxiHostWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 
 func esxiHostWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ocvp.WorkRequestClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "ocvp")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "ocvp")
 	retryPolicy.ShouldRetryOperation = esxiHostWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_ocvp.GetWorkRequestResponse{}
@@ -337,7 +337,7 @@ func (s *OcvpEsxiHostResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.EsxiHostId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.GetEsxiHost(context.Background(), request)
 	if err != nil {
@@ -368,14 +368,14 @@ func (s *OcvpEsxiHostResourceCrud) Update() error {
 	request.EsxiHostId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
 		request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.UpdateEsxiHost(context.Background(), request)
 	if err != nil {
@@ -392,7 +392,7 @@ func (s *OcvpEsxiHostResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.EsxiHostId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
 	response, err := s.Client.DeleteEsxiHost(context.Background(), request)
 	if err != nil {

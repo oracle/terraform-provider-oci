@@ -13,60 +13,60 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v48/loganalytics"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v49/loganalytics"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	LogAnalyticsEntityRequiredOnlyResource = LogAnalyticsEntityResourceDependencies +
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntityRepresentation)
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntityRepresentation)
 
 	LogAnalyticsEntityResourceConfig = LogAnalyticsEntityResourceDependencies +
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation)
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation)
 
 	logAnalyticsEntitySingularDataSourceRepresentation = map[string]interface{}{
-		"log_analytics_entity_id": Representation{repType: Required, create: `${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`},
-		"namespace":               Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"log_analytics_entity_id": Representation{RepType: Required, Create: `${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`},
+		"namespace":               Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
 	logAnalyticsEntityDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
-		"namespace":                   Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"cloud_resource_id":           Representation{repType: Optional, create: `${var.compartment_id}`},
-		"entity_type_name":            Representation{repType: Optional, create: []string{`Host (Linux)`}},
-		"hostname":                    Representation{repType: Optional, create: `hostname`, update: `hostname2`},
-		"hostname_contains":           Representation{repType: Optional, create: `hostname`},
-		"is_management_agent_id_null": Representation{repType: Optional, create: `false`},
-		"lifecycle_details_contains":  Representation{repType: Optional, create: `READY`},
-		"name":                        Representation{repType: Optional, create: `TF_LA_ENTITY`},
-		"name_contains":               Representation{repType: Optional, create: `TF_LA`},
-		"source_id":                   Representation{repType: Optional, create: `source1`},
-		"state":                       Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":              Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"namespace":                   Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"cloud_resource_id":           Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"entity_type_name":            Representation{RepType: Optional, Create: []string{`Host (Linux)`}},
+		"hostname":                    Representation{RepType: Optional, Create: `hostname`, Update: `hostname2`},
+		"hostname_contains":           Representation{RepType: Optional, Create: `hostname`},
+		"is_management_agent_id_null": Representation{RepType: Optional, Create: `false`},
+		"lifecycle_details_contains":  Representation{RepType: Optional, Create: `READY`},
+		"name":                        Representation{RepType: Optional, Create: `TF_LA_ENTITY`},
+		"name_contains":               Representation{RepType: Optional, Create: `TF_LA`},
+		"source_id":                   Representation{RepType: Optional, Create: `source1`},
+		"state":                       Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                      RepresentationGroup{Required, logAnalyticsEntityDataSourceFilterRepresentation}}
 	logAnalyticsEntityDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`}},
 	}
 
 	logAnalyticsEntityRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"entity_type_name":    Representation{repType: Required, create: `Host (Linux)`},
-		"name":                Representation{repType: Required, create: `TF_LA_ENTITY`},
-		"namespace":           Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"cloud_resource_id":   Representation{repType: Optional, create: `${var.compartment_id}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"hostname":            Representation{repType: Optional, create: `hostname`, update: `hostname2`},
-		"management_agent_id": Representation{repType: Optional, create: `${var.managed_agent_id}`},
-		"properties":          Representation{repType: Optional, create: map[string]string{"properties": "properties"}, update: map[string]string{"properties2": "properties2"}},
-		"source_id":           Representation{repType: Optional, create: `source1`},
-		"timezone_region":     Representation{repType: Optional, create: `PST8PDT`, update: `EST5EDT`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"entity_type_name":    Representation{RepType: Required, Create: `Host (Linux)`},
+		"name":                Representation{RepType: Required, Create: `TF_LA_ENTITY`},
+		"namespace":           Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"cloud_resource_id":   Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname":            Representation{RepType: Optional, Create: `hostname`, Update: `hostname2`},
+		"management_agent_id": Representation{RepType: Optional, Create: `${var.managed_agent_id}`},
+		"properties":          Representation{RepType: Optional, Create: map[string]string{"properties": "properties"}, Update: map[string]string{"properties2": "properties2"}},
+		"source_id":           Representation{RepType: Optional, Create: `source1`},
+		"timezone_region":     Representation{RepType: Optional, Create: `PST8PDT`, Update: `EST5EDT`},
 	}
 
 	LogAnalyticsEntityResourceDependencies = DefinedTagsDependencies +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: log_analytics/default
@@ -93,15 +93,15 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_log_analytics_log_analytics_entity.test_log_analytics_entity"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+LogAnalyticsEntityResourceDependencies+
-		generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation), "loganalytics", "logAnalyticsEntity", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+LogAnalyticsEntityResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation), "loganalytics", "logAnalyticsEntity", t)
 
 	ResourceTest(t, testAccCheckLogAnalyticsLogAnalyticsEntityDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + LogAnalyticsEntityResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntityRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntityRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
@@ -109,21 +109,21 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + LogAnalyticsEntityResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
 				LogAnalyticsEntityResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create, logAnalyticsEntityRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -144,9 +144,9 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "timezone_region", "PST8PDT"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -155,12 +155,12 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + managementAgentIdVariableStr + LogAnalyticsEntityResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create,
-					representationCopyWithNewProperties(logAnalyticsEntityRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Create,
+					RepresentationCopyWithNewProperties(logAnalyticsEntityRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
@@ -182,7 +182,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "timezone_region", "PST8PDT"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -195,7 +195,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
 				LogAnalyticsEntityResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -216,7 +216,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "timezone_region", "EST5EDT"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -227,10 +227,10 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities", "test_log_analytics_entities", Optional, Update, logAnalyticsEntityDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities", "test_log_analytics_entities", Optional, Update, logAnalyticsEntityDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr +
 				LogAnalyticsEntityResourceDependencies +
-				generateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
+				GenerateResourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Optional, Update, logAnalyticsEntityRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_resource_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -252,7 +252,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntitySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entity", "test_log_analytics_entity", Required, Create, logAnalyticsEntitySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + managementAgentIdVariableStr +
 				LogAnalyticsEntityResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -310,7 +310,7 @@ func testAccCheckLogAnalyticsLogAnalyticsEntityDestroy(s *terraform.State) error
 				request.NamespaceName = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "log_analytics")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "log_analytics")
 
 			response, err := client.GetLogAnalyticsEntity(context.Background(), request)
 
@@ -343,7 +343,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LogAnalyticsLogAnalyticsEntity") {
+	if !InSweeperExcludeList("LogAnalyticsLogAnalyticsEntity") {
 		resource.AddTestSweepers("LogAnalyticsLogAnalyticsEntity", &resource.Sweeper{
 			Name:         "LogAnalyticsLogAnalyticsEntity",
 			Dependencies: DependencyGraph["logAnalyticsEntity"],
@@ -364,13 +364,13 @@ func sweepLogAnalyticsLogAnalyticsEntityResource(compartment string) error {
 
 			deleteLogAnalyticsEntityRequest.LogAnalyticsEntityId = &logAnalyticsEntityId
 
-			deleteLogAnalyticsEntityRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "log_analytics")
+			deleteLogAnalyticsEntityRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "log_analytics")
 			_, error := logAnalyticsClient.DeleteLogAnalyticsEntity(context.Background(), deleteLogAnalyticsEntityRequest)
 			if error != nil {
 				fmt.Printf("Error deleting LogAnalyticsEntity %s %s, It is possible that the resource is already deleted. Please verify manually \n", logAnalyticsEntityId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &logAnalyticsEntityId, logAnalyticsEntitySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &logAnalyticsEntityId, logAnalyticsEntitySweepWaitCondition, time.Duration(3*time.Minute),
 				logAnalyticsEntitySweepResponseFetchOperation, "log_analytics", true)
 		}
 	}
@@ -378,7 +378,7 @@ func sweepLogAnalyticsLogAnalyticsEntityResource(compartment string) error {
 }
 
 func getLogAnalyticsEntityIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "LogAnalyticsEntityId")
+	ids := GetResourceIdsToSweep(compartment, "LogAnalyticsEntityId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -405,7 +405,7 @@ func getLogAnalyticsEntityIds(compartment string) ([]string, error) {
 		for _, logAnalyticsEntity := range listLogAnalyticsEntitiesResponse.Items {
 			id := *logAnalyticsEntity.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "LogAnalyticsEntityId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "LogAnalyticsEntityId", id)
 		}
 
 	}

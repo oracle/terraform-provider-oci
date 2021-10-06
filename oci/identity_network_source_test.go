@@ -13,47 +13,47 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	NetworkSourceRequiredOnlyResource = NetworkSourceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation)
 
 	NetworkSourceResourceConfig = NetworkSourceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation)
 
 	networkSourceSingularDataSourceRepresentation = map[string]interface{}{
-		"network_source_id": Representation{repType: Required, create: `${oci_identity_network_source.test_network_source.id}`},
+		"network_source_id": Representation{RepType: Required, Create: `${oci_identity_network_source.test_network_source.id}`},
 	}
 
 	networkSourceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"name":           Representation{repType: Optional, create: `corpnet`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"name":           Representation{RepType: Optional, Create: `corpnet`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, networkSourceDataSourceFilterRepresentation}}
 	networkSourceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_network_source.test_network_source.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_network_source.test_network_source.id}`}},
 	}
 
 	networkSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"description":         Representation{repType: Required, create: `corporate ip ranges to be used for ip based authorization`, update: `description2`},
-		"name":                Representation{repType: Required, create: `corpnet`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"public_source_list":  Representation{repType: Optional, create: []string{`128.2.13.5`}, update: []string{`128.2.13.5`, `128.2.13.6`}},
-		"services":            Representation{repType: Optional, create: []string{`none`}, update: []string{`all`}},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"description":         Representation{RepType: Required, Create: `corporate ip ranges to be used for ip based authorization`, Update: `description2`},
+		"name":                Representation{RepType: Required, Create: `corpnet`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"public_source_list":  Representation{RepType: Optional, Create: []string{`128.2.13.5`}, Update: []string{`128.2.13.5`, `128.2.13.6`}},
+		"services":            Representation{RepType: Optional, Create: []string{`none`}, Update: []string{`all`}},
 		"virtual_source_list": RepresentationGroup{Optional, virtualSourceListRepresentation},
 	}
 
 	virtualSourceListRepresentation = map[string]interface{}{
-		"vcn_id":    Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"ip_ranges": Representation{repType: Required, create: []string{`10.0.0.0/16`}},
+		"vcn_id":    Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"ip_ranges": Representation{RepType: Required, Create: []string{`10.0.0.0/16`}},
 	}
 
 	NetworkSourceResourceDependencies = DefinedTagsDependencies + VcnRequiredOnlyResource
@@ -75,35 +75,35 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_identity_network_source.test_network_source"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+NetworkSourceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation), "identity", "networkSource", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+NetworkSourceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation), "identity", "networkSource", t)
 
 	ResourceTest(t, testAccCheckIdentityNetworkSourceDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "corporate ip ranges to be used for ip based authorization"),
 				resource.TestCheckResourceAttr(resourceName, "name", "corpnet"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -118,9 +118,9 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "virtual_source_list.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -132,7 +132,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -147,7 +147,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "virtual_source_list.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -158,9 +158,9 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_network_sources", "test_network_sources", Optional, Update, networkSourceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_network_sources", "test_network_sources", Optional, Update, networkSourceDataSourceRepresentation) +
 				compartmentIdVariableStr + NetworkSourceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "corpnet"),
@@ -182,7 +182,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NetworkSourceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_source_id"),
@@ -226,7 +226,7 @@ func testAccCheckIdentityNetworkSourceDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.NetworkSourceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 
 			response, err := client.GetNetworkSource(context.Background(), request)
 
@@ -259,7 +259,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("IdentityNetworkSource") {
+	if !InSweeperExcludeList("IdentityNetworkSource") {
 		resource.AddTestSweepers("IdentityNetworkSource", &resource.Sweeper{
 			Name:         "IdentityNetworkSource",
 			Dependencies: DependencyGraph["networkSource"],
@@ -280,13 +280,13 @@ func sweepIdentityNetworkSourceResource(compartment string) error {
 
 			deleteNetworkSourceRequest.NetworkSourceId = &networkSourceId
 
-			deleteNetworkSourceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			deleteNetworkSourceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 			_, error := identityClient.DeleteNetworkSource(context.Background(), deleteNetworkSourceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting NetworkSource %s %s, It is possible that the resource is already deleted. Please verify manually \n", networkSourceId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &networkSourceId, networkSourceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &networkSourceId, networkSourceSweepWaitCondition, time.Duration(3*time.Minute),
 				networkSourceSweepResponseFetchOperation, "identity", true)
 		}
 	}
@@ -294,7 +294,7 @@ func sweepIdentityNetworkSourceResource(compartment string) error {
 }
 
 func getNetworkSourceIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "NetworkSourceId")
+	ids := GetResourceIdsToSweep(compartment, "NetworkSourceId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -313,7 +313,7 @@ func getNetworkSourceIds(compartment string) ([]string, error) {
 	for _, networkSource := range listNetworkSourcesResponse.Items {
 		id := *networkSource.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "NetworkSourceId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "NetworkSourceId", id)
 	}
 	return resourceIds, nil
 }

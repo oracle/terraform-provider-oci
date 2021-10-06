@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 )
 
 func init() {
@@ -1262,7 +1262,7 @@ func (s *WaasWaasPolicyDataSourceCrud) Get() error {
 		request.WaasPolicyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "waas")
 
 	response, err := s.Client.GetWaasPolicy(context.Background(), request)
 	if err != nil {

@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -24,7 +24,7 @@ type DatasourceIdentityAPIKeysTestSuite struct {
 }
 
 func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
-	_, tokenFn := tokenizeWithHttpReplay("api_data_source")
+	_, tokenFn := TokenizeWithHttpReplay("api_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + publicKeyVariableStr + publicKeyUpdateVariableStr + tokenFn(`

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DatabaseVmClusterPatchHistoryEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseVmClusterPatchHistoryEntries,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"vm_cluster_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -94,7 +94,7 @@ func (s *DatabaseVmClusterPatchHistoryEntriesDataSourceCrud) Get() error {
 		request.VmClusterId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListVmClusterPatchHistoryEntries(context.Background(), request)
 	if err != nil {

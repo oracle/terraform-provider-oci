@@ -13,51 +13,51 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ImageRequiredOnlyResource = ImageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
 
 	ImageResourceConfig = ImageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation)
 
 	imageSingularDataSourceRepresentation = map[string]interface{}{
-		"image_id": Representation{repType: Required, create: `${oci_core_image.test_image.id}`},
+		"image_id": Representation{RepType: Required, Create: `${oci_core_image.test_image.id}`},
 	}
 
 	imageDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `MyCustomImage`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, imageDataSourceFilterRepresentation}}
 	imageDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_image.test_image.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_image.test_image.id}`}},
 	}
 
 	imageRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"instance_id":    Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"launch_mode":    Representation{repType: Optional, create: `NATIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `MyCustomImage`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"instance_id":    Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"launch_mode":    Representation{RepType: Optional, Create: `NATIVE`},
 		"timeouts":       RepresentationGroup{Required, timeoutsRepresentation},
 	}
 
 	timeoutsRepresentation = map[string]interface{}{
-		"create": Representation{repType: Required, create: `30m`},
+		"create": Representation{RepType: Required, Create: `30m`},
 	}
 
-	ImageResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	ImageResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -80,34 +80,34 @@ func TestCoreImageResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_image.test_image"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ImageResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create, imageRepresentation), "core", "image", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ImageResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create, imageRepresentation), "core", "image", t)
 
 	ResourceTest(t, testAccCheckCoreImageDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ImageResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create, imageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create, imageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
@@ -123,9 +123,9 @@ func TestCoreImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -134,12 +134,12 @@ func TestCoreImageResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create,
-					representationCopyWithNewProperties(imageRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create,
+					RepresentationCopyWithNewProperties(imageRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -156,7 +156,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -168,7 +168,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
@@ -184,7 +184,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -195,9 +195,9 @@ func TestCoreImageResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_images", "test_images", Optional, Update, imageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_images", "test_images", Optional, Update, imageDataSourceRepresentation) +
 				compartmentIdVariableStr + ImageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -225,7 +225,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ImageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
@@ -277,7 +277,7 @@ func testAccCheckCoreImageDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ImageId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetImage(context.Background(), request)
 
@@ -310,7 +310,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreImage") {
+	if !InSweeperExcludeList("CoreImage") {
 		resource.AddTestSweepers("CoreImage", &resource.Sweeper{
 			Name:         "CoreImage",
 			Dependencies: DependencyGraph["image"],
@@ -331,13 +331,13 @@ func sweepCoreImageResource(compartment string) error {
 
 			deleteImageRequest.ImageId = &imageId
 
-			deleteImageRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteImageRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeClient.DeleteImage(context.Background(), deleteImageRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Image %s %s, It is possible that the resource is already deleted. Please verify manually \n", imageId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &imageId, imageSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &imageId, imageSweepWaitCondition, time.Duration(3*time.Minute),
 				imageSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -345,7 +345,7 @@ func sweepCoreImageResource(compartment string) error {
 }
 
 func getImageIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ImageId")
+	ids := GetResourceIdsToSweep(compartment, "ImageId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -365,7 +365,7 @@ func getImageIds(compartment string) ([]string, error) {
 		if image.CompartmentId != nil && *image.CompartmentId == compartment && image.BaseImageId != nil {
 			id := *image.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "ImageId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "ImageId", id)
 		}
 	}
 	return resourceIds, nil

@@ -14,7 +14,7 @@ import (
 
 var (
 	categoryDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
 	CategoryResourceConfig = ""
@@ -32,13 +32,13 @@ func TestMarketplaceCategoryResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_marketplace_categories.test_categories"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_categories", "test_categories", Required, Create, categoryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_categories", "test_categories", Required, Create, categoryDataSourceRepresentation) +
 				compartmentIdVariableStr + CategoryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

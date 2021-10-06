@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v48/osmanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v49/osmanagement"
 )
 
 func init() {
@@ -92,7 +92,7 @@ func (s *OsmanagementManagedInstanceEventReportDataSourceCrud) Get() error {
 		request.ManagedInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "osmanagement")
 
 	response, err := s.Client.GetEventReport(context.Background(), request)
 	if err != nil {

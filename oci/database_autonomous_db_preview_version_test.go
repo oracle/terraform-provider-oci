@@ -14,7 +14,7 @@ import (
 
 var (
 	autonomousDbPreviewVersionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	AutonomousDbPreviewVersionResourceConfig = ""
@@ -32,13 +32,13 @@ func TestDatabaseAutonomousDbPreviewVersionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_autonomous_db_preview_versions.test_autonomous_db_preview_versions"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_db_preview_versions", "test_autonomous_db_preview_versions", Required, Create, autonomousDbPreviewVersionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_preview_versions", "test_autonomous_db_preview_versions", Required, Create, autonomousDbPreviewVersionDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDbPreviewVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

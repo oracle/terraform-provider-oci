@@ -13,81 +13,81 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DrgAttachmentRequiredOnlyResource = DrgAttachmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation)
 
 	drgAttachmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"attachment_type":    Representation{repType: Optional, create: `VCN`},
-		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"drg_id":             Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
-		"drg_route_table_id": Representation{repType: Optional, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
-		"network_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
-		"state":              Representation{repType: Optional, create: `ATTACHED`},
-		"vcn_id":             Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"attachment_type":    Representation{RepType: Optional, Create: `VCN`},
+		"display_name":       Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"drg_id":             Representation{RepType: Optional, Create: `${oci_core_drg.test_drg.id}`},
+		"drg_route_table_id": Representation{RepType: Optional, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"network_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
+		"state":              Representation{RepType: Optional, Create: `ATTACHED`},
+		"vcn_id":             Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":             RepresentationGroup{Required, drgAttachmentDataSourceFilterRepresentation}}
 	drgAttachmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_drg_attachment.test_drg_attachment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_drg_attachment.test_drg_attachment.id}`}},
 	}
 
 	drgAttachmentRepresentation = map[string]interface{}{
-		"drg_id":             Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"drg_route_table_id": Representation{repType: Optional, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"drg_id":             Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":       Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"drg_route_table_id": Representation{RepType: Optional, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_details":    RepresentationGroup{Required, drgAttachmentNetworkDetailsRepresentation},
 		"lifecycle":          RepresentationGroup{Required, ignoreChangesLBRepresentation},
 	}
 	drgAttachmentNetworkDetailsRepresentation = map[string]interface{}{
-		"id":             Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"type":           Representation{repType: Required, create: `VCN`},
-		"route_table_id": Representation{repType: Required, create: `${oci_core_route_table.test_route_table.id}`},
+		"id":             Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"type":           Representation{RepType: Required, Create: `VCN`},
+		"route_table_id": Representation{RepType: Required, Create: `${oci_core_route_table.test_route_table.id}`},
 	}
 
 	drgAttachmentRepresentationNoRouteTable = map[string]interface{}{
-		"drg_id":             Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
-		"display_name":       Representation{repType: Optional, create: `NameNoTable`},
-		"drg_route_table_id": Representation{repType: Optional, create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"drg_id":             Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
+		"display_name":       Representation{RepType: Optional, Create: `NameNoTable`},
+		"drg_route_table_id": Representation{RepType: Optional, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
 		"network_details":    RepresentationGroup{Required, drgAttachmentNetworkDetailsRepresentationNoRouteTable},
 		"lifecycle":          RepresentationGroup{Required, ignoreChangesLBRepresentation},
 	}
 
 	drgAttachmentNetworkDetailsRepresentationNoRouteTable = map[string]interface{}{
-		"id":   Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"type": Representation{repType: Required, create: `VCN`},
+		"id":   Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"type": Representation{RepType: Required, Create: `VCN`},
 	}
 
 	drgAttachmentTriggerRepresentation = map[string]interface{}{
-		"drg_id":          Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"drg_id":          Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
 		"network_details": RepresentationGroup{Required, drgAttachmentNetworkDetailsRepresentation},
 		"lifecycle":       RepresentationGroup{Required, ignoreChangesLBRepresentation},
-		"display_name":    Representation{repType: Optional, create: `displayName3`, update: `displayName4`},
-		"remove_export_drg_route_distribution_trigger": Representation{repType: Optional, create: `false`, update: `true`},
+		"display_name":    Representation{RepType: Optional, Create: `displayName3`, Update: `displayName4`},
+		"remove_export_drg_route_distribution_trigger": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
 	drgAttachmentExportDistributionUpdateRepresentation = map[string]interface{}{
-		"drg_id":          Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"drg_id":          Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
 		"network_details": RepresentationGroup{Required, drgAttachmentNetworkDetailsRepresentation},
 		"lifecycle":       RepresentationGroup{Required, ignoreChangesLBRepresentation},
-		"display_name":    Representation{repType: Optional, create: `displayName3`, update: `displayName4`},
-		"remove_export_drg_route_distribution_trigger": Representation{repType: Optional, create: `false`, update: `true`},
-		"export_drg_route_distribution_id":             Representation{repType: Optional, create: `${oci_core_drg.test_drg.default_export_drg_route_distribution_id}`, update: `${oci_core_drg.test_drg.default_export_drg_route_distribution_id}`},
+		"display_name":    Representation{RepType: Optional, Create: `displayName3`, Update: `displayName4`},
+		"remove_export_drg_route_distribution_trigger": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"export_drg_route_distribution_id":             Representation{RepType: Optional, Create: `${oci_core_drg.test_drg.default_export_drg_route_distribution_id}`, Update: `${oci_core_drg.test_drg.default_export_drg_route_distribution_id}`},
 	}
 
-	DrgAttachmentResourceDependencies = generateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	DrgAttachmentResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -105,33 +105,33 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_drg_attachments.test_drg_attachments"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DrgAttachmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation), "core", "drgAttachment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DrgAttachmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation), "core", "drgAttachment", t)
 
 	ResourceTest(t, testAccCheckCoreDrgAttachmentDestroy, []resource.TestStep{
-		//verify create
+		//verify Create
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		//delete, before next create
+		//delete, before next Create
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies,
 		},
-		//verify create with optionals
+		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -149,9 +149,9 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -163,7 +163,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 		//verify, updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -181,7 +181,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -192,11 +192,11 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 		// verify remove export trigger
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentTriggerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentTriggerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "drg_id")
+					resId, err = FromInstanceState(s, resourceName, "drg_id")
 					return err
 				},
 			),
@@ -204,11 +204,11 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 		// verify updates with export trigger
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentTriggerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentTriggerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "drg_id")
+					resId2, err = FromInstanceState(s, resourceName, "drg_id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -216,24 +216,24 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify export drg route distribution id update
+		// verify export drg route distribution id Update
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentExportDistributionUpdateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentExportDistributionUpdateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "export_drg_route_distribution_id"),
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies,
 		},
-		//verify create for network details with no route table
+		//verify Create for network details with no route table
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentationNoRouteTable),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentationNoRouteTable),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -246,22 +246,22 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		//delete, before next create
+		//delete, before next Create
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies,
 		},
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_drg_attachments", "test_drg_attachments", Optional, Update, drgAttachmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_drg_attachments", "test_drg_attachments", Optional, Update, drgAttachmentDataSourceRepresentation) +
 				compartmentIdVariableStr + DrgAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "attachment_type", "VCN"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -313,7 +313,7 @@ func testAccCheckCoreDrgAttachmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DrgAttachmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetDrgAttachment(context.Background(), request)
 
@@ -346,7 +346,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreDrgAttachment") {
+	if !InSweeperExcludeList("CoreDrgAttachment") {
 		resource.AddTestSweepers("CoreDrgAttachment", &resource.Sweeper{
 			Name:         "CoreDrgAttachment",
 			Dependencies: DependencyGraph["drgAttachment"],
@@ -367,13 +367,13 @@ func sweepCoreDrgAttachmentResource(compartment string) error {
 
 			deleteDrgAttachmentRequest.DrgAttachmentId = &drgAttachmentId
 
-			deleteDrgAttachmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteDrgAttachmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteDrgAttachment(context.Background(), deleteDrgAttachmentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DrgAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgAttachmentId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &drgAttachmentId, drgAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &drgAttachmentId, drgAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
 				drgAttachmentSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -381,7 +381,7 @@ func sweepCoreDrgAttachmentResource(compartment string) error {
 }
 
 func getDrgAttachmentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DrgAttachmentId")
+	ids := GetResourceIdsToSweep(compartment, "DrgAttachmentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -400,7 +400,7 @@ func getDrgAttachmentIds(compartment string) ([]string, error) {
 	for _, drgAttachment := range listDrgAttachmentsResponse.Items {
 		id := *drgAttachment.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DrgAttachmentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DrgAttachmentId", id)
 	}
 	return resourceIds, nil
 }

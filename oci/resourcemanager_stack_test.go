@@ -14,22 +14,22 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v48/resourcemanager"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v49/resourcemanager"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	stackSingularDataSourceRepresentation = map[string]interface{}{
-		"stack_id": Representation{repType: Required, create: `${var.resource_manager_stack_id}`},
+		"stack_id": Representation{RepType: Required, Create: `${var.resource_manager_stack_id}`},
 	}
 
 	stackDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `TestResourcemanagerStackResource_basic`, update: `TestResourcemanagerStackResource_basic`},
-		"id":             Representation{repType: Optional, create: `${oci_resourcemanager_stack.test_stack.id}`},
-		"state":          Representation{repType: Required, create: `ACTIVE`}, // make `required` here so it can be asserted against in step 0
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `TestResourcemanagerStackResource_basic`, Update: `TestResourcemanagerStackResource_basic`},
+		"id":             Representation{RepType: Optional, Create: `${oci_resourcemanager_stack.test_stack.id}`},
+		"state":          Representation{RepType: Required, Create: `ACTIVE`}, // make `required` here so it can be asserted against in step 0
 	}
 
 	StackResourceConfig = DefinedTagsDependencies
@@ -54,13 +54,13 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 
 	resourceManagerStackId, err := createResourceManagerStack(*client, "TestResourcemanagerStackResource_basic", compartmentId)
 	if err != nil {
-		t.Errorf("cannot create resource manager stack for the test run: %v", err)
+		t.Errorf("cannot Create resource manager stack for the test run: %v", err)
 	}
 
 	datasourceName := "data.oci_resourcemanager_stacks.test_stacks"
 	singularDatasourceName := "data.oci_resourcemanager_stack.test_stack"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -77,7 +77,7 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 				Config: config + `
 					variable "resource_manager_stack_id" { default = "` + resourceManagerStackId + `" }
 					` +
-					generateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation) +
 					compartmentIdVariableStr + StackResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -100,8 +100,8 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 				Config: config + `
 					variable "resource_manager_stack_id" { default = "` + resourceManagerStackId + `" }
 					` +
-					generateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", Required, Create, stackSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", Required, Create, stackSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + StackResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "stack_id"),
@@ -127,7 +127,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ResourcemanagerStack") {
+	if !InSweeperExcludeList("ResourcemanagerStack") {
 		resource.AddTestSweepers("ResourcemanagerStack", &resource.Sweeper{
 			Name:         "ResourcemanagerStack",
 			Dependencies: DependencyGraph["stack"],
@@ -148,13 +148,13 @@ func sweepResourcemanagerStackResource(compartment string) error {
 
 			deleteStackRequest.StackId = &stackId
 
-			deleteStackRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "resourcemanager")
+			deleteStackRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "resourcemanager")
 			_, error := resourceManagerClient.DeleteStack(context.Background(), deleteStackRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Stack %s %s, It is possible that the resource is already deleted. Please verify manually \n", stackId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &stackId, stackSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &stackId, stackSweepWaitCondition, time.Duration(3*time.Minute),
 				stackSweepResponseFetchOperation, "resourcemanager", true)
 		}
 	}
@@ -162,7 +162,7 @@ func sweepResourcemanagerStackResource(compartment string) error {
 }
 
 func getStackIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "StackId")
+	ids := GetResourceIdsToSweep(compartment, "StackId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -181,7 +181,7 @@ func getStackIds(compartment string) ([]string, error) {
 	for _, stack := range listStacksResponse.Items {
 		id := *stack.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "StackId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "StackId", id)
 	}
 	return resourceIds, nil
 }

@@ -13,41 +13,41 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_streaming "github.com/oracle/oci-go-sdk/v48/streaming"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_streaming "github.com/oracle/oci-go-sdk/v49/streaming"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	StreamRequiredOnlyResource = StreamResourceDependencies +
-		generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
+		GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
 
 	StreamResourceConfig = StreamResourceDependencies +
-		generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streamRepresentation)
+		GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streamRepresentation)
 
 	streamSingularDataSourceRepresentation = map[string]interface{}{
-		"stream_id": Representation{repType: Required, create: `${oci_streaming_stream.test_stream.id}`},
+		"stream_id": Representation{RepType: Required, Create: `${oci_streaming_stream.test_stream.id}`},
 	}
 
 	streamDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"id":             Representation{repType: Optional, create: `${oci_streaming_stream.test_stream.id}`},
-		"name":           Representation{repType: Optional, create: `mynewstream`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"id":             Representation{RepType: Optional, Create: `${oci_streaming_stream.test_stream.id}`},
+		"name":           Representation{RepType: Optional, Create: `mynewstream`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, streamDataSourceFilterRepresentation}}
 	streamDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_streaming_stream.test_stream.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_streaming_stream.test_stream.id}`}},
 	}
 
 	streamRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":               Representation{repType: Required, create: `mynewstream`},
-		"partitions":         Representation{repType: Required, create: `1`},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"retention_in_hours": Representation{repType: Optional, create: `24`},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":               Representation{RepType: Required, Create: `mynewstream`},
+		"partitions":         Representation{RepType: Required, Create: `1`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"retention_in_hours": Representation{RepType: Optional, Create: `24`},
 	}
 
 	StreamResourceDependencies = DefinedTagsDependencies
@@ -71,22 +71,22 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_streaming_stream.test_stream"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+StreamResourceDependencies+
-		generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streamRepresentation), "streaming", "stream", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+StreamResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streamRepresentation), "streaming", "stream", t)
 
 	ResourceTest(t, testAccCheckStreamingStreamDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + StreamResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation),
+				GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
 				resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -94,30 +94,30 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 		// Verify that stream's compartment_id can be removed and stream_pool_id can be used
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
-					"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, RepresentationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+					"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 				})) +
-				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
+				GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
 				resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + StreamResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + StreamResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streamRepresentation),
+				GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streamRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -131,9 +131,9 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -142,12 +142,12 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create,
-					representationCopyWithNewProperties(streamRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create,
+					RepresentationCopyWithNewProperties(streamRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -162,7 +162,7 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -174,7 +174,7 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + StreamResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streamRepresentation),
+				GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streamRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -188,7 +188,7 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -199,9 +199,9 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_streaming_streams", "test_streams", Optional, Update, streamDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_streaming_streams", "test_streams", Optional, Update, streamDataSourceRepresentation) +
 				compartmentIdVariableStr + StreamResourceDependencies +
-				generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streamRepresentation),
+				GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streamRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -223,7 +223,7 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + StreamResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_id"),
@@ -266,7 +266,7 @@ func testAccCheckStreamingStreamDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.StreamId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "streaming")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "streaming")
 
 			response, err := client.GetStream(context.Background(), request)
 
@@ -299,7 +299,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("StreamingStream") {
+	if !InSweeperExcludeList("StreamingStream") {
 		resource.AddTestSweepers("StreamingStream", &resource.Sweeper{
 			Name:         "StreamingStream",
 			Dependencies: DependencyGraph["stream"],
@@ -320,13 +320,13 @@ func sweepStreamingStreamResource(compartment string) error {
 
 			deleteStreamRequest.StreamId = &streamId
 
-			deleteStreamRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "streaming")
+			deleteStreamRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "streaming")
 			_, error := streamAdminClient.DeleteStream(context.Background(), deleteStreamRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Stream %s %s, It is possible that the resource is already deleted. Please verify manually \n", streamId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &streamId, streamSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &streamId, streamSweepWaitCondition, time.Duration(3*time.Minute),
 				streamSweepResponseFetchOperation, "streaming", true)
 		}
 	}
@@ -334,7 +334,7 @@ func sweepStreamingStreamResource(compartment string) error {
 }
 
 func getStreamIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "StreamId")
+	ids := GetResourceIdsToSweep(compartment, "StreamId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -353,7 +353,7 @@ func getStreamIds(compartment string) ([]string, error) {
 	for _, stream := range listStreamsResponse.Items {
 		id := *stream.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "StreamId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "StreamId", id)
 	}
 	return resourceIds, nil
 }

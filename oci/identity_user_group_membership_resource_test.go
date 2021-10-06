@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -23,7 +23,7 @@ type ResourceIdentityUserGroupMembershipTestSuite struct {
 }
 
 func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
-	token, tokenFn := tokenizeWithHttpReplay("identity_user_group_resource")
+	token, tokenFn := TokenizeWithHttpReplay("identity_user_group_resource")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
@@ -41,7 +41,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
 	
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
-		description = "tf test group"
+		description = "tf test Group"
 		compartment_id = "${var.tenancy_ocid}"
 	}`, map[string]string{"token2": token + "2"})
 	s.ResourceName = "oci_identity_user_group_membership.t"
@@ -54,7 +54,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			// Verify create
+			// Verify Create
 			{
 				Config: s.Config + `
 				resource "oci_identity_user_group_membership" "t" {
@@ -70,7 +70,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(st *terraform.State) (err error) {
-						resId, err = fromInstanceState(st, s.ResourceName, "id")
+						resId, err = FromInstanceState(st, s.ResourceName, "id")
 						return err
 					},
 				),
@@ -91,7 +91,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					// Verify that changing the user_id causes ForceNew
 					func(st *terraform.State) (err error) {
-						resId2, err = fromInstanceState(st, s.ResourceName, "id")
+						resId2, err = FromInstanceState(st, s.ResourceName, "id")
 						if resId == resId2 {
 							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
 						}

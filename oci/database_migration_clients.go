@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_database_migration "github.com/oracle/oci-go-sdk/v48/databasemigration"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v49/databasemigration"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_database_migration.DatabaseMigrationClient", &OracleClient{initClientFn: initDatabasemigrationDatabaseMigrationClient})
+	RegisterOracleClient("oci_database_migration.DatabaseMigrationClient", &OracleClient{InitClientFn: initDatabasemigrationDatabaseMigrationClient})
 }
 
 func initDatabasemigrationDatabaseMigrationClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

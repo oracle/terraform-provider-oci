@@ -12,41 +12,41 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v48/logging"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v49/logging"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	LogSavedSearchRequiredOnlyResource = LogSavedSearchResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Required, Create, logSavedSearchRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Required, Create, logSavedSearchRepresentation)
 
 	LogSavedSearchResourceConfig = LogSavedSearchResourceDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Update, logSavedSearchRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Update, logSavedSearchRepresentation)
 
 	logSavedSearchSingularDataSourceRepresentation = map[string]interface{}{
-		"log_saved_search_id": Representation{repType: Required, create: `${oci_logging_log_saved_search.test_log_saved_search.id}`},
+		"log_saved_search_id": Representation{RepType: Required, Create: `${oci_logging_log_saved_search.test_log_saved_search.id}`},
 	}
 
 	logSavedSearchDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"log_saved_search_id": Representation{repType: Optional, create: `${oci_logging_log_saved_search.test_log_saved_search.id}`},
-		"name":                Representation{repType: Optional, create: `name`, update: `name2`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"log_saved_search_id": Representation{RepType: Optional, Create: `${oci_logging_log_saved_search.test_log_saved_search.id}`},
+		"name":                Representation{RepType: Optional, Create: `name`, Update: `name2`},
 		"filter":              RepresentationGroup{Required, logSavedSearchDataSourceFilterRepresentation}}
 
 	logSavedSearchDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_logging_log_saved_search.test_log_saved_search.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_logging_log_saved_search.test_log_saved_search.id}`}},
 	}
 
 	logSavedSearchRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: `name`, update: `name2`},
-		"query":          Representation{repType: Required, create: `query`, update: `query2`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"query":          Representation{RepType: Required, Create: `query`, Update: `query2`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	LogSavedSearchResourceDependencies = DefinedTagsDependencies
@@ -70,35 +70,35 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_logging_log_saved_search.test_log_saved_search"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+LogSavedSearchResourceDependencies+
-		generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Create, logSavedSearchRepresentation), "logging", "logSavedSearch", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+LogSavedSearchResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Create, logSavedSearchRepresentation), "logging", "logSavedSearch", t)
 
 	ResourceTest(t, testAccCheckLoggingLogSavedSearchDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Required, Create, logSavedSearchRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Required, Create, logSavedSearchRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "query", "query"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Create, logSavedSearchRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Create, logSavedSearchRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -109,9 +109,9 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "query", "query"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -120,12 +120,12 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LogSavedSearchResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Create,
-					representationCopyWithNewProperties(logSavedSearchRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Create,
+					RepresentationCopyWithNewProperties(logSavedSearchRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -137,7 +137,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "query", "query"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -149,7 +149,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + LogSavedSearchResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Update, logSavedSearchRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Update, logSavedSearchRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -160,7 +160,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "query", "query2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -171,9 +171,9 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_logging_log_saved_searches", "test_log_saved_searches", Optional, Update, logSavedSearchDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_logging_log_saved_searches", "test_log_saved_searches", Optional, Update, logSavedSearchDataSourceRepresentation) +
 				compartmentIdVariableStr + LogSavedSearchResourceDependencies +
-				generateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Update, logSavedSearchRepresentation),
+				GenerateResourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Optional, Update, logSavedSearchRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "log_saved_search_id"),
@@ -186,7 +186,7 @@ func TestLoggingLogSavedSearchResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Required, Create, logSavedSearchSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_logging_log_saved_search", "test_log_saved_search", Required, Create, logSavedSearchSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + LogSavedSearchResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_saved_search_id"),
@@ -229,7 +229,7 @@ func testAccCheckLoggingLogSavedSearchDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.LogSavedSearchId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 
 			_, err := client.GetLogSavedSearch(context.Background(), request)
 
@@ -254,7 +254,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoggingLogSavedSearch") {
+	if !InSweeperExcludeList("LoggingLogSavedSearch") {
 		resource.AddTestSweepers("LoggingLogSavedSearch", &resource.Sweeper{
 			Name:         "LoggingLogSavedSearch",
 			Dependencies: DependencyGraph["logSavedSearch"],
@@ -275,7 +275,7 @@ func sweepLoggingLogSavedSearchResource(compartment string) error {
 
 			deleteLogSavedSearchRequest.LogSavedSearchId = &logSavedSearchId
 
-			deleteLogSavedSearchRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "logging")
+			deleteLogSavedSearchRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "logging")
 			_, error := loggingManagementClient.DeleteLogSavedSearch(context.Background(), deleteLogSavedSearchRequest)
 			if error != nil {
 				fmt.Printf("Error deleting LogSavedSearch %s %s, It is possible that the resource is already deleted. Please verify manually \n", logSavedSearchId, error)
@@ -287,7 +287,7 @@ func sweepLoggingLogSavedSearchResource(compartment string) error {
 }
 
 func getLogSavedSearchIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "LogSavedSearchId")
+	ids := GetResourceIdsToSweep(compartment, "LogSavedSearchId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -305,7 +305,7 @@ func getLogSavedSearchIds(compartment string) ([]string, error) {
 	for _, logSavedSearch := range listLogSavedSearchesResponse.Items {
 		id := *logSavedSearch.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "LogSavedSearchId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "LogSavedSearchId", id)
 	}
 	return resourceIds, nil
 }

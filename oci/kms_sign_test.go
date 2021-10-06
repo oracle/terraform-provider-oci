@@ -14,14 +14,14 @@ import (
 
 var (
 	SignRequiredOnlyResource = SignResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Required, Create, signRepresentation)
+		GenerateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Required, Create, signRepresentation)
 
 	signRepresentation = map[string]interface{}{
-		"crypto_endpoint":   Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
-		"key_id":            Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
-		"message":           Representation{repType: Required, create: `message`},
-		"signing_algorithm": Representation{repType: Required, create: `SHA_224_RSA_PKCS1_V1_5`},
-		"message_type":      Representation{repType: Optional, create: `RAW`},
+		"crypto_endpoint":   Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
+		"key_id":            Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
+		"message":           Representation{RepType: Required, Create: `message`},
+		"signing_algorithm": Representation{RepType: Required, Create: `SHA_224_RSA_PKCS1_V1_5`},
+		"message_type":      Representation{RepType: Optional, Create: `RAW`},
 	}
 
 	SignResourceDependencies = KeyResourceDependencyConfig
@@ -39,15 +39,15 @@ func TestKmsSignResource_basic(t *testing.T) {
 
 	resourceName := "oci_kms_sign.test_sign"
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SignResourceDependencies+
-		generateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Optional, Create, signRepresentation), "keymanagement", "sign", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SignResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Optional, Create, signRepresentation), "keymanagement", "sign", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SignResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Required, Create, signRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Required, Create, signRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
@@ -56,14 +56,14 @@ func TestKmsSignResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SignResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SignResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Optional, Create, signRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_sign", "test_sign", Optional, Create, signRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),

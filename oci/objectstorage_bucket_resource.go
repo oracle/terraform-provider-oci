@@ -16,8 +16,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v48/objectstorage"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v49/objectstorage"
 )
 
 func init() {
@@ -119,8 +119,8 @@ func ObjectStorageBucketResource() *schema.Resource {
 									"time_amount": {
 										Type:             schema.TypeString,
 										Required:         true,
-										ValidateFunc:     validateInt64TypeString,
-										DiffSuppressFunc: int64StringDiffSuppressFunction,
+										ValidateFunc:     ValidateInt64TypeString,
+										DiffSuppressFunc: Int64StringDiffSuppressFunction,
 									},
 									"time_unit": {
 										Type:     schema.TypeString,
@@ -136,7 +136,7 @@ func ObjectStorageBucketResource() *schema.Resource {
 						"time_rule_locked": {
 							Type:             schema.TypeString,
 							Optional:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
+							DiffSuppressFunc: TimeDiffSuppressFunction,
 						},
 						"retention_rule_id": {
 							Type:     schema.TypeString,
@@ -289,7 +289,7 @@ func (s *ObjectStorageBucketResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
@@ -324,7 +324,7 @@ func (s *ObjectStorageBucketResourceCrud) Create() error {
 		request.Versioning = oci_object_storage.CreateBucketDetailsVersioningEnum(versioning.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.CreateBucket(context.Background(), request)
 	if err != nil {
@@ -334,7 +334,7 @@ func (s *ObjectStorageBucketResourceCrud) Create() error {
 	s.Res = &response.Bucket
 
 	if err := s.handleRetentionRules(); err != nil {
-		log.Printf("[ERROR] Error in retention rule create: '%v'", err)
+		log.Printf("[ERROR] Error in retention rule Create: '%v'", err)
 		return err
 	}
 
@@ -368,7 +368,7 @@ func (s *ObjectStorageBucketResourceCrud) Get() error {
 	}
 
 	request.Fields = oci_object_storage.GetGetBucketFieldsEnumValues()
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetBucket(context.Background(), request)
 	if err != nil {
@@ -378,7 +378,7 @@ func (s *ObjectStorageBucketResourceCrud) Get() error {
 	s.Res = &response.Bucket
 
 	// using list call as summary and get response is same for a retention rule
-	listRetentionRulesRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	listRetentionRulesRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 	listRetentionRulesResponse, e := s.Client.ListRetentionRules(context.Background(), listRetentionRulesRequest)
 
 	if e != nil {
@@ -437,7 +437,7 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
@@ -471,7 +471,7 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 		request.Versioning = oci_object_storage.UpdateBucketDetailsVersioningEnum(versioning.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.UpdateBucket(context.Background(), request)
 	if err != nil {
@@ -501,7 +501,7 @@ func (s *ObjectStorageBucketResourceCrud) Delete() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	_, err := s.Client.DeleteBucket(context.Background(), request)
 	return err
@@ -641,11 +641,11 @@ func (s *ObjectStorageBucketResourceCrud) createRetentionRulesHelper(newRetentio
 		createRequest.DisplayName = item.DisplayName
 		createRequest.Duration = item.Duration
 		createRequest.TimeRuleLocked = item.TimeRuleLocked
-		createRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+		createRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 		createResponse, err := s.Client.CreateRetentionRule(context.Background(), createRequest)
 		if err != nil {
-			log.Printf("[ERROR] Failed to create the retention rule '%s' : %v", *createRequest.DisplayName, err)
+			log.Printf("[ERROR] Failed to Create the retention rule '%s' : %v", *createRequest.DisplayName, err)
 			s.RetentionRuleRes = responseList
 			return err
 		}
@@ -789,7 +789,7 @@ func (s *ObjectStorageBucketResourceCrud) updateRetentionRulesHelper(retentionRu
 
 		updateResponse, err := s.Client.UpdateRetentionRule(context.Background(), updateRequest)
 		if err != nil {
-			log.Printf("[ERROR] Failed to update the retention rule '%s' : %v", *updateRequest.DisplayName, err)
+			log.Printf("[ERROR] Failed to Update the retention rule '%s' : %v", *updateRequest.DisplayName, err)
 			s.RetentionRuleRes = responseList
 			return err
 		}

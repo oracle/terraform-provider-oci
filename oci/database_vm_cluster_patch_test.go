@@ -15,16 +15,16 @@ import (
 
 var (
 	vmClusterPatchSingularDataSourceRepresentation = map[string]interface{}{
-		"patch_id":      Representation{repType: Required, create: `{}`},
-		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"patch_id":      Representation{RepType: Required, Create: `{}`},
+		"vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
 	vmClusterPatchDataSourceRepresentation = map[string]interface{}{
-		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
 	VmClusterPatchResourceConfig = VmClusterNetworkValidatedResourceConfig +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -42,13 +42,13 @@ func TestDatabaseVmClusterPatchResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_vm_cluster_patches.test_vm_cluster_patches"
 	singularDatasourceName := "data.oci_database_vm_cluster_patch.test_vm_cluster_patch"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_patches", "test_vm_cluster_patches", Required, Create, vmClusterPatchDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patches", "test_vm_cluster_patches", Required, Create, vmClusterPatchDataSourceRepresentation) +
 				compartmentIdVariableStr + VmClusterPatchResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_id"),
@@ -66,7 +66,7 @@ func TestDatabaseVmClusterPatchResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch", "test_vm_cluster_patch", Required, Create, vmClusterPatchSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_patch", "test_vm_cluster_patch", Required, Create, vmClusterPatchSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VmClusterPatchResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_id"),

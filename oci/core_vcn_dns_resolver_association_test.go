@@ -17,10 +17,10 @@ import (
 
 var (
 	vcnDnsResolverAssociationSingularDataSourceRepresentation = map[string]interface{}{
-		"vcn_id": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"vcn_id": Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	VcnDnsResolverAssociationResourceConfig = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+	VcnDnsResolverAssociationResourceConfig = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -35,10 +35,10 @@ func TestCoreVcnDnsResolverAssociationResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create dependencies
+		// Create dependencies
 		{
 			Config: config + compartmentIdVariableStr + VcnDnsResolverAssociationResourceConfig,
 			Check: func(s *terraform.State) (err error) {
@@ -50,7 +50,7 @@ func TestCoreVcnDnsResolverAssociationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", Required, Create, vcnDnsResolverAssociationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnDnsResolverAssociationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),

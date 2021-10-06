@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 )
 
 func init() {
@@ -31,9 +31,9 @@ func WaasWaasPolicyResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("2h"),
-			Update: getTimeoutDuration("2h"),
-			Delete: getTimeoutDuration("2h"),
+			Create: GetTimeoutDuration("2h"),
+			Update: GetTimeoutDuration("2h"),
+			Delete: GetTimeoutDuration("2h"),
 		},
 		Create: createWaasWaasPolicy,
 		Read:   readWaasWaasPolicy,
@@ -1386,7 +1386,7 @@ func (s *WaasWaasPolicyResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if originGroups, ok := s.D.GetOkExists("origin_groups"); ok {
@@ -1431,7 +1431,7 @@ func (s *WaasWaasPolicyResourceCrud) Create() error {
 		}
 	}
 
-	retryPolicy := getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	retryPolicy := GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 	request.RequestMetadata.RetryPolicy = retryPolicy
 
 	response, err := s.Client.CreateWaasPolicy(context.Background(), request)
@@ -1440,7 +1440,7 @@ func (s *WaasWaasPolicyResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWaasPolicyFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getWaasPolicyFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *WaasWaasPolicyResourceCrud) getWaasPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -1495,7 +1495,7 @@ func waasPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 
 func waasPolicyWaitForWorkRequest(wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_waas.WaasClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "waas")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "waas")
 	retryPolicy.ShouldRetryOperation = waasPolicyWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_waas.GetWorkRequestResponse{}
@@ -1623,7 +1623,7 @@ func (s *WaasWaasPolicyResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.WaasPolicyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.GetWaasPolicy(context.Background(), request)
 	if err != nil {
@@ -1673,7 +1673,7 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if originGroups, ok := s.D.GetOkExists("origin_groups"); ok {
@@ -1717,7 +1717,7 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.UpdateWaasPolicy(context.Background(), request)
 	if err != nil {
@@ -1725,7 +1725,7 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getWaasPolicyFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getWaasPolicyFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *WaasWaasPolicyResourceCrud) objectMapToOriginMap(origins interface{}) (map[string]oci_waas.Origin, error) {
@@ -1778,7 +1778,7 @@ func (s *WaasWaasPolicyResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.WaasPolicyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.DeleteWaasPolicy(context.Background(), request)
 	if err != nil {
@@ -2682,7 +2682,7 @@ func (s *WaasWaasPolicyResourceCrud) mapToHealthCheck(fieldKeyFormat string) (oc
 	}
 
 	if headers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "headers")); ok {
-		result.Headers = objectMapToStringMap(headers.(map[string]interface{}))
+		result.Headers = ObjectMapToStringMap(headers.(map[string]interface{}))
 	}
 
 	if healthyThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "healthy_threshold")); ok {
@@ -3929,7 +3929,7 @@ func (s *WaasWaasPolicyResourceCrud) updateCompartment(compartment interface{}) 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.WaasPolicyId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	_, err := s.Client.ChangeWaasPolicyCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

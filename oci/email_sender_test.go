@@ -13,39 +13,39 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_email "github.com/oracle/oci-go-sdk/v48/email"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_email "github.com/oracle/oci-go-sdk/v49/email"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	SenderRequiredOnlyResource = SenderResourceDependencies +
-		generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderRepresentation)
+		GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderRepresentation)
 
 	SenderResourceConfig = SenderResourceDependencies +
-		generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation)
+		GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation)
 
 	senderSingularDataSourceRepresentation = map[string]interface{}{
-		"sender_id": Representation{repType: Required, create: `${oci_email_sender.test_sender.id}`},
+		"sender_id": Representation{RepType: Required, Create: `${oci_email_sender.test_sender.id}`},
 	}
 
 	senderDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"domain":         Representation{repType: Optional, create: `example.com`},
-		"email_address":  Representation{repType: Optional, create: `johnsmithtester@example.com`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"domain":         Representation{RepType: Optional, Create: `example.com`},
+		"email_address":  Representation{RepType: Optional, Create: `johnsmithtester@example.com`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, senderDataSourceFilterRepresentation}}
 	senderDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_email_sender.test_sender.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_email_sender.test_sender.id}`}},
 	}
 
 	senderRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"email_address":  Representation{repType: Required, create: `johnsmithtester@example.com`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"email_address":  Representation{RepType: Required, Create: `johnsmithtester@example.com`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	SenderResourceDependencies = DefinedTagsDependencies
@@ -69,34 +69,34 @@ func TestEmailSenderResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_email_sender.test_sender"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SenderResourceDependencies+
-		generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Create, senderRepresentation), "email", "sender", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SenderResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Create, senderRepresentation), "email", "sender", t)
 
 	ResourceTest(t, testAccCheckEmailSenderDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SenderResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SenderResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SenderResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Create, senderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Create, senderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -105,9 +105,9 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -116,12 +116,12 @@ func TestEmailSenderResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SenderResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Create,
-					representationCopyWithNewProperties(senderRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Create,
+					RepresentationCopyWithNewProperties(senderRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -131,7 +131,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -143,7 +143,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SenderResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -152,7 +152,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -163,9 +163,9 @@ func TestEmailSenderResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_email_senders", "test_senders", Optional, Update, senderDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_email_senders", "test_senders", Optional, Update, senderDataSourceRepresentation) +
 				compartmentIdVariableStr + SenderResourceDependencies +
-				generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
+				GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "email_address", "johnsmithtester@example.com"),
@@ -184,7 +184,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SenderResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sender_id"),
@@ -225,7 +225,7 @@ func testAccCheckEmailSenderDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SenderId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "email")
 
 			response, err := client.GetSender(context.Background(), request)
 
@@ -258,7 +258,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("EmailSender") {
+	if !InSweeperExcludeList("EmailSender") {
 		resource.AddTestSweepers("EmailSender", &resource.Sweeper{
 			Name:         "EmailSender",
 			Dependencies: DependencyGraph["sender"],
@@ -279,13 +279,13 @@ func sweepEmailSenderResource(compartment string) error {
 
 			deleteSenderRequest.SenderId = &senderId
 
-			deleteSenderRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			deleteSenderRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "email")
 			_, error := emailClient.DeleteSender(context.Background(), deleteSenderRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Sender %s %s, It is possible that the resource is already deleted. Please verify manually \n", senderId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &senderId, senderSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &senderId, senderSweepWaitCondition, time.Duration(3*time.Minute),
 				senderSweepResponseFetchOperation, "email", true)
 		}
 	}
@@ -293,7 +293,7 @@ func sweepEmailSenderResource(compartment string) error {
 }
 
 func getSenderIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SenderId")
+	ids := GetResourceIdsToSweep(compartment, "SenderId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -312,7 +312,7 @@ func getSenderIds(compartment string) ([]string, error) {
 	for _, sender := range listSendersResponse.Items {
 		id := *sender.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SenderId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SenderId", id)
 	}
 	return resourceIds, nil
 }

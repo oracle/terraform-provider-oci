@@ -13,8 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 )
 
 func init() {
@@ -201,7 +201,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
 		request.InstancePoolId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.AttachInstancePoolInstance(context.Background(), request)
 	if err != nil {
@@ -234,7 +234,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetInstancePoolInstance(context.Background(), request)
 	if err != nil {
@@ -265,7 +265,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Delete() error {
 		request.IsAutoTerminate = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.DetachInstancePoolInstance(context.Background(), request)
 	if err != nil {

@@ -17,25 +17,25 @@ import (
 
 var (
 	MaintenanceRunRequiredOnlyResource = MaintenanceRunResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunRepresentation)
 
 	MaintenanceRunResourceConfig = MaintenanceRunResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Update, maintenanceRunRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Update, maintenanceRunRepresentation)
 
 	maintenanceRunSingularDataSourceRepresentation = map[string]interface{}{
-		"maintenance_run_id": Representation{repType: Required, create: `${oci_database_maintenance_run.test_maintenance_run.id}`},
+		"maintenance_run_id": Representation{RepType: Required, Create: `${oci_database_maintenance_run.test_maintenance_run.id}`},
 	}
 
 	mrTimeScheduledCreate = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
 	mrTimeScheduledUpdate = time.Now().UTC().AddDate(0, 0, 10).Truncate(time.Millisecond)
 
 	maintenanceRunRepresentation = map[string]interface{}{
-		"maintenance_run_id":   Representation{repType: Required, create: `${var.maintenance_run_id}`},
-		"is_enabled":           Representation{repType: Required, create: `true`},
-		"is_patch_now_enabled": Representation{repType: Optional},
-		"patch_id":             Representation{repType: Optional, create: `${var.maintenance_run_patch_id}`},
-		"patching_mode":        Representation{repType: Optional, create: `ROLLING`, update: `NONROLLING`},
-		"time_scheduled":       Representation{repType: Required, create: mrTimeScheduledCreate.Format(time.RFC3339Nano), update: mrTimeScheduledUpdate.Format(time.RFC3339Nano)},
+		"maintenance_run_id":   Representation{RepType: Required, Create: `${var.maintenance_run_id}`},
+		"is_enabled":           Representation{RepType: Required, Create: `true`},
+		"is_patch_now_enabled": Representation{RepType: Optional},
+		"patch_id":             Representation{RepType: Optional, Create: `${var.maintenance_run_patch_id}`},
+		"patching_mode":        Representation{RepType: Optional, Create: `ROLLING`, Update: `NONROLLING`},
+		"time_scheduled":       Representation{RepType: Required, Create: mrTimeScheduledCreate.Format(time.RFC3339Nano), Update: mrTimeScheduledUpdate.Format(time.RFC3339Nano)},
 	}
 
 	MaintenanceRunResourceDependencies = ""
@@ -63,34 +63,34 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_maintenance_run.test_maintenance_run"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+MaintenanceRunResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Create, maintenanceRunRepresentation), "database", "maintenanceRun", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+MaintenanceRunResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Create, maintenanceRunRepresentation), "database", "maintenanceRun", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies,
 		},
 
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Create, maintenanceRunRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Create, maintenanceRunRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -103,9 +103,9 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -117,7 +117,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Update, maintenanceRunRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Optional, Update, maintenanceRunRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -131,7 +131,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_scheduled"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -142,7 +142,7 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", Required, Create, maintenanceRunSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + MaintenanceRunResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),

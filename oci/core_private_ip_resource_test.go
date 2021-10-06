@@ -34,8 +34,8 @@ func (s *ResourcePrivateIPTestSuite) SetupTest() {
 		instance_id = "${oci_core_instance.t.id}"
 	}`
 	s.VlanConfig = legacyTestProviderConfig() +
-		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		AvailabilityDomainConfig + DefinedTagsDependencies
 
 	s.ResourceName = "oci_core_private_ip.t"
@@ -47,7 +47,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create
+			// test Create
 			{
 				Config: s.Config + `
 				resource "oci_core_private_ip" "t" {
@@ -71,14 +71,14 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					resource.TestCheckNoResourceAttr(s.ResourceName, "hostname_label"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-private-ip"),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_core_private_ip.t", "id")
+						resId, err = FromInstanceState(s, "oci_core_private_ip.t", "id")
 						return
 					},
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 				),
 			},
-			// test update
+			// test Update
 			{
 				Config: s.Config + `
 				resource "oci_core_private_ip" "t" {
@@ -144,7 +144,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "ahostname"),
 					func(s *terraform.State) (err error) {
-						resId2, err := fromInstanceState(s, "oci_core_private_ip.t", "id")
+						resId2, err := FromInstanceState(s, "oci_core_private_ip.t", "id")
 						if resId == resId2 {
 							return fmt.Errorf("Expected new private_ip ocid, got the same")
 						}
@@ -161,7 +161,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 		Providers:    s.Providers,
 		CheckDestroy: testAccCheckCorePrivateIpDestroy,
 		Steps: []resource.TestStep{
-			// test create
+			// test Create
 			{
 				Config: s.VlanConfig + `
 				resource "oci_core_private_ip" "tpvlan" {
@@ -185,7 +185,7 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 					resource.TestCheckResourceAttr(s.VlanResourceName, "freeform_tags.%", "1"),
 				),
 			},
-			// test update
+			// test Update
 			{
 				Config: s.VlanConfig + `
 				resource "oci_core_private_ip" "tpvlan" {

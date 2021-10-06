@@ -14,7 +14,7 @@ import (
 
 var (
 	vaultUsageSingularDataSourceRepresentation = map[string]interface{}{
-		"vault_id": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.id}`},
+		"vault_id": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.id}`},
 	}
 
 	VaultUsageResourceConfig = KeyResourceDependencies
@@ -32,13 +32,13 @@ func TestKmsVaultUsageResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_kms_vault_usage.test_vault_usage"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_kms_vault_usage", "test_vault_usage", Required, Create, vaultUsageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_kms_vault_usage", "test_vault_usage", Required, Create, vaultUsageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VaultUsageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),

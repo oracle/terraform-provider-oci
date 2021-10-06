@@ -12,28 +12,28 @@ import (
 )
 
 var (
-	InstanceConfigurationWithPlatformConfigDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	InstanceConfigurationWithPlatformConfigDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
 		VolumeBackupPolicyDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
 
 	instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation = map[string]interface{}{
-		"instance_type":  Representation{repType: Required, create: `compute`},
+		"instance_type":  Representation{RepType: Required, Create: `compute`},
 		"launch_details": RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchDetailsRepresentation},
 	}
-	instanceConfigurationWithPlatformConfigInstanceDetailsLaunchDetailsRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceConfigurationInstanceDetailsLaunchDetailsRepresentation, map[string]interface{}{
-		"shape":           Representation{repType: Optional, create: `BM.DenseIO.E4.128`},
+	instanceConfigurationWithPlatformConfigInstanceDetailsLaunchDetailsRepresentation = RepresentationCopyWithRemovedProperties(RepresentationCopyWithNewProperties(instanceConfigurationInstanceDetailsLaunchDetailsRepresentation, map[string]interface{}{
+		"shape":           Representation{RepType: Optional, Create: `BM.DenseIO.E4.128`},
 		"platform_config": RepresentationGroup{Optional, instancePlatformConfigRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
 	instanceLaunchOptionsRepresentationForInstanceConfiguration = map[string]interface{}{
-		"network_type": Representation{repType: Optional, create: `PARAVIRTUALIZED`},
+		"network_type": Representation{RepType: Optional, Create: `PARAVIRTUALIZED`},
 	}
 )
 
@@ -55,11 +55,11 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 	resourceName := "oci_core_instance_configuration.test_instance_configuration"
 
 	ResourceTest(t, testAccCheckCoreInstanceConfigurationDestroy, []resource.TestStep{
-		// create with platform config
+		// Create with platform config
 		{
 			Config: config + compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-					getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+					GetUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
@@ -73,10 +73,10 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", Required, Create, instanceConfigurationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", Required, Create, instanceConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-					getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+					GetUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
@@ -90,10 +90,10 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", Required, Create, instanceConfigurationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", Required, Create, instanceConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + InstanceConfigurationWithPlatformConfigDependencies +
-				generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-					getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+					GetUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationWithPlatformConfigInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),

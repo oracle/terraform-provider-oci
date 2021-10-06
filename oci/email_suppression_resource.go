@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_email "github.com/oracle/oci-go-sdk/v48/email"
+	oci_email "github.com/oracle/oci-go-sdk/v49/email"
 )
 
 func init() {
@@ -118,7 +118,7 @@ func (s *EmailSuppressionResourceCrud) Create() error {
 		request.EmailAddress = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.CreateSuppression(context.Background(), request)
 	if err != nil {
@@ -135,7 +135,7 @@ func (s *EmailSuppressionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SuppressionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.GetSuppression(context.Background(), request)
 	if err != nil {
@@ -152,7 +152,7 @@ func (s *EmailSuppressionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SuppressionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	_, err := s.Client.DeleteSuppression(context.Background(), request)
 	return err

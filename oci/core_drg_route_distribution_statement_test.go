@@ -15,54 +15,54 @@ import (
 
 var (
 	DrgRouteDistributionStatementsRequiredOnlyResource = DrgRouteDistributionStatementResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Required, Create, drgRouteDistributionStatementRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Required, Create, drgRouteDistributionStatementRepresentation)
 
 	drgRouteDistributionStatementDataSourceRepresentation = map[string]interface{}{
-		"drg_route_distribution_id": Representation{repType: Required, create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
+		"drg_route_distribution_id": Representation{RepType: Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
 	}
 
 	drgRouteDistributionStatementRepresentation = map[string]interface{}{
-		"drg_route_distribution_id": Representation{repType: Required, create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
-		"action":                    Representation{repType: Required, create: `ACCEPT`},
+		"drg_route_distribution_id": Representation{RepType: Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
+		"action":                    Representation{RepType: Required, Create: `ACCEPT`},
 		"match_criteria":            RepresentationGroup{Required, drgRouteDistributionStatementStatementsMatchCriteriaRepresentation},
-		"priority":                  Representation{repType: Required, create: `10`, update: `15`},
+		"priority":                  Representation{RepType: Required, Create: `10`, Update: `15`},
 	}
 
 	drgRouteDistributionStatementRepresentation2 = map[string]interface{}{
-		"drg_route_distribution_id": Representation{repType: Required, create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
-		"action":                    Representation{repType: Required, create: `ACCEPT`},
+		"drg_route_distribution_id": Representation{RepType: Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
+		"action":                    Representation{RepType: Required, Create: `ACCEPT`},
 		"match_criteria":            RepresentationGroup{Required, drgRouteDistributionStatementStatementsMatchCriteriaRepresentation2},
-		"priority":                  Representation{repType: Required, create: `20`, update: `25`},
+		"priority":                  Representation{RepType: Required, Create: `20`, Update: `25`},
 	}
 
 	drgRouteDistributionStatementRepresentation3 = map[string]interface{}{
-		"drg_route_distribution_id": Representation{repType: Required, create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
-		"action":                    Representation{repType: Required, create: `ACCEPT`},
+		"drg_route_distribution_id": Representation{RepType: Required, Create: `${oci_core_drg_route_distribution.test_drg_route_distribution.id}`},
+		"action":                    Representation{RepType: Required, Create: `ACCEPT`},
 		"match_criteria":            RepresentationGroup{Required, drgRouteDistributionStatementStatementsMatchCriteriaRepresentation3},
-		"priority":                  Representation{repType: Required, create: `30`, update: `35`},
+		"priority":                  Representation{RepType: Required, Create: `30`, Update: `35`},
 	}
 
 	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation = map[string]interface{}{
-		"match_type":      Representation{repType: Required, create: `DRG_ATTACHMENT_TYPE`},
-		"attachment_type": Representation{repType: Required, create: `VCN`, update: `VIRTUAL_CIRCUIT`},
+		"match_type":      Representation{RepType: Required, Create: `DRG_ATTACHMENT_TYPE`},
+		"attachment_type": Representation{RepType: Required, Create: `VCN`, Update: `VIRTUAL_CIRCUIT`},
 	}
 
 	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation2 = map[string]interface{}{
-		"match_type":      Representation{repType: Required, create: `DRG_ATTACHMENT_TYPE`},
-		"attachment_type": Representation{repType: Required, create: `REMOTE_PEERING_CONNECTION`},
+		"match_type":      Representation{RepType: Required, Create: `DRG_ATTACHMENT_TYPE`},
+		"attachment_type": Representation{RepType: Required, Create: `REMOTE_PEERING_CONNECTION`},
 	}
 
 	drgRouteDistributionStatementStatementsMatchCriteriaRepresentation3 = map[string]interface{}{
-		"match_type":        Representation{repType: Required, create: `DRG_ATTACHMENT_ID`},
-		"drg_attachment_id": Representation{repType: Required, create: `${oci_core_drg_attachment.test_drg_attachment2.id}`},
+		"match_type":        Representation{RepType: Required, Create: `DRG_ATTACHMENT_ID`},
+		"drg_attachment_id": Representation{RepType: Required, Create: `${oci_core_drg_attachment.test_drg_attachment2.id}`},
 	}
 
 	DrgRouteDistributionStatementResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment2", Required, Create, drgAttachmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Required, Create, drgRouteDistributionRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment2", Required, Create, drgAttachmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Required, Create, drgRouteDistributionRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation)
 )
 
 // issue-routing-tag: core/pnp
@@ -82,15 +82,15 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 	resourceName3 := "oci_core_drg_route_distribution_statement.test_drg_route_distribution_statement4"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DrgRouteDistributionStatementResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Create, drgRouteDistributionStatementRepresentation), "core", "drgRouteDistributionStatement", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DrgRouteDistributionStatementResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Create, drgRouteDistributionStatementRepresentation), "core", "drgRouteDistributionStatement", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		//verify create with optionals
+		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Create,
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Create,
 					drgRouteDistributionStatementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
@@ -102,7 +102,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -110,7 +110,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_distribution_id"),
 				resource.TestCheckResourceAttr(resourceName, "action", "ACCEPT"),
@@ -121,7 +121,7 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -132,9 +132,9 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 		//verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_drg_route_distribution_statements", "test_drg_route_distribution_statements", Optional, Create, drgRouteDistributionStatementDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_drg_route_distribution_statements", "test_drg_route_distribution_statements", Optional, Create, drgRouteDistributionStatementDataSourceRepresentation) +
 				compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement", Optional, Update, drgRouteDistributionStatementRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_distribution_id"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_distribution_statements.0.action", "ACCEPT"),
@@ -154,16 +154,16 @@ func TestCoreDrgRouteDistributionStatementResource_basic(t *testing.T) {
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies,
 		},
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DrgRouteDistributionStatementResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement2", Optional, Create, drgRouteDistributionStatementRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement3", Required, Create, drgRouteDistributionStatementRepresentation2) +
-				generateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", Required, Create, drgRouteDistributionStatementRepresentation3),
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement2", Optional, Create, drgRouteDistributionStatementRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement3", Required, Create, drgRouteDistributionStatementRepresentation2) +
+				GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution_statement", "test_drg_route_distribution_statement4", Required, Create, drgRouteDistributionStatementRepresentation3),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				//check first resource
 				resource.TestCheckResourceAttrSet(resourceName1, "drg_route_distribution_id"),

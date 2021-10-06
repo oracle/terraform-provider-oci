@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_analytics "github.com/oracle/oci-go-sdk/v48/analytics"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
@@ -28,9 +28,9 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createAnalyticsAnalyticsInstance,
 		Read:   readAnalyticsAnalyticsInstance,
@@ -75,7 +75,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
-				StateFunc: getMd5Hash,
+				StateFunc: GetMd5Hash,
 			},
 			"license_type": {
 				Type:     schema.TypeString,
@@ -384,7 +384,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if idcsAccessToken, ok := s.D.GetOkExists("idcs_access_token"); ok {
@@ -412,7 +412,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.CreateAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -420,7 +420,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAnalyticsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *AnalyticsAnalyticsInstanceResourceCrud) getAnalyticsInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -480,7 +480,7 @@ func analyticsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 
 func analyticsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_analytics.WorkRequestActionResultEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_analytics.AnalyticsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "analytics")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "analytics")
 	retryPolicy.ShouldRetryOperation = analyticsInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_analytics.GetWorkRequestResponse{}
@@ -561,7 +561,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AnalyticsInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -606,14 +606,14 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseType, ok := s.D.GetOkExists("license_type"); ok {
 		request.LicenseType = oci_analytics.LicenseTypeEnum(licenseType.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.UpdateAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -637,7 +637,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 			scaleRequest.AnalyticsInstanceId = &id
 			scaleRequest.Capacity = &tmp
 
-			scaleRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+			scaleRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 			scaleResponse, err := s.Client.ScaleAnalyticsInstance(context.Background(), scaleRequest)
 
 			if err != nil {
@@ -645,7 +645,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 			}
 
 			workId := scaleResponse.OpcWorkRequestId
-			return s.getAnalyticsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultScaled, s.D.Timeout(schema.TimeoutUpdate))
+			return s.getAnalyticsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultScaled, s.D.Timeout(schema.TimeoutUpdate))
 		}
 	}
 
@@ -658,7 +658,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AnalyticsInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.DeleteAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -742,7 +742,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StartAnalyticsInstance() error 
 	idTmp := s.D.Id()
 	request.AnalyticsInstanceId = &idTmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	_, err := s.Client.StartAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -759,7 +759,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StopAnalyticsInstance() error {
 	idTmp := s.D.Id()
 	request.AnalyticsInstanceId = &idTmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	_, err := s.Client.StopAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -946,7 +946,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) updateCompartment(compartment i
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.ChangeAnalyticsInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -954,5 +954,5 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) updateCompartment(compartment i
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCompartmentChanged, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAnalyticsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCompartmentChanged, s.D.Timeout(schema.TimeoutUpdate))
 }

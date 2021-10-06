@@ -7,17 +7,19 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
+	"strconv"
 	"strings"
 	"time"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -30,9 +32,9 @@ func DatabaseDatabaseResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("12h"),
-			Update: getTimeoutDuration("2h"),
-			Delete: getTimeoutDuration("2h"),
+			Create: GetTimeoutDuration("12h"),
+			Update: GetTimeoutDuration("2h"),
+			Delete: GetTimeoutDuration("2h"),
 		},
 		Create: createDatabaseDatabase,
 		Read:   readDatabaseDatabase,
@@ -491,7 +493,7 @@ func (s *DatabaseDatabaseResourceCrud) Create() error {
 	}
 
 	createDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutCreate))
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", createDatabaseRetryDurationFn)
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database", createDatabaseRetryDurationFn)
 
 	response, err := s.Client.CreateDatabase(context.Background(), request)
 	if err != nil {
@@ -515,7 +517,7 @@ func (s *DatabaseDatabaseResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetDatabase(context.Background(), request)
 	if err != nil {
@@ -538,7 +540,7 @@ func (s *DatabaseDatabaseResourceCrud) Delete() error {
 	}
 
 	deleteDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", deleteDatabaseRetryDurationFn)
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database", deleteDatabaseRetryDurationFn)
 
 	_, err := s.Client.DeleteDatabase(context.Background(), request)
 	return err
@@ -748,7 +750,7 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
@@ -964,7 +966,7 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 	}
 
 	updateDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutUpdate))
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", updateDatabaseRetryDurationFn)
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database", updateDatabaseRetryDurationFn)
 
 	response, err := s.Client.UpdateDatabase(context.Background(), request)
 	if err != nil {
@@ -1026,7 +1028,7 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "admin_password")) {
@@ -1109,7 +1111,7 @@ func (s *DatabaseDatabaseResourceCrud) kmsRotation(databaseId string) error {
 	if _, ok := s.D.GetOkExists("kms_key_rotation"); ok && s.D.HasChange("kms_key_rotation") {
 		rotateKeyRequest := oci_database.RotateVaultKeyRequest{}
 		rotateKeyRequest.DatabaseId = &databaseId
-		rotateKeyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		rotateKeyRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 		response, err := s.Client.RotateVaultKey(context.Background(), rotateKeyRequest)
 		if err != nil {
 			return err
@@ -1131,7 +1133,7 @@ func (s *DatabaseDatabaseResourceCrud) kmsMigration(databaseId string) error {
 	if _, ok := s.D.GetOkExists("kms_key_migration"); ok && s.D.HasChange("kms_key_migration") && s.D.Get("kms_key_migration").(bool) {
 		migrationKeyRequest := oci_database.MigrateVaultKeyRequest{}
 		migrationKeyRequest.DatabaseId = &databaseId
-		migrationKeyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		migrationKeyRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok && s.D.HasChange("kms_key_id") {
 			oldRaw, newRaw := s.D.GetChange("kms_key_id")
 			if oldRaw == "" && newRaw != "" {
@@ -1176,8 +1178,13 @@ func getdatabaseRetryDurationFunction(retryTimeout time.Duration) expectedRetryD
 		if response.Response == nil || response.Response.HTTPResponse() == nil {
 			return defaultRetryTime
 		}
+		e := response.Error
 		switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 		case 409:
+			if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+				log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
+				return 0
+			}
 			if e := response.Error; e != nil {
 				if strings.Contains(e.Error(), "IncorrectState") {
 					defaultRetryTime = retryTimeout

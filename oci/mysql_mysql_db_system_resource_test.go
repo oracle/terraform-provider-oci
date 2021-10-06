@@ -14,35 +14,35 @@ import (
 
 var (
 	mysqlDbSystemSourceRepresentation = map[string]interface{}{
-		"source_type": Representation{repType: Required, create: `BACKUP`},
-		"backup_id":   Representation{repType: Optional, create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
+		"source_type": Representation{RepType: Required, Create: `BACKUP`},
+		"backup_id":   Representation{RepType: Optional, Create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
 	}
 
 	mysqlHADbSystemRepresentation = map[string]interface{}{
-		"admin_password":          Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"admin_username":          Representation{repType: Required, create: `adminUser`},
-		"availability_domain":     Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"configuration_id":        Representation{repType: Optional, create: `${var.MysqlHAConfigurationOCID[var.region]}`},
-		"shape_name":              Representation{repType: Required, create: `MySQL.VM.Standard.E3.1.8GB`},
-		"subnet_id":               Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"admin_password":          Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"admin_username":          Representation{RepType: Required, Create: `adminUser`},
+		"availability_domain":     Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"configuration_id":        Representation{RepType: Optional, Create: `${var.MysqlHAConfigurationOCID[var.region]}`},
+		"shape_name":              Representation{RepType: Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
+		"subnet_id":               Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"backup_policy":           RepresentationGroup{Optional, mysqlDbSystemBackupPolicyRepresentation},
-		"data_storage_size_in_gb": Representation{repType: Required, create: `50`},
-		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":             Representation{repType: Optional, create: `MySQL Database Service`, update: `description2`},
-		"display_name":            Representation{repType: Optional, create: `DBSystem001`, update: `displayName2`},
-		"fault_domain":            Representation{repType: Optional, create: `FAULT-DOMAIN-1`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"hostname_label":          Representation{repType: Optional, create: `hostnameLabel`},
-		"is_highly_available":     Representation{repType: Optional, create: `true`},
+		"data_storage_size_in_gb": Representation{RepType: Required, Create: `50`},
+		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":             Representation{RepType: Optional, Create: `MySQL Database Service`, Update: `description2`},
+		"display_name":            Representation{RepType: Optional, Create: `DBSystem001`, Update: `displayName2`},
+		"fault_domain":            Representation{RepType: Optional, Create: `FAULT-DOMAIN-1`},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":          Representation{RepType: Optional, Create: `hostnameLabel`},
+		"is_highly_available":     Representation{RepType: Optional, Create: `true`},
 		"maintenance":             RepresentationGroup{Optional, mysqlDbSystemMaintenanceRepresentation},
-		"port":                    Representation{repType: Optional, create: `3306`},
-		"port_x":                  Representation{repType: Optional, create: `33306`},
+		"port":                    Representation{RepType: Optional, Create: `3306`},
+		"port_x":                  Representation{RepType: Optional, Create: `33306`},
 	}
 
 	MysqlDbSystemSourceBackupResourceDependencies = MysqlDbSystemResourceDependencies + MysqlHAConfigurationIdVariable +
-		generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupRepresentation) +
-		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", Required, Create, mysqlDbSystemRepresentation)
+		GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", Required, Create, mysqlDbSystemRepresentation)
 )
 
 // issue-routing-tag: mysql/default
@@ -59,16 +59,16 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 
 	var resId, resId2 string
 
-	updatedRepresentation := getUpdatedRepresentationCopy("ip_address", Representation{repType: Optional, create: `10.0.0.8`},
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(mysqlDbSystemRepresentation, []string{"data_storage_size_in_gb"}), map[string]interface{}{
+	updatedRepresentation := GetUpdatedRepresentationCopy("ip_address", Representation{RepType: Optional, Create: `10.0.0.8`},
+		RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(mysqlDbSystemRepresentation, []string{"data_storage_size_in_gb"}), map[string]interface{}{
 			"source": RepresentationGroup{Optional, mysqlDbSystemSourceRepresentation},
 		}))
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, updatedRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, updatedRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
@@ -103,7 +103,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -112,7 +112,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, updatedRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, updatedRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),
@@ -145,7 +145,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -156,9 +156,9 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 		// verify stop
 		{
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, representationCopyWithNewProperties(updatedRepresentation, map[string]interface{}{
-					"state":         Representation{repType: Optional, create: `INACTIVE`},
-					"shutdown_type": Representation{repType: Optional, create: `FAST`},
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, RepresentationCopyWithNewProperties(updatedRepresentation, map[string]interface{}{
+					"state":         Representation{RepType: Optional, Create: `INACTIVE`},
+					"shutdown_type": Representation{RepType: Optional, Create: `FAST`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -192,7 +192,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -203,8 +203,8 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 		// verify start
 		{
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, representationCopyWithNewProperties(updatedRepresentation, map[string]interface{}{
-					"state": Representation{repType: Optional, create: `ACTIVE`},
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Update, RepresentationCopyWithNewProperties(updatedRepresentation, map[string]interface{}{
+					"state": Representation{RepType: Optional, Create: `ACTIVE`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -238,7 +238,7 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -262,10 +262,10 @@ func TestMysqlMysqlDbSystemResource_HA(t *testing.T) {
 	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify HA create
+		// verify HA Create
 		{
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlHADbSystemRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Optional, Create, mysqlHADbSystemRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "admin_username", "adminUser"),

@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 )
 
 func init() {
@@ -168,7 +168,7 @@ func (s *DnsSteeringPolicyAttachmentResourceCrud) Create() error {
 		request.ZoneId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.CreateSteeringPolicyAttachment(context.Background(), request)
 	if err != nil {
@@ -185,7 +185,7 @@ func (s *DnsSteeringPolicyAttachmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SteeringPolicyAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.GetSteeringPolicyAttachment(context.Background(), request)
 	if err != nil {
@@ -207,7 +207,7 @@ func (s *DnsSteeringPolicyAttachmentResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SteeringPolicyAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.UpdateSteeringPolicyAttachment(context.Background(), request)
 	if err != nil {
@@ -224,7 +224,7 @@ func (s *DnsSteeringPolicyAttachmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SteeringPolicyAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.DeleteSteeringPolicyAttachment(context.Background(), request)
 	return err

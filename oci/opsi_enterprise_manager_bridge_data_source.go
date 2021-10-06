@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_opsi "github.com/oracle/oci-go-sdk/v48/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *OpsiEnterpriseManagerBridgeDataSourceCrud) Get() error {
 		request.EnterpriseManagerBridgeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "opsi")
 
 	response, err := s.Client.GetEnterpriseManagerBridge(context.Background(), request)
 	if err != nil {

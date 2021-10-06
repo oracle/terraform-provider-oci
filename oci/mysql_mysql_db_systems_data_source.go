@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func MysqlMysqlDbSystemsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMysqlMysqlDbSystems,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -120,7 +120,7 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_mysql.DbSystemLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.ListDbSystems(context.Background(), request)
 	if err != nil {

@@ -10,8 +10,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 )
 
 func init() {
@@ -74,8 +74,8 @@ func CoreComputeCapacityReservationResource() *schema.Resource {
 						"reserved_count": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 
 						// Optional
@@ -249,7 +249,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceReservationConfigs, ok := s.D.GetOkExists("instance_reservation_configs"); ok {
@@ -274,7 +274,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
 		request.IsDefaultReservation = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateComputeCapacityReservation(context.Background(), request)
 	if err != nil {
@@ -302,7 +302,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CapacityReservationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetComputeCapacityReservation(context.Background(), request)
 	if err != nil {
@@ -342,7 +342,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceReservationConfigs, ok := s.D.GetOkExists("instance_reservation_configs"); ok {
@@ -367,7 +367,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Update() error {
 		request.IsDefaultReservation = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateComputeCapacityReservation(context.Background(), request)
 	if err != nil {
@@ -391,7 +391,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CapacityReservationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.DeleteComputeCapacityReservation(context.Background(), request)
 	if err != nil {
@@ -562,7 +562,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) updateCompartment(compartme
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.ChangeComputeCapacityReservationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

@@ -12,7 +12,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v48/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v49/objectstorage"
 )
 
 func init() {
@@ -159,7 +159,7 @@ func (s *ObjectStorageObjectDataSourceCrud) Get() error {
 		headObjectRequest.ObjectName = &objectName
 	}
 
-	headObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
+	headObjectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "object_storage")
 
 	if versionId, ok := s.D.GetOkExists("version_id"); ok {
 		tmp := versionId.(string)

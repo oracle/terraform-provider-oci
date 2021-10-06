@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -80,7 +80,7 @@ func CoreVolumeGroupResource() *schema.Resource {
 							ForceNew: true,
 							MaxItems: 64,
 							MinItems: 0,
-							Set:      literalTypeHashCodeForSets,
+							Set:      LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -249,7 +249,7 @@ func (s *CoreVolumeGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
@@ -263,7 +263,7 @@ func (s *CoreVolumeGroupResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVolumeGroup(context.Background(), request)
 	if err != nil {
@@ -280,7 +280,7 @@ func (s *CoreVolumeGroupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VolumeGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetVolumeGroup(context.Background(), request)
 	if err != nil {
@@ -317,7 +317,7 @@ func (s *CoreVolumeGroupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -336,7 +336,7 @@ func (s *CoreVolumeGroupResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateVolumeGroup(context.Background(), request)
 	if err != nil {
@@ -353,7 +353,7 @@ func (s *CoreVolumeGroupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VolumeGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteVolumeGroup(context.Background(), request)
 	return err
@@ -483,7 +483,7 @@ func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails, datas
 		if datasource {
 			result["volume_ids"] = volumeIds
 		} else {
-			result["volume_ids"] = schema.NewSet(literalTypeHashCodeForSets, volumeIds)
+			result["volume_ids"] = schema.NewSet(LiteralTypeHashCodeForSets, volumeIds)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
@@ -502,7 +502,7 @@ func (s *CoreVolumeGroupResourceCrud) updateCompartment(compartment interface{})
 	idTmp := s.D.Id()
 	changeCompartmentRequest.VolumeGroupId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeVolumeGroupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

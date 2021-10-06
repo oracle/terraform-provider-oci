@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/database"
 )
 
 // TestAccResourceDatabaseDBSystem_allBM tests DBsystems using Bare Metal instances.
@@ -24,7 +24,7 @@ func TestResourceDatabaseDBSystemAllBM(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: ResourceDatabaseBaseConfig + ResourceDatabaseTokenFn(`
 				resource "oci_database_db_system" "t" {
@@ -274,7 +274,7 @@ func TestResourceDatabaseDBSystemAllBM(t *testing.T) {
 				//resource.TestCheckResourceAttrSet("data.oci_database_db_node.t", "software_storage_size_in_gb"),
 			),
 		},
-		// verify removing nsgIds trigger update
+		// verify removing nsgIds trigger Update
 		{
 			Config: ResourceDatabaseBaseConfig + ResourceDatabaseTokenFn(`
 				resource "oci_database_db_system" "t" {

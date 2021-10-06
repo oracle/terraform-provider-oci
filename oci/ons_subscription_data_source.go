@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ons "github.com/oracle/oci-go-sdk/v48/ons"
+	oci_ons "github.com/oracle/oci-go-sdk/v49/ons"
 )
 
 func init() {
@@ -50,7 +50,7 @@ func (s *OnsSubscriptionDataSourceCrud) Get() error {
 		request.SubscriptionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ons")
 
 	response, err := s.Client.GetSubscription(context.Background(), request)
 	if err != nil {

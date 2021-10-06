@@ -17,8 +17,8 @@ var (
 		"filter": RepresentationGroup{Required, regionDataSourceFilterRepresentation}}
 
 	regionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`${var.region}`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`${var.region}`}},
 	}
 
 	RegionResourceConfig = ""
@@ -36,13 +36,13 @@ func TestIdentityRegionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_identity_regions.test_regions"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
 				compartmentIdVariableStr + RegionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

@@ -4,14 +4,14 @@
 package oci
 
 import (
-	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v48/computeinstanceagent"
+	oci_computeinstanceagent "github.com/oracle/oci-go-sdk/v49/computeinstanceagent"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_computeinstanceagent.PluginClient", &OracleClient{initClientFn: initComputeinstanceagentPluginClient})
-	RegisterOracleClient("oci_computeinstanceagent.PluginconfigClient", &OracleClient{initClientFn: initComputeinstanceagentPluginconfigClient})
+	RegisterOracleClient("oci_computeinstanceagent.PluginClient", &OracleClient{InitClientFn: initComputeinstanceagentPluginClient})
+	RegisterOracleClient("oci_computeinstanceagent.PluginconfigClient", &OracleClient{InitClientFn: initComputeinstanceagentPluginconfigClient})
 }
 
 func initComputeinstanceagentPluginClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

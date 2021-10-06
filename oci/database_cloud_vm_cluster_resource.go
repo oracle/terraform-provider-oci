@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -22,9 +22,9 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("12h"),
-			Update: getTimeoutDuration("12h"),
-			Delete: getTimeoutDuration("12h"),
+			Create: GetTimeoutDuration("12h"),
+			Update: GetTimeoutDuration("12h"),
+			Delete: GetTimeoutDuration("12h"),
 		},
 		Create: createDatabaseCloudVmCluster,
 		Read:   readDatabaseCloudVmCluster,
@@ -89,7 +89,7 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -146,7 +146,7 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -441,7 +441,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if giVersion, ok := s.D.GetOkExists("gi_version"); ok {
@@ -505,7 +505,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.TimeZone = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateCloudVmCluster(context.Background(), request)
 	if err != nil {
@@ -522,7 +522,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CloudVmClusterId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetCloudVmCluster(context.Background(), request)
 	if err != nil {
@@ -594,7 +594,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
@@ -633,7 +633,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		request.StorageSizeInGBs = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateCloudVmCluster(context.Background(), request)
 	if err != nil {
@@ -650,7 +650,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CloudVmClusterId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeleteCloudVmCluster(context.Background(), request)
 	return err
@@ -665,7 +665,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	for _, item := range s.Res.BackupNetworkNsgIds {
 		backupNetworkNsgIds = append(backupNetworkNsgIds, item)
 	}
-	s.D.Set("backup_network_nsg_ids", schema.NewSet(literalTypeHashCodeForSets, backupNetworkNsgIds))
+	s.D.Set("backup_network_nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, backupNetworkNsgIds))
 
 	if s.Res.BackupSubnetId != nil {
 		s.D.Set("backup_subnet_id", *s.Res.BackupSubnetId)
@@ -751,7 +751,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.ScanDnsName != nil {
 		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)
@@ -809,7 +809,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) updateCompartment(compartment inter
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeCloudVmClusterCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

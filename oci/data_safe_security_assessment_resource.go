@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 )
 
 func init() {
@@ -26,9 +26,9 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("45m"),
-			Update: getTimeoutDuration("45m"),
-			Delete: getTimeoutDuration("45m"),
+			Create: GetTimeoutDuration("45m"),
+			Update: GetTimeoutDuration("45m"),
+			Delete: GetTimeoutDuration("45m"),
 		},
 		Create: createDataSafeSecurityAssessment,
 		Read:   readDataSafeSecurityAssessment,
@@ -549,7 +549,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if schedule, ok := s.D.GetOkExists("schedule"); ok {
@@ -562,7 +562,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Create() error {
 		request.TargetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.CreateSecurityAssessment(context.Background(), request)
 	if err != nil {
@@ -570,7 +570,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSecurityAssessmentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSecurityAssessmentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeSecurityAssessmentResourceCrud) getSecurityAssessmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -613,7 +613,7 @@ func securityAssessmentWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 
 func securityAssessmentWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "data_safe")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = securityAssessmentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}
@@ -692,7 +692,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SecurityAssessmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.GetSecurityAssessment(context.Background(), request)
 	if err != nil {
@@ -734,7 +734,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if schedule, ok := s.D.GetOkExists("schedule"); ok {
@@ -745,7 +745,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SecurityAssessmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.UpdateSecurityAssessment(context.Background(), request)
 	if err != nil {
@@ -753,7 +753,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSecurityAssessmentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSecurityAssessmentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataSafeSecurityAssessmentResourceCrud) Delete() error {
@@ -762,7 +762,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SecurityAssessmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.DeleteSecurityAssessment(context.Background(), request)
 	if err != nil {
@@ -949,7 +949,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) updateCompartment(compartment i
 	idTmp := s.D.Id()
 	changeCompartmentRequest.SecurityAssessmentId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	_, err := s.Client.ChangeSecurityAssessmentCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

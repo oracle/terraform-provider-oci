@@ -13,87 +13,87 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	AutonomousDatabaseRequiredOnlyResource = AutonomousDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
 
 	AutonomousDatabaseResourceConfig = AutonomousDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRepresentation)
 
 	autonomousDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"autonomous_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
 	}
 
 	autonomousDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"db_version":     Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
-		"db_workload":    Representation{repType: Optional, create: `OLTP`},
-		"display_name":   Representation{repType: Optional, create: `example_autonomous_database`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"db_version":     Representation{RepType: Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
+		"db_workload":    Representation{RepType: Optional, Create: `OLTP`},
+		"display_name":   Representation{RepType: Optional, Create: `example_autonomous_database`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, autonomousDatabaseDataSourceFilterRepresentation}}
 	autonomousDatabaseDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_database.test_autonomous_database.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_autonomous_database.test_autonomous_database.id}`}},
 	}
 
-	adbName      = randomString(1, charsetWithoutDigits) + randomString(13, charset)
-	adbCloneName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbName      = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
+	adbCloneName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
 
 	autonomousDatabaseRepresentation = map[string]interface{}{
-		"compartment_id":                       Representation{repType: Required, create: `${var.compartment_id}`},
-		"cpu_core_count":                       Representation{repType: Required, create: `1`},
-		"data_storage_size_in_tbs":             Representation{repType: Required, create: `1`},
-		"db_name":                              Representation{repType: Required, create: adbName},
-		"admin_password":                       Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
-		"db_version":                           Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
-		"db_workload":                          Representation{repType: Optional, create: `OLTP`},
-		"defined_tags":                         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                         Representation{repType: Optional, create: `example_autonomous_database`, update: `displayName2`},
-		"freeform_tags":                        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_auto_scaling_enabled":              Representation{repType: Optional, create: `false`},
-		"is_dedicated":                         Representation{repType: Optional, create: `false`},
-		"is_mtls_connection_required":          Representation{repType: Optional, create: `false`, update: `true`},
-		"autonomous_maintenance_schedule_type": Representation{repType: Optional, create: `EARLY`},
-		"is_preview_version_with_service_terms_accepted": Representation{repType: Optional, create: `false`},
+		"compartment_id":                       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"cpu_core_count":                       Representation{RepType: Required, Create: `1`},
+		"data_storage_size_in_tbs":             Representation{RepType: Required, Create: `1`},
+		"db_name":                              Representation{RepType: Required, Create: adbName},
+		"admin_password":                       Representation{RepType: Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"db_version":                           Representation{RepType: Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
+		"db_workload":                          Representation{RepType: Optional, Create: `OLTP`},
+		"defined_tags":                         Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                         Representation{RepType: Optional, Create: `example_autonomous_database`, Update: `displayName2`},
+		"freeform_tags":                        Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_auto_scaling_enabled":              Representation{RepType: Optional, Create: `false`},
+		"is_dedicated":                         Representation{RepType: Optional, Create: `false`},
+		"is_mtls_connection_required":          Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"autonomous_maintenance_schedule_type": Representation{RepType: Optional, Create: `EARLY`},
+		"is_preview_version_with_service_terms_accepted": Representation{RepType: Optional, Create: `false`},
 		"customer_contacts":          RepresentationGroup{Optional, autonomousDatabaseCustomerContactsRepresentation},
-		"kms_key_id":                 Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"license_model":              Representation{repType: Optional, create: `LICENSE_INCLUDED`},
-		"vault_id":                   Representation{repType: Optional, create: kmsVaultId, update: kmsVaultId},
-		"whitelisted_ips":            Representation{repType: Optional, create: []string{`1.1.1.1/28`}},
-		"operations_insights_status": Representation{repType: Optional, create: `NOT_ENABLED`, update: `ENABLED`},
+		"kms_key_id":                 Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"license_model":              Representation{RepType: Optional, Create: `LICENSE_INCLUDED`},
+		"vault_id":                   Representation{RepType: Optional, Create: kmsVaultId, Update: kmsVaultId},
+		"whitelisted_ips":            Representation{RepType: Optional, Create: []string{`1.1.1.1/28`}},
+		"operations_insights_status": Representation{RepType: Optional, Create: `NOT_ENABLED`, Update: `ENABLED`},
 		"timeouts":                   RepresentationGroup{Required, autonomousDatabaseTimeoutsRepresentation},
-		"state":                      Representation{repType: Optional, create: `AVAILABLE`},
+		"state":                      Representation{RepType: Optional, Create: `AVAILABLE`},
 	}
 	autonomousDatabaseCustomerContactsRepresentation = map[string]interface{}{
-		"email": Representation{repType: Optional, create: `test@oracle.com`, update: `test2@oracle.com`},
+		"email": Representation{RepType: Optional, Create: `test@oracle.com`, Update: `test2@oracle.com`},
 	}
 
 	autonomousDatabaseTimeoutsRepresentation = map[string]interface{}{
-		"create": Representation{repType: Required, create: `20m`},
-		"update": Representation{repType: Required, create: `20m`},
-		"delete": Representation{repType: Required, create: `20m`},
+		"create": Representation{RepType: Required, Create: `20m`},
+		"update": Representation{RepType: Required, Create: `20m`},
+		"delete": Representation{RepType: Required, Create: `20m`},
 	}
-	autonomousDatabaseCopyWithUpdatedIPsRepresentation = getUpdatedRepresentationCopy("whitelisted_ips", Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}, update: []string{}}, autonomousDatabaseRepresentation)
+	autonomousDatabaseCopyWithUpdatedIPsRepresentation = GetUpdatedRepresentationCopy("whitelisted_ips", Representation{RepType: Optional, Create: []string{"1.1.1.1/28", "1.1.1.29"}, Update: []string{}}, autonomousDatabaseRepresentation)
 
-	autonomousDatabaseRepresentationForClone = representationCopyWithNewProperties(
-		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbCloneName}, autonomousDatabaseRepresentation),
+	autonomousDatabaseRepresentationForClone = RepresentationCopyWithNewProperties(
+		GetUpdatedRepresentationCopy("db_name", Representation{RepType: Required, Create: adbCloneName}, autonomousDatabaseRepresentation),
 		map[string]interface{}{
-			"clone_type": Representation{repType: Optional, create: `FULL`},
-			"source":     Representation{repType: Optional, create: `DATABASE`},
-			"source_id":  Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
+			"clone_type": Representation{RepType: Optional, Create: `FULL`},
+			"source":     Representation{RepType: Optional, Create: `DATABASE`},
+			"source_id":  Representation{RepType: Optional, Create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 		})
 
 	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies + KeyResourceDependencyConfig +
-		generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Required, Create, autonomousDbVersionDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", Required, Create,
-			representationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
-				"db_workload": Representation{repType: Required, create: `DW`}}))
+		GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Required, Create, autonomousDbVersionDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", Required, Create,
+			RepresentationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
+				"db_workload": Representation{RepType: Required, Create: `DW`}}))
 )
 
 // issue-routing-tag: database/dbaas-adb
@@ -114,15 +114,15 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_autonomous_database.test_autonomous_database"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentation), "database", "autonomousDatabase", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AutonomousDatabaseResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentation), "database", "autonomousDatabase", t)
 
 	ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -132,23 +132,23 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
-					representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-						"open_mode":        Representation{repType: Optional, create: `READ_ONLY`, update: `READ_ONLY`},
-						"permission_level": Representation{repType: Optional, create: `RESTRICTED`, update: `RESTRICTED`},
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+					RepresentationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						"open_mode":        Representation{RepType: Optional, Create: `READ_ONLY`, Update: `READ_ONLY`},
+						"permission_level": Representation{RepType: Optional, Create: `RESTRICTED`, Update: `RESTRICTED`},
 					}),
 				),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -181,9 +181,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "permission_level", "RESTRICTED"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -192,14 +192,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
-					representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
-						"compartment_id":   Representation{repType: Required, create: `${var.compartment_id_for_update}`},
-						"open_mode":        Representation{repType: Optional, create: `READ_WRITE`, update: `READ_WRITE`},
-						"permission_level": Representation{repType: Optional, create: `UNRESTRICTED`, update: `UNRESTRICTED`},
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+					RepresentationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
+						"open_mode":        Representation{RepType: Optional, Create: `READ_WRITE`, Update: `READ_WRITE`},
+						"permission_level": Representation{RepType: Optional, Create: `UNRESTRICTED`, Update: `UNRESTRICTED`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -230,7 +230,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -242,8 +242,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					getUpdatedRepresentationCopy("is_mtls_connection_required", Representation{repType: Optional, create: `false`, update: `false`}, autonomousDatabaseRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					GetUpdatedRepresentationCopy("is_mtls_connection_required", Representation{RepType: Optional, Create: `false`, Update: `false`}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
@@ -270,7 +270,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -281,8 +281,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify stop the autonomous database
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "STOPPED"}, autonomousDatabaseRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					GetUpdatedRepresentationCopy("state", Representation{RepType: Optional, Create: "STOPPED"}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -303,7 +303,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -314,8 +314,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify start the autonomous database
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					getUpdatedRepresentationCopy("state", Representation{repType: Optional, create: "AVAILABLE"}, autonomousDatabaseRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					GetUpdatedRepresentationCopy("state", Representation{RepType: Optional, Create: "AVAILABLE"}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -336,7 +336,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -348,8 +348,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify updates to whitelisted_ips
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					getUpdatedRepresentationCopy("whitelisted_ips", Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}}, autonomousDatabaseRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					GetUpdatedRepresentationCopy("whitelisted_ips", Representation{RepType: Optional, Create: []string{"1.1.1.1/28", "1.1.1.29"}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -369,7 +369,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -380,7 +380,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify remove whitelisted_ips
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -400,7 +400,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "0"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -411,7 +411,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify autoscaling
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, representationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{"is_auto_scaling_enabled": Representation{repType: Optional, update: `true`}})),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, RepresentationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{"is_auto_scaling_enabled": Representation{RepType: Optional, Update: `true`}})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -434,7 +434,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "0"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -445,9 +445,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", Optional, Update, autonomousDatabaseDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", Optional, Update, autonomousDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "db_workload", "OLTP"),
@@ -496,7 +496,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
@@ -572,13 +572,13 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr,
 		},
 		// test ADW db_workload
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
-						[]interface{}{Representation{repType: Optional, create: "DW"},
-							Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+					GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
+						[]interface{}{Representation{RepType: Optional, Create: "DW"},
+							Representation{RepType: Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -596,7 +596,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if resId == resId2 {
 						return fmt.Errorf("Resource updated when it was supposed to be re-created.")
 					}
@@ -608,11 +608,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "is_mtls_connection_required"},
-						[]interface{}{Representation{repType: Optional, create: "DW"},
-							Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`},
-							Representation{repType: Optional, create: `false`}}, autonomousDatabaseRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "is_mtls_connection_required"},
+						[]interface{}{Representation{RepType: Optional, Create: "DW"},
+							Representation{RepType: Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`},
+							Representation{RepType: Optional, Create: `false`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -630,7 +630,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -642,12 +642,12 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify autoscaling with DW workload
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "is_mtls_connection_required"},
-						[]interface{}{Representation{repType: Optional, create: "DW"},
-							Representation{repType: Optional, update: `true`},
-							Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`},
-							Representation{repType: Optional, create: `false`}}, autonomousDatabaseRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+					GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "is_mtls_connection_required"},
+						[]interface{}{Representation{RepType: Optional, Create: "DW"},
+							Representation{RepType: Optional, Update: `true`},
+							Representation{RepType: Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`},
+							Representation{RepType: Optional, Create: `false`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -666,7 +666,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -682,8 +682,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		// verify ADB clone from a source ADB
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRepresentation) +
-				generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentationForClone),
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentationForClone),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "clone_type", "FULL"),
@@ -704,7 +704,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if resId == resId2 {
 						return fmt.Errorf("Resource updated when it was supposed to be re-created.")
 					}
@@ -726,7 +726,7 @@ func testAccCheckDatabaseAutonomousDatabaseDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.AutonomousDatabaseId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetAutonomousDatabase(context.Background(), request)
 
@@ -759,7 +759,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseAutonomousDatabase") {
+	if !InSweeperExcludeList("DatabaseAutonomousDatabase") {
 		resource.AddTestSweepers("DatabaseAutonomousDatabase", &resource.Sweeper{
 			Name:         "DatabaseAutonomousDatabase",
 			Dependencies: DependencyGraph["autonomousDatabase"],
@@ -780,13 +780,13 @@ func sweepDatabaseAutonomousDatabaseResource(compartment string) error {
 
 			deleteAutonomousDatabaseRequest.AutonomousDatabaseId = &autonomousDatabaseId
 
-			deleteAutonomousDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteAutonomousDatabaseRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteAutonomousDatabase(context.Background(), deleteAutonomousDatabaseRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AutonomousDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", autonomousDatabaseId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &autonomousDatabaseId, autonomousDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &autonomousDatabaseId, autonomousDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
 				autonomousDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -794,7 +794,7 @@ func sweepDatabaseAutonomousDatabaseResource(compartment string) error {
 }
 
 func getAutonomousDatabaseIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AutonomousDatabaseId")
+	ids := GetResourceIdsToSweep(compartment, "AutonomousDatabaseId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -815,7 +815,7 @@ func getAutonomousDatabaseIds(compartment string) ([]string, error) {
 			autonomousDatabase.LifecycleState == oci_database.AutonomousDatabaseSummaryLifecycleStateUnavailable {
 			id := *autonomousDatabase.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousDatabaseId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousDatabaseId", id)
 		}
 	}
 	return resourceIds, nil

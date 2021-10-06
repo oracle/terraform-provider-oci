@@ -12,60 +12,60 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	UserAssessmentRequiredOnlyResource = UserAssessmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Required, Create, userAssessmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Required, Create, userAssessmentRepresentation)
 
 	UserAssessmentResourceConfig = UserAssessmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Update, userAssessmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Update, userAssessmentRepresentation)
 
 	userAssessmentSingularDataSourceRepresentation = map[string]interface{}{
-		"user_assessment_id": Representation{repType: Required, create: `${oci_data_safe_user_assessment.test_user_assessment.id}`},
+		"user_assessment_id": Representation{RepType: Required, Create: `${oci_data_safe_user_assessment.test_user_assessment.id}`},
 	}
 
 	userAssessmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"target_id":      Representation{repType: Required, create: `${oci_data_safe_target_database.test_target_database.id}`},
-		"type":           Representation{repType: Optional, create: `SAVED`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"target_id":      Representation{RepType: Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"type":           Representation{RepType: Optional, Create: `SAVED`},
 		"filter":         RepresentationGroup{Required, userAssessmentDataSourceFilterRepresentation}}
 	userAssessmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_data_safe_user_assessment.test_user_assessment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_data_safe_user_assessment.test_user_assessment.id}`}},
 	}
 
 	userAssessmentRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"target_id":      Representation{repType: Required, create: `${oci_data_safe_target_database.test_target_database.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"target_id":      Representation{RepType: Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      RepresentationGroup{Required, ignoreChangesUserAssessmentRepresentation},
 	}
 
 	userAssessmentChangeCompartmentRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"target_id":      Representation{repType: Required, create: `${oci_data_safe_target_database.test_target_database.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"schedule":       Representation{repType: Optional, create: `v1; 00 30 15 * *`, update: `v1; 00 30 20 * *`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"target_id":      Representation{RepType: Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"schedule":       Representation{RepType: Optional, Create: `v1; 00 30 15 * *`, Update: `v1; 00 30 20 * *`},
 		"lifecycle":      RepresentationGroup{Required, ignoreChangesUserAssessmentRepresentation},
 	}
 
 	ignoreChangesUserAssessmentRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
-	UserAssessmentResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
+	UserAssessmentResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -87,34 +87,34 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_data_safe_user_assessment.test_user_assessment"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+UserAssessmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Create, userAssessmentRepresentation), "datasafe", "userassessment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+UserAssessmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Create, userAssessmentRepresentation), "datasafe", "userassessment", t)
 
 	ResourceTest(t, testAccCheckDataSafeUserAssessmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + UserAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Required, Create, userAssessmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Required, Create, userAssessmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + UserAssessmentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + UserAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Create, userAssessmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Create, userAssessmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -128,9 +128,9 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -139,12 +139,12 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + UserAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Create,
-					representationCopyWithNewProperties(userAssessmentRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Create,
+					RepresentationCopyWithNewProperties(userAssessmentRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -158,7 +158,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -170,7 +170,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + UserAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Required, Update, userAssessmentChangeCompartmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Required, Update, userAssessmentChangeCompartmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -182,7 +182,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -193,9 +193,9 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_user_assessments", "test_user_assessments", Optional, Update, userAssessmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessments", "test_user_assessments", Optional, Update, userAssessmentDataSourceRepresentation) +
 				compartmentIdVariableStr + UserAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Update, userAssessmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Optional, Update, userAssessmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
@@ -217,7 +217,7 @@ func TestDataSafeUserAssessmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Required, Create, userAssessmentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", Required, Create, userAssessmentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + UserAssessmentRequiredOnlyResource,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_assessment_id"),
@@ -264,7 +264,7 @@ func testAccCheckDataSafeUserAssessmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.UserAssessmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 
 			_, err := client.GetUserAssessment(context.Background(), request)
 
@@ -289,7 +289,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DataSafeUserAssessment") {
+	if !InSweeperExcludeList("DataSafeUserAssessment") {
 		resource.AddTestSweepers("DataSafeUserAssessment", &resource.Sweeper{
 			Name:         "DataSafeUserAssessment",
 			Dependencies: DependencyGraph["userassessment"],
@@ -310,7 +310,7 @@ func sweepDataSafeUserAssessmentResource(compartment string) error {
 
 			deleteUserAssessmentRequest.UserAssessmentId = &userAssessmentId
 
-			deleteUserAssessmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			deleteUserAssessmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 			_, error := dataSafeClient.DeleteUserAssessment(context.Background(), deleteUserAssessmentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting UserAssessment %s %s, It is possible that the resource is already deleted. Please verify manually \n", userAssessmentId, error)
@@ -322,7 +322,7 @@ func sweepDataSafeUserAssessmentResource(compartment string) error {
 }
 
 func getUserAssessmentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "UserAssessmentId")
+	ids := GetResourceIdsToSweep(compartment, "UserAssessmentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -340,7 +340,7 @@ func getUserAssessmentIds(compartment string) ([]string, error) {
 	for _, userAssessment := range listUserAssessmentsResponse.Items {
 		id := *userAssessment.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "UserAssessmentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "UserAssessmentId", id)
 	}
 	return resourceIds, nil
 }

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_auto_scaling "github.com/oracle/oci-go-sdk/v48/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/v49/autoscaling"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *AutoScalingAutoScalingConfigurationDataSourceCrud) Get() error {
 		request.AutoScalingConfigurationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "auto_scaling")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "auto_scaling")
 
 	response, err := s.Client.GetAutoScalingConfiguration(context.Background(), request)
 	if err != nil {

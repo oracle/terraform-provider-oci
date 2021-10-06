@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v48/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v49/dataflow"
 )
 
 func init() {
@@ -50,7 +50,7 @@ func (s *DataflowInvokeRunDataSourceCrud) Get() error {
 		request.RunId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataflow")
 
 	response, err := s.Client.GetRun(context.Background(), request)
 	if err != nil {

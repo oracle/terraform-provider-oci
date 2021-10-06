@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 )
 
 func init() {
@@ -257,7 +257,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateBackupDestination(context.Background(), request)
 	if err != nil {
@@ -274,7 +274,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.BackupDestinationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetBackupDestination(context.Background(), request)
 	if err != nil {
@@ -314,7 +314,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if localMountPointPath, ok := s.D.GetOkExists("local_mount_point_path"); ok && s.D.HasChange("local_mount_point_path") {
@@ -340,7 +340,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Update() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateBackupDestination(context.Background(), request)
 	if err != nil {
@@ -357,7 +357,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.BackupDestinationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeleteBackupDestination(context.Background(), request)
 	return err
@@ -592,7 +592,7 @@ func (s *DatabaseBackupDestinationResourceCrud) populateTopLevelPolymorphicCreat
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateBackupDestinationDetails = details
 	case strings.ToLower("RECOVERY_APPLIANCE"):
@@ -629,7 +629,7 @@ func (s *DatabaseBackupDestinationResourceCrud) populateTopLevelPolymorphicCreat
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateBackupDestinationDetails = details
 	default:
@@ -647,7 +647,7 @@ func (s *DatabaseBackupDestinationResourceCrud) updateCompartment(compartment in
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.ChangeBackupDestinationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

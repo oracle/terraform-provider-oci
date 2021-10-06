@@ -13,47 +13,47 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v48/osmanagement"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v49/osmanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	SoftwareSourceRequiredOnlyResource = SoftwareSourceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceRepresentation)
 
 	SoftwareSourceResourceConfig = SoftwareSourceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation)
 
 	softwareSourceSingularDataSourceRepresentation = map[string]interface{}{
-		"software_source_id": Representation{repType: Required, create: `${oci_osmanagement_software_source.test_software_source.id}`},
+		"software_source_id": Representation{RepType: Required, Create: `${oci_osmanagement_software_source.test_software_source.id}`},
 	}
 
-	softwareSourceDisplayName       = randomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName")
-	softwareSourceUpdateDisplayName = randomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName2")
+	softwareSourceDisplayName       = RandomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName")
+	softwareSourceUpdateDisplayName = RandomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName2")
 
 	softwareSourceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: softwareSourceDisplayName, update: softwareSourceUpdateDisplayName},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: softwareSourceDisplayName, Update: softwareSourceUpdateDisplayName},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, softwareSourceDataSourceFilterRepresentation}}
 	softwareSourceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_osmanagement_software_source.test_software_source.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_osmanagement_software_source.test_software_source.id}`}},
 	}
 
 	softwareSourceRepresentation = map[string]interface{}{
-		"arch_type":        Representation{repType: Required, create: `IA_32`},
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":     Representation{repType: Required, create: softwareSourceDisplayName, update: softwareSourceUpdateDisplayName},
-		"checksum_type":    Representation{repType: Optional, create: `SHA1`, update: `SHA256`},
-		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":      Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"maintainer_email": Representation{repType: Optional, create: `maintainerEmail`, update: `maintainerEmail2`},
-		"maintainer_name":  Representation{repType: Optional, create: `maintainerName`, update: `maintainerName2`},
-		"maintainer_phone": Representation{repType: Optional, create: `maintainerPhone`, update: `maintainerPhone2`},
+		"arch_type":        Representation{RepType: Required, Create: `IA_32`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":     Representation{RepType: Required, Create: softwareSourceDisplayName, Update: softwareSourceUpdateDisplayName},
+		"checksum_type":    Representation{RepType: Optional, Create: `SHA1`, Update: `SHA256`},
+		"defined_tags":     Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":      Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":    Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"maintainer_email": Representation{RepType: Optional, Create: `maintainerEmail`, Update: `maintainerEmail2`},
+		"maintainer_name":  Representation{RepType: Optional, Create: `maintainerName`, Update: `maintainerName2`},
+		"maintainer_phone": Representation{RepType: Optional, Create: `maintainerPhone`, Update: `maintainerPhone2`},
 	}
 
 	SoftwareSourceResourceDependencies = DefinedTagsDependencies
@@ -77,35 +77,35 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_osmanagement_software_source.test_software_source"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SoftwareSourceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create, softwareSourceRepresentation), "osmanagement", "softwareSource", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SoftwareSourceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create, softwareSourceRepresentation), "osmanagement", "softwareSource", t)
 
 	ResourceTest(t, testAccCheckOsmanagementSoftwareSourceDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", softwareSourceDisplayName),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create, softwareSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create, softwareSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 				resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA1"),
@@ -121,9 +121,9 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "repo_type"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -132,12 +132,12 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SoftwareSourceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create,
-					representationCopyWithNewProperties(softwareSourceRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Create,
+					RepresentationCopyWithNewProperties(softwareSourceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
@@ -154,7 +154,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "repo_type"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -166,7 +166,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "IA_32"),
 				resource.TestCheckResourceAttr(resourceName, "checksum_type", "SHA256"),
@@ -182,7 +182,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "repo_type"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -193,9 +193,9 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_osmanagement_software_sources", "test_software_sources", Optional, Update, softwareSourceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_sources", "test_software_sources", Optional, Update, softwareSourceDataSourceRepresentation) +
 				compartmentIdVariableStr + SoftwareSourceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Optional, Update, softwareSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", softwareSourceUpdateDisplayName),
@@ -217,7 +217,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_osmanagement_software_source", "test_software_source", Required, Create, softwareSourceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SoftwareSourceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_source_id"),
@@ -265,7 +265,7 @@ func testAccCheckOsmanagementSoftwareSourceDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SoftwareSourceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "osmanagement")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "osmanagement")
 
 			response, err := client.GetSoftwareSource(context.Background(), request)
 
@@ -298,7 +298,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OsmanagementSoftwareSource") {
+	if !InSweeperExcludeList("OsmanagementSoftwareSource") {
 		resource.AddTestSweepers("OsmanagementSoftwareSource", &resource.Sweeper{
 			Name:         "OsmanagementSoftwareSource",
 			Dependencies: DependencyGraph["softwareSource"],
@@ -319,13 +319,13 @@ func sweepOsmanagementSoftwareSourceResource(compartment string) error {
 
 			deleteSoftwareSourceRequest.SoftwareSourceId = &softwareSourceId
 
-			deleteSoftwareSourceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "osmanagement")
+			deleteSoftwareSourceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "osmanagement")
 			_, error := osManagementClient.DeleteSoftwareSource(context.Background(), deleteSoftwareSourceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting SoftwareSource %s %s, It is possible that the resource is already deleted. Please verify manually \n", softwareSourceId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &softwareSourceId, softwareSourceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &softwareSourceId, softwareSourceSweepWaitCondition, time.Duration(3*time.Minute),
 				softwareSourceSweepResponseFetchOperation, "osmanagement", true)
 		}
 	}
@@ -333,7 +333,7 @@ func sweepOsmanagementSoftwareSourceResource(compartment string) error {
 }
 
 func getSoftwareSourceIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SoftwareSourceId")
+	ids := GetResourceIdsToSweep(compartment, "SoftwareSourceId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -352,7 +352,7 @@ func getSoftwareSourceIds(compartment string) ([]string, error) {
 	for _, softwareSource := range listSoftwareSourcesResponse.Items {
 		id := *softwareSource.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SoftwareSourceId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SoftwareSourceId", id)
 	}
 	return resourceIds, nil
 }

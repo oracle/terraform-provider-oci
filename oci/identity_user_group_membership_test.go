@@ -11,30 +11,30 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	userGroupMembershipDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"group_id":       Representation{repType: Optional, create: `${oci_identity_group.test_group.id}`},
-		"user_id":        Representation{repType: Optional, create: `${oci_identity_user.test_user.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"group_id":       Representation{RepType: Optional, Create: `${oci_identity_group.test_group.id}`},
+		"user_id":        Representation{RepType: Optional, Create: `${oci_identity_user.test_user.id}`},
 		"filter":         RepresentationGroup{Required, userGroupMembershipDataSourceFilterRepresentation}}
 	userGroupMembershipDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_user_group_membership.test_user_group_membership.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_identity_user_group_membership.test_user_group_membership.id}`}},
 	}
 
 	userGroupMembershipRepresentation = map[string]interface{}{
-		"group_id": Representation{repType: Required, create: `${oci_identity_group.test_group.id}`},
-		"user_id":  Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"group_id": Representation{RepType: Required, Create: `${oci_identity_group.test_group.id}`},
+		"user_id":  Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	UserGroupMembershipResourceDependencies = generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation) +
-		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+	UserGroupMembershipResourceDependencies = GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -52,23 +52,23 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_user_group_memberships.test_user_group_memberships"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+UserGroupMembershipResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation), "identity", "userGroupMembership", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+UserGroupMembershipResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation), "identity", "userGroupMembership", t)
 
 	ResourceTest(t, testAccCheckIdentityUserGroupMembershipDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -80,9 +80,9 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", Optional, Update, userGroupMembershipDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", Optional, Update, userGroupMembershipDataSourceRepresentation) +
 				compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Optional, Update, userGroupMembershipRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Optional, Update, userGroupMembershipRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
@@ -119,7 +119,7 @@ func testAccCheckIdentityUserGroupMembershipDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.UserGroupMembershipId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
 
 			response, err := client.GetUserGroupMembership(context.Background(), request)
 

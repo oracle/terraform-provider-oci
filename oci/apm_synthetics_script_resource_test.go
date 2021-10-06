@@ -16,31 +16,31 @@ import (
 
 var (
 	JsScriptResourceConfig = ScriptResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, jsScriptRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, jsScriptRepresentation)
 
 	jsScriptSingularDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"script_id":     Representation{repType: Required, create: `${oci_apm_synthetics_script.test_script.id}`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"script_id":     Representation{RepType: Required, Create: `${oci_apm_synthetics_script.test_script.id}`},
 	}
 
 	jsScriptDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"content_type":  Representation{repType: Optional, create: `JS`},
-		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"content_type":  Representation{RepType: Optional, Create: `JS`},
+		"display_name":  Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"filter":        RepresentationGroup{Required, jsScriptDataSourceFilterRepresentation}}
 	jsScriptDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `display_name`},
-		"values": Representation{repType: Required, create: []string{`${oci_apm_synthetics_script.test_script.display_name}`}},
+		"name":   Representation{RepType: Required, Create: `display_name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_apm_synthetics_script.test_script.display_name}`}},
 	}
 
 	jsScriptContent        = "var request = require('postman-request'); var options = { 'method': 'GET', 'url': '<ORAP><ON>URL</ON><OV>https://console.us-phoenix-1.oraclecloud.com</OV></ORAP>', 'headers': { } }; request(options, function (error, response) { if (error) throw new Error(error); console.log(response.body); });"
 	jsScriptRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"content":       Representation{repType: Required, create: jsScriptContent},
-		"content_type":  Representation{repType: Required, create: `JS`},
-		"display_name":  Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags": Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"content":       Representation{RepType: Required, Create: jsScriptContent},
+		"content_type":  Representation{RepType: Required, Create: `JS`},
+		"display_name":  Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"defined_tags":  Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 )
 
@@ -60,9 +60,9 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 	singularDatasourceName := "data.oci_apm_synthetics_script.test_script"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ScriptResourceDependencies+
-		generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, jsScriptRepresentation), "apmsynthetics", "script", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ScriptResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, jsScriptRepresentation), "apmsynthetics", "script", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -71,10 +71,10 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckApmSyntheticsScriptDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, jsScriptRepresentation),
+					GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, jsScriptRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(resourceName, "content", jsScriptContent),
@@ -82,20 +82,20 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
 
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + ScriptResourceDependencies,
 			},
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, jsScriptRepresentation),
+					GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Create, jsScriptRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(resourceName, "content", jsScriptContent),
@@ -107,9 +107,9 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "monitor_status_count_map.#", "1"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -121,7 +121,7 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + ScriptResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, jsScriptRepresentation),
+					GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, jsScriptRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(resourceName, "content", jsScriptContent),
@@ -132,7 +132,7 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "monitor_status_count_map.#", "1"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -143,9 +143,9 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apm_synthetics_scripts", "test_scripts", Optional, Update, jsScriptDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_scripts", "test_scripts", Optional, Update, jsScriptDataSourceRepresentation) +
 					compartmentIdVariableStr + ScriptResourceDependencies +
-					generateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, jsScriptRepresentation),
+					GenerateResourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Optional, Update, jsScriptRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(datasourceName, "content_type", "JS"),
@@ -158,7 +158,7 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, jsScriptSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_script", "test_script", Required, Create, jsScriptSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + JsScriptResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),

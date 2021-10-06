@@ -18,13 +18,13 @@ import (
 var (
 	pringProbeStartTime                     = time.Now()
 	pingProbeResultDataSourceRepresentation = map[string]interface{}{
-		"probe_configuration_id":              Representation{repType: Required, create: `${oci_health_checks_ping_monitor.test_ping_monitor.id}`},
-		"start_time_greater_than_or_equal_to": Representation{repType: Optional, create: strconv.FormatInt(pringProbeStartTime.UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
-		"start_time_less_than_or_equal_to":    Representation{repType: Optional, create: strconv.FormatInt(pringProbeStartTime.Add(30*time.Minute).UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
-		"target":                              Representation{repType: Optional, create: `www.oracle.com`},
+		"probe_configuration_id":              Representation{RepType: Required, Create: `${oci_health_checks_ping_monitor.test_ping_monitor.id}`},
+		"start_time_greater_than_or_equal_to": Representation{RepType: Optional, Create: strconv.FormatInt(pringProbeStartTime.UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
+		"start_time_less_than_or_equal_to":    Representation{RepType: Optional, Create: strconv.FormatInt(pringProbeStartTime.Add(30*time.Minute).UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
+		"target":                              Representation{RepType: Optional, Create: `www.oracle.com`},
 	}
 
-	PingProbeResultResourceConfig = generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorRepresentation)
+	PingProbeResultResourceConfig = GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorRepresentation)
 )
 
 // issue-routing-tag: health_checks/default
@@ -39,7 +39,7 @@ func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_health_checks_ping_probe_results.test_ping_probe_results"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
@@ -58,7 +58,7 @@ func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
 		},
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_health_checks_ping_probe_results", "test_ping_probe_results", Optional, Create, pingProbeResultDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_health_checks_ping_probe_results", "test_ping_probe_results", Optional, Create, pingProbeResultDataSourceRepresentation) +
 				compartmentIdVariableStr + PingProbeResultResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "probe_configuration_id"),

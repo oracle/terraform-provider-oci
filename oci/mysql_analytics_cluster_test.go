@@ -13,36 +13,36 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	AnalyticsClusterRequiredOnlyResource = AnalyticsClusterResourceDependencies +
-		generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation)
+		GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation)
 
 	AnalyticsClusterResourceConfig = AnalyticsClusterResourceDependencies +
-		generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Update, analyticsClusterRepresentation)
+		GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Update, analyticsClusterRepresentation)
 
 	analyticsClusterSingularDataSourceRepresentation = map[string]interface{}{
-		"db_system_id": Representation{repType: Required, create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
+		"db_system_id": Representation{RepType: Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 	}
 
 	analyticsClusterRepresentation = map[string]interface{}{
-		"db_system_id": Representation{repType: Required, create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
-		"cluster_size": Representation{repType: Required, create: `2`, update: `3`},
-		"shape_name":   Representation{repType: Required, create: `VM.Standard.E2.2`, update: `VM.Standard.E2.4`},
-		"state":        Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`},
+		"db_system_id": Representation{RepType: Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
+		"cluster_size": Representation{RepType: Required, Create: `2`, Update: `3`},
+		"shape_name":   Representation{RepType: Required, Create: `VM.Standard.E2.2`, Update: `VM.Standard.E2.4`},
+		"state":        Representation{RepType: Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 	}
 
 	AnalyticsClusterResourceDependencies = MysqlConfigurationResourceConfig +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		AvailabilityDomainConfig +
-		generateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Required, Create, mysqlShapeDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation)
+		GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Required, Create, mysqlShapeDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation)
 )
 
 // issue-routing-tag: mysql/default
@@ -59,34 +59,34 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_mysql_analytics_cluster.test_analytics_cluster"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AnalyticsClusterResourceDependencies+
-		generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Create, analyticsClusterRepresentation), "mysql", "analyticsCluster", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AnalyticsClusterResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Create, analyticsClusterRepresentation), "mysql", "analyticsCluster", t)
 
 	ResourceTest(t, testAccCheckMysqlAnalyticsClusterDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies,
 		},
 
-		// verify create & stop
+		// verify Create & stop
 		{
 			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Create, analyticsClusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Create, analyticsClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
@@ -98,9 +98,9 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -112,7 +112,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 		// verify start & updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AnalyticsClusterResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Update, analyticsClusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Optional, Update, analyticsClusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
@@ -124,7 +124,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -136,7 +136,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", Required, Create, analyticsClusterSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AnalyticsClusterResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
@@ -176,7 +176,7 @@ func testAccCheckMysqlAnalyticsClusterDestroy(s *terraform.State) error {
 				request.DbSystemId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "mysql")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "mysql")
 
 			response, err := client.GetAnalyticsCluster(context.Background(), request)
 
@@ -209,7 +209,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("MysqlAnalyticsCluster") {
+	if !InSweeperExcludeList("MysqlAnalyticsCluster") {
 		resource.AddTestSweepers("MysqlAnalyticsCluster", &resource.Sweeper{
 			Name:         "MysqlAnalyticsCluster",
 			Dependencies: DependencyGraph["analyticsCluster"],
@@ -229,13 +229,13 @@ func sweepMysqlAnalyticsClusterResource(compartment string) error {
 			deleteAnalyticsClusterRequest := oci_mysql.DeleteAnalyticsClusterRequest{}
 			deleteAnalyticsClusterRequest.DbSystemId = &mysqlDbSystemId
 
-			deleteAnalyticsClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "mysql")
+			deleteAnalyticsClusterRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "mysql")
 			_, error := dbSystemClient.DeleteAnalyticsCluster(context.Background(), deleteAnalyticsClusterRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AnalyticsCluster of DbSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlDbSystemId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &mysqlDbSystemId, analyticsClusterSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &mysqlDbSystemId, analyticsClusterSweepWaitCondition, time.Duration(3*time.Minute),
 				analyticsClusterSweepResponseFetchOperation, "mysql", true)
 		}
 	}

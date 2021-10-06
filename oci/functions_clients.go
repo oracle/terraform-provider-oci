@@ -4,14 +4,14 @@
 package oci
 
 import (
-	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v49/functions"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_functions.FunctionsInvokeClient", &OracleClient{initClientFn: initFunctionsFunctionsInvokeClient})
-	RegisterOracleClient("oci_functions.FunctionsManagementClient", &OracleClient{initClientFn: initFunctionsFunctionsManagementClient})
+	RegisterOracleClient("oci_functions.FunctionsInvokeClient", &OracleClient{InitClientFn: initFunctionsFunctionsInvokeClient})
+	RegisterOracleClient("oci_functions.FunctionsManagementClient", &OracleClient{InitClientFn: initFunctionsFunctionsManagementClient})
 }
 
 func initFunctionsFunctionsInvokeClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

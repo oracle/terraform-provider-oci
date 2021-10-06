@@ -15,57 +15,57 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	VolumeRequiredOnlyResource = VolumeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation)
 
 	VolumeResourceConfig = VolumeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation)
 
 	volumeSingularDataSourceRepresentation = map[string]interface{}{
-		"volume_id": Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
+		"volume_id": Representation{RepType: Required, Create: `${oci_core_volume.test_volume.id}`},
 	}
 
 	volumeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":               Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":               Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":              RepresentationGroup{Required, volumeDataSourceFilterRepresentation}}
 	volumeDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_volume.test_volume.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_volume.test_volume.id}`}},
 	}
 
 	volumeRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"size_in_gbs":         Representation{repType: Optional, create: `51`, update: `52`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"backup_policy_id":    Representation{RepType: Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":          Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"size_in_gbs":         Representation{RepType: Optional, Create: `51`, Update: `52`},
 		"source_details":      RepresentationGroup{Optional, volumeSourceDetailsRepresentation},
-		"vpus_per_gb":         Representation{repType: Optional, create: `10`, update: `20`},
+		"vpus_per_gb":         Representation{RepType: Optional, Create: `10`, Update: `20`},
 	}
 	volumeBlockVolumeReplicasRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `NyKp:US-ASHBURN-AD-1`},
-		"display_name":        Representation{repType: Optional, create: `displayName`},
+		"availability_domain": Representation{RepType: Required, Create: `NyKp:US-ASHBURN-AD-1`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`},
 	}
 	volumeSourceDetailsRepresentation = map[string]interface{}{
-		"id":   Representation{repType: Required, create: `${oci_core_volume.source_volume.id}`},
-		"type": Representation{repType: Required, create: `volume`},
+		"id":   Representation{RepType: Required, Create: `${oci_core_volume.source_volume.id}`},
+		"type": Representation{RepType: Required, Create: `volume`},
 	}
 
 	VolumeResourceDependencies = VolumeBackupPolicyDependency +
-		generateResourceFromRepresentationMap("oci_core_volume", "source_volume", Required, Create, volumeRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_volume", "source_volume", Required, Create, volumeRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
@@ -93,15 +93,15 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_volume.test_volume"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+VolumeResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, volumeRepresentation), "core", "volume", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+VolumeResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, volumeRepresentation), "core", "volume", t)
 
 	ResourceTest(t, testAccCheckCoreVolumeDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckNoResourceAttr(resourceName, "backup_policy_id"),
@@ -110,19 +110,19 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
 				resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeResourceDependencies,
 		},
 
 		{
 			Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, volumeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, volumeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -143,9 +143,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -154,12 +154,12 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			),
 		},
 
-		//verify update to the compartment (the compartment will be switched back in the next step)
+		//verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create,
-					representationCopyWithNewProperties(volumeRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create,
+					RepresentationCopyWithNewProperties(volumeRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -181,7 +181,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -193,7 +193,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -214,7 +214,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "20"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -225,9 +225,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_volumes", "test_volumes", Optional, Update, volumeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_volumes", "test_volumes", Optional, Update, volumeDataSourceRepresentation) +
 				compartmentIdVariableStr + VolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
@@ -255,8 +255,8 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VolumeResourceDependencies + generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + VolumeResourceDependencies + GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "volume_id"),
 
@@ -282,7 +282,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
 		},
 		//verify resource import
 		{
@@ -319,7 +319,7 @@ func TestCoreVolumeResource_expectError(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckCoreVolumeDestroy,
 		Steps: []resource.TestStep{
-			// verify baseline create
+			// verify baseline Create
 			{
 				Config: config + `
 variable "volume_defined_tags_value" { default = "updatedValue" }
@@ -335,7 +335,7 @@ variable "volume_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
-						_, err = fromInstanceState(s, resourceName, "id")
+						_, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -350,8 +350,8 @@ variable "volume_size_in_gbs" { default = "abc" }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
-                ` + compartmentIdVariableStr + VolumeResourceDependencies + generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create,
-					getUpdatedRepresentationCopy("size_in_gbs", Representation{repType: Required, create: "abc"}, volumeRepresentation)),
+                ` + compartmentIdVariableStr + VolumeResourceDependencies + GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create,
+					GetUpdatedRepresentationCopy("size_in_gbs", Representation{RepType: Required, Create: "abc"}, volumeRepresentation)),
 				PlanOnly:    true,
 				ExpectError: regexp.MustCompile("must be a 64-bit integer"),
 			},
@@ -412,7 +412,7 @@ func TestCoreVolumeResource_int64_interpolation(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckCoreVolumeDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + VolumeResourceConfig + `
 data "oci_core_volumes" "test_volumes" {
@@ -469,7 +469,7 @@ func TestCoreVolumeResource_validations(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckCoreVolumeDestroy,
 		Steps: []resource.TestStep{
-			// verify baseline create
+			// verify baseline Create
 			{
 				Config: config + `
 variable "volume_defined_tags_value" { default = "updatedValue" }
@@ -485,7 +485,7 @@ variable "volume_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
-						_, err = fromInstanceState(s, resourceName, "id")
+						_, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -617,7 +617,7 @@ func testAccCheckCoreVolumeDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VolumeId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetVolume(context.Background(), request)
 
@@ -650,7 +650,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreVolume") {
+	if !InSweeperExcludeList("CoreVolume") {
 		resource.AddTestSweepers("CoreVolume", &resource.Sweeper{
 			Name:         "CoreVolume",
 			Dependencies: DependencyGraph["volume"],
@@ -671,13 +671,13 @@ func sweepCoreVolumeResource(compartment string) error {
 
 			deleteVolumeRequest.VolumeId = &volumeId
 
-			deleteVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteVolumeRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := blockstorageClient.DeleteVolume(context.Background(), deleteVolumeRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Volume %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &volumeId, volumeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &volumeId, volumeSweepWaitCondition, time.Duration(3*time.Minute),
 				volumeSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -685,7 +685,7 @@ func sweepCoreVolumeResource(compartment string) error {
 }
 
 func getVolumeIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "VolumeId")
+	ids := GetResourceIdsToSweep(compartment, "VolumeId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -704,7 +704,7 @@ func getVolumeIds(compartment string) ([]string, error) {
 	for _, volume := range listVolumesResponse.Items {
 		id := *volume.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "VolumeId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "VolumeId", id)
 	}
 	return resourceIds, nil
 }

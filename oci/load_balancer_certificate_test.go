@@ -13,31 +13,31 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v48/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v49/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	CertificateRequiredOnlyResource = CertificateResourceDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation)
+		GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation)
 
 	certificateDataSourceRepresentation = map[string]interface{}{
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"filter":           RepresentationGroup{Required, certificateDataSourceFilterRepresentation}}
 	certificateDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `certificate_name`},
-		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_certificate.test_certificate.certificate_name}`}},
+		"name":   Representation{RepType: Required, Create: `certificate_name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_load_balancer_certificate.test_certificate.certificate_name}`}},
 	}
 
 	certificateRepresentation = map[string]interface{}{
-		"certificate_name":   Representation{repType: Required, create: `example_certificate_bundle`},
-		"load_balancer_id":   Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"ca_certificate":     Representation{repType: Optional, create: `${var.ca_certificate_value}`},
-		"passphrase":         Representation{repType: Optional, create: `Mysecretunlockingcode42!1!`},
-		"private_key":        Representation{repType: Optional, create: `${var.private_key_value}`},
-		"public_certificate": Representation{repType: Optional, create: `${var.ca_certificate_value}`},
+		"certificate_name":   Representation{RepType: Required, Create: `example_certificate_bundle`},
+		"load_balancer_id":   Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"ca_certificate":     Representation{RepType: Optional, Create: `${var.ca_certificate_value}`},
+		"passphrase":         Representation{RepType: Optional, Create: `Mysecretunlockingcode42!1!`},
+		"private_key":        Representation{RepType: Optional, Create: `${var.private_key_value}`},
+		"public_certificate": Representation{RepType: Optional, Create: `${var.ca_certificate_value}`},
 	}
 
 	caCertificate            = getEnvSettingWithBlankDefault("ca_certificate")
@@ -46,7 +46,7 @@ var (
 	privateKeyData        = getEnvSettingWithBlankDefault("private_key_data")
 	privateKeyVariableStr = fmt.Sprintf("variable \"private_key_value\" { default = \"%s\" }\n", privateKeyData)
 
-	CertificateResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+	CertificateResourceDependencies = GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies + privateKeyVariableStr + caCertificateVariableStr
 )
 
@@ -64,29 +64,29 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 	datasourceName := "data.oci_load_balancer_certificates.test_certificates"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CertificateResourceDependencies+
-		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation), "loadbalancer", "certificate", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CertificateResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation), "loadbalancer", "certificate", t)
 
 	ResourceTest(t, testAccCheckLoadBalancerCertificateDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + CertificateResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "ca_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
@@ -96,9 +96,9 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 				resource.TestMatchResourceAttr(resourceName, "public_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -110,9 +110,9 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_certificates", "test_certificates", Optional, Update, certificateDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_certificates", "test_certificates", Optional, Update, certificateDataSourceRepresentation) +
 				compartmentIdVariableStr + CertificateResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Update, certificateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Update, certificateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
@@ -149,7 +149,7 @@ func testAccCheckLoadBalancerCertificateDestroy(s *terraform.State) error {
 				request.LoadBalancerId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 			response, err := client.ListCertificates(context.Background(), request)
 
 			if err == nil {
@@ -180,7 +180,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoadBalancerCertificate") {
+	if !InSweeperExcludeList("LoadBalancerCertificate") {
 		resource.AddTestSweepers("LoadBalancerCertificate", &resource.Sweeper{
 			Name:         "LoadBalancerCertificate",
 			Dependencies: DependencyGraph["certificate"],
@@ -199,7 +199,7 @@ func sweepLoadBalancerCertificateResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[certificateId]; !ok {
 			deleteCertificateRequest := oci_load_balancer.DeleteCertificateRequest{}
 
-			deleteCertificateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			deleteCertificateRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 			_, error := loadBalancerClient.DeleteCertificate(context.Background(), deleteCertificateRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Certificate %s %s, It is possible that the resource is already deleted. Please verify manually \n", certificateId, error)
@@ -211,7 +211,7 @@ func sweepLoadBalancerCertificateResource(compartment string) error {
 }
 
 func getLBCertificateIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "CertificateId")
+	ids := GetResourceIdsToSweep(compartment, "CertificateId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -236,7 +236,7 @@ func getLBCertificateIds(compartment string) ([]string, error) {
 		for _, certificate := range listCertificatesResponse.Items {
 			id := *certificate.CertificateName
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "CertificateId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "CertificateId", id)
 		}
 
 	}

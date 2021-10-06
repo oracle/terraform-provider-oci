@@ -37,12 +37,12 @@ var (
 `
 
 	govLoadBalancerResourceDependencies = VcnRequiredOnlyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"ipv6cidr_block": Representation{repType: Optional, create: `fd00:aaaa:0123::/48`},
-			"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"ipv6cidr_block": Representation{RepType: Optional, Create: `fd00:aaaa:0123::/48`},
+			"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 		})) +
 		VcnResourceDependencies + govLoadBalancerSubnetDependencies +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
 )
 
 // issue-routing-tag: load_balancer/default
@@ -71,11 +71,11 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckLoadBalancerLoadBalancerDestroy,
 		Steps: []resource.TestStep{
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + govLoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
-						"ip_mode": Representation{repType: Optional, create: `IPV6`},
+					GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, RepresentationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
+						"ip_mode": Representation{RepType: Optional, Create: `IPV6`},
 					})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -92,7 +92,7 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -101,8 +101,8 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + govLoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
-						"ip_mode": Representation{repType: Optional, create: `IPV6`},
+					GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, RepresentationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
+						"ip_mode": Representation{RepType: Optional, Create: `IPV6`},
 					})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -119,7 +119,7 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -130,10 +130,10 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
 					compartmentIdVariableStr + govLoadBalancerResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
-						"ip_mode": Representation{repType: Optional, create: `IPV6`},
+					GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, RepresentationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
+						"ip_mode": Representation{RepType: Optional, Create: `IPV6`},
 					})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 )
 
 func init() {
@@ -85,7 +85,7 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 										Type:             schema.TypeString,
 										Optional:         true,
 										Computed:         true,
-										DiffSuppressFunc: jsonStringDiffSuppressFunction,
+										DiffSuppressFunc: JsonStringDiffSuppressFunction,
 									},
 									"configurations": {
 										Type:     schema.TypeList,
@@ -575,7 +575,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if sourceDetectorRecipeId, ok := s.D.GetOkExists("source_detector_recipe_id"); ok {
@@ -583,7 +583,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) Create() error {
 		request.SourceDetectorRecipeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.CreateDetectorRecipe(context.Background(), request)
 	if err != nil {
@@ -600,7 +600,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DetectorRecipeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.GetDetectorRecipe(context.Background(), request)
 	if err != nil {
@@ -662,10 +662,10 @@ func (s *CloudGuardDetectorRecipeResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.UpdateDetectorRecipe(context.Background(), request)
 	if err != nil {
@@ -682,7 +682,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DetectorRecipeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	_, err := s.Client.DeleteDetectorRecipe(context.Background(), request)
 	return err
@@ -810,7 +810,7 @@ func DetectorDetailsToMap(obj *oci_cloud_guard.DetectorDetails) map[string]inter
 	result := map[string]interface{}{}
 
 	if obj.Condition != nil {
-		condition, err := convertObjectToJsonString(obj.Condition)
+		condition, err := ConvertObjectToJsonString(obj.Condition)
 		if err == nil {
 			result["condition"] = condition
 		}
@@ -1039,7 +1039,7 @@ func (s *CloudGuardDetectorRecipeResourceCrud) updateCompartment(compartment int
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DetectorRecipeId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	_, err := s.Client.ChangeDetectorRecipeCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

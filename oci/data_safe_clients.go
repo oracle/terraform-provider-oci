@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_data_safe.DataSafeClient", &OracleClient{initClientFn: initDatasafeDataSafeClient})
+	RegisterOracleClient("oci_data_safe.DataSafeClient", &OracleClient{InitClientFn: initDatasafeDataSafeClient})
 }
 
 func initDatasafeDataSafeClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

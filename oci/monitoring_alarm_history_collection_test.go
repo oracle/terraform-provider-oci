@@ -14,14 +14,14 @@ import (
 
 var (
 	alarmHistoryCollectionSingularDataSourceRepresentation = map[string]interface{}{
-		"alarm_id":                           Representation{repType: Required, create: `${oci_monitoring_alarm.test_alarm.id}`},
-		"alarm_historytype":                  Representation{repType: Optional, create: `STATE_TRANSITION_HISTORY`},
-		"timestamp_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-12-01T01:00:00.001Z`},
-		"timestamp_less_than":                Representation{repType: Optional, create: `${timestamp()}`},
+		"alarm_id":                           Representation{RepType: Required, Create: `${oci_monitoring_alarm.test_alarm.id}`},
+		"alarm_historytype":                  Representation{RepType: Optional, Create: `STATE_TRANSITION_HISTORY`},
+		"timestamp_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-12-01T01:00:00.001Z`},
+		"timestamp_less_than":                Representation{RepType: Optional, Create: `${timestamp()}`},
 	}
 
-	AlarmHistoryCollectionResourceConfig = generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation) +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+	AlarmHistoryCollectionResourceConfig = GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
 // issue-routing-tag: monitoring/default
@@ -36,13 +36,13 @@ func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_monitoring_alarm_history_collection.test_alarm_history_collection"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_monitoring_alarm_history_collection", "test_alarm_history_collection", Optional, Create, alarmHistoryCollectionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm_history_collection", "test_alarm_history_collection", Optional, Create, alarmHistoryCollectionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AlarmHistoryCollectionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "alarm_historytype", "STATE_TRANSITION_HISTORY"),

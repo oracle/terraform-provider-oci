@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v48/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
 )
 
 func init() {
@@ -201,7 +201,7 @@ func (s *DevopsProjectResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -220,7 +220,7 @@ func (s *DevopsProjectResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.CreateProject(context.Background(), request)
 	if err != nil {
@@ -228,7 +228,7 @@ func (s *DevopsProjectResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProjectFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getProjectFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DevopsProjectResourceCrud) getProjectFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -271,7 +271,7 @@ func projectWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 
 func projectWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "devops")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = projectWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_devops.GetWorkRequestResponse{}
@@ -352,7 +352,7 @@ func (s *DevopsProjectResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ProjectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.GetProject(context.Background(), request)
 	if err != nil {
@@ -389,7 +389,7 @@ func (s *DevopsProjectResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if notificationConfig, ok := s.D.GetOkExists("notification_config"); ok {
@@ -406,7 +406,7 @@ func (s *DevopsProjectResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ProjectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.UpdateProject(context.Background(), request)
 	if err != nil {
@@ -414,7 +414,7 @@ func (s *DevopsProjectResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProjectFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProjectFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DevopsProjectResourceCrud) Delete() error {
@@ -423,7 +423,7 @@ func (s *DevopsProjectResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ProjectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.DeleteProject(context.Background(), request)
 	if err != nil {
@@ -567,7 +567,7 @@ func (s *DevopsProjectResourceCrud) updateCompartment(compartment interface{}) e
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ProjectId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.ChangeProjectCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -575,5 +575,5 @@ func (s *DevopsProjectResourceCrud) updateCompartment(compartment interface{}) e
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProjectFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProjectFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

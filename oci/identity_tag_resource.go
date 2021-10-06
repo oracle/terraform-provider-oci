@@ -18,8 +18,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 func init() {
@@ -32,9 +32,9 @@ func IdentityTagResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("15m"),
-			Update: getTimeoutDuration("15m"),
-			Delete: getTimeoutDuration("12h"),
+			Create: GetTimeoutDuration("15m"),
+			Update: GetTimeoutDuration("15m"),
+			Delete: GetTimeoutDuration("12h"),
 		},
 		Create: createIdentityTag,
 		Read:   readIdentityTag,
@@ -214,7 +214,7 @@ func (s *IdentityTagResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isCostTracking, ok := s.D.GetOkExists("is_cost_tracking"); ok {
@@ -243,14 +243,14 @@ func (s *IdentityTagResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	contextToUse := context.Background()
 	response, err := s.Client.CreateTag(contextToUse, request)
 	if err == nil {
 		s.Res = &response.Tag
 		s.D.SetId(*s.Res.Id)
-		//is_retired field is currently not supported in create so update to make server state same as config
+		//is_retired field is currently not supported in Create so Update to make server state same as config
 		if updateError := s.Update(); updateError != nil {
 			return updateError
 		}
@@ -309,7 +309,7 @@ func (s *IdentityTagResourceCrud) Get() error {
 		request.TagNamespaceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetTag(context.Background(), request)
 	if err != nil {
@@ -345,7 +345,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isCostTracking, ok := s.D.GetOkExists("is_cost_tracking"); ok {
@@ -384,7 +384,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 			request.Validator = baseObject
 		}
 	} else {
-		// For testing only- When Update() is called from Create() and there is no validator in config (Required create)
+		// For testing only- When Update() is called from Create() and there is no validator in config (Required Create)
 		// remove the validator for an imported tag as Step 0 of test expects tag without validator
 		importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
 		if importIfExists {
@@ -395,7 +395,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateTag(context.Background(), request)
 	if err != nil {
@@ -430,7 +430,7 @@ func (s *IdentityTagResourceCrud) Delete() error {
 		request.TagNamespaceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 	response, err := s.Client.DeleteTag(context.Background(), request)
 
 	if err != nil {
@@ -446,7 +446,7 @@ func (s *IdentityTagResourceCrud) Delete() error {
 
 func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "identity")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "identity")
 	retryPolicy.ShouldRetryOperation = analyticsInstanceWorkRequestShouldRetryFunc(timeout)
 	response := oci_identity.GetTaggingWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{

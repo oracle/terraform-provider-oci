@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ons "github.com/oracle/oci-go-sdk/v48/ons"
+	oci_ons "github.com/oracle/oci-go-sdk/v49/ons"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *OnsNotificationTopicDataSourceCrud) Get() error {
 		request.TopicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ons")
 
 	response, err := s.Client.GetTopic(context.Background(), request)
 	if err != nil {

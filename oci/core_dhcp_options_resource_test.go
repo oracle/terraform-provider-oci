@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -259,10 +259,10 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 					resource.TestCheckNoResourceAttr("oci_core_default_dhcp_options.default", "vcn_id"),
 					resource.TestCheckResourceAttrSet("oci_core_default_dhcp_options.default", "compartment_id"),
 					func(s *terraform.State) (err error) {
-						if resDefaultId, err = fromInstanceState(s, "oci_core_default_dhcp_options.default", "id"); err != nil {
+						if resDefaultId, err = FromInstanceState(s, "oci_core_default_dhcp_options.default", "id"); err != nil {
 							return err
 						}
-						resOpt4Id, err = fromInstanceState(s, "oci_core_dhcp_options.opt4", "id")
+						resOpt4Id, err = FromInstanceState(s, "oci_core_dhcp_options.opt4", "id")
 						return err
 					},
 				),
@@ -293,7 +293,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 					resource.TestCheckNoResourceAttr("oci_core_default_dhcp_options.default", "vcn_id"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_core_default_dhcp_options.default", "id")
+						resId2, err = FromInstanceState(s, "oci_core_default_dhcp_options.default", "id")
 						if resDefaultId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -339,7 +339,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 					}` + defaultDhcpOpts,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_core_dhcp_options.opt4", "id")
+						resId2, err = FromInstanceState(s, "oci_core_dhcp_options.opt4", "id")
 						if resOpt4Id == resId2 {
 							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
 						}
@@ -352,7 +352,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 }
 
 //If you set DhcpDnsOption to `VcnLocalPlusInternet`, and you assign a DNS label to the VCN during creation, the search domain name in the VCN's default set of DHCP options is automatically set to the VCN domain
-//To avoid multiple applies we perform an apply after the create in order have the options match what the user has in the config
+//To avoid multiple applies we perform an apply after the Create in order have the options match what the user has in the config
 //This test makes sure we handle that case correctly and that there is a non empty plan after the apply
 // issue-routing-tag: core/virtualNetwork
 func TestResourceCoreDHCPOptions_avoidServiceDefault(t *testing.T) {

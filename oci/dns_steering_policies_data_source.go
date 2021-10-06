@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 )
 
 func init() {
@@ -20,7 +20,7 @@ func DnsSteeringPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDnsSteeringPolicies,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -137,7 +137,7 @@ func (s *DnsSteeringPoliciesDataSourceCrud) Get() error {
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.ListSteeringPolicies(context.Background(), request)
 	if err != nil {

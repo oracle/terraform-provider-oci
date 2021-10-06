@@ -12,48 +12,48 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ViewRequiredOnlyResource = ViewResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation)
 
 	ViewResourceConfig = ViewResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation)
 
 	viewSingularDataSourceRepresentation = map[string]interface{}{
-		"view_id": Representation{repType: Required, create: `${oci_dns_view.test_view.id}`},
-		"scope":   Representation{repType: Required, create: `PRIVATE`},
+		"view_id": Representation{RepType: Required, Create: `${oci_dns_view.test_view.id}`},
+		"scope":   Representation{RepType: Required, Create: `PRIVATE`},
 	}
 
 	viewDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_dns_view.test_view.id}`},
-		"scope":          Representation{repType: Required, create: `PRIVATE`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_dns_view.test_view.id}`},
+		"scope":          Representation{RepType: Required, Create: `PRIVATE`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, viewDataSourceFilterRepresentation}}
 	viewDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dns_view.test_view.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dns_view.test_view.id}`}},
 	}
 
 	viewRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"scope":          Representation{repType: Required, create: `PRIVATE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"scope":          Representation{RepType: Required, Create: `PRIVATE`},
 	}
 	viewRepresentationDefault = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
 
 	ViewResourceDependencies = DefinedTagsDependencies
@@ -77,33 +77,33 @@ func TestDnsViewResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_dns_view.test_view"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ViewResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create, viewRepresentation), "dns", "view", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ViewResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create, viewRepresentation), "dns", "view", t)
 
 	ResourceTest(t, testAccCheckDnsViewDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ViewResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ViewResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ViewResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create, viewRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create, viewRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -118,10 +118,10 @@ func TestDnsViewResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					// Resource discovery is disabled for Views
 					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//	if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 					//		return errExport
 					//	}
 					//}
@@ -130,12 +130,12 @@ func TestDnsViewResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ViewResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create,
-					representationCopyWithNewProperties(viewRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create,
+					RepresentationCopyWithNewProperties(viewRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -151,7 +151,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -163,7 +163,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ViewResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -178,7 +178,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -189,9 +189,9 @@ func TestDnsViewResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dns_views", "test_views", Optional, Update, viewDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dns_views", "test_views", Optional, Update, viewDataSourceRepresentation) +
 				compartmentIdVariableStr + ViewResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -213,7 +213,7 @@ func TestDnsViewResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dns_view", "test_view", Required, Create, viewSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ViewResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
@@ -273,7 +273,7 @@ func testAccCheckDnsViewDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ViewId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 
 			_, err := client.GetView(context.Background(), request)
 
@@ -298,7 +298,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DnsView") {
+	if !InSweeperExcludeList("DnsView") {
 		resource.AddTestSweepers("DnsView", &resource.Sweeper{
 			Name:         "DnsView",
 			Dependencies: DependencyGraph["view"],
@@ -319,13 +319,13 @@ func sweepDnsViewResource(compartment string) error {
 
 			deleteViewRequest.ViewId = &viewId
 
-			deleteViewRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			deleteViewRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 			_, error := dnsClient.DeleteView(context.Background(), deleteViewRequest)
 			if error != nil {
 				fmt.Printf("Error deleting View %s %s, It is possible that the resource is already deleted. Please verify manually \n", viewId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &viewId, viewSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &viewId, viewSweepWaitCondition, time.Duration(3*time.Minute),
 				viewSweepResponseFetchOperation, "dns", true)
 		}
 	}
@@ -333,7 +333,7 @@ func sweepDnsViewResource(compartment string) error {
 }
 
 func getViewIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ViewId")
+	ids := GetResourceIdsToSweep(compartment, "ViewId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -352,7 +352,7 @@ func getViewIds(compartment string) ([]string, error) {
 	for _, view := range listViewsResponse.Items {
 		id := *view.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ViewId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ViewId", id)
 	}
 	return resourceIds, nil
 }

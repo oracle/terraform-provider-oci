@@ -12,58 +12,58 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	SecurityAssessmentRequiredOnlyResource = SecurityAssessmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Required, Create, securityAssessmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Required, Create, securityAssessmentRepresentation)
 
 	SecurityAssessmentResourceConfig = SecurityAssessmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Update, securityAssessmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Update, securityAssessmentRepresentation)
 
 	securityAssessmentSingularDataSourceRepresentation = map[string]interface{}{
-		"security_assessment_id": Representation{repType: Required, create: `${oci_data_safe_security_assessment.test_security_assessment.id}`},
+		"security_assessment_id": Representation{RepType: Required, Create: `${oci_data_safe_security_assessment.test_security_assessment.id}`},
 	}
 
 	securityAssessmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"target_id":      Representation{repType: Required, create: `${oci_data_safe_target_database.test_target_database.id}`},
-		"type":           Representation{repType: Optional, create: `SAVED`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"target_id":      Representation{RepType: Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"type":           Representation{RepType: Optional, Create: `SAVED`},
 		"filter":         RepresentationGroup{Required, securityAssessmentDataSourceFilterRepresentation}}
 	securityAssessmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_data_safe_security_assessment.test_security_assessment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_data_safe_security_assessment.test_security_assessment.id}`}},
 	}
 
 	securityAssessmentRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"target_id":      Representation{repType: Required, create: `${oci_data_safe_target_database.test_target_database.id}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `EBS assessment`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"target_id":      Representation{RepType: Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `EBS assessment`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      RepresentationGroup{Required, ignoreChangesSecurityAssessmentRepresentation},
 	}
 
 	securityAssessmentChangeCompartmentRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"target_id":      Representation{repType: Required, create: `${oci_data_safe_target_database.test_target_database.id}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `EBS assessment`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"schedule":       Representation{repType: Optional, create: `schedule`, update: `schedule2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"target_id":      Representation{RepType: Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `EBS assessment`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"schedule":       Representation{RepType: Optional, Create: `schedule`, Update: `schedule2`},
 		"lifecycle":      RepresentationGroup{Required, ignoreChangesSecurityAssessmentRepresentation},
 	}
 
 	ignoreChangesSecurityAssessmentRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
-	SecurityAssessmentResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
+	SecurityAssessmentResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -85,34 +85,34 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_data_safe_security_assessment.test_security_assessment"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SecurityAssessmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Create, securityAssessmentRepresentation), "datasafe", "securityAssessment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SecurityAssessmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Create, securityAssessmentRepresentation), "datasafe", "securityAssessment", t)
 
 	ResourceTest(t, testAccCheckDataSafeSecurityAssessmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Required, Create, securityAssessmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Required, Create, securityAssessmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Create, securityAssessmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Create, securityAssessmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -126,9 +126,9 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -137,12 +137,12 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SecurityAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Create,
-					representationCopyWithNewProperties(securityAssessmentRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Create,
+					RepresentationCopyWithNewProperties(securityAssessmentRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -156,7 +156,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -168,7 +168,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SecurityAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Required, Update, securityAssessmentChangeCompartmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Required, Update, securityAssessmentChangeCompartmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -180,7 +180,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -191,9 +191,9 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_security_assessments", "test_security_assessments", Optional, Update, securityAssessmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessments", "test_security_assessments", Optional, Update, securityAssessmentDataSourceRepresentation) +
 				compartmentIdVariableStr + SecurityAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Update, securityAssessmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Optional, Update, securityAssessmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
@@ -215,7 +215,7 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Required, Create, securityAssessmentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment", Required, Create, securityAssessmentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SecurityAssessmentRequiredOnlyResource,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "security_assessment_id"),
@@ -264,7 +264,7 @@ func testAccCheckDataSafeSecurityAssessmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SecurityAssessmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 
 			_, err := client.GetSecurityAssessment(context.Background(), request)
 
@@ -289,7 +289,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DataSafeSecurityAssessment") {
+	if !InSweeperExcludeList("DataSafeSecurityAssessment") {
 		resource.AddTestSweepers("DataSafeSecurityAssessment", &resource.Sweeper{
 			Name:         "DataSafeSecurityAssessment",
 			Dependencies: DependencyGraph["securityassessment"],
@@ -310,7 +310,7 @@ func sweepDataSafeSecurityAssessmentResource(compartment string) error {
 
 			deleteSecurityAssessmentRequest.SecurityAssessmentId = &securityAssessmentId
 
-			deleteSecurityAssessmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			deleteSecurityAssessmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 			_, error := dataSafeClient.DeleteSecurityAssessment(context.Background(), deleteSecurityAssessmentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting SecurityAssessment %s %s, It is possible that the resource is already deleted. Please verify manually \n", securityAssessmentId, error)
@@ -322,7 +322,7 @@ func sweepDataSafeSecurityAssessmentResource(compartment string) error {
 }
 
 func getSecurityAssessmentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SecurityAssessmentId")
+	ids := GetResourceIdsToSweep(compartment, "SecurityAssessmentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -340,7 +340,7 @@ func getSecurityAssessmentIds(compartment string) ([]string, error) {
 	for _, securityAssessment := range listSecurityAssessmentsResponse.Items {
 		id := *securityAssessment.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SecurityAssessmentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SecurityAssessmentId", id)
 	}
 	return resourceIds, nil
 }

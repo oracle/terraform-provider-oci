@@ -15,8 +15,8 @@ import (
 
 var (
 	clusterNetworkInstanceDataSourceRepresentation = map[string]interface{}{
-		"cluster_network_id": Representation{repType: Required, create: `${oci_core_cluster_network.test_cluster_network.id}`},
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
+		"cluster_network_id": Representation{RepType: Required, Create: `${oci_core_cluster_network.test_cluster_network.id}`},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	ClusterNetworkInstanceResourceConfig = ClusterNetworkResourceConfig
@@ -36,13 +36,13 @@ func TestCoreClusterNetworkInstanceResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_cluster_network_instances.test_cluster_network_instances"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_cluster_network_instances", "test_cluster_network_instances", Required, Create, clusterNetworkInstanceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_cluster_network_instances", "test_cluster_network_instances", Required, Create, clusterNetworkInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr + ClusterNetworkInstanceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "cluster_network_id"),

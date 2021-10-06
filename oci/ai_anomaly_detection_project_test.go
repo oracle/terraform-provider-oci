@@ -13,44 +13,44 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v48/aianomalydetection"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v49/aianomalydetection"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	AiAnomalyDetectionProjectRequiredOnlyResource = AiAnomalyDetectionProjectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Required, Create, aiAnomalyDetectionProjectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Required, Create, aiAnomalyDetectionProjectRepresentation)
 
 	AiAnomalyDetectionProjectResourceConfig = AiAnomalyDetectionProjectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Update, aiAnomalyDetectionProjectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Update, aiAnomalyDetectionProjectRepresentation)
 
 	aiAnomalyDetectionProjectSingularDataSourceRepresentation = map[string]interface{}{
-		"project_id": Representation{repType: Required, create: `${oci_ai_anomaly_detection_project.test_project.id}`},
+		"project_id": Representation{RepType: Required, Create: `${oci_ai_anomaly_detection_project.test_project.id}`},
 	}
 
 	aiAnomalyDetectionProjectDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, aiAnomalyDetectionProjectDataSourceFilterRepresentation}}
 	aiAnomalyDetectionProjectDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_ai_anomaly_detection_project.test_project.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_ai_anomaly_detection_project.test_project.id}`}},
 	}
 
 	aiAnomalyDetectionProjectRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      RepresentationGroup{Required, ignoreDefinedTagsChangesRep},
 	}
 
 	ignoreDefinedTagsChangesRep = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
 	AiAnomalyDetectionProjectResourceDependencies = DefinedTagsDependencies
@@ -74,33 +74,33 @@ func TestAiAnomalyDetectionProjectResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AiAnomalyDetectionProjectResourceDependencies+
-		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Create, aiAnomalyDetectionProjectRepresentation), "aianomalydetection", "project", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AiAnomalyDetectionProjectResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Create, aiAnomalyDetectionProjectRepresentation), "aianomalydetection", "project", t)
 
 	ResourceTest(t, testAccCheckAiAnomalyDetectionProjectDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AiAnomalyDetectionProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Required, Create, aiAnomalyDetectionProjectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Required, Create, aiAnomalyDetectionProjectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AiAnomalyDetectionProjectResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AiAnomalyDetectionProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Create, aiAnomalyDetectionProjectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Create, aiAnomalyDetectionProjectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -112,9 +112,9 @@ func TestAiAnomalyDetectionProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -123,12 +123,12 @@ func TestAiAnomalyDetectionProjectResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AiAnomalyDetectionProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Create,
-					representationCopyWithNewProperties(aiAnomalyDetectionProjectRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Create,
+					RepresentationCopyWithNewProperties(aiAnomalyDetectionProjectRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -141,7 +141,7 @@ func TestAiAnomalyDetectionProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -153,7 +153,7 @@ func TestAiAnomalyDetectionProjectResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AiAnomalyDetectionProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Update, aiAnomalyDetectionProjectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Update, aiAnomalyDetectionProjectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -165,7 +165,7 @@ func TestAiAnomalyDetectionProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -176,9 +176,9 @@ func TestAiAnomalyDetectionProjectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_projects", "test_projects", Optional, Update, aiAnomalyDetectionProjectDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_projects", "test_projects", Optional, Update, aiAnomalyDetectionProjectDataSourceRepresentation) +
 				compartmentIdVariableStr + AiAnomalyDetectionProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Update, aiAnomalyDetectionProjectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Optional, Update, aiAnomalyDetectionProjectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -191,7 +191,7 @@ func TestAiAnomalyDetectionProjectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Required, Create, aiAnomalyDetectionProjectSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Required, Create, aiAnomalyDetectionProjectSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AiAnomalyDetectionProjectResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
@@ -233,7 +233,7 @@ func testAccCheckAiAnomalyDetectionProjectDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ProjectId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ai_anomaly_detection")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ai_anomaly_detection")
 
 			response, err := client.GetProject(context.Background(), request)
 
@@ -266,7 +266,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("AiAnomalyDetectionProject") {
+	if !InSweeperExcludeList("AiAnomalyDetectionProject") {
 		resource.AddTestSweepers("AiAnomalyDetectionProject", &resource.Sweeper{
 			Name:         "AiAnomalyDetectionProject",
 			Dependencies: DependencyGraph["project"],
@@ -287,13 +287,13 @@ func sweepAiAnomalyDetectionProjectResource(compartment string) error {
 
 			deleteProjectRequest.ProjectId = &projectId
 
-			deleteProjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ai_anomaly_detection")
+			deleteProjectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ai_anomaly_detection")
 			_, error := anomalyDetectionClient.DeleteProject(context.Background(), deleteProjectRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Project %s %s, It is possible that the resource is already deleted. Please verify manually \n", projectId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &projectId, aiAnomalyDetectionProjectSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &projectId, aiAnomalyDetectionProjectSweepWaitCondition, time.Duration(3*time.Minute),
 				aiAnomalyDetectionProjectSweepResponseFetchOperation, "ai_anomaly_detection", true)
 		}
 	}
@@ -301,7 +301,7 @@ func sweepAiAnomalyDetectionProjectResource(compartment string) error {
 }
 
 func aiAnomalyDetectionGetProjectIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ProjectId")
+	ids := GetResourceIdsToSweep(compartment, "ProjectId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -320,7 +320,7 @@ func aiAnomalyDetectionGetProjectIds(compartment string) ([]string, error) {
 	for _, project := range listProjectsResponse.Items {
 		id := *project.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ProjectId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ProjectId", id)
 	}
 	return resourceIds, nil
 }

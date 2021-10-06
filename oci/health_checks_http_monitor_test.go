@@ -12,48 +12,48 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_health_checks "github.com/oracle/oci-go-sdk/v48/healthchecks"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v49/healthchecks"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	HttpMonitorRequiredOnlyResource = HttpMonitorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation)
 
 	HttpMonitorResourceConfig = HttpMonitorResourceDependencies +
-		generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation)
 
 	httpMonitorSingularDataSourceRepresentation = map[string]interface{}{
-		"monitor_id": Representation{repType: Required, create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
+		"monitor_id": Representation{RepType: Required, Create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
 	}
 
 	httpMonitorDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"home_region":    Representation{repType: Optional, create: `${var.region}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"home_region":    Representation{RepType: Optional, Create: `${var.region}`},
 		"filter":         RepresentationGroup{Required, httpMonitorDataSourceFilterRepresentation}}
 	httpMonitorDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_health_checks_http_monitor.test_http_monitor.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_health_checks_http_monitor.test_http_monitor.id}`}},
 	}
 
 	httpMonitorRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"interval_in_seconds": Representation{repType: Required, create: `10`, update: `30`},
-		"protocol":            Representation{repType: Required, create: `HTTP`, update: `HTTPS`},
-		"targets":             Representation{repType: Required, create: []string{`www.oracle.com`}, update: []string{`www.google.com`}},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"headers":             Representation{repType: Optional, create: map[string]string{"headers": "headers"}, update: map[string]string{"headers2": "headers2"}},
-		"is_enabled":          Representation{repType: Optional, create: `false`, update: `true`},
-		"method":              Representation{repType: Optional, create: `GET`},
-		"path":                Representation{repType: Optional, create: `/`},
-		"port":                Representation{repType: Optional, create: `80`, update: `443`},
-		"timeout_in_seconds":  Representation{repType: Optional, create: `10`, update: `30`},
-		"vantage_point_names": Representation{repType: Optional, create: []string{`goo-chs`}},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"interval_in_seconds": Representation{RepType: Required, Create: `10`, Update: `30`},
+		"protocol":            Representation{RepType: Required, Create: `HTTP`, Update: `HTTPS`},
+		"targets":             Representation{RepType: Required, Create: []string{`www.oracle.com`}, Update: []string{`www.google.com`}},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"headers":             Representation{RepType: Optional, Create: map[string]string{"headers": "headers"}, Update: map[string]string{"headers2": "headers2"}},
+		"is_enabled":          Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"method":              Representation{RepType: Optional, Create: `GET`},
+		"path":                Representation{RepType: Optional, Create: `/`},
+		"port":                Representation{RepType: Optional, Create: `80`, Update: `443`},
+		"timeout_in_seconds":  Representation{RepType: Optional, Create: `10`, Update: `30`},
+		"vantage_point_names": Representation{RepType: Optional, Create: []string{`goo-chs`}},
 	}
 
 	HttpMonitorResourceDependencies = DefinedTagsDependencies
@@ -77,15 +77,15 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_health_checks_http_monitor.test_http_monitor"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+HttpMonitorResourceDependencies+
-		generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create, httpMonitorRepresentation), "healthchecks", "httpMonitor", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+HttpMonitorResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create, httpMonitorRepresentation), "healthchecks", "httpMonitor", t)
 
 	ResourceTest(t, testAccCheckHealthChecksHttpMonitorDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -94,20 +94,20 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create, httpMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create, httpMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -125,9 +125,9 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -136,12 +136,12 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + HttpMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create,
-					representationCopyWithNewProperties(httpMonitorRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create,
+					RepresentationCopyWithNewProperties(httpMonitorRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -160,7 +160,7 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -172,7 +172,7 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + HttpMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -190,7 +190,7 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -201,9 +201,9 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_health_checks_http_monitors", "test_http_monitors", Optional, Update, httpMonitorDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_health_checks_http_monitors", "test_http_monitors", Optional, Update, httpMonitorDataSourceRepresentation) +
 				compartmentIdVariableStr + HttpMonitorResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -226,7 +226,7 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + HttpMonitorResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
@@ -277,7 +277,7 @@ func testAccCheckHealthChecksHttpMonitorDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.MonitorId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "health_checks")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "health_checks")
 
 			_, err := client.GetHttpMonitor(context.Background(), request)
 
@@ -302,7 +302,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("HealthChecksHttpMonitor") {
+	if !InSweeperExcludeList("HealthChecksHttpMonitor") {
 		resource.AddTestSweepers("HealthChecksHttpMonitor", &resource.Sweeper{
 			Name:         "HealthChecksHttpMonitor",
 			Dependencies: DependencyGraph["httpMonitor"],
@@ -323,7 +323,7 @@ func sweepHealthChecksHttpMonitorResource(compartment string) error {
 
 			deleteHttpMonitorRequest.MonitorId = &httpMonitorId
 
-			deleteHttpMonitorRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "health_checks")
+			deleteHttpMonitorRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "health_checks")
 			_, error := healthChecksClient.DeleteHttpMonitor(context.Background(), deleteHttpMonitorRequest)
 			if error != nil {
 				fmt.Printf("Error deleting HttpMonitor %s %s, It is possible that the resource is already deleted. Please verify manually \n", httpMonitorId, error)
@@ -335,7 +335,7 @@ func sweepHealthChecksHttpMonitorResource(compartment string) error {
 }
 
 func getHttpMonitorIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "HttpMonitorId")
+	ids := GetResourceIdsToSweep(compartment, "HttpMonitorId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -353,7 +353,7 @@ func getHttpMonitorIds(compartment string) ([]string, error) {
 	for _, httpMonitor := range listHttpMonitorsResponse.Items {
 		id := *httpMonitor.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "HttpMonitorId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "HttpMonitorId", id)
 	}
 	return resourceIds, nil
 }

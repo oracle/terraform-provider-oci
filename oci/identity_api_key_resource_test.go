@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -28,7 +28,7 @@ type ResourceIdentityAPIKeyTestSuite struct {
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
-	_, tokenFn := tokenizeWithHttpReplay("api_key")
+	_, tokenFn := TokenizeWithHttpReplay("api_key")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
@@ -41,7 +41,7 @@ func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) TestAccResourceIdentityAPIKey_basic() {
-	_, tokenFn := tokenizeWithHttpReplay("api_key_2")
+	_, tokenFn := TokenizeWithHttpReplay("api_key_2")
 	tokenVars := map[string]string{
 		"user_id": "${oci_identity_user.t.id}",
 		"key_value": `<<EOF

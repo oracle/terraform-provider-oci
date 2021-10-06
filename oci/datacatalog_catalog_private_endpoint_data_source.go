@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v48/datacatalog"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v49/datacatalog"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *DatacatalogCatalogPrivateEndpointDataSourceCrud) Get() error {
 		request.CatalogPrivateEndpointId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datacatalog")
 
 	response, err := s.Client.GetCatalogPrivateEndpoint(context.Background(), request)
 	if err != nil {

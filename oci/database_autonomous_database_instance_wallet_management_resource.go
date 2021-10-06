@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -18,9 +18,9 @@ func init() {
 func DatabaseAutonomousDatabaseInstanceWalletManagementResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("20m"),
-			Update: getTimeoutDuration("20m"),
-			Delete: getTimeoutDuration("20m"),
+			Create: GetTimeoutDuration("20m"),
+			Update: GetTimeoutDuration("20m"),
+			Delete: GetTimeoutDuration("20m"),
 		},
 		Create: createDatabaseAutonomousDatabaseInstanceWalletManagement,
 		Read:   readDatabaseAutonomousDatabaseInstanceWalletManagement,
@@ -141,7 +141,7 @@ func (s *DatabaseAutonomousDatabaseInstanceWalletManagementResourceCrud) Get() e
 		request.AutonomousDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetAutonomousDatabaseWallet(context.Background(), request)
 	if err != nil {
@@ -165,7 +165,7 @@ func (s *DatabaseAutonomousDatabaseInstanceWalletManagementResourceCrud) Update(
 		request.ShouldRotate = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.UpdateAutonomousDatabaseWallet(context.Background(), request)
 	if err != nil {

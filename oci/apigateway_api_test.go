@@ -13,41 +13,41 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v48/apigateway"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v49/apigateway"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ApiRequiredOnlyResource = ApiResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Required, Create, apiRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Required, Create, apiRepresentation)
 
 	ApiResourceConfig = ApiResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Update, apiRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Update, apiRepresentation)
 
 	apiSingularDataSourceRepresentation = map[string]interface{}{
-		"api_id": Representation{repType: Required, create: `${oci_apigateway_api.test_api.id}`},
+		"api_id": Representation{RepType: Required, Create: `${oci_apigateway_api.test_api.id}`},
 	}
 
 	apiDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, apiDataSourceFilterRepresentation}}
 	apiDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_apigateway_api.test_api.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_apigateway_api.test_api.id}`}},
 	}
 
 	apiRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"content": Representation{repType: Optional,
-			create: `{\"openapi\":\"3.0.0\",\"info\":{\"version\":\"1.0.0\",\"title\":\"test\",\"license\":{\"name\":\"MIT\"}},\"paths\":{\"/ping\":{\"get\":{\"responses\":{\"200\":{\"description\":\"OK\"}}}}}}`,
-			update: `{\"openapi\":\"3.0.0\",\"info\":{\"version\":\"1.0.0\",\"title\":\"test\"}}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"content": Representation{RepType: Optional,
+			Create: `{\"openapi\":\"3.0.0\",\"info\":{\"version\":\"1.0.0\",\"title\":\"test\",\"license\":{\"name\":\"MIT\"}},\"paths\":{\"/ping\":{\"get\":{\"responses\":{\"200\":{\"description\":\"OK\"}}}}}}`,
+			Update: `{\"openapi\":\"3.0.0\",\"info\":{\"version\":\"1.0.0\",\"title\":\"test\"}}`},
 	}
 
 	ApiResourceDependencies = DefinedTagsDependencies
@@ -71,33 +71,33 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_apigateway_api.test_api"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ApiResourceDependencies+
-		generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create, apiRepresentation), "apigateway", "api", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ApiResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create, apiRepresentation), "apigateway", "api", t)
 
 	ResourceTest(t, testAccCheckApigatewayApiDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ApiResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Required, Create, apiRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Required, Create, apiRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ApiResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ApiResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create, apiRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create, apiRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -106,9 +106,9 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -117,12 +117,12 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApiResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create,
-					representationCopyWithNewProperties(apiRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create,
+					RepresentationCopyWithNewProperties(apiRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -132,7 +132,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -144,7 +144,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ApiResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Update, apiRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Update, apiRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -153,7 +153,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -164,9 +164,9 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apigateway_apis", "test_apis", Optional, Update, apiDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apigateway_apis", "test_apis", Optional, Update, apiDataSourceRepresentation) +
 				compartmentIdVariableStr + ApiResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Update, apiRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Update, apiRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -178,7 +178,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apigateway_api", "test_api", Required, Create, apiSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apigateway_api", "test_api", Required, Create, apiSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ApiResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "api_id"),
@@ -222,7 +222,7 @@ func testAccCheckApigatewayApiDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ApiId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apigateway")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apigateway")
 
 			response, err := client.GetApi(context.Background(), request)
 
@@ -255,7 +255,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ApigatewayApi") {
+	if !InSweeperExcludeList("ApigatewayApi") {
 		resource.AddTestSweepers("ApigatewayApi", &resource.Sweeper{
 			Name:         "ApigatewayApi",
 			Dependencies: DependencyGraph["api"],
@@ -276,13 +276,13 @@ func sweepApigatewayApiResource(compartment string) error {
 
 			deleteApiRequest.ApiId = &apiId
 
-			deleteApiRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apigateway")
+			deleteApiRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apigateway")
 			_, error := apiGatewayClient.DeleteApi(context.Background(), deleteApiRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Api %s %s, It is possible that the resource is already deleted. Please verify manually \n", apiId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &apiId, apiSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &apiId, apiSweepWaitCondition, time.Duration(3*time.Minute),
 				apiSweepResponseFetchOperation, "apigateway", true)
 		}
 	}
@@ -290,7 +290,7 @@ func sweepApigatewayApiResource(compartment string) error {
 }
 
 func getApiIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ApiId")
+	ids := GetResourceIdsToSweep(compartment, "ApiId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -309,7 +309,7 @@ func getApiIds(compartment string) ([]string, error) {
 	for _, api := range listApisResponse.Items {
 		id := *api.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ApiId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ApiId", id)
 	}
 	return resourceIds, nil
 }

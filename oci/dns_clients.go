@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_dns.DnsClient", &OracleClient{initClientFn: initDnsDnsClient})
+	RegisterOracleClient("oci_dns.DnsClient", &OracleClient{InitClientFn: initDnsDnsClient})
 }
 
 func initDnsDnsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

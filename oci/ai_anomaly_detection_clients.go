@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v48/aianomalydetection"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v49/aianomalydetection"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_ai_anomaly_detection.AnomalyDetectionClient", &OracleClient{initClientFn: initAianomalydetectionAnomalyDetectionClient})
+	RegisterOracleClient("oci_ai_anomaly_detection.AnomalyDetectionClient", &OracleClient{InitClientFn: initAianomalydetectionAnomalyDetectionClient})
 }
 
 func initAianomalydetectionAnomalyDetectionClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 )
 
 func init() {
@@ -88,6 +88,21 @@ func MysqlMysqlConfigurationDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"binlog_row_metadata": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"binlog_row_value_options": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"binlog_transaction_compression": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"completion_type": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -137,8 +152,8 @@ func MysqlMysqlConfigurationDataSource() *schema.Resource {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 						"innodb_ft_enable_stopword": {
 							Type:     schema.TypeBool,
@@ -370,7 +385,7 @@ func (s *MysqlMysqlConfigurationDataSourceCrud) Get() error {
 		request.ConfigurationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "mysql")
 
 	response, err := s.Client.GetConfiguration(context.Background(), request)
 	if err != nil {
@@ -444,6 +459,16 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 
 	if obj.BinlogExpireLogsSeconds != nil {
 		result["binlog_expire_logs_seconds"] = int(*obj.BinlogExpireLogsSeconds)
+	}
+
+	result["binlog_row_metadata"] = string(obj.BinlogRowMetadata)
+
+	if obj.BinlogRowValueOptions != nil {
+		result["binlog_row_value_options"] = string(*obj.BinlogRowValueOptions)
+	}
+
+	if obj.BinlogTransactionCompression != nil {
+		result["binlog_transaction_compression"] = bool(*obj.BinlogTransactionCompression)
 	}
 
 	result["completion_type"] = string(obj.CompletionType)

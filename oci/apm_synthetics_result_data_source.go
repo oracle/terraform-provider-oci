@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v48/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v49/apmsynthetics"
 )
 
 func init() {
@@ -127,7 +127,7 @@ func (s *ApmSyntheticsResultDataSourceCrud) Get() error {
 		request.VantagePoint = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm_synthetics")
 
 	response, err := s.Client.GetMonitorResult(context.Background(), request)
 	if err != nil {

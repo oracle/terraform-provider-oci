@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -24,7 +24,7 @@ type DatasourceCoreVirtualNetworkTestSuite struct {
 }
 
 func (s *DatasourceCoreVirtualNetworkTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenizeWithHttpReplay("vcn")
+	s.Token, s.TokenFn = TokenizeWithHttpReplay("vcn")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`

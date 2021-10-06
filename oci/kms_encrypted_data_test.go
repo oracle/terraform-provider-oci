@@ -14,21 +14,21 @@ import (
 
 var (
 	EncryptedDataResourceConfig = EncryptedDataResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation)
+		GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation)
 
 	encryptedDataSingularDataSourceRepresentation = map[string]interface{}{
-		"crypto_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
-		"key_id":          Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"plaintext":       Representation{repType: Required, create: `aGVsbG8sIHdvcmxk`},
-		"associated_data": Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
+		"crypto_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
+		"key_id":          Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"plaintext":       Representation{RepType: Required, Create: `aGVsbG8sIHdvcmxk`},
+		"associated_data": Representation{RepType: Optional, Create: map[string]string{"associatedData": "associatedData"}, Update: map[string]string{"associatedData2": "associatedData2"}},
 	}
 
 	encryptedDataRepresentation = map[string]interface{}{
-		"crypto_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
-		"key_id":          Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"plaintext":       Representation{repType: Required, create: `aGVsbG8sIHdvcmxk`},
-		"associated_data": Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
-		"logging_context": Representation{repType: Optional, create: map[string]string{"loggingContext": "loggingContext"}, update: map[string]string{"loggingContext2": "loggingContext2"}},
+		"crypto_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
+		"key_id":          Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"plaintext":       Representation{RepType: Required, Create: `aGVsbG8sIHdvcmxk`},
+		"associated_data": Representation{RepType: Optional, Create: map[string]string{"associatedData": "associatedData"}, Update: map[string]string{"associatedData2": "associatedData2"}},
+		"logging_context": Representation{RepType: Optional, Create: map[string]string{"loggingContext": "loggingContext"}, Update: map[string]string{"loggingContext2": "loggingContext2"}},
 	}
 
 	EncryptedDataResourceDependencies = KeyResourceDependencyConfig
@@ -47,15 +47,15 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 	resourceName := "oci_kms_encrypted_data.test_encrypted_data"
 	singularDatasourceName := "data.oci_kms_encrypted_data.test_encrypted_data"
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+EncryptedDataResourceDependencies+
-		generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation), "keymanagement", "encryptedData", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+EncryptedDataResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation), "keymanagement", "encryptedData", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + EncryptedDataResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Required, Create, encryptedDataRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Required, Create, encryptedDataRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
@@ -63,14 +63,14 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + EncryptedDataResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + EncryptedDataResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "associated_data.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "ciphertext"),
@@ -84,7 +84,7 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Optional, Create, encryptedDataSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + EncryptedDataResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "associated_data.%", "1"),

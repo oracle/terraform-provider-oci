@@ -12,45 +12,45 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apm "github.com/oracle/oci-go-sdk/v48/apmcontrolplane"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_apm "github.com/oracle/oci-go-sdk/v49/apmcontrolplane"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ApmDomainRequiredOnlyResource = ApmDomainResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation)
 
 	ApmDomainResourceConfig = ApmDomainResourceDependencies +
-		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Update, apmDomainRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Update, apmDomainRepresentation)
 
 	apmDomainSingularDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 	}
 
 	apmDomainDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, apmDomainDataSourceFilterRepresentation}}
 	apmDomainDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_apm_apm_domain.test_apm_domain.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_apm_apm_domain.test_apm_domain.id}`}},
 	}
 
 	apmDomainRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"is_free_tier":   Representation{repType: Optional, create: `false`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_free_tier":   Representation{RepType: Optional, Create: `false`},
 		"lifecycle":      RepresentationGroup{Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
 
 	ignoreDefinedTagsDifferencesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
 	ApmDomainResourceDependencies = DefinedTagsDependencies
@@ -74,34 +74,34 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_apm_apm_domain.test_apm_domain"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ApmDomainResourceDependencies+
-		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Create, apmDomainRepresentation), "apm", "apmDomain", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ApmDomainResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Create, apmDomainRepresentation), "apm", "apmDomain", t)
 
 	ResourceTest(t, testAccCheckApmApmDomainDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ApmDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ApmDomainResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ApmDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Create, apmDomainRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Create, apmDomainRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"), // don't validate defined tags since there are some pre-created ones
@@ -112,9 +112,9 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -123,12 +123,12 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApmDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Create,
-					representationCopyWithNewProperties(apmDomainRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Create,
+					RepresentationCopyWithNewProperties(apmDomainRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -140,7 +140,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -152,7 +152,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ApmDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Update, apmDomainRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Update, apmDomainRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"), // don't validate defined tags since there are some pre-created ones
@@ -163,7 +163,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -174,9 +174,9 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apm_apm_domains", "test_apm_domains", Optional, Update, apmDomainDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_apm_domains", "test_apm_domains", Optional, Update, apmDomainDataSourceRepresentation) +
 				compartmentIdVariableStr + ApmDomainResourceDependencies +
-				generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Update, apmDomainRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Optional, Update, apmDomainRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -198,7 +198,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ApmDomainResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
@@ -242,7 +242,7 @@ func testAccCheckApmApmDomainDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ApmDomainId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apm")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apm")
 
 			_, err := client.GetApmDomain(context.Background(), request)
 
@@ -267,7 +267,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ApmApmDomain") {
+	if !InSweeperExcludeList("ApmApmDomain") {
 		resource.AddTestSweepers("ApmApmDomain", &resource.Sweeper{
 			Name:         "ApmApmDomain",
 			Dependencies: DependencyGraph["apmDomain"],
@@ -288,7 +288,7 @@ func sweepApmApmDomainResource(compartment string) error {
 
 			deleteApmDomainRequest.ApmDomainId = &apmDomainId
 
-			deleteApmDomainRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "apm")
+			deleteApmDomainRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apm")
 			_, error := apmDomainClient.DeleteApmDomain(context.Background(), deleteApmDomainRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ApmDomain %s %s, It is possible that the resource is already deleted. Please verify manually \n", apmDomainId, error)
@@ -300,7 +300,7 @@ func sweepApmApmDomainResource(compartment string) error {
 }
 
 func getApmDomainIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ApmDomainId")
+	ids := GetResourceIdsToSweep(compartment, "ApmDomainId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -318,7 +318,7 @@ func getApmDomainIds(compartment string) ([]string, error) {
 	for _, apmDomain := range listApmDomainsResponse.Items {
 		id := *apmDomain.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ApmDomainId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ApmDomainId", id)
 	}
 	return resourceIds, nil
 }

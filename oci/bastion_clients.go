@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_bastion "github.com/oracle/oci-go-sdk/v48/bastion"
+	oci_bastion "github.com/oracle/oci-go-sdk/v49/bastion"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_bastion.BastionClient", &OracleClient{initClientFn: initBastionBastionClient})
+	RegisterOracleClient("oci_bastion.BastionClient", &OracleClient{InitClientFn: initBastionBastionClient})
 }
 
 func initBastionBastionClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

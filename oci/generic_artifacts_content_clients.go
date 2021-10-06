@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v48/genericartifactscontent"
+	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v49/genericartifactscontent"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_generic_artifacts_content.GenericArtifactsContentClient", &OracleClient{initClientFn: initGenericartifactscontentGenericArtifactsContentClient})
+	RegisterOracleClient("oci_generic_artifacts_content.GenericArtifactsContentClient", &OracleClient{InitClientFn: initGenericartifactscontentGenericArtifactsContentClient})
 }
 
 func initGenericartifactscontentGenericArtifactsContentClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

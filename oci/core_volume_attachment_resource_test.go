@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -96,7 +96,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config + `
 				
@@ -127,7 +127,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttr(s.ResourceName[0], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "time_created"),
 					func(ts *terraform.State) (err error) {
-						resId, err = fromInstanceState(ts, s.ResourceName[0], "id")
+						resId, err = FromInstanceState(ts, s.ResourceName[0], "id")
 						return err
 					},
 				),
@@ -149,7 +149,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 				}`,
 				PlanOnly: true,
 			},
-			// verify display_name, is_read_only, and use_chap update forces creation of a new resource
+			// verify display_name, is_read_only, and use_chap Update forces creation of a new resource
 			// verify when display name of attached volume is updates the operation should not error
 			{
 				Config: s.Config + `
@@ -184,7 +184,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttr(s.ResourceName[0], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
 					resource.TestCheckResourceAttrSet(s.ResourceName[0], "time_created"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName[0], "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName[0], "id")
 						if resId2 == resId {
 							return fmt.Errorf("resource not recreated when expected to be when updating display name")
 						}
@@ -244,7 +244,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName[1], "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName[1], "is_shareable", "true"),
 					func(ts *terraform.State) (err error) {
-						resId, err = fromInstanceState(ts, s.ResourceName[1], "id")
+						resId, err = FromInstanceState(ts, s.ResourceName[1], "id")
 						return err
 					},
 				),
@@ -302,7 +302,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName[1], "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName[1], "is_shareable", "true"),
 					func(ts *terraform.State) (err error) {
-						resId, err = fromInstanceState(ts, s.ResourceName[1], "id")
+						resId, err = FromInstanceState(ts, s.ResourceName[1], "id")
 						return err
 					},
 				),
@@ -362,7 +362,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName[1], "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName[1], "is_shareable", "true"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName[0], "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName[0], "id")
 						if resId2 == resId {
 							return fmt.Errorf("resource not recreated when expected to be when updating attachment type")
 						}
@@ -428,7 +428,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName[1], "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName[1], "is_shareable", "true"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName[0], "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName[0], "id")
 						if resId2 == resId {
 							return fmt.Errorf("resource not recreated when expected to be when updating attachment type")
 						}

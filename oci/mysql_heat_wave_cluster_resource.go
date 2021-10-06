@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 )
 
 func init() {
@@ -27,9 +27,9 @@ func MysqlHeatWaveClusterResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createMysqlHeatWaveCluster,
 		Read:   readMysqlHeatWaveCluster,
@@ -258,7 +258,7 @@ func (s *MysqlHeatWaveClusterResourceCrud) Create() error {
 		request.ShapeName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.AddHeatWaveCluster(context.Background(), request)
 	if err != nil {
@@ -284,7 +284,7 @@ func (s *MysqlHeatWaveClusterResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.GetHeatWaveCluster(context.Background(), request)
 	if err != nil {
@@ -313,7 +313,7 @@ func (s *MysqlHeatWaveClusterResourceCrud) Update() error {
 		request.ShapeName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.UpdateHeatWaveCluster(context.Background(), request)
 	if err != nil {
@@ -331,7 +331,7 @@ func (s *MysqlHeatWaveClusterResourceCrud) Delete() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.DeleteHeatWaveCluster(context.Background(), request)
 	return err
@@ -427,7 +427,7 @@ func (s *MysqlHeatWaveClusterResourceCrud) Stop() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.StopHeatWaveCluster(context.Background(), request)
 	if err != nil {
@@ -446,7 +446,7 @@ func (s *MysqlHeatWaveClusterResourceCrud) Start() error {
 		request.DbSystemId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.StartHeatWaveCluster(context.Background(), request)
 	if err != nil {

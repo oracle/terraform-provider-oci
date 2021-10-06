@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func CoreNetworkSecurityGroupSecurityRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreNetworkSecurityGroupSecurityRules,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"direction": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -263,7 +263,7 @@ func (s *CoreNetworkSecurityGroupSecurityRulesDataSourceCrud) Get() error {
 		request.NetworkSecurityGroupId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListNetworkSecurityGroupSecurityRules(context.Background(), request)
 	if err != nil {

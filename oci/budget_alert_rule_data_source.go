@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_budget "github.com/oracle/oci-go-sdk/v48/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v49/budget"
 )
 
 func init() {
@@ -58,7 +58,7 @@ func (s *BudgetAlertRuleDataSourceCrud) Get() error {
 		request.BudgetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "budget")
 
 	response, err := s.Client.GetAlertRule(context.Background(), request)
 	if err != nil {

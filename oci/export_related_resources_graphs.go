@@ -1,7 +1,7 @@
 package oci
 
 import (
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 /*
@@ -82,7 +82,7 @@ var exportRelatedResourcesGraph = TerraformResourceGraph{
 }
 
 // Separate hints for closure as we want to discover volumes related to an instance only
-// and list data source for these give volumes for an AD or a volume group only
+// and list data source for these give volumes for an AD or a volume Group only
 var exportCoreVolumeClosureHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_volume",
 	datasourceClass:      "oci_core_volume",

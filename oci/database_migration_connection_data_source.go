@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v48/databasemigration"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v49/databasemigration"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *DatabaseMigrationConnectionDataSourceCrud) Get() error {
 		request.ConnectionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_migration")
 
 	response, err := s.Client.GetConnection(context.Background(), request)
 	if err != nil {

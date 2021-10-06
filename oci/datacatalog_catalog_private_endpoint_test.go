@@ -13,44 +13,44 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v48/datacatalog"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v49/datacatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	CatalogPrivateEndpointRequiredOnlyResource = CatalogPrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointRepresentation)
 
 	CatalogPrivateEndpointResourceConfig = CatalogPrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Update, catalogPrivateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Update, catalogPrivateEndpointRepresentation)
 
 	catalogPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
-		"catalog_private_endpoint_id": Representation{repType: Required, create: `${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`},
+		"catalog_private_endpoint_id": Representation{RepType: Required, Create: `${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`},
 	}
 
 	catalogPrivateEndpointDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, catalogPrivateEndpointDataSourceFilterRepresentation}}
 	catalogPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`}},
 	}
 
 	catalogPrivateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"dns_zones":      Representation{repType: Required, create: []string{`custpvtsubnet.oraclevcn.com`}, update: []string{`db.custpvtsubnet.oraclevcn.com`}},
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"dns_zones":      Representation{RepType: Required, Create: []string{`custpvtsubnet.oraclevcn.com`}, Update: []string{`db.custpvtsubnet.oraclevcn.com`}},
+		"subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	CatalogPrivateEndpointResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	CatalogPrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -72,35 +72,35 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CatalogPrivateEndpointResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Create, catalogPrivateEndpointRepresentation), "datacatalog", "catalogPrivateEndpoint", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CatalogPrivateEndpointResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Create, catalogPrivateEndpointRepresentation), "datacatalog", "catalogPrivateEndpoint", t)
 
 	ResourceTest(t, testAccCheckDatacatalogCatalogPrivateEndpointDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Create, catalogPrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Create, catalogPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -111,9 +111,9 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,12 +122,12 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CatalogPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Create,
-					representationCopyWithNewProperties(catalogPrivateEndpointRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Create,
+					RepresentationCopyWithNewProperties(catalogPrivateEndpointRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -139,7 +139,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -151,7 +151,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Update, catalogPrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Update, catalogPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -162,7 +162,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -173,9 +173,9 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoints", "test_catalog_private_endpoints", Optional, Update, catalogPrivateEndpointDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoints", "test_catalog_private_endpoints", Optional, Update, catalogPrivateEndpointDataSourceRepresentation) +
 				compartmentIdVariableStr + CatalogPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Update, catalogPrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Update, catalogPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -197,7 +197,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Required, Create, catalogPrivateEndpointSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CatalogPrivateEndpointResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_private_endpoint_id"),
@@ -239,7 +239,7 @@ func testAccCheckDatacatalogCatalogPrivateEndpointDestroy(s *terraform.State) er
 			tmp := rs.Primary.ID
 			request.CatalogPrivateEndpointId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datacatalog")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datacatalog")
 
 			response, err := client.GetCatalogPrivateEndpoint(context.Background(), request)
 
@@ -272,7 +272,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatacatalogCatalogPrivateEndpoint") {
+	if !InSweeperExcludeList("DatacatalogCatalogPrivateEndpoint") {
 		resource.AddTestSweepers("DatacatalogCatalogPrivateEndpoint", &resource.Sweeper{
 			Name:         "DatacatalogCatalogPrivateEndpoint",
 			Dependencies: DependencyGraph["catalogPrivateEndpoint"],
@@ -293,13 +293,13 @@ func sweepDatacatalogCatalogPrivateEndpointResource(compartment string) error {
 
 			deleteCatalogPrivateEndpointRequest.CatalogPrivateEndpointId = &catalogPrivateEndpointId
 
-			deleteCatalogPrivateEndpointRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datacatalog")
+			deleteCatalogPrivateEndpointRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datacatalog")
 			_, error := dataCatalogClient.DeleteCatalogPrivateEndpoint(context.Background(), deleteCatalogPrivateEndpointRequest)
 			if error != nil {
 				fmt.Printf("Error deleting CatalogPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", catalogPrivateEndpointId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &catalogPrivateEndpointId, catalogPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &catalogPrivateEndpointId, catalogPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
 				catalogPrivateEndpointSweepResponseFetchOperation, "datacatalog", true)
 		}
 	}
@@ -307,7 +307,7 @@ func sweepDatacatalogCatalogPrivateEndpointResource(compartment string) error {
 }
 
 func getCatalogPrivateEndpointIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "CatalogPrivateEndpointId")
+	ids := GetResourceIdsToSweep(compartment, "CatalogPrivateEndpointId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -326,7 +326,7 @@ func getCatalogPrivateEndpointIds(compartment string) ([]string, error) {
 	for _, catalogPrivateEndpoint := range listCatalogPrivateEndpointsResponse.Items {
 		id := *catalogPrivateEndpoint.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "CatalogPrivateEndpointId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "CatalogPrivateEndpointId", id)
 	}
 	return resourceIds, nil
 }

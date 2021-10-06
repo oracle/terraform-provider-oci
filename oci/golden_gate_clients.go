@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v48/goldengate"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v49/goldengate"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_golden_gate.GoldenGateClient", &OracleClient{initClientFn: initGoldengateGoldenGateClient})
+	RegisterOracleClient("oci_golden_gate.GoldenGateClient", &OracleClient{InitClientFn: initGoldengateGoldenGateClient})
 }
 
 func initGoldengateGoldenGateClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

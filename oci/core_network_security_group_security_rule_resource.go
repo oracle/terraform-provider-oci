@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -363,7 +363,7 @@ func (s *CoreSecurityRuleResourceCrud) Create() error {
 	tmp := []oci_core.AddSecurityRuleDetails{addSecurityRuleDetails}
 	request.SecurityRules = tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.AddNetworkSecurityGroupSecurityRules(context.Background(), request)
 	if err != nil {
@@ -397,7 +397,7 @@ func (s *CoreSecurityRuleResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListNetworkSecurityGroupSecurityRules(context.Background(), request)
 	if err != nil {
@@ -515,7 +515,7 @@ func (s *CoreSecurityRuleResourceCrud) Update() error {
 	tmp := []oci_core.UpdateSecurityRuleDetails{updateSecurityRuleDetails}
 	request.SecurityRules = tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 	response, err := s.Client.UpdateNetworkSecurityGroupSecurityRules(context.Background(), request)
 	if err != nil {
 		return fmt.Errorf("failed to update security rules, error: %v", err)
@@ -538,7 +538,7 @@ func (s *CoreSecurityRuleResourceCrud) Delete() error {
 	tmp := []string{s.D.Id()}
 	request.SecurityRuleIds = tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 	_, err := s.Client.RemoveNetworkSecurityGroupSecurityRules(context.Background(), request)
 	if err != nil {
 		return err

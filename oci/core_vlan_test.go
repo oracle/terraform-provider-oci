@@ -13,56 +13,56 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	VlanRequiredOnlyResource = VlanResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation)
 
 	VlanResourceConfig = VlanResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Update, vlanRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Update, vlanRepresentation)
 
 	vlanSingularDataSourceRepresentation = map[string]interface{}{
-		"vlan_id": Representation{repType: Required, create: `${oci_core_vlan.test_vlan.id}`},
+		"vlan_id": Representation{RepType: Required, Create: `${oci_core_vlan.test_vlan.id}`},
 	}
 
 	vlanDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
-		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
+		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, vlanDataSourceFilterRepresentation}}
 	vlanDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_vlan.test_vlan.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_vlan.test_vlan.id}`}},
 	}
 
 	vlanRepresentation = map[string]interface{}{
-		"cidr_block":          Representation{repType: Required, create: `10.0.0.0/24`, update: "10.0.0.0/16"},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":              Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"nsg_ids":             Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
-		"route_table_id":      Representation{repType: Optional, create: `${oci_core_route_table.test_route_table.id}`},
-		"vlan_tag":            Representation{repType: Optional, create: `10`},
+		"cidr_block":          Representation{RepType: Required, Create: `10.0.0.0/24`, Update: "10.0.0.0/16"},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"vcn_id":              Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"nsg_ids":             Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"route_table_id":      Representation{RepType: Optional, Create: `${oci_core_route_table.test_route_table.id}`},
+		"vlan_tag":            Representation{RepType: Optional, Create: `10`},
 		"lifecycle":           RepresentationGroup{Required, ignoreChangesNsgRepresentation},
 	}
 
 	ignoreChangesVlanRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
-	VlanResourceDependencies = generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	VlanResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -85,35 +85,35 @@ func TestCoreVlanResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_vlan.test_vlan"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+VlanResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create, vlanRepresentation), "core", "vlan", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+VlanResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create, vlanRepresentation), "core", "vlan", t)
 
 	ResourceTest(t, testAccCheckCoreVlanDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VlanResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VlanResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VlanResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create, vlanRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create, vlanRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
@@ -128,9 +128,9 @@ func TestCoreVlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vlan_tag", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -139,12 +139,12 @@ func TestCoreVlanResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VlanResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create,
-					representationCopyWithNewProperties(vlanRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create,
+					RepresentationCopyWithNewProperties(vlanRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -160,7 +160,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vlan_tag", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -172,7 +172,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VlanResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Update, vlanRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Update, vlanRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -187,7 +187,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vlan_tag", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -198,9 +198,9 @@ func TestCoreVlanResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_vlans", "test_vlans", Optional, Update, vlanDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_vlans", "test_vlans", Optional, Update, vlanDataSourceRepresentation) +
 				compartmentIdVariableStr + VlanResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Update, vlanRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Update, vlanRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -225,7 +225,7 @@ func TestCoreVlanResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VlanResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vlan_id"),
@@ -268,7 +268,7 @@ func testAccCheckCoreVlanDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VlanId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetVlan(context.Background(), request)
 
@@ -301,7 +301,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreVlan") {
+	if !InSweeperExcludeList("CoreVlan") {
 		resource.AddTestSweepers("CoreVlan", &resource.Sweeper{
 			Name:         "CoreVlan",
 			Dependencies: DependencyGraph["vlan"],
@@ -322,13 +322,13 @@ func sweepCoreVlanResource(compartment string) error {
 
 			deleteVlanRequest.VlanId = &vlanId
 
-			deleteVlanRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteVlanRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteVlan(context.Background(), deleteVlanRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Vlan %s %s, It is possible that the resource is already deleted. Please verify manually \n", vlanId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &vlanId, vlanSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &vlanId, vlanSweepWaitCondition, time.Duration(3*time.Minute),
 				vlanSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -336,7 +336,7 @@ func sweepCoreVlanResource(compartment string) error {
 }
 
 func getVlanIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "VlanId")
+	ids := GetResourceIdsToSweep(compartment, "VlanId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -355,7 +355,7 @@ func getVlanIds(compartment string) ([]string, error) {
 	for _, vlan := range listVlansResponse.Items {
 		id := *vlan.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "VlanId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "VlanId", id)
 	}
 	return resourceIds, nil
 }

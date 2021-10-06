@@ -12,43 +12,43 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	VolumeBackupPolicyRequiredOnlyResource = VolumeBackupPolicyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Required, Create, volumeBackupPolicyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Required, Create, volumeBackupPolicyRepresentation)
 
 	volumeBackupPolicyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
 		"filter":         RepresentationGroup{Required, volumeBackupPolicyDataSourceFilterRepresentation}}
 	volumeBackupPolicyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_volume_backup_policy.test_volume_backup_policy.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_volume_backup_policy.test_volume_backup_policy.id}`}},
 	}
 
 	volumeBackupPolicyRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"destination_region": Representation{repType: Optional, create: `${var.destination_region}`},
-		"display_name":       Representation{repType: Optional, create: `BackupPolicy1`, update: `BackupPolicy2`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"destination_region": Representation{RepType: Optional, Create: `${var.destination_region}`},
+		"display_name":       Representation{RepType: Optional, Create: `BackupPolicy1`, Update: `BackupPolicy2`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"schedules":          RepresentationGroup{Optional, volumeBackupPolicySchedulesRepresentation},
 	}
 	volumeBackupPolicySchedulesRepresentation = map[string]interface{}{
-		"backup_type":       Representation{repType: Required, create: `INCREMENTAL`, update: `FULL`},
-		"period":            Representation{repType: Required, create: `ONE_DAY`, update: `ONE_YEAR`},
-		"retention_seconds": Representation{repType: Required, create: `604800`, update: `2592000`},
-		"day_of_month":      Representation{repType: Optional, create: `10`, update: `11`},
-		"day_of_week":       Representation{repType: Optional, create: `MONDAY`, update: `TUESDAY`},
-		"hour_of_day":       Representation{repType: Optional, create: `10`, update: `11`},
-		"month":             Representation{repType: Optional, create: `JANUARY`, update: `FEBRUARY`},
-		"offset_seconds":    Representation{repType: Optional, create: `0`, update: `46800`},
-		"offset_type":       Representation{repType: Optional, create: `STRUCTURED`, update: `NUMERIC_SECONDS`},
-		"time_zone":         Representation{repType: Optional, create: `UTC`, update: `REGIONAL_DATA_CENTER_TIME`},
+		"backup_type":       Representation{RepType: Required, Create: `INCREMENTAL`, Update: `FULL`},
+		"period":            Representation{RepType: Required, Create: `ONE_DAY`, Update: `ONE_YEAR`},
+		"retention_seconds": Representation{RepType: Required, Create: `604800`, Update: `2592000`},
+		"day_of_month":      Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"day_of_week":       Representation{RepType: Optional, Create: `MONDAY`, Update: `TUESDAY`},
+		"hour_of_day":       Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"month":             Representation{RepType: Optional, Create: `JANUARY`, Update: `FEBRUARY`},
+		"offset_seconds":    Representation{RepType: Optional, Create: `0`, Update: `46800`},
+		"offset_type":       Representation{RepType: Optional, Create: `STRUCTURED`, Update: `NUMERIC_SECONDS`},
+		"time_zone":         Representation{RepType: Optional, Create: `UTC`, Update: `REGIONAL_DATA_CENTER_TIME`},
 	}
 
 	VolumeBackupPolicyResourceDependencies = DefinedTagsDependencies
@@ -71,33 +71,33 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_volume_backup_policies.test_volume_backup_policies"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+VolumeBackupPolicyResourceDependencies+destinationRegionVariableStr+
-		generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation), "core", "volumeBackupPolicy", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+VolumeBackupPolicyResourceDependencies+destinationRegionVariableStr+
+		GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation), "core", "volumeBackupPolicy", t)
 
 	ResourceTest(t, testAccCheckCoreVolumeBackupPolicyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Required, Create, volumeBackupPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Required, Create, volumeBackupPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
-				generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -122,9 +122,9 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -136,7 +136,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
-				generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -161,7 +161,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -172,9 +172,9 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_volume_backup_policies", "test_volume_backup_policies", Optional, Update, volumeBackupPolicyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_volume_backup_policies", "test_volume_backup_policies", Optional, Update, volumeBackupPolicyDataSourceRepresentation) +
 				compartmentIdVariableStr + VolumeBackupPolicyResourceDependencies + destinationRegionVariableStr +
-				generateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -224,7 +224,7 @@ func testAccCheckCoreVolumeBackupPolicyDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PolicyId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			_, err := client.GetVolumeBackupPolicy(context.Background(), request)
 
@@ -249,7 +249,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreVolumeBackupPolicy") {
+	if !InSweeperExcludeList("CoreVolumeBackupPolicy") {
 		resource.AddTestSweepers("CoreVolumeBackupPolicy", &resource.Sweeper{
 			Name:         "CoreVolumeBackupPolicy",
 			Dependencies: DependencyGraph["volumeBackupPolicy"],
@@ -270,7 +270,7 @@ func sweepCoreVolumeBackupPolicyResource(compartment string) error {
 
 			deleteVolumeBackupPolicyRequest.PolicyId = &volumeBackupPolicyId
 
-			deleteVolumeBackupPolicyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteVolumeBackupPolicyRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := blockstorageClient.DeleteVolumeBackupPolicy(context.Background(), deleteVolumeBackupPolicyRequest)
 			if error != nil {
 				fmt.Printf("Error deleting VolumeBackupPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeBackupPolicyId, error)
@@ -282,7 +282,7 @@ func sweepCoreVolumeBackupPolicyResource(compartment string) error {
 }
 
 func getVolumeBackupPolicyIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "VolumeBackupPolicyId")
+	ids := GetResourceIdsToSweep(compartment, "VolumeBackupPolicyId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -300,7 +300,7 @@ func getVolumeBackupPolicyIds(compartment string) ([]string, error) {
 	for _, volumeBackupPolicy := range listVolumeBackupPoliciesResponse.Items {
 		id := *volumeBackupPolicy.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "VolumeBackupPolicyId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "VolumeBackupPolicyId", id)
 	}
 	return resourceIds, nil
 }

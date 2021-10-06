@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_opsi "github.com/oracle/oci-go-sdk/v48/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func OpsiEnterpriseManagerBridgesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOpsiEnterpriseManagerBridges,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -105,7 +105,7 @@ func (s *OpsiEnterpriseManagerBridgesDataSourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "opsi")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "opsi")
 
 	response, err := s.Client.ListEnterpriseManagerBridges(context.Background(), request)
 	if err != nil {

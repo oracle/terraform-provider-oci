@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/structure"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v48/usageapi"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v49/usageapi"
 )
 
 func init() {
@@ -42,13 +42,13 @@ func MeteringComputationUsageResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: timeDiffSuppressFunction,
+				DiffSuppressFunc: TimeDiffSuppressFunction,
 			},
 			"time_usage_started": {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: timeDiffSuppressFunction,
+				DiffSuppressFunc: TimeDiffSuppressFunction,
 			},
 
 			// Optional
@@ -78,7 +78,7 @@ func MeteringComputationUsageResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Required:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
+							DiffSuppressFunc: TimeDiffSuppressFunction,
 						},
 
 						// Optional
@@ -93,7 +93,7 @@ func MeteringComputationUsageResource() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
+							DiffSuppressFunc: TimeDiffSuppressFunction,
 						},
 
 						// Computed
@@ -430,7 +430,7 @@ func (s *MeteringComputationUsageResourceCrud) Create() error {
 		request.TimeUsageStarted = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "metering_computation")
 
 	response, err := s.Client.RequestSummarizedUsages(context.Background(), request)
 	if err != nil {

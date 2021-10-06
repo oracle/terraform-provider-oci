@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v48/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v49/budget"
 )
 
 func init() {
@@ -40,7 +40,7 @@ func BudgetAlertRuleResource() *schema.Resource {
 			"threshold": {
 				Type:             schema.TypeFloat,
 				Required:         true,
-				DiffSuppressFunc: monetaryDiffSuppress,
+				DiffSuppressFunc: MonetaryDiffSuppress,
 			},
 			"threshold_type": {
 				Type:     schema.TypeString,
@@ -195,7 +195,7 @@ func (s *BudgetAlertRuleResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if message, ok := s.D.GetOkExists("message"); ok {
@@ -221,7 +221,7 @@ func (s *BudgetAlertRuleResourceCrud) Create() error {
 		request.Type = oci_budget.AlertTypeEnum(type_.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	response, err := s.Client.CreateAlertRule(context.Background(), request)
 	if err != nil {
@@ -251,7 +251,7 @@ func (s *BudgetAlertRuleResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	response, err := s.Client.GetAlertRule(context.Background(), request)
 	if err != nil {
@@ -292,7 +292,7 @@ func (s *BudgetAlertRuleResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if message, ok := s.D.GetOkExists("message"); ok {
@@ -318,7 +318,7 @@ func (s *BudgetAlertRuleResourceCrud) Update() error {
 		request.Type = oci_budget.AlertTypeEnum(type_.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	response, err := s.Client.UpdateAlertRule(context.Background(), request)
 	if err != nil {
@@ -340,7 +340,7 @@ func (s *BudgetAlertRuleResourceCrud) Delete() error {
 		request.BudgetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	_, err := s.Client.DeleteAlertRule(context.Background(), request)
 	return err

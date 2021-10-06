@@ -13,53 +13,53 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v48/opsi"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DatabaseInsightRequiredOnlyResource = DatabaseInsightResourceDependencies +
-		generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightRepresentation)
+		GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightRepresentation)
 
 	DatabaseInsightResourceConfig = DatabaseInsightResourceDependencies +
-		generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation)
+		GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation)
 
 	databaseInsightSingularDataSourceRepresentation = map[string]interface{}{
-		"database_insight_id": Representation{repType: Required, create: `${oci_opsi_database_insight.test_database_insight.id}`},
+		"database_insight_id": Representation{RepType: Required, Create: `${oci_opsi_database_insight.test_database_insight.id}`},
 	}
 
 	databaseInsightDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":               Representation{repType: Optional, create: `${var.compartment_id}`},
-		"database_type":                Representation{repType: Optional, create: []string{`EXTERNAL-NONCDB`}},
-		"enterprise_manager_bridge_id": Representation{repType: Optional, create: `${var.enterprise_manager_bridge_id}`},
-		"fields":                       Representation{repType: Optional, create: []string{`databaseName`, `databaseType`, `compartmentId`, `databaseDisplayName`, `freeformTags`, `definedTags`, `systemTags`}},
-		"id":                           Representation{repType: Optional, create: `${oci_opsi_database_insight.test_database_insight.id}`},
-		"state":                        Representation{repType: Optional, create: []string{`ACTIVE`}},
-		"status":                       Representation{repType: Optional, create: []string{`ENABLED`}, update: []string{`DISABLED`}},
+		"compartment_id":               Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"database_type":                Representation{RepType: Optional, Create: []string{`EXTERNAL-NONCDB`}},
+		"enterprise_manager_bridge_id": Representation{RepType: Optional, Create: `${var.enterprise_manager_bridge_id}`},
+		"fields":                       Representation{RepType: Optional, Create: []string{`databaseName`, `databaseType`, `compartmentId`, `databaseDisplayName`, `freeformTags`, `definedTags`, `systemTags`}},
+		"id":                           Representation{RepType: Optional, Create: `${oci_opsi_database_insight.test_database_insight.id}`},
+		"state":                        Representation{RepType: Optional, Create: []string{`ACTIVE`}},
+		"status":                       Representation{RepType: Optional, Create: []string{`ENABLED`}, Update: []string{`DISABLED`}},
 		"filter":                       RepresentationGroup{Required, databaseInsightDataSourceFilterRepresentation},
 	}
 
 	databaseInsightDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_opsi_database_insight.test_database_insight.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_opsi_database_insight.test_database_insight.id}`}},
 	}
 
 	databaseInsightRepresentation = map[string]interface{}{
-		"compartment_id":                       Representation{repType: Required, create: `${var.compartment_id}`},
-		"enterprise_manager_bridge_id":         Representation{repType: Required, create: `${var.enterprise_manager_bridge_id}`},
-		"enterprise_manager_entity_identifier": Representation{repType: Required, create: `${var.enterprise_manager_entity_id}`},
-		"enterprise_manager_identifier":        Representation{repType: Required, create: `${var.enterprise_manager_id}`},
-		"status":                               Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
-		"entity_source":                        Representation{repType: Required, create: `EM_MANAGED_EXTERNAL_DATABASE`, update: `EM_MANAGED_EXTERNAL_DATABASE`},
-		"defined_tags":                         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                        Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":                       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"enterprise_manager_bridge_id":         Representation{RepType: Required, Create: `${var.enterprise_manager_bridge_id}`},
+		"enterprise_manager_entity_identifier": Representation{RepType: Required, Create: `${var.enterprise_manager_entity_id}`},
+		"enterprise_manager_identifier":        Representation{RepType: Required, Create: `${var.enterprise_manager_id}`},
+		"status":                               Representation{RepType: Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"entity_source":                        Representation{RepType: Required, Create: `EM_MANAGED_EXTERNAL_DATABASE`, Update: `EM_MANAGED_EXTERNAL_DATABASE`},
+		"defined_tags":                         Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                        Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":                            RepresentationGroup{Required, ignoreChangesdatabaseInsightRepresentation},
 	}
 
 	ignoreChangesdatabaseInsightRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
 	DatabaseInsightResourceDependencies = DefinedTagsDependencies
@@ -92,15 +92,15 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_opsi_database_insight.test_database_insight"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+DatabaseInsightResourceDependencies+
-		generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation), "opsi", "databaseInsight", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+DatabaseInsightResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation), "opsi", "databaseInsight", t)
 
 	ResourceTest(t, testAccCheckOpsiDatabaseInsightDestroy, []resource.TestStep{
-		// verify create with optional
+		// verify Create with optional
 		{
 			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation),
+				GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
@@ -120,9 +120,9 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -130,12 +130,12 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + compartmentIdUVariableStr + DatabaseInsightResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create,
-					representationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create,
+					RepresentationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -156,7 +156,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -168,7 +168,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
+				GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
@@ -189,7 +189,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -200,9 +200,9 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_opsi_database_insights", "test_database_insights", Optional, Update, databaseInsightDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_opsi_database_insights", "test_database_insights", Optional, Update, databaseInsightDataSourceRepresentation) +
 				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
+				GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttr(datasourceName, "database_id.#", "1"), // Won't be available for EM managed databases
@@ -220,7 +220,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -258,15 +258,15 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 		// verify enable
 		{
 			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update,
-					representationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
-						"status": Representation{repType: Required, update: `ENABLED`},
+				GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update,
+					RepresentationCopyWithNewProperties(databaseInsightRepresentation, map[string]interface{}{
+						"status": Representation{RepType: Required, Update: `ENABLED`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -296,7 +296,7 @@ func testAccCheckOpsiDatabaseInsightDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DatabaseInsightId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "opsi")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "opsi")
 
 			response, err := client.GetDatabaseInsight(context.Background(), request)
 
@@ -329,7 +329,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OpsiDatabaseInsight") {
+	if !InSweeperExcludeList("OpsiDatabaseInsight") {
 		resource.AddTestSweepers("OpsiDatabaseInsight", &resource.Sweeper{
 			Name:         "OpsiDatabaseInsight",
 			Dependencies: DependencyGraph["databaseInsight"],
@@ -350,13 +350,13 @@ func sweepOpsiDatabaseInsightResource(compartment string) error {
 
 			deleteDatabaseInsightRequest.DatabaseInsightId = &databaseInsightId
 
-			deleteDatabaseInsightRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "opsi")
+			deleteDatabaseInsightRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "opsi")
 			_, error := operationsInsightsClient.DeleteDatabaseInsight(context.Background(), deleteDatabaseInsightRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DatabaseInsight %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseInsightId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &databaseInsightId, databaseInsightSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &databaseInsightId, databaseInsightSweepWaitCondition, time.Duration(3*time.Minute),
 				databaseInsightSweepResponseFetchOperation, "opsi", true)
 		}
 	}
@@ -364,7 +364,7 @@ func sweepOpsiDatabaseInsightResource(compartment string) error {
 }
 
 func getDatabaseInsightIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DatabaseInsightId")
+	ids := GetResourceIdsToSweep(compartment, "DatabaseInsightId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -383,7 +383,7 @@ func getDatabaseInsightIds(compartment string) ([]string, error) {
 	for _, databaseInsight := range listDatabaseInsightsResponse.Items {
 		id := *databaseInsight.GetId()
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DatabaseInsightId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DatabaseInsightId", id)
 	}
 	return resourceIds, nil
 }

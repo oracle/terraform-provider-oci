@@ -13,64 +13,64 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v48/usageapi"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v49/usageapi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	QueryResourceConfig = QueryResourceDependencies +
-		generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation)
+		GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation)
 
 	querySingularDataSourceRepresentation = map[string]interface{}{
-		"query_id": Representation{repType: Required, create: `${oci_metering_computation_query.test_query.id}`},
+		"query_id": Representation{RepType: Required, Create: `${oci_metering_computation_query.test_query.id}`},
 	}
 
 	queryDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_id}`},
 		"filter":         RepresentationGroup{Required, queryDataSourceFilterRepresentation}}
 	queryDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_metering_computation_query.test_query.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_metering_computation_query.test_query.id}`}},
 	}
 
 	queryRepresentation = map[string]interface{}{
-		"compartment_id":   Representation{repType: Required, create: `${var.tenancy_id}`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.tenancy_id}`},
 		"query_definition": RepresentationGroup{Required, queryQueryDefinitionRepresentation},
 	}
 	queryQueryDefinitionRepresentation = map[string]interface{}{
 		"cost_analysis_ui": RepresentationGroup{Required, queryQueryDefinitionCostAnalysisUIRepresentation},
-		"display_name":     Representation{repType: Required, create: `displayName`, update: `displayName2`},
+		"display_name":     Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
 		"report_query":     RepresentationGroup{Required, queryQueryDefinitionReportQueryRepresentation},
-		"version":          Representation{repType: Required, create: `1.0`, update: `1.0`},
+		"version":          Representation{RepType: Required, Create: `1.0`, Update: `1.0`},
 	}
 	queryQueryDefinitionCostAnalysisUIRepresentation = map[string]interface{}{
-		"graph":               Representation{repType: Optional, create: `BARS`, update: `LINES`},
-		"is_cumulative_graph": Representation{repType: Optional, create: `false`, update: `true`},
+		"graph":               Representation{RepType: Optional, Create: `BARS`, Update: `LINES`},
+		"is_cumulative_graph": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	queryQueryDefinitionReportQueryRepresentation = map[string]interface{}{
 		"forecast":             RepresentationGroup{Optional, queryQueryDefinitionReportQueryForecastRepresentation},
-		"granularity":          Representation{repType: Required, create: `DAILY`, update: `MONTHLY`},
-		"tenant_id":            Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"compartment_depth":    Representation{repType: Optional, create: `1.0`, update: `2.0`},
-		"filter":               Representation{repType: Optional, create: `{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue\"}],\"tags\":[],\"filters\":[]}`, update: `{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue2\"}],\"tags\":[],\"filters\":[]}`},
-		"group_by":             Representation{repType: Optional, create: []string{`compartmentPath`}, update: []string{`compartmentName`}},
+		"granularity":          Representation{RepType: Required, Create: `DAILY`, Update: `MONTHLY`},
+		"tenant_id":            Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"compartment_depth":    Representation{RepType: Optional, Create: `1.0`, Update: `2.0`},
+		"filter":               Representation{RepType: Optional, Create: `{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue\"}],\"tags\":[],\"filters\":[]}`, Update: `{\"operator\":\"AND\",\"dimensions\":[{\"key\":\"compartmentName\",\"value\":\"compartmentNameValue2\"}],\"tags\":[],\"filters\":[]}`},
+		"group_by":             Representation{RepType: Optional, Create: []string{`compartmentPath`}, Update: []string{`compartmentName`}},
 		"group_by_tag":         RepresentationGroup{Optional, queryQueryDefinitionReportQueryGroupByTagRepresentation},
-		"is_aggregate_by_time": Representation{repType: Optional, create: `false`, update: `true`},
-		"query_type":           Representation{repType: Optional, create: `USAGE`, update: `COST`},
-		"time_usage_ended":     Representation{repType: Required, create: timeUsageEnded.Format(time.RFC3339Nano), update: timeUsageEnded.Format(time.RFC3339Nano)},
-		"time_usage_started":   Representation{repType: Required, create: timeUsageStarted.Format(time.RFC3339Nano), update: timeUsageStarted.Format(time.RFC3339Nano)},
+		"is_aggregate_by_time": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"query_type":           Representation{RepType: Optional, Create: `USAGE`, Update: `COST`},
+		"time_usage_ended":     Representation{RepType: Required, Create: timeUsageEnded.Format(time.RFC3339Nano), Update: timeUsageEnded.Format(time.RFC3339Nano)},
+		"time_usage_started":   Representation{RepType: Required, Create: timeUsageStarted.Format(time.RFC3339Nano), Update: timeUsageStarted.Format(time.RFC3339Nano)},
 	}
 	queryQueryDefinitionReportQueryForecastRepresentation = map[string]interface{}{
-		"time_forecast_ended":   Representation{repType: Required, create: timeForecastEnded.Format(time.RFC3339Nano), update: timeForecastEnded.Format(time.RFC3339Nano)},
-		"forecast_type":         Representation{repType: Optional, create: `BASIC`},
-		"time_forecast_started": Representation{repType: Optional, create: timeUsageEnded.Format(time.RFC3339Nano), update: timeUsageEnded.Format(time.RFC3339Nano)},
+		"time_forecast_ended":   Representation{RepType: Required, Create: timeForecastEnded.Format(time.RFC3339Nano), Update: timeForecastEnded.Format(time.RFC3339Nano)},
+		"forecast_type":         Representation{RepType: Optional, Create: `BASIC`},
+		"time_forecast_started": Representation{RepType: Optional, Create: timeUsageEnded.Format(time.RFC3339Nano), Update: timeUsageEnded.Format(time.RFC3339Nano)},
 	}
 	queryQueryDefinitionReportQueryGroupByTagRepresentation = map[string]interface{}{
-		"key":       Representation{repType: Optional, create: `key`, update: `key2`},
-		"namespace": Representation{repType: Optional, create: `namespace`, update: `namespace2`},
-		"value":     Representation{repType: Optional, create: `value`, update: `value2`},
+		"key":       Representation{RepType: Optional, Create: `key`, Update: `key2`},
+		"namespace": Representation{RepType: Optional, Create: `namespace`, Update: `namespace2`},
+		"value":     Representation{RepType: Optional, Create: `value`, Update: `value2`},
 	}
 	timeUsageStarted  = StartOfDay(time.Now().UTC().Truncate(time.Millisecond))
 	timeUsageEnded    = StartOfDay(time.Now().UTC().AddDate(0, 0, 1).Truncate(time.Millisecond))
@@ -101,10 +101,10 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckMeteringComputationQueryDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + tenancyIdVariableStr + QueryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, queryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, queryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "query_definition.#", "1"),
@@ -116,9 +116,9 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "query_definition.0.version", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -130,7 +130,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + tenancyIdVariableStr + QueryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -160,7 +160,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "query_definition.0.version", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -171,9 +171,9 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_metering_computation_queries", "test_queries", Optional, Update, queryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_metering_computation_queries", "test_queries", Optional, Update, queryDataSourceRepresentation) +
 				tenancyIdVariableStr + QueryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_metering_computation_query", "test_query", Optional, Update, queryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
@@ -184,7 +184,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, querySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_metering_computation_query", "test_query", Required, Create, querySingularDataSourceRepresentation) +
 				tenancyIdVariableStr + QueryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "query_id"),
@@ -240,7 +240,7 @@ func testAccCheckMeteringComputationQueryDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.QueryId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "metering_computation")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "metering_computation")
 
 			_, err := client.GetQuery(context.Background(), request)
 
@@ -265,7 +265,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("MeteringComputationQuery") {
+	if !InSweeperExcludeList("MeteringComputationQuery") {
 		resource.AddTestSweepers("MeteringComputationQuery", &resource.Sweeper{
 			Name:         "MeteringComputationQuery",
 			Dependencies: DependencyGraph["query"],
@@ -286,7 +286,7 @@ func sweepMeteringComputationQueryResource(compartment string) error {
 
 			deleteQueryRequest.QueryId = &queryId
 
-			deleteQueryRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "metering_computation")
+			deleteQueryRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "metering_computation")
 			_, error := usageapiClient.DeleteQuery(context.Background(), deleteQueryRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Query %s %s, It is possible that the resource is already deleted. Please verify manually \n", queryId, error)
@@ -298,7 +298,7 @@ func sweepMeteringComputationQueryResource(compartment string) error {
 }
 
 func getQueryIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "QueryId")
+	ids := GetResourceIdsToSweep(compartment, "QueryId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -316,7 +316,7 @@ func getQueryIds(compartment string) ([]string, error) {
 	for _, query := range listQueriesResponse.Items {
 		id := *query.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "QueryId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "QueryId", id)
 	}
 	return resourceIds, nil
 }

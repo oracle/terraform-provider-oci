@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 )
 
 func init() {
@@ -250,7 +250,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if iamGroupId, ok := s.D.GetOkExists("iam_group_id"); ok {
@@ -273,7 +273,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.CreateDataMaskRule(context.Background(), request)
 	if err != nil {
@@ -290,7 +290,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DataMaskRuleId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.GetDataMaskRule(context.Background(), request)
 	if err != nil {
@@ -343,7 +343,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if iamGroupId, ok := s.D.GetOkExists("iam_group_id"); ok {
@@ -362,7 +362,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.UpdateDataMaskRule(context.Background(), request)
 	if err != nil {
@@ -379,7 +379,7 @@ func (s *CloudGuardDataMaskRuleResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DataMaskRuleId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	_, err := s.Client.DeleteDataMaskRule(context.Background(), request)
 	return err

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func WaasEdgeSubnetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readWaasEdgeSubnets,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"edge_subnets": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -69,7 +69,7 @@ func (s *WaasEdgeSubnetsDataSourceCrud) VoidState() {
 func (s *WaasEdgeSubnetsDataSourceCrud) Get() error {
 	request := oci_waas.ListEdgeSubnetsRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "waas")
 
 	response, err := s.Client.ListEdgeSubnets(context.Background(), request)
 	if err != nil {

@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_apm "github.com/oracle/oci-go-sdk/v48/apmcontrolplane"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_apm "github.com/oracle/oci-go-sdk/v49/apmcontrolplane"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
@@ -181,7 +181,7 @@ func (s *ApmApmDomainResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
@@ -189,7 +189,7 @@ func (s *ApmApmDomainResourceCrud) Create() error {
 		request.IsFreeTier = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
 	response, err := s.Client.CreateApmDomain(context.Background(), request)
 	if err != nil {
@@ -197,7 +197,7 @@ func (s *ApmApmDomainResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getApmDomainFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getApmDomainFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *ApmApmDomainResourceCrud) getApmDomainFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -240,7 +240,7 @@ func apmDomainWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 
 func apmDomainWaitForWorkRequest(wId *string, entityType string, action oci_apm.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apm.ApmDomainClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "apm")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "apm")
 	retryPolicy.ShouldRetryOperation = apmDomainWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_apm.GetWorkRequestResponse{}
@@ -321,7 +321,7 @@ func (s *ApmApmDomainResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ApmDomainId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
 	response, err := s.Client.GetApmDomain(context.Background(), request)
 	if err != nil {
@@ -366,10 +366,10 @@ func (s *ApmApmDomainResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
 	response, err := s.Client.UpdateApmDomain(context.Background(), request)
 	if err != nil {
@@ -377,7 +377,7 @@ func (s *ApmApmDomainResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getApmDomainFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getApmDomainFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ApmApmDomainResourceCrud) Delete() error {
@@ -386,7 +386,7 @@ func (s *ApmApmDomainResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ApmDomainId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
 	response, err := s.Client.DeleteApmDomain(context.Background(), request)
 	if err != nil {
@@ -449,7 +449,7 @@ func (s *ApmApmDomainResourceCrud) updateCompartment(compartment interface{}) er
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm")
 
 	response, err := s.Client.ChangeApmDomainCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -457,5 +457,5 @@ func (s *ApmApmDomainResourceCrud) updateCompartment(compartment interface{}) er
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getApmDomainFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getApmDomainFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apm"), oci_apm.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

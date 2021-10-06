@@ -14,9 +14,9 @@ import (
 
 var (
 	computeCapacityReservationInstanceShapeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`},
 	}
 
 	ComputeCapacityReservationInstanceShapeResourceConfig = AvailabilityDomainConfig
@@ -34,13 +34,13 @@ func TestCoreComputeCapacityReservationInstanceShapeResource_basic(t *testing.T)
 
 	datasourceName := "data.oci_core_compute_capacity_reservation_instance_shapes.test_compute_capacity_reservation_instance_shapes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instance_shapes", "test_compute_capacity_reservation_instance_shapes", Required, Create, computeCapacityReservationInstanceShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instance_shapes", "test_compute_capacity_reservation_instance_shapes", Required, Create, computeCapacityReservationInstanceShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + ComputeCapacityReservationInstanceShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -53,7 +53,7 @@ func TestCoreComputeCapacityReservationInstanceShapeResource_basic(t *testing.T)
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instance_shapes", "test_compute_capacity_reservation_instance_shapes", Optional, Create, computeCapacityReservationInstanceShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instance_shapes", "test_compute_capacity_reservation_instance_shapes", Optional, Create, computeCapacityReservationInstanceShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + ComputeCapacityReservationInstanceShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),

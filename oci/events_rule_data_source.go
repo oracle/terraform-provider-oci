@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_events "github.com/oracle/oci-go-sdk/v48/events"
+	oci_events "github.com/oracle/oci-go-sdk/v49/events"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *EventsRuleDataSourceCrud) Get() error {
 		request.RuleId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "events")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "events")
 
 	response, err := s.Client.GetRule(context.Background(), request)
 	if err != nil {

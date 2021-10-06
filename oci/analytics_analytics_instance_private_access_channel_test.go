@@ -11,31 +11,31 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_analytics "github.com/oracle/oci-go-sdk/v48/analytics"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	AnalyticsInstancePrivateAccessChannelResourceConfig = AnalyticsInstancePrivateAccessChannelResourceDependencies +
-		generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Optional, Update, analyticsInstancePrivateAccessChannelRepresentation)
+		GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Optional, Update, analyticsInstancePrivateAccessChannelRepresentation)
 
 	analyticsInstancePrivateAccessChannelRepresentation = map[string]interface{}{
-		"analytics_instance_id":    Representation{repType: Required, create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
-		"display_name":             Representation{repType: Required, create: `example_private_access_channel`, update: `example_private_access_channel2`},
+		"analytics_instance_id":    Representation{RepType: Required, Create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
+		"display_name":             Representation{RepType: Required, Create: `example_private_access_channel`, Update: `example_private_access_channel2`},
 		"private_source_dns_zones": RepresentationGroup{Required, analyticsInstancePrivateAccessChannelPrivateSourceDnsZonesRepresentation},
-		"subnet_id":                Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"vcn_id":                   Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"subnet_id":                Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_id":                   Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 	analyticsInstancePrivateAccessChannelPrivateSourceDnsZonesRepresentation = map[string]interface{}{
-		"dns_zone":    Representation{repType: Required, create: `terraformtest.oraclevcn.com`, update: `terraformtest2.oraclevcn.com`},
-		"description": Representation{repType: Optional, create: `Tenant VCN DNS Zone`, update: `Tenant VCN DNS Zone 2`},
+		"dns_zone":    Representation{RepType: Required, Create: `terraformtest.oraclevcn.com`, Update: `terraformtest2.oraclevcn.com`},
+		"description": Representation{RepType: Optional, Create: `Tenant VCN DNS Zone`, Update: `Tenant VCN DNS Zone 2`},
 	}
 
-	AnalyticsInstancePrivateAccessChannelResourceDependencies = generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+	AnalyticsInstancePrivateAccessChannelResourceDependencies = GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 // issue-routing-tag: analytics/default
@@ -54,15 +54,15 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 	resourceName := "oci_analytics_analytics_instance_private_access_channel.test_analytics_instance_private_access_channel"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AnalyticsInstancePrivateAccessChannelResourceDependencies+
-		generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Required, Create, analyticsInstancePrivateAccessChannelRepresentation), "analytics", "analyticsInstancePrivateAccessChannel", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AnalyticsInstancePrivateAccessChannelResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Required, Create, analyticsInstancePrivateAccessChannelRepresentation), "analytics", "analyticsInstancePrivateAccessChannel", t)
 
 	ResourceTest(t, testAccCheckAnalyticsAnalyticsInstancePrivateAccessChannelDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstancePrivateAccessChannelResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Required, Create, analyticsInstancePrivateAccessChannelRepresentation),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Required, Create, analyticsInstancePrivateAccessChannelRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_private_access_channel"),
@@ -72,9 +72,9 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -86,7 +86,7 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstancePrivateAccessChannelResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Optional, Update, analyticsInstancePrivateAccessChannelRepresentation),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance_private_access_channel", "test_analytics_instance_private_access_channel", Optional, Update, analyticsInstancePrivateAccessChannelRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "analytics_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_private_access_channel2"),
@@ -100,7 +100,7 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -134,7 +134,7 @@ func testAccCheckAnalyticsAnalyticsInstancePrivateAccessChannelDestroy(s *terraf
 				request.PrivateAccessChannelKey = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "analytics")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "analytics")
 
 			_, err := client.GetPrivateAccessChannel(context.Background(), request)
 

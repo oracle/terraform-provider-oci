@@ -15,7 +15,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v48/genericartifactscontent"
+	oci_generic_artifacts_content "github.com/oracle/oci-go-sdk/v49/genericartifactscontent"
 )
 
 func init() {
@@ -183,7 +183,7 @@ func (s *GenericArtifactsContentArtifactByPathResourceCrud) Get() error {
 		request.Version = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "generic_artifacts_content")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "generic_artifacts_content")
 
 	response, err := s.Client.GetGenericArtifactContentByPath(context.Background(), request)
 	if err != nil {
@@ -230,7 +230,7 @@ func (s *GenericArtifactsContentArtifactByPathResourceCrud) createArtifactByCont
 		request.Version = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "generic_artifacts_content")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "generic_artifacts_content")
 
 	response, err := s.Client.PutGenericArtifactContentByPath(context.Background(), request)
 	if err != nil {
@@ -272,7 +272,7 @@ func (s *GenericArtifactsContentArtifactByPathResourceCrud) createArtifactBySour
 		request.Version = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "generic_artifacts_content")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "generic_artifacts_content")
 
 	response, err := s.Client.PutGenericArtifactContentByPath(context.Background(), request)
 	if err != nil {

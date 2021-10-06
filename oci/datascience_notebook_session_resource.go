@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 )
 
 func init() {
@@ -286,7 +286,7 @@ func (s *DatascienceNotebookSessionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if notebookSessionConfigurationDetails, ok := s.D.GetOkExists("notebook_session_configuration_details"); ok {
@@ -305,7 +305,7 @@ func (s *DatascienceNotebookSessionResourceCrud) Create() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.CreateNotebookSession(context.Background(), request)
 	if err != nil {
@@ -322,7 +322,7 @@ func (s *DatascienceNotebookSessionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.NotebookSessionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.GetNotebookSession(context.Background(), request)
 	if err != nil {
@@ -359,7 +359,7 @@ func (s *DatascienceNotebookSessionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if notebookSessionConfigurationDetails, ok := s.D.GetOkExists("notebook_session_configuration_details"); ok {
@@ -376,7 +376,7 @@ func (s *DatascienceNotebookSessionResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.NotebookSessionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateNotebookSession(context.Background(), request)
 	if err != nil {
@@ -393,7 +393,7 @@ func (s *DatascienceNotebookSessionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.NotebookSessionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.DeleteNotebookSession(context.Background(), request)
 	return err
@@ -538,7 +538,7 @@ func (s *DatascienceNotebookSessionResourceCrud) updateCompartment(compartment i
 	idTmp := s.D.Id()
 	changeCompartmentRequest.NotebookSessionId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.ChangeNotebookSessionCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -558,7 +558,7 @@ func (s *DatascienceNotebookSessionResourceCrud) ActivateNotebookSession() error
 	tmp := s.D.Id()
 	request.NotebookSessionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.ActivateNotebookSession(context.Background(), request)
 	if err != nil {
@@ -575,7 +575,7 @@ func (s *DatascienceNotebookSessionResourceCrud) DeactivateNotebookSession() err
 	tmp := s.D.Id()
 	request.NotebookSessionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.DeactivateNotebookSession(context.Background(), request)
 	if err != nil {

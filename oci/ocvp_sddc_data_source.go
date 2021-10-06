@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v48/ocvp"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v49/ocvp"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *OcvpSddcDataSourceCrud) Get() error {
 		request.SddcId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ocvp")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ocvp")
 
 	response, err := s.Client.GetSddc(context.Background(), request)
 	if err != nil {

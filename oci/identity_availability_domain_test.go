@@ -17,17 +17,17 @@ import (
 
 var (
 	availabilityDomainSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"ad_number":      Representation{repType: Optional, create: `2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"ad_number":      Representation{RepType: Optional, Create: `2`},
 	}
 
 	availabilityDomainDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 	}
 
 	AvailabilityDomainResourceConfig = ""
 
-	AvailabilityDomainConfig = generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation)
+	AvailabilityDomainConfig = GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -44,13 +44,13 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_availability_domains.test_availability_domains"
 	singularDatasourceName := "data.oci_identity_availability_domain.test_availability_domain"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation) +
 				compartmentIdVariableStr + AvailabilityDomainResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
@@ -62,7 +62,7 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_availability_domain", "test_availability_domain", Optional, Create, availabilityDomainSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_availability_domain", "test_availability_domain", Optional, Create, availabilityDomainSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AvailabilityDomainResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
@@ -70,7 +70,7 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "ad_number", "2"),
 				resource.TestMatchResourceAttr(singularDatasourceName, "name", regexp.MustCompile(`\w+-AD-2`)),
 				func(s *terraform.State) (err error) {
-					adName, err := fromInstanceState(s, singularDatasourceName, "name")
+					adName, err := FromInstanceState(s, singularDatasourceName, "name")
 					if err != nil {
 						return err
 					}

@@ -12,28 +12,28 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v48/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v49/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	hostnameDataSourceRepresentation = map[string]interface{}{
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"filter":           RepresentationGroup{Required, hostnameDataSourceFilterRepresentation}}
 	hostnameDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
 	}
 
 	hostnameRepresentation = map[string]interface{}{
-		"hostname":         Representation{repType: Required, create: `app.example.com`, update: `hostname2`},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":             Representation{repType: Required, create: `example_hostname_001`},
+		"hostname":         Representation{RepType: Required, Create: `app.example.com`, Update: `hostname2`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             Representation{RepType: Required, Create: `example_hostname_001`},
 	}
 
-	HostnameResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+	HostnameResourceDependencies = GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies
 )
 
@@ -51,24 +51,24 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 	datasourceName := "data.oci_load_balancer_hostnames.test_hostnames"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+HostnameResourceDependencies+
-		generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation), "loadbalancer", "hostname", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+HostnameResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation), "loadbalancer", "hostname", t)
 
 	ResourceTest(t, testAccCheckLoadBalancerHostnameDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + HostnameResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "hostname", "app.example.com"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_hostname_001"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -80,14 +80,14 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + HostnameResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Optional, Update, hostnameRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Optional, Update, hostnameRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname2"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_hostname_001"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -98,9 +98,9 @@ func TestLoadBalancerHostnameResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_hostnames", "test_hostnames", Optional, Update, hostnameDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_hostnames", "test_hostnames", Optional, Update, hostnameDataSourceRepresentation) +
 				compartmentIdVariableStr + HostnameResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Optional, Update, hostnameRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Optional, Update, hostnameRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
@@ -138,7 +138,7 @@ func testAccCheckLoadBalancerHostnameDestroy(s *terraform.State) error {
 				request.Name = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 
 			_, err := client.GetHostname(context.Background(), request)
 
@@ -163,7 +163,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoadBalancerHostname") {
+	if !InSweeperExcludeList("LoadBalancerHostname") {
 		resource.AddTestSweepers("LoadBalancerHostname", &resource.Sweeper{
 			Name:         "LoadBalancerHostname",
 			Dependencies: DependencyGraph["hostname"],
@@ -182,7 +182,7 @@ func sweepLoadBalancerHostnameResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[hostnameId]; !ok {
 			deleteHostnameRequest := oci_load_balancer.DeleteHostnameRequest{}
 
-			deleteHostnameRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			deleteHostnameRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 			_, error := loadBalancerClient.DeleteHostname(context.Background(), deleteHostnameRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Hostname %s %s, It is possible that the resource is already deleted. Please verify manually \n", hostnameId, error)
@@ -194,7 +194,7 @@ func sweepLoadBalancerHostnameResource(compartment string) error {
 }
 
 func getHostnameIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "HostnameId")
+	ids := GetResourceIdsToSweep(compartment, "HostnameId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -219,7 +219,7 @@ func getHostnameIds(compartment string) ([]string, error) {
 		for _, hostname := range listHostnamesResponse.Items {
 			id := *hostname.Name
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "HostnameId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "HostnameId", id)
 		}
 
 	}

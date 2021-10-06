@@ -19,14 +19,14 @@ var (
 	metricDataStartTimeStr string
 
 	metricDataDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"namespace":                 Representation{repType: Required, create: `oci_vcn`},
-		"query":                     Representation{repType: Required, create: `VnicToNetworkPackets[4m].max()`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
-		"end_time":                  Representation{repType: Optional, create: metricDataEndTimeStr},
-		"resolution":                Representation{repType: Optional, create: `2m`},
-		"resource_group":            Representation{repType: Optional, create: `resourceGroup`},
-		"start_time":                Representation{repType: Optional, create: metricDataStartTimeStr},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"namespace":                 Representation{RepType: Required, Create: `oci_vcn`},
+		"query":                     Representation{RepType: Required, Create: `VnicToNetworkPackets[4m].max()`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"end_time":                  Representation{RepType: Optional, Create: metricDataEndTimeStr},
+		"resolution":                Representation{RepType: Optional, Create: `2m`},
+		"resource_group":            Representation{RepType: Optional, Create: `resourceGroup`},
+		"start_time":                Representation{RepType: Optional, Create: metricDataStartTimeStr},
 	}
 
 	MetricDataResourceConfig = AvailabilityDomainConfig
@@ -37,9 +37,9 @@ func generateMetricDataRepresentationWithCurrentTimeInputs() map[string]interfac
 	startTime := endTime.Add(-2 * time.Hour)
 	metricDataEndTimeStr = endTime.Format(time.RFC3339Nano)
 	metricDataStartTimeStr = startTime.Format(time.RFC3339Nano)
-	return representationCopyWithNewProperties(metricDataDataSourceRepresentation, map[string]interface{}{
-		"end_time":   Representation{repType: Optional, create: metricDataEndTimeStr},
-		"start_time": Representation{repType: Optional, create: metricDataStartTimeStr},
+	return RepresentationCopyWithNewProperties(metricDataDataSourceRepresentation, map[string]interface{}{
+		"end_time":   Representation{RepType: Optional, Create: metricDataEndTimeStr},
+		"start_time": Representation{RepType: Optional, Create: metricDataStartTimeStr},
 	})
 }
 
@@ -55,13 +55,13 @@ func TestMonitoringMetricDataResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_monitoring_metric_data.test_metric_data"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_monitoring_metric_data", "test_metric_data", Optional, Create, generateMetricDataRepresentationWithCurrentTimeInputs()) +
+				GenerateDataSourceFromRepresentationMap("oci_monitoring_metric_data", "test_metric_data", Optional, Create, generateMetricDataRepresentationWithCurrentTimeInputs()) +
 				compartmentIdVariableStr + MetricDataResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

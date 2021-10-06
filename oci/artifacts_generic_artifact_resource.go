@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_artifacts "github.com/oracle/oci-go-sdk/v48/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v49/artifacts"
 )
 
 func init() {
@@ -170,10 +170,10 @@ func (s *ArtifactsGenericArtifactResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.UpdateGenericArtifact(context.Background(), request)
 	if err != nil {
@@ -192,7 +192,7 @@ func (s *ArtifactsGenericArtifactResourceCrud) Get() error {
 		request.ArtifactId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.GetGenericArtifact(context.Background(), request)
 	if err != nil {
@@ -220,10 +220,10 @@ func (s *ArtifactsGenericArtifactResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.UpdateGenericArtifact(context.Background(), request)
 	if err != nil {
@@ -242,7 +242,7 @@ func (s *ArtifactsGenericArtifactResourceCrud) Delete() error {
 		request.ArtifactId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	_, err := s.Client.DeleteGenericArtifact(context.Background(), request)
 	return err

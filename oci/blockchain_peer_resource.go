@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_blockchain "github.com/oracle/oci-go-sdk/v48/blockchain"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v49/blockchain"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
@@ -29,9 +29,9 @@ func BlockchainPeerResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("30m"),
-			Update: getTimeoutDuration("30m"),
-			Delete: getTimeoutDuration("30m"),
+			Create: GetTimeoutDuration("30m"),
+			Update: GetTimeoutDuration("30m"),
+			Delete: GetTimeoutDuration("30m"),
 		},
 		Create: createBlockchainPeer,
 		Read:   readBlockchainPeer,
@@ -60,7 +60,7 @@ func BlockchainPeerResource() *schema.Resource {
 						"ocpu_allocation_number": {
 							Type:             schema.TypeFloat,
 							Required:         true,
-							DiffSuppressFunc: monetaryDiffSuppress,
+							DiffSuppressFunc: MonetaryDiffSuppress,
 						},
 
 						// Optional
@@ -182,7 +182,7 @@ func (s *BlockchainPeerResourceCrud) Create() error {
 		request.Role = oci_blockchain.PeerRoleRoleEnum(role.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.CreatePeer(context.Background(), request)
 	if err != nil {
@@ -190,7 +190,7 @@ func (s *BlockchainPeerResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPeerFromWorkRequest(request.BlockchainPlatformId, workId, getRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getPeerFromWorkRequest(request.BlockchainPlatformId, workId, GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *BlockchainPeerResourceCrud) getPeerFromWorkRequest(blockchainPlatformId *string, workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -249,7 +249,7 @@ func peerWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_com
 
 func peerWaitForWorkRequest(wId *string, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_blockchain.BlockchainPlatformClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "blockchain")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "blockchain")
 	retryPolicy.ShouldRetryOperation = peerWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_blockchain.GetWorkRequestResponse{}
@@ -347,7 +347,7 @@ func (s *BlockchainPeerResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.GetPeer(context.Background(), request)
 	if err != nil {
@@ -380,7 +380,7 @@ func (s *BlockchainPeerResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.PeerId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.UpdatePeer(context.Background(), request)
 	if err != nil {
@@ -409,7 +409,7 @@ func (s *BlockchainPeerResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PeerId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.DeletePeer(context.Background(), request)
 	if err != nil {

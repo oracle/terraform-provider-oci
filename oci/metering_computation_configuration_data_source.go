@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v48/usageapi"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v49/usageapi"
 )
 
 func init() {
@@ -77,7 +77,7 @@ func (s *MeteringComputationConfigurationDataSourceCrud) Get() error {
 		request.TenantId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "metering_computation")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "metering_computation")
 
 	response, err := s.Client.RequestSummarizedConfigurations(context.Background(), request)
 	if err != nil {

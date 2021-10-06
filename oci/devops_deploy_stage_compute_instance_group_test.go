@@ -16,19 +16,19 @@ import (
 
 var (
 	DeployComputeInstanceGroupStageRequiredOnlyResource = DeployComputeInstanceGroupStageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployComputeInstanceGroupStageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployComputeInstanceGroupStageRepresentation)
 
 	DeployComputeInstanceGroupStageResourceConfig = DeployComputeInstanceGroupStageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployComputeInstanceGroupStageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployComputeInstanceGroupStageRepresentation)
 
 	deployComputeInstanceGroupStageSingularDataSourceRepresentation = map[string]interface{}{
-		"deploy_stage_id": Representation{repType: Required, create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
+		"deploy_stage_id": Representation{RepType: Required, Create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
 	}
 
-	deployComputeInstanceGroupStageRepresentation = getUpdatedRepresentationCopy("deploy_stage_type", Representation{repType: Required, create: `COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT`},
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
-			"compute_instance_group_deploy_environment_id": Representation{repType: Required, create: `${oci_devops_deploy_environment.test_deploy_instance_group_environment.id}`},
-			"deployment_spec_deploy_artifact_id":           Representation{repType: Required, create: `${oci_devops_deploy_artifact.test_deploy_generic_artifact.id}`},
+	deployComputeInstanceGroupStageRepresentation = GetUpdatedRepresentationCopy("deploy_stage_type", Representation{RepType: Required, Create: `COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT`},
+		RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
+			"compute_instance_group_deploy_environment_id": Representation{RepType: Required, Create: `${oci_devops_deploy_environment.test_deploy_instance_group_environment.id}`},
+			"deployment_spec_deploy_artifact_id":           Representation{RepType: Required, Create: `${oci_devops_deploy_artifact.test_deploy_generic_artifact.id}`},
 			"rollout_policy":                               RepresentationGroup{Required, deployComputeInstanceStageRolloutPolicyRepresentation},
 			"rollback_policy":                              RepresentationGroup{Optional, deployStageRollbackPolicyRepresentation},
 			"load_balancer_config":                         RepresentationGroup{Optional, deployStageLoadBalancerInstanceGroupConfigRepresentation},
@@ -37,29 +37,29 @@ var (
 		}))
 
 	deployComputeInstanceStageRolloutPolicyRepresentation = map[string]interface{}{
-		"policy_type":            Representation{repType: Required, create: `COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT`},
-		"batch_delay_in_seconds": Representation{repType: Optional, create: `5`},
-		"batch_count":            Representation{repType: Required, create: `5`},
+		"policy_type":            Representation{RepType: Required, Create: `COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT`},
+		"batch_delay_in_seconds": Representation{RepType: Optional, Create: `5`},
+		"batch_count":            Representation{RepType: Required, Create: `5`},
 	}
 
 	deployComputeInstanceStageFailurePolicyRepresentation = map[string]interface{}{
-		"policy_type":   Representation{repType: Required, create: `COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT`},
-		"failure_count": Representation{repType: Required, create: `1`},
+		"policy_type":   Representation{RepType: Required, Create: `COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT`},
+		"failure_count": Representation{RepType: Required, Create: `1`},
 	}
 
 	deployStageLoadBalancerInstanceGroupConfigRepresentation = map[string]interface{}{
-		"backend_port":     Representation{repType: Optional, create: `8080`},
-		"listener_name":    Representation{repType: Required, create: `LoadBalancerListener`, update: `LoadBalancerListener2`},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer_1.id}`, update: `${oci_load_balancer_load_balancer.test_load_balancer_2.id}`},
+		"backend_port":     Representation{RepType: Optional, Create: `8080`},
+		"listener_name":    Representation{RepType: Required, Create: `LoadBalancerListener`, Update: `LoadBalancerListener2`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer_1.id}`, Update: `${oci_load_balancer_load_balancer.test_load_balancer_2.id}`},
 	}
 
-	DeployComputeInstanceGroupStageResourceDependencies = generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_generic_artifact", Required, Create, deployGenericArtifactRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_instance_group_environment", Required, Create, deployInstanceGroupEnvironmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer_1", Required, Create, loadBalancerRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer_2", Optional, Create, loadBalancerRepresentation) +
+	DeployComputeInstanceGroupStageResourceDependencies = GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_generic_artifact", Required, Create, deployGenericArtifactRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_instance_group_environment", Required, Create, deployInstanceGroupEnvironmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer_1", Required, Create, loadBalancerRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer_2", Optional, Create, loadBalancerRepresentation) +
 		LoadBalancerResourceDependencies
 )
 
@@ -78,15 +78,15 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deploy_stage.test_deploy_stage"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeployComputeInstanceGroupStageResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployComputeInstanceGroupStageRepresentation), "devops", "deployStage", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeployComputeInstanceGroupStageResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployComputeInstanceGroupStageRepresentation), "devops", "deployStage", t)
 
 	ResourceTest(t, testAccCheckDevopsDeployStageDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployComputeInstanceGroupStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployComputeInstanceGroupStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
@@ -101,20 +101,20 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rollback_policy.#", "0"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployComputeInstanceGroupStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployComputeInstanceGroupStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
@@ -143,9 +143,9 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "failure_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -157,7 +157,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployComputeInstanceGroupStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployComputeInstanceGroupStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
@@ -184,7 +184,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "failure_policy.0.policy_type", "COMPUTE_INSTANCE_GROUP_FAILURE_POLICY_BY_COUNT"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -195,9 +195,9 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployComputeInstanceGroupStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployComputeInstanceGroupStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
@@ -210,7 +210,7 @@ func TestDevopsDeployStageResource_computeInstanceGroup(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployComputeInstanceGroupStageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployComputeInstanceGroupStageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployComputeInstanceGroupStageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_id"),

@@ -13,63 +13,63 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v48/monitoring"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v49/monitoring"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	AlarmRequiredOnlyResource = AlarmResourceDependencies +
-		generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation)
+		GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation)
 
 	AlarmResourceConfig = AlarmResourceDependencies +
-		generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation)
+		GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation)
 
 	alarmSingularDataSourceRepresentation = map[string]interface{}{
-		"alarm_id": Representation{repType: Required, create: `${oci_monitoring_alarm.test_alarm.id}`},
+		"alarm_id": Representation{RepType: Required, Create: `${oci_monitoring_alarm.test_alarm.id}`},
 	}
 
 	alarmDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
-		"display_name":              Representation{repType: Optional, create: `High CPU Utilization`, update: `displayName2`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"display_name":              Representation{RepType: Optional, Create: `High CPU Utilization`, Update: `displayName2`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                    RepresentationGroup{Required, alarmDataSourceFilterRepresentation}}
 	alarmDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_monitoring_alarm.test_alarm.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_monitoring_alarm.test_alarm.id}`}},
 	}
 
 	alarmRepresentation = map[string]interface{}{
-		"compartment_id":                   Representation{repType: Required, create: `${var.compartment_id}`},
-		"destinations":                     Representation{repType: Required, create: []string{`${oci_ons_notification_topic.test_notification_topic.id}`}, update: []string{`${oci_ons_notification_topic.test_notification_topic2.id}`}},
-		"display_name":                     Representation{repType: Required, create: `High CPU Utilization`, update: `displayName2`},
-		"is_enabled":                       Representation{repType: Required, create: `false`, update: `true`},
-		"metric_compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"namespace":                        Representation{repType: Required, create: `oci_computeagent`, update: `oci_lbaas`},
-		"query":                            Representation{repType: Required, create: `CpuUtilization[10m].percentile(0.9) < 85`, update: `AcceptedConnections[10m].count() <= 0`},
-		"severity":                         Representation{repType: Required, create: `WARNING`, update: `INFO`},
-		"body":                             Representation{repType: Optional, create: `CPU utilization has reached high values.`, update: `body2`},
-		"defined_tags":                     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                    Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"message_format":                   Representation{repType: Optional, create: `ONS_OPTIMIZED`, update: `PRETTY_JSON`},
-		"metric_compartment_id_in_subtree": Representation{repType: Optional, create: `false`, update: `true`},
-		"pending_duration":                 Representation{repType: Optional, create: `PT5M`, update: `PT10M`},
-		"repeat_notification_duration":     Representation{repType: Optional, create: `PT2H`, update: `PT10M`},
-		"resolution":                       Representation{repType: Optional, create: `1m`},
-		"resource_group":                   Representation{repType: Optional, create: `resourceGroup`, update: `resourceGroup2`},
+		"compartment_id":                   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"destinations":                     Representation{RepType: Required, Create: []string{`${oci_ons_notification_topic.test_notification_topic.id}`}, Update: []string{`${oci_ons_notification_topic.test_notification_topic2.id}`}},
+		"display_name":                     Representation{RepType: Required, Create: `High CPU Utilization`, Update: `displayName2`},
+		"is_enabled":                       Representation{RepType: Required, Create: `false`, Update: `true`},
+		"metric_compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"namespace":                        Representation{RepType: Required, Create: `oci_computeagent`, Update: `oci_lbaas`},
+		"query":                            Representation{RepType: Required, Create: `CpuUtilization[10m].percentile(0.9) < 85`, Update: `AcceptedConnections[10m].count() <= 0`},
+		"severity":                         Representation{RepType: Required, Create: `WARNING`, Update: `INFO`},
+		"body":                             Representation{RepType: Optional, Create: `CPU utilization has reached high values.`, Update: `body2`},
+		"defined_tags":                     Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                    Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"message_format":                   Representation{RepType: Optional, Create: `ONS_OPTIMIZED`, Update: `PRETTY_JSON`},
+		"metric_compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"pending_duration":                 Representation{RepType: Optional, Create: `PT5M`, Update: `PT10M`},
+		"repeat_notification_duration":     Representation{RepType: Optional, Create: `PT2H`, Update: `PT10M`},
+		"resolution":                       Representation{RepType: Optional, Create: `1m`},
+		"resource_group":                   Representation{RepType: Optional, Create: `resourceGroup`, Update: `resourceGroup2`},
 		"suppression":                      RepresentationGroup{Optional, alarmSuppressionRepresentation},
 	}
 	alarmSuppressionRepresentation = map[string]interface{}{
-		"time_suppress_from":  Representation{repType: Required, create: `2126-02-01T18:00:00.001Z`, update: `2125-12-01T18:00:00.001Z`},
-		"time_suppress_until": Representation{repType: Required, create: `2126-02-01T19:00:00.001Z`, update: `2125-12-01T19:00:00.001Z`},
-		"description":         Representation{repType: Optional, create: `System Maintenance`, update: `description2`},
+		"time_suppress_from":  Representation{RepType: Required, Create: `2126-02-01T18:00:00.001Z`, Update: `2125-12-01T18:00:00.001Z`},
+		"time_suppress_until": Representation{RepType: Required, Create: `2126-02-01T19:00:00.001Z`, Update: `2125-12-01T19:00:00.001Z`},
+		"description":         Representation{RepType: Optional, Create: `System Maintenance`, Update: `description2`},
 	}
 
 	AlarmResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm1")) +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm2"))
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm1")) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm2"))
 )
 
 // issue-routing-tag: monitoring/default
@@ -90,15 +90,15 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_monitoring_alarm.test_alarm"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AlarmResourceDependencies+
-		generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create, alarmRepresentation), "monitoring", "alarm", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AlarmResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create, alarmRepresentation), "monitoring", "alarm", t)
 
 	ResourceTest(t, testAccCheckMonitoringAlarmDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
-				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation),
+				GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
@@ -110,20 +110,20 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "severity", "WARNING"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AlarmResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
-				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create, alarmRepresentation),
+				GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create, alarmRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -152,9 +152,9 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -163,12 +163,12 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AlarmResourceDependencies +
-				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create,
-					representationCopyWithNewProperties(alarmRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create,
+					RepresentationCopyWithNewProperties(alarmRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
@@ -198,7 +198,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -210,7 +210,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
-				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
+				GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "body", "body2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -239,7 +239,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -250,9 +250,9 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_monitoring_alarms", "test_alarms", Optional, Update, alarmDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_monitoring_alarms", "test_alarms", Optional, Update, alarmDataSourceRepresentation) +
 				compartmentIdVariableStr + AlarmResourceDependencies +
-				generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
+				GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Update, alarmRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -281,7 +281,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AlarmResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alarm_id"),
@@ -339,7 +339,7 @@ func testAccCheckMonitoringAlarmDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.AlarmId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "monitoring")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "monitoring")
 
 			response, err := client.GetAlarm(context.Background(), request)
 
@@ -372,7 +372,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("MonitoringAlarm") {
+	if !InSweeperExcludeList("MonitoringAlarm") {
 		resource.AddTestSweepers("MonitoringAlarm", &resource.Sweeper{
 			Name:         "MonitoringAlarm",
 			Dependencies: DependencyGraph["alarm"],
@@ -393,13 +393,13 @@ func sweepMonitoringAlarmResource(compartment string) error {
 
 			deleteAlarmRequest.AlarmId = &alarmId
 
-			deleteAlarmRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "monitoring")
+			deleteAlarmRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "monitoring")
 			_, error := monitoringClient.DeleteAlarm(context.Background(), deleteAlarmRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Alarm %s %s, It is possible that the resource is already deleted. Please verify manually \n", alarmId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &alarmId, alarmSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &alarmId, alarmSweepWaitCondition, time.Duration(3*time.Minute),
 				alarmSweepResponseFetchOperation, "monitoring", true)
 		}
 	}
@@ -407,7 +407,7 @@ func sweepMonitoringAlarmResource(compartment string) error {
 }
 
 func getAlarmIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AlarmId")
+	ids := GetResourceIdsToSweep(compartment, "AlarmId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -426,7 +426,7 @@ func getAlarmIds(compartment string) ([]string, error) {
 	for _, alarm := range listAlarmsResponse.Items {
 		id := *alarm.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AlarmId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "AlarmId", id)
 	}
 	return resourceIds, nil
 }

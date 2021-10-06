@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v48/servicecatalog"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v49/servicecatalog"
 )
 
 func init() {
@@ -154,10 +154,10 @@ func (s *ServiceCatalogServiceCatalogResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.CreateServiceCatalog(context.Background(), request)
 	if err != nil {
@@ -174,7 +174,7 @@ func (s *ServiceCatalogServiceCatalogResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ServiceCatalogId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.GetServiceCatalog(context.Background(), request)
 	if err != nil {
@@ -211,13 +211,13 @@ func (s *ServiceCatalogServiceCatalogResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.ServiceCatalogId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	response, err := s.Client.UpdateServiceCatalog(context.Background(), request)
 	if err != nil {
@@ -234,7 +234,7 @@ func (s *ServiceCatalogServiceCatalogResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ServiceCatalogId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	_, err := s.Client.DeleteServiceCatalog(context.Background(), request)
 	return err
@@ -301,7 +301,7 @@ func (s *ServiceCatalogServiceCatalogResourceCrud) updateCompartment(compartment
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ServiceCatalogId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
 	_, err := s.Client.ChangeServiceCatalogCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

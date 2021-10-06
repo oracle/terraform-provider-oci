@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_management_dashboard "github.com/oracle/oci-go-sdk/v48/managementdashboard"
+	oci_management_dashboard "github.com/oracle/oci-go-sdk/v49/managementdashboard"
 )
 
 func init() {
@@ -104,7 +104,7 @@ func (s *ManagementDashboardManagementDashboardsImportResourceCrud) Create() err
 		return fmt.Errorf("Either import_details or import_details_file must be provided")
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "management_dashboard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "management_dashboard")
 
 	_, err := s.Client.ImportDashboard(context.Background(), request)
 	if err != nil {

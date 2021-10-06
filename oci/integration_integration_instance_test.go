@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_integration "github.com/oracle/oci-go-sdk/v48/integration"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_integration "github.com/oracle/oci-go-sdk/v49/integration"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -28,56 +28,56 @@ type IdcsAccessToken struct {
 
 var (
 	IntegrationInstanceRequiredOnlyResource = IntegrationInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Required, Create, integrationInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Required, Create, integrationInstanceRepresentation)
 
 	IntegrationInstanceResourceConfig = IntegrationInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation)
 
 	integrationInstanceSingularDataSourceRepresentation = map[string]interface{}{
-		"integration_instance_id": Representation{repType: Required, create: `${oci_integration_integration_instance.test_integration_instance.id}`},
+		"integration_instance_id": Representation{RepType: Required, Create: `${oci_integration_integration_instance.test_integration_instance.id}`},
 	}
 
 	integrationInstanceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"filter":         RepresentationGroup{Required, integrationInstanceDataSourceFilterRepresentation},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 	integrationInstanceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_integration_integration_instance.test_integration_instance.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_integration_integration_instance.test_integration_instance.id}`}},
 	}
 
 	integrationInstanceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":              Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"integration_instance_type": Representation{repType: Required, create: `STANDARD`, update: `ENTERPRISE`},
-		"is_byol":                   Representation{repType: Required, create: `false`, update: `true`},
-		"message_packs":             Representation{repType: Required, create: `1`, update: `2`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":              Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"integration_instance_type": Representation{RepType: Required, Create: `STANDARD`, Update: `ENTERPRISE`},
+		"is_byol":                   Representation{RepType: Required, Create: `false`, Update: `true`},
+		"message_packs":             Representation{RepType: Required, Create: `1`, Update: `2`},
 		// Not supported yet
 		// "alternate_custom_endpoints": RepresentationGroup{Optional, integrationInstanceAlternateCustomEndpointsRepresentation},
-		"consumption_model":         Representation{repType: Optional, create: `UCM`},
+		"consumption_model":         Representation{RepType: Optional, Create: `UCM`},
 		"custom_endpoint":           RepresentationGroup{Optional, integrationInstanceCustomEndpointRepresentation},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${var.oci_identity_tag_namespace}.${var.oci_identity_tag}", "value")}`, update: `${map("${var.oci_identity_tag_namespace}.${var.oci_identity_tag}", "updatedValue")}`},
-		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"idcs_at":                   Representation{repType: Required, create: `${var.idcs_access_token}`},
-		"is_file_server_enabled":    Representation{repType: Optional, create: `false`, update: `true`},
-		"is_visual_builder_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"defined_tags":              Representation{RepType: Optional, Create: `${map("${var.oci_identity_tag_namespace}.${var.oci_identity_tag}", "value")}`, Update: `${map("${var.oci_identity_tag_namespace}.${var.oci_identity_tag}", "updatedValue")}`},
+		"freeform_tags":             Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"idcs_at":                   Representation{RepType: Required, Create: `${var.idcs_access_token}`},
+		"is_file_server_enabled":    Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_visual_builder_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"network_endpoint_details":  RepresentationGroup{Optional, integrationInstanceNetworkEndpointDetailsRepresentation},
 	}
 	integrationInstanceAlternateCustomEndpointsRepresentation = map[string]interface{}{
-		"hostname":              Representation{repType: Required, create: `althostname.com`, update: `althostname2.com`},
-		"certificate_secret_id": Representation{repType: Optional, create: `${var.oci_vault_secret_id}`},
+		"hostname":              Representation{RepType: Required, Create: `althostname.com`, Update: `althostname2.com`},
+		"certificate_secret_id": Representation{RepType: Optional, Create: `${var.oci_vault_secret_id}`},
 	}
 	integrationInstanceCustomEndpointRepresentation = map[string]interface{}{
-		"hostname":              Representation{repType: Required, create: `hostname2.com`, update: `hostname2-updated.com`},
-		"certificate_secret_id": Representation{repType: Optional, create: `${var.oci_vault_secret_id}`},
+		"hostname":              Representation{RepType: Required, Create: `hostname2.com`, Update: `hostname2-updated.com`},
+		"certificate_secret_id": Representation{RepType: Optional, Create: `${var.oci_vault_secret_id}`},
 	}
 	integrationInstanceNetworkEndpointDetailsRepresentation = map[string]interface{}{
-		"network_endpoint_type":          Representation{repType: Required, create: `PUBLIC`},
-		"allowlisted_http_ips":           Representation{repType: Optional, create: []string{`172.16.0.239/32`}},
+		"network_endpoint_type":          Representation{RepType: Required, Create: `PUBLIC`},
+		"allowlisted_http_ips":           Representation{RepType: Optional, Create: []string{`172.16.0.239/32`}},
 		"allowlisted_http_vcns":          RepresentationGroup{Optional, integrationInstanceNetworkEndpointDetailsAllowlistedHttpVcnsRepresentation},
-		"is_integration_vcn_allowlisted": Representation{repType: Optional, create: `false`},
+		"is_integration_vcn_allowlisted": Representation{RepType: Optional, Create: `false`},
 	}
 
 	integrationInstanceVcnRepresentation = `resource "oci_core_vcn" "vcn" {
@@ -88,8 +88,8 @@ display_name   = "vcn"
 }`
 
 	integrationInstanceNetworkEndpointDetailsAllowlistedHttpVcnsRepresentation = map[string]interface{}{
-		"id":              Representation{repType: Required, create: `oci_core_vcn.vcn.id`},
-		"allowlisted_ips": Representation{repType: Optional, create: []string{`172.16.0.239/32`}},
+		"id":              Representation{RepType: Required, Create: `oci_core_vcn.vcn.id`},
+		"allowlisted_ips": Representation{RepType: Optional, Create: []string{`172.16.0.239/32`}},
 	}
 
 	IntegrationInstanceResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + integrationInstanceVcnRepresentation
@@ -120,15 +120,15 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_integration_integration_instance.test_integration_instance"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+IntegrationInstanceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Create, integrationInstanceRepresentation), "integration", "integrationInstance", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+IntegrationInstanceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Create, integrationInstanceRepresentation), "integration", "integrationInstance", t)
 
 	ResourceTest(t, testAccCheckIntegrationIntegrationInstanceDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr() + IntegrationInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Required, Create, integrationInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Required, Create, integrationInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -137,24 +137,24 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr(),
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr +
 				tagVariablesStr() +
 				idcsAccessTokenVariableStr() +
 				vaultSecretIdStr +
 				IntegrationInstanceResourceDependencies +
-				generateResourceFromRepresentationMap(
+				GenerateResourceFromRepresentationMap(
 					"oci_integration_integration_instance",
 					"test_integration_instance",
 					Optional,
@@ -197,9 +197,9 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -208,7 +208,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr +
 				tagVariablesStr() +
@@ -216,13 +216,13 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				compartmentIdUVariableStr +
 				vaultSecretIdStr +
 				IntegrationInstanceResourceDependencies +
-				generateResourceFromRepresentationMap(
+				GenerateResourceFromRepresentationMap(
 					"oci_integration_integration_instance",
 					"test_integration_instance",
 					Optional,
 					Create,
-					representationCopyWithNewProperties(integrationInstanceRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					RepresentationCopyWithNewProperties(integrationInstanceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
@@ -258,7 +258,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -270,7 +270,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
 				// CheckResourceSetContainsElementWithProperties(resourceName, "alternate_custom_endpoints", map[string]string{
@@ -306,7 +306,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -317,9 +317,9 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", Optional, Update, integrationInstanceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", Optional, Update, integrationInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -364,9 +364,9 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", Optional, Update, integrationInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				// resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.#", "1"),
 				// CheckResourceSetContainsElementWithProperties(singularDatasourceName, "alternate_custom_endpoints", map[string]string{
@@ -433,7 +433,7 @@ func testAccCheckIntegrationIntegrationInstanceDestroy(s *terraform.State) error
 			tmp := rs.Primary.ID
 			request.IntegrationInstanceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "integration")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "integration")
 
 			response, err := client.GetIntegrationInstance(context.Background(), request)
 
@@ -466,7 +466,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("IntegrationIntegrationInstance") {
+	if !InSweeperExcludeList("IntegrationIntegrationInstance") {
 		resource.AddTestSweepers("IntegrationIntegrationInstance", &resource.Sweeper{
 			Name:         "IntegrationIntegrationInstance",
 			Dependencies: DependencyGraph["integrationInstance"],
@@ -487,13 +487,13 @@ func sweepIntegrationIntegrationInstanceResource(compartment string) error {
 
 			deleteIntegrationInstanceRequest.IntegrationInstanceId = &integrationInstanceId
 
-			deleteIntegrationInstanceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "integration")
+			deleteIntegrationInstanceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "integration")
 			_, error := integrationInstanceClient.DeleteIntegrationInstance(context.Background(), deleteIntegrationInstanceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting IntegrationInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", integrationInstanceId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &integrationInstanceId, integrationInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &integrationInstanceId, integrationInstanceSweepWaitCondition, time.Duration(3*time.Minute),
 				integrationInstanceSweepResponseFetchOperation, "integration", true)
 		}
 	}
@@ -501,7 +501,7 @@ func sweepIntegrationIntegrationInstanceResource(compartment string) error {
 }
 
 func getIntegrationInstanceIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "IntegrationInstanceId")
+	ids := GetResourceIdsToSweep(compartment, "IntegrationInstanceId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -520,7 +520,7 @@ func getIntegrationInstanceIds(compartment string) ([]string, error) {
 	for _, integrationInstance := range listIntegrationInstancesResponse.Items {
 		id := *integrationInstance.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "IntegrationInstanceId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "IntegrationInstanceId", id)
 	}
 	return resourceIds, nil
 }

@@ -12,7 +12,7 @@ import (
 
 // Gets the current BareMetal Resource
 type ResourceFetcher interface {
-	// Get should update the s.Resource, and is used by ReadResource() to populate s.D
+	// Get should Update the s.Resource, and is used by ReadResource() to populate s.D
 	// Get() may expect s.D.Id() to be set, but not s.Resource, or anything else in s.D
 	Get() error
 }
@@ -35,11 +35,11 @@ type ResourceDataWriter interface {
 
 // CRUD standard interfaces
 
-// ResourceCreator may create a BareMetal resource and populate into
+// ResourceCreator may Create a BareMetal resource and populate into
 // ResourceData state by using CreateResource()
 type ResourceCreator interface {
 	ResourceDataWriter
-	// ID identifies the resource, or a work request to create the resource.
+	// ID identifies the resource, or a work request to Create the resource.
 	ID() string
 	Create() error
 }
@@ -59,7 +59,7 @@ type ResourceUpdater interface {
 // Deletes a BareMetal entity
 type ResourceDeleter interface {
 	ResourceVoider
-	// ID identifies the resource, or a work request to create the resource.
+	// ID identifies the resource, or a work request to Create the resource.
 	ID() string
 	Delete() error
 }
@@ -84,7 +84,7 @@ type ExtraWaitPostDelete interface {
 
 type StatefulResource interface {
 	ResourceReader
-	// ID identifies the resource, or a work request to create the resource.
+	// ID identifies the resource, or a work request to Create the resource.
 	ID() string
 	State() string
 	setState(StatefulResource) error

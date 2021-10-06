@@ -25,8 +25,8 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 const (
@@ -304,7 +304,7 @@ func RunExportCommand(args *ExportCommandArgs) (err error, status Status) {
 		The time out value is configurable from export command
 	*/
 	if args.RetryTimeout != nil && *args.RetryTimeout != "" {
-		longRetryTime = *getTimeoutDuration(*args.RetryTimeout)
+		longRetryTime = *GetTimeoutDuration(*args.RetryTimeout)
 		shortRetryTime = longRetryTime
 	}
 
@@ -676,12 +676,12 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 		return nil
 	}
 
-	// create final state file to write state
+	// Create final state file to write state
 	stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultStateFilename)
 
 	f, err := os.OpenFile(stateOutputFile, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, os.ModePerm)
 	if err != nil {
-		return fmt.Errorf("[ERROR] failed to create state file %s: %s", stateOutputFile, err.Error())
+		return fmt.Errorf("[ERROR] failed to Create state file %s: %s", stateOutputFile, err.Error())
 	}
 
 	// write generate state to file
@@ -1611,7 +1611,7 @@ func generateTerraformNameFromResource(resourceAttributes map[string]interface{}
 				terraformName := getNormalizedTerraformName(value.(string))
 				resourceNameCountLock.Lock()
 				if count, resourceNameExists := resourceNameCount[terraformName]; resourceNameExists {
-					// update count for existing name
+					// Update count for existing name
 					resourceNameCount[terraformName] = count + 1
 					terraformName = fmt.Sprintf("%s_%d", terraformName, count)
 				}
@@ -1788,7 +1788,7 @@ func getTenancyOcidFromCompartment(clients *OracleClients, compartmentId string)
 		response, err := clients.identityClient().GetCompartment(context.Background(), oci_identity.GetCompartmentRequest{
 			CompartmentId: &compartmentId,
 			RequestMetadata: oci_common.RequestMetadata{
-				RetryPolicy: getRetryPolicy(true, "identity"),
+				RetryPolicy: GetRetryPolicy(true, "identity"),
 			},
 		})
 		if err != nil {

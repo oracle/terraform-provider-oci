@@ -48,17 +48,17 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 	// Define a function closure for verifying the hostname labels from a primary and a secondary private IP
 	// The datasource could retrieve them in any order.
 	checkPrivateIpHostnameLabels := func(state *terraform.State) error {
-		hostnameLabel1, err := fromInstanceState(state, s.ResourceName, "private_ips.0.hostname_label")
+		hostnameLabel1, err := FromInstanceState(state, s.ResourceName, "private_ips.0.hostname_label")
 		if err != nil {
 			return err
 		}
 
-		hostnameLabel2, err := fromInstanceState(state, s.ResourceName, "private_ips.1.hostname_label")
+		hostnameLabel2, err := FromInstanceState(state, s.ResourceName, "private_ips.1.hostname_label")
 		if err != nil {
 			return err
 		}
 
-		instanceHostnameLabel, err := fromInstanceState(state, "oci_core_instance.t", "create_vnic_details.0.hostname_label")
+		instanceHostnameLabel, err := FromInstanceState(state, "oci_core_instance.t", "create_vnic_details.0.hostname_label")
 		if err != nil {
 			return err
 		}

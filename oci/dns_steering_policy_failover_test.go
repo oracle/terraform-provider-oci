@@ -14,61 +14,61 @@ import (
 
 var (
 	steeringPolicyFailOverRepresentation = map[string]interface{}{
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":            Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"template":                Representation{repType: Required, create: `FAILOVER`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":            Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"template":                Representation{RepType: Required, Create: `FAILOVER`},
 		"answers":                 RepresentationGroup{Optional, steeringPolicyFailOverAnswersRepresentation},
-		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"health_check_monitor_id": Representation{repType: Optional, create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
+		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"health_check_monitor_id": Representation{RepType: Optional, Create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
 		"rules": []RepresentationGroup{
 			{Optional, steeringPolicyFailOverRulesFilterRuleTypeRepresentation},
 			{Optional, steeringPolicyFailOverRulesHealthRuleTypeRepresentation},
 			{Optional, steeringPolicyFailOverRulesPriorityRuleTypeRepresentation},
 			{Optional, steeringPolicyFailOverRulesLimitRuleTypeRepresentation},
 		},
-		"ttl": Representation{repType: Optional, create: `10`, update: `11`},
+		"ttl": Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 
 	steeringPolicyFailOverAnswersRepresentation = map[string]interface{}{
-		"name":        Representation{repType: Required, create: `name`},
-		"rdata":       Representation{repType: Required, create: `192.0.2.1`},
-		"rtype":       Representation{repType: Required, create: `A`},
-		"is_disabled": Representation{repType: Optional, create: `false`},
-		"pool":        Representation{repType: Optional, create: `primary`},
+		"name":        Representation{RepType: Required, Create: `name`},
+		"rdata":       Representation{RepType: Required, Create: `192.0.2.1`},
+		"rtype":       Representation{RepType: Required, Create: `A`},
+		"is_disabled": Representation{RepType: Optional, Create: `false`},
+		"pool":        Representation{RepType: Optional, Create: `primary`},
 	}
 
 	steeringPolicyFailOverRulesFilterRuleTypeRepresentation = map[string]interface{}{
-		"rule_type":           Representation{repType: Required, create: `FILTER`},
+		"rule_type":           Representation{RepType: Required, Create: `FILTER`},
 		"default_answer_data": RepresentationGroup{Optional, steeringPolicyFailOverRulesDefaultAnswerDataFilterRuleTypeRepresentation},
-		"description":         Representation{repType: Optional, create: `filter description`},
+		"description":         Representation{RepType: Optional, Create: `filter description`},
 	}
 
 	steeringPolicyFailOverRulesDefaultAnswerDataFilterRuleTypeRepresentation = map[string]interface{}{
-		"answer_condition": Representation{repType: Optional, create: `answer.isDisabled != true`},
-		"should_keep":      Representation{repType: Optional, create: `true`},
+		"answer_condition": Representation{RepType: Optional, Create: `answer.isDisabled != true`},
+		"should_keep":      Representation{RepType: Optional, Create: `true`},
 	}
 
 	steeringPolicyFailOverRulesHealthRuleTypeRepresentation = map[string]interface{}{
-		"rule_type":   Representation{repType: Required, create: `HEALTH`},
-		"description": Representation{repType: Optional, create: `health description`},
+		"rule_type":   Representation{RepType: Required, Create: `HEALTH`},
+		"description": Representation{RepType: Optional, Create: `health description`},
 	}
 
 	steeringPolicyFailOverRulesPriorityRuleTypeRepresentation = map[string]interface{}{
-		"rule_type":           Representation{repType: Required, create: `PRIORITY`},
+		"rule_type":           Representation{RepType: Required, Create: `PRIORITY`},
 		"default_answer_data": RepresentationGroup{Optional, steeringPolicyFailOverRulesDefaultAnswerDataPriorityRuleTypeRepresentation},
-		"description":         Representation{repType: Optional, create: `priority description`},
+		"description":         Representation{RepType: Optional, Create: `priority description`},
 	}
 
 	steeringPolicyFailOverRulesDefaultAnswerDataPriorityRuleTypeRepresentation = map[string]interface{}{
-		"answer_condition": Representation{repType: Optional, create: `answer.pool == 'primary'`},
-		"value":            Representation{repType: Optional, create: `1`},
+		"answer_condition": Representation{RepType: Optional, Create: `answer.pool == 'primary'`},
+		"value":            Representation{RepType: Optional, Create: `1`},
 	}
 
 	steeringPolicyFailOverRulesLimitRuleTypeRepresentation = map[string]interface{}{
-		"rule_type":     Representation{repType: Required, create: `LIMIT`},
-		"default_count": Representation{repType: Optional, create: `1`},
-		"description":   Representation{repType: Optional, create: `limit description`},
+		"rule_type":     Representation{RepType: Required, Create: `LIMIT`},
+		"default_count": Representation{RepType: Optional, Create: `1`},
+		"description":   Representation{RepType: Optional, Create: `limit description`},
 	}
 
 	SteeringPolicyFailOverResourceDependencies = HttpMonitorRequiredOnlyResource
@@ -87,10 +87,10 @@ func TestResourceDnsSteeringPolicyFailOver(t *testing.T) {
 	resourceName := "oci_dns_steering_policy.test_steering_policy"
 
 	content := config + compartmentIdVariableStr + SteeringPolicyFailOverResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyFailOverRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyFailOverRepresentation)
 
 	ResourceTest(t, testAccCheckDnsSteeringPolicyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: content,
 			Check: ComposeAggregateTestCheckFuncWrapper(

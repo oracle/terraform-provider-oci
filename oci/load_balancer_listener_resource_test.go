@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v49/loadbalancer"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -84,7 +84,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 	resource.UnitTest(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create
+			// test Create
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_listener" "t" {
@@ -102,12 +102,12 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					resource.TestCheckResourceAttr(s.ResourceName, "protocol", "TCP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
 			},
-			// test update
+			// test Update
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer_listener" "t" {
@@ -125,7 +125,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					resource.TestCheckResourceAttr(s.ResourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId2 == resId {
 							return fmt.Errorf("resource expected to be recreated but was not")
 						}
@@ -161,7 +161,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId2 != resId {
 							return fmt.Errorf("resource recreated when it should not have been")
 						}
@@ -191,7 +191,7 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					resource.TestCheckNoResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId2 != resId {
 							return fmt.Errorf("resource recreated when it should not have been")
 						}

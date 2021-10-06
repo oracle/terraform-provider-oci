@@ -13,51 +13,51 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v48/opsi"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	EnterpriseManagerBridgeRequiredOnlyResource = EnterpriseManagerBridgeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Required, Create, enterpriseManagerBridgeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Required, Create, enterpriseManagerBridgeRepresentation)
 
 	EnterpriseManagerBridgeResourceConfig = EnterpriseManagerBridgeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation)
 
 	enterpriseManagerBridgeSingularDataSourceRepresentation = map[string]interface{}{
-		"enterprise_manager_bridge_id": Representation{repType: Required, create: `${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`},
+		"enterprise_manager_bridge_id": Representation{RepType: Required, Create: `${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`},
 	}
 
 	enterpriseManagerBridgeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`},
-		"id":             Representation{repType: Optional, create: `${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`},
-		"state":          Representation{repType: Optional, create: []string{`ACTIVE`}},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`},
+		"id":             Representation{RepType: Optional, Create: `${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`},
+		"state":          Representation{RepType: Optional, Create: []string{`ACTIVE`}},
 		"filter":         RepresentationGroup{Required, enterpriseManagerBridgeDataSourceFilterRepresentation}}
 	enterpriseManagerBridgeDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`}},
 	}
 
 	enterpriseManagerBridgeRepresentation = map[string]interface{}{
-		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":               Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"object_storage_bucket_name": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":               Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"object_storage_bucket_name": Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":                  RepresentationGroup{Required, ignoreChangesEnterpriseManagerBridgeRepresentation},
 	}
 
 	ignoreChangesEnterpriseManagerBridgeRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
 	EnterpriseManagerBridgeResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: opsi/controlPlane
@@ -78,15 +78,15 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+EnterpriseManagerBridgeResourceDependencies+
-		generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Create, enterpriseManagerBridgeRepresentation), "opsi", "enterpriseManagerBridge", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+EnterpriseManagerBridgeResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Create, enterpriseManagerBridgeRepresentation), "opsi", "enterpriseManagerBridge", t)
 
 	ResourceTest(t, testAccCheckOpsiEnterpriseManagerBridgeDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Required, Create, enterpriseManagerBridgeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Required, Create, enterpriseManagerBridgeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
@@ -94,20 +94,20 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "object_storage_bucket_name"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Create, enterpriseManagerBridgeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Create, enterpriseManagerBridgeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
@@ -121,9 +121,9 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -132,12 +132,12 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + EnterpriseManagerBridgeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Create,
-					representationCopyWithNewProperties(enterpriseManagerBridgeRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Create,
+					RepresentationCopyWithNewProperties(enterpriseManagerBridgeRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -152,7 +152,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -164,7 +164,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
@@ -178,7 +178,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -189,9 +189,9 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridges", "test_enterprise_manager_bridges", Optional, Update, enterpriseManagerBridgeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridges", "test_enterprise_manager_bridges", Optional, Update, enterpriseManagerBridgeDataSourceRepresentation) +
 				compartmentIdVariableStr + EnterpriseManagerBridgeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
@@ -205,7 +205,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Required, Create, enterpriseManagerBridgeSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Required, Create, enterpriseManagerBridgeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + EnterpriseManagerBridgeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_bridge_id"),
@@ -249,7 +249,7 @@ func testAccCheckOpsiEnterpriseManagerBridgeDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.EnterpriseManagerBridgeId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "opsi")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "opsi")
 
 			response, err := client.GetEnterpriseManagerBridge(context.Background(), request)
 
@@ -282,7 +282,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OpsiEnterpriseManagerBridge") {
+	if !InSweeperExcludeList("OpsiEnterpriseManagerBridge") {
 		resource.AddTestSweepers("OpsiEnterpriseManagerBridge", &resource.Sweeper{
 			Name:         "OpsiEnterpriseManagerBridge",
 			Dependencies: DependencyGraph["enterpriseManagerBridge"],
@@ -303,13 +303,13 @@ func sweepOpsiEnterpriseManagerBridgeResource(compartment string) error {
 
 			deleteEnterpriseManagerBridgeRequest.EnterpriseManagerBridgeId = &enterpriseManagerBridgeId
 
-			deleteEnterpriseManagerBridgeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "opsi")
+			deleteEnterpriseManagerBridgeRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "opsi")
 			_, error := operationsInsightsClient.DeleteEnterpriseManagerBridge(context.Background(), deleteEnterpriseManagerBridgeRequest)
 			if error != nil {
 				fmt.Printf("Error deleting EnterpriseManagerBridge %s %s, It is possible that the resource is already deleted. Please verify manually \n", enterpriseManagerBridgeId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &enterpriseManagerBridgeId, enterpriseManagerBridgeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &enterpriseManagerBridgeId, enterpriseManagerBridgeSweepWaitCondition, time.Duration(3*time.Minute),
 				enterpriseManagerBridgeSweepResponseFetchOperation, "opsi", true)
 		}
 	}
@@ -317,7 +317,7 @@ func sweepOpsiEnterpriseManagerBridgeResource(compartment string) error {
 }
 
 func getEnterpriseManagerBridgeIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "EnterpriseManagerBridgeId")
+	ids := GetResourceIdsToSweep(compartment, "EnterpriseManagerBridgeId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -336,7 +336,7 @@ func getEnterpriseManagerBridgeIds(compartment string) ([]string, error) {
 	for _, enterpriseManagerBridge := range listEnterpriseManagerBridgesResponse.Items {
 		id := *enterpriseManagerBridge.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "EnterpriseManagerBridgeId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "EnterpriseManagerBridgeId", id)
 	}
 	return resourceIds, nil
 }

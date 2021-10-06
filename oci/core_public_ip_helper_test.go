@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func getPublicIpIdsForRegionScope(compartmentId string, listPublicIpsRequest oci_core.ListPublicIpsRequest) ([]oci_core.PublicIp, error) {
@@ -17,7 +17,7 @@ func getPublicIpIdsForRegionScope(compartmentId string, listPublicIpsRequest oci
 
 func getPublicIpIdsForADScope(compartmentId string, listPublicIpsRequest oci_core.ListPublicIpsRequest) ([]oci_core.PublicIp, error) {
 	var publicIps []oci_core.PublicIp
-	availabilityDomains, err := getAvalabilityDomains(compartmentId)
+	availabilityDomains, err := GetAvalabilityDomains(compartmentId)
 	if err != nil {
 		return nil, fmt.Errorf("Error getting availabilityDomains required for MountTarget list for compartment id : %s , %s \n", compartmentId, err)
 	}

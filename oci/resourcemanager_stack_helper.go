@@ -10,8 +10,8 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/oracle/oci-go-sdk/v48/common"
-	"github.com/oracle/oci-go-sdk/v48/resourcemanager"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	"github.com/oracle/oci-go-sdk/v49/resourcemanager"
 )
 
 func createResourceManagerStack(resourceManagerClient resourcemanager.ResourceManagerClient, stackDisplayName string, compartment string) (string, error) {
@@ -21,7 +21,7 @@ func createResourceManagerStack(resourceManagerClient resourcemanager.ResourceMa
 
 	f, err := zipWriter.Create("test.tf")
 	if err != nil {
-		return "", fmt.Errorf("[DEBUG] cannot create file for zip configuration: %v", err)
+		return "", fmt.Errorf("[DEBUG] cannot Create file for zip configuration: %v", err)
 	}
 	_, err = f.Write([]byte("provider oci{}"))
 	if err != nil {
@@ -50,12 +50,12 @@ func createResourceManagerStack(resourceManagerClient resourcemanager.ResourceMa
 			Variables:    map[string]string{"var1": "value1", "var2": "value2", "var3": "value3"},
 		},
 		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(false, "resourcemanager"),
+			RetryPolicy: GetRetryPolicy(false, "resourcemanager"),
 		},
 	})
 
 	if err != nil {
-		return "", fmt.Errorf("[DEBUG] cannot create ResourceManager stack: %v", err)
+		return "", fmt.Errorf("[DEBUG] cannot Create ResourceManager stack: %v", err)
 	}
 
 	return *createStackResponse.Id, nil
@@ -71,7 +71,7 @@ func destroyResourceManagerStack(resourceManagerClient resourcemanager.ResourceM
 	_, err := resourceManagerClient.DeleteStack(context.Background(), resourcemanager.DeleteStackRequest{
 		StackId: &resourceManagerStackId,
 		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(true, "resourcemanager"),
+			RetryPolicy: GetRetryPolicy(true, "resourcemanager"),
 		},
 	})
 

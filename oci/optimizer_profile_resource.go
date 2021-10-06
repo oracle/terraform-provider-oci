@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_optimizer "github.com/oracle/oci-go-sdk/v48/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v49/optimizer"
 )
 
 func init() {
@@ -277,7 +277,7 @@ func (s *OptimizerProfileResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if levelsConfiguration, ok := s.D.GetOkExists("levels_configuration"); ok {
@@ -318,7 +318,7 @@ func (s *OptimizerProfileResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.CreateProfile(context.Background(), request)
 	if err != nil {
@@ -335,7 +335,7 @@ func (s *OptimizerProfileResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ProfileId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.GetProfile(context.Background(), request)
 	if err != nil {
@@ -363,7 +363,7 @@ func (s *OptimizerProfileResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if levelsConfiguration, ok := s.D.GetOkExists("levels_configuration"); ok {
@@ -407,7 +407,7 @@ func (s *OptimizerProfileResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.UpdateProfile(context.Background(), request)
 	if err != nil {
@@ -424,7 +424,7 @@ func (s *OptimizerProfileResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ProfileId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	_, err := s.Client.DeleteProfile(context.Background(), request)
 	return err

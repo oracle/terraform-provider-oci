@@ -15,19 +15,19 @@ import (
 
 var (
 	databaseInsightRequiredRepresentation = map[string]interface{}{
-		"compartment_id":                       Representation{repType: Required, create: `${var.compartment_id}`},
-		"enterprise_manager_bridge_id":         Representation{repType: Required, create: `${var.enterprise_manager_bridge_id}`},
-		"enterprise_manager_entity_identifier": Representation{repType: Required, create: `${var.enterprise_manager_entity_id}`},
-		"enterprise_manager_identifier":        Representation{repType: Required, create: `${var.enterprise_manager_id}`},
-		"status":                               Representation{repType: Required, create: `DISABLED`},
-		"entity_source":                        Representation{repType: Required, create: `EM_MANAGED_EXTERNAL_DATABASE`, update: `EM_MANAGED_EXTERNAL_DATABASE`},
-		"defined_tags":                         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
-		"freeform_tags":                        Representation{repType: Optional, create: map[string]string{"bar-key": "value"}},
+		"compartment_id":                       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"enterprise_manager_bridge_id":         Representation{RepType: Required, Create: `${var.enterprise_manager_bridge_id}`},
+		"enterprise_manager_entity_identifier": Representation{RepType: Required, Create: `${var.enterprise_manager_entity_id}`},
+		"enterprise_manager_identifier":        Representation{RepType: Required, Create: `${var.enterprise_manager_id}`},
+		"status":                               Representation{RepType: Required, Create: `DISABLED`},
+		"entity_source":                        Representation{RepType: Required, Create: `EM_MANAGED_EXTERNAL_DATABASE`, Update: `EM_MANAGED_EXTERNAL_DATABASE`},
+		"defined_tags":                         Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"freeform_tags":                        Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}},
 		"lifecycle":                            RepresentationGroup{Required, ignoreChangesDIRepresentation},
 	}
 
 	ignoreChangesDIRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 )
 
@@ -52,21 +52,21 @@ func TestOpsiResourceDatabaseInsight(t *testing.T) {
 
 	resourceName := "oci_opsi_database_insight.test_database_insight"
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+DatabaseInsightResourceDependencies+
-		generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightRequiredRepresentation), "opsi", "databaseInsight", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+DatabaseInsightResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightRequiredRepresentation), "opsi", "databaseInsight", t)
 
 	ResourceTest(t, testAccCheckOpsiDatabaseInsightDestroy, []resource.TestStep{
-		// verify create with Required
+		// verify Create with Required
 		{
 			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
-				generateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightRequiredRepresentation),
+				GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Required, Create, databaseInsightRequiredRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
 
 				func(s *terraform.State) (err error) {
-					_, err = fromInstanceState(s, resourceName, "id")
+					_, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),

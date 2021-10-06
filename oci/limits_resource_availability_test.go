@@ -14,14 +14,14 @@ import (
 
 var (
 	resourceAvailabilitySingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"limit_name":          Representation{repType: Required, create: `adb-free-count`},
-		"service_name":        Representation{repType: Required, create: `database`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"limit_name":          Representation{RepType: Required, Create: `adb-free-count`},
+		"service_name":        Representation{RepType: Required, Create: `database`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 	}
 
 	ResourceAvailabilityResourceConfig = AvailabilityDomainConfig +
-		generateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
+		GenerateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
 )
 
 // issue-routing-tag: limits/default
@@ -37,13 +37,13 @@ func TestLimitsResourceAvailabilityResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_limits_resource_availability.test_resource_availability"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", Required, Create, resourceAvailabilitySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_limits_resource_availability", "test_resource_availability", Required, Create, resourceAvailabilitySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ResourceAvailabilityResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),

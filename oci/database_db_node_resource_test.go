@@ -15,16 +15,16 @@ import (
 
 var (
 	dbNodeSingularDataSourceRepresentation = map[string]interface{}{
-		"db_node_id": Representation{repType: Required, create: `${data.oci_database_db_nodes.test_db_nodes.db_nodes.0.id}`},
+		"db_node_id": Representation{RepType: Required, Create: `${data.oci_database_db_nodes.test_db_nodes.db_nodes.0.id}`},
 	}
 
 	dbNodeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
-		"vm_cluster_id":  Representation{repType: Required, create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
+		"vm_cluster_id":  Representation{RepType: Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 	}
 
-	DbNodeResourceConfig = generateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation) +
+	DbNodeResourceConfig = GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", Required, Create, cloudVmClusterRepresentation) +
 		AvailabilityDomainConfig +
 		CloudVmClusterResourceDependencies +
 		DefinedTagsDependencies
@@ -52,7 +52,7 @@ func TestDatabaseDbNodeResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_nodes", "test_db_nodes", Required, Create, dbNodeDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_db_nodes", "test_db_nodes", Required, Create, dbNodeDataSourceRepresentation) +
 					compartmentIdVariableStr + DbNodeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -68,8 +68,8 @@ func TestDatabaseDbNodeResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_node", "test_db_node", Required, Create, dbNodeSingularDataSourceRepresentation) +
-					generateDataSourceFromRepresentationMap("oci_database_db_nodes", "test_db_nodes", Required, Create, dbNodeDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_db_node", "test_db_node", Required, Create, dbNodeSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_db_nodes", "test_db_nodes", Required, Create, dbNodeDataSourceRepresentation) +
 					compartmentIdVariableStr + DbNodeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_id"),

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func CoreByoipAllocatedRangesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreByoipAllocatedRanges,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"byoip_range_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -87,7 +87,7 @@ func (s *CoreByoipAllocatedRangesDataSourceCrud) Get() error {
 		request.ByoipRangeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListByoipAllocatedRanges(context.Background(), request)
 	if err != nil {

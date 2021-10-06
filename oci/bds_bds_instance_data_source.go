@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_bds "github.com/oracle/oci-go-sdk/v48/bds"
+	oci_bds "github.com/oracle/oci-go-sdk/v49/bds"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *BdsBdsInstanceDataSourceCrud) Get() error {
 		request.BdsInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "bds")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "bds")
 
 	response, err := s.Client.GetBdsInstance(context.Background(), request)
 	if err != nil {

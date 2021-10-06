@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_streaming "github.com/oracle/oci-go-sdk/v48/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v49/streaming"
 )
 
 func init() {
@@ -166,7 +166,7 @@ func (s *StreamingConnectHarnessResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -174,7 +174,7 @@ func (s *StreamingConnectHarnessResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.CreateConnectHarness(context.Background(), request)
 	if err != nil {
@@ -191,7 +191,7 @@ func (s *StreamingConnectHarnessResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ConnectHarnessId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.GetConnectHarness(context.Background(), request)
 	if err != nil {
@@ -226,10 +226,10 @@ func (s *StreamingConnectHarnessResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.UpdateConnectHarness(context.Background(), request)
 	if err != nil {
@@ -246,7 +246,7 @@ func (s *StreamingConnectHarnessResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ConnectHarnessId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	_, err := s.Client.DeleteConnectHarness(context.Background(), request)
 	return err
@@ -289,7 +289,7 @@ func (s *StreamingConnectHarnessResourceCrud) updateCompartment(compartment inte
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ConnectHarnessId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	_, err := s.Client.ChangeConnectHarnessCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

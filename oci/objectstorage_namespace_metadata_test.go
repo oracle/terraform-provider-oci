@@ -34,7 +34,7 @@ func TestResourceNamespaceMetadata_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + `
 data "oci_objectstorage_namespace" "t" {
@@ -49,7 +49,7 @@ resource "oci_objectstorage_namespace_metadata" "test_namespace_metadata" {
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -71,7 +71,7 @@ resource "oci_objectstorage_namespace_metadata" "test_namespace_metadata" {
 					resource.TestCheckResourceAttr(resourceName, "default_swift_compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}

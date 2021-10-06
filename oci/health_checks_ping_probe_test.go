@@ -16,15 +16,15 @@ import (
 
 var (
 	PingProbeRequiredOnlyResource = PingProbeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Required, Create, pingProbeRepresentation)
+		GenerateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Required, Create, pingProbeRepresentation)
 
 	pingProbeRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"protocol":            Representation{repType: Required, create: `TCP`},
-		"targets":             Representation{repType: Required, create: []string{`www.oracle.com`}},
-		"port":                Representation{repType: Optional, create: `80`},
-		"timeout_in_seconds":  Representation{repType: Optional, create: `10`},
-		"vantage_point_names": Representation{repType: Optional, create: []string{`goo-chs`}},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"protocol":            Representation{RepType: Required, Create: `TCP`},
+		"targets":             Representation{RepType: Required, Create: []string{`www.oracle.com`}},
+		"port":                Representation{RepType: Optional, Create: `80`},
+		"timeout_in_seconds":  Representation{RepType: Optional, Create: `10`},
+		"vantage_point_names": Representation{RepType: Optional, Create: []string{`goo-chs`}},
 	}
 
 	PingProbeResourceDependencies = ""
@@ -43,15 +43,15 @@ func TestHealthChecksPingProbeResource_basic(t *testing.T) {
 	resourceName := "oci_health_checks_ping_probe.test_ping_probe"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PingProbeResourceDependencies+
-		generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Optional, Create, pingProbeRepresentation), "healthchecks", "pingProbe", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PingProbeResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Optional, Create, pingProbeRepresentation), "healthchecks", "pingProbe", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PingProbeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Required, Create, pingProbeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Required, Create, pingProbeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
@@ -59,14 +59,14 @@ func TestHealthChecksPingProbeResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PingProbeResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PingProbeResourceDependencies +
-				generateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Optional, Create, pingProbeRepresentation),
+				GenerateResourceFromRepresentationMap("oci_health_checks_ping_probe", "test_ping_probe", Optional, Create, pingProbeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "port", "80"),
@@ -76,9 +76,9 @@ func TestHealthChecksPingProbeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vantage_point_names.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

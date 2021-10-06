@@ -30,7 +30,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancersProtocolResource_basic(t *testin
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_protocols", "test_network_load_balancers_protocols", Required, Create, networkLoadBalancersProtocolDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_protocols", "test_network_load_balancers_protocols", Required, Create, networkLoadBalancersProtocolDataSourceRepresentation) +
 				NetworkLoadBalancersProtocolResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancers_protocol_collection.#"),

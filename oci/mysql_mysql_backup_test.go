@@ -13,51 +13,51 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	MysqlBackupRequiredOnlyResource = MysqlBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupRepresentation)
 
 	MysqlBackupResourceConfig = MysqlBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Update, mysqlBackupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Update, mysqlBackupRepresentation)
 
 	mysqlBackupSingularDataSourceRepresentation = map[string]interface{}{
-		"backup_id": Representation{repType: Required, create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
+		"backup_id": Representation{RepType: Required, Create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
 	}
 
 	mysqlBackupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"backup_id":      Representation{repType: Optional, create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
-		"creation_type":  Representation{repType: Optional, create: `MANUAL`},
-		"db_system_id":   Representation{repType: Optional, create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"backup_id":      Representation{RepType: Optional, Create: `${oci_mysql_mysql_backup.test_mysql_backup.id}`},
+		"creation_type":  Representation{RepType: Optional, Create: `MANUAL`},
+		"db_system_id":   Representation{RepType: Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, mysqlBackupDataSourceFilterRepresentation}}
 	mysqlBackupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_mysql_mysql_backup.test_mysql_backup.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_mysql_mysql_backup.test_mysql_backup.id}`}},
 	}
 
 	mysqlBackupRepresentation = map[string]interface{}{
-		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
-		"db_system_id":      Representation{repType: Required, create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
-		"backup_type":       Representation{repType: Optional, create: `INCREMENTAL`},
-		"defined_tags":      Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":       Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":      Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":     Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"retention_in_days": Representation{repType: Optional, create: `10`, update: `11`},
+		"compartment_id":    Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"db_system_id":      Representation{RepType: Required, Create: `${oci_mysql_mysql_db_system.test_mysql_backup_db_system.id}`},
+		"backup_type":       Representation{RepType: Optional, Create: `INCREMENTAL`},
+		"defined_tags":      Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":       Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":      Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":     Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"retention_in_days": Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 
-	MysqlBackupResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	MysqlBackupResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		MysqlConfigurationResourceConfig +
-		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", Required, Create, mysqlDbSystemRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", Required, Create, mysqlDbSystemRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -80,34 +80,34 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_mysql_mysql_backup.test_mysql_backup"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+MysqlBackupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create, mysqlBackupRepresentation), "mysql", "mysqlBackup", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+MysqlBackupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create, mysqlBackupRepresentation), "mysql", "mysqlBackup", t)
 
 	ResourceTest(t, testAccCheckMysqlMysqlBackupDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies,
 		},
 
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create, mysqlBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create, mysqlBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -124,9 +124,9 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -135,12 +135,12 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + MysqlBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create,
-					representationCopyWithNewProperties(mysqlBackupRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Create,
+					RepresentationCopyWithNewProperties(mysqlBackupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
@@ -158,7 +158,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated")
 					}
@@ -170,7 +170,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + MysqlBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Update, mysqlBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Update, mysqlBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backup_type", "INCREMENTAL"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -187,7 +187,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -198,9 +198,9 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_mysql_mysql_backups", "test_mysql_backups", Optional, Update, mysqlBackupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_backups", "test_mysql_backups", Optional, Update, mysqlBackupDataSourceRepresentation) +
 				compartmentIdVariableStr + MysqlBackupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Update, mysqlBackupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Optional, Update, mysqlBackupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "backup_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -230,7 +230,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", Required, Create, mysqlBackupSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + MysqlBackupResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_id"),
@@ -280,7 +280,7 @@ func testAccCheckMysqlMysqlBackupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.BackupId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "mysql")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "mysql")
 
 			response, err := client.GetBackup(context.Background(), request)
 
@@ -313,7 +313,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("MysqlMysqlBackup") {
+	if !InSweeperExcludeList("MysqlMysqlBackup") {
 		resource.AddTestSweepers("MysqlMysqlBackup", &resource.Sweeper{
 			Name:         "MysqlMysqlBackup",
 			Dependencies: DependencyGraph["mysqlBackup"],
@@ -333,13 +333,13 @@ func sweepMysqlMysqlBackupResource(compartment string) error {
 			deleteBackupRequest := oci_mysql.DeleteBackupRequest{}
 			deleteBackupRequest.BackupId = &mysqlBackupId
 
-			deleteBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "mysql")
+			deleteBackupRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "mysql")
 			_, error := dbBackupsClient.DeleteBackup(context.Background(), deleteBackupRequest)
 			if error != nil {
 				fmt.Printf("Error deleting MysqlBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlBackupId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &mysqlBackupId, mysqlBackupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &mysqlBackupId, mysqlBackupSweepWaitCondition, time.Duration(3*time.Minute),
 				mysqlBackupSweepResponseFetchOperation, "mysql", true)
 		}
 	}
@@ -347,7 +347,7 @@ func sweepMysqlMysqlBackupResource(compartment string) error {
 }
 
 func getMysqlBackupIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "MysqlBackupId")
+	ids := GetResourceIdsToSweep(compartment, "MysqlBackupId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -366,7 +366,7 @@ func getMysqlBackupIds(compartment string) ([]string, error) {
 	for _, mysqlBackup := range listBackupsResponse.Items {
 		id := *mysqlBackup.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "MysqlBackupId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "MysqlBackupId", id)
 	}
 	return resourceIds, nil
 }

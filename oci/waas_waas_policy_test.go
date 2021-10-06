@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -23,40 +23,40 @@ import (
 var (
 	waasPolicyDomainSuffix = ".oracle.com"
 
-	waasPolicyDomainName = randomStringOrHttpReplayValue(4, strings.ToLower(charsetWithoutDigits), "snww")
+	waasPolicyDomainName = RandomStringOrHttpReplayValue(4, strings.ToLower(charsetWithoutDigits), "snww")
 
 	waasPolicyDomain = waasPolicyDomainName + waasPolicyDomainSuffix
 
 	WaasPolicyRequiredOnlyResource = WaasPolicyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicyRepresentation)
 
 	WaasPolicyResourceConfig = WaasPolicyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Update, waasPolicyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Update, waasPolicyRepresentation)
 
 	waasPolicySingularDataSourceRepresentation = map[string]interface{}{
-		"waas_policy_id": Representation{repType: Required, create: `${oci_waas_waas_policy.test_waas_policy.id}`},
+		"waas_policy_id": Representation{RepType: Required, Create: `${oci_waas_waas_policy.test_waas_policy.id}`},
 	}
 
 	waasPolicyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                        Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_names":                         Representation{repType: Optional, create: []string{`displayName2`}},
-		"ids":                                   Representation{repType: Optional, create: []string{`${oci_waas_waas_policy.test_waas_policy.id}`}},
-		"states":                                Representation{repType: Optional, create: []string{`ACTIVE`}},
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
-		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
+		"compartment_id":                        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_names":                         Representation{RepType: Optional, Create: []string{`displayName2`}},
+		"ids":                                   Representation{RepType: Optional, Create: []string{`${oci_waas_waas_policy.test_waas_policy.id}`}},
+		"states":                                Representation{RepType: Optional, Create: []string{`ACTIVE`}},
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"time_created_less_than":                Representation{RepType: Optional, Create: `2038-01-01T00:00:00.000Z`},
 		"filter":                                RepresentationGroup{Required, waasPolicyDataSourceFilterRepresentation}}
 	waasPolicyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_waas_waas_policy.test_waas_policy.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_waas_waas_policy.test_waas_policy.id}`}},
 	}
 
 	waasPolicyRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"domain":             Representation{repType: Required, create: waasPolicyDomain},
-		"additional_domains": Representation{repType: Optional, create: []string{waasPolicyDomainName + "3" + waasPolicyDomainSuffix, waasPolicyDomainName + "4" + waasPolicyDomainSuffix}, update: []string{waasPolicyDomainName + "31" + waasPolicyDomainSuffix, waasPolicyDomainName + "41" + waasPolicyDomainSuffix}},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"domain":             Representation{RepType: Required, Create: waasPolicyDomain},
+		"additional_domains": Representation{RepType: Optional, Create: []string{waasPolicyDomainName + "3" + waasPolicyDomainSuffix, waasPolicyDomainName + "4" + waasPolicyDomainSuffix}, Update: []string{waasPolicyDomainName + "31" + waasPolicyDomainSuffix, waasPolicyDomainName + "41" + waasPolicyDomainSuffix}},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":       Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"origin_groups":      []RepresentationGroup{{Optional, waasOriginGroupsRepresentationMap1}, {Optional, waasOriginGroupsRepresentationMap2}},
 		"origins":            []RepresentationGroup{{Optional, waasOriginRepresentationMap1}, {Optional, waasOriginRepresentationMap2}},
 		"policy_config":      RepresentationGroup{Optional, waasPolicyPolicyConfigRepresentation},
@@ -64,63 +64,63 @@ var (
 		"timeouts":           RepresentationGroup{Required, waasPolicyTimeoutsRepresentation},
 	}
 	waasPolicyTimeoutsRepresentation = map[string]interface{}{
-		"create": Representation{repType: Required, create: `120m`},
-		"update": Representation{repType: Required, create: `120m`},
-		"delete": Representation{repType: Required, create: `120m`},
+		"create": Representation{RepType: Required, Create: `120m`},
+		"update": Representation{RepType: Required, Create: `120m`},
+		"delete": Representation{RepType: Required, Create: `120m`},
 	}
 	waasCustomHeaderRepresentation1 = map[string]interface{}{
-		"name":  Representation{repType: Required, create: "name1"},
-		"value": Representation{repType: Required, create: "value1"},
+		"name":  Representation{RepType: Required, Create: "name1"},
+		"value": Representation{RepType: Required, Create: "value1"},
 	}
 	waasCustomHeaderRepresentation2 = map[string]interface{}{
-		"name":  Representation{repType: Required, create: "name2"},
-		"value": Representation{repType: Required, create: "value2"},
+		"name":  Representation{RepType: Required, Create: "name2"},
+		"value": Representation{RepType: Required, Create: "value2"},
 	}
 	waasOriginGroupRepresentation1 = map[string]interface{}{
-		"origin": Representation{repType: Required, create: "primary", update: "primary2"},
-		"weight": Representation{repType: Required, create: `1`},
+		"origin": Representation{RepType: Required, Create: "primary", Update: "primary2"},
+		"weight": Representation{RepType: Required, Create: `1`},
 	}
 	waasOriginGroupRepresentation2 = map[string]interface{}{
-		"origin": Representation{repType: Required, create: "secondary", update: "secondary2"},
-		"weight": Representation{repType: Required, create: `2`},
+		"origin": Representation{RepType: Required, Create: "secondary", Update: "secondary2"},
+		"weight": Representation{RepType: Required, Create: `2`},
 	}
 	waasOriginRepresentationMap1 = map[string]interface{}{
-		"label":          Representation{repType: Required, create: "primary", update: "primary2"},
-		"uri":            Representation{repType: Required, create: "192.168.0.1", update: "192.168.0.11"},
-		"http_port":      Representation{repType: Required, create: 80, update: 8081},
-		"https_port":     Representation{repType: Required, create: 443, update: 8444},
+		"label":          Representation{RepType: Required, Create: "primary", Update: "primary2"},
+		"uri":            Representation{RepType: Required, Create: "192.168.0.1", Update: "192.168.0.11"},
+		"http_port":      Representation{RepType: Required, Create: 80, Update: 8081},
+		"https_port":     Representation{RepType: Required, Create: 443, Update: 8444},
 		"custom_headers": []RepresentationGroup{{Optional, waasCustomHeaderRepresentation1}, {Optional, waasCustomHeaderRepresentation2}},
 	}
 	waasOriginGroupsRepresentationMap1 = map[string]interface{}{
-		"label":        Representation{repType: Required, create: "originGroups1", update: "originGroups11"},
+		"label":        Representation{RepType: Required, Create: "originGroups1", Update: "originGroups11"},
 		"origin_group": []RepresentationGroup{{Optional, waasOriginGroupRepresentation1}, {Optional, waasOriginGroupRepresentation2}},
 	}
 	waasOriginGroupsRepresentationMap2 = map[string]interface{}{
-		"label":        Representation{repType: Required, create: "originGroups2", update: "originGroups22"},
+		"label":        Representation{RepType: Required, Create: "originGroups2", Update: "originGroups22"},
 		"origin_group": []RepresentationGroup{{Optional, waasOriginGroupRepresentation1}, {Optional, waasOriginGroupRepresentation2}},
 	}
 	waasOriginRepresentationMap2 = map[string]interface{}{
-		"label":          Representation{repType: Required, create: "secondary", update: "secondary2"},
-		"uri":            Representation{repType: Required, create: "192.168.0.2", update: "192.168.0.20"},
-		"http_port":      Representation{repType: Required, create: 8080, update: 8082},
-		"https_port":     Representation{repType: Required, create: 8443, update: 8445},
+		"label":          Representation{RepType: Required, Create: "secondary", Update: "secondary2"},
+		"uri":            Representation{RepType: Required, Create: "192.168.0.2", Update: "192.168.0.20"},
+		"http_port":      Representation{RepType: Required, Create: 8080, Update: 8082},
+		"https_port":     Representation{RepType: Required, Create: 8443, Update: 8445},
 		"custom_headers": []RepresentationGroup{{Optional, waasCustomHeaderRepresentation1}, {Optional, waasCustomHeaderRepresentation2}},
 	}
 	waasPolicyPolicyConfigRepresentation = map[string]interface{}{
-		"certificate_id":                Representation{repType: Optional, create: `${oci_waas_certificate.test_certificate.id}`},
-		"cipher_group":                  Representation{repType: Optional, create: `DEFAULT`, update: `DEFAULT`},
-		"client_address_header":         Representation{repType: Optional, create: ``, update: `X_FORWARDED_FOR`},
+		"certificate_id":                Representation{RepType: Optional, Create: `${oci_waas_certificate.test_certificate.id}`},
+		"cipher_group":                  Representation{RepType: Optional, Create: `DEFAULT`, Update: `DEFAULT`},
+		"client_address_header":         Representation{RepType: Optional, Create: ``, Update: `X_FORWARDED_FOR`},
 		"health_checks":                 RepresentationGroup{Optional, waasPolicyPolicyConfigHealthChecksRepresentation},
-		"is_behind_cdn":                 Representation{repType: Optional, create: `false`, update: `true`},
-		"is_cache_control_respected":    Representation{repType: Optional, create: `false`, update: `true`},
-		"is_https_enabled":              Representation{repType: Optional, create: `false`, update: `true`},
-		"is_https_forced":               Representation{repType: Optional, create: `false`, update: `true`},
-		"is_origin_compression_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"is_response_buffering_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"is_sni_enabled":                Representation{repType: Optional, create: `false`, update: `true`},
+		"is_behind_cdn":                 Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_cache_control_respected":    Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_https_enabled":              Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_https_forced":               Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_origin_compression_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_response_buffering_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_sni_enabled":                Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"load_balancing_method":         RepresentationGroup{Optional, waasPolicyPolicyConfigLoadBalancingMethodRepresentation},
-		"tls_protocols":                 Representation{repType: Optional, create: []string{`TLS_V1_2`}, update: []string{`TLS_V1_3`}},
-		"websocket_path_prefixes":       Representation{repType: Optional, create: []string{`/url1`}, update: []string{`/url2`}},
+		"tls_protocols":                 Representation{RepType: Optional, Create: []string{`TLS_V1_2`}, Update: []string{`TLS_V1_3`}},
+		"websocket_path_prefixes":       Representation{RepType: Optional, Create: []string{`/url1`}, Update: []string{`/url2`}},
 	}
 	waasPolicyWafConfigRepresentation = map[string]interface{}{
 		"access_rules":          RepresentationGroup{Optional, waasPolicyWafConfigAccessRulesRepresentation},
@@ -132,200 +132,200 @@ var (
 		"device_fingerprint_challenge": RepresentationGroup{Optional, waasPolicyWafConfigDeviceFingerprintChallengeRepresentation},
 		"human_interaction_challenge":  RepresentationGroup{Optional, waasPolicyWafConfigHumanInteractionChallengeRepresentation},
 		"js_challenge":                 RepresentationGroup{Optional, waasPolicyWafConfigJsChallengeRepresentation},
-		"origin":                       Representation{repType: Optional, create: `primary`, update: `primary2`},
-		"origin_groups":                Representation{repType: Optional, create: []string{`originGroups1`}, update: []string{`originGroups11`}},
+		"origin":                       Representation{RepType: Optional, Create: `primary`, Update: `primary2`},
+		"origin_groups":                Representation{RepType: Optional, Create: []string{`originGroups1`}, Update: []string{`originGroups11`}},
 		"protection_settings":          RepresentationGroup{Optional, waasPolicyWafConfigProtectionSettingsRepresentation},
 		"whitelists":                   RepresentationGroup{Optional, waasPolicyWafConfigWhitelistsRepresentation},
 	}
 	waasPolicyOriginsCustomHeadersRepresentation = map[string]interface{}{
-		"name":  Representation{repType: Required, create: `name`, update: `name2`},
-		"value": Representation{repType: Required, create: `value`, update: `value2`},
+		"name":  Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"value": Representation{RepType: Required, Create: `value`, Update: `value2`},
 	}
 	waasPolicyPolicyConfigHealthChecksRepresentation = map[string]interface{}{
-		"expected_response_code_group":   Representation{repType: Optional, create: []string{`2XX`}, update: []string{`3XX`}},
-		"expected_response_text":         Representation{repType: Optional, create: `expectedResponseText`, update: `expectedResponseText2`},
-		"headers":                        Representation{repType: Optional, create: map[string]string{"Host": "oracle.com", "User-Agent": "Oracle-TerraformProvider"}},
-		"healthy_threshold":              Representation{repType: Optional, create: `10`, update: `11`},
-		"interval_in_seconds":            Representation{repType: Optional, create: `10`, update: `11`},
-		"is_enabled":                     Representation{repType: Optional, create: `false`, update: `true`},
-		"is_response_text_check_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"method":                         Representation{repType: Optional, create: `GET`, update: `POST`},
-		"path":                           Representation{repType: Optional, create: `/`},
-		"timeout_in_seconds":             Representation{repType: Optional, create: `10`, update: `11`},
-		"unhealthy_threshold":            Representation{repType: Optional, create: `10`, update: `11`},
+		"expected_response_code_group":   Representation{RepType: Optional, Create: []string{`2XX`}, Update: []string{`3XX`}},
+		"expected_response_text":         Representation{RepType: Optional, Create: `expectedResponseText`, Update: `expectedResponseText2`},
+		"headers":                        Representation{RepType: Optional, Create: map[string]string{"Host": "oracle.com", "User-Agent": "Oracle-TerraformProvider"}},
+		"healthy_threshold":              Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"interval_in_seconds":            Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"is_enabled":                     Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_response_text_check_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"method":                         Representation{RepType: Optional, Create: `GET`, Update: `POST`},
+		"path":                           Representation{RepType: Optional, Create: `/`},
+		"timeout_in_seconds":             Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"unhealthy_threshold":            Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 	waasPolicyPolicyConfigLoadBalancingMethodRepresentation = map[string]interface{}{
-		"method":                     Representation{repType: Required, create: `STICKY_COOKIE`},
-		"domain":                     Representation{repType: Optional, create: `example.com`, update: `example2.com`},
-		"expiration_time_in_seconds": Representation{repType: Optional, create: `10`, update: `11`},
-		"name":                       Representation{repType: Optional, create: `name`, update: `name2`},
+		"method":                     Representation{RepType: Required, Create: `STICKY_COOKIE`},
+		"domain":                     Representation{RepType: Optional, Create: `example.com`, Update: `example2.com`},
+		"expiration_time_in_seconds": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"name":                       Representation{RepType: Optional, Create: `name`, Update: `name2`},
 	}
 	waasPolicyWafConfigAccessRulesRepresentation = map[string]interface{}{
-		"action":                       Representation{repType: Required, create: `ALLOW`, update: `DETECT`},
+		"action":                       Representation{RepType: Required, Create: `ALLOW`, Update: `DETECT`},
 		"criteria":                     RepresentationGroup{Required, waasPolicyWafConfigAccessRulesCriteriaRepresentation},
-		"name":                         Representation{repType: Required, create: `name`, update: `name2`},
-		"block_action":                 Representation{repType: Optional, create: `SET_RESPONSE_CODE`, update: `SHOW_ERROR_PAGE`},
-		"block_error_page_code":        Representation{repType: Optional, create: `403`, update: `401`},
-		"block_error_page_description": Representation{repType: Optional, create: `blockErrorPageDescription`, update: `blockErrorPageDescription2`},
-		"block_error_page_message":     Representation{repType: Optional, create: `blockErrorPageMessage`, update: `blockErrorPageMessage2`},
-		"block_response_code":          Representation{repType: Optional, create: `403`, update: `401`},
-		"bypass_challenges":            Representation{repType: Optional, create: []string{`JS_CHALLENGE`}, update: []string{`HUMAN_INTERACTION_CHALLENGE`}},
-		"captcha_footer":               Representation{repType: Optional, create: `captchaFooter`, update: `captchaFooter2`},
-		"captcha_header":               Representation{repType: Optional, create: `captchaHeader`, update: `captchaHeader2`},
-		"captcha_submit_label":         Representation{repType: Optional, create: `captchaSubmitLabel`, update: `captchaSubmitLabel2`},
-		"captcha_title":                Representation{repType: Optional, create: `captchaTitle`, update: `captchaTitle2`},
-		"redirect_response_code":       Representation{repType: Optional, create: `FOUND`, update: `MOVED_PERMANENTLY`},
-		"redirect_url":                 Representation{repType: Optional, create: `http://0.0.0.0:80`, update: `http://0.0.0.0:81`},
+		"name":                         Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"block_action":                 Representation{RepType: Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
+		"block_error_page_code":        Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"block_error_page_description": Representation{RepType: Optional, Create: `blockErrorPageDescription`, Update: `blockErrorPageDescription2`},
+		"block_error_page_message":     Representation{RepType: Optional, Create: `blockErrorPageMessage`, Update: `blockErrorPageMessage2`},
+		"block_response_code":          Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"bypass_challenges":            Representation{RepType: Optional, Create: []string{`JS_CHALLENGE`}, Update: []string{`HUMAN_INTERACTION_CHALLENGE`}},
+		"captcha_footer":               Representation{RepType: Optional, Create: `captchaFooter`, Update: `captchaFooter2`},
+		"captcha_header":               Representation{RepType: Optional, Create: `captchaHeader`, Update: `captchaHeader2`},
+		"captcha_submit_label":         Representation{RepType: Optional, Create: `captchaSubmitLabel`, Update: `captchaSubmitLabel2`},
+		"captcha_title":                Representation{RepType: Optional, Create: `captchaTitle`, Update: `captchaTitle2`},
+		"redirect_response_code":       Representation{RepType: Optional, Create: `FOUND`, Update: `MOVED_PERMANENTLY`},
+		"redirect_url":                 Representation{RepType: Optional, Create: `http://0.0.0.0:80`, Update: `http://0.0.0.0:81`},
 		"response_header_manipulation": RepresentationGroup{Optional, waasPolicyWafConfigAccessRulesResponseHeaderManipulationRepresentation},
 	}
 	waasPolicyWafConfigAddressRateLimitingRepresentation = map[string]interface{}{
-		"is_enabled":                    Representation{repType: Required, create: `false`, update: `true`},
-		"allowed_rate_per_address":      Representation{repType: Optional, create: `10`, update: `11`},
-		"block_response_code":           Representation{repType: Optional, create: `403`, update: `401`},
-		"max_delayed_count_per_address": Representation{repType: Optional, create: `10`, update: `11`},
+		"is_enabled":                    Representation{RepType: Required, Create: `false`, Update: `true`},
+		"allowed_rate_per_address":      Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"block_response_code":           Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"max_delayed_count_per_address": Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 	waasPolicyWafConfigCachingRulesRepresentation = map[string]interface{}{
-		"action":                    Representation{repType: Required, create: `CACHE`, update: `CACHE`},
+		"action":                    Representation{RepType: Required, Create: `CACHE`, Update: `CACHE`},
 		"criteria":                  RepresentationGroup{Required, waasPolicyWafConfigCachingRulesCriteriaRepresentation},
-		"name":                      Representation{repType: Required, create: `name`, update: `name2`},
-		"caching_duration":          Representation{repType: Optional, create: `PT1S`, update: `PT2S`},
-		"client_caching_duration":   Representation{repType: Optional, create: `PT1S`, update: `PT2S`},
-		"is_client_caching_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"key":                       Representation{repType: Optional, create: `key`, update: `key2`},
+		"name":                      Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"caching_duration":          Representation{RepType: Optional, Create: `PT1S`, Update: `PT2S`},
+		"client_caching_duration":   Representation{RepType: Optional, Create: `PT1S`, Update: `PT2S`},
+		"is_client_caching_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"key":                       Representation{RepType: Optional, Create: `key`, Update: `key2`},
 	}
 	waasPolicyWafConfigCaptchasRepresentation = map[string]interface{}{
-		"failure_message":               Representation{repType: Required, create: `failureMessage`, update: `failureMessage2`},
-		"session_expiration_in_seconds": Representation{repType: Required, create: `10`, update: `11`},
-		"submit_label":                  Representation{repType: Required, create: `submitLabel`, update: `submitLabel2`},
-		"title":                         Representation{repType: Required, create: `title`, update: `title2`},
-		"url":                           Representation{repType: Required, create: `url`, update: `url2`},
-		"footer_text":                   Representation{repType: Optional, create: `footerText`, update: `footerText2`},
-		"header_text":                   Representation{repType: Optional, create: `headerText`, update: `headerText2`},
+		"failure_message":               Representation{RepType: Required, Create: `failureMessage`, Update: `failureMessage2`},
+		"session_expiration_in_seconds": Representation{RepType: Required, Create: `10`, Update: `11`},
+		"submit_label":                  Representation{RepType: Required, Create: `submitLabel`, Update: `submitLabel2`},
+		"title":                         Representation{RepType: Required, Create: `title`, Update: `title2`},
+		"url":                           Representation{RepType: Required, Create: `url`, Update: `url2`},
+		"footer_text":                   Representation{RepType: Optional, Create: `footerText`, Update: `footerText2`},
+		"header_text":                   Representation{RepType: Optional, Create: `headerText`, Update: `headerText2`},
 	}
 	waasPolicyWafConfigCustomProtectionRulesRepresentation = map[string]interface{}{
-		"action":     Representation{repType: Optional, create: `DETECT`, update: `BLOCK`},
+		"action":     Representation{RepType: Optional, Create: `DETECT`, Update: `BLOCK`},
 		"exclusions": RepresentationGroup{Optional, waasPolicyWafConfigCustomProtectionRulesExclusionsRepresentation},
-		"id":         Representation{repType: Optional, create: `${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`, update: `${oci_waas_custom_protection_rule.test_custom_protection_rule2.id}`},
+		"id":         Representation{RepType: Optional, Create: `${oci_waas_custom_protection_rule.test_custom_protection_rule.id}`, Update: `${oci_waas_custom_protection_rule.test_custom_protection_rule2.id}`},
 	}
 	waasPolicyWafConfigDeviceFingerprintChallengeRepresentation = map[string]interface{}{
-		"is_enabled":                   Representation{repType: Required, create: `false`, update: `true`},
-		"action":                       Representation{repType: Optional, create: `DETECT`, update: `BLOCK`},
-		"action_expiration_in_seconds": Representation{repType: Optional, create: `10`, update: `11`},
+		"is_enabled":                   Representation{RepType: Required, Create: `false`, Update: `true`},
+		"action":                       Representation{RepType: Optional, Create: `DETECT`, Update: `BLOCK`},
+		"action_expiration_in_seconds": Representation{RepType: Optional, Create: `10`, Update: `11`},
 		"challenge_settings":           RepresentationGroup{Optional, waasPolicyWafConfigDeviceFingerprintChallengeChallengeSettingsRepresentation},
-		"failure_threshold":            Representation{repType: Optional, create: `10`, update: `11`},
-		"failure_threshold_expiration_in_seconds": Representation{repType: Optional, create: `10`, update: `11`},
-		"max_address_count":                       Representation{repType: Optional, create: `10`, update: `11`},
-		"max_address_count_expiration_in_seconds": Representation{repType: Optional, create: `10`, update: `11`},
+		"failure_threshold":            Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"failure_threshold_expiration_in_seconds": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"max_address_count":                       Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"max_address_count_expiration_in_seconds": Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 	waasPolicyWafConfigHumanInteractionChallengeRepresentation = map[string]interface{}{
-		"is_enabled":                   Representation{repType: Required, create: `false`, update: `true`},
-		"action":                       Representation{repType: Optional, create: `DETECT`, update: `BLOCK`},
-		"action_expiration_in_seconds": Representation{repType: Optional, create: `10`, update: `11`},
+		"is_enabled":                   Representation{RepType: Required, Create: `false`, Update: `true`},
+		"action":                       Representation{RepType: Optional, Create: `DETECT`, Update: `BLOCK`},
+		"action_expiration_in_seconds": Representation{RepType: Optional, Create: `10`, Update: `11`},
 		"challenge_settings":           RepresentationGroup{Optional, waasPolicyWafConfigHumanInteractionChallengeChallengeSettingsRepresentation},
-		"failure_threshold":            Representation{repType: Optional, create: `10`, update: `11`},
-		"failure_threshold_expiration_in_seconds": Representation{repType: Optional, create: `10`, update: `11`},
-		"interaction_threshold":                   Representation{repType: Optional, create: `10`, update: `11`},
-		"is_nat_enabled":                          Representation{repType: Optional, create: `false`, update: `true`},
-		"recording_period_in_seconds":             Representation{repType: Optional, create: `10`, update: `11`},
+		"failure_threshold":            Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"failure_threshold_expiration_in_seconds": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"interaction_threshold":                   Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"is_nat_enabled":                          Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"recording_period_in_seconds":             Representation{RepType: Optional, Create: `10`, Update: `11`},
 		"set_http_header":                         RepresentationGroup{Optional, waasPolicyWafConfigHumanInteractionChallengeSetHttpHeaderRepresentation},
 	}
 	waasPolicyWafConfigJsChallengeRepresentation = map[string]interface{}{
-		"is_enabled":                   Representation{repType: Required, create: `false`, update: `true`},
-		"action":                       Representation{repType: Optional, create: `DETECT`, update: `BLOCK`},
-		"action_expiration_in_seconds": Representation{repType: Optional, create: `10`, update: `11`},
-		"are_redirects_challenged":     Representation{repType: Optional, create: `false`, update: `true`},
+		"is_enabled":                   Representation{RepType: Required, Create: `false`, Update: `true`},
+		"action":                       Representation{RepType: Optional, Create: `DETECT`, Update: `BLOCK`},
+		"action_expiration_in_seconds": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"are_redirects_challenged":     Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"challenge_settings":           RepresentationGroup{Optional, waasPolicyWafConfigJsChallengeChallengeSettingsRepresentation},
 		"criteria":                     RepresentationGroup{Optional, waasPolicyWafConfigJsChallengeCriteriaRepresentation},
-		"failure_threshold":            Representation{repType: Optional, create: `10`, update: `11`},
-		"is_nat_enabled":               Representation{repType: Optional, create: `false`, update: `true`},
+		"failure_threshold":            Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"is_nat_enabled":               Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"set_http_header":              RepresentationGroup{Optional, waasPolicyWafConfigJsChallengeSetHttpHeaderRepresentation},
 	}
 	waasPolicyWafConfigProtectionSettingsRepresentation = map[string]interface{}{
-		"allowed_http_methods":               Representation{repType: Optional, create: []string{`OPTIONS`}, update: []string{`HEAD`}},
-		"block_action":                       Representation{repType: Optional, create: `SET_RESPONSE_CODE`, update: `SHOW_ERROR_PAGE`},
-		"block_error_page_code":              Representation{repType: Optional, create: `403`, update: `401`},
-		"block_error_page_description":       Representation{repType: Optional, create: `blockErrorPageDescription`, update: `blockErrorPageDescription2`},
-		"block_error_page_message":           Representation{repType: Optional, create: `blockErrorPageMessage`, update: `blockErrorPageMessage2`},
-		"block_response_code":                Representation{repType: Optional, create: `403`, update: `401`},
-		"is_response_inspected":              Representation{repType: Optional, create: `false`},
-		"max_argument_count":                 Representation{repType: Optional, create: `10`, update: `11`},
-		"max_name_length_per_argument":       Representation{repType: Optional, create: `10`, update: `11`},
-		"max_response_size_in_ki_b":          Representation{repType: Optional, create: `10`, update: `11`},
-		"max_total_name_length_of_arguments": Representation{repType: Optional, create: `10`, update: `11`},
-		"media_types":                        Representation{repType: Optional, create: []string{`application/plain`}, update: []string{`application/json`}},
-		"recommendations_period_in_days":     Representation{repType: Optional, create: `10`, update: `11`},
+		"allowed_http_methods":               Representation{RepType: Optional, Create: []string{`OPTIONS`}, Update: []string{`HEAD`}},
+		"block_action":                       Representation{RepType: Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
+		"block_error_page_code":              Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"block_error_page_description":       Representation{RepType: Optional, Create: `blockErrorPageDescription`, Update: `blockErrorPageDescription2`},
+		"block_error_page_message":           Representation{RepType: Optional, Create: `blockErrorPageMessage`, Update: `blockErrorPageMessage2`},
+		"block_response_code":                Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"is_response_inspected":              Representation{RepType: Optional, Create: `false`},
+		"max_argument_count":                 Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"max_name_length_per_argument":       Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"max_response_size_in_ki_b":          Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"max_total_name_length_of_arguments": Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"media_types":                        Representation{RepType: Optional, Create: []string{`application/plain`}, Update: []string{`application/json`}},
+		"recommendations_period_in_days":     Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 	waasPolicyWafConfigWhitelistsRepresentation = map[string]interface{}{
-		"name":      Representation{repType: Required, create: `name`, update: `name2`},
-		"addresses": Representation{repType: Optional, create: []string{`192.168.127.127`}, update: []string{`192.168.127.128`}},
+		"name":      Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"addresses": Representation{RepType: Optional, Create: []string{`192.168.127.127`}, Update: []string{`192.168.127.128`}},
 	}
 	waasPolicyWafConfigAccessRulesCriteriaRepresentation = map[string]interface{}{
-		"condition":         Representation{repType: Required, create: `URL_IS`, update: `URL_IS_NOT`},
-		"value":             Representation{repType: Required, create: `/public`, update: `/secret`},
-		"is_case_sensitive": Representation{repType: Optional, create: `false`, update: `true`},
+		"condition":         Representation{RepType: Required, Create: `URL_IS`, Update: `URL_IS_NOT`},
+		"value":             Representation{RepType: Required, Create: `/public`, Update: `/secret`},
+		"is_case_sensitive": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	waasPolicyWafConfigAccessRulesResponseHeaderManipulationRepresentation = map[string]interface{}{
-		"action": Representation{repType: Required, create: `EXTEND_HTTP_RESPONSE_HEADER`, update: `ADD_HTTP_RESPONSE_HEADER`},
-		"header": Representation{repType: Required, create: `header`, update: `header2`},
-		"value":  Representation{repType: Optional, create: `value`, update: `value2`},
+		"action": Representation{RepType: Required, Create: `EXTEND_HTTP_RESPONSE_HEADER`, Update: `ADD_HTTP_RESPONSE_HEADER`},
+		"header": Representation{RepType: Required, Create: `header`, Update: `header2`},
+		"value":  Representation{RepType: Optional, Create: `value`, Update: `value2`},
 	}
 	waasPolicyWafConfigCachingRulesCriteriaRepresentation = map[string]interface{}{
-		"condition": Representation{repType: Required, create: `URL_IS`, update: `URL_STARTS_WITH`},
-		"value":     Representation{repType: Required, create: `/public`, update: `/publ`},
+		"condition": Representation{RepType: Required, Create: `URL_IS`, Update: `URL_STARTS_WITH`},
+		"value":     Representation{RepType: Required, Create: `/public`, Update: `/publ`},
 	}
 	waasPolicyWafConfigCustomProtectionRulesExclusionsRepresentation = map[string]interface{}{
-		"exclusions": Representation{repType: Optional, create: []string{`example.com`}, update: []string{`example2.com`}},
-		"target":     Representation{repType: Optional, create: `REQUEST_COOKIES`, update: `target2`},
+		"exclusions": Representation{RepType: Optional, Create: []string{`example.com`}, Update: []string{`example2.com`}},
+		"target":     Representation{RepType: Optional, Create: `REQUEST_COOKIES`, Update: `target2`},
 	}
 	waasPolicyWafConfigDeviceFingerprintChallengeChallengeSettingsRepresentation = map[string]interface{}{
-		"block_action":                 Representation{repType: Optional, create: `SET_RESPONSE_CODE`, update: `SHOW_ERROR_PAGE`},
-		"block_error_page_code":        Representation{repType: Optional, create: `403`, update: `401`},
-		"block_error_page_description": Representation{repType: Optional, create: `blockErrorPageDescription`, update: `blockErrorPageDescription2`},
-		"block_error_page_message":     Representation{repType: Optional, create: `blockErrorPageMessage`, update: `blockErrorPageMessage2`},
-		"block_response_code":          Representation{repType: Optional, create: `403`, update: `401`},
-		"captcha_footer":               Representation{repType: Optional, create: `captchaFooter`, update: `captchaFooter2`},
-		"captcha_header":               Representation{repType: Optional, create: `captchaHeader`, update: `captchaHeader2`},
-		"captcha_submit_label":         Representation{repType: Optional, create: `captchaSubmitLabel`, update: `captchaSubmitLabel2`},
-		"captcha_title":                Representation{repType: Optional, create: `captchaTitle`, update: `captchaTitle2`},
+		"block_action":                 Representation{RepType: Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
+		"block_error_page_code":        Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"block_error_page_description": Representation{RepType: Optional, Create: `blockErrorPageDescription`, Update: `blockErrorPageDescription2`},
+		"block_error_page_message":     Representation{RepType: Optional, Create: `blockErrorPageMessage`, Update: `blockErrorPageMessage2`},
+		"block_response_code":          Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"captcha_footer":               Representation{RepType: Optional, Create: `captchaFooter`, Update: `captchaFooter2`},
+		"captcha_header":               Representation{RepType: Optional, Create: `captchaHeader`, Update: `captchaHeader2`},
+		"captcha_submit_label":         Representation{RepType: Optional, Create: `captchaSubmitLabel`, Update: `captchaSubmitLabel2`},
+		"captcha_title":                Representation{RepType: Optional, Create: `captchaTitle`, Update: `captchaTitle2`},
 	}
 	waasPolicyWafConfigHumanInteractionChallengeChallengeSettingsRepresentation = map[string]interface{}{
-		"block_action":                 Representation{repType: Optional, create: `SET_RESPONSE_CODE`, update: `SHOW_ERROR_PAGE`},
-		"block_error_page_code":        Representation{repType: Optional, create: `403`, update: `401`},
-		"block_error_page_description": Representation{repType: Optional, create: `blockErrorPageDescription`, update: `blockErrorPageDescription2`},
-		"block_error_page_message":     Representation{repType: Optional, create: `blockErrorPageMessage`, update: `blockErrorPageMessage2`},
-		"block_response_code":          Representation{repType: Optional, create: `403`, update: `401`},
-		"captcha_footer":               Representation{repType: Optional, create: `captchaFooter`, update: `captchaFooter2`},
-		"captcha_header":               Representation{repType: Optional, create: `captchaHeader`, update: `captchaHeader2`},
-		"captcha_submit_label":         Representation{repType: Optional, create: `captchaSubmitLabel`, update: `captchaSubmitLabel2`},
-		"captcha_title":                Representation{repType: Optional, create: `captchaTitle`, update: `captchaTitle2`},
+		"block_action":                 Representation{RepType: Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
+		"block_error_page_code":        Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"block_error_page_description": Representation{RepType: Optional, Create: `blockErrorPageDescription`, Update: `blockErrorPageDescription2`},
+		"block_error_page_message":     Representation{RepType: Optional, Create: `blockErrorPageMessage`, Update: `blockErrorPageMessage2`},
+		"block_response_code":          Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"captcha_footer":               Representation{RepType: Optional, Create: `captchaFooter`, Update: `captchaFooter2`},
+		"captcha_header":               Representation{RepType: Optional, Create: `captchaHeader`, Update: `captchaHeader2`},
+		"captcha_submit_label":         Representation{RepType: Optional, Create: `captchaSubmitLabel`, Update: `captchaSubmitLabel2`},
+		"captcha_title":                Representation{RepType: Optional, Create: `captchaTitle`, Update: `captchaTitle2`},
 	}
 	waasPolicyWafConfigHumanInteractionChallengeSetHttpHeaderRepresentation = map[string]interface{}{
-		"name":  Representation{repType: Required, create: `name`, update: `name2`},
-		"value": Representation{repType: Required, create: `value`, update: `value2`},
+		"name":  Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"value": Representation{RepType: Required, Create: `value`, Update: `value2`},
 	}
 	waasPolicyWafConfigJsChallengeChallengeSettingsRepresentation = map[string]interface{}{
-		"block_action":                 Representation{repType: Optional, create: `SET_RESPONSE_CODE`, update: `SHOW_ERROR_PAGE`},
-		"block_error_page_code":        Representation{repType: Optional, create: `403`, update: `401`},
-		"block_error_page_description": Representation{repType: Optional, create: `blockErrorPageDescription`, update: `blockErrorPageDescription2`},
-		"block_error_page_message":     Representation{repType: Optional, create: `blockErrorPageMessage`, update: `blockErrorPageMessage2`},
-		"block_response_code":          Representation{repType: Optional, create: `403`, update: `401`},
-		"captcha_footer":               Representation{repType: Optional, create: `captchaFooter`, update: `captchaFooter2`},
-		"captcha_header":               Representation{repType: Optional, create: `captchaHeader`, update: `captchaHeader2`},
-		"captcha_submit_label":         Representation{repType: Optional, create: `captchaSubmitLabel`, update: `captchaSubmitLabel2`},
-		"captcha_title":                Representation{repType: Optional, create: `captchaTitle`, update: `captchaTitle2`},
+		"block_action":                 Representation{RepType: Optional, Create: `SET_RESPONSE_CODE`, Update: `SHOW_ERROR_PAGE`},
+		"block_error_page_code":        Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"block_error_page_description": Representation{RepType: Optional, Create: `blockErrorPageDescription`, Update: `blockErrorPageDescription2`},
+		"block_error_page_message":     Representation{RepType: Optional, Create: `blockErrorPageMessage`, Update: `blockErrorPageMessage2`},
+		"block_response_code":          Representation{RepType: Optional, Create: `403`, Update: `401`},
+		"captcha_footer":               Representation{RepType: Optional, Create: `captchaFooter`, Update: `captchaFooter2`},
+		"captcha_header":               Representation{RepType: Optional, Create: `captchaHeader`, Update: `captchaHeader2`},
+		"captcha_submit_label":         Representation{RepType: Optional, Create: `captchaSubmitLabel`, Update: `captchaSubmitLabel2`},
+		"captcha_title":                Representation{RepType: Optional, Create: `captchaTitle`, Update: `captchaTitle2`},
 	}
 	waasPolicyWafConfigJsChallengeCriteriaRepresentation = map[string]interface{}{
-		"condition":         Representation{repType: Required, create: `URL_IS`, update: `URL_STARTS_WITH`},
-		"value":             Representation{repType: Required, create: `/public`, update: `/publ`},
-		"is_case_sensitive": Representation{repType: Optional, create: `false`, update: `true`},
+		"condition":         Representation{RepType: Required, Create: `URL_IS`, Update: `URL_STARTS_WITH`},
+		"value":             Representation{RepType: Required, Create: `/public`, Update: `/publ`},
+		"is_case_sensitive": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	waasPolicyWafConfigJsChallengeSetHttpHeaderRepresentation = map[string]interface{}{
-		"name":  Representation{repType: Required, create: `name`, update: `name2`},
-		"value": Representation{repType: Required, create: `value`, update: `value2`},
+		"name":  Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"value": Representation{RepType: Required, Create: `value`, Update: `value2`},
 	}
 
 	WaasPolicyResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation) +
 		caCertificateVariableStr +
 		privateKeyVariableStr +
 		CustomProtectionRuleRequiredResourceWithoutDependencies
@@ -350,34 +350,34 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+WaasPolicyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create, waasPolicyRepresentation), "waas", "waasPolicy", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+WaasPolicyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create, waasPolicyRepresentation), "waas", "waasPolicy", t)
 
 	ResourceTest(t, testAccCheckWaasWaasPolicyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create, waasPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create, waasPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -564,9 +564,9 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "waf_config.0.whitelists.0.name", "name"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -575,12 +575,12 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WaasPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create,
-					representationCopyWithNewProperties(waasPolicyRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Create,
+					RepresentationCopyWithNewProperties(waasPolicyRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
@@ -767,7 +767,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "waf_config.0.whitelists.0.name", "name"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -779,7 +779,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + WaasPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Update, waasPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Update, waasPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -966,7 +966,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "waf_config.0.whitelists.0.name", "name2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -977,9 +977,9 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_waas_policies", "test_waas_policies", Optional, Update, waasPolicyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_waas_policies", "test_waas_policies", Optional, Update, waasPolicyDataSourceRepresentation) +
 				compartmentIdVariableStr + WaasPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Update, waasPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Optional, Update, waasPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_names.#", "1"),
@@ -1002,7 +1002,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + WaasPolicyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "waas_policy_id"),
@@ -1222,7 +1222,7 @@ func testAccCheckWaasWaasPolicyDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.WaasPolicyId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 
 			response, err := client.GetWaasPolicy(context.Background(), request)
 
@@ -1255,7 +1255,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("WaasWaasPolicy") {
+	if !InSweeperExcludeList("WaasWaasPolicy") {
 		resource.AddTestSweepers("WaasWaasPolicy", &resource.Sweeper{
 			Name:         "WaasWaasPolicy",
 			Dependencies: DependencyGraph["waasPolicy"],
@@ -1276,13 +1276,13 @@ func sweepWaasWaasPolicyResource(compartment string) error {
 
 			deleteWaasPolicyRequest.WaasPolicyId = &waasPolicyId
 
-			deleteWaasPolicyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "waas")
+			deleteWaasPolicyRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "waas")
 			_, error := waasClient.DeleteWaasPolicy(context.Background(), deleteWaasPolicyRequest)
 			if error != nil {
 				fmt.Printf("Error deleting WaasPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", waasPolicyId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &waasPolicyId, waasPolicySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &waasPolicyId, waasPolicySweepWaitCondition, time.Duration(3*time.Minute),
 				waasPolicySweepResponseFetchOperation, "waas", true)
 		}
 	}
@@ -1290,7 +1290,7 @@ func sweepWaasWaasPolicyResource(compartment string) error {
 }
 
 func getWaasPolicyIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "WaasPolicyId")
+	ids := GetResourceIdsToSweep(compartment, "WaasPolicyId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -1308,7 +1308,7 @@ func getWaasPolicyIds(compartment string) ([]string, error) {
 	for _, waasPolicy := range listWaasPoliciesResponse.Items {
 		id := *waasPolicy.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "WaasPolicyId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "WaasPolicyId", id)
 	}
 	return resourceIds, nil
 }

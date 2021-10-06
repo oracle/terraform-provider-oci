@@ -12,40 +12,40 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v48/networkloadbalancer"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v49/networkloadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	NlbBackendRequiredOnlyResource = NlbBackendResourceDependencies +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation)
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation)
 
 	NlbBackendResourceConfig = NlbBackendResourceDependencies +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation)
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation)
 
 	nlbBackendDataSourceRepresentation = map[string]interface{}{
-		"backend_set_name":         Representation{repType: Required, create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
-		"network_load_balancer_id": Representation{repType: Required, create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"backend_set_name":         Representation{RepType: Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
+		"network_load_balancer_id": Representation{RepType: Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 
 	nlbBackendRepresentation = map[string]interface{}{
-		"backend_set_name":         Representation{repType: Required, create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
-		"network_load_balancer_id": Representation{repType: Required, create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
-		"port":                     Representation{repType: Required, create: `10`},
-		"ip_address":               Representation{repType: Required, create: `10.0.0.3`},
-		"is_backup":                Representation{repType: Optional, create: `false`, update: `true`},
-		"is_drain":                 Representation{repType: Optional, create: `false`, update: `true`},
-		"is_offline":               Representation{repType: Optional, create: `false`, update: `true`},
-		"name":                     Representation{repType: Optional, create: `name`},
-		"weight":                   Representation{repType: Required, create: `10`, update: `11`},
+		"backend_set_name":         Representation{RepType: Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
+		"network_load_balancer_id": Representation{RepType: Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"port":                     Representation{RepType: Required, Create: `10`},
+		"ip_address":               Representation{RepType: Required, Create: `10.0.0.3`},
+		"is_backup":                Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_drain":                 Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_offline":               Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"name":                     Representation{RepType: Optional, Create: `name`},
+		"weight":                   Representation{RepType: Required, Create: `10`, Update: `11`},
 	}
 
-	NlbBackendResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", Required, Create, networkLoadBalancerRepresentation)
+	NlbBackendResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", Required, Create, networkLoadBalancerRepresentation)
 )
 
 // issue-routing-tag: network_load_balancer/default
@@ -64,30 +64,30 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckNetworkLoadBalancerBackendDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
-				generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "port", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
-				generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Create, nlbBackendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Create, nlbBackendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
@@ -100,9 +100,9 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "weight", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -114,7 +114,7 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NlbBackendResourceDependencies +
-				generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "backend_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
@@ -127,7 +127,7 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "weight", "11"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -138,9 +138,9 @@ func TestNetworkLoadBalancerBackendResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_network_load_balancer_backends", "test_backends", Optional, Update, nlbBackendDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_backends", "test_backends", Optional, Update, nlbBackendDataSourceRepresentation) +
 				compartmentIdVariableStr + NlbBackendResourceDependencies +
-				generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
+				GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Optional, Update, nlbBackendRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "backend_set_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
@@ -184,7 +184,7 @@ func testAccCheckNetworkLoadBalancerBackendDestroy(s *terraform.State) error {
 				request.NetworkLoadBalancerId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "network_load_balancer")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "network_load_balancer")
 
 			_, err := client.GetBackend(context.Background(), request)
 
@@ -209,7 +209,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("NetworkLoadBalancerBackend") {
+	if !InSweeperExcludeList("NetworkLoadBalancerBackend") {
 		resource.AddTestSweepers("NetworkLoadBalancerBackend", &resource.Sweeper{
 			Name:         "NetworkLoadBalancerBackend",
 			Dependencies: DependencyGraph["backend"],
@@ -228,7 +228,7 @@ func sweepNetworkLoadBalancerBackendResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[backendId]; !ok {
 			deleteBackendRequest := oci_network_load_balancer.DeleteBackendRequest{}
 
-			deleteBackendRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "network_load_balancer")
+			deleteBackendRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "network_load_balancer")
 			_, error := networkLoadBalancerClient.DeleteBackend(context.Background(), deleteBackendRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Backend %s %s, It is possible that the resource is already deleted. Please verify manually \n", backendId, error)
@@ -240,7 +240,7 @@ func sweepNetworkLoadBalancerBackendResource(compartment string) error {
 }
 
 func getNetworkLoadBalancerBackendIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "BackendId")
+	ids := GetResourceIdsToSweep(compartment, "BackendId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -272,7 +272,7 @@ func getNetworkLoadBalancerBackendIds(compartment string) ([]string, error) {
 			for _, backend := range listBackendsResponse.Items {
 				id := *backend.Name
 				resourceIds = append(resourceIds, id)
-				addResourceIdToSweeperResourceIdMap(compartmentId, "BackendId", id)
+				AddResourceIdToSweeperResourceIdMap(compartmentId, "BackendId", id)
 			}
 
 		}

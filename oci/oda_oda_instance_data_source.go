@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_oda "github.com/oracle/oci-go-sdk/v48/oda"
+	oci_oda "github.com/oracle/oci-go-sdk/v49/oda"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *OdaOdaInstanceDataSourceCrud) Get() error {
 		request.OdaInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "oda")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "oda")
 
 	response, err := s.Client.GetOdaInstance(context.Background(), request)
 	if err != nil {

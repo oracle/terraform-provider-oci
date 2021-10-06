@@ -13,38 +13,38 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ExternalNonContainerDatabaseRequiredOnlyResource = ExternalNonContainerDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation)
 
 	ExternalNonContainerDatabaseResourceConfig = ExternalNonContainerDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Update, externalNonContainerDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Update, externalNonContainerDatabaseRepresentation)
 
 	externalNonContainerDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"external_non_container_database_id": Representation{repType: Required, create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
+		"external_non_container_database_id": Representation{RepType: Required, Create: `${oci_database_external_non_container_database.test_external_non_container_database.id}`},
 	}
 
 	externalNonContainerDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `myTestExternalNonCdb`},
-		"state":          Representation{repType: Optional, create: `NOT_CONNECTED`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `myTestExternalNonCdb`},
+		"state":          Representation{RepType: Optional, Create: `NOT_CONNECTED`},
 		"filter":         RepresentationGroup{Required, externalNonContainerDatabaseDataSourceFilterRepresentation}}
 	externalNonContainerDatabaseDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_external_non_container_database.test_external_non_container_database.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_external_non_container_database.test_external_non_container_database.id}`}},
 	}
 
 	externalNonContainerDatabaseRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `myTestExternalNonCdb`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `myTestExternalNonCdb`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	ExternalNonContainerDatabaseResourceDependencies = DefinedTagsDependencies
@@ -68,34 +68,34 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_external_non_container_database.test_external_non_container_database"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Create, externalNonContainerDatabaseRepresentation), "database", "externalNonContainerDatabase", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ExternalNonContainerDatabaseResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Create, externalNonContainerDatabaseRepresentation), "database", "externalNonContainerDatabase", t)
 
 	ResourceTest(t, testAccCheckDatabaseExternalNonContainerDatabaseDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Create, externalNonContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Create, externalNonContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -106,9 +106,9 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -117,12 +117,12 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ExternalNonContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Create,
-					representationCopyWithNewProperties(externalNonContainerDatabaseRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Create,
+					RepresentationCopyWithNewProperties(externalNonContainerDatabaseRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -134,7 +134,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -146,7 +146,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Update, externalNonContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Update, externalNonContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -157,7 +157,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -168,9 +168,9 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_external_non_container_databases", "test_external_non_container_databases", Optional, Update, externalNonContainerDatabaseDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_external_non_container_databases", "test_external_non_container_databases", Optional, Update, externalNonContainerDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + ExternalNonContainerDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Update, externalNonContainerDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Update, externalNonContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "myTestExternalNonCdb"),
@@ -191,7 +191,7 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Required, Create, externalNonContainerDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ExternalNonContainerDatabaseResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_non_container_database_id"),
@@ -233,7 +233,7 @@ func testAccCheckDatabaseExternalNonContainerDatabaseDestroy(s *terraform.State)
 			tmp := rs.Primary.ID
 			request.ExternalNonContainerDatabaseId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetExternalNonContainerDatabase(context.Background(), request)
 
@@ -266,7 +266,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseExternalNonContainerDatabase") {
+	if !InSweeperExcludeList("DatabaseExternalNonContainerDatabase") {
 		resource.AddTestSweepers("DatabaseExternalNonContainerDatabase", &resource.Sweeper{
 			Name:         "DatabaseExternalNonContainerDatabase",
 			Dependencies: DependencyGraph["externalNonContainerDatabase"],
@@ -287,13 +287,13 @@ func sweepDatabaseExternalNonContainerDatabaseResource(compartment string) error
 
 			deleteExternalNonContainerDatabaseRequest.ExternalNonContainerDatabaseId = &externalNonContainerDatabaseId
 
-			deleteExternalNonContainerDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteExternalNonContainerDatabaseRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteExternalNonContainerDatabase(context.Background(), deleteExternalNonContainerDatabaseRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ExternalNonContainerDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", externalNonContainerDatabaseId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &externalNonContainerDatabaseId, externalNonContainerDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &externalNonContainerDatabaseId, externalNonContainerDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
 				externalNonContainerDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -301,7 +301,7 @@ func sweepDatabaseExternalNonContainerDatabaseResource(compartment string) error
 }
 
 func getExternalNonContainerDatabaseIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ExternalNonContainerDatabaseId")
+	ids := GetResourceIdsToSweep(compartment, "ExternalNonContainerDatabaseId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -320,7 +320,7 @@ func getExternalNonContainerDatabaseIds(compartment string) ([]string, error) {
 	for _, externalNonContainerDatabase := range listExternalNonContainerDatabasesResponse.Items {
 		id := *externalNonContainerDatabase.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ExternalNonContainerDatabaseId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ExternalNonContainerDatabaseId", id)
 	}
 	return resourceIds, nil
 }

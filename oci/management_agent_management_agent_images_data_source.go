@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 )
 
 func init() {
@@ -18,10 +18,14 @@ func ManagementAgentManagementAgentImagesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readManagementAgentManagementAgentImages,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"install_type": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -106,6 +110,10 @@ func (s *ManagementAgentManagementAgentImagesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if installType, ok := s.D.GetOkExists("install_type"); ok {
+		request.InstallType = oci_management_agent.ListManagementAgentImagesInstallTypeEnum(installType.(string))
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -115,7 +123,7 @@ func (s *ManagementAgentManagementAgentImagesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_management_agent.ListManagementAgentImagesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.ListManagementAgentImages(context.Background(), request)
 	if err != nil {

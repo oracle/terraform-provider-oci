@@ -16,42 +16,42 @@ import (
 
 var (
 	DevopsPipelineRedeploymentRequiredOnlyResource = DevopsPipelineRedeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Required, Create, devopsPipelineRedeploymentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Required, Create, devopsPipelineRedeploymentRepresentation)
 
 	DevopsPipelineRedeploymentResourceConfig = DevopsPipelineRedeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Update, devopsPipelineRedeploymentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Update, devopsPipelineRedeploymentRepresentation)
 
 	devopsPipelineRedeploymentSingularDataSourceRepresentation = map[string]interface{}{
-		"deployment_id": Representation{repType: Required, create: `${oci_devops_deployment.test_pipeline_redeployment.id}`},
+		"deployment_id": Representation{RepType: Required, Create: `${oci_devops_deployment.test_pipeline_redeployment.id}`},
 	}
 
 	devopsPipelineRedeploymentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Optional, create: `${var.compartment_id}`},
-		"deploy_pipeline_id": Representation{repType: Optional, create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
-		"display_name":       Representation{repType: Optional, create: `displayName`},
-		"id":                 Representation{repType: Optional, create: `${oci_devops_deployment.test_pipeline_redeployment.id}`},
-		"project_id":         Representation{repType: Optional, create: `${oci_devops_project.test_project.id}`},
+		"compartment_id":     Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"deploy_pipeline_id": Representation{RepType: Optional, Create: `${oci_devops_deploy_pipeline.test_deploy_pipeline.id}`},
+		"display_name":       Representation{RepType: Optional, Create: `displayName`},
+		"id":                 Representation{RepType: Optional, Create: `${oci_devops_deployment.test_pipeline_redeployment.id}`},
+		"project_id":         Representation{RepType: Optional, Create: `${oci_devops_project.test_project.id}`},
 		"filter":             RepresentationGroup{Required, devopsPipelineRedeploymentDataSourceFilterRepresentation}}
 	devopsPipelineRedeploymentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_devops_deployment.test_pipeline_redeployment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_devops_deployment.test_pipeline_redeployment.id}`}},
 	}
 
-	devopsPipelineRedeploymentRepresentation = getUpdatedRepresentationCopy("deployment_type", Representation{repType: Required, create: `PIPELINE_REDEPLOYMENT`},
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(devopsDeploymentRepresentation, []string{"deployment_arguments"}), map[string]interface{}{
-			"previous_deployment_id": Representation{repType: Required, create: `${oci_devops_deployment.test_deploy_1.id}`},
+	devopsPipelineRedeploymentRepresentation = GetUpdatedRepresentationCopy("deployment_type", Representation{RepType: Required, Create: `PIPELINE_REDEPLOYMENT`},
+		RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(devopsDeploymentRepresentation, []string{"deployment_arguments"}), map[string]interface{}{
+			"previous_deployment_id": Representation{RepType: Required, Create: `${oci_devops_deployment.test_deploy_1.id}`},
 		}))
 
-	DevopsPipelineRedeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
-		generateResourceFromRepresentationMap("oci_devops_deployment", "test_deploy_1", Required, Create, devopsDeploymentRepresentation) +
+	DevopsPipelineRedeploymentResourceDependencies = GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", Required, Create, deployArtifactRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Required, Create, deployEnvironmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_deploy_1", Required, Create, devopsDeploymentRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, deployLogRepresentation) +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, deployLogRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
 // issue-routing-tag: devops/default
@@ -69,34 +69,34 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deployment.test_pipeline_redeployment"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DevopsPipelineRedeploymentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Create, devopsPipelineRedeploymentRepresentation), "devops", "deployment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DevopsPipelineRedeploymentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Create, devopsPipelineRedeploymentRepresentation), "devops", "deployment", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DevopsPipelineRedeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Required, Create, devopsPipelineRedeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Required, Create, devopsPipelineRedeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_REDEPLOYMENT"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DevopsPipelineRedeploymentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DevopsPipelineRedeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Create, devopsPipelineRedeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Create, devopsPipelineRedeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
@@ -108,9 +108,9 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,7 +122,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DevopsPipelineRedeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Update, devopsPipelineRedeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Update, devopsPipelineRedeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
@@ -134,7 +134,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -145,9 +145,9 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deployments", "test_pipeline_redeployments", Optional, Update, devopsPipelineRedeploymentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deployments", "test_pipeline_redeployments", Optional, Update, devopsPipelineRedeploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsPipelineRedeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Update, devopsPipelineRedeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Optional, Update, devopsPipelineRedeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
@@ -162,7 +162,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Required, Create, devopsPipelineRedeploymentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deployment", "test_pipeline_redeployment", Required, Create, devopsPipelineRedeploymentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsPipelineRedeploymentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_id"),

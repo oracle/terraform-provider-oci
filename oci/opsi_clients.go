@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_opsi "github.com/oracle/oci-go-sdk/v48/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_opsi.OperationsInsightsClient", &OracleClient{initClientFn: initOpsiOperationsInsightsClient})
+	RegisterOracleClient("oci_opsi.OperationsInsightsClient", &OracleClient{InitClientFn: initOpsiOperationsInsightsClient})
 }
 
 func initOpsiOperationsInsightsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

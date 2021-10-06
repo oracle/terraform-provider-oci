@@ -14,16 +14,16 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	"github.com/oracle/oci-go-sdk/v48/database"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	"github.com/oracle/oci-go-sdk/v49/database"
 )
 
 var (
-	DbSystemResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-		"route_table_id": Representation{repType: Optional, create: `${oci_core_route_table.test_route_table.id}`}})) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation)
+	DbSystemResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		"route_table_id": Representation{RepType: Optional, Create: `${oci_core_route_table.test_route_table.id}`}})) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation)
 
 	DbSystemResourceConfig = DbSystemResourceDependencies + AvailabilityDomainConfig + DefinedTagsDependencies + `
 
@@ -124,7 +124,7 @@ var (
     `
 
 	ResourceDatabaseResourceName                   = "oci_database_db_system.t"
-	ResourceDatabaseToken, ResourceDatabaseTokenFn = tokenizeWithHttpReplay("database_db")
+	ResourceDatabaseToken, ResourceDatabaseTokenFn = TokenizeWithHttpReplay("database_db")
 )
 
 // issue-routing-tag: database/default
@@ -178,7 +178,7 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 	var resId string
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create
+		// Create
 		{
 			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
 				data "oci_database_databases" "t" {
@@ -187,14 +187,14 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 				}`,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, "data.oci_database_databases.t", "databases.0.id")
+					resId, err = FromInstanceState(s, "data.oci_database_databases.t", "databases.0.id")
 					return err
 				},
 			),
 		},
-		// wait for backup and create new db from it
+		// wait for backup and Create new db from it
 		{
-			PreConfig: waitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, dbWaitConditionDuration,
+			PreConfig: WaitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, dbWaitConditionDuration,
 				listBackupsFetchOperation, "core", false),
 			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
 				data "oci_database_databases" "t" {
@@ -310,7 +310,7 @@ func TestAccResourceDatabaseDBSystemWithPointInTimeRecovery(t *testing.T) {
 	var resId string
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create
+		// Create
 		{
 			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
 				data "oci_database_databases" "db" {
@@ -319,14 +319,14 @@ func TestAccResourceDatabaseDBSystemWithPointInTimeRecovery(t *testing.T) {
 				}`,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, "data.oci_database_databases.db", "databases.0.id")
+					resId, err = FromInstanceState(s, "data.oci_database_databases.db", "databases.0.id")
 					return err
 				},
 			),
 		},
-		// wait for backup and create new db from it
+		// wait for backup and Create new db from it
 		{
-			PreConfig: waitTillCondition(testAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
+			PreConfig: WaitTillCondition(testAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
 				listBackupsFetchOperation, "database", false),
 			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem +
 				`
@@ -423,7 +423,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: ResourceDatabaseBaseConfig + `
 				resource "oci_database_db_system" "t" {
@@ -476,12 +476,12 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					return err
 				},
 			),
 		},
-		// verify update without updating nsgIds
+		// verify Update without updating nsgIds
 		{
 			Config: ResourceDatabaseBaseConfig + `
 				resource "oci_database_db_system" "t" {
@@ -534,7 +534,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}
@@ -594,7 +594,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "0"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}
@@ -654,7 +654,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "0"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}
@@ -665,7 +665,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 		{
 			Config: ResourceDatabaseBaseConfig,
 		},
-		// verify create without nsgIds and backupNsgIds
+		// verify Create without nsgIds and backupNsgIds
 		{
 			Config: ResourceDatabaseBaseConfig + `
 				resource "oci_database_db_system" "t" {
@@ -717,7 +717,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 			),
 		},
-		// verify update without nsgIds and backupNsgIds
+		// verify Update without nsgIds and backupNsgIds
 		{
 			Config: ResourceDatabaseBaseConfig + `
 				resource "oci_database_db_system" "t" {

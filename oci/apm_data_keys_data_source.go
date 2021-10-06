@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apm "github.com/oracle/oci-go-sdk/v48/apmcontrolplane"
+	oci_apm "github.com/oracle/oci-go-sdk/v49/apmcontrolplane"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func ApmDataKeysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readApmDataKeys,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"apm_domain_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -86,7 +86,7 @@ func (s *ApmDataKeysDataSourceCrud) Get() error {
 		request.DataKeyType = oci_apm.ListDataKeysDataKeyTypeEnum(dataKeyType.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm")
 
 	response, err := s.Client.ListDataKeys(context.Background(), request)
 	if err != nil {

@@ -13,127 +13,127 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	SecurityListRequiredOnlyResource = SecurityListResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation)
 
 	securityListDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `MyPrivateSubnetSecurityList`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
-		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `MyPrivateSubnetSecurityList`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
+		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, securityListDataSourceFilterRepresentation}}
 	securityListDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_security_list.test_security_list.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}},
 	}
 
 	securityListRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":                 Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":           Representation{repType: Optional, create: `MyPrivateSubnetSecurityList`, update: `displayName2`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"vcn_id":                 Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":           Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":           Representation{RepType: Optional, Create: `MyPrivateSubnetSecurityList`, Update: `displayName2`},
 		"egress_security_rules":  []RepresentationGroup{{Required, securityListEgressSecurityRulesICMPRepresentation}, {Optional, securityListEgressSecurityRulesTCPRepresentation}, {Optional, securityListEgressSecurityRulesUDPRepresentation}},
-		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":          Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ingress_security_rules": []RepresentationGroup{{Required, securityListIngressSecurityRulesICMPRepresentation}, {Optional, securityListIngressSecurityRulesTCPRepresentation}, {Optional, securityListIngressSecurityRulesUDPRepresentation}},
 	}
 	securityListEgressSecurityRulesICMPRepresentation = map[string]interface{}{
-		"destination":      Representation{repType: Required, create: `10.0.2.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"protocol":         Representation{repType: Required, create: `1`},
-		"description":      Representation{repType: Optional, create: `description`, update: `description2`},
-		"destination_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
+		"destination":      Representation{RepType: Required, Create: `10.0.2.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"protocol":         Representation{RepType: Required, Create: `1`},
+		"description":      Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"destination_type": Representation{RepType: Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
 		"icmp_options":     RepresentationGroup{Optional, securityListEgressSecurityRulesIcmpOptionsRepresentation},
-		"stateless":        Representation{repType: Optional, create: `false`, update: `true`},
+		"stateless":        Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	securityListEgressSecurityRulesTCPRepresentation = map[string]interface{}{
-		"destination":      Representation{repType: Required, create: `10.0.2.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"protocol":         Representation{repType: Required, create: `6`},
-		"destination_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
-		"stateless":        Representation{repType: Optional, create: `false`, update: `true`},
+		"destination":      Representation{RepType: Required, Create: `10.0.2.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"protocol":         Representation{RepType: Required, Create: `6`},
+		"destination_type": Representation{RepType: Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
+		"stateless":        Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"tcp_options":      RepresentationGroup{Optional, securityListEgressSecurityRulesTcpOptionsRepresentation},
 	}
 	securityListEgressSecurityRulesUDPRepresentation = map[string]interface{}{
-		"destination":      Representation{repType: Required, create: `10.0.2.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"protocol":         Representation{repType: Required, create: `17`},
-		"destination_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
-		"stateless":        Representation{repType: Optional, create: `false`, update: `true`},
+		"destination":      Representation{RepType: Required, Create: `10.0.2.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"protocol":         Representation{RepType: Required, Create: `17`},
+		"destination_type": Representation{RepType: Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
+		"stateless":        Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"udp_options":      RepresentationGroup{Optional, securityListEgressSecurityRulesUdpOptionsRepresentation},
 	}
 	securityListIngressSecurityRulesICMPRepresentation = map[string]interface{}{
-		"protocol":     Representation{repType: Required, create: `1`},
-		"description":  Representation{repType: Optional, create: `description`, update: `description2`},
-		"source":       Representation{repType: Required, create: `10.0.1.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"protocol":     Representation{RepType: Required, Create: `1`},
+		"description":  Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"source":       Representation{RepType: Required, Create: `10.0.1.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
 		"icmp_options": RepresentationGroup{Optional, securityListIngressSecurityRulesIcmpOptionsRepresentation},
-		"source_type":  Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
-		"stateless":    Representation{repType: Optional, create: `false`, update: `true`},
+		"source_type":  Representation{RepType: Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
+		"stateless":    Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	securityListIngressSecurityRulesTCPRepresentation = map[string]interface{}{
-		"protocol":    Representation{repType: Required, create: `6`},
-		"source":      Representation{repType: Required, create: `10.0.1.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"source_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
-		"stateless":   Representation{repType: Optional, create: `false`, update: `true`},
+		"protocol":    Representation{RepType: Required, Create: `6`},
+		"source":      Representation{RepType: Required, Create: `10.0.1.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"source_type": Representation{RepType: Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
+		"stateless":   Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"tcp_options": RepresentationGroup{Optional, securityListIngressSecurityRulesTcpOptionsRepresentation},
 	}
 	securityListIngressSecurityRulesUDPRepresentation = map[string]interface{}{
-		"protocol":    Representation{repType: Required, create: `17`},
-		"source":      Representation{repType: Required, create: `10.0.1.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"source_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
-		"stateless":   Representation{repType: Optional, create: `false`, update: `true`},
+		"protocol":    Representation{RepType: Required, Create: `17`},
+		"source":      Representation{RepType: Required, Create: `10.0.1.0/24`, Update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"source_type": Representation{RepType: Optional, Create: `CIDR_BLOCK`, Update: `SERVICE_CIDR_BLOCK`},
+		"stateless":   Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"udp_options": RepresentationGroup{Optional, securityListIngressSecurityRulesUdpOptionsRepresentation},
 	}
 	securityListEgressSecurityRulesIcmpOptionsRepresentation = map[string]interface{}{
-		"type": Representation{repType: Required, create: `3`},
-		"code": Representation{repType: Optional, create: `4`, update: `0`},
+		"type": Representation{RepType: Required, Create: `3`},
+		"code": Representation{RepType: Optional, Create: `4`, Update: `0`},
 	}
 	securityListEgressSecurityRulesTcpOptionsRepresentation = map[string]interface{}{
-		"max":               Representation{repType: Optional, create: `1521`, update: `1522`},
-		"min":               Representation{repType: Optional, create: `1521`, update: `1522`},
+		"max":               Representation{RepType: Optional, Create: `1521`, Update: `1522`},
+		"min":               Representation{RepType: Optional, Create: `1521`, Update: `1522`},
 		"source_port_range": RepresentationGroup{Optional, securityListEgressSecurityRulesTcpOptionsSourcePortRangeRepresentation},
 	}
 	securityListEgressSecurityRulesUdpOptionsRepresentation = map[string]interface{}{
-		"max":               Representation{repType: Optional, create: `1521`, update: `1522`},
-		"min":               Representation{repType: Optional, create: `1521`, update: `1522`},
+		"max":               Representation{RepType: Optional, Create: `1521`, Update: `1522`},
+		"min":               Representation{RepType: Optional, Create: `1521`, Update: `1522`},
 		"source_port_range": RepresentationGroup{Optional, securityListEgressSecurityRulesUdpOptionsSourcePortRangeRepresentation},
 	}
 	securityListIngressSecurityRulesIcmpOptionsRepresentation = map[string]interface{}{
-		"type": Representation{repType: Required, create: `3`},
-		"code": Representation{repType: Optional, create: `4`, update: `0`},
+		"type": Representation{RepType: Required, Create: `3`},
+		"code": Representation{RepType: Optional, Create: `4`, Update: `0`},
 	}
 	securityListIngressSecurityRulesTcpOptionsRepresentation = map[string]interface{}{
-		"max":               Representation{repType: Optional, create: `1521`, update: `1522`},
-		"min":               Representation{repType: Optional, create: `1521`, update: `1522`},
+		"max":               Representation{RepType: Optional, Create: `1521`, Update: `1522`},
+		"min":               Representation{RepType: Optional, Create: `1521`, Update: `1522`},
 		"source_port_range": RepresentationGroup{Optional, securityListIngressSecurityRulesTcpOptionsSourcePortRangeRepresentation},
 	}
 	securityListIngressSecurityRulesUdpOptionsRepresentation = map[string]interface{}{
-		"max":               Representation{repType: Optional, create: `1521`, update: `1522`},
-		"min":               Representation{repType: Optional, create: `1521`, update: `1522`},
+		"max":               Representation{RepType: Optional, Create: `1521`, Update: `1522`},
+		"min":               Representation{RepType: Optional, Create: `1521`, Update: `1522`},
 		"source_port_range": RepresentationGroup{Optional, securityListIngressSecurityRulesUdpOptionsSourcePortRangeRepresentation},
 	}
 	securityListEgressSecurityRulesTcpOptionsSourcePortRangeRepresentation = map[string]interface{}{
-		"max": Representation{repType: Required, create: `1521`, update: `1522`},
-		"min": Representation{repType: Required, create: `1521`, update: `1522`},
+		"max": Representation{RepType: Required, Create: `1521`, Update: `1522`},
+		"min": Representation{RepType: Required, Create: `1521`, Update: `1522`},
 	}
 	securityListEgressSecurityRulesUdpOptionsSourcePortRangeRepresentation = map[string]interface{}{
-		"max": Representation{repType: Required, create: `1521`, update: `1522`},
-		"min": Representation{repType: Required, create: `1521`, update: `1522`},
+		"max": Representation{RepType: Required, Create: `1521`, Update: `1522`},
+		"min": Representation{RepType: Required, Create: `1521`, Update: `1522`},
 	}
 	securityListIngressSecurityRulesTcpOptionsSourcePortRangeRepresentation = map[string]interface{}{
-		"max": Representation{repType: Required, create: `1521`, update: `1522`},
-		"min": Representation{repType: Required, create: `1521`, update: `1522`},
+		"max": Representation{RepType: Required, Create: `1521`, Update: `1522`},
+		"min": Representation{RepType: Required, Create: `1521`, Update: `1522`},
 	}
 	securityListIngressSecurityRulesUdpOptionsSourcePortRangeRepresentation = map[string]interface{}{
-		"max": Representation{repType: Required, create: `1521`, update: `1522`},
-		"min": Representation{repType: Required, create: `1521`, update: `1522`},
+		"max": Representation{RepType: Required, Create: `1521`, Update: `1522`},
+		"min": Representation{RepType: Required, Create: `1521`, Update: `1522`},
 	}
 
-	SecurityListResourceDependencies = generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	SecurityListResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -154,15 +154,15 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_security_lists.test_security_lists"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SecurityListResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Create, securityListRepresentation), "core", "securityList", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SecurityListResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Create, securityListRepresentation), "core", "securityList", t)
 
 	ResourceTest(t, testAccCheckCoreSecurityListDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SecurityListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "1"),
@@ -180,20 +180,20 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SecurityListResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SecurityListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Create, securityListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Create, securityListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -281,9 +281,9 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -292,12 +292,12 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SecurityListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Create,
-					representationCopyWithNewProperties(securityListRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Create,
+					RepresentationCopyWithNewProperties(securityListRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -334,7 +334,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -346,7 +346,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SecurityListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Update, securityListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Update, securityListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -440,7 +440,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -451,9 +451,9 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_security_lists", "test_security_lists", Optional, Update, securityListDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_security_lists", "test_security_lists", Optional, Update, securityListDataSourceRepresentation) +
 				compartmentIdVariableStr + SecurityListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Update, securityListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Update, securityListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -575,7 +575,7 @@ func testAccCheckCoreSecurityListDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SecurityListId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetSecurityList(context.Background(), request)
 
@@ -608,7 +608,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreSecurityList") {
+	if !InSweeperExcludeList("CoreSecurityList") {
 		resource.AddTestSweepers("CoreSecurityList", &resource.Sweeper{
 			Name:         "CoreSecurityList",
 			Dependencies: DependencyGraph["securityList"],
@@ -629,13 +629,13 @@ func sweepCoreSecurityListResource(compartment string) error {
 
 			deleteSecurityListRequest.SecurityListId = &securityListId
 
-			deleteSecurityListRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteSecurityListRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteSecurityList(context.Background(), deleteSecurityListRequest)
 			if error != nil {
 				fmt.Printf("Error deleting SecurityList %s %s, It is possible that the resource is already deleted. Please verify manually \n", securityListId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &securityListId, securityListSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &securityListId, securityListSweepWaitCondition, time.Duration(3*time.Minute),
 				securityListSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -643,7 +643,7 @@ func sweepCoreSecurityListResource(compartment string) error {
 }
 
 func getSecurityListIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SecurityListId")
+	ids := GetResourceIdsToSweep(compartment, "SecurityListId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -662,7 +662,7 @@ func getSecurityListIds(compartment string) ([]string, error) {
 	for _, securityList := range listSecurityListsResponse.Items {
 		id := *securityList.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SecurityListId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SecurityListId", id)
 	}
 	return resourceIds, nil
 }

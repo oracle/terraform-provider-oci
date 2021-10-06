@@ -12,51 +12,51 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v48/datacatalog"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v49/datacatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DataAssetRequiredOnlyResource = DataAssetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetRepresentation)
 
 	DataAssetResourceConfig = DataAssetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation)
 
 	dataAssetSingularDataSourceRepresentation = map[string]interface{}{
-		"catalog_id":     Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"data_asset_key": Representation{repType: Required, create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
-		"fields":         Representation{repType: Optional, create: []string{`key`}},
+		"catalog_id":     Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"data_asset_key": Representation{RepType: Required, Create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
+		"fields":         Representation{RepType: Optional, Create: []string{`key`}},
 	}
 	dataAssetDataSourceRepresentation = map[string]interface{}{
-		"catalog_id":            Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"display_name":          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"display_name_contains": Representation{repType: Optional, create: `displayNam`},
-		"fields":                Representation{repType: Optional, create: []string{`key`}},
-		"state":                 Representation{repType: Optional, create: `ACTIVE`},
-		"type_key":              Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
+		"catalog_id":            Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"display_name":          Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name_contains": Representation{RepType: Optional, Create: `displayNam`},
+		"fields":                Representation{RepType: Optional, Create: []string{`key`}},
+		"state":                 Representation{RepType: Optional, Create: `ACTIVE`},
+		"type_key":              Representation{RepType: Required, Create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
 		"filter":                RepresentationGroup{Required, dataAssetDataSourceFilterRepresentation},
 	}
 	dataAssetDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `state`},
-		"values": Representation{repType: Required, create: []string{`ACTIVE`}},
+		"name":   Representation{RepType: Required, Create: `state`},
+		"values": Representation{RepType: Required, Create: []string{`ACTIVE`}},
 	}
 
 	dataAssetRepresentation = map[string]interface{}{
-		"catalog_id":   Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"display_name": Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"type_key":     Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
-		"description":  Representation{repType: Optional, create: `description`, update: `description2`},
-		"properties":   Representation{repType: Required, create: map[string]string{"default.host": "jbanford-host", "default.port": "1521", "default.database": "SID"}, update: map[string]string{"default.host": "jbanford-host", "default.port": "1251", "default.database": "SID"}},
+		"catalog_id":   Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"display_name": Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"type_key":     Representation{RepType: Required, Create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
+		"description":  Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"properties":   Representation{RepType: Required, Create: map[string]string{"default.host": "jbanford-host", "default.port": "1521", "default.database": "SID"}, Update: map[string]string{"default.host": "jbanford-host", "default.port": "1251", "default.database": "SID"}},
 	}
 
-	DataAssetResourceDependencies = generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", Optional, Create,
-			representationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
-				"type_category": Representation{repType: Optional, create: `dataAsset`},
-				"name":          Representation{repType: Optional, create: `Oracle Database`},
+	DataAssetResourceDependencies = GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", Optional, Create,
+			RepresentationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
+				"type_category": Representation{RepType: Optional, Create: `dataAsset`},
+				"name":          Representation{RepType: Optional, Create: `Oracle Database`},
 			}))
 )
 
@@ -78,35 +78,35 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 	var resId, resId2 string
 	var compositeId string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DataAssetResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Create, dataAssetRepresentation), "datacatalog", "dataAsset", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DataAssetResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Create, dataAssetRepresentation), "datacatalog", "dataAsset", t)
 
 	ResourceTest(t, testAccCheckDatacatalogDataAssetDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DataAssetResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Create, dataAssetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Create, dataAssetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -116,12 +116,12 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
-					catalogId, _ := fromInstanceState(s, resourceName, "catalog_id")
+					resId, err = FromInstanceState(s, resourceName, "id")
+					catalogId, _ := FromInstanceState(s, resourceName, "catalog_id")
 					compositeId = getDataAssetCompositeId(catalogId, resId)
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -133,7 +133,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DataAssetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -143,7 +143,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -154,9 +154,9 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_data_assets", "test_data_assets", Optional, Update, dataAssetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_data_assets", "test_data_assets", Optional, Update, dataAssetDataSourceRepresentation) +
 				compartmentIdVariableStr + DataAssetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Optional, Update, dataAssetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -172,7 +172,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_data_asset", "test_data_asset", Required, Create, dataAssetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DataAssetResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
@@ -232,7 +232,7 @@ func testAccCheckDatacatalogDataAssetDestroy(s *terraform.State) error {
 				request.DataAssetKey = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datacatalog")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datacatalog")
 
 			response, err := client.GetDataAsset(context.Background(), request)
 

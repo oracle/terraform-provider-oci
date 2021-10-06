@@ -9,7 +9,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_vault "github.com/oracle/oci-go-sdk/v48/vault"
+	oci_vault "github.com/oracle/oci-go-sdk/v49/vault"
 )
 
 func init() {
@@ -99,7 +99,7 @@ func (s *VaultSecretVersionDataSourceCrud) Get() error {
 		request.SecretVersionNumber = &tmpInt64
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "vault")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "vault")
 
 	response, err := s.Client.GetSecretVersion(context.Background(), request)
 	if err != nil {

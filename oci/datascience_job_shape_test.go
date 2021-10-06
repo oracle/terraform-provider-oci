@@ -15,7 +15,7 @@ import (
 
 var (
 	jobShapeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	JobShapeResourceConfig = ""
@@ -35,7 +35,7 @@ func TestDatascienceJobShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_datascience_job_shapes.test_job_shapes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -46,7 +46,7 @@ func TestDatascienceJobShapeResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datascience_job_shapes", "test_job_shapes", Required, Create, jobShapeDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_datascience_job_shapes", "test_job_shapes", Required, Create, jobShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + JobShapeResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

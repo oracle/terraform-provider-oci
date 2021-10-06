@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v49/functions"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -43,8 +43,8 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 
 	// The following tests all operate in the same way:
 	// - reset the function definition to use the image A1 at the digest a1
-	// - update to a new set of coordinates
-	// - confirm that the update has produced the result intended in the control plane
+	// - Update to a new set of coordinates
+	// - confirm that the Update has produced the result intended in the control plane
 	// - delete the resource ready for the next test
 	// We use three image/digest pairs.
 	// The image A1@a1 is used to reset state for each test.
@@ -91,7 +91,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 		steps = append(steps, resource.TestStep{
 			// Reset the function to A1@a1
 			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionBaseRepresentation(imageA1, &imageA1Digest)),
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionBaseRepresentation(imageA1, &imageA1Digest)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "UpdatedImageFunction"),
@@ -99,7 +99,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "image_digest", imageA1Digest),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 				func(s *terraform.State) error {
@@ -120,14 +120,14 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 		steps = append(steps, resource.TestStep{
 			// Update the function with the new image coordinates
 			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionBaseRepresentation(tc2.newImage, tc2.newDigest)),
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Update, functionBaseRepresentation(tc2.newImage, tc2.newDigest)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "UpdatedImageFunction"),
 				resource.TestCheckResourceAttr(resourceName, "image", tc2.expectedImage),
 				resource.TestCheckResourceAttr(resourceName, "image_digest", tc2.expectedDigest),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -139,10 +139,10 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 						return err
 					}
 					if *fn.Image != tc2.expectedImage {
-						return fmt.Errorf("Resource did not update to the expected image: %s != %s", *fn.Image, tc2.expectedImage)
+						return fmt.Errorf("Resource did not Update to the expected image: %s != %s", *fn.Image, tc2.expectedImage)
 					}
 					if *fn.ImageDigest != tc2.expectedDigest {
-						return fmt.Errorf("Resource did not update to the expected digest: %s != %s", *fn.ImageDigest, tc2.expectedDigest)
+						return fmt.Errorf("Resource did not Update to the expected digest: %s != %s", *fn.ImageDigest, tc2.expectedDigest)
 					}
 					return nil
 				},
@@ -172,13 +172,13 @@ func functionBaseRepresentation(image string, digest *string) map[string]interfa
 	// Rather than indirect through variables, this is called to inject docker URIs and digests directly
 	// Leave digest = nil to omit the field.
 	m := map[string]interface{}{
-		"application_id": Representation{repType: Required, create: `${oci_functions_application.test_application.id}`},
-		"display_name":   Representation{repType: Required, create: `UpdatedImageFunction`},
-		"image":          Representation{repType: Required, create: image, update: image},
-		"memory_in_mbs":  Representation{repType: Required, create: `128`, update: `128`},
+		"application_id": Representation{RepType: Required, Create: `${oci_functions_application.test_application.id}`},
+		"display_name":   Representation{RepType: Required, Create: `UpdatedImageFunction`},
+		"image":          Representation{RepType: Required, Create: image, Update: image},
+		"memory_in_mbs":  Representation{RepType: Required, Create: `128`, Update: `128`},
 	}
 	if digest != nil {
-		m["image_digest"] = Representation{repType: Optional, create: *digest, update: *digest}
+		m["image_digest"] = Representation{RepType: Optional, Create: *digest, Update: *digest}
 	}
 	return m
 }
@@ -195,7 +195,7 @@ func testAccCheckFunctionsFunctionNoneRemaining(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.FunctionId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "functions")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "functions")
 
 			response, err := client.GetFunction(context.Background(), request)
 
@@ -225,7 +225,7 @@ func retrieveFunctionResourceFromControlPlane(id string) (oci_functions.GetFunct
 	client := testAccProvider.Meta().(*OracleClients).functionsManagementClient()
 	request := oci_functions.GetFunctionRequest{}
 	request.FunctionId = &id
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "functions")
 	return client.GetFunction(context.Background(), request)
 }
 
@@ -251,7 +251,7 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 	// - specifying the pair (image, image_digest) for a fully-resolved image;
 	// - omitting the image_digest value and having the controlplane loko it up;
 	// - using the sentinel empty string to force a CP-side lookup.
-	// After each create the result should be the same.
+	// After each Create the result should be the same.
 	// This just uses the main image. The first two of these tests are morally equivalent to
 	// some of the tests performed by TestFunctionsFunctionResource_basic
 	type testCase struct {
@@ -269,7 +269,7 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 		steps = append(steps, resource.TestStep{
 			// Create a function at A1@a1, through one means or another
 			Config: config + compartmentIdVariableStr + FunctionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionBaseRepresentation(imageA1, tc.newDigest)),
+				GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Optional, Create, functionBaseRepresentation(imageA1, tc.newDigest)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "UpdatedImageFunction"),
@@ -277,7 +277,7 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "image_digest", imageA1Digest),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 				func(s *terraform.State) error {

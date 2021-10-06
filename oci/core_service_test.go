@@ -30,13 +30,13 @@ func TestCoreServiceResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_services.test_services"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
 				compartmentIdVariableStr + ServiceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

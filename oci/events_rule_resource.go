@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_events "github.com/oracle/oci-go-sdk/v48/events"
+	oci_events "github.com/oracle/oci-go-sdk/v49/events"
 )
 
 func init() {
@@ -274,7 +274,7 @@ func (s *EventsRuleResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -282,7 +282,7 @@ func (s *EventsRuleResourceCrud) Create() error {
 		request.IsEnabled = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "events")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "events")
 
 	response, err := s.Client.CreateRule(context.Background(), request)
 	if err != nil {
@@ -299,7 +299,7 @@ func (s *EventsRuleResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.RuleId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "events")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "events")
 
 	response, err := s.Client.GetRule(context.Background(), request)
 	if err != nil {
@@ -357,7 +357,7 @@ func (s *EventsRuleResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -368,7 +368,7 @@ func (s *EventsRuleResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.RuleId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "events")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "events")
 
 	response, err := s.Client.UpdateRule(context.Background(), request)
 	if err != nil {
@@ -385,7 +385,7 @@ func (s *EventsRuleResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.RuleId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "events")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "events")
 
 	_, err := s.Client.DeleteRule(context.Background(), request)
 	return err
@@ -656,7 +656,7 @@ func (s *EventsRuleResourceCrud) updateCompartment(compartment interface{}) erro
 	idTmp := s.D.Id()
 	changeCompartmentRequest.RuleId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "events")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "events")
 
 	_, err := s.Client.ChangeRuleCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

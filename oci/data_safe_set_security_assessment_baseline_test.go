@@ -16,18 +16,18 @@ import (
 
 var (
 	setSecurityAssessmentBaselineRepresentation = map[string]interface{}{
-		"security_assessment_id": Representation{repType: Required, create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
-		"assessment_ids":         Representation{repType: Optional, create: []string{`${oci_data_safe_security_assessment.test_security_assessment2.id}`}},
+		"security_assessment_id": Representation{RepType: Required, Create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
+		"assessment_ids":         Representation{RepType: Optional, Create: []string{`${oci_data_safe_security_assessment.test_security_assessment2.id}`}},
 	}
 
 	unsetSecAssessmentBaselineRepresentation = map[string]interface{}{
-		"security_assessment_id": Representation{repType: Required, create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
+		"security_assessment_id": Representation{RepType: Required, Create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
 	}
 
-	SetSecurityAssessmentBaselineResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", Required, Create, securityAssessmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment2", Required, Create, securityAssessmentRepresentation)
+	SetSecurityAssessmentBaselineResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", Required, Create, securityAssessmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment2", Required, Create, securityAssessmentRepresentation)
 )
 
 func TestDataSafeSetSecurityAssessmentBaselineResource_basic(t *testing.T) {
@@ -42,36 +42,36 @@ func TestDataSafeSetSecurityAssessmentBaselineResource_basic(t *testing.T) {
 	resourceName := "oci_data_safe_set_security_assessment_baseline.test_set_security_assessment_baseline"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SetSecurityAssessmentBaselineResourceDependencies+
-		generateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", Optional, Create, setSecurityAssessmentBaselineRepresentation), "datasafe", "setSecurityAssessmentBaseline", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SetSecurityAssessmentBaselineResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", Optional, Create, setSecurityAssessmentBaselineRepresentation), "datasafe", "setSecurityAssessmentBaseline", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SetSecurityAssessmentBaselineResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", Optional, Create, setSecurityAssessmentBaselineRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", Optional, Create, setSecurityAssessmentBaselineRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "security_assessment_id"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SetSecurityAssessmentBaselineResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SetSecurityAssessmentBaselineResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", Optional, Create, setSecurityAssessmentBaselineRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_set_security_assessment_baseline", "test_set_security_assessment_baseline", Optional, Create, setSecurityAssessmentBaselineRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "assessment_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "security_assessment_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -81,7 +81,7 @@ func TestDataSafeSetSecurityAssessmentBaselineResource_basic(t *testing.T) {
 		},
 		{
 			Config: config + compartmentIdVariableStr + SetSecurityAssessmentBaselineResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_unset_security_assessment_baseline", "test_unset_security_assessment_baseline", Required, Create, unsetSecAssessmentBaselineRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_unset_security_assessment_baseline", "test_unset_security_assessment_baseline", Required, Create, unsetSecAssessmentBaselineRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					return err

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v48/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v49/artifacts"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func ArtifactsContainerImageSignaturesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readArtifactsContainerImageSignatures,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -152,7 +152,7 @@ func (s *ArtifactsContainerImageSignaturesDataSourceCrud) Get() error {
 		request.SigningAlgorithm = oci_artifacts.ListContainerImageSignaturesSigningAlgorithmEnum(signingAlgorithm.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "artifacts")
 
 	response, err := s.Client.ListContainerImageSignatures(context.Background(), request)
 	if err != nil {

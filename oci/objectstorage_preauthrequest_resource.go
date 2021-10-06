@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v48/objectstorage"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v49/objectstorage"
 )
 
 func init() {
@@ -65,7 +65,7 @@ func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: timeDiffSuppressFunction,
+				DiffSuppressFunc: TimeDiffSuppressFunction,
 			},
 
 			// Optional
@@ -202,7 +202,7 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Create() error {
 		request.TimeExpires = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.CreatePreauthenticatedRequest(context.Background(), request)
 	if err != nil {
@@ -225,7 +225,7 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s, err: %s ", s.D.Id(), err)
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetPreauthenticatedRequest(context.Background(), request)
 	if err != nil {
@@ -264,7 +264,7 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Delete() error {
 		tmp := parId.(string)
 		request.ParId = &tmp
 	}
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	_, err := s.Client.DeletePreauthenticatedRequest(context.Background(), request)
 	return err

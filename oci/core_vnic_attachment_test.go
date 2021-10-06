@@ -13,56 +13,56 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	VnicAttachmentRequiredOnlyResource = VnicAttachmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentation)
 
 	VnicAttachmentResourceConfig = VnicAttachmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation)
 
 	vnicAttachmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"instance_id":         Representation{RepType: Optional, Create: `${oci_core_instance.test_instance.id}`},
 		"filter":              RepresentationGroup{Required, vnicAttachmentDataSourceFilterRepresentation}}
 	vnicAttachmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_vnic_attachment.test_vnic_attachment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_vnic_attachment.test_vnic_attachment.id}`}},
 	}
 
 	vnicAttachmentRepresentation = map[string]interface{}{
 		"create_vnic_details": RepresentationGroup{Required, vnicAttachmentCreateVnicDetailsRepresentation},
-		"instance_id":         Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`},
-		"nic_index":           Representation{repType: Optional, create: `0`},
+		"instance_id":         Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`},
+		"nic_index":           Representation{RepType: Optional, Create: `0`},
 	}
 	vnicAttachmentCreateVnicDetailsRepresentation = map[string]interface{}{
-		"assign_private_dns_record": Representation{repType: Optional, create: `true`},
-		"subnet_id":                 Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"assign_public_ip":          Representation{repType: Optional, create: `false`},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":              Representation{repType: Optional, create: `displayName`},
-		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"hostname_label":            Representation{repType: Optional, create: `attachvnictestinstance`},
-		"nsg_ids":                   Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
-		"private_ip":                Representation{repType: Optional, create: `10.0.0.5`},
-		"skip_source_dest_check":    Representation{repType: Optional, create: `false`},
+		"assign_private_dns_record": Representation{RepType: Optional, Create: `true`},
+		"subnet_id":                 Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"assign_public_ip":          Representation{RepType: Optional, Create: `false`},
+		"defined_tags":              Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{RepType: Optional, Create: `displayName`},
+		"freeform_tags":             Representation{RepType: Optional, Create: map[string]string{"Department": "Accounting"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"hostname_label":            Representation{RepType: Optional, Create: `attachvnictestinstance`},
+		"nsg_ids":                   Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"private_ip":                Representation{RepType: Optional, Create: `10.0.0.5`},
+		"skip_source_dest_check":    Representation{RepType: Optional, Create: `false`},
 	}
 
 	VnicAttachmentResourceDependencies = OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
@@ -82,15 +82,15 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_vnic_attachments.test_vnic_attachments"
 
 	var resId string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+VnicAttachmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation), "core", "vnicAttachment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+VnicAttachmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation), "core", "vnicAttachment", t)
 
 	ResourceTest(t, testAccCheckCoreVnicAttachmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
@@ -98,14 +98,14 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VnicAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -128,9 +128,9 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -142,9 +142,9 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_vnic_attachments", "test_vnic_attachments", Optional, Update, vnicAttachmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_vnic_attachments", "test_vnic_attachments", Optional, Update, vnicAttachmentDataSourceRepresentation) +
 				compartmentIdVariableStr + VnicAttachmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Update, vnicAttachmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Update, vnicAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
@@ -187,7 +187,7 @@ func testAccCheckCoreVnicAttachmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VnicAttachmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetVnicAttachment(context.Background(), request)
 
@@ -220,7 +220,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreVnicAttachment") {
+	if !InSweeperExcludeList("CoreVnicAttachment") {
 		resource.AddTestSweepers("CoreVnicAttachment", &resource.Sweeper{
 			Name:         "CoreVnicAttachment",
 			Dependencies: DependencyGraph["vnicAttachment"],
@@ -241,13 +241,13 @@ func sweepCoreVnicAttachmentResource(compartment string) error {
 
 			detachVnicRequest.VnicAttachmentId = &vnicAttachmentId
 
-			detachVnicRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			detachVnicRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeClient.DetachVnic(context.Background(), detachVnicRequest)
 			if error != nil {
 				fmt.Printf("Error deleting VnicAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", vnicAttachmentId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &vnicAttachmentId, vnicAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &vnicAttachmentId, vnicAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
 				vnicAttachmentSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -255,7 +255,7 @@ func sweepCoreVnicAttachmentResource(compartment string) error {
 }
 
 func getVnicAttachmentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "VnicAttachmentId")
+	ids := GetResourceIdsToSweep(compartment, "VnicAttachmentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -273,7 +273,7 @@ func getVnicAttachmentIds(compartment string) ([]string, error) {
 	for _, vnicAttachment := range listVnicAttachmentsResponse.Items {
 		id := *vnicAttachment.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "VnicAttachmentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "VnicAttachmentId", id)
 	}
 	return resourceIds, nil
 }

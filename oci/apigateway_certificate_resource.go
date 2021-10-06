@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v48/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v49/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
@@ -206,7 +206,7 @@ func (s *ApigatewayCertificateResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if intermediateCertificates, ok := s.D.GetOkExists("intermediate_certificates"); ok {
@@ -219,7 +219,7 @@ func (s *ApigatewayCertificateResourceCrud) Create() error {
 		request.PrivateKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.CreateCertificate(context.Background(), request)
 	if err != nil {
@@ -227,7 +227,7 @@ func (s *ApigatewayCertificateResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCertificateFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCertificateFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *ApigatewayCertificateResourceCrud) getCertificateFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -283,7 +283,7 @@ func certificateWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 
 func certificateWaitForWorkRequest(wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.WorkRequestsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "apigateway")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "apigateway")
 	retryPolicy.ShouldRetryOperation = certificateWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_apigateway.GetWorkRequestResponse{}
@@ -364,7 +364,7 @@ func (s *ApigatewayCertificateResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CertificateId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.GetCertificate(context.Background(), request)
 	if err != nil {
@@ -404,10 +404,10 @@ func (s *ApigatewayCertificateResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	response, err := s.Client.UpdateCertificate(context.Background(), request)
 	if err != nil {
@@ -415,7 +415,7 @@ func (s *ApigatewayCertificateResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCertificateFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCertificateFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ApigatewayCertificateResourceCrud) Delete() error {
@@ -424,7 +424,7 @@ func (s *ApigatewayCertificateResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CertificateId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	_, err := s.Client.DeleteCertificate(context.Background(), request)
 	return err
@@ -529,7 +529,7 @@ func (s *ApigatewayCertificateResourceCrud) updateCompartment(compartment interf
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apigateway")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
 	_, err := s.Client.ChangeCertificateCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

@@ -14,18 +14,18 @@ import (
 
 var (
 	historyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Required, create: `true`},
-		"name":                      Representation{repType: Optional, create: `name`},
-		"recommendation_id":         Representation{repType: Optional, create: `${oci_optimizer_recommendation.test_recommendation.recommendation_id}`},
-		"recommendation_name":       Representation{repType: Optional, create: `${oci_optimizer_recommendation.test_recommendation.name}`},
-		"resource_type":             Representation{repType: Optional, create: `resourceType`},
-		"state":                     Representation{repType: Optional, create: `ACTIVE`},
-		"status":                    Representation{repType: Optional, create: `PENDING`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Required, Create: `true`},
+		"name":                      Representation{RepType: Optional, Create: `name`},
+		"recommendation_id":         Representation{RepType: Optional, Create: `${oci_optimizer_recommendation.test_recommendation.recommendation_id}`},
+		"recommendation_name":       Representation{RepType: Optional, Create: `${oci_optimizer_recommendation.test_recommendation.name}`},
+		"resource_type":             Representation{RepType: Optional, Create: `resourceType`},
+		"state":                     Representation{RepType: Optional, Create: `ACTIVE`},
+		"status":                    Representation{RepType: Optional, Create: `PENDING`},
 	}
 
 	HistoryResourceConfig = RecommendationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -40,13 +40,13 @@ func TestOptimizerHistoryResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_optimizer_histories.test_histories"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_histories", "test_histories", Required, Create, historyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_histories", "test_histories", Required, Create, historyDataSourceRepresentation) +
 				compartmentIdVariableStr + HistoryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

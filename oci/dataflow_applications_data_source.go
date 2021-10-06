@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v48/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v49/dataflow"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DataflowApplicationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataflowApplications,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -94,7 +94,7 @@ func (s *DataflowApplicationsDataSourceCrud) Get() error {
 		request.SparkVersion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataflow")
 
 	response, err := s.Client.ListApplications(context.Background(), request)
 	if err != nil {

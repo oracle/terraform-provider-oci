@@ -11,47 +11,47 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v48/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v49/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ListenerRequiredOnlyResource = ListenerResourceDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, listenerRepresentation)
+		GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, listenerRepresentation)
 
 	listenerRepresentation = map[string]interface{}{
-		"default_backend_set_name": Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
-		"load_balancer_id":         Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":                     Representation{repType: Required, create: `mylistener`},
-		"port":                     Representation{repType: Required, create: `10`, update: `11`},
-		"protocol":                 Representation{repType: Required, create: `HTTP`},
+		"default_backend_set_name": Representation{RepType: Required, Create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"load_balancer_id":         Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":                     Representation{RepType: Required, Create: `mylistener`},
+		"port":                     Representation{RepType: Required, Create: `10`, Update: `11`},
+		"protocol":                 Representation{RepType: Required, Create: `HTTP`},
 		"connection_configuration": RepresentationGroup{Optional, listenerConnectionConfigurationRepresentation},
-		"hostname_names":           Representation{repType: Optional, create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
-		"path_route_set_name":      Representation{repType: Optional, create: `${oci_load_balancer_path_route_set.test_path_route_set.name}`},
-		"routing_policy_name":      Representation{repType: Optional, create: `${oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name}`},
-		"rule_set_names":           Representation{repType: Optional, create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
+		"hostname_names":           Representation{RepType: Optional, Create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
+		"path_route_set_name":      Representation{RepType: Optional, Create: `${oci_load_balancer_path_route_set.test_path_route_set.name}`},
+		"routing_policy_name":      Representation{RepType: Optional, Create: `${oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name}`},
+		"rule_set_names":           Representation{RepType: Optional, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
 		"ssl_configuration":        RepresentationGroup{Optional, listenerSslConfigurationRepresentation},
 	}
 	listenerConnectionConfigurationRepresentation = map[string]interface{}{
-		"idle_timeout_in_seconds": Representation{repType: Required, create: `10`, update: `11`},
+		"idle_timeout_in_seconds": Representation{RepType: Required, Create: `10`, Update: `11`},
 	}
 	listenerSslConfigurationRepresentation = map[string]interface{}{
-		"certificate_name":        Representation{repType: Required, create: `${oci_load_balancer_certificate.test_certificate.certificate_name}`},
-		"verify_depth":            Representation{repType: Optional, create: `10`, update: `11`},
-		"verify_peer_certificate": Representation{repType: Optional, create: `false`, update: `true`},
+		"certificate_name":        Representation{RepType: Required, Create: `${oci_load_balancer_certificate.test_certificate.certificate_name}`},
+		"verify_depth":            Representation{RepType: Optional, Create: `10`, Update: `11`},
+		"verify_peer_certificate": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
-	ListenerResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicyRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+	ListenerResourceDependencies = GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer_routing_policy", "test_load_balancer_routing_policy", Required, Create, loadBalancerRoutingPolicyRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation) +
 		caCertificateVariableStr + privateKeyVariableStr +
 		`
 	resource "oci_load_balancer_hostname" "test_hostname2" {
@@ -76,15 +76,15 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 	resourceName := "oci_load_balancer_listener.test_listener"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ListenerResourceDependencies+
-		generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Create, listenerRepresentation), "loadbalancer", "listener", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ListenerResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Create, listenerRepresentation), "loadbalancer", "listener", t)
 
 	ResourceTest(t, testAccCheckLoadBalancerListenerDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, listenerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, listenerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -93,21 +93,21 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ListenerResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Create,
-					getUpdatedRepresentationCopy("hostname_names", Representation{repType: Optional, create: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}, update: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}}, listenerRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Create,
+					GetUpdatedRepresentationCopy("hostname_names", Representation{RepType: Optional, Create: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}, Update: []string{"${oci_load_balancer_hostname.test_hostname.name}", "${oci_load_balancer_hostname.test_hostname2.name}"}}, listenerRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
@@ -128,9 +128,9 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -142,7 +142,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Update, listenerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Update, listenerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
@@ -162,7 +162,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}

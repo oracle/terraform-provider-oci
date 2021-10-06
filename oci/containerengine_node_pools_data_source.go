@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v48/containerengine"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v49/containerengine"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func ContainerengineNodePoolsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readContainerengineNodePools,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -76,7 +76,7 @@ func (s *ContainerengineNodePoolsDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "containerengine")
 
 	response, err := s.Client.ListNodePools(context.Background(), request)
 	if err != nil {

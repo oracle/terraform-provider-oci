@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v48/monitoring"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v49/monitoring"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func MonitoringAlarmsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMonitoringAlarms,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *MonitoringAlarmsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_monitoring.AlarmLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "monitoring")
 
 	response, err := s.Client.ListAlarms(context.Background(), request)
 	if err != nil {
