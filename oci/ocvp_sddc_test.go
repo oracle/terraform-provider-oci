@@ -56,7 +56,7 @@ var (
 		"provisioning_subnet_id":       Representation{RepType: Required, Create: `${oci_core_subnet.test_provisioning_subnet.id}`},
 		"ssh_authorized_keys":          Representation{RepType: Required, Create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
 		"vmotion_vlan_id":              Representation{RepType: Required, Create: `${oci_core_vlan.test_vmotion_net_vlan.id}`},
-		"vmware_software_version":      Representation{RepType: Required, Create: `6.7 Update 3`, Update: `6.5 Update 3`},
+		"vmware_software_version":      Representation{RepType: Required, Create: `6.7 update 3`, Update: `6.5 update 3`},
 		"vsan_vlan_id":                 Representation{RepType: Required, Create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
 		"vsphere_vlan_id":              Representation{RepType: Required, Create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
 		"defined_tags":                 Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -78,7 +78,7 @@ var (
 	}
 
 	sddcV7Representation = RepresentationCopyWithNewProperties(sddcRepresentation, map[string]interface{}{
-		"vmware_software_version": Representation{RepType: Required, Create: `7.0 Update 2`},
+		"vmware_software_version": Representation{RepType: Required, Create: `7.0 update 2`},
 	})
 
 	SddcResourceDependencies = DefinedTagsDependencies +
@@ -419,7 +419,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 Update 3"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.7 update 3"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "false"),
@@ -449,7 +449,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 Update 3"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 
@@ -495,7 +495,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 Update 2"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -551,7 +551,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 Update 2"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -603,7 +603,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 Update 2"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -635,7 +635,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 Update 2"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 update 2"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
@@ -689,7 +689,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_initial_password"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_private_ip_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_username"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 Update 2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 update 2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "workload_network_cidr", "172.20.0.0/24"),
 			),
 		},

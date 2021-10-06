@@ -191,7 +191,7 @@ resource "oci_core_instance" "t" {
 	}
 
 	timeouts {
-		Create = "15m"
+		create = "15m"
 	}
 }
 `
@@ -248,7 +248,7 @@ resource "oci_core_instance" "t" {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 	}
 	timeouts {
-		Create = "15m"
+		create = "15m"
 	}
 }
 resource "oci_core_network_security_group" "test_network_security_group1" {

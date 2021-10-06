@@ -1109,7 +1109,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 
 	err = s.SetData()
 	if err != nil {
-		return fmt.Errorf("[ERROR] error setting data after dbsystem Update but before database Update: %v", err)
+		return fmt.Errorf("[ERROR] error setting data after dbsystem update but before database Update: %v", err)
 	}
 
 	return s.UpdateDatabaseOperation()
