@@ -2576,6 +2576,14 @@ var exportStreamingStreamHints = &TerraformResourceHints{
 	},
 }
 
+var exportUsageProxySubscriptionRedeemableUserHints = &TerraformResourceHints{
+	resourceClass:          "oci_usage_proxy_subscription_redeemable_user",
+	datasourceClass:        "oci_usage_proxy_subscription_redeemable_users",
+	datasourceItemsAttr:    "redeemable_user_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "subscription_redeemable_user",
+}
+
 var exportVulnerabilityScanningHostScanRecipeHints = &TerraformResourceHints{
 	resourceClass:          "oci_vulnerability_scanning_host_scan_recipe",
 	datasourceClass:        "oci_vulnerability_scanning_host_scan_recipes",

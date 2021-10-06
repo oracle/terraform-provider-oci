@@ -173,6 +173,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
+    * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
     * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
     * `waf` - Discovers waf resources within the specified compartment
@@ -695,6 +696,10 @@ streaming
 * oci\_streaming\_connect\_harness
 * oci\_streaming\_stream\_pool
 * oci\_streaming\_stream
+
+usage_proxy
+    
+* oci\_usage\_proxy\_subscription\_redeemable\_user
 
 vulnerability_scanning
     
