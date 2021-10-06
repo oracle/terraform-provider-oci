@@ -24,8 +24,8 @@ const (
 			"map_property2" = "create2"
 		}
 	}
-	string_create_only_property = "Create"
-	string_property = "Create"
+	string_create_only_property = "create"
+	string_property = "create"
 	}
 `
 
@@ -47,9 +47,9 @@ const (
 				"map_property1" = "create1"
 				"map_property2" = "create2"
 			}
-			string_property = "Create"
+			string_property = "create"
 		}
-		string_property = "Create"
+		string_property = "create"
 	}
 	nested_property2 {
 		array_create_only_property = ["create1", "create2"]
@@ -57,10 +57,10 @@ const (
 			"map_property1" = "create1"
 			"map_property2" = "create2"
 		}
-		string_property = "Create"
+		string_property = "create"
 	}
-	string_create_only_property = "Create"
-	string_property = "Create"
+	string_create_only_property = "create"
+	string_property = "create"
 	}
 `
 	requiredUpdateConfig = `{
@@ -75,8 +75,8 @@ const (
 			"map_property2" = "update2"
 		}
 	}
-	string_create_only_property = "Create"
-	string_property = "Update"
+	string_create_only_property = "create"
+	string_property = "update"
 	}
 `
 	allUpdateConfig = `{
@@ -96,9 +96,9 @@ const (
 				"map_property1" = "create1"
 				"map_property2" = "create2"
 			}
-			string_property = "Update"
+			string_property = "update"
 		}
-		string_property = "Update"
+		string_property = "update"
 	}
 	nested_property2 {
 		array_create_only_property = ["create1", "create2"]
@@ -106,10 +106,10 @@ const (
 			"map_property1" = "update1"
 			"map_property2" = "update2"
 		}
-		string_property = "Update"
+		string_property = "update"
 	}
-	string_create_only_property = "Create"
-	string_property = "Update"
+	string_create_only_property = "create"
+	string_property = "update"
 	}
 `
 	updatedGroupRequiredCreateConfig = `{
@@ -126,9 +126,9 @@ const (
 		}
 		nested_nested_property {
 			array_property = ["create1", "create2"]
-			string_property = "Create"
+			string_property = "create"
 		}
-		string_property = "Create"
+		string_property = "create"
 	}
 	nested_property2 {
 		array_create_only_property = ["create1", "create2"]
@@ -137,8 +137,8 @@ const (
 			"map_property2" = "create2"
 		}
 	}
-	string_create_only_property = "Create"
-	string_property = "Create"
+	string_create_only_property = "create"
+	string_property = "create"
 	}
 `
 	updatedValueAllUpdateConfig = `{
@@ -160,7 +160,7 @@ const (
 			}
 			string_property = "updated_by_changes_in_the_representation"
 		}
-		string_property = "Update"
+		string_property = "update"
 	}
 	nested_property2 {
 		array_create_only_property = ["create1", "create2"]
@@ -168,10 +168,10 @@ const (
 			"map_property1" = "update1"
 			"map_property2" = "update2"
 		}
-		string_property = "Update"
+		string_property = "update"
 	}
-	string_create_only_property = "Create"
-	string_property = "Update"
+	string_create_only_property = "create"
+	string_property = "update"
 	}
 `
 
@@ -194,7 +194,7 @@ const (
 			}
 			string_property = "re_updated_by_changes_in_the_representation"
 		}
-		string_property = "Update"
+		string_property = "update"
 	}
 	nested_property2 {
 		array_create_only_property = ["create1", "create2"]
@@ -202,9 +202,9 @@ const (
 			"map_property1" = "update1"
 			"map_property2" = "update2"
 		}
-		string_property = "Update"
+		string_property = "update"
 	}
-	string_create_only_property = "Create"
+	string_create_only_property = "create"
 	string_property = "updated_update"
 	}
 `
@@ -228,9 +228,9 @@ const (
 				"map_property1" = "create1"
 				"map_property2" = "create2"
 			}
-			string_property = "Update"
+			string_property = "update"
 		}
-		string_property = "Update"
+		string_property = "update"
 	}
 	nested_property2 {
 		array_create_only_property = ["create1", "create2"]
@@ -238,10 +238,10 @@ const (
 			"map_property1" = "update1"
 			"map_property2" = "update2"
 		}
-		string_property = "Update"
+		string_property = "update"
 	}
-	string_create_only_property = "Create"
-	string_property = "Update"
+	string_create_only_property = "create"
+	string_property = "update"
 	}
 `
 )
@@ -251,27 +251,27 @@ func TestUnitGenerateResourceRepresentationFromMap(t *testing.T) {
 	assert := assert.New(t)
 
 	nested2Map := map[string]interface{}{
-		"string_property":          Representation{RepType: Required, Create: "Create", Update: "Update"},
+		"string_property":          Representation{RepType: Required, Create: "create", Update: "update"},
 		"array_property":           Representation{RepType: Required, Create: []string{"create1", "create2"}, Update: []string{"update1", "update2", "update3"}},
 		"map_create_only_property": Representation{RepType: Optional, Create: map[string]string{"map_property1": "create1", "map_property2": "create2"}},
 	}
 
 	nestedMap1 := map[string]interface{}{
-		"string_property":        Representation{RepType: Required, Create: "Create", Update: "Update"},
+		"string_property":        Representation{RepType: Required, Create: "create", Update: "update"},
 		"array_property":         Representation{RepType: Required, Create: []string{"create1", "create2"}, Update: []string{"update1", "update2"}},
 		"map_property":           Representation{RepType: Required, Create: map[string]string{"map_property1": "create1", "map_property2": "create2"}, Update: map[string]string{"map_property1": "update1", "map_property2": "update2"}},
 		"nested_nested_property": RepresentationGroup{Required, nested2Map},
 	}
 
 	nestedMap2 := map[string]interface{}{
-		"string_property":            Representation{RepType: Optional, Create: "Create", Update: "Update"},
+		"string_property":            Representation{RepType: Optional, Create: "create", Update: "update"},
 		"array_create_only_property": Representation{RepType: Required, Create: []string{"create1", "create2"}},
 		"map_property":               Representation{RepType: Required, Create: map[string]string{"map_property1": "create1", "map_property2": "create2"}, Update: map[string]string{"map_property1": "update1", "map_property2": "update2"}},
 	}
 
 	testMap := map[string]interface{}{
-		"string_property":             Representation{RepType: Required, Create: "Create", Update: "Update"},
-		"string_create_only_property": Representation{RepType: Required, Create: "Create"},
+		"string_property":             Representation{RepType: Required, Create: "create", Update: "update"},
+		"string_create_only_property": Representation{RepType: Required, Create: "create"},
 		"array_property":              Representation{RepType: Required, Create: []string{"create1", "create2"}, Update: []string{"update1", "update2"}},
 		"map_property":                Representation{RepType: Required, Create: map[string]string{"map_property1": "create1", "map_property2": "create2"}, Update: map[string]string{"map_property1": "update1"}},
 		"nested_property1":            RepresentationGroup{Optional, nestedMap1},

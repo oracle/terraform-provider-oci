@@ -228,8 +228,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + goldenGateDeploymentOggKeyVariableStr + GoldenGateDeploymentResourceDependencies +
-				GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation) +
-				GenerateResourceFromRepresentationMap("oci_golden_gate_deployments", "depl_test_ggs_deployments", Required, Update, goldenGateDeploymentDataSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", Optional, Update, goldenGateDeploymentRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployments", "depl_test_ggs_deployments", Required, Update, goldenGateDeploymentDataSourceRepresentation),
 
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "deployment_collection.#", "1"),

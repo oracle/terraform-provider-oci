@@ -412,7 +412,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 	d.Partial(false)
 
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "Update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
 
 			return e
 		}
@@ -480,7 +480,7 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 // Useful in situations where more than one Update is needed and prior Update needs to complete
 func waitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "Update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
 			return e
 		}
 	}
