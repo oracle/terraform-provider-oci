@@ -240,7 +240,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}`,
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -314,7 +314,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}`,
 				ExpectNonEmptyPlan: false,
@@ -344,7 +344,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}`,
 				ExpectNonEmptyPlan: false,
@@ -827,7 +827,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						user_data = "ZWNobyBoZWxsbw=="
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}`,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -888,7 +888,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						user_data = "ZWNobyBoZWxsbw=="
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}`,
 			ExpectNonEmptyPlan: false,
@@ -913,7 +913,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						user_data = "ZWNobyBoZWxsbw=="
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}`,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -963,7 +963,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						user_data = "ZWNobyBoZWxsbw=="
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}
 
@@ -1020,7 +1020,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						user_data = "ZWNobyBoZWxsbw=="
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}`,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -1066,7 +1066,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						user_data = "ZWNobyBoZWxsbw=="
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}`,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -1122,7 +1122,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						user_data = "ZWNobyBoZWxsbw=="
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 				}`,
 			ExpectError: regexp.MustCompile("One or more of the specified volumes are not found"),
@@ -1157,7 +1157,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_failedByTime
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
 					}
 					timeouts {
-						Create = "15s"
+						create = "15s"
 					}
 				}`,
 			ExpectError: regexp.MustCompile("timeout while waiting for state"),
@@ -1195,7 +1195,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					timeouts {
-						Create = "15m"
+						create = "15m"
 					}
 					state = "STOPPED"
 				}`

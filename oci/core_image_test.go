@@ -51,7 +51,7 @@ var (
 	}
 
 	timeoutsRepresentation = map[string]interface{}{
-		"Create": Representation{RepType: Required, Create: `30m`},
+		"create": Representation{RepType: Required, Create: `30m`},
 	}
 
 	ImageResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
