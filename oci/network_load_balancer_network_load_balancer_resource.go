@@ -466,7 +466,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) Update() error {
 	if s.D.HasChange("network_security_group_ids") {
 		err := s.updateNetworkSecurityGroups()
 		if err != nil {
-			return fmt.Errorf("unable to Update 'network_security_group_ids', error: %v", err)
+			return fmt.Errorf("unable to update 'network_security_group_ids', error: %v", err)
 		}
 	}
 

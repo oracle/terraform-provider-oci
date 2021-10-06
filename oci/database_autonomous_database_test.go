@@ -75,8 +75,8 @@ var (
 	}
 
 	autonomousDatabaseTimeoutsRepresentation = map[string]interface{}{
-		"Create": Representation{RepType: Required, Create: `20m`},
-		"Update": Representation{RepType: Required, Create: `20m`},
+		"create": Representation{RepType: Required, Create: `20m`},
+		"update": Representation{RepType: Required, Create: `20m`},
 		"delete": Representation{RepType: Required, Create: `20m`},
 	}
 	autonomousDatabaseCopyWithUpdatedIPsRepresentation = GetUpdatedRepresentationCopy("whitelisted_ips", Representation{RepType: Optional, Create: []string{"1.1.1.1/28", "1.1.1.29"}, Update: []string{}}, autonomousDatabaseRepresentation)

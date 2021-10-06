@@ -126,7 +126,7 @@ var (
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
 		timeouts {
-			Create = "15m"
+			create = "15m"
 		}
 	}
 	resource "oci_core_vnic_attachment" "test_vnic_attachments" {

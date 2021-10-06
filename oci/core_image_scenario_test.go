@@ -59,7 +59,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
 							operating_system_version = "7.2"
 						}
 						timeouts {
-							Create = "30m"
+							create = "30m"
 						}
 					}
 					resource "oci_core_image" "i2" {
@@ -70,7 +70,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
 							source_image_type = "QCOW2"
 						}
 						timeouts {
-							Create = "30m"
+							create = "30m"
 						}
 					}
 				`,

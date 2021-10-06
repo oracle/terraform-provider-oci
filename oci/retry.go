@@ -26,8 +26,8 @@ const (
 	kmsService           = "kms"
 	objectstorageService = "object_storage"
 	deleteResource       = "delete"
-	updateResource       = "Update"
-	createResource       = "Create"
+	updateResource       = "update"
+	createResource       = "create"
 	getResource          = "get"
 )
 

@@ -64,8 +64,8 @@ var (
 		"timeouts":           RepresentationGroup{Required, waasPolicyTimeoutsRepresentation},
 	}
 	waasPolicyTimeoutsRepresentation = map[string]interface{}{
-		"Create": Representation{RepType: Required, Create: `120m`},
-		"Update": Representation{RepType: Required, Create: `120m`},
+		"create": Representation{RepType: Required, Create: `120m`},
+		"update": Representation{RepType: Required, Create: `120m`},
 		"delete": Representation{RepType: Required, Create: `120m`},
 	}
 	waasCustomHeaderRepresentation1 = map[string]interface{}{

@@ -518,7 +518,7 @@ func (s *CoreSecurityRuleResourceCrud) Update() error {
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 	response, err := s.Client.UpdateNetworkSecurityGroupSecurityRules(context.Background(), request)
 	if err != nil {
-		return fmt.Errorf("failed to Update security rules, error: %v", err)
+		return fmt.Errorf("failed to update security rules, error: %v", err)
 	}
 	if response.SecurityRules != nil && len(response.SecurityRules) > 0 {
 		s.Res = &response.SecurityRules[0]

@@ -60,7 +60,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
 		timeouts {
-			Create = "15m"
+			create = "15m"
 		}
 	}
 	
@@ -76,7 +76,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
 		timeouts {
-			Create = "15m"
+			create = "15m"
 		}
 	}
 	
