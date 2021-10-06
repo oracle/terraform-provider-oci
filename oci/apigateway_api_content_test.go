@@ -14,11 +14,11 @@ import (
 
 var (
 	apiContentSingularDataSourceRepresentation = map[string]interface{}{
-		"api_id": Representation{repType: Required, create: `${oci_apigateway_api.test_api.id}`},
+		"api_id": Representation{RepType: Required, Create: `${oci_apigateway_api.test_api.id}`},
 	}
 
 	ApiContentResourceConfig = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create, apiRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apigateway_api", "test_api", Optional, Create, apiRepresentation)
 )
 
 // issue-routing-tag: apigateway/default
@@ -33,13 +33,13 @@ func TestApigatewayApiContentResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_apigateway_api_content.test_api_content"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apigateway_api_content", "test_api_content", Required, Create, apiContentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apigateway_api_content", "test_api_content", Required, Create, apiContentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ApiContentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "api_id"),

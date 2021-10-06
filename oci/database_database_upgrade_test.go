@@ -15,30 +15,30 @@ import (
 )
 
 var (
-	DatabasePrecheckResourceRepresentation = generateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databasePrecheckRepresentation)
-	DatabaseUpgradeResourceRepresentation  = generateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databaseUpgradeRepresentation)
+	DatabasePrecheckResourceRepresentation = GenerateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databasePrecheckRepresentation)
+	DatabaseUpgradeResourceRepresentation  = GenerateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databaseUpgradeRepresentation)
 
 	databasePrecheckRepresentation = map[string]interface{}{
-		"action":                          Representation{repType: Required, create: `PRECHECK`},
-		"database_id":                     Representation{repType: Required, create: `${data.oci_database_databases.t.databases.0.id}`},
+		"action":                          Representation{RepType: Required, Create: `PRECHECK`},
+		"database_id":                     Representation{RepType: Required, Create: `${data.oci_database_databases.t.databases.0.id}`},
 		"database_upgrade_source_details": RepresentationGroup{Optional, databasePrecheckDatabaseUpgradeSourceDbVersionRepresentation},
 	}
 
 	databasePrecheckDatabaseUpgradeSourceDbVersionRepresentation = map[string]interface{}{
-		"db_version": Representation{repType: Optional, create: `19.0.0.0`},
-		"source":     Representation{repType: Optional, create: `DB_VERSION`},
+		"db_version": Representation{RepType: Optional, Create: `19.0.0.0`},
+		"source":     Representation{RepType: Optional, Create: `DB_VERSION`},
 	}
 
 	databaseUpgradeRepresentation = map[string]interface{}{
-		"action":                          Representation{repType: Required, create: `UPGRADE`},
-		"database_id":                     Representation{repType: Required, create: `${data.oci_database_databases.t.databases.0.id}`},
+		"action":                          Representation{RepType: Required, Create: `UPGRADE`},
+		"database_id":                     Representation{RepType: Required, Create: `${data.oci_database_databases.t.databases.0.id}`},
 		"database_upgrade_source_details": RepresentationGroup{Optional, databaseUpgradeDatabaseUpgradeSourceDbVersionRepresentation},
 	}
 
 	databaseUpgradeDatabaseUpgradeSourceDbVersionRepresentation = map[string]interface{}{
-		"db_version": Representation{repType: Optional, create: `19.0.0.0`},
-		"options":    Representation{repType: Optional, create: `-upgradeTimezone false -keepEvents`},
-		"source":     Representation{repType: Optional, create: `DB_VERSION`},
+		"db_version": Representation{RepType: Optional, Create: `19.0.0.0`},
+		"options":    Representation{RepType: Optional, Create: `-upgradeTimezone false -keepEvents`},
+		"source":     Representation{RepType: Optional, Create: `DB_VERSION`},
 	}
 
 	dbSystemForDbUpgradeRepresentation = `
@@ -127,11 +127,11 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(ResourceDatabaseBaseConfig+dbSystemForDbUpgradeRepresentation, "database", "databaseUpgrade", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(ResourceDatabaseBaseConfig+dbSystemForDbUpgradeRepresentation, "database", "databaseUpgrade", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// create dependencies
+		// Create dependencies
 		{
 			Config: ResourceDatabaseBaseConfig + dbSystemForDbUpgradeRepresentation,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -155,7 +155,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.#", "1"),
 				resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.character_set", "AL32UTF8"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					return err
 				},
 			),
@@ -221,7 +221,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "database_id"),
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}
@@ -264,7 +264,7 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_database_upgrade_history_entry.t", "state", "SUCCEEDED"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = FromInstanceState(s, "oci_database_db_system.t", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}

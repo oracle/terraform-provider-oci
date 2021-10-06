@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 )
 
 func init() {
@@ -50,7 +50,7 @@ func (s *ManagementAgentManagementAgentInstallKeyDataSourceCrud) Get() error {
 		request.ManagementAgentInstallKeyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.GetManagementAgentInstallKey(context.Background(), request)
 	if err != nil {

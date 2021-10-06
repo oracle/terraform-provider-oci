@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 )
 
 func init() {
@@ -114,7 +114,7 @@ func (s *CloudGuardCloudGuardConfigurationResourceCrud) Create() error {
 		request.Status = oci_cloud_guard.CloudGuardStatusEnum(status.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.UpdateConfiguration(context.Background(), request)
 	if err != nil {
@@ -139,7 +139,7 @@ func (s *CloudGuardCloudGuardConfigurationResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.GetConfiguration(context.Background(), request)
 	if err != nil {
@@ -172,7 +172,7 @@ func (s *CloudGuardCloudGuardConfigurationResourceCrud) Update() error {
 		request.Status = oci_cloud_guard.CloudGuardStatusEnum(status.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.UpdateConfiguration(context.Background(), request)
 	if err != nil {

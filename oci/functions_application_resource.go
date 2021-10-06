@@ -13,7 +13,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v49/functions"
 )
 
 func init() {
@@ -112,7 +112,7 @@ func FunctionsApplicationResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -243,7 +243,7 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 	}
 
 	if config, ok := s.D.GetOkExists("config"); ok {
-		request.Config = objectMapToStringMap(config.(map[string]interface{}))
+		request.Config = ObjectMapToStringMap(config.(map[string]interface{}))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -260,7 +260,7 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if imagePolicyConfig, ok := s.D.GetOkExists("image_policy_config"); ok {
@@ -317,7 +317,7 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.CreateApplication(context.Background(), request)
 	if err != nil {
@@ -334,7 +334,7 @@ func (s *FunctionsApplicationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ApplicationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.GetApplication(context.Background(), request)
 	if err != nil {
@@ -361,7 +361,7 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 	request.ApplicationId = &tmp
 
 	if config, ok := s.D.GetOkExists("config"); ok {
-		request.Config = objectMapToStringMap(config.(map[string]interface{}))
+		request.Config = ObjectMapToStringMap(config.(map[string]interface{}))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -373,7 +373,7 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if imagePolicyConfig, ok := s.D.GetOkExists("image_policy_config"); ok {
@@ -417,7 +417,7 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	response, err := s.Client.UpdateApplication(context.Background(), request)
 	if err != nil {
@@ -434,7 +434,7 @@ func (s *FunctionsApplicationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ApplicationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	_, err := s.Client.DeleteApplication(context.Background(), request)
 	return err
@@ -467,7 +467,7 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 	for _, item := range s.Res.NetworkSecurityGroupIds {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
-	s.D.Set("network_security_group_ids", schema.NewSet(literalTypeHashCodeForSets, networkSecurityGroupIds))
+	s.D.Set("network_security_group_ids", schema.NewSet(LiteralTypeHashCodeForSets, networkSecurityGroupIds))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -598,7 +598,7 @@ func (s *FunctionsApplicationResourceCrud) updateCompartment(compartment interfa
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
 	_, err := s.Client.ChangeApplicationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

@@ -15,8 +15,8 @@ import (
 
 var (
 	faultDomainDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	FaultDomainResourceConfig = AvailabilityDomainConfig
@@ -34,13 +34,13 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_identity_fault_domains.test_fault_domains"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", Required, Create, faultDomainDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", Required, Create, faultDomainDataSourceRepresentation) +
 				compartmentIdVariableStr + FaultDomainResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(datasourceName, "availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),

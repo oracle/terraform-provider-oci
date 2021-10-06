@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_logging "github.com/oracle/oci-go-sdk/v48/logging"
+	oci_logging "github.com/oracle/oci-go-sdk/v49/logging"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func LoggingLogsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoggingLogs,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -101,7 +101,7 @@ func (s *LoggingLogsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_logging.ListLogsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "logging")
 
 	response, err := s.Client.ListLogs(context.Background(), request)
 	if err != nil {

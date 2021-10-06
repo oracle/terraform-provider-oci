@@ -16,17 +16,17 @@ import (
 
 var (
 	UiPasswordResourceConfig = UiPasswordResourceDependencies +
-		generateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Optional, Update, uiPasswordRepresentation)
+		GenerateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Optional, Update, uiPasswordRepresentation)
 
 	uiPasswordSingularDataSourceRepresentation = map[string]interface{}{
-		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"user_id": Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
 	uiPasswordRepresentation = map[string]interface{}{
-		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"user_id": Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	UiPasswordResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+	UiPasswordResourceDependencies = GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -44,22 +44,22 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_identity_ui_password.test_ui_password"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+UiPasswordResourceDependencies+
-		generateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation), "identity", "uiPassword", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+UiPasswordResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation), "identity", "uiPassword", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + UiPasswordResourceDependencies +
-				generateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation),
+				GenerateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -71,7 +71,7 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + UiPasswordResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),

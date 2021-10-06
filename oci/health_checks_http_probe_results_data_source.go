@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_health_checks "github.com/oracle/oci-go-sdk/v48/healthchecks"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v49/healthchecks"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func HealthChecksHttpProbeResultsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readHealthChecksHttpProbeResults,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"probe_configuration_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -238,7 +238,7 @@ func (s *HealthChecksHttpProbeResultsDataSourceCrud) Get() error {
 		request.Target = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "health_checks")
 
 	response, err := s.Client.ListHttpProbeResults(context.Background(), request)
 	if err != nil {

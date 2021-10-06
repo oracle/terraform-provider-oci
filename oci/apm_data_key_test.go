@@ -14,11 +14,11 @@ import (
 
 var (
 	dataKeyDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"data_key_type": Representation{repType: Optional, create: `PRIVATE`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"data_key_type": Representation{RepType: Optional, Create: `PRIVATE`},
 	}
 
-	DataKeyResourceConfig = generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation)
+	DataKeyResourceConfig = GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation)
 )
 
 // issue-routing-tag: apm/default
@@ -33,13 +33,13 @@ func TestApmDataKeyResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_apm_data_keys.test_data_keys"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apm_data_keys", "test_data_keys", Required, Create, dataKeyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_data_keys", "test_data_keys", Required, Create, dataKeyDataSourceRepresentation) +
 				compartmentIdVariableStr + DataKeyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),

@@ -5,15 +5,17 @@ package oci
 
 import (
 	"context"
+	"log"
 	"net"
+	"strconv"
 	"strings"
 	"time"
 
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 const (
@@ -82,7 +84,7 @@ func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {
 func getBackupPolicyId(assetId *string, client *oci_core.BlockstorageClient) (*string, error) {
 	request := oci_core.GetVolumeBackupPolicyAssetAssignmentRequest{}
 	request.AssetId = assetId
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := client.GetVolumeBackupPolicyAssetAssignment(context.Background(), request)
 	if err != nil {
@@ -101,7 +103,7 @@ func (s *CoreVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(regi
 	if s.SourceRegionClient == nil {
 		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
-			return fmt.Errorf("cannot create client for the source region: %v", err)
+			return fmt.Errorf("cannot Create client for the source region: %v", err)
 		}
 		err = configureClient(&sourceBlockStorageClient.BaseClient)
 		if err != nil {
@@ -118,7 +120,7 @@ func (s *CoreVolumeGroupBackupResourceCrud) createBlockStorageSourceRegionClient
 	if s.SourceRegionClient == nil {
 		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
-			return fmt.Errorf("cannot create client for the source region: %v", err)
+			return fmt.Errorf("cannot Create client for the source region: %v", err)
 		}
 		err = configureClient(&sourceBlockStorageClient.BaseClient)
 		if err != nil {
@@ -135,7 +137,7 @@ func (s *CoreBootVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(
 	if s.SourceRegionClient == nil {
 		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
-			return fmt.Errorf("cannot create client for the source region: %v", err)
+			return fmt.Errorf("cannot Create client for the source region: %v", err)
 		}
 		err = configureClient(&sourceBlockStorageClient.BaseClient)
 		if err != nil {
@@ -164,12 +166,17 @@ func getSubnetExpectedRetryDuration(response oci_common.OCIOperationResponse, di
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
+	e := response.Error
 	if len(optionals) > 0 {
 		if key, ok := optionals[0].(string); ok {
 			switch key {
 			case deleteResource:
 				switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 				case 409:
+					if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+						log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
+						return 0
+					}
 					if e := response.Error; e != nil {
 						if strings.Contains(e.Error(), "Conflict") {
 							defaultRetryTime = longRetryTime

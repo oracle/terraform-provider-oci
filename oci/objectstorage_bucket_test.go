@@ -12,53 +12,53 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v48/objectstorage"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v49/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	BucketRequiredOnlyResource = BucketResourceDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation)
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation)
 
 	BucketResourceConfig = BucketResourceDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation)
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation)
 
 	// Based on Bucket name specifications used in Object Storage Lifecycle policy
-	testBucketName  = randomStringOrHttpReplayValue(32, charset, "bucket")
+	testBucketName  = RandomStringOrHttpReplayValue(32, charset, "bucket")
 	testBucketName2 = testBucketName + "2"
 
 	bucketSingularDataSourceRepresentation = map[string]interface{}{
-		"name":      Representation{repType: Required, create: testBucketName2},
-		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"name":      Representation{RepType: Required, Create: testBucketName2},
+		"namespace": Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
 	bucketDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"namespace":      Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"filter":         RepresentationGroup{Required, bucketDataSourceFilterRepresentation}}
 	bucketDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`${oci_objectstorage_bucket.test_bucket.name}`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_objectstorage_bucket.test_bucket.name}`}},
 	}
 
 	bucketRepresentation = map[string]interface{}{
-		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":                  Representation{repType: Required, create: testBucketName, update: testBucketName2},
-		"namespace":             Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"access_type":           Representation{repType: Optional, create: `NoPublicAccess`, update: `ObjectRead`},
-		"auto_tiering":          Representation{repType: Optional, create: `Disabled`, update: `InfrequentAccess`},
-		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":            Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"metadata":              Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
-		"object_events_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"storage_tier":          Representation{repType: Optional, create: `Standard`},
-		"versioning":            Representation{repType: Optional, create: `Enabled`, update: `Disabled`},
+		"compartment_id":        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":                  Representation{RepType: Required, Create: testBucketName, Update: testBucketName2},
+		"namespace":             Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"access_type":           Representation{RepType: Optional, Create: `NoPublicAccess`, Update: `ObjectRead`},
+		"auto_tiering":          Representation{RepType: Optional, Create: `Disabled`, Update: `InfrequentAccess`},
+		"defined_tags":          Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":         Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":            Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"metadata":              Representation{RepType: Optional, Create: map[string]string{"content-type": "text/plain"}, Update: map[string]string{"content-type": "text/xml"}},
+		"object_events_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"storage_tier":          Representation{RepType: Optional, Create: `Standard`},
+		"versioning":            Representation{RepType: Optional, Create: `Enabled`, Update: `Disabled`},
 	}
 
-	BucketResourceDependencies = generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
+	BucketResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig2
 )
@@ -81,15 +81,15 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_objectstorage_bucket.test_bucket"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+BucketResourceDependencies+
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation), "objectstorage", "bucket", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+BucketResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation), "objectstorage", "bucket", t)
 
 	ResourceTest(t, testAccCheckObjectStorageBucketDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation),
+				GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -97,20 +97,20 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + BucketResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
+				GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 				resource.TestCheckResourceAttr(resourceName, "auto_tiering", "Disabled"),
@@ -130,9 +130,9 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "versioning", "Enabled"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -142,13 +142,13 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		},
 		{
 			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
+				GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -156,7 +156,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		// verify updates to compartment
 		{
 			Config: config + compartmentId2VariableStr + BucketResourceDependencies +
-				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
+				GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 				resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -174,7 +174,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -185,7 +185,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
+				GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 				resource.TestCheckResourceAttr(resourceName, "auto_tiering", "InfrequentAccess"),
@@ -205,7 +205,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "versioning", "Disabled"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					// The id changes when the name changes
 					if resId == resId2 {
 						return fmt.Errorf("Resource updated when it was supposed to be recreated.")
@@ -217,9 +217,9 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_objectstorage_bucket_summaries", "test_buckets", Optional, Update, bucketDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_objectstorage_bucket_summaries", "test_buckets", Optional, Update, bucketDataSourceRepresentation) +
 				compartmentIdVariableStr + BucketResourceDependencies +
-				generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
+				GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -238,7 +238,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + BucketResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
@@ -298,7 +298,7 @@ func testAccCheckObjectStorageBucketDestroy(s *terraform.State) error {
 				request.NamespaceName = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "object_storage")
 
 			_, err := client.GetBucket(context.Background(), request)
 
@@ -323,7 +323,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ObjectStorageBucket") {
+	if !InSweeperExcludeList("ObjectStorageBucket") {
 		resource.AddTestSweepers("ObjectStorageBucket", &resource.Sweeper{
 			Name:         "ObjectStorageBucket",
 			Dependencies: DependencyGraph["bucket"],
@@ -342,7 +342,7 @@ func sweepObjectStorageBucketResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[bucketId]; !ok {
 			deleteBucketRequest := oci_object_storage.DeleteBucketRequest{}
 
-			deleteBucketRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+			deleteBucketRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "object_storage")
 			_, error := objectStorageClient.DeleteBucket(context.Background(), deleteBucketRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Bucket %s %s, It is possible that the resource is already deleted. Please verify manually \n", bucketId, error)
@@ -354,7 +354,7 @@ func sweepObjectStorageBucketResource(compartment string) error {
 }
 
 func getBucketIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "BucketId")
+	ids := GetResourceIdsToSweep(compartment, "BucketId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -380,7 +380,7 @@ func getBucketIds(compartment string) ([]string, error) {
 		for _, bucket := range listBucketsResponse.Items {
 			id := *bucket.Name
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "BucketId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "BucketId", id)
 		}
 
 	}

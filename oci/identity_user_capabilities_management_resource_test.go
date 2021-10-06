@@ -30,11 +30,11 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIdentityUserCapabilitiesManagement_basic() {
-	_, tokenFn := tokenizeWithHttpReplay("identity_management_resource")
+	_, tokenFn := TokenizeWithHttpReplay("identity_management_resource")
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create with capabilities all as false
+			// verify Create with capabilities all as false
 			{
 				Config: s.Config +
 					tokenFn(
@@ -62,7 +62,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_smtp_credentials", "false"),
 				),
 			},
-			// verify update with capabilities all as true
+			// verify Update with capabilities all as true
 			{
 				Config: s.Config +
 					tokenFn(

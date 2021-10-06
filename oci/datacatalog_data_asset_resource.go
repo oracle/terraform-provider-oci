@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v48/datacatalog"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v49/datacatalog"
 )
 
 func init() {
@@ -198,7 +198,7 @@ func (s *DatacatalogDataAssetResourceCrud) Create() error {
 		request.TypeKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.CreateDataAsset(context.Background(), request)
 	if err != nil {
@@ -241,7 +241,7 @@ func (s *DatacatalogDataAssetResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.GetDataAsset(context.Background(), request)
 	if err != nil {
@@ -281,7 +281,7 @@ func (s *DatacatalogDataAssetResourceCrud) Update() error {
 		request.Properties = convertedProperties
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.UpdateDataAsset(context.Background(), request)
 	if err != nil {
@@ -305,7 +305,7 @@ func (s *DatacatalogDataAssetResourceCrud) Delete() error {
 		request.DataAssetKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	_, err := s.Client.DeleteDataAsset(context.Background(), request)
 	return err

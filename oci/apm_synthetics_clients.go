@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v48/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v49/apmsynthetics"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_apm_synthetics.ApmSyntheticClient", &OracleClient{initClientFn: initApmsyntheticsApmSyntheticClient})
+	RegisterOracleClient("oci_apm_synthetics.ApmSyntheticClient", &OracleClient{InitClientFn: initApmsyntheticsApmSyntheticClient})
 }
 
 func initApmsyntheticsApmSyntheticClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

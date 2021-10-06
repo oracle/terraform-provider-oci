@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v48/goldengate"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v49/goldengate"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func GoldenGateDeploymentBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readGoldenGateDeploymentBackups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -93,7 +93,7 @@ func (s *GoldenGateDeploymentBackupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_golden_gate.ListDeploymentBackupsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "golden_gate")
 
 	response, err := s.Client.ListDeploymentBackups(context.Background(), request)
 	if err != nil {

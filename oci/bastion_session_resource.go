@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_bastion "github.com/oracle/oci-go-sdk/v48/bastion"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_bastion "github.com/oracle/oci-go-sdk/v49/bastion"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
@@ -283,7 +283,7 @@ func (s *BastionSessionResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
 	response, err := s.Client.CreateSession(context.Background(), request)
 	if err != nil {
@@ -291,7 +291,7 @@ func (s *BastionSessionResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSessionFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSessionFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *BastionSessionResourceCrud) getSessionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -334,7 +334,7 @@ func sessionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 
 func sessionWaitForWorkRequest(wId *string, entityType string, action oci_bastion.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bastion.BastionClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "bastion")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "bastion")
 	retryPolicy.ShouldRetryOperation = sessionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_bastion.GetWorkRequestResponse{}
@@ -416,7 +416,7 @@ func (s *BastionSessionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SessionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
 	response, err := s.Client.GetSession(context.Background(), request)
 	if err != nil {
@@ -438,7 +438,7 @@ func (s *BastionSessionResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.SessionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
 	response, err := s.Client.UpdateSession(context.Background(), request)
 	if err != nil {
@@ -455,7 +455,7 @@ func (s *BastionSessionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SessionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "bastion")
 
 	response, err := s.Client.DeleteSession(context.Background(), request)
 	if err != nil {

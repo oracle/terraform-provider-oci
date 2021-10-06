@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_streaming "github.com/oracle/oci-go-sdk/v48/streaming"
+	oci_streaming "github.com/oracle/oci-go-sdk/v49/streaming"
 )
 
 func init() {
@@ -127,7 +127,7 @@ func StreamingStreamPoolResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
-							Set:      literalTypeHashCodeForSets,
+							Set:      LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -283,7 +283,7 @@ func (s *StreamingStreamPoolResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kafkaSettings, ok := s.D.GetOkExists("kafka_settings"); ok {
@@ -313,7 +313,7 @@ func (s *StreamingStreamPoolResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.CreateStreamPool(context.Background(), request)
 	if err != nil {
@@ -330,7 +330,7 @@ func (s *StreamingStreamPoolResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.StreamPoolId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.GetStreamPool(context.Background(), request)
 	if err != nil {
@@ -373,7 +373,7 @@ func (s *StreamingStreamPoolResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kafkaSettings, ok := s.D.GetOkExists("kafka_settings"); ok {
@@ -395,7 +395,7 @@ func (s *StreamingStreamPoolResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.StreamPoolId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.UpdateStreamPool(context.Background(), request)
 	if err != nil {
@@ -412,7 +412,7 @@ func (s *StreamingStreamPoolResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.StreamPoolId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	_, err := s.Client.DeleteStreamPool(context.Background(), request)
 	return err
@@ -578,7 +578,7 @@ func PrivateEndpointSettingsToMap(obj *oci_streaming.PrivateEndpointSettings, da
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateEndpointIp != nil {
@@ -601,7 +601,7 @@ func (s *StreamingStreamPoolResourceCrud) updateCompartment(compartment interfac
 	idTmp := s.D.Id()
 	changeCompartmentRequest.StreamPoolId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	_, err := s.Client.ChangeStreamPoolCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

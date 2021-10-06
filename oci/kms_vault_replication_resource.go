@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v48/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v49/keymanagement"
 )
 
 func init() {
@@ -108,7 +108,7 @@ func (s *KmsVaultReplicaResourceCrud) Get() error {
 		request.VaultId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.ListVaultReplicas(context.Background(), request)
 	if err != nil {
@@ -140,7 +140,7 @@ func (s *KmsVaultReplicaResourceCrud) Update() error {
 			return err
 		}
 
-		// create replica in the new region for the primary vault after deletion is completed
+		// Create replica in the new region for the primary vault after deletion is completed
 		return s.createVaultReplicaHelper(vaultIdStr, newReplicaRegionName)
 	}
 	return nil
@@ -173,7 +173,7 @@ func (s *KmsVaultReplicaResourceCrud) createVaultReplicaHelper(vaultId string, r
 		request.ReplicaRegion = &replicaRegion
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	_, err := s.Client.CreateVaultReplica(context.Background(), request)
 	if err != nil {
@@ -195,7 +195,7 @@ func (s *KmsVaultReplicaResourceCrud) deleteVaultReplicaHelper(vaultId string, r
 		request.ReplicaRegion = &replicaRegion
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	_, err := s.Client.DeleteVaultReplica(context.Background(), request)
 	if err != nil {

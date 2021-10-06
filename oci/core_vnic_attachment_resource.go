@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -92,7 +92,7 @@ func CoreVnicAttachmentResource() *schema.Resource {
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
-							Set:      literalTypeHashCodeForSets,
+							Set:      LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -284,7 +284,7 @@ func (s *CoreVnicAttachmentResourceCrud) Create() error {
 		request.NicIndex = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.AttachVnic(context.Background(), request)
 	if err != nil {
@@ -299,8 +299,8 @@ func (s *CoreVnicAttachmentResourceCrud) Create() error {
 // However, the existing behavior allows vnic to be updated through the create_vnic_details.
 // So keep this Update functionality in the provider.
 func (s *CoreVnicAttachmentResourceCrud) Update() error {
-	// We should fetch the VnicAttachment in order to update
-	// the state data after the update call.
+	// We should fetch the VnicAttachment in order to Update
+	// the state data after the Update call.
 	err := s.Get()
 	if err != nil {
 		return err
@@ -327,7 +327,7 @@ func (s *CoreVnicAttachmentResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err = s.VirtualNetworkClient.UpdateVnic(context.Background(), request)
 	return err
@@ -339,7 +339,7 @@ func (s *CoreVnicAttachmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VnicAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetVnicAttachment(context.Background(), request)
 	if err != nil {
@@ -356,7 +356,7 @@ func (s *CoreVnicAttachmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VnicAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DetachVnic(context.Background(), request)
 	return err
@@ -463,7 +463,7 @@ func (s *CoreVnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat s
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
@@ -525,7 +525,7 @@ func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat s
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok && hostnameLabel != "" {
@@ -561,7 +561,7 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 		result["assign_private_dns_record"] = createVnicDetails["assign_private_dns_record"]
 	}
 	// "assign_public_ip" isn't part of the VNIC's state & is only useful at creation time (and
-	// subsequent force-new creations). So persist the user-defined value in the config & update it
+	// subsequent force-new creations). So persist the user-defined value in the config & Update it
 	// when the user changes that value.
 	if createVnicDetails != nil {
 		assignPublicIP, _ := NormalizeBoolString(createVnicDetails["assign_public_ip"].(string)) // Must be valid.
@@ -592,7 +592,7 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateIp != nil {

@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_cloud_guard.CloudGuardClient", &OracleClient{initClientFn: initCloudguardCloudGuardClient})
+	RegisterOracleClient("oci_cloud_guard.CloudGuardClient", &OracleClient{InitClientFn: initCloudguardCloudGuardClient})
 }
 
 func initCloudguardCloudGuardClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -14,12 +14,12 @@ import (
 
 var (
 	appCatalogListingResourceVersionSingularDataSourceRepresentation = map[string]interface{}{
-		"listing_id":       Representation{repType: Required, create: `${lookup(data.oci_core_app_catalog_listing_resource_versions.test_app_catalog_listing_resource_versions.app_catalog_listing_resource_versions[0],"listing_id")}`},
-		"resource_version": Representation{repType: Required, create: `${lookup(data.oci_core_app_catalog_listing_resource_versions.test_app_catalog_listing_resource_versions.app_catalog_listing_resource_versions[0],"listing_resource_version")}`},
+		"listing_id":       Representation{RepType: Required, Create: `${lookup(data.oci_core_app_catalog_listing_resource_versions.test_app_catalog_listing_resource_versions.app_catalog_listing_resource_versions[0],"listing_id")}`},
+		"resource_version": Representation{RepType: Required, Create: `${lookup(data.oci_core_app_catalog_listing_resource_versions.test_app_catalog_listing_resource_versions.app_catalog_listing_resource_versions[0],"listing_resource_version")}`},
 	}
 
 	appCatalogListingResourceVersionDataSourceRepresentation = map[string]interface{}{
-		"listing_id": Representation{repType: Required, create: `${lookup(data.oci_core_app_catalog_listings.test_app_catalog_listings.app_catalog_listings[0],"listing_id")}`},
+		"listing_id": Representation{RepType: Required, Create: `${lookup(data.oci_core_app_catalog_listings.test_app_catalog_listings.app_catalog_listings[0],"listing_id")}`},
 	}
 
 	AppCatalogListingResourceVersionResourceConfig = `
@@ -42,13 +42,13 @@ func TestCoreAppCatalogListingResourceVersionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_app_catalog_listing_resource_versions.test_app_catalog_listing_resource_versions"
 	singularDatasourceName := "data.oci_core_app_catalog_listing_resource_version.test_app_catalog_listing_resource_version"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
 				compartmentIdVariableStr + AppCatalogListingResourceVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
@@ -63,8 +63,8 @@ func TestCoreAppCatalogListingResourceVersionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_version", "test_app_catalog_listing_resource_version", Required, Create, appCatalogListingResourceVersionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_versions", "test_app_catalog_listing_resource_versions", Required, Create, appCatalogListingResourceVersionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listing_resource_version", "test_app_catalog_listing_resource_version", Required, Create, appCatalogListingResourceVersionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AppCatalogListingResourceVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),

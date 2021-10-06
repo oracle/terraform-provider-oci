@@ -13,51 +13,51 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	NatGatewayRequiredOnlyResource = NatGatewayResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Required, Create, natGatewayRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Required, Create, natGatewayRepresentation)
 
 	NatGatewayResourceConfig = NatGatewayResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Update, natGatewayRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Update, natGatewayRepresentation)
 
 	natGatewaySingularDataSourceRepresentation = map[string]interface{}{
-		"nat_gateway_id": Representation{repType: Required, create: `${oci_core_nat_gateway.test_nat_gateway.id}`},
+		"nat_gateway_id": Representation{RepType: Required, Create: `${oci_core_nat_gateway.test_nat_gateway.id}`},
 	}
 
 	natGatewayDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
-		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
+		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, natGatewayDataSourceFilterRepresentation}}
 	natGatewayDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_nat_gateway.test_nat_gateway.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_nat_gateway.test_nat_gateway.id}`}},
 	}
 
 	natGatewayRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"block_traffic":  Representation{repType: Optional, create: `false`, update: `true`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"public_ip_id":   Representation{repType: Optional, create: `${oci_core_public_ip.test_public_ip.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"vcn_id":         Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"block_traffic":  Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"public_ip_id":   Representation{RepType: Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
 
-	NatGatewayResourceDependencies = generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create,
-		representationCopyWithNewProperties(publicIpRepresentation, map[string]interface{}{
-			"public_ip_pool_id": Representation{repType: Required, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
+	NatGatewayResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create,
+		RepresentationCopyWithNewProperties(publicIpRepresentation, map[string]interface{}{
+			"public_ip_pool_id": Representation{RepType: Required, Create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr
 )
 
@@ -79,34 +79,34 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_nat_gateway.test_nat_gateway"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+NatGatewayResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Create, natGatewayRepresentation), "core", "natGateway", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+NatGatewayResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Create, natGatewayRepresentation), "core", "natGateway", t)
 
 	ResourceTest(t, testAccCheckCoreNatGatewayDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Required, Create, natGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Required, Create, natGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Create, natGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Create, natGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -121,9 +121,9 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -132,12 +132,12 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + NatGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Create,
-					representationCopyWithNewProperties(natGatewayRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Create,
+					RepresentationCopyWithNewProperties(natGatewayRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
@@ -153,7 +153,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -165,7 +165,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Update, natGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Update, natGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "block_traffic", "true"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -180,7 +180,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -191,9 +191,9 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_nat_gateways", "test_nat_gateways", Optional, Update, natGatewayDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_nat_gateways", "test_nat_gateways", Optional, Update, natGatewayDataSourceRepresentation) +
 				compartmentIdVariableStr + NatGatewayResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Update, natGatewayRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Update, natGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -217,7 +217,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Required, Create, natGatewaySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Required, Create, natGatewaySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NatGatewayResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nat_gateway_id"),
@@ -259,7 +259,7 @@ func testAccCheckCoreNatGatewayDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.NatGatewayId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetNatGateway(context.Background(), request)
 
@@ -292,7 +292,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreNatGateway") {
+	if !InSweeperExcludeList("CoreNatGateway") {
 		resource.AddTestSweepers("CoreNatGateway", &resource.Sweeper{
 			Name:         "CoreNatGateway",
 			Dependencies: DependencyGraph["natGateway"],
@@ -313,13 +313,13 @@ func sweepCoreNatGatewayResource(compartment string) error {
 
 			deleteNatGatewayRequest.NatGatewayId = &natGatewayId
 
-			deleteNatGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteNatGatewayRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteNatGateway(context.Background(), deleteNatGatewayRequest)
 			if error != nil {
 				fmt.Printf("Error deleting NatGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", natGatewayId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &natGatewayId, natGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &natGatewayId, natGatewaySweepWaitCondition, time.Duration(3*time.Minute),
 				natGatewaySweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -327,7 +327,7 @@ func sweepCoreNatGatewayResource(compartment string) error {
 }
 
 func getNatGatewayIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "NatGatewayId")
+	ids := GetResourceIdsToSweep(compartment, "NatGatewayId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -346,7 +346,7 @@ func getNatGatewayIds(compartment string) ([]string, error) {
 	for _, natGateway := range listNatGatewaysResponse.Items {
 		id := *natGateway.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "NatGatewayId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "NatGatewayId", id)
 	}
 	return resourceIds, nil
 }

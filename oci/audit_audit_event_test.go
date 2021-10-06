@@ -14,9 +14,9 @@ import (
 
 var (
 	auditEventDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"end_time":       Representation{repType: Required, create: `${timestamp()}`},
-		"start_time":     Representation{repType: Required, create: `${timeadd(timestamp(), "-1m")}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"end_time":       Representation{RepType: Required, Create: `${timestamp()}`},
+		"start_time":     Representation{RepType: Required, Create: `${timeadd(timestamp(), "-1m")}`},
 	}
 
 	AuditEventResourceConfig = ""
@@ -34,13 +34,13 @@ func TestAuditAuditEventResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_audit_events.test_audit_events"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_audit_events", "test_audit_events", Required, Create, auditEventDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_audit_events", "test_audit_events", Required, Create, auditEventDataSourceRepresentation) +
 				compartmentIdVariableStr + AuditEventResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

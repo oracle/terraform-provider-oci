@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func CorePeerRegionForRemotePeeringsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCorePeerRegionForRemotePeerings,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"peer_region_for_remote_peerings": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -61,7 +61,7 @@ func (s *CorePeerRegionForRemotePeeringsDataSourceCrud) VoidState() {
 func (s *CorePeerRegionForRemotePeeringsDataSourceCrud) Get() error {
 	request := oci_core.ListAllowedPeerRegionsForRemotePeeringRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListAllowedPeerRegionsForRemotePeering(context.Background(), request)
 	if err != nil {

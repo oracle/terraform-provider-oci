@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v48/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v49/loadbalancer"
 )
 
 func init() {
@@ -205,7 +205,7 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.CreatePathRouteSet(context.Background(), request)
 	if err != nil {
@@ -215,13 +215,13 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Create() error {
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -229,7 +229,7 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Create() error {
 }
 
 func (s *LoadBalancerPathRouteSetResourceCrud) Get() error {
-	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -258,7 +258,7 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Get() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.GetPathRouteSet(context.Background(), request)
 	if err != nil {
@@ -299,7 +299,7 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.UpdatePathRouteSet(context.Background(), request)
 	if err != nil {
@@ -309,13 +309,13 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Update() error {
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -336,7 +336,7 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Delete() error {
 		request.PathRouteSetName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.DeletePathRouteSet(context.Background(), request)
 	if err != nil {
@@ -346,13 +346,13 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Delete() error {
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}

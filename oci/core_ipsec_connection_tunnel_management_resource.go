@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -246,7 +246,7 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) Get() error {
 		request.TunnelId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetIPSecConnectionTunnel(context.Background(), request)
 	if err != nil {
@@ -381,7 +381,7 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 	response, err := s.Client.UpdateIPSecConnectionTunnel(context.Background(), request)
 	if err != nil {
 		return err

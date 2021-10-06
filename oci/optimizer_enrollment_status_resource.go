@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_optimizer "github.com/oracle/oci-go-sdk/v48/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v49/optimizer"
 )
 
 func init() {
@@ -141,7 +141,7 @@ func (s *OptimizerEnrollmentStatusResourceCrud) Create() error {
 		request.Status = oci_optimizer.OptimizerEnrollmentStatusEnum(status.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.UpdateEnrollmentStatus(context.Background(), request)
 	if err != nil {
@@ -158,7 +158,7 @@ func (s *OptimizerEnrollmentStatusResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.EnrollmentStatusId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.GetEnrollmentStatus(context.Background(), request)
 	if err != nil {
@@ -179,7 +179,7 @@ func (s *OptimizerEnrollmentStatusResourceCrud) Update() error {
 		request.Status = oci_optimizer.OptimizerEnrollmentStatusEnum(status.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "optimizer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "optimizer")
 
 	response, err := s.Client.UpdateEnrollmentStatus(context.Background(), request)
 	if err != nil {

@@ -8,16 +8,16 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	managementAgentCountSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"group_by":       Representation{repType: Required, create: []string{`version`}},
-		"has_plugins":    Representation{repType: Required, create: `true`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"group_by":       Representation{RepType: Required, Create: []string{`version`}},
+		"has_plugins":    Representation{RepType: Required, Create: `true`},
+		"install_type":   Representation{RepType: Required, Create: `AGENT`},
 	}
 
 	ManagementAgentCountResourceConfig = ""
@@ -28,7 +28,6 @@ func TestManagementAgentManagementAgentCountResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestManagementAgentManagementAgentCountResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
@@ -36,26 +35,21 @@ func TestManagementAgentManagementAgentCountResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_management_agent_management_agent_count.test_management_agent_count"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
-		Providers: map[string]terraform.ResourceProvider{
-			"oci": provider,
-		},
-		Steps: []resource.TestStep{
-			// verify singular datasource
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_count", "test_management_agent_count", Required, Create, managementAgentCountSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ManagementAgentCountResourceConfig,
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "has_plugins", "true"),
+	ResourceTest(t, nil, []resource.TestStep{
+		// verify singular datasource
+		{
+			Config: config +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_count", "test_management_agent_count", Required, Create, managementAgentCountSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ManagementAgentCountResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "has_plugins", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "install_type", "AGENT"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "items.#"),
-				),
-			},
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "items.#"),
+			),
 		},
 	})
 }

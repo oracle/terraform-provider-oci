@@ -22,8 +22,8 @@ import (
 	"testing"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v48/resourcemanager"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v49/resourcemanager"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -241,7 +241,7 @@ func testParentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 				ForceNew: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 			},
 			"a_nested": {
 				Type:     schema.TypeList,
@@ -1514,7 +1514,7 @@ func TestUnitGetExportConfig(t *testing.T) {
 }
 
 /*
-This test is used to create or destroy resources in a compartment using ORM stack
+This test is used to Create or destroy resources in a compartment using ORM stack
 Parameter:
 enable_create_destroy_rd_resources: true/false. Enable this run
 stack_id: stack for the job
@@ -1534,7 +1534,7 @@ func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 	}
 	jobOperation := getEnvSettingWithBlankDefault("job_operation")
 	operation := oci_resourcemanager.JobOperationEnum(jobOperation)
-	// Create resources using stack create job
+	// Create resources using stack Create job
 	isAutoApproved := true
 
 	createJobRequest := oci_resourcemanager.CreateJobRequest{
@@ -1546,14 +1546,14 @@ func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 			},
 		},
 		RequestMetadata: oci_common.RequestMetadata{
-			RetryPolicy: getRetryPolicy(false, "resourcemanager"),
+			RetryPolicy: GetRetryPolicy(false, "resourcemanager"),
 		},
 	}
 	job_timeout_in_minutes, err := strconv.Atoi(getEnvSettingWithDefault("job_timeout_in_minutes", "120"))
 	assert.NoError(t, err)
 	timeout := time.Duration(job_timeout_in_minutes) * time.Minute
-	// Many resources require long time to create/destroy
-	createJobRequest.RequestMetadata.RetryPolicy.ShouldRetryOperation = conditionShouldRetry(timeout, jobSuccessWaitCondition, "resourcemanager", false)
+	// Many resources require long time to Create/destroy
+	createJobRequest.RequestMetadata.RetryPolicy.ShouldRetryOperation = ConditionShouldRetry(timeout, jobSuccessWaitCondition, "resourcemanager", false)
 
 	createJobResponse, err := resourceManagerClient.CreateJob(context.Background(), createJobRequest)
 
@@ -1562,8 +1562,8 @@ func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 	}
 	assert.NoError(t, err)
 
-	retryPolicy := getRetryPolicy(false, "resourcemanager")
-	retryPolicy.ShouldRetryOperation = conditionShouldRetry(time.Duration(15*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
+	retryPolicy := GetRetryPolicy(false, "resourcemanager")
+	retryPolicy.ShouldRetryOperation = ConditionShouldRetry(time.Duration(15*time.Minute), jobSuccessWaitCondition, "resourcemanager", false)
 
 	_, err = resourceManagerClient.GetJob(context.Background(), oci_resourcemanager.GetJobRequest{
 		JobId: createJobResponse.Id,
@@ -1609,7 +1609,7 @@ func TestResourceDiscoveryUpdateStack(t *testing.T) {
 
 		f, err := zipWriter.Create(file.Name())
 		if err != nil {
-			log.Fatalf("[ERROR] cannot create file for zip configuration: %v", err)
+			log.Fatalf("[ERROR] cannot Create file for zip configuration: %v", err)
 		}
 		_, err = f.Write(data)
 		if err != nil {

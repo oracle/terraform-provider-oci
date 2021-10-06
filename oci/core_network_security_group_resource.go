@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -160,7 +160,7 @@ func (s *CoreNetworkSecurityGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -168,7 +168,7 @@ func (s *CoreNetworkSecurityGroupResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateNetworkSecurityGroup(context.Background(), request)
 	if err != nil {
@@ -185,7 +185,7 @@ func (s *CoreNetworkSecurityGroupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.NetworkSecurityGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetNetworkSecurityGroup(context.Background(), request)
 	if err != nil {
@@ -222,13 +222,13 @@ func (s *CoreNetworkSecurityGroupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.NetworkSecurityGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateNetworkSecurityGroup(context.Background(), request)
 	if err != nil {
@@ -245,7 +245,7 @@ func (s *CoreNetworkSecurityGroupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.NetworkSecurityGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteNetworkSecurityGroup(context.Background(), request)
 	return err
@@ -288,7 +288,7 @@ func (s *CoreNetworkSecurityGroupResourceCrud) updateCompartment(compartment int
 	idTmp := s.D.Id()
 	changeCompartmentRequest.NetworkSecurityGroupId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeNetworkSecurityGroupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

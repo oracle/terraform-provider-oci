@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -19,7 +19,7 @@ func CoreVolumesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreVolumes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -94,7 +94,7 @@ func (s *CoreVolumesDataSourceCrud) Get() error {
 		request.VolumeGroupId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListVolumes(context.Background(), request)
 	if err != nil {

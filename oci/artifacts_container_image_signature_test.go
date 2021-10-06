@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v48/artifacts"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v49/artifacts"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -27,50 +27,50 @@ var (
 	metadata            = "{\\\"buildNumber\\\":\\\"123\\\"}"
 	metadataStr         = fmt.Sprintf("variable \"metadata\" { default = \"%s\" }\n", metadata)
 
-	containerImageResourceConfig = generateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", Required, Create, containerImageSingularDataSourceRepresentation)
+	containerImageResourceConfig = GenerateDataSourceFromRepresentationMap("oci_artifacts_container_image", "test_container_image", Required, Create, containerImageSingularDataSourceRepresentation)
 
 	containerImageSignatureKmsSignResourceDependencies = SignResourceDependencies +
-		generateResourceFromRepresentationMap("oci_kms_sign", "test_container_image_signature_kms_sign", Required, Create, containerImageSignatureKmsSignRepresentation)
+		GenerateResourceFromRepresentationMap("oci_kms_sign", "test_container_image_signature_kms_sign", Required, Create, containerImageSignatureKmsSignRepresentation)
 
 	containerImageSignatureKmsSignRepresentation = map[string]interface{}{
-		"crypto_endpoint":   Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
-		"key_id":            Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
-		"message":           Representation{repType: Required, create: message},
-		"signing_algorithm": Representation{repType: Required, create: signingAlgorithm},
-		"message_type":      Representation{repType: Optional, create: `RAW`},
+		"crypto_endpoint":   Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.crypto_endpoint}`},
+		"key_id":            Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
+		"message":           Representation{RepType: Required, Create: message},
+		"signing_algorithm": Representation{RepType: Required, Create: signingAlgorithm},
+		"message_type":      Representation{RepType: Optional, Create: `RAW`},
 	}
 
 	containerImageSignatureRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${data.oci_artifacts_container_image.test_container_image.compartment_id}`},
-		"image_id":           Representation{repType: Required, create: `${data.oci_artifacts_container_image.test_container_image.image_id}`},
-		"kms_key_id":         Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
-		"kms_key_version_id": Representation{repType: Required, create: `${oci_kms_sign.test_container_image_signature_kms_sign.key_version_id}`},
-		"message":            Representation{repType: Required, create: message},
-		"signature":          Representation{repType: Required, create: `${oci_kms_sign.test_container_image_signature_kms_sign.signature}`},
-		"signing_algorithm":  Representation{repType: Required, create: signingAlgorithm},
+		"compartment_id":     Representation{RepType: Required, Create: `${data.oci_artifacts_container_image.test_container_image.compartment_id}`},
+		"image_id":           Representation{RepType: Required, Create: `${data.oci_artifacts_container_image.test_container_image.image_id}`},
+		"kms_key_id":         Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
+		"kms_key_version_id": Representation{RepType: Required, Create: `${oci_kms_sign.test_container_image_signature_kms_sign.key_version_id}`},
+		"message":            Representation{RepType: Required, Create: message},
+		"signature":          Representation{RepType: Required, Create: `${oci_kms_sign.test_container_image_signature_kms_sign.signature}`},
+		"signing_algorithm":  Representation{RepType: Required, Create: signingAlgorithm},
 	}
 
 	containerImageSignatureSingularDataSourceRepresentation = map[string]interface{}{
-		"image_signature_id": Representation{repType: Required, create: `${oci_artifacts_container_image_signature.test_container_image_signature.id}`},
+		"image_signature_id": Representation{RepType: Required, Create: `${oci_artifacts_container_image_signature.test_container_image_signature.id}`},
 	}
 
 	containerImageSignatureDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${data.oci_artifacts_container_image.test_container_image.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
-		"display_name":              Representation{repType: Optional, create: `${oci_artifacts_container_image_signature.test_container_image_signature.display_name}`},
-		"image_digest":              Representation{repType: Optional, create: `${data.oci_artifacts_container_image.test_container_image.digest}`},
-		"image_id":                  Representation{repType: Optional, create: `${data.oci_artifacts_container_image.test_container_image.image_id}`},
-		"kms_key_id":                Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
-		"kms_key_version_id":        Representation{repType: Optional, create: `${oci_kms_sign.test_container_image_signature_kms_sign.key_version_id}`},
-		"repository_id":             Representation{repType: Optional, create: `${data.oci_artifacts_container_image.test_container_image.repository_id}`},
-		"repository_name":           Representation{repType: Optional, create: `${data.oci_artifacts_container_image.test_container_image.repository_name}`},
-		"signing_algorithm":         Representation{repType: Optional, create: signingAlgorithm},
+		"compartment_id":            Representation{RepType: Required, Create: `${data.oci_artifacts_container_image.test_container_image.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"display_name":              Representation{RepType: Optional, Create: `${oci_artifacts_container_image_signature.test_container_image_signature.display_name}`},
+		"image_digest":              Representation{RepType: Optional, Create: `${data.oci_artifacts_container_image.test_container_image.digest}`},
+		"image_id":                  Representation{RepType: Optional, Create: `${data.oci_artifacts_container_image.test_container_image.image_id}`},
+		"kms_key_id":                Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
+		"kms_key_version_id":        Representation{RepType: Optional, Create: `${oci_kms_sign.test_container_image_signature_kms_sign.key_version_id}`},
+		"repository_id":             Representation{RepType: Optional, Create: `${data.oci_artifacts_container_image.test_container_image.repository_id}`},
+		"repository_name":           Representation{RepType: Optional, Create: `${data.oci_artifacts_container_image.test_container_image.repository_name}`},
+		"signing_algorithm":         Representation{RepType: Optional, Create: signingAlgorithm},
 		"filter":                    RepresentationGroup{Required, containerImageSignatureDataSourceFilterRepresentation},
 	}
 
 	containerImageSignatureDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_artifacts_container_image_signature.test_container_image_signature.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_artifacts_container_image_signature.test_container_image_signature.id}`}},
 	}
 )
 
@@ -88,12 +88,12 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 	var resId string
 
 	ResourceTest(t, testAccCheckArtifactsContainerImageSignatureDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
 				containerImageResourceConfig +
 				containerImageSignatureKmsSignResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -107,9 +107,9 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "signing_algorithm", signingAlgorithm),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -123,8 +123,8 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 			Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
 				containerImageResourceConfig +
 				containerImageSignatureKmsSignResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_artifacts_container_image_signatures", "test_container_image_signatures", Optional, Update, containerImageSignatureDataSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_container_image_signatures", "test_container_image_signatures", Optional, Update, containerImageSignatureDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -147,8 +147,8 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 			Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
 				containerImageResourceConfig +
 				containerImageSignatureKmsSignResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureSingularDataSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Required, Create, containerImageSignatureSingularDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_signature_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -167,7 +167,7 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 			Config: config + descriptionStr + metadataStr + signingAlgorithmStr +
 				containerImageResourceConfig +
 				containerImageSignatureKmsSignResourceDependencies +
-				generateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation),
+				GenerateResourceFromRepresentationMap("oci_artifacts_container_image_signature", "test_container_image_signature", Optional, Update, containerImageSignatureRepresentation),
 		},
 
 		// verify resource import
@@ -193,7 +193,7 @@ func testAccCheckArtifactsContainerImageSignatureDestroy(s *terraform.State) err
 				request.ImageSignatureId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "artifacts")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "artifacts")
 
 			_, err := client.GetContainerImageSignature(context.Background(), request)
 
@@ -218,7 +218,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ArtifactsContainerImageSignature") {
+	if !InSweeperExcludeList("ArtifactsContainerImageSignature") {
 		resource.AddTestSweepers("ArtifactsContainerImageSignature", &resource.Sweeper{
 			Name:         "ArtifactsContainerImageSignature",
 			Dependencies: DependencyGraph["containerImageSignature"],
@@ -237,7 +237,7 @@ func sweepArtifactsContainerImageSignatureResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[containerImageSignatureId]; !ok {
 			deleteContainerImageSignatureRequest := oci_artifacts.DeleteContainerImageSignatureRequest{}
 
-			deleteContainerImageSignatureRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "artifacts")
+			deleteContainerImageSignatureRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "artifacts")
 			_, error := artifactsClient.DeleteContainerImageSignature(context.Background(), deleteContainerImageSignatureRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ContainerImageSignature %s %s, It is possible that the resource is already deleted. Please verify manually \n", containerImageSignatureId, error)
@@ -249,7 +249,7 @@ func sweepArtifactsContainerImageSignatureResource(compartment string) error {
 }
 
 func getContainerImageSignatureIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ContainerImageSignatureId")
+	ids := GetResourceIdsToSweep(compartment, "ContainerImageSignatureId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -267,7 +267,7 @@ func getContainerImageSignatureIds(compartment string) ([]string, error) {
 	for _, containerImageSignature := range listContainerImageSignaturesResponse.Items {
 		id := *containerImageSignature.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ContainerImageSignatureId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ContainerImageSignatureId", id)
 	}
 	return resourceIds, nil
 }

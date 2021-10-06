@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 func init() {
@@ -24,7 +24,7 @@ func IdentityCompartmentResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Delete: getTimeoutDuration("90m"), // service team states: p50: 30 min, p90: 60 min, max: 180 min
+			Delete: GetTimeoutDuration("90m"), // service team states: p50: 30 min, p90: 60 min, max: 180 min
 		},
 		Create: createIdentityCompartment,
 		Read:   readIdentityCompartment,
@@ -201,7 +201,7 @@ func (s *IdentityCompartmentResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -209,7 +209,7 @@ func (s *IdentityCompartmentResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateCompartment(context.Background(), request)
 	if err != nil {
@@ -230,7 +230,7 @@ If you intended to manage an existing compartment, use terraform import instead.
 				strings.Contains(err.Error(), "Maximum number of compartment") {
 				// List all compartments using the datasource to find that compartment with the matching name.
 				// CompartmentsDataSourceCrud requires a compartment_id, so forward whatever value was used in
-				// the create attempt above.
+				// the Create attempt above.
 				s.D.Set("compartment_id", request.CompartmentId)
 				log.Println(fmt.Sprintf("[DEBUG] The specified compartment with name '%s' may already exist, listing compartments to lookup with name instead.",
 					*request.Name))
@@ -268,7 +268,7 @@ func (s *IdentityCompartmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CompartmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetCompartment(context.Background(), request)
 	if err != nil {
@@ -308,7 +308,7 @@ func (s *IdentityCompartmentResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -316,7 +316,7 @@ func (s *IdentityCompartmentResourceCrud) Update() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateCompartment(context.Background(), request)
 	if err != nil {
@@ -333,7 +333,7 @@ func (s *IdentityCompartmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CompartmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteCompartment(context.Background(), request)
 	return err
@@ -386,7 +386,7 @@ func (s *IdentityCompartmentResourceCrud) updateCompartment(compartment interfac
 		changeCompartmentRequest.TargetCompartmentId = &tmp
 	}
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.MoveCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

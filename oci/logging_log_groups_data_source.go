@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_logging "github.com/oracle/oci-go-sdk/v48/logging"
+	oci_logging "github.com/oracle/oci-go-sdk/v49/logging"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func LoggingLogGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoggingLogGroups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -76,7 +76,7 @@ func (s *LoggingLogGroupsDataSourceCrud) Get() error {
 		request.IsCompartmentIdInSubtree = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "logging")
 
 	response, err := s.Client.ListLogGroups(context.Background(), request)
 	if err != nil {

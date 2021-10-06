@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_management_dashboard "github.com/oracle/oci-go-sdk/v48/managementdashboard"
+	oci_management_dashboard "github.com/oracle/oci-go-sdk/v49/managementdashboard"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_management_dashboard.DashxApisClient", &OracleClient{initClientFn: initManagementdashboardDashxApisClient})
+	RegisterOracleClient("oci_management_dashboard.DashxApisClient", &OracleClient{InitClientFn: initManagementdashboardDashxApisClient})
 }
 
 func initManagementdashboardDashxApisClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

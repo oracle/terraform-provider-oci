@@ -13,9 +13,9 @@ import (
 	"strings"
 	"testing"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v48/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v49/budget"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -28,7 +28,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/meta"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -428,7 +428,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 		return
 	}
 	if configFileProfile == "PROFILE2" {
-		assert.Equal(t, "can not create client, bad configuration: did not find a proper configuration for private key", err.Error())
+		assert.Equal(t, "can not Create client, bad configuration: did not find a proper configuration for private key", err.Error())
 		return
 	}
 	switch auth {

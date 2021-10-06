@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSource() *schem
 	return &schema.Resource{
 		Read: readDatabaseAutonomousContainerDatabaseDataguardAssociations,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"autonomous_container_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -130,7 +130,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud)
 		request.AutonomousContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListAutonomousContainerDatabaseDataguardAssociations(context.Background(), request)
 	if err != nil {

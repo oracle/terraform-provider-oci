@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v48/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v49/keymanagement"
 )
 
 func init() {
@@ -72,7 +72,7 @@ func (s *KmsKeyVersionDataSourceCrud) Get() error {
 		request.KeyVersionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "kms")
 
 	response, err := s.Client.GetKeyVersion(context.Background(), request)
 	if err != nil {

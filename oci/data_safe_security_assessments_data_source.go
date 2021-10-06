@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 )
 
 func init() {
@@ -20,7 +20,7 @@ func DataSafeSecurityAssessmentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataSafeSecurityAssessments,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -170,7 +170,7 @@ func (s *DataSafeSecurityAssessmentsDataSourceCrud) Get() error {
 		request.Type = oci_data_safe.ListSecurityAssessmentsTypeEnum(type_.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListSecurityAssessments(context.Background(), request)
 	if err != nil {

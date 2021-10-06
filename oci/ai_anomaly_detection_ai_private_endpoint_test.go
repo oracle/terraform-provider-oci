@@ -13,45 +13,45 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v48/aianomalydetection"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v49/aianomalydetection"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	AiPrivateEndpointRequiredOnlyResource = AiPrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Required, Create, aiPrivateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Required, Create, aiPrivateEndpointRepresentation)
 
 	AiPrivateEndpointResourceConfig = AiPrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Update, aiPrivateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Update, aiPrivateEndpointRepresentation)
 
 	aiPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
-		"ai_private_endpoint_id": Representation{repType: Required, create: `${oci_ai_anomaly_detection_ai_private_endpoint.test_ai_private_endpoint.id}`},
+		"ai_private_endpoint_id": Representation{RepType: Required, Create: `${oci_ai_anomaly_detection_ai_private_endpoint.test_ai_private_endpoint.id}`},
 	}
 
 	aiPrivateEndpointDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, aiPrivateEndpointDataSourceFilterRepresentation}}
 	aiPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_ai_anomaly_detection_ai_private_endpoint.test_ai_private_endpoint.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_ai_anomaly_detection_ai_private_endpoint.test_ai_private_endpoint.id}`}},
 	}
 
 	aiPrivateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"dns_zones":      Representation{repType: Required, create: []string{`${oci_core_subnet.test_subnet.subnet_domain_name}`}},
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"dns_zones":      Representation{RepType: Required, Create: []string{`${oci_core_subnet.test_subnet.subnet_domain_name}`}},
+		"subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      RepresentationGroup{Required, ignoreDefinedTagsChangesRep},
 	}
 
-	AiPrivateEndpointResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
+	AiPrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -73,15 +73,15 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ai_anomaly_detection_ai_private_endpoint.test_ai_private_endpoint"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AiPrivateEndpointResourceDependencies+
-		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Create, aiPrivateEndpointRepresentation), "aianomalydetection", "aiPrivateEndpoint", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AiPrivateEndpointResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Create, aiPrivateEndpointRepresentation), "aianomalydetection", "aiPrivateEndpoint", t)
 
 	ResourceTest(t, testAccCheckAiAnomalyDetectionAiPrivateEndpointDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AiPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Required, Create, aiPrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Required, Create, aiPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -89,20 +89,20 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AiPrivateEndpointResourceDependencies,
 		},
-		//verify create with optionals
+		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AiPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Create, aiPrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Create, aiPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -113,9 +113,9 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -124,12 +124,12 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AiPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Create,
-					representationCopyWithNewProperties(aiPrivateEndpointRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Create,
+					RepresentationCopyWithNewProperties(aiPrivateEndpointRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -141,7 +141,7 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -153,7 +153,7 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AiPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Update, aiPrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Update, aiPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				// 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -164,7 +164,7 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -175,9 +175,9 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoints", "test_ai_private_endpoints", Optional, Update, aiPrivateEndpointDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoints", "test_ai_private_endpoints", Optional, Update, aiPrivateEndpointDataSourceRepresentation) +
 				compartmentIdVariableStr + AiPrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Update, aiPrivateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Optional, Update, aiPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -190,7 +190,7 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Required, Create, aiPrivateEndpointSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_ai_private_endpoint", "test_ai_private_endpoint", Required, Create, aiPrivateEndpointSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AiPrivateEndpointResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ai_private_endpoint_id"),
@@ -232,7 +232,7 @@ func testAccCheckAiAnomalyDetectionAiPrivateEndpointDestroy(s *terraform.State) 
 			tmp := rs.Primary.ID
 			request.AiPrivateEndpointId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ai_anomaly_detection")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ai_anomaly_detection")
 
 			response, err := client.GetAiPrivateEndpoint(context.Background(), request)
 
@@ -265,7 +265,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("AiAnomalyDetectionAiPrivateEndpoint") {
+	if !InSweeperExcludeList("AiAnomalyDetectionAiPrivateEndpoint") {
 		resource.AddTestSweepers("AiAnomalyDetectionAiPrivateEndpoint", &resource.Sweeper{
 			Name:         "AiAnomalyDetectionAiPrivateEndpoint",
 			Dependencies: DependencyGraph["aiPrivateEndpoint"],
@@ -286,13 +286,13 @@ func sweepAiAnomalyDetectionAiPrivateEndpointResource(compartment string) error 
 
 			deleteAiPrivateEndpointRequest.AiPrivateEndpointId = &aiPrivateEndpointId
 
-			deleteAiPrivateEndpointRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ai_anomaly_detection")
+			deleteAiPrivateEndpointRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ai_anomaly_detection")
 			_, error := anomalyDetectionClient.DeleteAiPrivateEndpoint(context.Background(), deleteAiPrivateEndpointRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AiPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", aiPrivateEndpointId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &aiPrivateEndpointId, aiPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &aiPrivateEndpointId, aiPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
 				aiPrivateEndpointSweepResponseFetchOperation, "ai_anomaly_detection", true)
 		}
 	}
@@ -300,7 +300,7 @@ func sweepAiAnomalyDetectionAiPrivateEndpointResource(compartment string) error 
 }
 
 func getAiPrivateEndpointIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AiPrivateEndpointId")
+	ids := GetResourceIdsToSweep(compartment, "AiPrivateEndpointId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -319,7 +319,7 @@ func getAiPrivateEndpointIds(compartment string) ([]string, error) {
 	for _, aiPrivateEndpoint := range listAiPrivateEndpointsResponse.Items {
 		id := *aiPrivateEndpoint.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AiPrivateEndpointId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "AiPrivateEndpointId", id)
 	}
 	return resourceIds, nil
 }

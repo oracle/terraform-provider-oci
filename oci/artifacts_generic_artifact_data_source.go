@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v48/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v49/artifacts"
 )
 
 func init() {
@@ -50,7 +50,7 @@ func (s *ArtifactsGenericArtifactDataSourceCrud) Get() error {
 		request.ArtifactId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "artifacts")
 
 	response, err := s.Client.GetGenericArtifact(context.Background(), request)
 	if err != nil {

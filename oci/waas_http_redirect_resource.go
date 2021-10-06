@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 )
 
 func init() {
@@ -216,7 +216,7 @@ func (s *WaasHttpRedirectResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if responseCode, ok := s.D.GetOkExists("response_code"); ok {
@@ -235,7 +235,7 @@ func (s *WaasHttpRedirectResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.CreateHttpRedirect(context.Background(), request)
 	if err != nil {
@@ -243,7 +243,7 @@ func (s *WaasHttpRedirectResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getHttpRedirectFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getHttpRedirectFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *WaasHttpRedirectResourceCrud) getHttpRedirectFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -298,7 +298,7 @@ func httpRedirectWorkRequestShouldRetryFunc(timeout time.Duration) func(response
 
 func httpRedirectWaitForWorkRequest(wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_waas.WaasClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "waas")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "waas")
 	retryPolicy.ShouldRetryOperation = httpRedirectWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_waas.GetWorkRequestResponse{}
@@ -367,7 +367,7 @@ func (s *WaasHttpRedirectResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.HttpRedirectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.GetHttpRedirect(context.Background(), request)
 	if err != nil {
@@ -404,7 +404,7 @@ func (s *WaasHttpRedirectResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -426,7 +426,7 @@ func (s *WaasHttpRedirectResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.UpdateHttpRedirect(context.Background(), request)
 	if err != nil {
@@ -434,7 +434,7 @@ func (s *WaasHttpRedirectResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getHttpRedirectFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getHttpRedirectFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *WaasHttpRedirectResourceCrud) Delete() error {
@@ -443,7 +443,7 @@ func (s *WaasHttpRedirectResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.HttpRedirectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.DeleteHttpRedirect(context.Background(), request)
 	if err != nil {
@@ -559,7 +559,7 @@ func (s *WaasHttpRedirectResourceCrud) updateCompartment(compartment interface{}
 	idTmp := s.D.Id()
 	changeCompartmentRequest.HttpRedirectId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	_, err := s.Client.ChangeHttpRedirectCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

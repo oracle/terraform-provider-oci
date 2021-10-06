@@ -13,43 +13,43 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v48/osmanagement"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v49/osmanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ManagedInstanceGroupRequiredOnlyResource = ManagedInstanceGroupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupRepresentation)
 
 	ManagedInstanceGroupResourceConfig = ManagedInstanceGroupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation)
 
 	managedInstanceGroupSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_instance_group_id": Representation{repType: Required, create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`},
+		"managed_instance_group_id": Representation{RepType: Required, Create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`},
 	}
 
-	managedGroupDisplayName                      = randomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName")
-	managedGroupUpdateDisplayName                = randomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName2")
+	managedGroupDisplayName                      = RandomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName")
+	managedGroupUpdateDisplayName                = RandomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName2")
 	managedInstanceGroupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: managedGroupDisplayName, update: managedGroupUpdateDisplayName},
-		"os_family":      Representation{repType: Optional, create: `WINDOWS`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: managedGroupDisplayName, Update: managedGroupUpdateDisplayName},
+		"os_family":      Representation{RepType: Optional, Create: `WINDOWS`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, managedInstanceGroupDataSourceFilterRepresentation}}
 	managedInstanceGroupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`}},
 	}
 
 	managedInstanceGroupRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: managedGroupDisplayName, update: managedGroupUpdateDisplayName},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"os_family":      Representation{repType: Optional, create: `WINDOWS`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: managedGroupDisplayName, Update: managedGroupUpdateDisplayName},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"os_family":      Representation{RepType: Optional, Create: `WINDOWS`},
 	}
 
 	ManagedInstanceGroupResourceDependencies = DefinedTagsDependencies
@@ -73,34 +73,34 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_osmanagement_managed_instance_group.test_managed_instance_group"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ManagedInstanceGroupResourceDependencies+
-		generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Create, managedInstanceGroupRepresentation), "osmanagement", "managedInstanceGroup", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ManagedInstanceGroupResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Create, managedInstanceGroupRepresentation), "osmanagement", "managedInstanceGroup", t)
 
 	ResourceTest(t, testAccCheckOsmanagementManagedInstanceGroupDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", managedGroupDisplayName),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Create, managedInstanceGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Create, managedInstanceGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -111,9 +111,9 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "os_family", "WINDOWS"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -122,12 +122,12 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedInstanceGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Create,
-					representationCopyWithNewProperties(managedInstanceGroupRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Create,
+					RepresentationCopyWithNewProperties(managedInstanceGroupRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -139,7 +139,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "os_family", "WINDOWS"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -151,7 +151,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -162,7 +162,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "os_family", "WINDOWS"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -173,9 +173,9 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_groups", "test_managed_instance_groups", Optional, Update, managedInstanceGroupDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_groups", "test_managed_instance_groups", Optional, Update, managedInstanceGroupDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagedInstanceGroupResourceDependencies +
-				generateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation),
+				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", managedGroupUpdateDisplayName),
@@ -196,7 +196,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Required, Create, managedInstanceGroupSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagedInstanceGroupResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_group_id"),
@@ -238,7 +238,7 @@ func testAccCheckOsmanagementManagedInstanceGroupDestroy(s *terraform.State) err
 			tmp := rs.Primary.ID
 			request.ManagedInstanceGroupId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "osmanagement")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "osmanagement")
 
 			response, err := client.GetManagedInstanceGroup(context.Background(), request)
 
@@ -271,7 +271,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OsmanagementManagedInstanceGroup") {
+	if !InSweeperExcludeList("OsmanagementManagedInstanceGroup") {
 		resource.AddTestSweepers("OsmanagementManagedInstanceGroup", &resource.Sweeper{
 			Name:         "OsmanagementManagedInstanceGroup",
 			Dependencies: DependencyGraph["managedInstanceGroup"],
@@ -292,13 +292,13 @@ func sweepOsmanagementManagedInstanceGroupResource(compartment string) error {
 
 			deleteManagedInstanceGroupRequest.ManagedInstanceGroupId = &managedInstanceGroupId
 
-			deleteManagedInstanceGroupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "osmanagement")
+			deleteManagedInstanceGroupRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "osmanagement")
 			_, error := osManagementClient.DeleteManagedInstanceGroup(context.Background(), deleteManagedInstanceGroupRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ManagedInstanceGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", managedInstanceGroupId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &managedInstanceGroupId, managedInstanceGroupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &managedInstanceGroupId, managedInstanceGroupSweepWaitCondition, time.Duration(3*time.Minute),
 				managedInstanceGroupSweepResponseFetchOperation, "osmanagement", true)
 		}
 	}
@@ -306,7 +306,7 @@ func sweepOsmanagementManagedInstanceGroupResource(compartment string) error {
 }
 
 func getManagedInstanceGroupIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ManagedInstanceGroupId")
+	ids := GetResourceIdsToSweep(compartment, "ManagedInstanceGroupId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -325,7 +325,7 @@ func getManagedInstanceGroupIds(compartment string) ([]string, error) {
 	for _, managedInstanceGroup := range listManagedInstanceGroupsResponse.Items {
 		id := *managedInstanceGroup.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ManagedInstanceGroupId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ManagedInstanceGroupId", id)
 	}
 	return resourceIds, nil
 }

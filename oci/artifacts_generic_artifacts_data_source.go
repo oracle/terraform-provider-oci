@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v48/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v49/artifacts"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func ArtifactsGenericArtifactsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readArtifactsGenericArtifacts,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"artifact_path": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -130,7 +130,7 @@ func (s *ArtifactsGenericArtifactsDataSourceCrud) Get() error {
 		request.Version = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "artifacts")
 
 	response, err := s.Client.ListGenericArtifacts(context.Background(), request)
 	if err != nil {

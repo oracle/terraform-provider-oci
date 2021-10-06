@@ -13,51 +13,51 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	SteeringPolicyRequiredOnlyResource = SteeringPolicyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation)
 
 	SteeringPolicyResourceConfig = SteeringPolicyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation)
 
 	steeringPolicySingularDataSourceRepresentation = map[string]interface{}{
-		"steering_policy_id": Representation{repType: Required, create: `${oci_dns_steering_policy.test_steering_policy.id}`},
+		"steering_policy_id": Representation{RepType: Required, Create: `${oci_dns_steering_policy.test_steering_policy.id}`},
 	}
 
 	steeringPolicyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                        Representation{repType: Required, create: `${var.compartment_id}`},
-		"health_check_monitor_id":               Representation{repType: Optional, create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
-		"id":                                    Representation{repType: Optional, create: `${oci_dns_steering_policy.test_steering_policy.id}`},
-		"state":                                 Representation{repType: Optional, create: `ACTIVE`},
-		"template":                              Representation{repType: Optional, create: `CUSTOM`},
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
-		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
+		"compartment_id":                        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"health_check_monitor_id":               Representation{RepType: Optional, Create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
+		"id":                                    Representation{RepType: Optional, Create: `${oci_dns_steering_policy.test_steering_policy.id}`},
+		"state":                                 Representation{RepType: Optional, Create: `ACTIVE`},
+		"template":                              Representation{RepType: Optional, Create: `CUSTOM`},
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"time_created_less_than":                Representation{RepType: Optional, Create: `2038-01-01T00:00:00.000Z`},
 		"filter":                                RepresentationGroup{Required, steeringPolicyDataSourceFilterRepresentation}}
-	steeringPolicyDataSourceRepresentationWithDisplayNameFilter = representationCopyWithNewProperties(steeringPolicyDataSourceRepresentation, map[string]interface{}{
-		"display_name": Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+	steeringPolicyDataSourceRepresentationWithDisplayNameFilter = RepresentationCopyWithNewProperties(steeringPolicyDataSourceRepresentation, map[string]interface{}{
+		"display_name": Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 	})
-	steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter = representationCopyWithNewProperties(steeringPolicyDataSourceRepresentation, map[string]interface{}{
-		"display_name_contains": Representation{repType: Optional, create: `displayName`},
+	steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter = RepresentationCopyWithNewProperties(steeringPolicyDataSourceRepresentation, map[string]interface{}{
+		"display_name_contains": Representation{RepType: Optional, Create: `displayName`},
 	})
 	steeringPolicyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dns_steering_policy.test_steering_policy.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dns_steering_policy.test_steering_policy.id}`}},
 	}
 
 	steeringPolicyRepresentation = map[string]interface{}{
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":            Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"template":                Representation{repType: Required, create: `CUSTOM`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":            Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"template":                Representation{RepType: Required, Create: `CUSTOM`},
 		"answers":                 RepresentationGroup{Optional, steeringPolicyAnswersRepresentation},
-		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"health_check_monitor_id": Representation{repType: Optional, create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
+		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"health_check_monitor_id": Representation{RepType: Optional, Create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
 		"rules": []RepresentationGroup{
 			{Optional, steeringPolicyRulesFilterRuleTypeRepresentation},
 			{Optional, steeringPolicyRulesHealthRuleTypeRepresentation},
@@ -65,89 +65,89 @@ var (
 			{Optional, steeringPolicyRulesPriorityRuleTypeRepresentation},
 			{Optional, steeringPolicyRulesWeightedRuleTypeRepresentation},
 		},
-		"ttl": Representation{repType: Optional, create: `10`, update: `11`},
+		"ttl": Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 	steeringPolicyAnswersRepresentation = map[string]interface{}{
-		"name":        Representation{repType: Required, create: `name`},
-		"rdata":       Representation{repType: Required, create: `192.0.2.1`},
-		"rtype":       Representation{repType: Required, create: `A`},
-		"is_disabled": Representation{repType: Optional, create: `false`},
-		"pool":        Representation{repType: Optional, create: `pool`},
+		"name":        Representation{RepType: Required, Create: `name`},
+		"rdata":       Representation{RepType: Required, Create: `192.0.2.1`},
+		"rtype":       Representation{RepType: Required, Create: `A`},
+		"is_disabled": Representation{RepType: Optional, Create: `false`},
+		"pool":        Representation{RepType: Optional, Create: `pool`},
 	}
 	steeringPolicyRulesFilterRuleTypeRepresentation = map[string]interface{}{
-		"rule_type":           Representation{repType: Required, create: `FILTER`},
+		"rule_type":           Representation{RepType: Required, Create: `FILTER`},
 		"cases":               RepresentationGroup{Optional, steeringPolicyRulesCasesFilterRuleTypeRepresentation},
 		"default_answer_data": RepresentationGroup{Optional, steeringPolicyRulesDefaultAnswerDataFilterRuleTypeRepresentation},
-		"description":         Representation{repType: Optional, create: `filter description`},
+		"description":         Representation{RepType: Optional, Create: `filter description`},
 	}
 	steeringPolicyRulesCasesFilterRuleTypeRepresentation = map[string]interface{}{
 		"answer_data":    RepresentationGroup{Optional, steeringPolicyRulesCasesAnswerDataFilterRuleTypeRepresentation},
-		"case_condition": Representation{repType: Optional, create: `query.client.address in (subnet '198.51.100.0/24')`},
+		"case_condition": Representation{RepType: Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
 	}
 	steeringPolicyRulesDefaultAnswerDataFilterRuleTypeRepresentation = map[string]interface{}{
-		"answer_condition": Representation{repType: Optional, create: `answer.name == 'sampler'`},
-		"should_keep":      Representation{repType: Optional, create: `false`},
+		"answer_condition": Representation{RepType: Optional, Create: `answer.name == 'sampler'`},
+		"should_keep":      Representation{RepType: Optional, Create: `false`},
 	}
 	steeringPolicyRulesCasesAnswerDataFilterRuleTypeRepresentation = map[string]interface{}{
-		"answer_condition": Representation{repType: Optional, create: `answer.name == 'sampler'`},
-		"should_keep":      Representation{repType: Optional, create: `false`},
+		"answer_condition": Representation{RepType: Optional, Create: `answer.name == 'sampler'`},
+		"should_keep":      Representation{RepType: Optional, Create: `false`},
 	}
 	steeringPolicyRulesHealthRuleTypeRepresentation = map[string]interface{}{
-		"rule_type":   Representation{repType: Required, create: `HEALTH`},
+		"rule_type":   Representation{RepType: Required, Create: `HEALTH`},
 		"cases":       RepresentationGroup{Optional, steeringPolicyRulesCasesHealthRuleTypeRepresentation},
-		"description": Representation{repType: Optional, create: `health description`},
+		"description": Representation{RepType: Optional, Create: `health description`},
 	}
 	steeringPolicyRulesCasesHealthRuleTypeRepresentation = map[string]interface{}{
-		"case_condition": Representation{repType: Optional, create: `query.client.address in (subnet '198.51.100.0/24')`},
+		"case_condition": Representation{RepType: Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
 	}
 	steeringPolicyRulesLimitRuleTypeRepresentation = map[string]interface{}{
-		"rule_type":     Representation{repType: Required, create: `LIMIT`},
+		"rule_type":     Representation{RepType: Required, Create: `LIMIT`},
 		"cases":         RepresentationGroup{Optional, steeringPolicyRulesCasesLimitRuleTypeRepresentation},
-		"default_count": Representation{repType: Optional, create: `10`},
-		"description":   Representation{repType: Optional, create: `limit description`},
+		"default_count": Representation{RepType: Optional, Create: `10`},
+		"description":   Representation{RepType: Optional, Create: `limit description`},
 	}
 	steeringPolicyRulesCasesLimitRuleTypeRepresentation = map[string]interface{}{
-		"case_condition": Representation{repType: Optional, create: `query.client.address in (subnet '198.51.100.0/24')`},
-		"count":          Representation{repType: Optional, create: `10`},
+		"case_condition": Representation{RepType: Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
+		"count":          Representation{RepType: Optional, Create: `10`},
 	}
 	steeringPolicyRulesPriorityRuleTypeRepresentation = map[string]interface{}{
-		"rule_type":           Representation{repType: Required, create: `PRIORITY`},
+		"rule_type":           Representation{RepType: Required, Create: `PRIORITY`},
 		"cases":               RepresentationGroup{Optional, steeringPolicyRulesCasesPriorityRuleTypeRepresentation},
 		"default_answer_data": RepresentationGroup{Optional, steeringPolicyRulesDefaultAnswerDataPriorityRuleTypeRepresentation},
-		"description":         Representation{repType: Optional, create: `priority description`},
+		"description":         Representation{RepType: Optional, Create: `priority description`},
 	}
 	steeringPolicyRulesCasesPriorityRuleTypeRepresentation = map[string]interface{}{
 		"answer_data":    RepresentationGroup{Optional, steeringPolicyRulesCasesAnswerDataPriorityRuleTypeRepresentation},
-		"case_condition": Representation{repType: Optional, create: `query.client.address in (subnet '198.51.100.0/24')`},
+		"case_condition": Representation{RepType: Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
 	}
 	steeringPolicyRulesDefaultAnswerDataPriorityRuleTypeRepresentation = map[string]interface{}{
-		"answer_condition": Representation{repType: Optional, create: `answer.name == 'sampler'`},
-		"value":            Representation{repType: Optional, create: `10`},
+		"answer_condition": Representation{RepType: Optional, Create: `answer.name == 'sampler'`},
+		"value":            Representation{RepType: Optional, Create: `10`},
 	}
 	steeringPolicyRulesCasesAnswerDataPriorityRuleTypeRepresentation = map[string]interface{}{
-		"answer_condition": Representation{repType: Optional, create: `answer.name == 'sampler'`},
-		"value":            Representation{repType: Optional, create: `10`},
+		"answer_condition": Representation{RepType: Optional, Create: `answer.name == 'sampler'`},
+		"value":            Representation{RepType: Optional, Create: `10`},
 	}
 	steeringPolicyRulesWeightedRuleTypeRepresentation = map[string]interface{}{
-		"rule_type":           Representation{repType: Required, create: `WEIGHTED`},
+		"rule_type":           Representation{RepType: Required, Create: `WEIGHTED`},
 		"cases":               RepresentationGroup{Optional, steeringPolicyRulesCasesWeightedRuleTypeRepresentation},
 		"default_answer_data": RepresentationGroup{Optional, steeringPolicyRulesDefaultAnswerDataWeightedRuleTypeRepresentation},
-		"description":         Representation{repType: Optional, create: `weighted description`},
+		"description":         Representation{RepType: Optional, Create: `weighted description`},
 	}
 	steeringPolicyRulesCasesWeightedRuleTypeRepresentation = map[string]interface{}{
 		"answer_data":    RepresentationGroup{Optional, steeringPolicyRulesCasesAnswerDataWeightedRuleTypeRepresentation},
-		"case_condition": Representation{repType: Optional, create: `query.client.address in (subnet '198.51.100.0/24')`},
+		"case_condition": Representation{RepType: Optional, Create: `query.client.address in (subnet '198.51.100.0/24')`},
 	}
 	steeringPolicyRulesDefaultAnswerDataWeightedRuleTypeRepresentation = map[string]interface{}{
-		"answer_condition": Representation{repType: Optional, create: `answer.name == 'sampler'`},
-		"value":            Representation{repType: Optional, create: `10`},
+		"answer_condition": Representation{RepType: Optional, Create: `answer.name == 'sampler'`},
+		"value":            Representation{RepType: Optional, Create: `10`},
 	}
 	steeringPolicyRulesCasesAnswerDataWeightedRuleTypeRepresentation = map[string]interface{}{
-		"answer_condition": Representation{repType: Optional, create: `answer.name == 'sampler'`},
-		"value":            Representation{repType: Optional, create: `10`},
+		"answer_condition": Representation{RepType: Optional, Create: `answer.name == 'sampler'`},
+		"value":            Representation{RepType: Optional, Create: `10`},
 	}
 
-	SteeringPolicyResourceDependencies = generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation) +
+	SteeringPolicyResourceDependencies = GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -170,35 +170,35 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_dns_steering_policy.test_steering_policy"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SteeringPolicyResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyRepresentation), "dns", "steeringPolicy", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SteeringPolicyResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyRepresentation), "dns", "steeringPolicy", t)
 
 	ResourceTest(t, testAccCheckDnsSteeringPolicyDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create, steeringPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
@@ -256,9 +256,9 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ttl", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -267,12 +267,12 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SteeringPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create,
-					representationCopyWithNewProperties(steeringPolicyRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create,
+					RepresentationCopyWithNewProperties(steeringPolicyRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
@@ -331,7 +331,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ttl", "10"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -343,7 +343,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
@@ -401,7 +401,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ttl", "11"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -412,10 +412,10 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies", Optional, Update, steeringPolicyDataSourceRepresentationWithDisplayNameFilter) +
-				generateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies2", Optional, Update, steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter) +
+				GenerateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies", Optional, Update, steeringPolicyDataSourceRepresentationWithDisplayNameFilter) +
+				GenerateDataSourceFromRepresentationMap("oci_dns_steering_policies", "test_steering_policies2", Optional, Update, steeringPolicyDataSourceRepresentationWithDisplayNameContainsFilter) +
 				compartmentIdVariableStr + SteeringPolicyResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Update, steeringPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -460,7 +460,7 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SteeringPolicyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_monitor_id"),
@@ -551,7 +551,7 @@ func testAccCheckDnsSteeringPolicyDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SteeringPolicyId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 
 			response, err := client.GetSteeringPolicy(context.Background(), request)
 
@@ -584,7 +584,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DnsSteeringPolicy") {
+	if !InSweeperExcludeList("DnsSteeringPolicy") {
 		resource.AddTestSweepers("DnsSteeringPolicy", &resource.Sweeper{
 			Name:         "DnsSteeringPolicy",
 			Dependencies: DependencyGraph["steeringPolicy"],
@@ -605,13 +605,13 @@ func sweepDnsSteeringPolicyResource(compartment string) error {
 
 			deleteSteeringPolicyRequest.SteeringPolicyId = &steeringPolicyId
 
-			deleteSteeringPolicyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			deleteSteeringPolicyRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 			_, error := dnsClient.DeleteSteeringPolicy(context.Background(), deleteSteeringPolicyRequest)
 			if error != nil {
 				fmt.Printf("Error deleting SteeringPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", steeringPolicyId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &steeringPolicyId, steeringPolicySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &steeringPolicyId, steeringPolicySweepWaitCondition, time.Duration(3*time.Minute),
 				steeringPolicySweepResponseFetchOperation, "dns", true)
 		}
 	}
@@ -619,7 +619,7 @@ func sweepDnsSteeringPolicyResource(compartment string) error {
 }
 
 func getSteeringPolicyIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SteeringPolicyId")
+	ids := GetResourceIdsToSweep(compartment, "SteeringPolicyId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -638,7 +638,7 @@ func getSteeringPolicyIds(compartment string) ([]string, error) {
 	for _, steeringPolicy := range listSteeringPoliciesResponse.Items {
 		id := *steeringPolicy.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SteeringPolicyId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SteeringPolicyId", id)
 	}
 	return resourceIds, nil
 }

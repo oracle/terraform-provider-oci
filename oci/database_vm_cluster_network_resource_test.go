@@ -15,48 +15,48 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	VmClusterNetworkValidatedResourceConfig = VmClusterNetworkValidateResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation)
 
 	vmClusterNetworkValidateRepresentation = map[string]interface{}{
-		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":                Representation{repType: Required, create: `testVmClusterNw`},
-		"exadata_infrastructure_id":   Representation{repType: Required, create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"compartment_id":              Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                Representation{RepType: Required, Create: `testVmClusterNw`},
+		"exadata_infrastructure_id":   Representation{RepType: Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"scans":                       RepresentationGroup{Required, vmClusterNetworkScansRepresentation},
 		"vm_networks":                 []RepresentationGroup{{Required, vmClusterNetworkBackupVmNetworkRepresentation}, {Required, vmClusterNetworkClientVmNetworkRepresentation}},
-		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"dns":                         Representation{repType: Optional, create: []string{`192.168.10.10`}, update: []string{`192.168.10.12`}},
-		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"ntp":                         Representation{repType: Optional, create: []string{`192.168.10.20`}, update: []string{`192.168.10.22`}},
-		"validate_vm_cluster_network": Representation{repType: Optional, create: "true", update: "true"},
-		"lifecycle":                   RepresentationGroup{repType: Optional, group: vmClusterNetworkIgnoreChangesRepresentation},
+		"defined_tags":                Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dns":                         Representation{RepType: Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
+		"freeform_tags":               Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ntp":                         Representation{RepType: Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
+		"validate_vm_cluster_network": Representation{RepType: Optional, Create: "true", Update: "true"},
+		"lifecycle":                   RepresentationGroup{RepType: Optional, Group: vmClusterNetworkIgnoreChangesRepresentation},
 	}
 	vmClusterNetworkIgnoreChangesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`validate_vm_cluster_network`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`validate_vm_cluster_network`}},
 	}
 	vmClusterNetworkValidateUpdateRepresentation = map[string]interface{}{
-		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":                Representation{repType: Required, create: `testVmClusterNw`},
-		"exadata_infrastructure_id":   Representation{repType: Required, create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"compartment_id":              Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                Representation{RepType: Required, Create: `testVmClusterNw`},
+		"exadata_infrastructure_id":   Representation{RepType: Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"scans":                       RepresentationGroup{Required, vmClusterNetworkScansRepresentation},
 		"vm_networks":                 []RepresentationGroup{{Required, vmClusterNetworkBackupVmNetworkRepresentation}, {Required, vmClusterNetworkClientVmNetworkRepresentation}},
-		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"dns":                         Representation{repType: Optional, create: []string{`192.168.10.10`}, update: []string{`192.168.10.12`}},
-		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"ntp":                         Representation{repType: Optional, create: []string{`192.168.10.20`}, update: []string{`192.168.10.22`}},
-		"validate_vm_cluster_network": Representation{repType: Optional, create: "true", update: "true"},
+		"defined_tags":                Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dns":                         Representation{RepType: Optional, Create: []string{`192.168.10.10`}, Update: []string{`192.168.10.12`}},
+		"freeform_tags":               Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"ntp":                         Representation{RepType: Optional, Create: []string{`192.168.10.20`}, Update: []string{`192.168.10.22`}},
+		"validate_vm_cluster_network": Representation{RepType: Optional, Create: "true", Update: "true"},
 	}
 
 	VmClusterNetworkValidateResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
-				"activation_file":    Representation{repType: Optional, update: activationFilePath},
+		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+			RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+				"activation_file":    Representation{RepType: Optional, Update: activationFilePath},
 				"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 			}))
 )
@@ -76,10 +76,10 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create with validation
+		// verify Create with validation
 		{
 			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -109,15 +109,15 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "VALIDATED"),
 			),
 		},
-		//  delete before next create
+		//  delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies,
 		},
-		// verify create without validation
+		// verify Create without validation
 		{
 			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create,
-					representationCopyWithRemovedProperties(vmClusterNetworkValidateRepresentation, []string{`validate_vm_cluster_network`})),
+				GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create,
+					RepresentationCopyWithRemovedProperties(vmClusterNetworkValidateRepresentation, []string{`validate_vm_cluster_network`})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -147,7 +147,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "REQUIRES_VALIDATION"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -155,7 +155,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 		// verify validation
 		{
 			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateUpdateRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateUpdateRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -185,7 +185,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "VALIDATED"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -193,11 +193,11 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify update after validation
+		// verify Update after validation
 		{
 			Config: config + compartmentIdVariableStr + VmClusterNetworkResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create, vmClusterNetworkRepresentation),
-			ExpectError: regexp.MustCompile("update not allowed on validated vm cluster network"),
+				GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create, vmClusterNetworkRepresentation),
+			ExpectError: regexp.MustCompile("Update not allowed on validated vm cluster network"),
 		},
 	})
 }
@@ -206,7 +206,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseValidatedVmClusterNetwork") {
+	if !InSweeperExcludeList("DatabaseValidatedVmClusterNetwork") {
 		resource.AddTestSweepers("DatabaseValidatedVmClusterNetwork", &resource.Sweeper{
 			Name:         "DatabaseValidatedVmClusterNetwork",
 			Dependencies: DependencyGraph["vmClusterNetwork"],
@@ -227,13 +227,13 @@ func sweepDatabaseValidatedVmClusterNetworkResource(compartment string) error {
 
 			deleteVmClusterNetworkRequest.VmClusterNetworkId = &vmClusterNetworkId
 
-			deleteVmClusterNetworkRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteVmClusterNetworkRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteVmClusterNetwork(context.Background(), deleteVmClusterNetworkRequest)
 			if error != nil {
 				fmt.Printf("Error deleting VmClusterNetwork %s %s, It is possible that the resource is already deleted. Please verify manually \n", vmClusterNetworkId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &vmClusterNetworkId, vmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &vmClusterNetworkId, vmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
 				vmClusterNetworkSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -241,7 +241,7 @@ func sweepDatabaseValidatedVmClusterNetworkResource(compartment string) error {
 }
 
 func getValidatedVmClusterNetworkIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "VmClusterNetworkId")
+	ids := GetResourceIdsToSweep(compartment, "VmClusterNetworkId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -268,7 +268,7 @@ func getValidatedVmClusterNetworkIds(compartment string) ([]string, error) {
 		for _, vmClusterNetwork := range listVmClusterNetworksResponse.Items {
 			id := *vmClusterNetwork.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "VmClusterNetworkId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "VmClusterNetworkId", id)
 		}
 
 	}

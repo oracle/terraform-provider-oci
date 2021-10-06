@@ -16,42 +16,42 @@ import (
 var (
 	allowRuleSetRepresentation = map[string]interface{}{
 		"items":            RepresentationGroup{Required, allowRuleItemsRepresentation},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":             Representation{repType: Required, create: `example_rule_set`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             Representation{RepType: Required, Create: `example_rule_set`},
 	}
 	allowRuleSetRepresentationWithTwoItems = map[string]interface{}{
 		"items":            []RepresentationGroup{{Required, allowRuleItemsRepresentation}, {Required, allowRuleItemsRepresentationWithTwoConditions}},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":             Representation{repType: Required, create: `example_rule_set`},
+		"load_balancer_id": Representation{RepType: Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             Representation{RepType: Required, Create: `example_rule_set`},
 	}
 
 	httpResponseRuleItemsRepresentation = map[string]interface{}{
-		"action": Representation{repType: Required, create: `ADD_HTTP_RESPONSE_HEADER`},
-		"header": Representation{repType: Optional, create: `example_header_name`},
-		"value":  Representation{repType: Optional, create: `example_header_value`},
+		"action": Representation{RepType: Required, Create: `ADD_HTTP_RESPONSE_HEADER`},
+		"header": Representation{RepType: Optional, Create: `example_header_name`},
+		"value":  Representation{RepType: Optional, Create: `example_header_value`},
 	}
 	allowRuleItemsRepresentation = map[string]interface{}{
-		"action":      Representation{repType: Required, create: `ALLOW`},
-		"description": Representation{repType: Optional, create: `description`},
+		"action":      Representation{RepType: Required, Create: `ALLOW`},
+		"description": Representation{RepType: Optional, Create: `description`},
 		"conditions":  []RepresentationGroup{{Optional, itemsConditionsRepresentationSourceIPCondition}},
 	}
 	allowRuleItemsRepresentationWithTwoConditions = map[string]interface{}{
-		"action":      Representation{repType: Required, create: `ALLOW`},
-		"description": Representation{repType: Optional, create: `description`},
+		"action":      Representation{RepType: Required, Create: `ALLOW`},
+		"description": Representation{RepType: Optional, Create: `description`},
 		"conditions":  []RepresentationGroup{{Optional, itemsConditionsRepresentationSourceVCNID}, {Optional, itemsConditionsRepresentationSourceVCNIP}},
 	}
 
 	itemsConditionsRepresentationSourceIPCondition = map[string]interface{}{
-		"attribute_name":  Representation{repType: Required, create: `SOURCE_IP_ADDRESS`, update: `SOURCE_VCN_ID`},
-		"attribute_value": Representation{repType: Required, create: `129.0.0.0/8`, update: `${oci_core_vcn.test_lb_vcn.id}`},
+		"attribute_name":  Representation{RepType: Required, Create: `SOURCE_IP_ADDRESS`, Update: `SOURCE_VCN_ID`},
+		"attribute_value": Representation{RepType: Required, Create: `129.0.0.0/8`, Update: `${oci_core_vcn.test_lb_vcn.id}`},
 	}
 	itemsConditionsRepresentationSourceVCNID = map[string]interface{}{
-		"attribute_name":  Representation{repType: Required, create: `SOURCE_VCN_ID`},
-		"attribute_value": Representation{repType: Required, create: `${oci_core_vcn.test_lb_vcn.id}`},
+		"attribute_name":  Representation{RepType: Required, Create: `SOURCE_VCN_ID`},
+		"attribute_value": Representation{RepType: Required, Create: `${oci_core_vcn.test_lb_vcn.id}`},
 	}
 	itemsConditionsRepresentationSourceVCNIP = map[string]interface{}{
-		"attribute_name":  Representation{repType: Required, create: `SOURCE_VCN_IP_ADDRESS`},
-		"attribute_value": Representation{repType: Required, create: `10.10.1.0/24`},
+		"attribute_name":  Representation{RepType: Required, Create: `SOURCE_VCN_IP_ADDRESS`},
+		"attribute_value": Representation{RepType: Required, Create: `10.10.1.0/24`},
 	}
 )
 
@@ -79,11 +79,11 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckLoadBalancerRuleSetDestroy,
 		Steps: []resource.TestStep{
-			// create with ADD_HTTP_RESPONSE_HEADER item
+			// Create with ADD_HTTP_RESPONSE_HEADER item
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update,
-						getUpdatedRepresentationCopy("items", RepresentationGroup{Required, httpResponseRuleItemsRepresentation}, allowRuleSetRepresentation)),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update,
+						GetUpdatedRepresentationCopy("items", RepresentationGroup{Required, httpResponseRuleItemsRepresentation}, allowRuleSetRepresentation)),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -96,16 +96,16 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "example_rule_set"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
 
-			// verify update to 1 item with 1 condition
+			// verify Update to 1 item with 1 condition
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -117,7 +117,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "example_rule_set"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
@@ -126,10 +126,10 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 				),
 			},
 
-			// verify update of the condition
+			// verify Update of the condition
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update, allowRuleSetRepresentation),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update, allowRuleSetRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -141,7 +141,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "example_rule_set"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
@@ -152,8 +152,8 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 			// verify new added condition
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update,
-						getUpdatedRepresentationCopy("items", RepresentationGroup{Required, allowRuleItemsRepresentationWithTwoConditions}, allowRuleSetRepresentation)),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Update,
+						GetUpdatedRepresentationCopy("items", RepresentationGroup{Required, allowRuleItemsRepresentationWithTwoConditions}, allowRuleSetRepresentation)),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -165,7 +165,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "example_rule_set"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
@@ -173,10 +173,10 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 					},
 				),
 			},
-			// verify update to two items and 3 conditions total
+			// verify Update to two items and 3 conditions total
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "2"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -193,7 +193,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "example_rule_set"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
@@ -204,9 +204,9 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_sets", "test_rule_sets", Optional, Update, ruleSetDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_load_balancer_rule_sets", "test_rule_sets", Optional, Update, ruleSetDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(datasourceName, "rule_sets.#", "1"),
@@ -229,9 +229,9 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "2"),
 					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "items", map[string]string{
@@ -252,12 +252,12 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
 			},
 			// verify resource import
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
+					GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Optional, Create, allowRuleSetRepresentationWithTwoItems),
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

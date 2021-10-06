@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v48/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v49/blockchain"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *BlockchainBlockchainPlatformDataSourceCrud) Get() error {
 		request.BlockchainPlatformId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "blockchain")
 
 	response, err := s.Client.GetBlockchainPlatform(context.Background(), request)
 	if err != nil {

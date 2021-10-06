@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_oce "github.com/oracle/oci-go-sdk/v48/oce"
+	oci_oce "github.com/oracle/oci-go-sdk/v49/oce"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func OceOceInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOceOceInstances,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *OceOceInstancesDataSourceCrud) Get() error {
 		request.TenancyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "oce")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "oce")
 
 	response, err := s.Client.ListOceInstances(context.Background(), request)
 	if err != nil {
@@ -160,7 +160,7 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 			oceInstance["object_storage_namespace"] = *r.ObjectStorageNamespace
 		}
 
-		oceInstance["service"] = genericMapToJsonMap(r.Service)
+		oceInstance["service"] = GenericMapToJsonMap(r.Service)
 
 		oceInstance["state"] = r.LifecycleState
 

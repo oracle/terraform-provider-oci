@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v48/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v49/apmsynthetics"
 )
 
 func init() {
@@ -260,7 +260,7 @@ func (s *ApmSyntheticsScriptResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if parameters, ok := s.D.GetOkExists("parameters"); ok {
@@ -280,7 +280,7 @@ func (s *ApmSyntheticsScriptResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
 
 	response, err := s.Client.CreateScript(context.Background(), request)
 	if err != nil {
@@ -302,7 +302,7 @@ func (s *ApmSyntheticsScriptResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
 
 	response, err := s.Client.GetScript(context.Background(), request)
 	if err != nil {
@@ -349,7 +349,7 @@ func (s *ApmSyntheticsScriptResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if parameters, ok := s.D.GetOkExists("parameters"); ok {
@@ -379,7 +379,7 @@ func (s *ApmSyntheticsScriptResourceCrud) Update() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
 
 	response, err := s.Client.UpdateScript(context.Background(), request)
 	if err != nil {
@@ -410,7 +410,7 @@ func (s *ApmSyntheticsScriptResourceCrud) Delete() error {
 			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 		}
 	}
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "apm_synthetics")
 
 	_, err := s.Client.DeleteScript(context.Background(), request)
 	return err

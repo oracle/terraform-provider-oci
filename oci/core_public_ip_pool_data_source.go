@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *CorePublicIpPoolDataSourceCrud) Get() error {
 		request.PublicIpPoolId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetPublicIpPool(context.Background(), request)
 	if err != nil {

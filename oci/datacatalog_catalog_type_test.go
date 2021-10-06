@@ -14,18 +14,18 @@ import (
 
 var (
 	catalogTypeSingularDataSourceRepresentation = map[string]interface{}{
-		"catalog_id": Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"type_key":   Representation{repType: Required, create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
-		"fields":     Representation{repType: Optional, create: []string{}},
+		"catalog_id": Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"type_key":   Representation{RepType: Required, Create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
+		"fields":     Representation{RepType: Optional, Create: []string{}},
 	}
 
 	catalogTypeDataSourceRepresentation = map[string]interface{}{
-		"catalog_id":    Representation{repType: Required, create: `${oci_datacatalog_catalog.test_catalog.id}`},
-		"state":         Representation{repType: Optional, create: `ACTIVE`},
-		"type_category": Representation{repType: Optional, create: `dataAsset`, update: `connection`},
+		"catalog_id":    Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
+		"state":         Representation{RepType: Optional, Create: `ACTIVE`},
+		"type_category": Representation{RepType: Optional, Create: `dataAsset`, Update: `connection`},
 	}
 
-	CatalogTypeResourceConfig = generateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation)
+	CatalogTypeResourceConfig = GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation)
 )
 
 // issue-routing-tag: datacatalog/default
@@ -41,13 +41,13 @@ func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 	datasourceName := "data.oci_datacatalog_catalog_types.test_catalog_types"
 	singularDatasourceName := "data.oci_datacatalog_catalog_type.test_catalog_type"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", Optional, Create, catalogTypeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", Optional, Create, catalogTypeDataSourceRepresentation) +
 				compartmentIdVariableStr + CatalogTypeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -61,10 +61,10 @@ func TestDatacatalogCatalogTypeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", Optional, Create,
-					representationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
-						"name": Representation{repType: Optional, create: `Oracle Database`}})) +
-				generateDataSourceFromRepresentationMap("oci_datacatalog_catalog_type", "test_catalog_type", Optional, Create, catalogTypeSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_types", "test_catalog_types", Optional, Create,
+					RepresentationCopyWithNewProperties(catalogTypeDataSourceRepresentation, map[string]interface{}{
+						"name": Representation{RepType: Optional, Create: `Oracle Database`}})) +
+				GenerateDataSourceFromRepresentationMap("oci_datacatalog_catalog_type", "test_catalog_type", Optional, Create, catalogTypeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CatalogTypeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),

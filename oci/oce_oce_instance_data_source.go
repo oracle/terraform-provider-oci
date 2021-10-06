@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_oce "github.com/oracle/oci-go-sdk/v48/oce"
+	oci_oce "github.com/oracle/oci-go-sdk/v49/oce"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *OceOceInstanceDataSourceCrud) Get() error {
 		request.OceInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "oce")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "oce")
 
 	response, err := s.Client.GetOceInstance(context.Background(), request)
 	if err != nil {
@@ -107,7 +107,7 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 		s.D.Set("object_storage_namespace", *s.Res.ObjectStorageNamespace)
 	}
 
-	s.D.Set("service", genericMapToJsonMap(s.Res.Service))
+	s.D.Set("service", GenericMapToJsonMap(s.Res.Service))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

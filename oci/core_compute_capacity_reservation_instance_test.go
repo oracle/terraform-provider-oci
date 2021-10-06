@@ -14,18 +14,18 @@ import (
 
 var (
 	computeCapacityReservationInstanceDataSourceRepresentation = map[string]interface{}{
-		"capacity_reservation_id": Representation{repType: Required, create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
-		"availability_domain":     Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":          Representation{repType: Optional, create: `${var.compartment_id}`},
+		"capacity_reservation_id": Representation{RepType: Required, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+		"availability_domain":     Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
 	capacityReservationInstanceRepresentation = map[string]interface{}{
-		"availability_domain":     Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape":                   Representation{repType: Required, create: `VM.Standard2.1`},
-		"capacity_reservation_id": Representation{repType: Required, create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
-		"subnet_id":               Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"image":                   Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
+		"availability_domain":     Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"shape":                   Representation{RepType: Required, Create: `VM.Standard2.1`},
+		"capacity_reservation_id": Representation{RepType: Required, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+		"subnet_id":               Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"image":                   Representation{RepType: Required, Create: `${var.InstanceImageOCID[var.region]}`},
 	}
 )
 
@@ -41,7 +41,7 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_compute_capacity_reservation_instances.test_compute_capacity_reservation_instances"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
@@ -49,11 +49,11 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 			Config: config +
 				OciImageIdsVariable +
 				ComputeCapacityReservationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, capacityReservationInstanceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", Required, Create, computeCapacityReservationInstanceDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, capacityReservationInstanceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", Required, Create, computeCapacityReservationInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "capacity_reservation_id"),
@@ -71,11 +71,11 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 			Config: config +
 				OciImageIdsVariable +
 				ComputeCapacityReservationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, capacityReservationInstanceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", Optional, Create, computeCapacityReservationInstanceDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, capacityReservationInstanceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", Optional, Create, computeCapacityReservationInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v48/goldengate"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v49/goldengate"
 )
 
 func init() {
@@ -206,12 +206,15 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) ID() string {
 func (s *GoldenGateDatabaseRegistrationResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_golden_gate.LifecycleStateCreating),
+		string(oci_golden_gate.LifecycleStateInProgress),
 	}
 }
 
 func (s *GoldenGateDatabaseRegistrationResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_golden_gate.LifecycleStateActive),
+		string(oci_golden_gate.LifecycleStateNeedsAttention),
+		string(oci_golden_gate.LifecycleStateSucceeded),
 	}
 }
 
@@ -274,7 +277,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
@@ -317,7 +320,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Create() error {
 		request.Wallet = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.CreateDatabaseRegistration(context.Background(), request)
 	if err != nil {
@@ -325,7 +328,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseRegistrationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatabaseRegistrationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *GoldenGateDatabaseRegistrationResourceCrud) getDatabaseRegistrationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -370,7 +373,7 @@ func databaseRegistrationWorkRequestShouldRetryFunc(timeout time.Duration) func(
 
 func databaseRegistrationWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "golden_gate")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = databaseRegistrationWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_golden_gate.GetWorkRequestResponse{}
@@ -450,7 +453,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DatabaseRegistrationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.GetDatabaseRegistration(context.Background(), request)
 	if err != nil {
@@ -510,7 +513,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if password, ok := s.D.GetOkExists("password"); ok {
@@ -528,7 +531,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Update() error {
 		request.Wallet = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.UpdateDatabaseRegistration(context.Background(), request)
 	if err != nil {
@@ -536,7 +539,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseRegistrationFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseRegistrationFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *GoldenGateDatabaseRegistrationResourceCrud) Delete() error {
@@ -545,7 +548,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DatabaseRegistrationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.DeleteDatabaseRegistration(context.Background(), request)
 	if err != nil {
@@ -730,7 +733,7 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) updateCompartment(compartme
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DatabaseRegistrationId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.ChangeDatabaseRegistrationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

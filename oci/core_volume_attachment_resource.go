@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -241,7 +241,7 @@ func (s *CoreVolumeAttachmentResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.AttachVolume(context.Background(), request)
 	if err != nil {
@@ -258,7 +258,7 @@ func (s *CoreVolumeAttachmentResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VolumeAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetVolumeAttachment(context.Background(), request)
 	if err != nil {
@@ -275,7 +275,7 @@ func (s *CoreVolumeAttachmentResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VolumeAttachmentId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DetachVolume(context.Background(), request)
 	return err

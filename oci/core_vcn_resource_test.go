@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/core"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -35,7 +35,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// test create with cidr_block
+			// test Create with cidr_block
 			{
 				Config: s.Config + `
 					resource "oci_core_virtual_network" "t" {
@@ -52,12 +52,12 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						resId, err = FromInstanceState(s, "oci_core_virtual_network.t", "id")
 						return err
 					},
 				),
 			},
-			// test create with cidr_blocks
+			// test Create with cidr_blocks
 			{
 				Config: s.Config + `
 					resource "oci_core_virtual_network" "t" {
@@ -74,7 +74,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						resId, err = FromInstanceState(s, "oci_core_virtual_network.t", "id")
 						return err
 					},
 				),
@@ -96,7 +96,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						resId, err = FromInstanceState(s, "oci_core_virtual_network.t", "id")
 						return err
 					},
 				),
@@ -118,7 +118,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						resId, err = FromInstanceState(s, "oci_core_virtual_network.t", "id")
 						return err
 					},
 				),
@@ -140,12 +140,12 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						resId, err = FromInstanceState(s, "oci_core_virtual_network.t", "id")
 						return err
 					},
 				),
 			},
-			// test update
+			// test Update
 			{
 				Config: s.Config + `
 					resource "oci_core_virtual_network" "t" {
@@ -164,7 +164,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 				),
 			},
-			// test a destructive update results in a new resource
+			// test a destructive Update results in a new resource
 			{
 				Config: s.Config + `
 					resource "oci_core_virtual_network" "t" {
@@ -180,7 +180,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckResourceAttr(s.ResourceName, "dns_label", "mytestdnslabel"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vcn_domain_name"),
 					func(s *terraform.State) (err error) {
-						resId2, err := fromInstanceState(s, "oci_core_virtual_network.t", "id")
+						resId2, err := FromInstanceState(s, "oci_core_virtual_network.t", "id")
 						if resId == resId2 {
 							return fmt.Errorf("Expected new vcn ocid, got the same")
 						}

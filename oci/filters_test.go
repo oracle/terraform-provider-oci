@@ -11,7 +11,7 @@ import (
 	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 // Not supplying filters should not restrict results
@@ -785,7 +785,7 @@ func TestUnitNestedMap(t *testing.T) {
 			},
 		},
 	}
-	services := genericMapToJsonMap(item)
+	services := GenericMapToJsonMap(item)
 
 	if len(services) != 1 {
 		t.Errorf("unexpected number of values returned in map")

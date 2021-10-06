@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -245,7 +245,7 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if locationName, ok := s.D.GetOkExists("location_name"); ok {
@@ -263,7 +263,7 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 		request.PortSpeedShapeName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateCrossConnect(context.Background(), request)
 	if err != nil {
@@ -280,7 +280,7 @@ func (s *CoreCrossConnectResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.CrossConnectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetCrossConnect(context.Background(), request)
 	if err != nil {
@@ -325,7 +325,7 @@ func (s *CoreCrossConnectResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	// Cross Connect Resource can be set to 'Active' only once when the resource is 'PENDING_CUSTOMER' and not 'PROVISIONED'
@@ -337,7 +337,7 @@ func (s *CoreCrossConnectResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateCrossConnect(context.Background(), request)
 	if err != nil {
@@ -354,7 +354,7 @@ func (s *CoreCrossConnectResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.CrossConnectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteCrossConnect(context.Background(), request)
 	return err
@@ -413,7 +413,7 @@ func (s *CoreCrossConnectResourceCrud) updateCompartment(compartment interface{}
 	idTmp := s.D.Id()
 	changeCompartmentRequest.CrossConnectId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeCrossConnectCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

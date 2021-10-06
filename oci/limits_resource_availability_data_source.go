@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_limits "github.com/oracle/oci-go-sdk/v48/limits"
+	oci_limits "github.com/oracle/oci-go-sdk/v49/limits"
 )
 
 func init() {
@@ -102,7 +102,7 @@ func (s *LimitsResourceAvailabilityDataSourceCrud) Get() error {
 		request.ServiceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "limits")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "limits")
 
 	response, err := s.Client.GetResourceAvailability(context.Background(), request)
 	if err != nil {

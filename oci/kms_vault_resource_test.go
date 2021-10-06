@@ -14,9 +14,9 @@ import (
 )
 
 var (
-	virtualVaultRepresentation = getMultipleUpdatedRepresenationCopy([]string{"display_name", "vault_type"},
-		[]interface{}{Representation{repType: Required, create: `DEFAULT_VAULT`, update: `displayName2`},
-			Representation{repType: Required, create: `DEFAULT`}}, vaultRepresentation)
+	virtualVaultRepresentation = GetMultipleUpdatedRepresenationCopy([]string{"display_name", "vault_type"},
+		[]interface{}{Representation{RepType: Required, Create: `DEFAULT_VAULT`, Update: `displayName2`},
+			Representation{RepType: Required, Create: `DEFAULT`}}, vaultRepresentation)
 )
 
 // issue-routing-tag: kms/default
@@ -41,30 +41,30 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckKMSVaultDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, virtualVaultRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, virtualVaultRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "DEFAULT_VAULT"),
 				resource.TestCheckResourceAttr(resourceName, "vault_type", "DEFAULT"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VaultResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Create, virtualVaultRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Create, virtualVaultRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
@@ -78,18 +78,18 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vault_type", "DEFAULT"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VaultResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Create,
-					representationCopyWithNewProperties(virtualVaultRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Create,
+					RepresentationCopyWithNewProperties(virtualVaultRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -104,7 +104,7 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vault_type", "DEFAULT"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -116,7 +116,7 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, virtualVaultRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, virtualVaultRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
@@ -130,7 +130,7 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vault_type", "DEFAULT"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -141,9 +141,9 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_kms_vaults", "test_vaults", Optional, Update, vaultDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_kms_vaults", "test_vaults", Optional, Update, vaultDataSourceRepresentation) +
 				compartmentIdVariableStr + VaultResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, virtualVaultRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, virtualVaultRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -163,9 +163,9 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VaultResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, virtualVaultRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, virtualVaultRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
 
@@ -184,7 +184,7 @@ func TestResourceKmsVaultResource_default(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + VaultResourceDependencies +
-				generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, virtualVaultRepresentation),
+				GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, virtualVaultRepresentation),
 		},
 		// verify resource import
 		{

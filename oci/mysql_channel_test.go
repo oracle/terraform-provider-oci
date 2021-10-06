@@ -13,84 +13,84 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ChannelRequiredOnlyResource = ChannelResourceDependencies +
-		generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation)
+		GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelRepresentation)
 
 	channelSingularDataSourceRepresentation = map[string]interface{}{
-		"channel_id": Representation{repType: Required, create: `${oci_mysql_channel.test_channel.id}`},
+		"channel_id": Representation{RepType: Required, Create: `${oci_mysql_channel.test_channel.id}`},
 	}
 
 	channelDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"channel_id":     Representation{repType: Optional, create: `${oci_mysql_channel.test_channel.id}`},
-		"db_system_id":   Representation{repType: Optional, create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"is_enabled":     Representation{repType: Optional, create: `true`, update: `false`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"channel_id":     Representation{RepType: Optional, Create: `${oci_mysql_channel.test_channel.id}`},
+		"db_system_id":   Representation{RepType: Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"is_enabled":     Representation{RepType: Optional, Create: `true`, Update: `false`},
 		"filter":         RepresentationGroup{Required, channelDataSourceFilterRepresentation}}
 	channelDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_mysql_channel.test_channel.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_mysql_channel.test_channel.id}`}},
 	}
 
 	channelRepresentation = map[string]interface{}{
 		"source":         RepresentationGroup{Required, channelSourceRepresentation},
 		"target":         RepresentationGroup{Required, channelTargetRepresentation},
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":     Representation{repType: Optional, create: `true`, update: `false`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":     Representation{RepType: Optional, Create: `true`, Update: `false`},
 	}
 
 	sslCaCertificateRepresentation = map[string]interface{}{
-		"certificate_type": Representation{repType: Optional, update: "PEM"},
-		"contents":         Representation{repType: Optional, update: "${var.ca_certificate_value}"},
+		"certificate_type": Representation{RepType: Optional, Update: "PEM"},
+		"contents":         Representation{RepType: Optional, Update: "${var.ca_certificate_value}"},
 	}
 
 	channelSourceRepresentation = map[string]interface{}{
-		"hostname":    Representation{repType: Required, create: `hostname.my.company.com`, update: `hostname2.my.company.com`},
-		"password":    Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
-		"source_type": Representation{repType: Required, create: `MYSQL`},
-		"username":    Representation{repType: Required, create: `username`, update: `username2`},
-		"ssl_mode":    Representation{repType: Required, create: `REQUIRED`, update: `VERIFY_CA`},
-		"port":        Representation{repType: Optional, create: `3300`, update: `3306`},
+		"hostname":    Representation{RepType: Required, Create: `hostname.my.company.com`, Update: `hostname2.my.company.com`},
+		"password":    Representation{RepType: Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"source_type": Representation{RepType: Required, Create: `MYSQL`},
+		"username":    Representation{RepType: Required, Create: `username`, Update: `username2`},
+		"ssl_mode":    Representation{RepType: Required, Create: `REQUIRED`, Update: `VERIFY_CA`},
+		"port":        Representation{RepType: Optional, Create: `3300`, Update: `3306`},
 	}
 	channelSourceWithCertificateRepresentation = map[string]interface{}{
-		"hostname":           Representation{repType: Optional, update: `hostname2.my.company.com`},
-		"password":           Representation{repType: Optional, update: `BEstrO0ng_#12`},
-		"source_type":        Representation{repType: Optional, update: `MYSQL`},
-		"username":           Representation{repType: Optional, update: `username2`},
-		"ssl_mode":           Representation{repType: Optional, update: `VERIFY_CA`},
+		"hostname":           Representation{RepType: Optional, Update: `hostname2.my.company.com`},
+		"password":           Representation{RepType: Optional, Update: `BEstrO0ng_#12`},
+		"source_type":        Representation{RepType: Optional, Update: `MYSQL`},
+		"username":           Representation{RepType: Optional, Update: `username2`},
+		"ssl_mode":           Representation{RepType: Optional, Update: `VERIFY_CA`},
 		"ssl_ca_certificate": RepresentationGroup{Optional, sslCaCertificateRepresentation},
-		"port":               Representation{repType: Optional, update: `3306`},
+		"port":               Representation{RepType: Optional, Update: `3306`},
 	}
 
 	channelTargetRepresentation = map[string]interface{}{
-		"db_system_id":     Representation{repType: Required, create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
-		"target_type":      Representation{repType: Required, create: `DBSYSTEM`},
-		"applier_username": Representation{repType: Optional, create: `adminUser`},
-		"channel_name":     Representation{repType: Optional, create: `channelname`, update: `channelname2`},
+		"db_system_id":     Representation{RepType: Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
+		"target_type":      Representation{RepType: Required, Create: `DBSYSTEM`},
+		"applier_username": Representation{RepType: Optional, Create: `adminUser`},
+		"channel_name":     Representation{RepType: Optional, Create: `channelname`, Update: `channelname2`},
 	}
 
 	ChannelWithOptionalsResource = ChannelResourceDependencies +
-		generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Optional, Create, channelRepresentation)
+		GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Optional, Create, channelRepresentation)
 
 	ChannelUpdateResource = ChannelResourceDependencies +
-		generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Optional, Update,
-			getUpdatedRepresentationCopy("source", RepresentationGroup{Optional, channelSourceWithCertificateRepresentation}, channelRepresentation))
+		GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Optional, Update,
+			GetUpdatedRepresentationCopy("source", RepresentationGroup{Optional, channelSourceWithCertificateRepresentation}, channelRepresentation))
 
 	ChannelResourceConfig = ChannelUpdateResource
 
 	ChannelResourceDependencies = MysqlDbSystemResourceDependencies +
-		generateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation) + caCertificateVariableStr
+		GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation) + caCertificateVariableStr
 )
 
 // issue-routing-tag: mysql/default
@@ -108,12 +108,12 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_mysql_channel.test_channel"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ChannelResourceDependencies+
-		generateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Optional, Create, channelRepresentation), "mysql", "channel", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ChannelResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", Optional, Create, channelRepresentation), "mysql", "channel", t)
 
 	ResourceTest(t, testAccCheckMysqlChannelDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ChannelRequiredOnlyResource,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -128,17 +128,17 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ChannelResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ChannelWithOptionalsResource,
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -163,9 +163,9 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -199,7 +199,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -210,7 +210,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_mysql_channels", "test_channels", Optional, Update, channelDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_mysql_channels", "test_channels", Optional, Update, channelDataSourceRepresentation) +
 				compartmentIdVariableStr + ChannelUpdateResource,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "channel_id"),
@@ -225,7 +225,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_mysql_channel", "test_channel", Required, Create, channelSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ChannelUpdateResource,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "channel_id"),
@@ -260,7 +260,7 @@ func testAccCheckMysqlChannelDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ChannelId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "mysql")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "mysql")
 
 			response, err := client.GetChannel(context.Background(), request)
 
@@ -293,7 +293,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("MysqlChannel") {
+	if !InSweeperExcludeList("MysqlChannel") {
 		resource.AddTestSweepers("MysqlChannel", &resource.Sweeper{
 			Name:         "MysqlChannel",
 			Dependencies: DependencyGraph["channel"],
@@ -314,13 +314,13 @@ func sweepMysqlChannelResource(compartment string) error {
 
 			deleteChannelRequest.ChannelId = &channelId
 
-			deleteChannelRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "mysql")
+			deleteChannelRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "mysql")
 			_, error := channelsClient.DeleteChannel(context.Background(), deleteChannelRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Channel %s %s, It is possible that the resource is already deleted. Please verify manually \n", channelId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &channelId, channelSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &channelId, channelSweepWaitCondition, time.Duration(3*time.Minute),
 				channelSweepResponseFetchOperation, "mysql", true)
 		}
 	}
@@ -328,7 +328,7 @@ func sweepMysqlChannelResource(compartment string) error {
 }
 
 func getChannelIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ChannelId")
+	ids := GetResourceIdsToSweep(compartment, "ChannelId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -347,7 +347,7 @@ func getChannelIds(compartment string) ([]string, error) {
 	for _, channel := range listChannelsResponse.Items {
 		id := *channel.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ChannelId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ChannelId", id)
 	}
 	return resourceIds, nil
 }

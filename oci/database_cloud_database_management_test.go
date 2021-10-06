@@ -12,19 +12,19 @@ import (
 
 var (
 	databaseManagementRepresentation = map[string]interface{}{
-		"database_id": Representation{repType: Required, create: `${data.oci_database_databases.t.databases.0.id}`},
-		//update: `ADVANCED` to be uncommented to explicitly call ModifyDatabaseManagement
-		"management_type":      Representation{repType: Required, create: `BASIC` /*, update: `ADVANCED`*/},
-		"private_end_point_id": Representation{repType: Required, create: `ocid1.dbmgmtprivateendpoint.oc1.ap-hyderabad-1.amaaaaaacsc5xjaamlmllhfxmxict6jf3irizwsydralyklninmwsrovggkq`},
-		"service_name":         Representation{repType: Required, create: `DB0809_hyd17q.sub02231620340.dbmgmtcustomer.oraclevcn.com`},
+		"database_id": Representation{RepType: Required, Create: `${data.oci_database_databases.t.databases.0.id}`},
+		//Update: `ADVANCED` to be uncommented to explicitly call ModifyDatabaseManagement
+		"management_type":      Representation{RepType: Required, Create: `BASIC` /*, Update: `ADVANCED`*/},
+		"private_end_point_id": Representation{RepType: Required, Create: `ocid1.dbmgmtprivateendpoint.oc1.ap-hyderabad-1.amaaaaaacsc5xjaamlmllhfxmxict6jf3irizwsydralyklninmwsrovggkq`},
+		"service_name":         Representation{RepType: Required, Create: `DB0809_hyd17q.sub02231620340.dbmgmtcustomer.oraclevcn.com`},
 		"credentialdetails":    RepresentationGroup{Required, databaseCredentialDetailsRepresentation},
-		//update: `false` to be uncommented to explicitly call DisableDatabaseManagement
-		"enable_management": Representation{repType: Required, create: `true`, update: `false`},
+		//Update: `false` to be uncommented to explicitly call DisableDatabaseManagement
+		"enable_management": Representation{RepType: Required, Create: `true`, Update: `false`},
 	}
 
 	databaseCredentialDetailsRepresentation = map[string]interface{}{
-		"user_name":          Representation{repType: Required, create: `dbsnmp`},
-		"password_secret_id": Representation{repType: Required, create: `ocid1.vaultsecret.oc1.ap-hyderabad-1.amaaaaaacsc5xjaa2q7r6kfzdm44ylxqwomht6uinb5zyhezka7sl2t62ecq`},
+		"user_name":          Representation{RepType: Required, Create: `dbsnmp`},
+		"password_secret_id": Representation{RepType: Required, Create: `ocid1.vaultsecret.oc1.ap-hyderabad-1.amaaaaaacsc5xjaa2q7r6kfzdm44ylxqwomht6uinb5zyhezka7sl2t62ecq`},
 	}
 
 	dbSystemForDatabaseManagementRepresentation = `
@@ -126,7 +126,7 @@ func TestDatabaseCloudDatabaseManagementResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// create dbSystem
+			// Create dbSystem
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
 					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation,
@@ -135,7 +135,7 @@ func TestDatabaseCloudDatabaseManagementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
 					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation +
-					generateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", Required, Create, databaseManagementRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", Required, Create, databaseManagementRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.#", "1"),
 				),
@@ -144,7 +144,7 @@ func TestDatabaseCloudDatabaseManagementResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
 					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation +
-					generateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", Required, Create, databaseManagementRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", Required, Create, databaseManagementRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.#", "1"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "db_name"),
@@ -152,17 +152,17 @@ func TestDatabaseCloudDatabaseManagementResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "database_management_config.0.management_type", "BASIC"),
 				),
 			},
-			// update / disable database management
+			// Update / disable database management
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
 					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation +
-					generateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", Required, Update, databaseManagementRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", Required, Update, databaseManagementRepresentation),
 			},
-			// verify update / disable database management
+			// verify Update / disable database management
 			{
 				Config: config + compartmentIdVariableStr + domainNameVariableStr + subnetIdVariableStr +
 					availabilityDomainVariableStr + dbSystemForDatabaseManagementRepresentation +
-					generateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", Required, Update, databaseManagementRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_cloud_database_management", "test_database_cloud_database_management", Required, Update, databaseManagementRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.#", "1"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "db_name"),

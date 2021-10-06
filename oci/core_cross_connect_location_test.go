@@ -14,7 +14,7 @@ import (
 
 var (
 	crossConnectLocationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	CrossConnectLocationResourceConfig = ""
@@ -32,13 +32,13 @@ func TestCoreCrossConnectLocationResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_cross_connect_locations.test_cross_connect_locations"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation) +
 				compartmentIdVariableStr + CrossConnectLocationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

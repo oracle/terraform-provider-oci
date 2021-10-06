@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DatabasePluggableDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabasePluggableDatabases,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -84,7 +84,7 @@ func (s *DatabasePluggableDatabasesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.PluggableDatabaseSummaryLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListPluggableDatabases(context.Background(), request)
 	if err != nil {

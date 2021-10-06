@@ -72,7 +72,10 @@ The following attributes are exported:
 * `type` - The Configuration type, DEFAULT or CUSTOM.
 * `variables` - User controllable service variables.
 	* `autocommit` - ("autocommit")
-	* `binlog_expire_logs_seconds` - ("binlog_expire_logs_seconds") DEPRECATED -- variable should not be settable and will be ignored
+	* `binlog_expire_logs_seconds` - Sets the binary log expiration period in seconds. binlogExpireLogsSeconds corresponds to the MySQL binary logging system variable [binlog_expire_logs_seconds](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_expire_logs_seconds). 
+	* `binlog_row_metadata` - Configures the amount of table metadata added to the binary log when using row-based logging. binlogRowMetadata corresponds to the MySQL binary logging system variable [binlog_row_metadata](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_row_metadata). 
+	* `binlog_row_value_options` - When set to PARTIAL_JSON, this enables use of a space-efficient binary log format for updates that modify only a small portion of a JSON document. binlogRowValueOptions corresponds to the MySQL binary logging system variable [binlog_row_value_options](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_row_value_options). 
+	* `binlog_transaction_compression` - Enables compression for transactions that are written to binary log files on this server. binlogTransactionCompression corresponds to the MySQL binary logging system variable [binlog_transaction_compression](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_transaction_compression). 
 	* `completion_type` - ("completion_type")
 	* `connect_timeout` - ("connect_timeout")
 	* `cte_max_recursion_depth` - ("cte_max_recursion_depth")

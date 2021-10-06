@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 )
 
 func init() {
@@ -25,9 +25,9 @@ func MysqlChannelResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("30m"),
-			Update: getTimeoutDuration("30m"),
-			Delete: getTimeoutDuration("30m"),
+			Create: GetTimeoutDuration("30m"),
+			Update: GetTimeoutDuration("30m"),
+			Delete: GetTimeoutDuration("30m"),
 		},
 		Create: createMysqlChannel,
 		Read:   readMysqlChannel,
@@ -315,7 +315,7 @@ func (s *MysqlChannelResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -345,7 +345,7 @@ func (s *MysqlChannelResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.CreateChannel(context.Background(), request)
 	if err != nil {
@@ -362,7 +362,7 @@ func (s *MysqlChannelResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ChannelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.GetChannel(context.Background(), request)
 	if err != nil {
@@ -398,7 +398,7 @@ func (s *MysqlChannelResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
@@ -428,7 +428,7 @@ func (s *MysqlChannelResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.UpdateChannel(context.Background(), request)
 	if err != nil {
@@ -444,7 +444,7 @@ func (s *MysqlChannelResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ChannelId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "mysql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.DeleteChannel(context.Background(), request)
 	return err

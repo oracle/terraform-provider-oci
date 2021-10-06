@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v48/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v49/marketplace"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func MarketplaceListingsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMarketplaceListings,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"category": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -355,7 +355,7 @@ func (s *MarketplaceListingsDataSourceCrud) Get() error {
 		request.PublisherId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.ListListings(context.Background(), request)
 	if err != nil {

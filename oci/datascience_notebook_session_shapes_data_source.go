@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DatascienceNotebookSessionShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatascienceNotebookSessionShapes,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -82,7 +82,7 @@ func (s *DatascienceNotebookSessionShapesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datascience")
 
 	response, err := s.Client.ListNotebookSessionShapes(context.Background(), request)
 	if err != nil {

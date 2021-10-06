@@ -14,38 +14,38 @@ import (
 
 var (
 	keyRestorekeyRepresentation = map[string]interface{}{
-		"restore_trigger":     Representation{repType: Required, create: `0`, update: `1`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Required, create: `Key C`, update: `displayName2`},
+		"restore_trigger":     Representation{RepType: Required, Create: `0`, Update: `1`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Required, Create: `Key C`, Update: `displayName2`},
 		"key_shape":           RepresentationGroup{Required, keyRestoreKeyShapeRepresentation},
-		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value-updated")}`},
+		"management_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value-updated")}`},
 	}
 	keyRestorekeyRepresentationUpdate2 = map[string]interface{}{
-		"restore_trigger":     Representation{repType: Required, create: `1`, update: `1`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":        Representation{repType: Required, create: `Key C`, update: `displayName2`},
+		"restore_trigger":     Representation{RepType: Required, Create: `1`, Update: `1`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":        Representation{RepType: Required, Create: `Key C`, Update: `displayName2`},
 		"key_shape":           RepresentationGroup{Required, keyRestoreKeyShapeRepresentation},
-		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value-updated")}`},
+		"management_endpoint": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value-updated")}`},
 	}
 	keyRestoreKeyShapeRepresentation = map[string]interface{}{
-		"algorithm": Representation{repType: Required, create: `AES`},
-		"length":    Representation{repType: Required, create: `16`},
+		"algorithm": Representation{RepType: Required, Create: `AES`},
+		"length":    Representation{RepType: Required, Create: `16`},
 	}
 	keyrestoreFromObjectBackupLocationRepresentation = map[string]interface{}{
-		"destination": Representation{repType: Required, create: `BUCKET`},
-		"bucket":      Representation{repType: Optional, create: `private-vault-kms-backup`},
-		"namespace":   Representation{repType: Optional, create: `${data.oci_objectstorage_object.test_object.namespace}`},
-		"object":      Representation{repType: Optional, create: `Key-C-backup`},
+		"destination": Representation{RepType: Required, Create: `BUCKET`},
+		"bucket":      Representation{RepType: Optional, Create: `private-vault-kms-backup`},
+		"namespace":   Representation{RepType: Optional, Create: `${data.oci_objectstorage_object.test_object.namespace}`},
+		"object":      Representation{RepType: Optional, Create: `Key-C-backup`},
 	}
 	keyrestoreFromObjectUriBackupLocationRepresentation = map[string]interface{}{
-		"destination": Representation{repType: Required, create: `PRE_AUTHENTICATED_REQUEST_URI`},
-		"uri":         Representation{repType: Optional, create: `PAR-uri`},
+		"destination": Representation{RepType: Required, Create: `PRE_AUTHENTICATED_REQUEST_URI`},
+		"uri":         Representation{RepType: Optional, Create: `PAR-uri`},
 	}
 	keyRestoreFromFileRepresentation = map[string]interface{}{
-		"restore_key_from_file_details": Representation{repType: Required, create: `${data.oci_objectstorage_object.test_object.content}`},
-		"content_length":                Representation{repType: Required, create: `${data.oci_objectstorage_object.test_object.content_length}`},
+		"restore_key_from_file_details": Representation{RepType: Required, Create: `${data.oci_objectstorage_object.test_object.content}`},
+		"content_length":                Representation{RepType: Required, Create: `${data.oci_objectstorage_object.test_object.content_length}`},
 	}
 	keyRestoreFileContentObject = `
 		data "oci_objectstorage_object" "test_object" {
@@ -79,8 +79,8 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 		// verify restore key from file
 		{
 			Config: config + compartmentIdVariableStr + DefinedTagsDependencies + keyRestoreFileContentObject +
-				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-					representationCopyWithNewProperties(keyRestorekeyRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
+					RepresentationCopyWithNewProperties(keyRestorekeyRepresentation, map[string]interface{}{
 						"restore_from_file": RepresentationGroup{Required, keyRestoreFromFileRepresentation}})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -89,8 +89,8 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 		// verify restore from object store
 		{
 			Config: config + compartmentIdVariableStr + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-					representationCopyWithNewProperties(keyRestorekeyRepresentationUpdate2, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
+					RepresentationCopyWithNewProperties(keyRestorekeyRepresentationUpdate2, map[string]interface{}{
 						"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectBackupLocationRepresentation}})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -99,8 +99,8 @@ func TestResourceKmsKeyRestore_basic(t *testing.T) {
 		// verify restore from Pre-Authenticated-uri
 		{
 			Config: config + compartmentIdVariableStr + DefinedTagsDependencies +
-				generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
-					representationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create,
+					RepresentationCopyWithNewProperties(keyRepresentation, map[string]interface{}{
 						"restore_from_object_store": RepresentationGroup{Required, keyrestoreFromObjectUriBackupLocationRepresentation}})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),

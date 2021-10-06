@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v48/monitoring"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v49/monitoring"
 )
 
 func init() {
@@ -116,7 +116,7 @@ func (s *MonitoringAlarmHistoryCollectionDataSourceCrud) Get() error {
 		request.TimestampLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "monitoring")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "monitoring")
 
 	response, err := s.Client.GetAlarmHistory(context.Background(), request)
 	if err != nil {

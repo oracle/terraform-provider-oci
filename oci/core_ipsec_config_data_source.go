@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func CoreIpSecConnectionDeviceConfigDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularCoreIpSecConnectionDeviceConfig,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"ipsec_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -87,7 +87,7 @@ func (s *CoreIpSecConnectionDeviceConfigDataSourceCrud) Get() error {
 		request.IpscId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetIPSecConnectionDeviceConfig(context.Background(), request)
 	if err != nil {

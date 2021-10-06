@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func CoreAppCatalogSubscriptionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreAppCatalogSubscriptions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -67,7 +67,7 @@ func (s *CoreAppCatalogSubscriptionsDataSourceCrud) Get() error {
 		request.ListingId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListAppCatalogSubscriptions(context.Background(), request)
 	if err != nil {

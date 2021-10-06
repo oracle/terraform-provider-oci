@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_nosql "github.com/oracle/oci-go-sdk/v48/nosql"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_nosql "github.com/oracle/oci-go-sdk/v49/nosql"
 )
 
 func init() {
@@ -278,7 +278,7 @@ func (s *NosqlTableResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAutoReclaimable, ok := s.D.GetOkExists("is_auto_reclaimable"); ok {
@@ -307,7 +307,7 @@ func (s *NosqlTableResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
 	response, err := s.Client.CreateTable(context.Background(), request)
 	if err != nil {
@@ -315,7 +315,7 @@ func (s *NosqlTableResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTableFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getTableFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *NosqlTableResourceCrud) getTableFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -341,7 +341,7 @@ func (s *NosqlTableResourceCrud) getTableFromWorkRequest(workId *string, retryPo
 		return err
 	}
 
-	// For update, we send multiple requests and we don't want to override the state file for each request
+	// For Update, we send multiple requests and we don't want to override the state file for each request
 	if actionTypeEnum == oci_nosql.WorkRequestResourceActionTypeUpdated {
 		return nil
 	}
@@ -376,7 +376,7 @@ func tableWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 
 func tableWaitForWorkRequest(wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_nosql.NosqlClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "nosql")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "nosql")
 	retryPolicy.ShouldRetryOperation = tableWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_nosql.GetWorkRequestResponse{}
@@ -466,7 +466,7 @@ func (s *NosqlTableResourceCrud) Get() error {
 		request.TableNameOrId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
 	response, err := s.Client.GetTable(context.Background(), request)
 	if err != nil {
@@ -504,7 +504,7 @@ func (s *NosqlTableResourceCrud) Update() error {
 
 	request := oci_nosql.UpdateTableRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
 	if tableNameOrId, ok := s.D.GetOkExists("table_name_or_id"); ok {
 		tmp := tableNameOrId.(string)
@@ -538,7 +538,7 @@ func (s *NosqlTableResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		err := sendUpdateRequest(s, request)
 		if err != nil {
 			return err
@@ -571,7 +571,7 @@ func sendUpdateRequest(s *NosqlTableResourceCrud, request oci_nosql.UpdateTableR
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	err = s.getTableFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getTableFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -599,7 +599,7 @@ func (s *NosqlTableResourceCrud) Delete() error {
 		request.TableNameOrId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
 	response, err := s.Client.DeleteTable(context.Background(), request)
 	if err != nil {
@@ -827,7 +827,7 @@ func (s *NosqlTableResourceCrud) updateCompartment(fromCompartmentId, toCompartm
 
 	changeCompartmentRequest.ToCompartmentId = &toCompartmentId
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
 	response, err := s.Client.ChangeTableCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -835,5 +835,5 @@ func (s *NosqlTableResourceCrud) updateCompartment(fromCompartmentId, toCompartm
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTableFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getTableFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

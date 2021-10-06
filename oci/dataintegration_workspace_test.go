@@ -13,45 +13,45 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v48/dataintegration"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v49/dataintegration"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	WorkspaceRequiredOnlyResource = WorkspaceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, workspaceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, workspaceRepresentation)
 
 	WorkspaceResourceConfig = WorkspaceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation)
 
 	workspaceSingularDataSourceRepresentation = map[string]interface{}{
-		"workspace_id": Representation{repType: Required, create: `${oci_dataintegration_workspace.test_workspace.id}`},
+		"workspace_id": Representation{RepType: Required, Create: `${oci_dataintegration_workspace.test_workspace.id}`},
 	}
 
 	workspaceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, workspaceDataSourceFilterRepresentation}}
 	workspaceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dataintegration_workspace.test_workspace.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dataintegration_workspace.test_workspace.id}`}},
 	}
 
 	workspaceRepresentation = map[string]interface{}{
-		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":               Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_private_network_enabled": Representation{repType: Optional, create: `true`},
-		"subnet_id":                  Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
-		"vcn_id":                     Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":               Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_private_network_enabled": Representation{RepType: Optional, Create: `true`},
+		"subnet_id":                  Representation{RepType: Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_id":                     Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	WorkspaceResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"dns_label": Representation{repType: Required, create: `dnslabel`}})) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{"dns_label": Representation{repType: Required, create: `dnslabel`}})) +
+	WorkspaceResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}})) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}})) +
 		DefinedTagsDependencies
 )
 
@@ -73,35 +73,35 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_dataintegration_workspace.test_workspace"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+WorkspaceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create, workspaceRepresentation), "dataintegration", "workspace", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+WorkspaceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create, workspaceRepresentation), "dataintegration", "workspace", t)
 
 	ResourceTest(t, testAccCheckDataintegrationWorkspaceDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, getUpdatedRepresentationCopy("is_private_network_enabled", Representation{repType: Required, create: `false`}, workspaceRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, GetUpdatedRepresentationCopy("is_private_network_enabled", Representation{RepType: Required, Create: `false`}, workspaceRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create, workspaceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create, workspaceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -112,9 +112,9 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -123,12 +123,12 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + WorkspaceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create,
-					representationCopyWithNewProperties(workspaceRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Create,
+					RepresentationCopyWithNewProperties(workspaceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -140,7 +140,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_private_network_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -152,7 +152,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + WorkspaceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -165,7 +165,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -176,9 +176,9 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataintegration_workspaces", "test_workspaces", Optional, Update, workspaceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataintegration_workspaces", "test_workspaces", Optional, Update, workspaceDataSourceRepresentation) +
 				compartmentIdVariableStr + WorkspaceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Optional, Update, workspaceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -198,7 +198,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, workspaceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataintegration_workspace", "test_workspace", Required, Create, workspaceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + WorkspaceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "workspace_id"),
@@ -242,7 +242,7 @@ func testAccCheckDataintegrationWorkspaceDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.WorkspaceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dataintegration")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dataintegration")
 
 			response, err := client.GetWorkspace(context.Background(), request)
 
@@ -275,7 +275,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DataintegrationWorkspace") {
+	if !InSweeperExcludeList("DataintegrationWorkspace") {
 		resource.AddTestSweepers("DataintegrationWorkspace", &resource.Sweeper{
 			Name:         "DataintegrationWorkspace",
 			Dependencies: DependencyGraph["workspace"],
@@ -296,13 +296,13 @@ func sweepDataintegrationWorkspaceResource(compartment string) error {
 
 			deleteWorkspaceRequest.WorkspaceId = &workspaceId
 
-			deleteWorkspaceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dataintegration")
+			deleteWorkspaceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dataintegration")
 			_, error := dataIntegrationClient.DeleteWorkspace(context.Background(), deleteWorkspaceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Workspace %s %s, It is possible that the resource is already deleted. Please verify manually \n", workspaceId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &workspaceId, workspaceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &workspaceId, workspaceSweepWaitCondition, time.Duration(3*time.Minute),
 				workspaceSweepResponseFetchOperation, "dataintegration", true)
 		}
 	}
@@ -310,7 +310,7 @@ func sweepDataintegrationWorkspaceResource(compartment string) error {
 }
 
 func getWorkspaceIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "WorkspaceId")
+	ids := GetResourceIdsToSweep(compartment, "WorkspaceId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -329,7 +329,7 @@ func getWorkspaceIds(compartment string) ([]string, error) {
 	for _, workspace := range listWorkspacesResponse.Items {
 		id := *workspace.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "WorkspaceId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "WorkspaceId", id)
 	}
 	return resourceIds, nil
 }

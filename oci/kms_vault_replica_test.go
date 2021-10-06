@@ -14,10 +14,10 @@ import (
 
 var (
 	vaultReplicaDataSourceRepresentation = map[string]interface{}{
-		"vault_id": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.id}`},
+		"vault_id": Representation{RepType: Required, Create: `${data.oci_kms_vault.test_vault.id}`},
 	}
 
-	VaultReplicaResourceConfig = generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultRepresentation)
+	VaultReplicaResourceConfig = GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultRepresentation)
 )
 
 // issue-routing-tag: kms/default
@@ -33,13 +33,13 @@ func TestKmsVaultReplicaResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_kms_vault_replicas.test_vault_replicas"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_kms_vault_replicas", "test_vault_replicas", Required, Create, vaultReplicaDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_kms_vault_replicas", "test_vault_replicas", Required, Create, vaultReplicaDataSourceRepresentation) +
 				compartmentIdVariableStr + VaultReplicaResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "vault_id"),

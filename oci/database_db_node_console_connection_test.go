@@ -14,32 +14,32 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DbNodeConsoleConnectionResourceConfig = DbNodeConsoleConnectionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Optional, Update, dbNodeConsoleConnectionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Optional, Update, dbNodeConsoleConnectionRepresentation)
 
 	dbNodeConsoleConnectionSingularDataSourceRepresentation = map[string]interface{}{
-		"db_node_id": Representation{repType: Required, create: `${data.oci_database_db_node.test_db_node.id}`},
-		"id":         Representation{repType: Required, create: `${oci_database_db_node_console_connection.test_db_node_console_connection.id}`},
+		"db_node_id": Representation{RepType: Required, Create: `${data.oci_database_db_node.test_db_node.id}`},
+		"id":         Representation{RepType: Required, Create: `${oci_database_db_node_console_connection.test_db_node_console_connection.id}`},
 	}
 
 	dbNodeConsoleConnectionDataSourceRepresentation = map[string]interface{}{
-		"db_node_id": Representation{repType: Required, create: `${data.oci_database_db_node.test_db_node.id}`},
+		"db_node_id": Representation{RepType: Required, Create: `${data.oci_database_db_node.test_db_node.id}`},
 		"filter":     RepresentationGroup{Required, dbNodeConsoleConnectionDataSourceFilterRepresentation}}
 	dbNodeConsoleConnectionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_db_node_console_connection.test_db_node_console_connection.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_db_node_console_connection.test_db_node_console_connection.id}`}},
 	}
 
 	dbNodeConsoleConnectionRepresentation = map[string]interface{}{
-		"db_node_id": Representation{repType: Required, create: `${data.oci_database_db_node.test_db_node.id}`},
-		"public_key": Representation{repType: Required, create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
+		"db_node_id": Representation{RepType: Required, Create: `${data.oci_database_db_node.test_db_node.id}`},
+		"public_key": Representation{RepType: Required, Create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
 	}
 
 	DbNodeConsoleConnectionResourceDependencies = DbSystemResourceConfig + `
@@ -67,23 +67,23 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_db_node_console_connection.test_db_node_console_connection"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DbNodeConsoleConnectionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionRepresentation), "database", "dbNodeConsoleConnection", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DbNodeConsoleConnectionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionRepresentation), "database", "dbNodeConsoleConnection", t)
 
 	ResourceTest(t, testAccCheckDatabaseDbNodeConsoleConnectionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DbNodeConsoleConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "db_node_id"),
 				resource.TestCheckResourceAttr(resourceName, "public_key", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -95,9 +95,9 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_db_node_console_connections", "test_db_node_console_connections", Optional, Update, dbNodeConsoleConnectionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_node_console_connections", "test_db_node_console_connections", Optional, Update, dbNodeConsoleConnectionDataSourceRepresentation) +
 				compartmentIdVariableStr + DbNodeConsoleConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Optional, Update, dbNodeConsoleConnectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Optional, Update, dbNodeConsoleConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "db_node_id"),
 
@@ -113,7 +113,7 @@ func TestDatabaseDbNodeConsoleConnectionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_node_console_connection", "test_db_node_console_connection", Required, Create, dbNodeConsoleConnectionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DbNodeConsoleConnectionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_id"),
@@ -158,7 +158,7 @@ func testAccCheckDatabaseDbNodeConsoleConnectionDestroy(s *terraform.State) erro
 			tmp := rs.Primary.ID
 			request.ConsoleConnectionId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 
 			response, err := client.GetConsoleConnection(context.Background(), request)
 
@@ -191,7 +191,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseDbNodeConsoleConnection") {
+	if !InSweeperExcludeList("DatabaseDbNodeConsoleConnection") {
 		resource.AddTestSweepers("DatabaseDbNodeConsoleConnection", &resource.Sweeper{
 			Name:         "DatabaseDbNodeConsoleConnection",
 			Dependencies: DependencyGraph["dbNodeConsoleConnection"],
@@ -218,13 +218,13 @@ func sweepDatabaseDbNodeConsoleConnectionResource(compartment string) error {
 				log.Printf("[WARN] sweepDatabaseDbNodeConsoleConnectionResource() unable to parse current ID: %s", dbNodeConsoleConnectionId)
 			}
 
-			deleteConsoleConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			deleteConsoleConnectionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database")
 			_, error := databaseClient.DeleteConsoleConnection(context.Background(), deleteConsoleConnectionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DbNodeConsoleConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", dbNodeConsoleConnectionId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &dbNodeConsoleConnectionId, dbNodeConsoleConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &dbNodeConsoleConnectionId, dbNodeConsoleConnectionSweepWaitCondition, time.Duration(3*time.Minute),
 				dbNodeConsoleConnectionSweepResponseFetchOperation, "database", true)
 		}
 	}
@@ -232,7 +232,7 @@ func sweepDatabaseDbNodeConsoleConnectionResource(compartment string) error {
 }
 
 func getDbNodeConsoleConnectionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DbNodeConsoleConnectionId")
+	ids := GetResourceIdsToSweep(compartment, "DbNodeConsoleConnectionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -257,7 +257,7 @@ func getDbNodeConsoleConnectionIds(compartment string) ([]string, error) {
 		for _, dbNodeConsoleConnection := range listConsoleConnectionsResponse.Items {
 			id := getDbNodeConsoleConnectionCompositeId(dbNodeId, *dbNodeConsoleConnection.Id)
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "DbNodeConsoleConnectionId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "DbNodeConsoleConnectionId", id)
 		}
 
 	}

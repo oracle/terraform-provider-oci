@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 )
 
 func init() {
@@ -167,10 +167,10 @@ func (s *DatascienceProjectResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.CreateProject(context.Background(), request)
 	if err != nil {
@@ -187,7 +187,7 @@ func (s *DatascienceProjectResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ProjectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.GetProject(context.Background(), request)
 	if err != nil {
@@ -229,13 +229,13 @@ func (s *DatascienceProjectResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.ProjectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateProject(context.Background(), request)
 	if err != nil {
@@ -252,7 +252,7 @@ func (s *DatascienceProjectResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ProjectId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.DeleteProject(context.Background(), request)
 	return err
@@ -299,7 +299,7 @@ func (s *DatascienceProjectResourceCrud) updateCompartment(compartment interface
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ProjectId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	_, err := s.Client.ChangeProjectCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

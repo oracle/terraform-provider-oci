@@ -16,18 +16,18 @@ import (
 
 var (
 	DrgAttachmentsListRequiredOnlyResource = DrgAttachmentsListResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Required, Create, drgAttachmentsListRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Required, Create, drgAttachmentsListRepresentation)
 
 	drgAttachmentsListRepresentation = map[string]interface{}{
-		"drg_id":           Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
-		"attachment_type":  Representation{repType: Optional, create: `VCN`},
-		"is_cross_tenancy": Representation{repType: Optional, create: `false`},
+		"drg_id":           Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
+		"attachment_type":  Representation{RepType: Optional, Create: `VCN`},
+		"is_cross_tenancy": Representation{RepType: Optional, Create: `false`},
 	}
 
-	DrgAttachmentsListResourceDependencies = generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	DrgAttachmentsListResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -44,28 +44,28 @@ func TestCoreDrgAttachmentsListResource_basic(t *testing.T) {
 	resourceName := "oci_core_drg_attachments_list.test_drg_attachments_list"
 
 	var resId string
-	//Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DrgAttachmentsListResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Optional, Create, drgAttachmentsListRepresentation), "core", "drgAttachmentsList", t)
+	//Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DrgAttachmentsListResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Optional, Create, drgAttachmentsListRepresentation), "core", "drgAttachmentsList", t)
 
 	ResourceTest(t, testAccCheckCoreDrgAttachmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Required, Create, drgAttachmentsListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Required, Create, drgAttachmentsListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DrgAttachmentsListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Optional, Create, drgAttachmentsListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachments_list", "test_drg_attachments_list", Optional, Create, drgAttachmentsListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "attachment_type", "VCN"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
@@ -73,9 +73,9 @@ func TestCoreDrgAttachmentsListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_cross_tenancy", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

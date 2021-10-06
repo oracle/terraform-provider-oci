@@ -13,94 +13,94 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	mlJobRequiredOnlyResource = mlJobResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_job", "test_job", Required, Create, mlJobRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Required, Create, mlJobRepresentation)
 
 	mlJobResourceConfig = mlJobResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Update, mlJobRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Update, mlJobRepresentation)
 
 	mlJobSingularDataSourceRepresentation = map[string]interface{}{
-		"job_id": Representation{repType: Required, create: `${oci_datascience_job.test_job.id}`},
+		"job_id": Representation{RepType: Required, Create: `${oci_datascience_job.test_job.id}`},
 	}
 
 	mlJobDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"created_by":     Representation{repType: Optional, create: `${oci_datascience_job.test_job.created_by}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_datascience_job.test_job.id}`},
-		"project_id":     Representation{repType: Optional, create: `${oci_datascience_project.test_project.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"created_by":     Representation{RepType: Optional, Create: `${oci_datascience_job.test_job.created_by}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_datascience_job.test_job.id}`},
+		"project_id":     Representation{RepType: Optional, Create: `${oci_datascience_project.test_project.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, mlJobDataSourceFilterRepresentation},
 	}
 
 	mlJobDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_datascience_job.test_job.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_datascience_job.test_job.id}`}},
 	}
 
 	mlJobRepresentation = map[string]interface{}{
-		"compartment_id":                           Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":                           Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"job_configuration_details":                RepresentationGroup{Required, jobJobConfigurationDetailsRepresentation},
 		"job_infrastructure_configuration_details": RepresentationGroup{Required, jobJobInfrastructureConfigurationDetailsRepresentation},
-		"project_id":                               Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
-		"job_artifact":                             Representation{repType: Optional, create: `../examples/datascience/job-artifact.py`},
-		"artifact_content_length":                  Representation{repType: Optional, create: `1380`}, // wc -c job-artifact.py
-		"artifact_content_disposition":             Representation{repType: Optional, create: `attachment; filename=job-artifact.py`},
-		"defined_tags":                             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                              Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":                             Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                            Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"delete_related_job_runs":                  Representation{repType: Optional, create: `false`, update: `true`},
+		"project_id":                               Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
+		"job_artifact":                             Representation{RepType: Optional, Create: `../examples/datascience/job-artifact.py`},
+		"artifact_content_length":                  Representation{RepType: Optional, Create: `1380`}, // wc -c job-artifact.py
+		"artifact_content_disposition":             Representation{RepType: Optional, Create: `attachment; filename=job-artifact.py`},
+		"defined_tags":                             Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                              Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":                             Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                            Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"delete_related_job_runs":                  Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"job_log_configuration_details":            RepresentationGroup{Optional, jobJobLogConfigurationDetailsRepresentation},
 		"lifecycle":                                RepresentationGroup{Required, ignoreMlJobDefinedTagsChangesRepresentation},
 	}
 	jobJobConfigurationDetailsRepresentation = map[string]interface{}{
-		"job_type":                   Representation{repType: Required, create: `DEFAULT`},
-		"command_line_arguments":     Representation{repType: Optional, create: `commandLineArguments`},
-		"environment_variables":      Representation{repType: Optional, create: map[string]string{"environmentVariables": "environmentVariables"}},
-		"maximum_runtime_in_minutes": Representation{repType: Optional, create: `10`},
+		"job_type":                   Representation{RepType: Required, Create: `DEFAULT`},
+		"command_line_arguments":     Representation{RepType: Optional, Create: `commandLineArguments`},
+		"environment_variables":      Representation{RepType: Optional, Create: map[string]string{"environmentVariables": "environmentVariables"}},
+		"maximum_runtime_in_minutes": Representation{RepType: Optional, Create: `10`},
 	}
 	jobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
-		"block_storage_size_in_gbs": Representation{repType: Required, create: `51`, update: `52`},
-		"job_infrastructure_type":   Representation{repType: Required, create: `STANDALONE`},
-		"shape_name":                Representation{repType: Required, create: `VM.Standard2.2`, update: `VM.Standard2.4`},
-		"subnet_id":                 Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"block_storage_size_in_gbs": Representation{RepType: Required, Create: `51`, Update: `52`},
+		"job_infrastructure_type":   Representation{RepType: Required, Create: `STANDALONE`},
+		"shape_name":                Representation{RepType: Required, Create: `VM.Standard2.2`, Update: `VM.Standard2.4`},
+		"subnet_id":                 Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	jobJobLogConfigurationDetailsRepresentation = map[string]interface{}{
-		"enable_auto_log_creation": Representation{repType: Optional, create: `true`},
-		"enable_logging":           Representation{repType: Optional, create: `true`},
-		"log_group_id":             Representation{repType: Optional, create: `${oci_logging_log_group.test_log_group.id}`},
+		"enable_auto_log_creation": Representation{RepType: Optional, Create: `true`},
+		"enable_logging":           Representation{RepType: Optional, Create: `true`},
+		"log_group_id":             Representation{RepType: Optional, Create: `${oci_logging_log_group.test_log_group.id}`},
 	}
 
 	ignoreMlJobDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
 	// easier to work with from JobRuns
 	mlJobWithArtifactNoLogging = map[string]interface{}{
-		"compartment_id":                           Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":                           Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"job_configuration_details":                RepresentationGroup{Required, jobJobConfigurationDetailsRepresentation},
 		"job_infrastructure_configuration_details": RepresentationGroup{Required, jobJobInfrastructureConfigurationDetailsRepresentation},
-		"project_id":                               Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
-		"job_artifact":                             Representation{repType: Required, create: `../examples/datascience/job-artifact.py`},
-		"artifact_content_length":                  Representation{repType: Required, create: `1380`}, // wc -c job-artifact.py
-		"artifact_content_disposition":             Representation{repType: Required, create: `attachment; filename=job-artifact.py`},
+		"project_id":                               Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
+		"job_artifact":                             Representation{RepType: Required, Create: `../examples/datascience/job-artifact.py`},
+		"artifact_content_length":                  Representation{RepType: Required, Create: `1380`}, // wc -c job-artifact.py
+		"artifact_content_disposition":             Representation{RepType: Required, Create: `attachment; filename=job-artifact.py`},
 		"lifecycle":                                RepresentationGroup{Required, ignoreMlJobDefinedTagsChangesRepresentation},
 	}
 
-	mlJobResourceDependencies = generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
+	mlJobResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation)
 )
 
 // issue-routing-tag: datascience/default
@@ -123,9 +123,9 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datascience_job.test_job"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+mlJobResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Create, mlJobRepresentation), "datascience", "job", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+mlJobResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Create, mlJobRepresentation), "datascience", "job", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -134,10 +134,10 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckDatascienceJobDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + mlJobResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_job", "test_job", Required, Create, mlJobRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Required, Create, mlJobRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.#", "1"),
@@ -150,20 +150,20 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
 
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + mlJobResourceDependencies,
 			},
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + mlJobResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Create, mlJobRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Create, mlJobRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -191,9 +191,9 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -202,12 +202,12 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
+			// verify Update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + mlJobResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Create,
-						representationCopyWithNewProperties(mlJobRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Create,
+						RepresentationCopyWithNewProperties(mlJobRepresentation, map[string]interface{}{
+							"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -236,7 +236,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
@@ -248,7 +248,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + mlJobResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Update, mlJobRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Update, mlJobRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -276,7 +276,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -287,9 +287,9 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 			// verify datasource - step 5
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datascience_jobs", "test_jobs", Optional, Update, mlJobDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_datascience_jobs", "test_jobs", Optional, Update, mlJobDataSourceRepresentation) +
 					compartmentIdVariableStr + mlJobResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Update, mlJobRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Update, mlJobRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "created_by"),
@@ -313,7 +313,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 			// verify singular datasource - step 6
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datascience_job", "test_job", Required, Create, mlJobSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_datascience_job", "test_job", Required, Create, mlJobSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + mlJobResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "job_id"),
@@ -372,7 +372,7 @@ func testAccCheckDatascienceJobDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.JobId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 
 			response, err := client.GetJob(context.Background(), request)
 
@@ -405,7 +405,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatascienceJob") {
+	if !InSweeperExcludeList("DatascienceJob") {
 		resource.AddTestSweepers("DatascienceJob", &resource.Sweeper{
 			Name:         "DatascienceJob",
 			Dependencies: DependencyGraph["job"],
@@ -426,13 +426,13 @@ func sweepDatascienceJobResource(compartment string) error {
 
 			deleteJobRequest.JobId = &jobId
 
-			deleteJobRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			deleteJobRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 			_, error := dataScienceClient.DeleteJob(context.Background(), deleteJobRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Job %s %s, It is possible that the resource is already deleted. Please verify manually \n", jobId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &jobId, mlJobSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &jobId, mlJobSweepWaitCondition, time.Duration(3*time.Minute),
 				mlJobSweepResponseFetchOperation, "datascience", true)
 		}
 	}
@@ -440,7 +440,7 @@ func sweepDatascienceJobResource(compartment string) error {
 }
 
 func getMlJobIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "JobId")
+	ids := GetResourceIdsToSweep(compartment, "JobId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -459,7 +459,7 @@ func getMlJobIds(compartment string) ([]string, error) {
 	for _, job := range listJobsResponse.Items {
 		id := *job.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "JobId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "JobId", id)
 	}
 	return resourceIds, nil
 }

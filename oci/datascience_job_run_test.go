@@ -13,65 +13,65 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	JobRunRequiredOnlyResource = JobRunResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Required, Create, jobRunRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Required, Create, jobRunRepresentation)
 
 	JobRunResourceConfig = JobRunResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Update, jobRunRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Update, jobRunRepresentation)
 
 	jobRunSingularDataSourceRepresentation = map[string]interface{}{
-		"job_run_id": Representation{repType: Required, create: `${oci_datascience_job_run.test_job_run.id}`},
+		"job_run_id": Representation{RepType: Required, Create: `${oci_datascience_job_run.test_job_run.id}`},
 	}
 
 	jobRunDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"created_by":     Representation{repType: Optional, create: `${oci_datascience_job_run.test_job_run.created_by}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_datascience_job_run.test_job_run.id}`},
-		"job_id":         Representation{repType: Optional, create: `${oci_datascience_job.test_job.id}`},
-		"state":          Representation{repType: Optional, create: `SUCCEEDED`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"created_by":     Representation{RepType: Optional, Create: `${oci_datascience_job_run.test_job_run.created_by}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_datascience_job_run.test_job_run.id}`},
+		"job_id":         Representation{RepType: Optional, Create: `${oci_datascience_job.test_job.id}`},
+		"state":          Representation{RepType: Optional, Create: `SUCCEEDED`},
 		"filter":         RepresentationGroup{Required, jobRunDataSourceFilterRepresentation},
 	}
 
 	jobRunDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_datascience_job_run.test_job_run.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_datascience_job_run.test_job_run.id}`}},
 	}
 
 	jobRunRepresentation = map[string]interface{}{
-		"compartment_id":                     Representation{repType: Required, create: `${var.compartment_id}`},
-		"job_id":                             Representation{repType: Required, create: `${oci_datascience_job.test_job.id}`},
-		"project_id":                         Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
-		"defined_tags":                       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"asynchronous":                       Representation{repType: Required, create: `false`},
+		"compartment_id":                     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"job_id":                             Representation{RepType: Required, Create: `${oci_datascience_job.test_job.id}`},
+		"project_id":                         Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
+		"defined_tags":                       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                       Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"asynchronous":                       Representation{RepType: Required, Create: `false`},
 		"job_configuration_override_details": RepresentationGroup{Required, jobRunJobConfigurationOverrideDetailsRepresentation},
 		"lifecycle":                          RepresentationGroup{Required, ignoreJobRunDefinedTagsChangesRepresentation},
 	}
 	jobRunJobConfigurationOverrideDetailsRepresentation = map[string]interface{}{
-		"job_type":                   Representation{repType: Required, create: `DEFAULT`},
-		"command_line_arguments":     Representation{repType: Optional, create: `commandLineArguments`},
-		"environment_variables":      Representation{repType: Required, create: map[string]string{"environmentVariables": "environmentVariables"}},
-		"maximum_runtime_in_minutes": Representation{repType: Optional, create: `10`},
+		"job_type":                   Representation{RepType: Required, Create: `DEFAULT`},
+		"command_line_arguments":     Representation{RepType: Optional, Create: `commandLineArguments`},
+		"environment_variables":      Representation{RepType: Required, Create: map[string]string{"environmentVariables": "environmentVariables"}},
+		"maximum_runtime_in_minutes": Representation{RepType: Optional, Create: `10`},
 	}
 
 	ignoreJobRunDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
-	JobRunResourceDependencies = generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_datascience_job", "test_job", Required, Create, mlJobWithArtifactNoLogging) +
-		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
+	JobRunResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Required, Create, mlJobWithArtifactNoLogging) +
+		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -92,9 +92,9 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datascience_job_run.test_job_run"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+JobRunResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Create, jobRunRepresentation), "datascience", "jobRun", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+JobRunResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Create, jobRunRepresentation), "datascience", "jobRun", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -103,30 +103,30 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckDatascienceJobRunDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + JobRunResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Required, Create, jobRunRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Required, Create, jobRunRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
 
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + JobRunResourceDependencies,
 			},
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + JobRunResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Create, jobRunRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Create, jobRunRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -147,9 +147,9 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_accepted"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -161,7 +161,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + JobRunResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Update, jobRunRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Update, jobRunRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -182,7 +182,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_accepted"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -193,9 +193,9 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datascience_job_runs", "test_job_runs", Optional, Update, jobRunDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_datascience_job_runs", "test_job_runs", Optional, Update, jobRunDataSourceRepresentation) +
 					compartmentIdVariableStr + JobRunResourceDependencies +
-					generateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Update, jobRunRepresentation),
+					GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Update, jobRunRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "created_by"),
@@ -220,7 +220,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Required, Create, jobRunSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Required, Create, jobRunSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + JobRunResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "job_run_id"),
@@ -272,7 +272,7 @@ func testAccCheckDatascienceJobRunDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.JobRunId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 
 			response, err := client.GetJobRun(context.Background(), request)
 
@@ -305,7 +305,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatascienceJobRun") {
+	if !InSweeperExcludeList("DatascienceJobRun") {
 		resource.AddTestSweepers("DatascienceJobRun", &resource.Sweeper{
 			Name:         "DatascienceJobRun",
 			Dependencies: DependencyGraph["jobRun"],
@@ -326,13 +326,13 @@ func sweepDatascienceJobRunResource(compartment string) error {
 
 			deleteJobRunRequest.JobRunId = &jobRunId
 
-			deleteJobRunRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			deleteJobRunRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 			_, error := dataScienceClient.DeleteJobRun(context.Background(), deleteJobRunRequest)
 			if error != nil {
 				fmt.Printf("Error deleting JobRun %s %s, It is possible that the resource is already deleted. Please verify manually \n", jobRunId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &jobRunId, jobRunSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &jobRunId, jobRunSweepWaitCondition, time.Duration(3*time.Minute),
 				jobRunSweepResponseFetchOperation, "datascience", true)
 		}
 	}
@@ -340,7 +340,7 @@ func sweepDatascienceJobRunResource(compartment string) error {
 }
 
 func getJobRunIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "JobRunId")
+	ids := GetResourceIdsToSweep(compartment, "JobRunId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -359,7 +359,7 @@ func getJobRunIds(compartment string) ([]string, error) {
 	for _, jobRun := range listJobRunsResponse.Items {
 		id := *jobRun.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "JobRunId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "JobRunId", id)
 	}
 	return resourceIds, nil
 }

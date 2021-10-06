@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v48/aianomalydetection"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v49/aianomalydetection"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *AiAnomalyDetectionDataAssetDataSourceCrud) Get() error {
 		request.DataAssetId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ai_anomaly_detection")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ai_anomaly_detection")
 
 	response, err := s.Client.GetDataAsset(context.Background(), request)
 	if err != nil {

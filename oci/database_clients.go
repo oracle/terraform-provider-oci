@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_database.DatabaseClient", &OracleClient{initClientFn: initDatabaseDatabaseClient})
+	RegisterOracleClient("oci_database.DatabaseClient", &OracleClient{InitClientFn: initDatabaseDatabaseClient})
 }
 
 func initDatabaseDatabaseClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

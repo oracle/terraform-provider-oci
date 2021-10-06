@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -25,13 +25,13 @@ type DatasourceIdentityGroupsTestSuite struct {
 }
 
 func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenizeWithHttpReplay("identity_group_data_source")
+	s.Token, s.TokenFn = TokenizeWithHttpReplay("identity_group_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
-		description = "automated test group"
+		description = "automated test Group"
 		compartment_id = "${var.tenancy_ocid}"
 	}`, nil)
 	s.ResourceName = "data.oci_identity_groups.t"
@@ -65,7 +65,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 					}
 					filter {
 						name   = "description"
-						values = ["automated test group"]
+						values = ["automated test Group"]
 					}
 				}`, nil),
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -74,7 +74,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.0.time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.name", s.Token),
-					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.description", "automated test group"),
+					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.description", "automated test Group"),
 					resource.TestCheckResourceAttr(s.ResourceName, "groups.0.state", string(identity.GroupLifecycleStateActive)),
 					// TODO: This field is not being returned by the service call but is still showing up in the datasource
 					// resource.TestCheckNoResourceAttr(s.ResourceName, "groups.0.inactive_state"),

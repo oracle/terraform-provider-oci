@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 )
 
 func init() {
@@ -386,7 +386,7 @@ func (s *DataSafeTargetDatabaseResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if tlsConfig, ok := s.D.GetOkExists("tls_config"); ok {
@@ -400,7 +400,7 @@ func (s *DataSafeTargetDatabaseResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.CreateTargetDatabase(context.Background(), request)
 	if err != nil {
@@ -408,7 +408,7 @@ func (s *DataSafeTargetDatabaseResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTargetDatabaseFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getTargetDatabaseFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeTargetDatabaseResourceCrud) getTargetDatabaseFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -451,7 +451,7 @@ func targetDatabaseWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 
 func targetDatabaseWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "data_safe")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = targetDatabaseWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}
@@ -530,7 +530,7 @@ func (s *DataSafeTargetDatabaseResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.TargetDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.GetTargetDatabase(context.Background(), request)
 	if err != nil {
@@ -605,7 +605,7 @@ func (s *DataSafeTargetDatabaseResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -622,7 +622,7 @@ func (s *DataSafeTargetDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.UpdateTargetDatabase(context.Background(), request)
 	if err != nil {
@@ -630,7 +630,7 @@ func (s *DataSafeTargetDatabaseResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTargetDatabaseFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getTargetDatabaseFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataSafeTargetDatabaseResourceCrud) Delete() error {
@@ -639,7 +639,7 @@ func (s *DataSafeTargetDatabaseResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.TargetDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.DeleteTargetDatabase(context.Background(), request)
 	if err != nil {
@@ -977,7 +977,7 @@ func (s *DataSafeTargetDatabaseResourceCrud) updateCompartment(compartment inter
 	idTmp := s.D.Id()
 	changeCompartmentRequest.TargetDatabaseId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	_, err := s.Client.ChangeTargetDatabaseCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

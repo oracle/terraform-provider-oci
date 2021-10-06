@@ -16,14 +16,14 @@ import (
 
 var (
 	compareSecurityAssessmentRepresentation = map[string]interface{}{
-		"comparison_security_assessment_id": Representation{repType: Required, create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
-		"security_assessment_id":            Representation{repType: Required, create: `${oci_data_safe_security_assessment.test_security_assessment2.id}`},
+		"comparison_security_assessment_id": Representation{RepType: Required, Create: `${oci_data_safe_security_assessment.test_security_assessment1.id}`},
+		"security_assessment_id":            Representation{RepType: Required, Create: `${oci_data_safe_security_assessment.test_security_assessment2.id}`},
 	}
 
-	CompareSecurityAssessmentResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", Required, Create, securityAssessmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment2", Required, Create, securityAssessmentRepresentation)
+	CompareSecurityAssessmentResourceDependencies = GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment1", Required, Create, securityAssessmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment2", Required, Create, securityAssessmentRepresentation)
 )
 
 func TestDataSafeCompareSecurityAssessmentResource_basic(t *testing.T) {
@@ -38,24 +38,24 @@ func TestDataSafeCompareSecurityAssessmentResource_basic(t *testing.T) {
 	resourceName := "oci_data_safe_compare_security_assessment.test_compare_security_assessment"
 
 	var resId string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CompareSecurityAssessmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_data_safe_compare_security_assessment", "test_compare_security_assessment", Required, Create, compareSecurityAssessmentRepresentation), "datasafe", "compareSecurityAssessment", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CompareSecurityAssessmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_data_safe_compare_security_assessment", "test_compare_security_assessment", Required, Create, compareSecurityAssessmentRepresentation), "datasafe", "compareSecurityAssessment", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CompareSecurityAssessmentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_compare_security_assessment", "test_compare_security_assessment", Required, Create, compareSecurityAssessmentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_compare_security_assessment", "test_compare_security_assessment", Required, Create, compareSecurityAssessmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "comparison_security_assessment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "security_assessment_id"),
 				resource.TestCheckResourceAttr(resourceName, "summary.#", "0"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

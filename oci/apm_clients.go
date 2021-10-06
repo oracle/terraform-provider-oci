@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_apm "github.com/oracle/oci-go-sdk/v48/apmcontrolplane"
+	oci_apm "github.com/oracle/oci-go-sdk/v49/apmcontrolplane"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_apm.ApmDomainClient", &OracleClient{initClientFn: initApmcontrolplaneApmDomainClient})
+	RegisterOracleClient("oci_apm.ApmDomainClient", &OracleClient{InitClientFn: initApmcontrolplaneApmDomainClient})
 }
 
 func initApmcontrolplaneApmDomainClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

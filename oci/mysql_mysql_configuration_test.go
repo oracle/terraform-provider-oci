@@ -12,24 +12,24 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	mysqlConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"configuration_id": Representation{repType: Required, create: `${var.MysqlConfigurationOCID[var.region]}`},
+		"configuration_id": Representation{RepType: Required, Create: `${var.MysqlConfigurationOCID[var.region]}`},
 	}
 
 	mysqlConfigurationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
-		"configuration_id": Representation{repType: Optional, create: `${var.MysqlConfigurationOCID[var.region]}`},
-		"display_name":     Representation{repType: Optional, create: `VM.Standard.E2.2.Built-in`},
-		"shape_name":       Representation{repType: Optional, create: `VM.Standard.E2.2`},
-		"state":            Representation{repType: Optional, create: `ACTIVE`},
-		"type":             Representation{repType: Optional, create: []string{`DEFAULT`}},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"configuration_id": Representation{RepType: Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
+		"display_name":     Representation{RepType: Optional, Create: `VM.Standard.E2.2.Built-in`},
+		"shape_name":       Representation{RepType: Optional, Create: `VM.Standard.E2.2`},
+		"state":            Representation{RepType: Optional, Create: `ACTIVE`},
+		"type":             Representation{RepType: Optional, Create: []string{`DEFAULT`}},
 	}
 
 	MysqlConfigurationResourceConfig = MysqlConfigurationIdVariable
@@ -48,13 +48,13 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 	datasourceName := "data.oci_mysql_mysql_configurations.test_mysql_configurations"
 	singularDatasourceName := "data.oci_mysql_mysql_configuration.test_mysql_configuration"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_mysql_mysql_configurations", "test_mysql_configurations", Required, Create, mysqlConfigurationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_configurations", "test_mysql_configurations", Required, Create, mysqlConfigurationDataSourceRepresentation) +
 				compartmentIdVariableStr + MysqlConfigurationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -70,7 +70,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", Required, Create, mysqlConfigurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", Required, Create, mysqlConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + MysqlConfigurationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
@@ -84,6 +84,10 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.autocommit", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.binlog_expire_logs_seconds", "3600"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.binlog_row_metadata", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.binlog_row_value_options", "PARTIAL_JSON"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.binlog_transaction_compression", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.completion_type", ""),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.connect_timeout", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "variables.0.cte_max_recursion_depth", "0"),
@@ -140,7 +144,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("MysqlMysqlConfiguration") {
+	if !InSweeperExcludeList("MysqlMysqlConfiguration") {
 		resource.AddTestSweepers("MysqlMysqlConfiguration", &resource.Sweeper{
 			Name:         "MysqlMysqlConfiguration",
 			Dependencies: DependencyGraph["mysqlConfiguration"],
@@ -160,13 +164,13 @@ func sweepMysqlMysqlConfigurationResource(compartment string) error {
 			deleteConfigurationRequest := oci_mysql.DeleteConfigurationRequest{}
 			deleteConfigurationRequest.ConfigurationId = &mysqlConfigurationId
 
-			deleteConfigurationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "mysql")
+			deleteConfigurationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "mysql")
 			_, error := mysqlaasClient.DeleteConfiguration(context.Background(), deleteConfigurationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting MysqlConfiguration %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlConfigurationId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &mysqlConfigurationId, mysqlConfigurationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &mysqlConfigurationId, mysqlConfigurationSweepWaitCondition, time.Duration(3*time.Minute),
 				mysqlConfigurationSweepResponseFetchOperation, "mysql", true)
 		}
 	}
@@ -174,7 +178,7 @@ func sweepMysqlMysqlConfigurationResource(compartment string) error {
 }
 
 func getMysqlConfigurationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "MysqlConfigurationId")
+	ids := GetResourceIdsToSweep(compartment, "MysqlConfigurationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -193,7 +197,7 @@ func getMysqlConfigurationIds(compartment string) ([]string, error) {
 	for _, mysqlConfiguration := range listConfigurationsResponse.Items {
 		id := *mysqlConfiguration.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "MysqlConfigurationId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "MysqlConfigurationId", id)
 	}
 	return resourceIds, nil
 }

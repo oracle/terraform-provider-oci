@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_management_agent.ManagementAgentClient", &OracleClient{initClientFn: initManagementagentManagementAgentClient})
+	RegisterOracleClient("oci_management_agent.ManagementAgentClient", &OracleClient{InitClientFn: initManagementagentManagementAgentClient})
 }
 
 func initManagementagentManagementAgentClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

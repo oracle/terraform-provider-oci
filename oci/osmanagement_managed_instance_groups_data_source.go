@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v48/osmanagement"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v49/osmanagement"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func OsmanagementManagedInstanceGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOsmanagementManagedInstanceGroups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -83,7 +83,7 @@ func (s *OsmanagementManagedInstanceGroupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_osmanagement.ListManagedInstanceGroupsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "osmanagement")
 
 	response, err := s.Client.ListManagedInstanceGroups(context.Background(), request)
 	if err != nil {

@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 func init() {
@@ -190,7 +190,7 @@ func (s *IdentityIdentityProviderResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateIdentityProvider(context.Background(), request)
 	if err != nil {
@@ -207,7 +207,7 @@ func (s *IdentityIdentityProviderResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.IdentityProviderId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetIdentityProvider(context.Background(), request)
 	if err != nil {
@@ -225,7 +225,7 @@ func (s *IdentityIdentityProviderResourceCrud) Update() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateIdentityProvider(context.Background(), request)
 	if err != nil {
@@ -242,7 +242,7 @@ func (s *IdentityIdentityProviderResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.IdentityProviderId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteIdentityProvider(context.Background(), request)
 	return err
@@ -326,7 +326,7 @@ func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicCreate
 	case strings.ToLower("SAML2"):
 		details := oci_identity.CreateSaml2IdentityProviderDetails{}
 		if freeformAttributes, ok := s.D.GetOkExists("freeform_attributes"); ok {
-			details.FreeformAttributes = objectMapToStringMap(freeformAttributes.(map[string]interface{}))
+			details.FreeformAttributes = ObjectMapToStringMap(freeformAttributes.(map[string]interface{}))
 		}
 		if metadata, ok := s.D.GetOkExists("metadata"); ok {
 			tmp := metadata.(string)
@@ -352,7 +352,7 @@ func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicCreate
 			details.Description = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if name, ok := s.D.GetOkExists("name"); ok {
 			tmp := name.(string)
@@ -381,7 +381,7 @@ func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicUpdate
 	case strings.ToLower("SAML2"):
 		details := oci_identity.UpdateSaml2IdentityProviderDetails{}
 		if freeformAttributes, ok := s.D.GetOkExists("freeform_attributes"); ok {
-			details.FreeformAttributes = objectMapToStringMap(freeformAttributes.(map[string]interface{}))
+			details.FreeformAttributes = ObjectMapToStringMap(freeformAttributes.(map[string]interface{}))
 		}
 		if metadata, ok := s.D.GetOkExists("metadata"); ok {
 			tmp := metadata.(string)
@@ -403,7 +403,7 @@ func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicUpdate
 			details.Description = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.IdentityProviderId = &tmp

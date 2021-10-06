@@ -14,16 +14,16 @@ import (
 
 var (
 	nlbBackendHealthSingularDataSourceRepresentation = map[string]interface{}{
-		"backend_name":             Representation{repType: Required, create: `${oci_network_load_balancer_backend.test_backend.name}`},
-		"backend_set_name":         Representation{repType: Required, create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
-		"network_load_balancer_id": Representation{repType: Required, create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"backend_name":             Representation{RepType: Required, Create: `${oci_network_load_balancer_backend.test_backend.name}`},
+		"backend_set_name":         Representation{RepType: Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
+		"network_load_balancer_id": Representation{RepType: Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 
-	NlbBackendHealthResourceConfig = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation) +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", Required, Create, networkLoadBalancerRepresentation)
+	NlbBackendHealthResourceConfig = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", Required, Create, nlbBackendRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", Required, Create, networkLoadBalancerRepresentation)
 )
 
 // issue-routing-tag: network_load_balancer/default
@@ -42,7 +42,7 @@ func TestNetworkLoadBalancerBackendHealthResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_health", "test_backend_health", Required, Create, nlbBackendHealthSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_backend_health", "test_backend_health", Required, Create, nlbBackendHealthSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NlbBackendHealthResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_name"),

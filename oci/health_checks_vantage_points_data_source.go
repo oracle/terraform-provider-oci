@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_health_checks "github.com/oracle/oci-go-sdk/v48/healthchecks"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v49/healthchecks"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func HealthChecksVantagePointsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readHealthChecksVantagePoints,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -159,7 +159,7 @@ func (s *HealthChecksVantagePointsDataSourceCrud) Get() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "health_checks")
 
 	response, err := s.Client.ListHealthChecksVantagePoints(context.Background(), request)
 	if err != nil {

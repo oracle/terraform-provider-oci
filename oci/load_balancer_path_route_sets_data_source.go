@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v48/loadbalancer"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v49/loadbalancer"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func LoadBalancerPathRouteSetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoadBalancerPathRouteSets,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"load_balancer_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -58,7 +58,7 @@ func (s *LoadBalancerPathRouteSetsDataSourceCrud) Get() error {
 		request.LoadBalancerId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "load_balancer")
 
 	response, err := s.Client.ListPathRouteSets(context.Background(), request)
 	if err != nil {

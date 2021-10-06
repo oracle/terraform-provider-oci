@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_events "github.com/oracle/oci-go-sdk/v48/events"
+	oci_events "github.com/oracle/oci-go-sdk/v49/events"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_events.EventsClient", &OracleClient{initClientFn: initEventsEventsClient})
+	RegisterOracleClient("oci_events.EventsClient", &OracleClient{InitClientFn: initEventsEventsClient})
 }
 
 func initEventsEventsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

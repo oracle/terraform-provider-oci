@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_vault "github.com/oracle/oci-go-sdk/v48/vault"
+	oci_vault "github.com/oracle/oci-go-sdk/v49/vault"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_vault.VaultsClient", &OracleClient{initClientFn: initVaultVaultsClient})
+	RegisterOracleClient("oci_vault.VaultsClient", &OracleClient{InitClientFn: initVaultVaultsClient})
 }
 
 func initVaultVaultsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

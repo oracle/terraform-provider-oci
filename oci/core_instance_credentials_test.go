@@ -14,13 +14,13 @@ import (
 
 var (
 	instanceCredentialSingularDataSourceRepresentation = map[string]interface{}{
-		"instance_id": Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"instance_id": Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
 	}
 
-	InstanceCredentialResourceConfig = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	InstanceCredentialResourceConfig = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		OciWindowsImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -36,13 +36,13 @@ func TestCoreInstanceCredentialResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_core_instance_credentials.test_instance_credentials"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_instance_credentials", "test_instance_credentials", Required, Create, instanceCredentialSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_instance_credentials", "test_instance_credentials", Required, Create, instanceCredentialSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + InstanceCredentialResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),

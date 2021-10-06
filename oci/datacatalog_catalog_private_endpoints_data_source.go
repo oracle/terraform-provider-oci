@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v48/datacatalog"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v49/datacatalog"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DatacatalogCatalogPrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatacatalogCatalogPrivateEndpoints,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *DatacatalogCatalogPrivateEndpointsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_datacatalog.ListCatalogPrivateEndpointsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "datacatalog")
 
 	response, err := s.Client.ListCatalogPrivateEndpoints(context.Background(), request)
 	if err != nil {

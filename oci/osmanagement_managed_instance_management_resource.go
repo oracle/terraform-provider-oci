@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v48/osmanagement"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v49/osmanagement"
 )
 
 func init() {
@@ -214,7 +214,7 @@ func (s *OsmanagementManagedInstanceManagementResourceCrud) Create() error {
 		return e
 	}
 
-	// update resource response
+	// Update resource response
 	e = s.Get()
 	if e != nil {
 		return e
@@ -226,7 +226,7 @@ func (s *OsmanagementManagedInstanceManagementResourceCrud) Create() error {
 		return e
 	}
 
-	// update the resource response
+	// Update the resource response
 	e = s.Get()
 	if e != nil {
 		return e
@@ -285,7 +285,7 @@ func (s *OsmanagementManagedInstanceManagementResourceCrud) Get() error {
 		request.ManagedInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "osmanagement")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "osmanagement")
 
 	response, err := s.Client.GetManagedInstance(context.Background(), request)
 	if err != nil {
@@ -485,7 +485,7 @@ func (s *OsmanagementManagedInstanceManagementResourceCrud) createParentSoftware
 }
 
 func (s *OsmanagementManagedInstanceManagementResourceCrud) updateParentSoftwareSource(managedInstanceId *string) error {
-	// check if any update is made to parent software source
+	// check if any Update is made to parent software source
 	if _, ok := s.D.GetOkExists("parent_software_source"); ok && s.D.HasChange("parent_software_source") {
 		o, n := s.D.GetChange("parent_software_source")
 		if o == nil {
@@ -623,7 +623,7 @@ func (s *OsmanagementManagedInstanceManagementResourceCrud) createManagedInstanc
 
 		_, detachErr := s.Client.DetachManagedInstanceFromManagedInstanceGroup(context.Background(), detachManagedInstanceFromGroupRequest)
 		if detachErr != nil {
-			return fmt.Errorf("failed to detach managed instance from managed instance group request, error: %v", detachErr)
+			return fmt.Errorf("failed to detach managed instance from managed instance Group request, error: %v", detachErr)
 		}
 	}
 
@@ -638,7 +638,7 @@ func (s *OsmanagementManagedInstanceManagementResourceCrud) createManagedInstanc
 
 			_, attachErr := s.Client.AttachManagedInstanceToManagedInstanceGroup(context.Background(), attachManagedInstanceToGroupRequest)
 			if attachErr != nil {
-				return fmt.Errorf("failed to attach managed instance to  managed instance group, error: %v", attachErr)
+				return fmt.Errorf("failed to attach managed instance to  managed instance Group, error: %v", attachErr)
 			}
 		}
 	}
@@ -646,7 +646,7 @@ func (s *OsmanagementManagedInstanceManagementResourceCrud) createManagedInstanc
 }
 
 func (s *OsmanagementManagedInstanceManagementResourceCrud) updateManagedInstanceGroups(managedInstanceId *string) error {
-	// check if any update is made to managed instance groups
+	// check if any Update is made to managed instance groups
 	if _, ok := s.D.GetOkExists("managed_instance_groups"); ok && s.D.HasChange("managed_instance_groups") {
 		o, n := s.D.GetChange("managed_instance_groups")
 		if o == nil {
@@ -670,7 +670,7 @@ func (s *OsmanagementManagedInstanceManagementResourceCrud) updateManagedInstanc
 
 			_, detachErr := s.Client.DetachManagedInstanceFromManagedInstanceGroup(context.Background(), detachManagedInstanceFromGroupRequest)
 			if detachErr != nil {
-				return fmt.Errorf("failed to detach managed instance from managed instance group request, error: %v", detachErr)
+				return fmt.Errorf("failed to detach managed instance from managed instance Group request, error: %v", detachErr)
 			}
 		}
 

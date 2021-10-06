@@ -17,8 +17,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_integration "github.com/oracle/oci-go-sdk/v48/integration"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_integration "github.com/oracle/oci-go-sdk/v49/integration"
 )
 
 func init() {
@@ -31,9 +31,9 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createIntegrationIntegrationInstance,
 		Read:   readIntegrationIntegrationInstance,
@@ -142,7 +142,7 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			"idcs_at": {
 				Type:      schema.TypeString,
 				Optional:  true,
-				StateFunc: getMd5Hash,
+				StateFunc: GetMd5Hash,
 				Sensitive: true,
 			},
 			"is_file_server_enabled": {
@@ -181,7 +181,7 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
-							Set:      literalTypeHashCodeForSets,
+							Set:      LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -207,7 +207,7 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
-										Set:      literalTypeHashCodeForSets,
+										Set:      LiteralTypeHashCodeForSets,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -314,7 +314,7 @@ func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 		} else if oci_integration.IntegrationInstanceLifecycleStateInactive == oci_integration.IntegrationInstanceLifecycleStateEnum(wantedState) {
 			powerOff = true
 		} else {
-			return fmt.Errorf("[ERROR] Invalid state input for update %v", wantedState)
+			return fmt.Errorf("[ERROR] Invalid state input for Update %v", wantedState)
 		}
 	}
 
@@ -442,7 +442,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if idcsAt, ok := s.D.GetOkExists("idcs_at"); ok {
@@ -485,7 +485,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
 	response, err := s.Client.CreateIntegrationInstance(context.Background(), request)
 	if err != nil {
@@ -493,7 +493,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getIntegrationInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getIntegrationInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *IntegrationIntegrationInstanceResourceCrud) getIntegrationInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -536,7 +536,7 @@ func integrationInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(r
 
 func integrationInstanceWaitForWorkRequest(wId *string, entityType string, action oci_integration.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_integration.IntegrationInstanceClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "integration")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "integration")
 	retryPolicy.ShouldRetryOperation = integrationInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_integration.GetWorkRequestResponse{}
@@ -618,7 +618,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.IntegrationInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
 	response, err := s.Client.GetIntegrationInstance(context.Background(), request)
 	if err != nil {
@@ -684,7 +684,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -714,7 +714,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 		request.MessagePacks = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
 	response, err := s.Client.UpdateIntegrationInstance(context.Background(), request)
 	if err != nil {
@@ -722,7 +722,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getIntegrationInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getIntegrationInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *IntegrationIntegrationInstanceResourceCrud) Delete() error {
@@ -731,7 +731,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.IntegrationInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
 	response, err := s.Client.DeleteIntegrationInstance(context.Background(), request)
 	if err != nil {
@@ -941,7 +941,7 @@ func IntegNetworkEndpointDetailsToMap(obj *oci_integration.NetworkEndpointDetail
 		if datasource {
 			result["allowlisted_http_ips"] = allowlistedHttpIps
 		} else {
-			result["allowlisted_http_ips"] = schema.NewSet(literalTypeHashCodeForSets, allowlistedHttpIps)
+			result["allowlisted_http_ips"] = schema.NewSet(LiteralTypeHashCodeForSets, allowlistedHttpIps)
 		}
 
 		allowlistedHttpVcns := []interface{}{}
@@ -1000,7 +1000,7 @@ func IntegVirtualCloudNetworkToMap(obj oci_integration.VirtualCloudNetwork, data
 	if datasource {
 		result["allowlisted_ips"] = allowlistedIps
 	} else {
-		result["allowlisted_ips"] = schema.NewSet(literalTypeHashCodeForSets, allowlistedIps)
+		result["allowlisted_ips"] = schema.NewSet(LiteralTypeHashCodeForSets, allowlistedIps)
 	}
 
 	if obj.Id != nil {
@@ -1042,7 +1042,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) updateCompartment(compartme
 	idTmp := s.D.Id()
 	changeCompartmentRequest.IntegrationInstanceId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
 	response, err := s.Client.ChangeIntegrationInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -1050,7 +1050,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) updateCompartment(compartme
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getIntegrationInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getIntegrationInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *IntegrationIntegrationInstanceResourceCrud) StartIntegerationInstance() error {
@@ -1066,7 +1066,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) StartIntegerationInstance()
 
 	tmp := s.D.Id()
 	request.IntegrationInstanceId = &tmp
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
 	if _, err := s.Client.StartIntegrationInstance(context.Background(), request); err != nil {
 		return err
@@ -1089,7 +1089,7 @@ func (s *IntegrationIntegrationInstanceResourceCrud) StopIntegerationInstance() 
 
 	tmp := s.D.Id()
 	request.IntegrationInstanceId = &tmp
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "integration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
 	if _, err := s.Client.StopIntegrationInstance(context.Background(), request); err != nil {
 		return err

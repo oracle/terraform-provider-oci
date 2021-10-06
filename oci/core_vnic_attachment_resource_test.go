@@ -12,32 +12,32 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/core"
 	"github.com/stretchr/testify/suite"
 )
 
 var (
 	vnicAttachmentRepresentationVlan = map[string]interface{}{
 		"create_vnic_details": RepresentationGroup{Required, vnicAttachmentCreateVnicDetailsVlanRepresentation},
-		"instance_id":         Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`},
-		"nic_index":           Representation{repType: Optional, create: `0`},
+		"instance_id":         Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`},
+		"nic_index":           Representation{RepType: Optional, Create: `0`},
 	}
 
 	vnicAttachmentCreateVnicDetailsVlanRepresentation = map[string]interface{}{
-		"assign_public_ip": Representation{repType: Optional, create: `false`},
-		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":     Representation{repType: Optional, create: `displayName`},
-		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"vlan_id":          Representation{repType: Required, create: `${oci_core_vlan.test_vlan.id}`},
+		"assign_public_ip": Representation{RepType: Optional, Create: `false`},
+		"defined_tags":     Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":     Representation{RepType: Optional, Create: `displayName`},
+		"freeform_tags":    Representation{RepType: Optional, Create: map[string]string{"Department": "Accounting"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"vlan_id":          Representation{RepType: Required, Create: `${oci_core_vlan.test_vlan.id}`},
 	}
 
-	VnicAttachmentResourceDependenciesVlan = generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create,
-			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.1.0/30`}, vlanRepresentation)) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create,
-			representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{"dns_label": Representation{repType: Required, create: `dnslabel`}})) +
+	VnicAttachmentResourceDependenciesVlan = GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create,
+			GetUpdatedRepresentationCopy("cidr_block", Representation{RepType: Required, Create: `10.0.1.0/30`}, vlanRepresentation)) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create,
+			RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}})) +
 		AvailabilityDomainConfig
 )
 
@@ -109,7 +109,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckNoResourceAttr(s.VnicResourceName, "public_ip_address"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "false"),
 					func(ts *terraform.State) (err error) {
-						vaId, err = fromInstanceState(ts, s.ResourceName, "id")
+						vaId, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
@@ -160,7 +160,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckNoResourceAttr(s.VnicResourceName, "public_ip_address"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "true"),
 					func(ts *terraform.State) (err error) {
-						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						newId, err := FromInstanceState(ts, s.ResourceName, "id")
 						if newId != vaId {
 							return fmt.Errorf("Expected same ocid, got different.")
 						}
@@ -196,7 +196,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttr(s.VnicResourceName, "hostname_label", "myvnichostname"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
 					func(ts *terraform.State) (err error) {
-						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						newId, err := FromInstanceState(ts, s.ResourceName, "id")
 						if newId == vaId {
 							return fmt.Errorf("Expected new ocid, got the same.")
 						}
@@ -230,7 +230,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttr(s.VnicResourceName, "private_ip_address", "10.0.1.20"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
 					func(ts *terraform.State) (err error) {
-						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						newId, err := FromInstanceState(ts, s.ResourceName, "id")
 						if newId != vaId {
 							return fmt.Errorf("Expected same ocid, got different.")
 						}
@@ -240,7 +240,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 			},
 			{
 				Config: s.Config +
-					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentationVlan) +
+					GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Required, Create, vnicAttachmentRepresentationVlan) +
 					`data "oci_core_vnic" "v" {
 						vnic_id = "${oci_core_vnic_attachment.test_vnic_attachment.vnic_id}"
 					}` + VnicAttachmentResourceDependenciesVlan,
@@ -260,7 +260,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "display_name"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
 					func(ts *terraform.State) (err error) {
-						vaId, err = fromInstanceState(ts, s.VlanResourceName, "id")
+						vaId, err = FromInstanceState(ts, s.VlanResourceName, "id")
 						return err
 					},
 				),
@@ -272,7 +272,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 
 			{
 				Config: s.Config +
-					generateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentationVlan) +
+					GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", Optional, Create, vnicAttachmentRepresentationVlan) +
 					`data "oci_core_vnic" "v" {
 						vnic_id = "${oci_core_vnic_attachment.test_vnic_attachment.vnic_id}"
 					}` + VnicAttachmentResourceDependenciesVlan,
@@ -294,7 +294,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "display_name"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "skip_source_dest_check", "true"),
 					func(ts *terraform.State) (err error) {
-						vaId, err = fromInstanceState(ts, s.VlanResourceName, "id")
+						vaId, err = FromInstanceState(ts, s.VlanResourceName, "id")
 						return err
 					},
 				),

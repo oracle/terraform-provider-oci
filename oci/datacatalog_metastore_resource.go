@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v48/datacatalog"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v49/datacatalog"
 )
 
 func init() {
@@ -188,10 +188,10 @@ func (s *DatacatalogMetastoreResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.CreateMetastore(context.Background(), request)
 	if err != nil {
@@ -199,7 +199,7 @@ func (s *DatacatalogMetastoreResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getMetastoreFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getMetastoreFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
@@ -223,7 +223,7 @@ func (s *DatacatalogMetastoreResourceCrud) getMetastoreFromWorkRequest(workId *s
 
 func catalogMetastoreWaitForWorkRequest(wId *string, entityType string, action oci_datacatalog.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datacatalog.DataCatalogClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "datacatalog")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "datacatalog")
 	retryPolicy.ShouldRetryOperation = catalogMetastoreWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_datacatalog.GetWorkRequestResponse{}
@@ -327,7 +327,7 @@ func (s *DatacatalogMetastoreResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.MetastoreId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.GetMetastore(context.Background(), request)
 	if err != nil {
@@ -364,13 +364,13 @@ func (s *DatacatalogMetastoreResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.MetastoreId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.UpdateMetastore(context.Background(), request)
 	if err != nil {
@@ -387,7 +387,7 @@ func (s *DatacatalogMetastoreResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.MetastoreId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	_, err := s.Client.DeleteMetastore(context.Background(), request)
 	return err
@@ -442,7 +442,7 @@ func (s *DatacatalogMetastoreResourceCrud) updateCompartment(compartment interfa
 	idTmp := s.D.Id()
 	changeCompartmentRequest.MetastoreId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	_, err := s.Client.ChangeMetastoreCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

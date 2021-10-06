@@ -13,89 +13,89 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_bds "github.com/oracle/oci-go-sdk/v48/bds"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_bds "github.com/oracle/oci-go-sdk/v49/bds"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	BdsInstanceRequiredOnlyResource = BdsInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceRepresentation)
 
 	BdsInstanceResourceConfig = BdsInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation)
 
 	bdsInstanceSingularDataSourceRepresentation = map[string]interface{}{
-		"bds_instance_id": Representation{repType: Required, create: `${oci_bds_bds_instance.test_bds_instance.id}`},
+		"bds_instance_id": Representation{RepType: Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 	}
 
 	bdsInstanceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, bdsInstanceDataSourceFilterRepresentation}}
 	bdsInstanceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_bds_bds_instance.test_bds_instance.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_bds_bds_instance.test_bds_instance.id}`}},
 	}
 
 	bdsInstanceRepresentation = map[string]interface{}{
-		"cluster_admin_password": Representation{repType: Required, create: `V2VsY29tZTE=`},
-		"cluster_public_key":     Representation{repType: Required, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpUa4zUZKyU3AkW9yoJTBDO550wpWZOXdHswfRq75gbJ2ZYlMtifvwiO3qUL/RIZSC6e1wA5OL2LQ97UaHrLLPXgjvKGVIDRHqPkzTOayjJ4ZA7NPNhcu6f/OxhKkCYF3TAQObhMJmUSMrWSUeufaRIujDz1HHqazxOgFk09fj4i2dcGnfPcm32t8a9MzlsHSmgexYCUwxGisuuWTsnMgxbqsj6DaY51l+SEPi5tf10iFmUWqziF0eKDDQ/jHkwLJ8wgBJef9FSOmwJReHcBY+NviwFTatGj7Cwtnks6CVomsFD+rAMJ9uzM8SCv5agYunx07hnEXbR9r/TXqgXGfN bdsclusterkey@oracleoci.com`},
-		"cluster_version":        Representation{repType: Required, create: `CDH6`},
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":           Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"is_high_availability":   Representation{repType: Required, create: `false`},
-		"is_secure":              Representation{repType: Required, create: `false`},
+		"cluster_admin_password": Representation{RepType: Required, Create: `V2VsY29tZTE=`},
+		"cluster_public_key":     Representation{RepType: Required, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpUa4zUZKyU3AkW9yoJTBDO550wpWZOXdHswfRq75gbJ2ZYlMtifvwiO3qUL/RIZSC6e1wA5OL2LQ97UaHrLLPXgjvKGVIDRHqPkzTOayjJ4ZA7NPNhcu6f/OxhKkCYF3TAQObhMJmUSMrWSUeufaRIujDz1HHqazxOgFk09fj4i2dcGnfPcm32t8a9MzlsHSmgexYCUwxGisuuWTsnMgxbqsj6DaY51l+SEPi5tf10iFmUWqziF0eKDDQ/jHkwLJ8wgBJef9FSOmwJReHcBY+NviwFTatGj7Cwtnks6CVomsFD+rAMJ9uzM8SCv5agYunx07hnEXbR9r/TXqgXGfN bdsclusterkey@oracleoci.com`},
+		"cluster_version":        Representation{RepType: Required, Create: `CDH6`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":           Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"is_high_availability":   Representation{RepType: Required, Create: `false`},
+		"is_secure":              Representation{RepType: Required, Create: `false`},
 		"master_node":            RepresentationGroup{Required, bdsInstanceNodesMasterRepresentation},
 		"util_node":              RepresentationGroup{Required, bdsInstanceNodesUtilRepresentation},
 		"worker_node":            RepresentationGroup{Required, bdsInstanceNodesWorkerRepresentation},
 
-		"is_cloud_sql_configured": Representation{repType: Optional, create: `false`},
+		"is_cloud_sql_configured": Representation{RepType: Optional, Create: `false`},
 		//"cloud_sql_details":       RepresentationGroup{Optional, bdsInstanceNodesCloudSqlRepresentation}, // capacity issue
 
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_config": RepresentationGroup{Optional, bdsInstanceNetworkConfigRepresentation},
 	}
 
 	bdsInstanceNodesCloudSqlRepresentation = map[string]interface{}{
-		"shape":                    Representation{repType: Required, create: `VM.Standard2.4`, update: `VM.Standard2.8`},
-		"block_volume_size_in_gbs": Representation{repType: Required, create: `1000`},
+		"shape":                    Representation{RepType: Required, Create: `VM.Standard2.4`, Update: `VM.Standard2.8`},
+		"block_volume_size_in_gbs": Representation{RepType: Required, Create: `1000`},
 	}
 
 	bdsInstanceNodesMasterRepresentation = map[string]interface{}{
-		"shape":                    Representation{repType: Required, create: `VM.Standard2.4`, update: `VM.Standard2.8`},
-		"subnet_id":                Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"block_volume_size_in_gbs": Representation{repType: Required, create: `150`},
-		"number_of_nodes":          Representation{repType: Required, create: `1`},
+		"shape":                    Representation{RepType: Required, Create: `VM.Standard2.4`, Update: `VM.Standard2.8`},
+		"subnet_id":                Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"block_volume_size_in_gbs": Representation{RepType: Required, Create: `150`},
+		"number_of_nodes":          Representation{RepType: Required, Create: `1`},
 	}
 	bdsInstanceNodesUtilRepresentation = map[string]interface{}{
-		"shape":                    Representation{repType: Required, create: `VM.Standard2.4`, update: `VM.Standard2.8`},
-		"subnet_id":                Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"block_volume_size_in_gbs": Representation{repType: Required, create: `150`},
-		"number_of_nodes":          Representation{repType: Required, create: `1`},
+		"shape":                    Representation{RepType: Required, Create: `VM.Standard2.4`, Update: `VM.Standard2.8`},
+		"subnet_id":                Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"block_volume_size_in_gbs": Representation{RepType: Required, Create: `150`},
+		"number_of_nodes":          Representation{RepType: Required, Create: `1`},
 	}
 	bdsInstanceNodesWorkerRepresentation = map[string]interface{}{
-		"shape":                    Representation{repType: Required, create: `VM.Standard2.1`, update: `VM.Standard2.4`},
-		"subnet_id":                Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"block_volume_size_in_gbs": Representation{repType: Required, create: `150`},
-		"number_of_nodes":          Representation{repType: Required, create: `3`, update: `4`},
+		"shape":                    Representation{RepType: Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.4`},
+		"subnet_id":                Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"block_volume_size_in_gbs": Representation{RepType: Required, Create: `150`},
+		"number_of_nodes":          Representation{RepType: Required, Create: `3`, Update: `4`},
 	}
 	bdsInstanceNetworkConfigRepresentation = map[string]interface{}{
-		"cidr_block":              Representation{repType: Optional, create: `111.112.0.0/16`},
-		"is_nat_gateway_required": Representation{repType: Optional, create: `false`},
+		"cidr_block":              Representation{RepType: Optional, Create: `111.112.0.0/16`},
+		"is_nat_gateway_required": Representation{RepType: Optional, Create: `false`},
 	}
 
-	BdsInstanceResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create,
-		getMultipleUpdatedRepresenationCopy(
+	BdsInstanceResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create,
+		GetMultipleUpdatedRepresenationCopy(
 			[]string{"cidr_block", "dns_label"},
-			[]interface{}{Representation{repType: Required, create: `111.111.0.0/24`}, Representation{repType: Required, create: `bdssubnet`}},
+			[]interface{}{Representation{RepType: Required, Create: `111.111.0.0/24`}, Representation{RepType: Required, Create: `bdssubnet`}},
 			subnetRegionalRepresentation)) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, getMultipleUpdatedRepresenationCopy(
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, GetMultipleUpdatedRepresenationCopy(
 			[]string{"cidr_block", "dns_label"},
-			[]interface{}{Representation{repType: Required, create: `111.111.0.0/16`}, Representation{repType: Required, create: `bdsvcn`}},
+			[]interface{}{Representation{RepType: Required, Create: `111.111.0.0/16`}, Representation{RepType: Required, Create: `bdsvcn`}},
 			vcnRepresentation)) +
 		DefinedTagsDependencies
 )
@@ -118,15 +118,15 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_bds_bds_instance.test_bds_instance"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+BdsInstanceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create, bdsInstanceRepresentation), "bds", "bdsInstance", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+BdsInstanceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create, bdsInstanceRepresentation), "bds", "bdsInstance", t)
 
 	ResourceTest(t, testAccCheckBdsBdsInstanceDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
@@ -140,20 +140,20 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create, bdsInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create, bdsInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
@@ -182,9 +182,9 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -193,12 +193,12 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + BdsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create,
-					representationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Create,
+					RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
@@ -229,7 +229,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -241,7 +241,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + BdsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
@@ -274,7 +274,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard2.8"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -285,9 +285,9 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", Optional, Update, bdsInstanceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", Optional, Update, bdsInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr + BdsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Optional, Update, bdsInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -311,7 +311,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", Required, Create, bdsInstanceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + BdsInstanceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
@@ -382,7 +382,7 @@ func testAccCheckBdsBdsInstanceDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.BdsInstanceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "bds")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "bds")
 
 			response, err := client.GetBdsInstance(context.Background(), request)
 
@@ -415,7 +415,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("BdsBdsInstance") {
+	if !InSweeperExcludeList("BdsBdsInstance") {
 		resource.AddTestSweepers("BdsBdsInstance", &resource.Sweeper{
 			Name:         "BdsBdsInstance",
 			Dependencies: DependencyGraph["bdsInstance"],
@@ -436,13 +436,13 @@ func sweepBdsBdsInstanceResource(compartment string) error {
 
 			deleteBdsInstanceRequest.BdsInstanceId = &bdsInstanceId
 
-			deleteBdsInstanceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "bds")
+			deleteBdsInstanceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "bds")
 			_, error := bdsClient.DeleteBdsInstance(context.Background(), deleteBdsInstanceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting BdsInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", bdsInstanceId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &bdsInstanceId, bdsInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &bdsInstanceId, bdsInstanceSweepWaitCondition, time.Duration(3*time.Minute),
 				bdsInstanceSweepResponseFetchOperation, "bds", true)
 		}
 	}
@@ -450,7 +450,7 @@ func sweepBdsBdsInstanceResource(compartment string) error {
 }
 
 func getBdsInstanceIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "BdsInstanceId")
+	ids := GetResourceIdsToSweep(compartment, "BdsInstanceId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -469,7 +469,7 @@ func getBdsInstanceIds(compartment string) ([]string, error) {
 	for _, bdsInstance := range listBdsInstancesResponse.Items {
 		id := *bdsInstance.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "BdsInstanceId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "BdsInstanceId", id)
 	}
 	return resourceIds, nil
 }

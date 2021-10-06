@@ -14,7 +14,7 @@ import (
 
 var (
 	costTrackingTagDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	CostTrackingTagResourceConfig = ""
@@ -32,13 +32,13 @@ func TestIdentityCostTrackingTagResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_identity_cost_tracking_tags.test_cost_tracking_tags"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_identity_cost_tracking_tags", "test_cost_tracking_tags", Required, Create, costTrackingTagDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_identity_cost_tracking_tags", "test_cost_tracking_tags", Required, Create, costTrackingTagDataSourceRepresentation) +
 				compartmentIdVariableStr + CostTrackingTagResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

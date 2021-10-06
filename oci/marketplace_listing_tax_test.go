@@ -14,11 +14,11 @@ import (
 
 var (
 	listingTaxDataSourceRepresentation = map[string]interface{}{
-		"listing_id":     Representation{repType: Required, create: `${data.oci_marketplace_listings.test_listings.listings.0.id}`},
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"listing_id":     Representation{RepType: Required, Create: `${data.oci_marketplace_listings.test_listings.listings.0.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
-	ListingTaxResourceConfig = generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation)
+	ListingTaxResourceConfig = GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation)
 )
 
 // issue-routing-tag: marketplace/default
@@ -33,13 +33,13 @@ func TestMarketplaceListingTaxResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_marketplace_listing_taxes.test_listing_taxes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_listing_taxes", "test_listing_taxes", Required, Create, listingTaxDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_taxes", "test_listing_taxes", Required, Create, listingTaxDataSourceRepresentation) +
 				compartmentIdVariableStr + ListingTaxResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

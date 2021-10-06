@@ -19,11 +19,11 @@ import (
 
 var (
 	stackTfStateSingularDataSourceRepresentation = map[string]interface{}{
-		"stack_id":   Representation{repType: Required, create: `${var.resource_manager_stack_id}`},
-		"local_path": Representation{repType: Required, create: `test.tfstate`},
+		"stack_id":   Representation{RepType: Required, Create: `${var.resource_manager_stack_id}`},
+		"local_path": Representation{RepType: Required, Create: `test.tfstate`},
 	}
 
-	StackTfStateResourceConfig = generateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation)
+	StackTfStateResourceConfig = GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation)
 )
 
 // issue-routing-tag: resourcemanager/default
@@ -45,12 +45,12 @@ func TestResourcemanagerStackTfStateResource_basic(t *testing.T) {
 
 	resourceManagerStackId, err := createResourceManagerStack(*client, "TestResourcemanagerStackTfStateResource_basic", compartmentId)
 	if err != nil {
-		t.Errorf("cannot create resource manager stack for the test run: %v", err)
+		t.Errorf("cannot Create resource manager stack for the test run: %v", err)
 	}
 
 	singularDatasourceName := "data.oci_resourcemanager_stack_tf_state.test_stack_tf_state"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -68,7 +68,7 @@ func TestResourcemanagerStackTfStateResource_basic(t *testing.T) {
 				Config: config + `
 					variable "resource_manager_stack_id" { default = "` + resourceManagerStackId + `" }
 					` +
-					generateDataSourceFromRepresentationMap("oci_resourcemanager_stack_tf_state", "test_stack_tf_state", Required, Create, stackTfStateSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_resourcemanager_stack_tf_state", "test_stack_tf_state", Required, Create, stackTfStateSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + StackTfStateResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "stack_id"),

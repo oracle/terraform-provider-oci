@@ -9,7 +9,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ons "github.com/oracle/oci-go-sdk/v48/ons"
+	oci_ons "github.com/oracle/oci-go-sdk/v49/ons"
 )
 
 func init() {
@@ -20,7 +20,7 @@ func OnsSubscriptionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOnsSubscriptions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -69,7 +69,7 @@ func (s *OnsSubscriptionsDataSourceCrud) Get() error {
 		request.TopicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "ons")
 
 	response, err := s.Client.ListSubscriptions(context.Background(), request)
 	if err != nil {

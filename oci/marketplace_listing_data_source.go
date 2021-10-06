@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v48/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v49/marketplace"
 )
 
 func init() {
@@ -515,7 +515,7 @@ func (s *MarketplaceListingDataSourceCrud) Get() error {
 		request.ListingId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "marketplace")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
 
 	response, err := s.Client.GetListing(context.Background(), request)
 	if err != nil {

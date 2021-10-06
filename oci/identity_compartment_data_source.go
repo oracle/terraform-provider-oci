@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 func init() {
@@ -94,7 +94,7 @@ func (s *IdentityCompartmentDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetCompartment(context.Background(), request)
 	if err != nil {

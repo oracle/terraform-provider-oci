@@ -12,21 +12,21 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	byoipRangeSingularDataSourceRepresentation = map[string]interface{}{
-		"byoip_range_id": Representation{repType: Required, create: `${var.byoip_range_id}`},
+		"byoip_range_id": Representation{RepType: Required, Create: `${var.byoip_range_id}`},
 	}
 
 	byoipRangeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
 	ByoipRangeResourceConfig = byoipRangeIdVariableStr
@@ -45,13 +45,13 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_byoip_ranges.test_byoip_ranges"
 	singularDatasourceName := "data.oci_core_byoip_range.test_byoip_range"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_byoip_ranges", "test_byoip_ranges", Required, Create, byoipRangeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_byoip_ranges", "test_byoip_ranges", Required, Create, byoipRangeDataSourceRepresentation) +
 				compartmentIdVariableStr + ByoipRangeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -62,7 +62,7 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", Required, Create, byoipRangeSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_byoip_range", "test_byoip_range", Required, Create, byoipRangeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ByoipRangeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "byoip_range_id"),
@@ -82,7 +82,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreByoipRange") {
+	if !InSweeperExcludeList("CoreByoipRange") {
 		resource.AddTestSweepers("CoreByoipRange", &resource.Sweeper{
 			Name:         "CoreByoipRange",
 			Dependencies: DependencyGraph["byoipRange"],
@@ -103,13 +103,13 @@ func sweepCoreByoipRangeResource(compartment string) error {
 
 			deleteByoipRangeRequest.ByoipRangeId = &byoipRangeId
 
-			deleteByoipRangeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteByoipRangeRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteByoipRange(context.Background(), deleteByoipRangeRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ByoipRange %s %s, It is possible that the resource is already deleted. Please verify manually \n", byoipRangeId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &byoipRangeId, byoipRangeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &byoipRangeId, byoipRangeSweepWaitCondition, time.Duration(3*time.Minute),
 				byoipRangeSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -117,7 +117,7 @@ func sweepCoreByoipRangeResource(compartment string) error {
 }
 
 func getByoipRangeIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ByoipRangeId")
+	ids := GetResourceIdsToSweep(compartment, "ByoipRangeId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -137,7 +137,7 @@ func getByoipRangeIds(compartment string) ([]string, error) {
 	for _, byoipRange := range listByoipRangesResponse.Items {
 		id := *byoipRange.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ByoipRangeId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ByoipRangeId", id)
 	}
 	return resourceIds, nil
 }

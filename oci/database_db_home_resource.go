@@ -7,17 +7,18 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -30,9 +31,9 @@ func DatabaseDbHomeResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("12h"),
-			Update: getTimeoutDuration("2h"),
-			Delete: getTimeoutDuration("2h"),
+			Create: GetTimeoutDuration("12h"),
+			Update: GetTimeoutDuration("2h"),
+			Delete: GetTimeoutDuration("2h"),
 		},
 		Create: createDatabaseDbHome,
 		Read:   readDatabaseDbHome,
@@ -192,7 +193,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
+							DiffSuppressFunc: TimeDiffSuppressFunction,
 						},
 
 						// Computed
@@ -448,7 +449,7 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 	// The underlying db system or vm cluster may be in an updating state. So keep retrying the CreateDbHome.
 	createDbHomeRetryDurationFn := getDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutCreate))
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", createDbHomeRetryDurationFn)
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database", createDbHomeRetryDurationFn)
 
 	response, err := s.Client.CreateDbHome(context.Background(), request)
 	if err != nil {
@@ -479,7 +480,7 @@ func (s *DatabaseDbHomeResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DbHomeId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetDbHome(context.Background(), request)
 	if err != nil {
@@ -511,9 +512,9 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		updateDbHomeRequest.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		updateDbHomeRequest.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
-	updateDbHomeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	updateDbHomeRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	if oneOffPatches, ok := s.D.GetOkExists("one_off_patches"); ok {
 		interfaces := oneOffPatches.([]interface{})
@@ -545,7 +546,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	if s.Database == nil || s.Database.Id == nil {
 		err := s.getDatabaseInfo()
 		if err != nil {
-			return fmt.Errorf("could not perform an update as we could not get the databaseId in the dbHome: %v", err)
+			return fmt.Errorf("could not perform an Update as we could not get the databaseId in the dbHome: %v", err)
 		}
 	}
 
@@ -564,7 +565,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
 	if err != nil {
 		return err
@@ -590,7 +591,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 		if err != nil {
 			log.Printf("[ERROR] error setting data after polling error on database: %v", err)
 		}
-		return fmt.Errorf("[ERROR] unable to get database after the update: %v", err)
+		return fmt.Errorf("[ERROR] unable to get database after the Update: %v", err)
 	}
 
 	s.Database = &getDatabaseResponse.Database
@@ -612,7 +613,7 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 	// Special override to ensure that DeleteDbHome retries for the duration of the Terraform configured Create timeout
 	// The underlying db system or vm cluster may be in an updating state. So keep retrying it.
 	deleteDbHomeRetryDurationFn := getDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database", deleteDbHomeRetryDurationFn)
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database", deleteDbHomeRetryDurationFn)
 
 	dbErr := s.deleteNestedDB()
 	if dbErr != nil {
@@ -757,7 +758,7 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
@@ -1011,7 +1012,7 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
@@ -1095,7 +1096,7 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
@@ -1146,7 +1147,7 @@ func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
 	listDBRequest.DbHomeId = &dbHomeIdStr
 	listDBRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
 	listDBRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
-	listDBRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	listDBRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 	listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDBRequest)
 	if err != nil {
 		return err
@@ -1174,7 +1175,7 @@ func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
 		request.PerformFinalBackup = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DeleteDatabase(context.Background(), request)
 
@@ -1196,7 +1197,7 @@ func (s *DatabaseDbHomeResourceCrud) getDatabaseInfo() error {
 	listDatabasesRequest.DbHomeId = s.Res.Id
 	listDatabasesRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
 	listDatabasesRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
-	listDatabasesRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	listDatabasesRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 	listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDatabasesRequest)
 	if err != nil {
 		return err
@@ -1209,7 +1210,7 @@ func (s *DatabaseDbHomeResourceCrud) getDatabaseInfo() error {
 
 	getDatabaseRequest := oci_database.GetDatabaseRequest{}
 	getDatabaseRequest.DatabaseId = databaseId
-	getDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	getDatabaseRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database")
 	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
 	if err != nil {
 		return err
@@ -1333,7 +1334,7 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat s
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "admin_password")) {
@@ -1402,8 +1403,13 @@ func getDbHomeRetryDurationFunction(retryTimeout time.Duration) expectedRetryDur
 		if response.Response == nil || response.Response.HTTPResponse() == nil {
 			return defaultRetryTime
 		}
+		e := response.Error
 		switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 		case 409:
+			if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+				log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
+				return 0
+			}
 			if e := response.Error; e != nil {
 				if strings.Contains(e.Error(), "IncorrectState") {
 					defaultRetryTime = retryTimeout

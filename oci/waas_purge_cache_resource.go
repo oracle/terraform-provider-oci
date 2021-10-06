@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 )
 
 func init() {
@@ -18,9 +18,9 @@ func init() {
 func WaasPurgeCacheResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("1h"),
-			Update: getTimeoutDuration("1h"),
-			Delete: getTimeoutDuration("1h"),
+			Create: GetTimeoutDuration("1h"),
+			Update: GetTimeoutDuration("1h"),
+			Delete: GetTimeoutDuration("1h"),
 		},
 		Create: createWaasPurgeCache,
 		Read:   readWaasPurgeCache,
@@ -97,7 +97,7 @@ func (s *WaasPurgeCacheResourceCrud) Create() error {
 		request.WaasPolicyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.PurgeCache(context.Background(), request)
 	if err != nil {

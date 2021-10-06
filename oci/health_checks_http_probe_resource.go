@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_health_checks "github.com/oracle/oci-go-sdk/v48/healthchecks"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v49/healthchecks"
 )
 
 func init() {
@@ -140,7 +140,7 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 	}
 
 	if headers, ok := s.D.GetOkExists("headers"); ok {
-		request.Headers = objectMapToStringMap(headers.(map[string]interface{}))
+		request.Headers = ObjectMapToStringMap(headers.(map[string]interface{}))
 	}
 
 	if method, ok := s.D.GetOkExists("method"); ok {
@@ -193,7 +193,7 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 
 	response, err := s.Client.CreateOnDemandHttpProbe(context.Background(), request)
 	if err != nil {

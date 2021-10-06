@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v49/functions"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func FunctionsApplicationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFunctionsApplications,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *FunctionsApplicationsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_functions.ApplicationLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "functions")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "functions")
 
 	response, err := s.Client.ListApplications(context.Background(), request)
 	if err != nil {

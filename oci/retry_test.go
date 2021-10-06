@@ -15,7 +15,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/oracle/oci-go-sdk/v48/common"
+	"github.com/oracle/oci-go-sdk/v49/common"
 )
 
 type TestOCIResponse struct {
@@ -43,7 +43,7 @@ func (response TestOCIResponse) HTTPResponse() *http.Response {
 }
 
 func retryLoop(t *testing.T, r *retryTestInput) {
-	retryPolicy := getRetryPolicy(r.disableNotFoundRetries, r.serviceName, r.optionals...)
+	retryPolicy := GetRetryPolicy(r.disableNotFoundRetries, r.serviceName, r.optionals...)
 	startTime := time.Now()
 
 	for i := uint(1); true; i++ {

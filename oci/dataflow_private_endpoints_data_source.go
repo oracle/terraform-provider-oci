@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v48/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v49/dataflow"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DataflowPrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataflowPrivateEndpoints,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -102,7 +102,7 @@ func (s *DataflowPrivateEndpointsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_dataflow.ListPrivateEndpointsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataflow")
 
 	response, err := s.Client.ListPrivateEndpoints(context.Background(), request)
 	if err != nil {

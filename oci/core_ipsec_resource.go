@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -213,7 +213,7 @@ func (s *CoreIpSecConnectionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.StaticRoutes = []string{}
@@ -228,7 +228,7 @@ func (s *CoreIpSecConnectionResourceCrud) Create() error {
 		request.StaticRoutes = tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateIPSecConnection(context.Background(), request)
 	if err != nil {
@@ -245,7 +245,7 @@ func (s *CoreIpSecConnectionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.IpscId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetIPSecConnection(context.Background(), request)
 	if err != nil {
@@ -291,7 +291,7 @@ func (s *CoreIpSecConnectionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -309,7 +309,7 @@ func (s *CoreIpSecConnectionResourceCrud) Update() error {
 		request.StaticRoutes = tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateIPSecConnection(context.Background(), request)
 	if err != nil {
@@ -326,7 +326,7 @@ func (s *CoreIpSecConnectionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.IpscId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteIPSecConnection(context.Background(), request)
 	return err
@@ -381,7 +381,7 @@ func (s *CoreIpSecConnectionResourceCrud) updateCompartment(compartment interfac
 	tmp := s.D.Id()
 	changeCompartmentRequest.IpscId = &tmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeIPSecConnectionCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

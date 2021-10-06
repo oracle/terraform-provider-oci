@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v48/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v49/blockchain"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func BlockchainPeersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBlockchainPeers,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"blockchain_platform_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -76,7 +76,7 @@ func (s *BlockchainPeersDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "blockchain")
 
 	response, err := s.Client.ListPeers(context.Background(), request)
 	if err != nil {

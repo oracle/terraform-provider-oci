@@ -4,17 +4,17 @@
 package oci
 
 import (
-	oci_mysql "github.com/oracle/oci-go-sdk/v48/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v49/mysql"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_mysql.ChannelsClient", &OracleClient{initClientFn: initMysqlChannelsClient})
-	RegisterOracleClient("oci_mysql.DbBackupsClient", &OracleClient{initClientFn: initMysqlDbBackupsClient})
-	RegisterOracleClient("oci_mysql.DbSystemClient", &OracleClient{initClientFn: initMysqlDbSystemClient})
-	RegisterOracleClient("oci_mysql.WorkRequestsClient", &OracleClient{initClientFn: initMysqlWorkRequestsClient})
-	RegisterOracleClient("oci_mysql.MysqlaasClient", &OracleClient{initClientFn: initMysqlMysqlaasClient})
+	RegisterOracleClient("oci_mysql.ChannelsClient", &OracleClient{InitClientFn: initMysqlChannelsClient})
+	RegisterOracleClient("oci_mysql.DbBackupsClient", &OracleClient{InitClientFn: initMysqlDbBackupsClient})
+	RegisterOracleClient("oci_mysql.DbSystemClient", &OracleClient{InitClientFn: initMysqlDbSystemClient})
+	RegisterOracleClient("oci_mysql.WorkRequestsClient", &OracleClient{InitClientFn: initMysqlWorkRequestsClient})
+	RegisterOracleClient("oci_mysql.MysqlaasClient", &OracleClient{InitClientFn: initMysqlMysqlaasClient})
 }
 
 func initMysqlChannelsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

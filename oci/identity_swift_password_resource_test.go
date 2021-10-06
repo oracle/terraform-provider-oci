@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -24,7 +24,7 @@ type ResourceIdentitySwiftPasswordTestSuite struct {
 }
 
 func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
-	_, tokenFn := tokenizeWithHttpReplay("swiff_pass_resource")
+	_, tokenFn := TokenizeWithHttpReplay("swiff_pass_resource")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
@@ -47,7 +47,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config + `
 				resource "oci_identity_swift_password" "t" {
@@ -62,12 +62,12 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.SwiftPasswordLifecycleStateActive)),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_identity_swift_password.t", "id")
+						resId, err = FromInstanceState(s, "oci_identity_swift_password.t", "id")
 						return err
 					},
 				),
 			},
-			// verify update
+			// verify Update
 			{
 				Config: s.Config + `
 				resource "oci_identity_swift_password" "t" {
@@ -82,7 +82,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.SwiftPasswordLifecycleStateActive)),
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_identity_swift_password.t", "id")
+						resId2, err = FromInstanceState(s, "oci_identity_swift_password.t", "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource was recreated when it should not have been")
 						}
@@ -105,7 +105,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.SwiftPasswordLifecycleStateActive)),
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, "oci_identity_swift_password.t", "id")
+						resId2, err = FromInstanceState(s, "oci_identity_swift_password.t", "id")
 						if resId == resId2 {
 							return fmt.Errorf("resource was updated when it should have been ForceNew")
 						}

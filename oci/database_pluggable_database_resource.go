@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -207,7 +207,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if pdbAdminPassword, ok := s.D.GetOkExists("pdb_admin_password"); ok {
@@ -225,7 +225,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Create() error {
 		request.TdeWalletPassword = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreatePluggableDatabase(context.Background(), request)
 	if err != nil {
@@ -242,7 +242,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.PluggableDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetPluggableDatabase(context.Background(), request)
 	if err != nil {
@@ -265,13 +265,13 @@ func (s *DatabasePluggableDatabaseResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.PluggableDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdatePluggableDatabase(context.Background(), request)
 	if err != nil {
@@ -288,7 +288,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.PluggableDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeletePluggableDatabase(context.Background(), request)
 	return err

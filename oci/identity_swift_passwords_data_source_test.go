@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -22,7 +22,7 @@ type DatasourceIdentitySwiftPasswordsTestSuite struct {
 }
 
 func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
-	_, tokenFn := tokenizeWithHttpReplay("swiff_pass_data_source")
+	_, tokenFn := TokenizeWithHttpReplay("swiff_pass_data_source")
 
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())

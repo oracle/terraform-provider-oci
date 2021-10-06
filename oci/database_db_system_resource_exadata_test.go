@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/oracle/oci-go-sdk/v48/database"
+	"github.com/oracle/oci-go-sdk/v49/database"
 )
 
 // TestAccResourceDatabaseDBSystem_Exadata tests DBsystems using Exadata
@@ -33,7 +33,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: ResourceDatabaseBaseConfig + `
 				data "oci_identity_availability_domain" "ad" {
@@ -155,7 +155,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
 				),
 			},
-			// verify update
+			// verify Update
 			{
 				Config: ResourceDatabaseBaseConfig + `
 				data "oci_identity_availability_domain" "ad" {
@@ -300,7 +300,7 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 				),
 			},
-			// verify removing nsgIds and backupNsgIds trigger update
+			// verify removing nsgIds and backupNsgIds trigger Update
 			{
 				Config: ResourceDatabaseBaseConfig + `
 				data "oci_identity_availability_domain" "ad" {

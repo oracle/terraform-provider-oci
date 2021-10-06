@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 )
 
 func init() {
@@ -75,7 +75,7 @@ func DataSafeDataSafePrivateEndpointResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -208,7 +208,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -240,7 +240,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Create() error {
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.CreateDataSafePrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -248,7 +248,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSafePrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDataSafePrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeDataSafePrivateEndpointResourceCrud) getDataSafePrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -292,7 +292,7 @@ func dataSafePrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) fu
 
 func dataSafePrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "data_safe")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = dataSafePrivateEndpointWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}
@@ -371,7 +371,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DataSafePrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.GetDataSafePrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -416,7 +416,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -433,7 +433,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.UpdateDataSafePrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -441,7 +441,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSafePrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDataSafePrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataSafeDataSafePrivateEndpointResourceCrud) Delete() error {
@@ -450,7 +450,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DataSafePrivateEndpointId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.DeleteDataSafePrivateEndpoint(context.Background(), request)
 	if err != nil {
@@ -491,7 +491,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.PrivateEndpointId != nil {
 		s.D.Set("private_endpoint_id", *s.Res.PrivateEndpointId)
@@ -531,7 +531,7 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) updateCompartment(compartm
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DataSafePrivateEndpointId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.ChangeDataSafePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -539,5 +539,5 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) updateCompartment(compartm
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSafePrivateEndpointFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "datasafeprivateendpoints"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDataSafePrivateEndpointFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "datasafeprivateendpoints"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -14,20 +14,20 @@ import (
 
 var (
 	recommendationStrategySingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Required, create: `true`},
-		"name":                      Representation{repType: Required, create: `name`},
-		"recommendation_name":       Representation{repType: Required, create: `${oci_optimizer_recommendation.test_recommendation.name}`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Required, Create: `true`},
+		"name":                      Representation{RepType: Required, Create: `name`},
+		"recommendation_name":       Representation{RepType: Required, Create: `${oci_optimizer_recommendation.test_recommendation.name}`},
 	}
 
 	recommendationStrategyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"compartment_id_in_subtree": Representation{repType: Required, create: `true`},
-		"name":                      Representation{repType: Required, create: `name`},
-		"recommendation_name":       Representation{repType: Required, create: `${oci_optimizer_recommendation.test_recommendation.name}`},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Required, Create: `true`},
+		"name":                      Representation{RepType: Required, Create: `name`},
+		"recommendation_name":       Representation{RepType: Required, Create: `${oci_optimizer_recommendation.test_recommendation.name}`},
 	}
 
-	RecommendationStrategyResourceConfig = RecommendationResourceDependencies + generateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation)
+	RecommendationStrategyResourceConfig = RecommendationResourceDependencies + GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", Required, Create, recommendationRepresentation)
 )
 
 // issue-routing-tag: optimizer/default
@@ -43,13 +43,13 @@ func TestOptimizerRecommendationStrategyResource_basic(t *testing.T) {
 	datasourceName := "data.oci_optimizer_recommendation_strategies.test_recommendation_strategies"
 	singularDatasourceName := "data.oci_optimizer_recommendation_strategy.test_recommendation_strategy"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategies", "test_recommendation_strategies", Required, Create, recommendationStrategyDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategies", "test_recommendation_strategies", Required, Create, recommendationStrategyDataSourceRepresentation) +
 				compartmentIdVariableStr + RecommendationStrategyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -64,7 +64,7 @@ func TestOptimizerRecommendationStrategyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategy", "test_recommendation_strategy", Required, Create, recommendationStrategySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_recommendation_strategy", "test_recommendation_strategy", Required, Create, recommendationStrategySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + RecommendationStrategyResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

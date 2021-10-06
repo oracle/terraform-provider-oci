@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v48/dataflow"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v49/dataflow"
 )
 
 func init() {
@@ -21,7 +21,7 @@ func DataflowInvokeRunsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataflowInvokeRuns,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"application_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -117,7 +117,7 @@ func (s *DataflowInvokeRunsDataSourceCrud) Get() error {
 		request.TimeCreatedGreaterThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataflow")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataflow")
 
 	response, err := s.Client.ListRuns(context.Background(), request)
 	if err != nil {

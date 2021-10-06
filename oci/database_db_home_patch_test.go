@@ -14,7 +14,7 @@ import (
 
 var (
 	dbHomePatchDataSourceRepresentation = map[string]interface{}{
-		"db_home_id": Representation{repType: Required, create: `${data.oci_database_db_homes.t.db_homes.0.db_home_id}`},
+		"db_home_id": Representation{RepType: Required, Create: `${data.oci_database_db_homes.t.db_homes.0.db_home_id}`},
 	}
 
 	DbHomePatchResourceConfig = DbSystemResourceConfig
@@ -32,13 +32,13 @@ func TestDatabaseDbHomePatchResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_db_home_patches.test_db_home_patches"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_db_home_patches", "test_db_home_patches", Required, Create, dbHomePatchDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_home_patches", "test_db_home_patches", Required, Create, dbHomePatchDataSourceRepresentation) +
 				compartmentIdVariableStr + DbHomePatchResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),

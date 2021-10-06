@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_logging "github.com/oracle/oci-go-sdk/v48/logging"
+	oci_logging "github.com/oracle/oci-go-sdk/v49/logging"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_logging.LoggingManagementClient", &OracleClient{initClientFn: initLoggingLoggingManagementClient})
+	RegisterOracleClient("oci_logging.LoggingManagementClient", &OracleClient{InitClientFn: initLoggingLoggingManagementClient})
 }
 
 func initLoggingLoggingManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

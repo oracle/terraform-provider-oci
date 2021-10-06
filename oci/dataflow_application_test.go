@@ -13,61 +13,61 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v48/dataflow"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v49/dataflow"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DataFlowApplicationRequiredOnlyResource = dataFlowApplicationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationRepresentation)
 
 	DataFlowApplicationResourceConfig = dataFlowApplicationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, dataFlowApplicationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, dataFlowApplicationRepresentation)
 
 	dataFlowApplicationSingularDataSourceRepresentation = map[string]interface{}{
-		"application_id": Representation{repType: Required, create: `${oci_dataflow_application.test_application.id}`},
+		"application_id": Representation{RepType: Required, Create: `${oci_dataflow_application.test_application.id}`},
 	}
 
 	dataFlowApplicationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `test_wordcount_app`, update: `displayName2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `test_wordcount_app`, Update: `displayName2`},
 		"filter":         RepresentationGroup{Required, dataFlowApplicationDataSourceFilterRepresentation}}
 	dataFlowApplicationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dataflow_application.test_application.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dataflow_application.test_application.id}`}},
 	}
 
 	dataFlowApplicationRepresentation = map[string]interface{}{
-		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":         Representation{repType: Required, create: `test_wordcount_app`, update: `displayName2`},
-		"driver_shape":         Representation{repType: Required, create: `VM.Standard2.1`},
-		"executor_shape":       Representation{repType: Required, create: `VM.Standard2.1`},
-		"file_uri":             Representation{repType: Required, create: `${var.dataflow_file_uri}`, update: `${var.dataflow_file_uri_updated}`},
-		"language":             Representation{repType: Required, create: `PYTHON`, update: `SCALA`},
-		"num_executors":        Representation{repType: Required, create: `1`, update: `2`},
-		"spark_version":        Representation{repType: Required, create: `2.4`, update: `2.4.4`},
-		"archive_uri":          Representation{repType: Optional, create: `${var.dataflow_archive_uri}`},
-		"arguments":            Representation{repType: Optional, create: []string{`arguments`}, update: []string{`arguments2`}},
-		"configuration":        Representation{repType: Optional, create: map[string]string{"spark.shuffle.io.maxRetries": "10"}, update: map[string]string{"spark.shuffle.io.maxRetries": "11"}},
-		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":          Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"logs_bucket_uri":      Representation{repType: Optional, create: `${var.dataflow_logs_bucket_uri}`},
-		"metastore_id":         Representation{repType: Optional, create: `${var.metastore_id}`},
+		"compartment_id":       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":         Representation{RepType: Required, Create: `test_wordcount_app`, Update: `displayName2`},
+		"driver_shape":         Representation{RepType: Required, Create: `VM.Standard2.1`},
+		"executor_shape":       Representation{RepType: Required, Create: `VM.Standard2.1`},
+		"file_uri":             Representation{RepType: Required, Create: `${var.dataflow_file_uri}`, Update: `${var.dataflow_file_uri_updated}`},
+		"language":             Representation{RepType: Required, Create: `PYTHON`, Update: `SCALA`},
+		"num_executors":        Representation{RepType: Required, Create: `1`, Update: `2`},
+		"spark_version":        Representation{RepType: Required, Create: `2.4`, Update: `2.4.4`},
+		"archive_uri":          Representation{RepType: Optional, Create: `${var.dataflow_archive_uri}`},
+		"arguments":            Representation{RepType: Optional, Create: []string{`arguments`}, Update: []string{`arguments2`}},
+		"configuration":        Representation{RepType: Optional, Create: map[string]string{"spark.shuffle.io.maxRetries": "10"}, Update: map[string]string{"spark.shuffle.io.maxRetries": "11"}},
+		"defined_tags":         Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":          Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":        Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"logs_bucket_uri":      Representation{RepType: Optional, Create: `${var.dataflow_logs_bucket_uri}`},
+		"metastore_id":         Representation{RepType: Optional, Create: `${var.metastore_id}`},
 		"parameters":           RepresentationGroup{Optional, applicationParametersRepresentation},
-		"private_endpoint_id":  Representation{repType: Optional, create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
-		"warehouse_bucket_uri": Representation{repType: Optional, create: `${var.dataflow_warehouse_bucket_uri}`},
+		"private_endpoint_id":  Representation{RepType: Optional, Create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
+		"warehouse_bucket_uri": Representation{RepType: Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
 	}
 	applicationParametersRepresentation = map[string]interface{}{
-		"name":  Representation{repType: Required, create: `name`, update: `name2`},
-		"value": Representation{repType: Required, create: `value`, update: `value2`},
+		"name":  Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"value": Representation{RepType: Required, Create: `value`, Update: `value2`},
 	}
 
-	dataFlowApplicationResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointRepresentation) +
+	dataFlowApplicationResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -104,15 +104,15 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 	metastoreIdVariableStr := fmt.Sprintf("variable \"metastore_id\" { default = \"%s\" }\n", metastoreId)
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ApplicationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, applicationRepresentation), "dataflow", "application", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ApplicationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, applicationRepresentation), "dataflow", "application", t)
 
 	ResourceTest(t, testAccCheckDataflowApplicationDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app"),
@@ -124,20 +124,20 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, dataFlowApplicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, dataFlowApplicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
 				resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
@@ -167,9 +167,9 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -178,12 +178,12 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + dataFlowApplicationResourceDependencies + fileUriVariableStr + archiveUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
-				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create,
-					representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create,
+					RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
@@ -214,7 +214,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "warehouse_bucket_uri"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -226,9 +226,9 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + classNameStrUpdated + fileUriVariableStrUpdated + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update,
-					representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
-						"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
+				GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update,
+					RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+						"class_name": Representation{RepType: Optional, Create: `${var.dataflow_class_name_updated}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "archive_uri"),
@@ -260,7 +260,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "class_name", classNameUpdated),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -271,10 +271,10 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications", Optional, Update, dataFlowApplicationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications", Optional, Update, dataFlowApplicationDataSourceRepresentation) +
 				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr +
-				dataFlowApplicationResourceDependencies + generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
-				"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
+				dataFlowApplicationResourceDependencies + GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+				"class_name": Representation{RepType: Optional, Create: `${var.dataflow_class_name_updated}`},
 			})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -297,10 +297,10 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + logsBucketUriVariableStr + classNameStrUpdated + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
-					"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
+				GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+					"class_name": Representation{RepType: Optional, Create: `${var.dataflow_class_name_updated}`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
@@ -335,8 +335,8 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + fileUriVariableStrUpdated + classNameStrUpdated + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + dataFlowApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
-					"class_name": Representation{repType: Optional, create: `${var.dataflow_class_name_updated}`},
+				GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, RepresentationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+					"class_name": Representation{RepType: Optional, Create: `${var.dataflow_class_name_updated}`},
 				})),
 		},
 		// verify resource import
@@ -361,7 +361,7 @@ func testAccCheckDataflowApplicationDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ApplicationId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dataflow")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dataflow")
 
 			response, err := client.GetApplication(context.Background(), request)
 
@@ -394,7 +394,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DataflowApplication") {
+	if !InSweeperExcludeList("DataflowApplication") {
 		resource.AddTestSweepers("DataflowApplication", &resource.Sweeper{
 			Name:         "DataflowApplication",
 			Dependencies: DependencyGraph["application"],
@@ -415,13 +415,13 @@ func sweepDataflowApplicationResource(compartment string) error {
 
 			deleteApplicationRequest.ApplicationId = &applicationId
 
-			deleteApplicationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dataflow")
+			deleteApplicationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dataflow")
 			_, error := dataFlowClient.DeleteApplication(context.Background(), deleteApplicationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Application %s %s, It is possible that the resource is already deleted. Please verify manually \n", applicationId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &applicationId, dataFlowApplicationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &applicationId, dataFlowApplicationSweepWaitCondition, time.Duration(3*time.Minute),
 				dataFlowApplicationSweepResponseFetchOperation, "dataflow", true)
 		}
 	}
@@ -429,7 +429,7 @@ func sweepDataflowApplicationResource(compartment string) error {
 }
 
 func dataFlowGetApplicationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ApplicationId")
+	ids := GetResourceIdsToSweep(compartment, "ApplicationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -447,7 +447,7 @@ func dataFlowGetApplicationIds(compartment string) ([]string, error) {
 	for _, application := range listApplicationsResponse.Items {
 		id := *application.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ApplicationId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ApplicationId", id)
 	}
 	return resourceIds, nil
 }

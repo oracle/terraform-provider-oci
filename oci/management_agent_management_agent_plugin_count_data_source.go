@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 )
 
 func init() {
@@ -53,6 +53,10 @@ func ManagementAgentManagementAgentPluginCountDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"plugin_display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"plugin_name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -97,7 +101,7 @@ func (s *ManagementAgentManagementAgentPluginCountDataSourceCrud) Get() error {
 		request.GroupBy = oci_management_agent.SummarizeManagementAgentPluginCountsGroupByEnum(groupBy.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.SummarizeManagementAgentPluginCounts(context.Background(), request)
 	if err != nil {
@@ -140,6 +144,10 @@ func ManagementAgentPluginAggregationToMap(obj oci_management_agent.ManagementAg
 
 func ManagementAgentPluginAggregationDimensionsToMap(obj *oci_management_agent.ManagementAgentPluginAggregationDimensions) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.PluginDisplayName != nil {
+		result["plugin_display_name"] = string(*obj.PluginDisplayName)
+	}
 
 	if obj.PluginName != nil {
 		result["plugin_name"] = string(*obj.PluginName)

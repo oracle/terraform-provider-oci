@@ -14,11 +14,11 @@ import (
 
 var (
 	logAnalyticsEntitiesSummarySingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"namespace":      Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
-	LogAnalyticsEntitiesSummaryResourceDependencies = generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
+	LogAnalyticsEntitiesSummaryResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 
 	LogAnalyticsEntitiesSummaryResourceConfig = ""
 )
@@ -35,13 +35,13 @@ func TestLogAnalyticsLogAnalyticsEntitiesSummaryResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_log_analytics_log_analytics_entities_summary.test_log_analytics_entities_summary"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + LogAnalyticsEntitiesSummaryResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities_summary", "test_log_analytics_entities_summary", Required, Create, logAnalyticsEntitiesSummarySingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_log_analytics_log_analytics_entities_summary", "test_log_analytics_entities_summary", Required, Create, logAnalyticsEntitiesSummarySingularDataSourceRepresentation) +
 				LogAnalyticsEntitiesSummaryResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

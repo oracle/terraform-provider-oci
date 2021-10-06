@@ -7,11 +7,11 @@ import (
 	"context"
 	"time"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -170,7 +170,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateAutonomousDatabaseBackup(context.Background(), request)
 	if err != nil {
@@ -195,7 +195,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseBackupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetAutonomousDatabaseBackup(context.Background(), request)
 	if err != nil {

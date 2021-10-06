@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_artifacts "github.com/oracle/oci-go-sdk/v48/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v49/artifacts"
 )
 
 func init() {
@@ -156,7 +156,7 @@ func (s *ArtifactsRepositoryResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.CreateRepository(context.Background(), request)
 	if err != nil {
@@ -173,7 +173,7 @@ func (s *ArtifactsRepositoryResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.RepositoryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.GetRepository(context.Background(), request)
 	if err != nil {
@@ -200,7 +200,7 @@ func (s *ArtifactsRepositoryResourceCrud) Update() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.UpdateRepository(context.Background(), request)
 	if err != nil {
@@ -217,7 +217,7 @@ func (s *ArtifactsRepositoryResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.RepositoryId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	_, err := s.Client.DeleteRepository(context.Background(), request)
 	return err
@@ -342,7 +342,7 @@ func (s *ArtifactsRepositoryResourceCrud) populateTopLevelPolymorphicCreateRepos
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isImmutable, ok := s.D.GetOkExists("is_immutable"); ok {
 			tmp := isImmutable.(bool)
@@ -383,7 +383,7 @@ func (s *ArtifactsRepositoryResourceCrud) populateTopLevelPolymorphicUpdateRepos
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		tmp := s.D.Id()
 		request.RepositoryId = &tmp
@@ -403,7 +403,7 @@ func (s *ArtifactsRepositoryResourceCrud) updateCompartment(compartment interfac
 	idTmp := s.D.Id()
 	changeCompartmentRequest.RepositoryId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	_, err := s.Client.ChangeRepositoryCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

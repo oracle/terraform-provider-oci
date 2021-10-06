@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_sch "github.com/oracle/oci-go-sdk/v48/sch"
+	oci_sch "github.com/oracle/oci-go-sdk/v49/sch"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_sch.ServiceConnectorClient", &OracleClient{initClientFn: initSchServiceConnectorClient})
+	RegisterOracleClient("oci_sch.ServiceConnectorClient", &OracleClient{InitClientFn: initSchServiceConnectorClient})
 }
 
 func initSchServiceConnectorClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

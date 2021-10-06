@@ -13,62 +13,62 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	SteeringPolicyAttachmentRequiredOnlyResource = SteeringPolicyAttachmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentRepresentation)
 
 	SteeringPolicyAttachmentResourceConfig = SteeringPolicyAttachmentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation)
 
 	steeringPolicyAttachmentSingularDataSourceRepresentation = map[string]interface{}{
-		"steering_policy_attachment_id": Representation{repType: Required, create: `${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`},
+		"steering_policy_attachment_id": Representation{RepType: Required, Create: `${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`},
 	}
 
 	steeringPolicyAttachmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                        Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":                          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"domain":                                Representation{repType: Optional, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
-		"id":                                    Representation{repType: Optional, create: `${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`},
-		"state":                                 Representation{repType: Optional, create: `ACTIVE`},
-		"steering_policy_id":                    Representation{repType: Optional, create: `${oci_dns_steering_policy.test_steering_policy.id}`},
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
-		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
-		"zone_id":                               Representation{repType: Optional, create: `${oci_dns_zone.test_global_zone.id}`},
+		"compartment_id":                        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                          Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"domain":                                Representation{RepType: Optional, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
+		"id":                                    Representation{RepType: Optional, Create: `${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`},
+		"state":                                 Representation{RepType: Optional, Create: `ACTIVE`},
+		"steering_policy_id":                    Representation{RepType: Optional, Create: `${oci_dns_steering_policy.test_steering_policy.id}`},
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"time_created_less_than":                Representation{RepType: Optional, Create: `2038-01-01T00:00:00.000Z`},
+		"zone_id":                               Representation{RepType: Optional, Create: `${oci_dns_zone.test_global_zone.id}`},
 		"filter":                                RepresentationGroup{Required, steeringPolicyAttachmentDataSourceFilterRepresentation}}
 
 	// Used to test `domain_contains` query parameter; which cannot be simulataneously used with `domain` query param
 	steeringPolicyAttachmentDataSourceRepresentationWithDomainContains = map[string]interface{}{
-		"compartment_id":                        Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":                          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"domain_contains":                       Representation{repType: Optional, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
-		"id":                                    Representation{repType: Optional, create: `${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`},
-		"state":                                 Representation{repType: Optional, create: `ACTIVE`},
-		"steering_policy_id":                    Representation{repType: Optional, create: `${oci_dns_steering_policy.test_steering_policy.id}`},
-		"time_created_greater_than_or_equal_to": Representation{repType: Optional, create: `2018-01-01T00:00:00.000Z`},
-		"time_created_less_than":                Representation{repType: Optional, create: `2038-01-01T00:00:00.000Z`},
-		"zone_id":                               Representation{repType: Optional, create: `${oci_dns_zone.test_global_zone.id}`},
+		"compartment_id":                        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":                          Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"domain_contains":                       Representation{RepType: Optional, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
+		"id":                                    Representation{RepType: Optional, Create: `${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`},
+		"state":                                 Representation{RepType: Optional, Create: `ACTIVE`},
+		"steering_policy_id":                    Representation{RepType: Optional, Create: `${oci_dns_steering_policy.test_steering_policy.id}`},
+		"time_created_greater_than_or_equal_to": Representation{RepType: Optional, Create: `2018-01-01T00:00:00.000Z`},
+		"time_created_less_than":                Representation{RepType: Optional, Create: `2038-01-01T00:00:00.000Z`},
+		"zone_id":                               Representation{RepType: Optional, Create: `${oci_dns_zone.test_global_zone.id}`},
 		"filter":                                RepresentationGroup{Required, steeringPolicyAttachmentDataSourceFilterRepresentation}}
 
 	steeringPolicyAttachmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dns_steering_policy_attachment.test_steering_policy_attachment.id}`}},
 	}
 
 	steeringPolicyAttachmentRepresentation = map[string]interface{}{
-		"domain_name":        Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
-		"steering_policy_id": Representation{repType: Required, create: `${oci_dns_steering_policy.test_steering_policy.id}`},
-		"zone_id":            Representation{repType: Required, create: `${oci_dns_zone.test_global_zone.id}`},
-		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"domain_name":        Representation{RepType: Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-record-test`},
+		"steering_policy_id": Representation{RepType: Required, Create: `${oci_dns_steering_policy.test_steering_policy.id}`},
+		"zone_id":            Representation{RepType: Required, Create: `${oci_dns_zone.test_global_zone.id}`},
+		"display_name":       Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 	}
 
 	SteeringPolicyAttachmentResourceDependencies = RecordResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation)
 )
 
 // issue-routing-tag: dns/default
@@ -85,37 +85,37 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_dns_steering_policy_attachments.test_steering_policy_attachments"
 	singularDatasourceName := "data.oci_dns_steering_policy_attachment.test_steering_policy_attachment"
 
-	_, tokenFn := tokenizeWithHttpReplay("dns_steering")
+	_, tokenFn := TokenizeWithHttpReplay("dns_steering")
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), nil), "dns", "steeringPolicyAttachment", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), nil), "dns", "steeringPolicyAttachment", t)
 
 	ResourceTest(t, testAccCheckDnsSteeringPolicyAttachmentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentRepresentation), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentRepresentation), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
 				resource.TestCheckResourceAttrSet(resourceName, "steering_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies, nil),
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Create, steeringPolicyAttachmentRepresentation), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
@@ -123,9 +123,9 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -137,7 +137,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
@@ -145,7 +145,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -156,9 +156,9 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: tokenFn(config+
-				generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentation)+
+				GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentation)+
 				compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -180,9 +180,9 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 		// verify datasource with domain_contains query param
 		{
 			Config: tokenFn(config+
-				generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentationWithDomainContains)+
+				GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachments", "test_steering_policy_attachments", Optional, Update, steeringPolicyAttachmentDataSourceRepresentationWithDomainContains)+
 				compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update, steeringPolicyAttachmentRepresentation), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -209,7 +209,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: tokenFn(config+
-				generateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentSingularDataSourceRepresentation)+
+				GenerateDataSourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Required, Create, steeringPolicyAttachmentSingularDataSourceRepresentation)+
 				compartmentIdVariableStr+SteeringPolicyAttachmentResourceConfig, nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "steering_policy_attachment_id"),
@@ -228,8 +228,8 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+SteeringPolicyAttachmentResourceDependencies+
-				generateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update,
-					getUpdatedRepresentationCopy("domain_name", Representation{repType: Required, create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test`}, steeringPolicyAttachmentRepresentation)), nil),
+				GenerateResourceFromRepresentationMap("oci_dns_steering_policy_attachment", "test_steering_policy_attachment", Optional, Update,
+					GetUpdatedRepresentationCopy("domain_name", Representation{RepType: Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.OCI-record-test`}, steeringPolicyAttachmentRepresentation)), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestMatchResourceAttr(resourceName, "domain_name", regexp.MustCompile("\\.oci-record-test")),
@@ -237,7 +237,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "zone_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -272,7 +272,7 @@ func testAccCheckDnsSteeringPolicyAttachmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SteeringPolicyAttachmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 
 			_, err := client.GetSteeringPolicyAttachment(context.Background(), request)
 
@@ -297,7 +297,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DnsSteeringPolicyAttachment") {
+	if !InSweeperExcludeList("DnsSteeringPolicyAttachment") {
 		resource.AddTestSweepers("DnsSteeringPolicyAttachment", &resource.Sweeper{
 			Name:         "DnsSteeringPolicyAttachment",
 			Dependencies: DependencyGraph["steeringPolicyAttachment"],
@@ -318,7 +318,7 @@ func sweepDnsSteeringPolicyAttachmentResource(compartment string) error {
 
 			deleteSteeringPolicyAttachmentRequest.SteeringPolicyAttachmentId = &steeringPolicyAttachmentId
 
-			deleteSteeringPolicyAttachmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			deleteSteeringPolicyAttachmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dns")
 			_, error := dnsClient.DeleteSteeringPolicyAttachment(context.Background(), deleteSteeringPolicyAttachmentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting SteeringPolicyAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", steeringPolicyAttachmentId, error)
@@ -330,7 +330,7 @@ func sweepDnsSteeringPolicyAttachmentResource(compartment string) error {
 }
 
 func getSteeringPolicyAttachmentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SteeringPolicyAttachmentId")
+	ids := GetResourceIdsToSweep(compartment, "SteeringPolicyAttachmentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -348,7 +348,7 @@ func getSteeringPolicyAttachmentIds(compartment string) ([]string, error) {
 	for _, steeringPolicyAttachment := range listSteeringPolicyAttachmentsResponse.Items {
 		id := *steeringPolicyAttachment.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SteeringPolicyAttachmentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SteeringPolicyAttachmentId", id)
 	}
 	return resourceIds, nil
 }

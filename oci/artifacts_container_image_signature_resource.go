@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_artifacts "github.com/oracle/oci-go-sdk/v48/artifacts"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v49/artifacts"
 )
 
 func init() {
@@ -154,7 +154,7 @@ func (s *ArtifactsContainerImageSignatureResourceCrud) Create() error {
 		request.SigningAlgorithm = oci_artifacts.CreateContainerImageSignatureDetailsSigningAlgorithmEnum(signingAlgorithm.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.CreateContainerImageSignature(context.Background(), request)
 	if err != nil {
@@ -171,7 +171,7 @@ func (s *ArtifactsContainerImageSignatureResourceCrud) Get() error {
 	imageSignatureId := s.D.Id()
 	request.ImageSignatureId = &imageSignatureId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.GetContainerImageSignature(context.Background(), request)
 	if err != nil {
@@ -188,7 +188,7 @@ func (s *ArtifactsContainerImageSignatureResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ImageSignatureId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	_, err := s.Client.DeleteContainerImageSignature(context.Background(), request)
 	return err

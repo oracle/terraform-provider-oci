@@ -13,43 +13,43 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	IpSecConnectionRequiredOnlyResource = IpSecConnectionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation)
 
 	IpSecConnectionOptionalResource = IpSecConnectionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation)
 
 	ipSecConnectionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"cpe_id":         Representation{repType: Optional, create: `${oci_core_cpe.test_cpe.id}`},
-		"drg_id":         Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"cpe_id":         Representation{RepType: Optional, Create: `${oci_core_cpe.test_cpe.id}`},
+		"drg_id":         Representation{RepType: Optional, Create: `${oci_core_drg.test_drg.id}`},
 		"filter":         RepresentationGroup{Required, ipSecConnectionDataSourceFilterRepresentation}}
 	ipSecConnectionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_ipsec.test_ip_sec_connection.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_ipsec.test_ip_sec_connection.id}`}},
 	}
 
 	ipSecConnectionRepresentation = map[string]interface{}{
-		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
-		"cpe_id":                    Representation{repType: Required, create: `${oci_core_cpe.test_cpe.id}`},
-		"drg_id":                    Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
-		"static_routes":             Representation{repType: Required, create: []string{`10.0.0.0/16`}, update: []string{`10.1.0.0/16`}},
-		"cpe_local_identifier":      Representation{repType: Optional, create: `189.44.2.135`, update: `fakehostname`},
-		"cpe_local_identifier_type": Representation{repType: Optional, create: `IP_ADDRESS`, update: `HOSTNAME`},
-		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":              Representation{repType: Optional, create: `MyIPSecConnection`, update: `displayName2`},
-		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":            Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"cpe_id":                    Representation{RepType: Required, Create: `${oci_core_cpe.test_cpe.id}`},
+		"drg_id":                    Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
+		"static_routes":             Representation{RepType: Required, Create: []string{`10.0.0.0/16`}, Update: []string{`10.1.0.0/16`}},
+		"cpe_local_identifier":      Representation{RepType: Optional, Create: `189.44.2.135`, Update: `fakehostname`},
+		"cpe_local_identifier_type": Representation{RepType: Optional, Create: `IP_ADDRESS`, Update: `HOSTNAME`},
+		"defined_tags":              Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{RepType: Optional, Create: `MyIPSecConnection`, Update: `displayName2`},
+		"freeform_tags":             Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	IpSecConnectionResourceDependencies = generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Required, Create, cpeRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
+	IpSecConnectionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Required, Create, cpeRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -70,15 +70,15 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_ipsec_connections.test_ip_sec_connections"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+IpSecConnectionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation), "core", "ipSecConnection", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+IpSecConnectionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation), "core", "ipSecConnection", t)
 
 	ResourceTest(t, testAccCheckCoreIpSecConnectionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Required, Create, ipSecConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
@@ -86,20 +86,20 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create, ipSecConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
@@ -114,9 +114,9 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -125,12 +125,12 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + IpSecConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create,
-					representationCopyWithNewProperties(ipSecConnectionRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create,
+					RepresentationCopyWithNewProperties(ipSecConnectionRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -146,7 +146,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -158,7 +158,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
@@ -173,7 +173,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -184,9 +184,9 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_ipsec_connections", "test_ip_sec_connections", Optional, Update, ipSecConnectionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connections", "test_ip_sec_connections", Optional, Update, ipSecConnectionDataSourceRepresentation) +
 				compartmentIdVariableStr + IpSecConnectionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Update, ipSecConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "cpe_id"),
@@ -229,7 +229,7 @@ func testAccCheckCoreIpSecConnectionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.IpscId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetIPSecConnection(context.Background(), request)
 
@@ -262,7 +262,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreIpSecConnection") {
+	if !InSweeperExcludeList("CoreIpSecConnection") {
 		resource.AddTestSweepers("CoreIpSecConnection", &resource.Sweeper{
 			Name:         "CoreIpSecConnection",
 			Dependencies: DependencyGraph["ipSecConnection"],
@@ -283,13 +283,13 @@ func sweepCoreIpSecConnectionResource(compartment string) error {
 
 			deleteIPSecConnectionRequest.IpscId = &ipSecConnectionId
 
-			deleteIPSecConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteIPSecConnectionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteIPSecConnection(context.Background(), deleteIPSecConnectionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting IpSecConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", ipSecConnectionId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &ipSecConnectionId, ipSecConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &ipSecConnectionId, ipSecConnectionSweepWaitCondition, time.Duration(3*time.Minute),
 				ipSecConnectionSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -297,7 +297,7 @@ func sweepCoreIpSecConnectionResource(compartment string) error {
 }
 
 func getIpSecConnectionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "IpSecConnectionId")
+	ids := GetResourceIdsToSweep(compartment, "IpSecConnectionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -315,7 +315,7 @@ func getIpSecConnectionIds(compartment string) ([]string, error) {
 	for _, ipSecConnection := range listIPSecConnectionsResponse.Items {
 		id := *ipSecConnection.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "IpSecConnectionId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "IpSecConnectionId", id)
 	}
 	return resourceIds, nil
 }

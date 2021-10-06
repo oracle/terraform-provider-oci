@@ -13,40 +13,40 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ProjectRequiredOnlyResource = ProjectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation)
 
 	ProjectResourceConfig = ProjectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Update, projectRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Update, projectRepresentation)
 
 	projectSingularDataSourceRepresentation = map[string]interface{}{
-		"project_id": Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
+		"project_id": Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
 	}
 
 	projectDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_datascience_project.test_project.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_datascience_project.test_project.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, projectDataSourceFilterRepresentation}}
 	projectDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_datascience_project.test_project.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_datascience_project.test_project.id}`}},
 	}
 
 	projectRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	ProjectResourceDependencies = DefinedTagsDependencies
@@ -70,33 +70,33 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datascience_project.test_project"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ProjectResourceDependencies+
-		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Create, projectRepresentation), "datascience", "project", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ProjectResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Create, projectRepresentation), "datascience", "project", t)
 
 	ResourceTest(t, testAccCheckDatascienceProjectDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ProjectResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Create, projectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Create, projectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -109,9 +109,9 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -120,12 +120,12 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Create,
-					representationCopyWithNewProperties(projectRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Create,
+					RepresentationCopyWithNewProperties(projectRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -139,7 +139,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -151,7 +151,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Update, projectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Update, projectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
@@ -164,7 +164,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -175,9 +175,9 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_projects", "test_projects", Optional, Update, projectDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_projects", "test_projects", Optional, Update, projectDataSourceRepresentation) +
 				compartmentIdVariableStr + ProjectResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Update, projectRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Optional, Update, projectRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -199,7 +199,7 @@ func TestDatascienceProjectResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ProjectResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
@@ -241,7 +241,7 @@ func testAccCheckDatascienceProjectDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ProjectId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 
 			response, err := client.GetProject(context.Background(), request)
 
@@ -274,7 +274,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatascienceProject") {
+	if !InSweeperExcludeList("DatascienceProject") {
 		resource.AddTestSweepers("DatascienceProject", &resource.Sweeper{
 			Name:         "DatascienceProject",
 			Dependencies: DependencyGraph["project"],
@@ -295,13 +295,13 @@ func sweepDatascienceProjectResource(compartment string) error {
 
 			deleteProjectRequest.ProjectId = &projectId
 
-			deleteProjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			deleteProjectRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 			_, error := dataScienceClient.DeleteProject(context.Background(), deleteProjectRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Project %s %s, It is possible that the resource is already deleted. Please verify manually \n", projectId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &projectId, projectSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &projectId, projectSweepWaitCondition, time.Duration(3*time.Minute),
 				projectSweepResponseFetchOperation, "datascience", true)
 		}
 	}
@@ -309,7 +309,7 @@ func sweepDatascienceProjectResource(compartment string) error {
 }
 
 func getProjectIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ProjectId")
+	ids := GetResourceIdsToSweep(compartment, "ProjectId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -328,7 +328,7 @@ func getProjectIds(compartment string) ([]string, error) {
 	for _, project := range listProjectsResponse.Items {
 		id := *project.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ProjectId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ProjectId", id)
 	}
 	return resourceIds, nil
 }

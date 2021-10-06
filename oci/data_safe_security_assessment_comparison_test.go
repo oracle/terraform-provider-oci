@@ -9,21 +9,21 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	securityAssessmentComparisonSingularDataSourceRepresentation = map[string]interface{}{
-		"comparison_security_assessment_id": Representation{repType: Required, create: `${oci_data_safe_security_assessment.test_security_assessment3.id}`},
-		"security_assessment_id":            Representation{repType: Required, create: `${oci_data_safe_security_assessment.test_security_assessment4.id}`},
+		"comparison_security_assessment_id": Representation{RepType: Required, Create: `${oci_data_safe_security_assessment.test_security_assessment3.id}`},
+		"security_assessment_id":            Representation{RepType: Required, Create: `${oci_data_safe_security_assessment.test_security_assessment4.id}`},
 	}
 
-	SecurityAssessmentComparisonResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment3", Required, Create, securityAssessmentRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment4", Required, Create, securityAssessmentRepresentation)
+	SecurityAssessmentComparisonResourceConfig = GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment3", Required, Create, securityAssessmentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment4", Required, Create, securityAssessmentRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -36,13 +36,13 @@ func TestDataSafeSecurityAssessmentComparisonResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify singular datasource
 		{
 			Config: config + SecurityAssessmentComparisonResourceConfig + compartmentIdVariableStr +
-				generateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_comparison", "test_security_assessment_comparison", Required, Create, securityAssessmentComparisonSingularDataSourceRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_security_assessment_comparison", "test_security_assessment_comparison", Required, Create, securityAssessmentComparisonSingularDataSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					if failure, isServiceError := oci_common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {

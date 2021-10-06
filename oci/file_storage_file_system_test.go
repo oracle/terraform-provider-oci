@@ -13,41 +13,41 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v48/filestorage"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v49/filestorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
-	FileSystemRequiredOnlyResource = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation)
+	FileSystemRequiredOnlyResource = GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation)
 
 	fileSystemDataSourceRepresentation = map[string]interface{}{
-		"availability_domain":   Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":          Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
-		"id":                    Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system2.id}`},
-		"parent_file_system_id": Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"source_snapshot_id":    Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
-		"state":                 Representation{repType: Optional, create: `ACTIVE`},
+		"availability_domain":   Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":        Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":          Representation{RepType: Optional, Create: `media-files-1`, Update: `displayName2`},
+		"id":                    Representation{RepType: Optional, Create: `${oci_file_storage_file_system.test_file_system2.id}`},
+		"parent_file_system_id": Representation{RepType: Optional, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"source_snapshot_id":    Representation{RepType: Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"state":                 Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                RepresentationGroup{Required, fileSystemDataSourceFilterRepresentation}}
 	fileSystemDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_file_storage_file_system.test_file_system2.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_file_storage_file_system.test_file_system2.id}`}},
 	}
 
 	fileSystemRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"source_snapshot_id":  Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
-		"kms_key_id":          Representation{repType: Optional, create: `${var.kms_key_id_for_create}`, update: `${var.kms_key_id_for_update}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        Representation{RepType: Optional, Create: `media-files-1`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"source_snapshot_id":  Representation{RepType: Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"kms_key_id":          Representation{RepType: Optional, Create: `${var.kms_key_id_for_create}`, Update: `${var.kms_key_id_for_update}`},
 	}
 
-	FileSystemResourceDependencies = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation) +
-		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation) +
+	FileSystemResourceDependencies = GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr
@@ -70,34 +70,34 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 	datasourceName := "data.oci_file_storage_file_systems.test_file_systems"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+FileSystemResourceDependencies+
-		generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentation), "filestorage", "fileSystem", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+FileSystemResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Optional, Create, fileSystemRepresentation), "filestorage", "fileSystem", t)
 
 	ResourceTest(t, testAccCheckFileStorageFileSystemDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Required, Create, fileSystemRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Required, Create, fileSystemRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create, fileSystemRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create, fileSystemRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -112,9 +112,9 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -123,12 +123,12 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileSystemResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create,
-					representationCopyWithNewProperties(fileSystemRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Create,
+					RepresentationCopyWithNewProperties(fileSystemRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -144,7 +144,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -156,7 +156,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + FileSystemResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -171,7 +171,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -182,9 +182,9 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_file_storage_file_systems", "test_file_systems", Optional, Update, fileSystemDataSourceRepresentation) +
 				compartmentIdVariableStr + FileSystemResourceDependencies +
-				generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
+				GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", Optional, Update, fileSystemRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -233,7 +233,7 @@ func testAccCheckFileStorageFileSystemDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.FileSystemId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "file_storage")
 
 			response, err := client.GetFileSystem(context.Background(), request)
 
@@ -266,7 +266,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("FileStorageFileSystem") {
+	if !InSweeperExcludeList("FileStorageFileSystem") {
 		resource.AddTestSweepers("FileStorageFileSystem", &resource.Sweeper{
 			Name:         "FileStorageFileSystem",
 			Dependencies: DependencyGraph["fileSystem"],
@@ -287,13 +287,13 @@ func sweepFileStorageFileSystemResource(compartment string) error {
 
 			deleteFileSystemRequest.FileSystemId = &fileSystemId
 
-			deleteFileSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			deleteFileSystemRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "file_storage")
 			_, error := fileStorageClient.DeleteFileSystem(context.Background(), deleteFileSystemRequest)
 			if error != nil {
 				fmt.Printf("Error deleting FileSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", fileSystemId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &fileSystemId, fileSystemSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &fileSystemId, fileSystemSweepWaitCondition, time.Duration(3*time.Minute),
 				fileSystemSweepResponseFetchOperation, "file_storage", true)
 		}
 	}
@@ -301,7 +301,7 @@ func sweepFileStorageFileSystemResource(compartment string) error {
 }
 
 func getFileSystemIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "FileSystemId")
+	ids := GetResourceIdsToSweep(compartment, "FileSystemId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -312,7 +312,7 @@ func getFileSystemIds(compartment string) ([]string, error) {
 	listFileSystemsRequest := oci_file_storage.ListFileSystemsRequest{}
 	listFileSystemsRequest.CompartmentId = &compartmentId
 
-	availabilityDomains, err := getAvalabilityDomains(compartment)
+	availabilityDomains, err := GetAvalabilityDomains(compartment)
 	if err != nil {
 		return resourceIds, fmt.Errorf("Error getting availabilityDomains required for FileSystem list for compartment id : %s , %s \n", compartmentId, err)
 	}
@@ -328,7 +328,7 @@ func getFileSystemIds(compartment string) ([]string, error) {
 		for _, fileSystem := range listFileSystemsResponse.Items {
 			id := *fileSystem.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "FileSystemId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "FileSystemId", id)
 		}
 
 	}

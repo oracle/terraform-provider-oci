@@ -16,50 +16,50 @@ import (
 
 var (
 	DataGuardAssociationRequiredOnlyResource = DataGuardAssociationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Required, Create, dataGuardAssociationRepresentationExistingDbSystem)
+		GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Required, Create, dataGuardAssociationRepresentationExistingDbSystem)
 
 	DataGuardAssociationResourceConfig = DataGuardAssociationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem)
+		GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem)
 
 	dataGuardAssociationSingularDataSourceRepresentation = map[string]interface{}{
-		"data_guard_association_id": Representation{repType: Required, create: `${oci_database_data_guard_association.test_data_guard_association.id}`},
-		"database_id":               Representation{repType: Required, create: `${data.oci_database_databases.db.databases.0.id}`},
+		"data_guard_association_id": Representation{RepType: Required, Create: `${oci_database_data_guard_association.test_data_guard_association.id}`},
+		"database_id":               Representation{RepType: Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
 	}
 
 	dataGuardAssociationDataSourceRepresentation = map[string]interface{}{
-		"database_id": Representation{repType: Required, create: `${data.oci_database_databases.db.databases.0.id}`},
+		"database_id": Representation{RepType: Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
 		"filter":      RepresentationGroup{Required, dataGuardAssociationDataSourceFilterRepresentation}}
 	dataGuardAssociationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_data_guard_association.test_data_guard_association.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_data_guard_association.test_data_guard_association.id}`}},
 	}
 
 	dataGuardAssociationRepresentationBase = map[string]interface{}{
-		"depends_on":                       Representation{repType: Required, create: []string{"oci_database_db_system.test_db_system"}},
-		"database_admin_password":          Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"database_id":                      Representation{repType: Required, create: `${data.oci_database_databases.db.databases.0.id}`},
-		"delete_standby_db_home_on_delete": Representation{repType: Required, create: `true`},
-		"protection_mode":                  Representation{repType: Required, create: `MAXIMUM_PERFORMANCE`},
-		"transport_type":                   Representation{repType: Required, create: `ASYNC`},
+		"depends_on":                       Representation{RepType: Required, Create: []string{"oci_database_db_system.test_db_system"}},
+		"database_admin_password":          Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"database_id":                      Representation{RepType: Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
+		"delete_standby_db_home_on_delete": Representation{RepType: Required, Create: `true`},
+		"protection_mode":                  Representation{RepType: Required, Create: `MAXIMUM_PERFORMANCE`},
+		"transport_type":                   Representation{RepType: Required, Create: `ASYNC`},
 	}
-	dataGuardAssociationRepresentationExistingDbSystem = representationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
-		"depends_on":        Representation{repType: Required, create: []string{`oci_database_db_system.test_db_system`, `oci_database_db_system.test_db_system2`}},
-		"creation_type":     Representation{repType: Required, create: `ExistingDbSystem`},
-		"peer_db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_db_system2.id}`},
+	dataGuardAssociationRepresentationExistingDbSystem = RepresentationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
+		"depends_on":        Representation{RepType: Required, Create: []string{`oci_database_db_system.test_db_system`, `oci_database_db_system.test_db_system2`}},
+		"creation_type":     Representation{RepType: Required, Create: `ExistingDbSystem`},
+		"peer_db_system_id": Representation{RepType: Required, Create: `${oci_database_db_system.test_db_system2.id}`},
 	})
-	dataGuardAssociationRepresentationNewDbSystem = representationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
-		"creation_type":          Representation{repType: Required, create: `NewDbSystem`},
-		"availability_domain":    Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":           Representation{repType: Required, create: `displayName`},
-		"hostname":               Representation{repType: Required, create: `hostname`},
-		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"shape":                  Representation{repType: Optional, create: `VM.Standard2.1`},
-		"backup_network_nsg_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+	dataGuardAssociationRepresentationNewDbSystem = RepresentationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
+		"creation_type":          Representation{RepType: Required, Create: `NewDbSystem`},
+		"availability_domain":    Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"display_name":           Representation{RepType: Required, Create: `displayName`},
+		"hostname":               Representation{RepType: Required, Create: `hostname`},
+		"subnet_id":              Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"shape":                  Representation{RepType: Optional, Create: `VM.Standard2.1`},
+		"backup_network_nsg_ids": Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"nsg_ids":                Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 	})
 
 	DataGuardAssociationResourceDependenciesBase = AvailabilityDomainConfig + DefinedTagsDependencies + VcnResourceConfig +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Update, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Update, networkSecurityGroupRepresentation) +
 		`
 #dataguard requires the some port to be open on the subnet
 resource "oci_core_subnet" "test_subnet" {
@@ -213,15 +213,15 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_data_guard_association.test_data_guard_association"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DataGuardAssociationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem), "database", "dataGuardAssociation", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DataGuardAssociationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem), "database", "dataGuardAssociation", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create NewDbSystem
+		// verify Create NewDbSystem
 		{
 			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependenciesNewDbSystem +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationNewDbSystem),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationNewDbSystem),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				//resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.backup_network_nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "creation_type", "NewDbSystem"),
@@ -234,20 +234,20 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies,
 		},
-		// verify create with optionals on Existing DbSystem
+		// verify Create with optionals on Existing DbSystem
 		{
 			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
@@ -262,9 +262,9 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -276,7 +276,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
@@ -292,7 +292,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -303,9 +303,9 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_data_guard_associations", Optional, Update, dataGuardAssociationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_data_guard_associations", Optional, Update, dataGuardAssociationDataSourceRepresentation) +
 				compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
@@ -324,9 +324,9 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Required, Create, dataGuardAssociationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Required, Create, dataGuardAssociationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingDbSystem),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),

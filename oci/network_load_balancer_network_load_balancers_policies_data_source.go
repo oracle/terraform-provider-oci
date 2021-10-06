@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v48/networkloadbalancer"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v49/networkloadbalancer"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func NetworkLoadBalancerNetworkLoadBalancersPoliciesDataSource() *schema.Resourc
 	return &schema.Resource{
 		Read: readNetworkLoadBalancerNetworkLoadBalancersPolicies,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"network_load_balancers_policy_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -64,7 +64,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersPoliciesDataSourceCrud) VoidStat
 func (s *NetworkLoadBalancerNetworkLoadBalancersPoliciesDataSourceCrud) Get() error {
 	request := oci_network_load_balancer.ListNetworkLoadBalancersPoliciesRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "network_load_balancer")
 
 	response, err := s.Client.ListNetworkLoadBalancersPolicies(context.Background(), request)
 	if err != nil {

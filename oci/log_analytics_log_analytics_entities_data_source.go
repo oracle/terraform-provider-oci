@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v48/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v49/loganalytics"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func LogAnalyticsLogAnalyticsEntitiesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLogAnalyticsLogAnalyticsEntities,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"cloud_resource_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -175,7 +175,7 @@ func (s *LogAnalyticsLogAnalyticsEntitiesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_log_analytics.ListLogAnalyticsEntitiesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "log_analytics")
 
 	response, err := s.Client.ListLogAnalyticsEntities(context.Background(), request)
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *DnsSteeringPolicyAttachmentDataSourceCrud) Get() error {
 		request.SteeringPolicyAttachmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.GetSteeringPolicyAttachment(context.Background(), request)
 	if err != nil {

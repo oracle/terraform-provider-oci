@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DnsRecordsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDnsRecords,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 
 			// Required
 			"zone_name_or_id": {
@@ -128,7 +128,7 @@ func (s *DnsRecordsDataSourceCrud) Get() error {
 		request.ZoneVersion = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dns")
 
 	response, err := s.Client.GetZoneRecords(context.Background(), request)
 	if err != nil {

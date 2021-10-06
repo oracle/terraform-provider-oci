@@ -8,8 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 )
 
 func init() {
@@ -127,7 +127,7 @@ func (s *DatabaseExternalNonContainerDatabaseManagementResourceCrud) Create() er
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			request.EnableExternalNonContainerDatabaseDatabaseManagementDetails.LicenseModel = oci_database.EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum(licenseModel.(string))
 		}
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalNonContainerDatabaseDatabaseManagement(context.Background(), request)
 		if err != nil {
@@ -152,7 +152,7 @@ func (s *DatabaseExternalNonContainerDatabaseManagementResourceCrud) Create() er
 		request.ExternalNonContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalNonContainerDatabaseDatabaseManagement(context.Background(), request)
 	if err != nil {
@@ -194,7 +194,7 @@ func (s *DatabaseExternalNonContainerDatabaseManagementResourceCrud) Update() er
 			request.EnableExternalNonContainerDatabaseDatabaseManagementDetails.LicenseModel = oci_database.EnableExternalNonContainerDatabaseDatabaseManagementDetailsLicenseModelEnum(licenseModel.(string))
 		}
 
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.EnableExternalNonContainerDatabaseDatabaseManagement(context.Background(), request)
 		if err != nil {
@@ -219,7 +219,7 @@ func (s *DatabaseExternalNonContainerDatabaseManagementResourceCrud) Update() er
 		request.ExternalNonContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalNonContainerDatabaseDatabaseManagement(context.Background(), request)
 	if err != nil {
@@ -254,7 +254,7 @@ func (s *DatabaseExternalNonContainerDatabaseManagementResourceCrud) Delete() er
 		request.ExternalNonContainerDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DisableExternalNonContainerDatabaseDatabaseManagement(context.Background(), request)
 	if err != nil {

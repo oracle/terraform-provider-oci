@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -19,7 +19,7 @@ func CoreBootVolumeBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreBootVolumeBackups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"boot_volume_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -94,7 +94,7 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.BootVolumeBackupLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListBootVolumeBackups(context.Background(), request)
 	if err != nil {

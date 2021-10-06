@@ -14,13 +14,13 @@ import (
 
 var (
 	virtualCircuitPublicPrefixDataSourceRepresentation = map[string]interface{}{
-		"virtual_circuit_id": Representation{repType: Required, create: `${oci_core_virtual_circuit.test_virtual_circuit.id}`},
-		"verification_state": Representation{repType: Optional, create: `COMPLETED`},
+		"virtual_circuit_id": Representation{RepType: Required, Create: `${oci_core_virtual_circuit.test_virtual_circuit.id}`},
+		"verification_state": Representation{RepType: Optional, Create: `COMPLETED`},
 	}
 
 	VirtualCircuitPublicPrefixResourceConfig = VirtualCircuitPublicPropertyVariables +
 		VirtualCircuitResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -35,13 +35,13 @@ func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_virtual_circuit_public_prefixes.test_virtual_circuit_public_prefixes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_virtual_circuit_public_prefixes", "test_virtual_circuit_public_prefixes", Required, Create, virtualCircuitPublicPrefixDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit_public_prefixes", "test_virtual_circuit_public_prefixes", Required, Create, virtualCircuitPublicPrefixDataSourceRepresentation) +
 				compartmentIdVariableStr + VirtualCircuitPublicPrefixResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 

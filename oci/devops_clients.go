@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_devops "github.com/oracle/oci-go-sdk/v48/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_devops.DevopsClient", &OracleClient{initClientFn: initDevopsDevopsClient})
+	RegisterOracleClient("oci_devops.DevopsClient", &OracleClient{InitClientFn: initDevopsDevopsClient})
 }
 
 func initDevopsDevopsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

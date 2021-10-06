@@ -13,65 +13,65 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v49/functions"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ApplicationRequiredOnlyResource = ApplicationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation)
 
 	ApplicationResourceConfig = ApplicationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation)
 
 	applicationSingularDataSourceRepresentation = map[string]interface{}{
-		"application_id": Representation{repType: Required, create: `${oci_functions_application.test_application.id}`},
+		"application_id": Representation{RepType: Required, Create: `${oci_functions_application.test_application.id}`},
 	}
 
 	applicationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: applicationDisplayName},
-		"id":             Representation{repType: Optional, create: `${oci_functions_application.test_application.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: applicationDisplayName},
+		"id":             Representation{RepType: Optional, Create: `${oci_functions_application.test_application.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, applicationDataSourceFilterRepresentation}}
 	applicationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_functions_application.test_application.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_functions_application.test_application.id}`}},
 	}
 
-	applicationDisplayName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	applicationDisplayName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
 
 	applicationRepresentation = map[string]interface{}{
-		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":               Representation{repType: Required, create: applicationDisplayName},
-		"subnet_ids":                 Representation{repType: Required, create: []string{`${oci_core_subnet.test_subnet.id}`}},
-		"config":                     Representation{repType: Optional, create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":               Representation{RepType: Required, Create: applicationDisplayName},
+		"subnet_ids":                 Representation{RepType: Required, Create: []string{`${oci_core_subnet.test_subnet.id}`}},
+		"config":                     Representation{RepType: Optional, Create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"image_policy_config":        RepresentationGroup{Optional, applicationImagePolicyConfigRepresentation},
-		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
-		"syslog_url":                 Representation{repType: Optional, create: `tcp://syslog.test:80`, update: `tcp://syslog2.test:80`},
+		"network_security_group_ids": Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"syslog_url":                 Representation{RepType: Optional, Create: `tcp://syslog.test:80`, Update: `tcp://syslog2.test:80`},
 		"trace_config":               RepresentationGroup{Optional, applicationTraceConfigRepresentation},
 	}
 	applicationImagePolicyConfigRepresentation = map[string]interface{}{
-		"is_policy_enabled": Representation{repType: Required, create: `false`, update: `true`},
+		"is_policy_enabled": Representation{RepType: Required, Create: `false`, Update: `true`},
 		"key_details":       RepresentationGroup{Optional, applicationImagePolicyConfigKeyDetailsRepresentation},
 	}
 	applicationTraceConfigRepresentation = map[string]interface{}{
-		"domain_id":  Representation{repType: Optional, create: "${oci_apm_apm_domain.test_apm_domain.id}"},
-		"is_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"domain_id":  Representation{RepType: Optional, Create: "${oci_apm_apm_domain.test_apm_domain.id}"},
+		"is_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	applicationImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
-		"kms_key_id": Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"kms_key_id": Representation{RepType: Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 
-	ApplicationResourceDependencies = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
+	ApplicationResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
 )
@@ -94,35 +94,35 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_functions_application.test_application"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ApplicationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create, applicationRepresentation), "functions", "application", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ApplicationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create, applicationRepresentation), "functions", "application", t)
 
 	ResourceTest(t, testAccCheckFunctionsApplicationDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create, applicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create, applicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
@@ -141,9 +141,9 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -152,12 +152,12 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create,
-					representationCopyWithNewProperties(applicationRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Create,
+					RepresentationCopyWithNewProperties(applicationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -177,7 +177,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -189,7 +189,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
@@ -208,7 +208,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -219,9 +219,9 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_functions_applications", "test_applications", Optional, Update, applicationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_functions_applications", "test_applications", Optional, Update, applicationDataSourceRepresentation) +
 				compartmentIdVariableStr + ApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Optional, Update, applicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", applicationDisplayName),
@@ -250,7 +250,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ApplicationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
@@ -299,7 +299,7 @@ func testAccCheckFunctionsApplicationDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ApplicationId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "functions")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "functions")
 
 			response, err := client.GetApplication(context.Background(), request)
 
@@ -332,7 +332,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("FunctionsApplication") {
+	if !InSweeperExcludeList("FunctionsApplication") {
 		resource.AddTestSweepers("FunctionsApplication", &resource.Sweeper{
 			Name:         "FunctionsApplication",
 			Dependencies: DependencyGraph["application"],
@@ -353,13 +353,13 @@ func sweepFunctionsApplicationResource(compartment string) error {
 
 			deleteApplicationRequest.ApplicationId = &applicationId
 
-			deleteApplicationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "functions")
+			deleteApplicationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "functions")
 			_, error := functionsManagementClient.DeleteApplication(context.Background(), deleteApplicationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Application %s %s, It is possible that the resource is already deleted. Please verify manually \n", applicationId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &applicationId, applicationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &applicationId, applicationSweepWaitCondition, time.Duration(3*time.Minute),
 				applicationSweepResponseFetchOperation, "functions", true)
 		}
 	}
@@ -367,7 +367,7 @@ func sweepFunctionsApplicationResource(compartment string) error {
 }
 
 func getApplicationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ApplicationId")
+	ids := GetResourceIdsToSweep(compartment, "ApplicationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -386,7 +386,7 @@ func getApplicationIds(compartment string) ([]string, error) {
 	for _, application := range listApplicationsResponse.Items {
 		id := *application.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ApplicationId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ApplicationId", id)
 	}
 	return resourceIds, nil
 }

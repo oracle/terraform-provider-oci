@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	"github.com/oracle/oci-go-sdk/v48/identity"
+	"github.com/oracle/oci-go-sdk/v49/identity"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -25,7 +25,7 @@ type DatasourceIdentityUsersTestSuite struct {
 }
 
 func (s *DatasourceIdentityUsersTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenizeWithHttpReplay("user_data_source")
+	s.Token, s.TokenFn = TokenizeWithHttpReplay("user_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`

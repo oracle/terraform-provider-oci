@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v48/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v49/loganalytics"
 )
 
 func init() {
@@ -204,7 +204,7 @@ func (s *LogAnalyticsLogAnalyticsImportCustomContentResourceCrud) Create() error
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
 	response, err := s.Client.ImportCustomContent(context.Background(), request)
 	if err != nil {

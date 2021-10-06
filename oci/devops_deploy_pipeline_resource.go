@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v48/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
 )
 
 func init() {
@@ -381,7 +381,7 @@ func (s *DevopsDeployPipelineResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
@@ -389,7 +389,7 @@ func (s *DevopsDeployPipelineResourceCrud) Create() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.CreateDeployPipeline(context.Background(), request)
 	if err != nil {
@@ -397,7 +397,7 @@ func (s *DevopsDeployPipelineResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeployPipelineFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeployPipelineFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DevopsDeployPipelineResourceCrud) getDeployPipelineFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -440,7 +440,7 @@ func deployPipelineWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 
 func deployPipelineWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "devops")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = deployPipelineWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_devops.GetWorkRequestResponse{}
@@ -521,7 +521,7 @@ func (s *DevopsDeployPipelineResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DeployPipelineId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.GetDeployPipeline(context.Background(), request)
 	if err != nil {
@@ -568,10 +568,10 @@ func (s *DevopsDeployPipelineResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.UpdateDeployPipeline(context.Background(), request)
 	if err != nil {
@@ -579,7 +579,7 @@ func (s *DevopsDeployPipelineResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeployPipelineFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDeployPipelineFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DevopsDeployPipelineResourceCrud) Delete() error {
@@ -588,7 +588,7 @@ func (s *DevopsDeployPipelineResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DeployPipelineId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.DeleteDeployPipeline(context.Background(), request)
 	if err != nil {

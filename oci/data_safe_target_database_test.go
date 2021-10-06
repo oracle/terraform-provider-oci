@@ -13,68 +13,68 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	TargetDatabaseRequiredOnlyResource = TargetDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation)
 
 	TargetDatabaseResourceConfig = TargetDatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Update, targetDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Update, targetDatabaseRepresentation)
 
 	targetDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"target_database_id": Representation{repType: Required, create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"target_database_id": Representation{RepType: Required, Create: `${oci_data_safe_target_database.test_target_database.id}`},
 	}
 
 	targetDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"target_database_id": Representation{repType: Optional, create: `${oci_data_safe_target_database.test_target_database.id}`},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":       Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"target_database_id": Representation{RepType: Optional, Create: `${oci_data_safe_target_database.test_target_database.id}`},
 		"filter":             RepresentationGroup{Required, targetDatabaseDataSourceFilterRepresentation}}
 	targetDatabaseDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_data_safe_target_database.test_target_database.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_data_safe_target_database.test_target_database.id}`}},
 	}
 
 	targetDatabaseRepresentation = map[string]interface{}{
-		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":    Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"database_details":  RepresentationGroup{Required, targetDatabaseDatabaseDetailsRepresentation},
 		"connection_option": RepresentationGroup{Optional, targetDatabaseConnectionOptionRepresentation},
-		"defined_tags":      Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":       Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":      Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"freeform_tags":     Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":      Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":       Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":      Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":     Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	targetDatabaseDatabaseDetailsRepresentation = map[string]interface{}{
-		"database_type":          Representation{repType: Required, create: `AUTONOMOUS_DATABASE`, update: `AUTONOMOUS_DATABASE`},
-		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"infrastructure_type":    Representation{repType: Required, create: `ORACLE_CLOUD`, update: `ORACLE_CLOUD`},
+		"database_type":          Representation{RepType: Required, Create: `AUTONOMOUS_DATABASE`, Update: `AUTONOMOUS_DATABASE`},
+		"autonomous_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"infrastructure_type":    Representation{RepType: Required, Create: `ORACLE_CLOUD`, Update: `ORACLE_CLOUD`},
 	}
 	targetDatabaseConnectionOptionRepresentation = map[string]interface{}{
-		"connection_type":              Representation{repType: Required, create: `PRIVATE_ENDPOINT`, update: `PRIVATE_ENDPOINT`},
-		"datasafe_private_endpoint_id": Representation{repType: Optional, create: `${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`},
+		"connection_type":              Representation{RepType: Required, Create: `PRIVATE_ENDPOINT`, Update: `PRIVATE_ENDPOINT`},
+		"datasafe_private_endpoint_id": Representation{RepType: Optional, Create: `${oci_data_safe_data_safe_private_endpoint.test_data_safe_private_endpoint.id}`},
 	}
 	targetDatabaseCredentialsRepresentation = map[string]interface{}{
-		"password":  Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
-		"user_name": Representation{repType: Required, create: `ADMIN`},
+		"password":  Representation{RepType: Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"user_name": Representation{RepType: Required, Create: `ADMIN`},
 	}
 	targetDatabaseTlsConfigRepresentation = map[string]interface{}{
-		"status":                 Representation{repType: Required, create: `ENABLED`, update: `DISABLED`},
-		"certificate_store_type": Representation{repType: Optional, create: `JKS`},
-		"key_store_content":      Representation{repType: Optional, create: `keyStoreContent`, update: `keyStoreContent2`},
-		"store_password":         Representation{repType: Optional, create: `storePassword`, update: `storePassword2`},
-		"trust_store_content":    Representation{repType: Optional, create: `trustStoreContent`, update: `trustStoreContent2`},
+		"status":                 Representation{RepType: Required, Create: `ENABLED`, Update: `DISABLED`},
+		"certificate_store_type": Representation{RepType: Optional, Create: `JKS`},
+		"key_store_content":      Representation{RepType: Optional, Create: `keyStoreContent`, Update: `keyStoreContent2`},
+		"store_password":         Representation{RepType: Optional, Create: `storePassword`, Update: `storePassword2`},
+		"trust_store_content":    Representation{RepType: Optional, Create: `trustStoreContent`, Update: `trustStoreContent2`},
 	}
 
 	TargetDatabaseResourceDependencies = OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -96,15 +96,15 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_data_safe_target_database.test_target_database"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+TargetDatabaseResourceDependencies+
-		generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Create, targetDatabaseRepresentation), "datasafe", "targetDatabase", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+TargetDatabaseResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Create, targetDatabaseRepresentation), "datasafe", "targetDatabase", t)
 
 	ResourceTest(t, testAccCheckDataSafeTargetDatabaseDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
@@ -112,20 +112,20 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Create, targetDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Create, targetDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "connection_option.#", "1"),
@@ -144,9 +144,9 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -155,12 +155,12 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TargetDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Create,
-					representationCopyWithNewProperties(targetDatabaseRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Create,
+					RepresentationCopyWithNewProperties(targetDatabaseRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -180,7 +180,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -192,7 +192,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + TargetDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Update, targetDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Update, targetDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "connection_option.#", "1"),
@@ -211,7 +211,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -222,9 +222,9 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_target_databases", "test_target_databases", Optional, Update, targetDatabaseDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_target_databases", "test_target_databases", Optional, Update, targetDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + TargetDatabaseResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Update, targetDatabaseRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Optional, Update, targetDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -244,7 +244,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", Required, Create, targetDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + TargetDatabaseResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_database_id"),
@@ -294,7 +294,7 @@ func testAccCheckDataSafeTargetDatabaseDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.TargetDatabaseId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 
 			response, err := client.GetTargetDatabase(context.Background(), request)
 
@@ -327,7 +327,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DataSafeTargetDatabase") {
+	if !InSweeperExcludeList("DataSafeTargetDatabase") {
 		resource.AddTestSweepers("DataSafeTargetDatabase", &resource.Sweeper{
 			Name:         "DataSafeTargetDatabase",
 			Dependencies: DependencyGraph["targetDatabase"],
@@ -348,13 +348,13 @@ func sweepDataSafeTargetDatabaseResource(compartment string) error {
 
 			deleteTargetDatabaseRequest.TargetDatabaseId = &targetDatabaseId
 
-			deleteTargetDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "data_safe")
+			deleteTargetDatabaseRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "data_safe")
 			_, error := dataSafeClient.DeleteTargetDatabase(context.Background(), deleteTargetDatabaseRequest)
 			if error != nil {
 				fmt.Printf("Error deleting TargetDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", targetDatabaseId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &targetDatabaseId, targetDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &targetDatabaseId, targetDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
 				targetDatabaseSweepResponseFetchOperation, "data_safe", true)
 		}
 	}
@@ -362,7 +362,7 @@ func sweepDataSafeTargetDatabaseResource(compartment string) error {
 }
 
 func getTargetDatabaseIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "TargetDatabaseId")
+	ids := GetResourceIdsToSweep(compartment, "TargetDatabaseId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -381,7 +381,7 @@ func getTargetDatabaseIds(compartment string) ([]string, error) {
 	for _, targetDatabase := range listTargetDatabasesResponse.Items {
 		id := *targetDatabase.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "TargetDatabaseId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "TargetDatabaseId", id)
 	}
 	return resourceIds, nil
 }

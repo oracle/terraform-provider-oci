@@ -13,51 +13,51 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ManagedListRequiredOnlyResource = ManagedListResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Required, Create, managedListRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Required, Create, managedListRepresentation)
 
 	ManagedListResourceConfig = ManagedListResourceDependencies +
-		generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Update, managedListRepresentation)
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Update, managedListRepresentation)
 
 	managedListSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_list_id": Representation{repType: Required, create: `${oci_cloud_guard_managed_list.test_managed_list.id}`},
+		"managed_list_id": Representation{RepType: Required, Create: `${oci_cloud_guard_managed_list.test_managed_list.id}`},
 	}
 
 	managedListDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		//access_level has acceptable values as RESTRICTED and ACCESSIBLE, latter providing lenient access check.
-		"access_level":              Representation{repType: Optional, create: `ACCESSIBLE`},
-		"compartment_id_in_subtree": Representation{repType: Optional, create: `true`},
-		"display_name":              Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"access_level":              Representation{RepType: Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `true`},
+		"display_name":              Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		//Valid list Type is required
-		"list_type":              Representation{repType: Optional, create: `USERS`},
-		"resource_metadata_only": Representation{repType: Optional, create: `false`},
+		"list_type":              Representation{RepType: Optional, Create: `USERS`},
+		"resource_metadata_only": Representation{RepType: Optional, Create: `false`},
 		//Valid lifecyclestate is required
-		"state":  Representation{repType: Optional, create: `ACTIVE`},
+		"state":  Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter": RepresentationGroup{Required, managedListDataSourceFilterRepresentation}}
 	managedListDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_cloud_guard_managed_list.test_managed_list.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_cloud_guard_managed_list.test_managed_list.id}`}},
 	}
 
 	managedListRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		//Below 2 params are marked as optional from api-spec but for testing purpose we will have that marked as required.
 		//These 2 params are required for making CUSTOMER managed recipes but not for ORACLE managed recipes.
-		"list_items":             Representation{repType: Required, create: []string{`listItems`}, update: []string{`listItems2`}},
-		"list_type":              Representation{repType: Required, create: `USERS`},
-		"source_managed_list_id": Representation{repType: Optional, create: nil},
+		"list_items":             Representation{RepType: Required, Create: []string{`listItems`}, Update: []string{`listItems2`}},
+		"list_type":              Representation{RepType: Required, Create: `USERS`},
+		"source_managed_list_id": Representation{RepType: Optional, Create: nil},
 	}
 
 	ManagedListResourceDependencies = DefinedTagsDependencies
@@ -81,34 +81,34 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_cloud_guard_managed_list.test_managed_list"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ManagedListResourceDependencies+
-		generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Create, managedListRepresentation), "cloudguard", "managedList", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ManagedListResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Create, managedListRepresentation), "cloudguard", "managedList", t)
 
 	ResourceTest(t, testAccCheckCloudGuardManagedListDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ManagedListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Required, Create, managedListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Required, Create, managedListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ManagedListResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ManagedListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Create, managedListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Create, managedListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -120,9 +120,9 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "list_type", "USERS"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -131,12 +131,12 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ManagedListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Create,
-					representationCopyWithNewProperties(managedListRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Create,
+					RepresentationCopyWithNewProperties(managedListRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -149,7 +149,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "list_type", "USERS"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -161,7 +161,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ManagedListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Update, managedListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Update, managedListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -173,7 +173,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "list_type", "USERS"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -184,9 +184,9 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_managed_lists", "test_managed_lists", Optional, Update, managedListDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_managed_lists", "test_managed_lists", Optional, Update, managedListDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagedListResourceDependencies +
-				generateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Update, managedListRepresentation),
+				GenerateResourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Optional, Update, managedListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -203,7 +203,7 @@ func TestCloudGuardManagedListResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Required, Create, managedListSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_cloud_guard_managed_list", "test_managed_list", Required, Create, managedListSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagedListResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_list_id"),
@@ -250,7 +250,7 @@ func testAccCheckCloudGuardManagedListDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ManagedListId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 
 			response, err := client.GetManagedList(context.Background(), request)
 
@@ -283,7 +283,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CloudGuardManagedList") {
+	if !InSweeperExcludeList("CloudGuardManagedList") {
 		resource.AddTestSweepers("CloudGuardManagedList", &resource.Sweeper{
 			Name:         "CloudGuardManagedList",
 			Dependencies: DependencyGraph["managedList"],
@@ -304,13 +304,13 @@ func sweepCloudGuardManagedListResource(compartment string) error {
 
 			deleteManagedListRequest.ManagedListId = &managedListId
 
-			deleteManagedListRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "cloud_guard")
+			deleteManagedListRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "cloud_guard")
 			_, error := cloudGuardClient.DeleteManagedList(context.Background(), deleteManagedListRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ManagedList %s %s, It is possible that the resource is already deleted. Please verify manually \n", managedListId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &managedListId, managedListSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &managedListId, managedListSweepWaitCondition, time.Duration(3*time.Minute),
 				managedListSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}
@@ -318,7 +318,7 @@ func sweepCloudGuardManagedListResource(compartment string) error {
 }
 
 func getManagedListIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ManagedListId")
+	ids := GetResourceIdsToSweep(compartment, "ManagedListId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -337,7 +337,7 @@ func getManagedListIds(compartment string) ([]string, error) {
 	for _, managedList := range listManagedListsResponse.Items {
 		id := *managedList.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ManagedListId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ManagedListId", id)
 	}
 	return resourceIds, nil
 }

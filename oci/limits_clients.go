@@ -4,14 +4,14 @@
 package oci
 
 import (
-	oci_limits "github.com/oracle/oci-go-sdk/v48/limits"
+	oci_limits "github.com/oracle/oci-go-sdk/v49/limits"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_limits.LimitsClient", &OracleClient{initClientFn: initLimitsLimitsClient})
-	RegisterOracleClient("oci_limits.QuotasClient", &OracleClient{initClientFn: initLimitsQuotasClient})
+	RegisterOracleClient("oci_limits.LimitsClient", &OracleClient{InitClientFn: initLimitsLimitsClient})
+	RegisterOracleClient("oci_limits.QuotasClient", &OracleClient{InitClientFn: initLimitsQuotasClient})
 }
 
 func initLimitsLimitsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 )
 
 func init() {
@@ -90,7 +90,7 @@ func DnsResolverEndpointResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				ForceNew: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -196,7 +196,7 @@ func (s *DnsResolverEndpointResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.CreateResolverEndpoint(context.Background(), request)
 	if err != nil {
@@ -235,7 +235,7 @@ func (s *DnsResolverEndpointResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.GetResolverEndpoint(context.Background(), request)
 	if err != nil {
@@ -253,7 +253,7 @@ func (s *DnsResolverEndpointResourceCrud) Update() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	response, err := s.Client.UpdateResolverEndpoint(context.Background(), request)
 	if err != nil {
@@ -281,7 +281,7 @@ func (s *DnsResolverEndpointResourceCrud) Delete() error {
 		request.Scope = oci_dns.DeleteResolverEndpointScopeEnum(scope.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	_, err := s.Client.DeleteResolverEndpoint(context.Background(), request)
 	return err
@@ -309,7 +309,7 @@ func (s *DnsResolverEndpointResourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)

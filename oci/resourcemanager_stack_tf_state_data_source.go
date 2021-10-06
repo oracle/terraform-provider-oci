@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v48/resourcemanager"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v49/resourcemanager"
 )
 
 func init() {
@@ -59,7 +59,7 @@ func (s *ResourcemanagerStackTfStateDataSourceCrud) Get() error {
 		request.StackId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "resourcemanager")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "resourcemanager")
 
 	response, err := s.Client.GetStackTfState(context.Background(), request)
 	if err != nil {

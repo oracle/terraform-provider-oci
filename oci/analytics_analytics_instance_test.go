@@ -14,68 +14,68 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_analytics "github.com/oracle/oci-go-sdk/v48/analytics"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	AnalyticsInstanceRequiredOnlyResource = AnalyticsInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceRepresentation)
 
 	AnalyticsInstanceResourceConfig = AnalyticsInstanceResourceDependencies +
-		generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation)
+		GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation)
 
 	analyticsInstanceSingularDataSourceRepresentation = map[string]interface{}{
-		"analytics_instance_id": Representation{repType: Required, create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
+		"analytics_instance_id": Representation{RepType: Required, Create: `${oci_analytics_analytics_instance.test_analytics_instance.id}`},
 	}
 
 	analyticsInstanceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"capacity_type":  Representation{repType: Optional, create: `OLPU_COUNT`},
-		"feature_set":    Representation{repType: Optional, create: `ENTERPRISE_ANALYTICS`},
-		"name":           Representation{repType: Optional, create: analyticsinstanceOptionalName},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"capacity_type":  Representation{RepType: Optional, Create: `OLPU_COUNT`},
+		"feature_set":    Representation{RepType: Optional, Create: `ENTERPRISE_ANALYTICS`},
+		"name":           Representation{RepType: Optional, Create: analyticsinstanceOptionalName},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, analyticsInstanceDataSourceFilterRepresentation}}
 	analyticsInstanceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_analytics_analytics_instance.test_analytics_instance.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_analytics_analytics_instance.test_analytics_instance.id}`}},
 	}
 
-	analyticsinstanceName           = randomString(15, charsetWithoutDigits)
-	analyticsinstanceOptionalName   = randomString(15, charsetWithoutDigits)
+	analyticsinstanceName           = RandomString(15, charsetWithoutDigits)
+	analyticsinstanceOptionalName   = RandomString(15, charsetWithoutDigits)
 	analyticsInstanceRepresentation = map[string]interface{}{
 		"capacity":       RepresentationGroup{Required, analyticsInstanceCapacityRepresentation},
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"feature_set":    Representation{repType: Required, create: `ENTERPRISE_ANALYTICS`},
-		"license_type":   Representation{repType: Required, create: `LICENSE_INCLUDED`, update: `BRING_YOUR_OWN_LICENSE`},
-		"name":           Representation{repType: Required, create: analyticsinstanceOptionalName},
-		//"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":              Representation{repType: Optional, create: `description`, update: `description2`},
-		"email_notification":       Representation{repType: Optional, create: `emailNotification`, update: `emailNotification2`},
-		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"idcs_access_token":        Representation{repType: Required, create: `${var.idcs_access_token}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"feature_set":    Representation{RepType: Required, Create: `ENTERPRISE_ANALYTICS`},
+		"license_type":   Representation{RepType: Required, Create: `LICENSE_INCLUDED`, Update: `BRING_YOUR_OWN_LICENSE`},
+		"name":           Representation{RepType: Required, Create: analyticsinstanceOptionalName},
+		//"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":              Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"email_notification":       Representation{RepType: Optional, Create: `emailNotification`, Update: `emailNotification2`},
+		"freeform_tags":            Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"idcs_access_token":        Representation{RepType: Required, Create: `${var.idcs_access_token}`},
 		"network_endpoint_details": RepresentationGroup{Optional, analyticsInstanceNetworkEndpointDetailsRepresentation},
-		"state":                    Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`},
+		"state":                    Representation{RepType: Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 	}
 	analyticsInstanceCapacityRepresentation = map[string]interface{}{
-		"capacity_type":  Representation{repType: Required, create: `OLPU_COUNT`},
-		"capacity_value": Representation{repType: Required, create: `2`},
+		"capacity_type":  Representation{RepType: Required, Create: `OLPU_COUNT`},
+		"capacity_value": Representation{RepType: Required, Create: `2`},
 	}
 	analyticsInstanceNetworkEndpointDetailsRepresentation = map[string]interface{}{
-		"network_endpoint_type": Representation{repType: Required, create: `PRIVATE`},
-		"subnet_id":             Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
-		"vcn_id":                Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"network_endpoint_type": Representation{RepType: Required, Create: `PRIVATE`},
+		"subnet_id":             Representation{RepType: Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_id":                Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
 	analyticsInstanceCapacityUpdateRepresentation = map[string]interface{}{
-		"capacity_type":  Representation{repType: Required, create: `OLPU_COUNT`},
-		"capacity_value": Representation{repType: Required, create: `4`},
+		"capacity_type":  Representation{RepType: Required, Create: `OLPU_COUNT`},
+		"capacity_value": Representation{RepType: Required, Create: `4`},
 	}
 
-	AnalyticsInstanceResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+	AnalyticsInstanceResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 // issue-routing-tag: analytics/default
@@ -102,15 +102,15 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_analytics_analytics_instance.test_analytics_instance"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AnalyticsInstanceResourceDependencies+
-		generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create, analyticsInstanceRepresentation), "analytics", "analyticsInstance", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AnalyticsInstanceResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create, analyticsInstanceRepresentation), "analytics", "analyticsInstance", t)
 
 	ResourceTest(t, testAccCheckAnalyticsAnalyticsInstanceDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, getUpdatedRepresentationCopy("name", Representation{repType: Required, create: analyticsinstanceName}, analyticsInstanceRepresentation)),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, GetUpdatedRepresentationCopy("name", Representation{RepType: Required, Create: analyticsinstanceName}, analyticsInstanceRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
@@ -122,20 +122,20 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceName),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create, analyticsInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create, analyticsInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
@@ -157,9 +157,9 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -168,12 +168,12 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create,
-					representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Create,
+					RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
@@ -196,7 +196,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -208,7 +208,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
@@ -227,7 +227,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -238,8 +238,8 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// verify up scaling
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update,
-					representationCopyWithNewProperties(representationCopyWithRemovedProperties(analyticsInstanceRepresentation, []string{"capacity"}), map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update,
+					RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(analyticsInstanceRepresentation, []string{"capacity"}), map[string]interface{}{
 						"capacity": RepresentationGroup{Required, analyticsInstanceCapacityUpdateRepresentation},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -260,7 +260,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -271,7 +271,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// verify down scaling
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
@@ -293,7 +293,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -304,8 +304,8 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// verify stop
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
-					"state": Representation{repType: Required, create: `INACTIVE`},
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
+					"state": Representation{RepType: Required, Create: `INACTIVE`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
@@ -325,7 +325,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -336,8 +336,8 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// verify start
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, representationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
-					"state": Representation{repType: Required, create: `ACTIVE`},
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
+					"state": Representation{RepType: Required, Create: `ACTIVE`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
@@ -357,7 +357,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -368,9 +368,9 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_analytics_analytics_instances", "test_analytics_instances", Optional, Update, analyticsInstanceDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_analytics_analytics_instances", "test_analytics_instances", Optional, Update, analyticsInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceDependencies +
-				generateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Optional, Update, analyticsInstanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -402,7 +402,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", Required, Create, analyticsInstanceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsInstanceResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "analytics_instance_id"),
@@ -455,7 +455,7 @@ func testAccCheckAnalyticsAnalyticsInstanceDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.AnalyticsInstanceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "analytics")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "analytics")
 
 			response, err := client.GetAnalyticsInstance(context.Background(), request)
 
@@ -488,7 +488,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("AnalyticsAnalyticsInstance") {
+	if !InSweeperExcludeList("AnalyticsAnalyticsInstance") {
 		resource.AddTestSweepers("AnalyticsAnalyticsInstance", &resource.Sweeper{
 			Name:         "AnalyticsAnalyticsInstance",
 			Dependencies: DependencyGraph["analyticsInstance"],
@@ -509,13 +509,13 @@ func sweepAnalyticsAnalyticsInstanceResource(compartment string) error {
 
 			deleteAnalyticsInstanceRequest.AnalyticsInstanceId = &analyticsInstanceId
 
-			deleteAnalyticsInstanceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "analytics")
+			deleteAnalyticsInstanceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "analytics")
 			_, error := analyticsClient.DeleteAnalyticsInstance(context.Background(), deleteAnalyticsInstanceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AnalyticsInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", analyticsInstanceId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &analyticsInstanceId, analyticsInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &analyticsInstanceId, analyticsInstanceSweepWaitCondition, time.Duration(3*time.Minute),
 				analyticsInstanceSweepResponseFetchOperation, "analytics", true)
 		}
 	}
@@ -523,7 +523,7 @@ func sweepAnalyticsAnalyticsInstanceResource(compartment string) error {
 }
 
 func getAnalyticsInstanceIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "AnalyticsInstanceId")
+	ids := GetResourceIdsToSweep(compartment, "AnalyticsInstanceId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -542,7 +542,7 @@ func getAnalyticsInstanceIds(compartment string) ([]string, error) {
 	for _, analyticsInstance := range listAnalyticsInstancesResponse.Items {
 		id := *analyticsInstance.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AnalyticsInstanceId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "AnalyticsInstanceId", id)
 	}
 	return resourceIds, nil
 }

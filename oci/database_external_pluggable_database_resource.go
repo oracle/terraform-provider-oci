@@ -8,8 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 )
 
 func init() {
@@ -266,7 +266,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if sourceId, ok := s.D.GetOkExists("source_id"); ok {
@@ -274,7 +274,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Create() error {
 		request.SourceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateExternalPluggableDatabase(context.Background(), request)
 	if err != nil {
@@ -300,7 +300,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ExternalPluggableDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetExternalPluggableDatabase(context.Background(), request)
 	if err != nil {
@@ -340,10 +340,10 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Update() error {
 	request.ExternalPluggableDatabaseId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateExternalPluggableDatabase(context.Background(), request)
 	if err != nil {
@@ -367,7 +367,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ExternalPluggableDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DeleteExternalPluggableDatabase(context.Background(), request)
 	if err != nil {
@@ -500,7 +500,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) updateCompartment(compar
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ExternalPluggableDatabaseId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeExternalPluggableDatabaseCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

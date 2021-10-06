@@ -15,17 +15,17 @@ import (
 
 var (
 	bootVolumeAttachmentDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"boot_volume_id":      Representation{repType: Optional, create: `${oci_core_instance.test_instance.boot_volume_id}`},
-		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"boot_volume_id":      Representation{RepType: Optional, Create: `${oci_core_instance.test_instance.boot_volume_id}`},
+		"instance_id":         Representation{RepType: Optional, Create: `${oci_core_instance.test_instance.id}`},
 	}
 
-	BootVolumeAttachmentResourceConfig = generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	BootVolumeAttachmentResourceConfig = GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -41,13 +41,13 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_core_boot_volume_attachments.test_boot_volume_attachments"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource can retrieve a specific attachment using server-side filtering
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", Optional, Create, bootVolumeAttachmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", Optional, Create, bootVolumeAttachmentDataSourceRepresentation) +
 				compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
@@ -69,7 +69,7 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 		// verify datasource can retrieve all boot volume attachments in a compartment by specifying no filtering options
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", Required, Update, bootVolumeAttachmentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", Required, Update, bootVolumeAttachmentDataSourceRepresentation) +
 				compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

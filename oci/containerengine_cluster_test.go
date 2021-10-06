@@ -13,75 +13,75 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	"github.com/oracle/oci-go-sdk/v48/containerengine"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v48/containerengine"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	"github.com/oracle/oci-go-sdk/v49/containerengine"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v49/containerengine"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ClusterRequiredOnlyResource = ClusterResourceDependencies +
-		generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation)
+		GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation)
 
 	clusterDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Optional, create: `name`, update: `name2`},
-		"state":          Representation{repType: Optional, create: []string{`CREATING`, `ACTIVE`, `FAILED`, `DELETING`, `DELETED`, `UPDATING`}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Optional, Create: `name`, Update: `name2`},
+		"state":          Representation{RepType: Optional, Create: []string{`CREATING`, `ACTIVE`, `FAILED`, `DELETING`, `DELETED`, `UPDATING`}},
 		"filter":         RepresentationGroup{Required, clusterDataSourceFilterRepresentation}}
 	clusterDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_containerengine_cluster.test_cluster.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_containerengine_cluster.test_cluster.id}`}},
 	}
 
 	clusterRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`, update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
-		"name":                Representation{repType: Required, create: `name`, update: `name2`},
-		"vcn_id":              Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"kubernetes_version":  Representation{RepType: Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`, Update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
+		"name":                Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"vcn_id":              Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"endpoint_config":     RepresentationGroup{Optional, clusterEndpointConfigRepresentation},
-		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"kms_key_id":          Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"options":             RepresentationGroup{Optional, clusterOptionsRepresentation},
 		"image_policy_config": RepresentationGroup{Optional, clusterImagePolicyConfigRepresentation},
 	}
 	clusterEndpointConfigRepresentation = map[string]interface{}{
-		"is_public_ip_enabled": Representation{repType: Optional, create: `true`, update: `false`},
-		"nsg_ids":              Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
-		"subnet_id":            Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"is_public_ip_enabled": Representation{RepType: Optional, Create: `true`, Update: `false`},
+		"nsg_ids":              Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"subnet_id":            Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	clusterImagePolicyConfigRepresentation = map[string]interface{}{
-		"is_policy_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"is_policy_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"key_details":       RepresentationGroup{Optional, clusterImagePolicyConfigKeyDetailsRepresentation},
 	}
 	clusterOptionsRepresentation = map[string]interface{}{
 		"add_ons":                      RepresentationGroup{Optional, clusterOptionsAddOnsRepresentation},
 		"admission_controller_options": RepresentationGroup{Optional, clusterOptionsAdmissionControllerOptionsRepresentation},
 		"kubernetes_network_config":    RepresentationGroup{Optional, clusterOptionsKubernetesNetworkConfigRepresentation},
-		"service_lb_subnet_ids":        Representation{repType: Optional, create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
+		"service_lb_subnet_ids":        Representation{RepType: Optional, Create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
 	}
 	clusterImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
-		"kms_key_id": Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
+		"kms_key_id": Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
 	}
 	clusterOptionsAddOnsRepresentation = map[string]interface{}{
-		"is_kubernetes_dashboard_enabled": Representation{repType: Optional, create: `true`},
-		"is_tiller_enabled":               Representation{repType: Optional, create: `true`},
+		"is_kubernetes_dashboard_enabled": Representation{RepType: Optional, Create: `true`},
+		"is_tiller_enabled":               Representation{RepType: Optional, Create: `true`},
 	}
 	clusterOptionsAdmissionControllerOptionsRepresentation = map[string]interface{}{
-		"is_pod_security_policy_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"is_pod_security_policy_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	clusterOptionsKubernetesNetworkConfigRepresentation = map[string]interface{}{
-		"pods_cidr":     Representation{repType: Optional, create: `10.1.0.0/16`},
-		"services_cidr": Representation{repType: Optional, create: `10.2.0.0/16`},
+		"pods_cidr":     Representation{RepType: Optional, Create: `10.1.0.0/16`},
+		"services_cidr": Representation{RepType: Optional, Create: `10.2.0.0/16`},
 	}
 
-	ClusterResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.20.0/24`}, "dns_label": Representation{repType: Required, create: `cluster1`}})) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.21.0/24`}, "dns_label": Representation{repType: Required, create: `cluster2`}})) +
+	ClusterResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{RepType: Required, Create: `10.0.20.0/24`}, "dns_label": Representation{RepType: Required, Create: `cluster1`}})) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{RepType: Required, Create: `10.0.21.0/24`}, "dns_label": Representation{RepType: Required, Create: `cluster2`}})) +
 		AvailabilityDomainConfig +
-		generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		KeyResourceDependencyConfig
 )
@@ -100,15 +100,15 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 	datasourceName := "data.oci_containerengine_clusters.test_clusters"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ClusterResourceDependencies+
-		generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation), "containerengine", "cluster", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ClusterResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation), "containerengine", "cluster", t)
 
 	ResourceTest(t, testAccCheckContainerengineClusterDestroy, []resource.TestStep{
-		//verify create
+		//verify Create
 		{
 			Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
-				generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
@@ -116,20 +116,20 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ClusterResourceDependencies,
 		},
-		//verify create with optionals
+		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
-				generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
@@ -154,9 +154,9 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -168,7 +168,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
-				generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "image_policy_config.#", "1"),
@@ -194,7 +194,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -205,9 +205,9 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_containerengine_clusters", "test_clusters", Optional, Update, clusterDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_containerengine_clusters", "test_clusters", Optional, Update, clusterDataSourceRepresentation) +
 				compartmentIdVariableStr + ClusterResourceDependencies +
-				generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
+				GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
@@ -264,7 +264,7 @@ func testAccCheckContainerengineClusterDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ClusterId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "containerengine")
 
 			response, err := client.GetCluster(context.Background(), request)
 
@@ -297,7 +297,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ContainerengineCluster") {
+	if !InSweeperExcludeList("ContainerengineCluster") {
 		resource.AddTestSweepers("ContainerengineCluster", &resource.Sweeper{
 			Name:         "ContainerengineCluster",
 			Dependencies: DependencyGraph["cluster"],
@@ -318,13 +318,13 @@ func sweepContainerengineClusterResource(compartment string) error {
 
 			deleteClusterRequest.ClusterId = &clusterId
 
-			deleteClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+			deleteClusterRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "containerengine")
 			_, error := containerEngineClient.DeleteCluster(context.Background(), deleteClusterRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Cluster %s %s, It is possible that the resource is already deleted. Please verify manually \n", clusterId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &clusterId, clusterSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &clusterId, clusterSweepWaitCondition, time.Duration(3*time.Minute),
 				clusterSweepResponseFetchOperation, "containerengine", true)
 		}
 	}
@@ -332,7 +332,7 @@ func sweepContainerengineClusterResource(compartment string) error {
 }
 
 func getClusterIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ClusterId")
+	ids := GetResourceIdsToSweep(compartment, "ClusterId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -351,7 +351,7 @@ func getClusterIds(compartment string) ([]string, error) {
 	for _, cluster := range listClustersResponse.Items {
 		id := *cluster.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ClusterId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ClusterId", id)
 	}
 	return resourceIds, nil
 }

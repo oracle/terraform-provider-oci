@@ -16,77 +16,77 @@ import (
 
 var (
 	RestMonitorResourceConfig = MonitorResourceDependencies1 +
-		generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, restMonitorRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, restMonitorRepresentation)
 
 	restMonitorSingularDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"monitor_id":    Representation{repType: Required, create: `${oci_apm_synthetics_monitor.test_monitor.id}`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"monitor_id":    Representation{RepType: Required, Create: `${oci_apm_synthetics_monitor.test_monitor.id}`},
 	}
 
 	restMonitorDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id": Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"monitor_type":  Representation{repType: Optional, create: `REST`},
-		"status":        Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
+		"apm_domain_id": Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":  Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":  Representation{RepType: Optional, Create: `REST`},
+		"status":        Representation{RepType: Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"filter":        RepresentationGroup{Required, restMonitorDataSourceFilterRepresentation},
 	}
 	restMonitorDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `display_name`},
-		"values": Representation{repType: Required, create: []string{`${oci_apm_synthetics_monitor.test_monitor.display_name}`}},
+		"name":   Representation{RepType: Required, Create: `display_name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_apm_synthetics_monitor.test_monitor.display_name}`}},
 	}
 
 	restMonitorRepresentation = map[string]interface{}{
-		"apm_domain_id":              Representation{repType: Required, create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"display_name":               Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"monitor_type":               Representation{repType: Required, create: `REST`},
-		"repeat_interval_in_seconds": Representation{repType: Required, create: `600`, update: `1200`},
-		"vantage_points":             Representation{repType: Required, create: []string{`OraclePublic-us-ashburn-1`}},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"status":                     Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
-		"target":                     Representation{repType: Optional, create: `https://console.us-ashburn-1.oraclecloud.com`, update: `https://console.us-phoenix-1.oraclecloud.com`},
-		"timeout_in_seconds":         Representation{repType: Optional, create: `60`, update: `120`},
+		"apm_domain_id":              Representation{RepType: Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":               Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":               Representation{RepType: Required, Create: `REST`},
+		"repeat_interval_in_seconds": Representation{RepType: Required, Create: `600`, Update: `1200`},
+		"vantage_points":             Representation{RepType: Required, Create: []string{`OraclePublic-us-ashburn-1`}},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"status":                     Representation{RepType: Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"target":                     Representation{RepType: Optional, Create: `https://console.us-ashburn-1.oraclecloud.com`, Update: `https://console.us-phoenix-1.oraclecloud.com`},
+		"timeout_in_seconds":         Representation{RepType: Optional, Create: `60`, Update: `120`},
 		"configuration":              RepresentationGroup{Optional, restMonitorConfigurationRepresentation},
 	}
 
 	restMonitorConfigurationRepresentation = map[string]interface{}{
-		"config_type":                       Representation{repType: Optional, create: `REST_CONFIG`},
-		"is_certificate_validation_enabled": Representation{repType: Optional, create: `false`, update: `true`},
-		"is_failure_retried":                Representation{repType: Optional, create: `false`, update: `true`},
-		"is_redirection_enabled":            Representation{repType: Optional, create: `false`, update: `true`},
+		"config_type":                       Representation{RepType: Optional, Create: `REST_CONFIG`},
+		"is_certificate_validation_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_failure_retried":                Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"is_redirection_enabled":            Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"req_authentication_details":        RepresentationGroup{Optional, monitorConfigurationReqAuthenticationDetailsRepresentation},
-		"req_authentication_scheme":         Representation{repType: Optional, create: `OAUTH`},
+		"req_authentication_scheme":         Representation{RepType: Optional, Create: `OAUTH`},
 		"request_headers":                   RepresentationGroup{Optional, monitorConfigurationRequestHeadersRepresentation},
-		"request_method":                    Representation{repType: Optional, create: `POST`},
-		"request_post_body":                 Representation{repType: Optional, create: `requestPostBody`, update: `requestPostBody2`},
+		"request_method":                    Representation{RepType: Optional, Create: `POST`},
+		"request_post_body":                 Representation{RepType: Optional, Create: `requestPostBody`, Update: `requestPostBody2`},
 		"request_query_params":              RepresentationGroup{Optional, monitorConfigurationRequestQueryParamsRepresentation},
-		"verify_response_codes":             Representation{repType: Optional, create: []string{`200`, `300`, `400`}},
-		"verify_response_content":           Representation{repType: Optional, create: `verifyResponseContent`, update: `verifyResponseContent2`},
+		"verify_response_codes":             Representation{RepType: Optional, Create: []string{`200`, `300`, `400`}},
+		"verify_response_content":           Representation{RepType: Optional, Create: `verifyResponseContent`, Update: `verifyResponseContent2`},
 	}
 
 	monitorConfigurationReqAuthenticationDetailsRepresentation = map[string]interface{}{
 		"auth_headers":           RepresentationGroup{Optional, monitorConfigurationReqAuthenticationDetailsAuthHeadersRepresentation},
-		"auth_request_method":    Representation{repType: Optional, create: `POST`},
-		"auth_request_post_body": Representation{repType: Optional, create: `authRequestPostBody`, update: `authRequestPostBody2`},
-		"auth_url":               Representation{repType: Optional, create: `http://authUrl`, update: `http://authUrl2`},
-		"oauth_scheme":           Representation{repType: Optional, create: `NONE`},
+		"auth_request_method":    Representation{RepType: Optional, Create: `POST`},
+		"auth_request_post_body": Representation{RepType: Optional, Create: `authRequestPostBody`, Update: `authRequestPostBody2`},
+		"auth_url":               Representation{RepType: Optional, Create: `http://authUrl`, Update: `http://authUrl2`},
+		"oauth_scheme":           Representation{RepType: Optional, Create: `NONE`},
 	}
 	monitorConfigurationRequestHeadersRepresentation = map[string]interface{}{
-		"header_name":  Representation{repType: Optional, create: `content-type`},
-		"header_value": Representation{repType: Optional, create: `json`},
+		"header_name":  Representation{RepType: Optional, Create: `content-type`},
+		"header_value": Representation{RepType: Optional, Create: `json`},
 	}
 	monitorConfigurationRequestQueryParamsRepresentation = map[string]interface{}{
-		"param_name":  Representation{repType: Optional, create: `paramName`, update: `paramName2`},
-		"param_value": Representation{repType: Optional, create: `paramValue`, update: `paramValue2`},
+		"param_name":  Representation{RepType: Optional, Create: `paramName`, Update: `paramName2`},
+		"param_value": Representation{RepType: Optional, Create: `paramValue`, Update: `paramValue2`},
 	}
 
 	monitorConfigurationReqAuthenticationDetailsAuthHeadersRepresentation = map[string]interface{}{
-		"header_name":  Representation{repType: Optional, create: `content-type`},
-		"header_value": Representation{repType: Optional, create: `json`},
+		"header_name":  Representation{RepType: Optional, Create: `content-type`},
+		"header_value": Representation{RepType: Optional, Create: `json`},
 	}
 
 	MonitorResourceDependencies1 = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation)
+		GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation)
 )
 
 // issue-routing-tag: apm_synthetics/default
@@ -104,16 +104,16 @@ func TestApmSyntheticsMonitorResource(t *testing.T) {
 	singularDatasourceName := "data.oci_apm_synthetics_monitor.test_monitor"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+MonitorResourceDependencies1+
-		generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, restMonitorRepresentation), "apmsynthetics", "monitor", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+MonitorResourceDependencies1+
+		GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, restMonitorRepresentation), "apmsynthetics", "monitor", t)
 
 	ResourceTest(t, testAccCheckApmSyntheticsMonitorDestroy, []resource.TestStep{
 
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + MonitorResourceDependencies1 +
-				generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, restMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Create, restMonitorRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
@@ -154,9 +154,9 @@ func TestApmSyntheticsMonitorResource(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -168,7 +168,7 @@ func TestApmSyntheticsMonitorResource(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + MonitorResourceDependencies1 +
-				generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, restMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, restMonitorRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
@@ -209,7 +209,7 @@ func TestApmSyntheticsMonitorResource(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -220,9 +220,9 @@ func TestApmSyntheticsMonitorResource(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", Optional, Update, restMonitorDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", Optional, Update, restMonitorDataSourceRepresentation) +
 				compartmentIdVariableStr + MonitorResourceDependencies1 +
-				generateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, restMonitorRepresentation),
+				GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Optional, Update, restMonitorRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -236,7 +236,7 @@ func TestApmSyntheticsMonitorResource(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Required, Create, restMonitorSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", Required, Create, restMonitorSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + RestMonitorResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),

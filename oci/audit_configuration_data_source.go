@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_audit "github.com/oracle/oci-go-sdk/v48/audit"
+	oci_audit "github.com/oracle/oci-go-sdk/v49/audit"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *AuditConfigurationDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "audit")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "audit")
 
 	response, err := s.Client.GetConfiguration(context.Background(), request)
 	if err != nil {

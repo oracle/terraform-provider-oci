@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -103,8 +103,8 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ValidateFunc:     validateInt64TypeString,
-				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ValidateFunc:     ValidateInt64TypeString,
+				DiffSuppressFunc: Int64StringDiffSuppressFunction,
 				ConflictsWith:    []string{"customer_bgp_asn"},
 			},
 			"customer_bgp_asn": {
@@ -364,7 +364,7 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
@@ -427,7 +427,7 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		request.Type = oci_core.CreateVirtualCircuitDetailsTypeEnum(type_.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVirtualCircuit(context.Background(), request)
 	if err != nil {
@@ -444,7 +444,7 @@ func (s *CoreVirtualCircuitResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.VirtualCircuitId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetVirtualCircuit(context.Background(), request)
 	if err != nil {
@@ -454,7 +454,7 @@ func (s *CoreVirtualCircuitResourceCrud) Get() error {
 	s.Res = &response.VirtualCircuit
 
 	ppRequest := oci_core.ListVirtualCircuitPublicPrefixesRequest{}
-	ppRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	ppRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 	ppRequest.VirtualCircuitId = request.VirtualCircuitId
 
 	ppResponse, ppErr := s.Client.ListVirtualCircuitPublicPrefixes(context.Background(), ppRequest)
@@ -474,11 +474,11 @@ func (s *CoreVirtualCircuitResourceCrud) Get() error {
 
 func (s *CoreVirtualCircuitResourceCrud) Update() error {
 	// Update public prefixes, if changed
-	// Cannot update PublicPrefix when the VirtualCircuit is in state PROVISIONING so public prefixes should be updated first
+	// Cannot Update PublicPrefix when the VirtualCircuit is in state PROVISIONING so public prefixes should be updated first
 	if s.D.HasChange("public_prefixes") {
 		err := s.updatePublicPrefixes()
 		if err != nil {
-			return fmt.Errorf("unable to update 'public_prefixes', error: %v", err)
+			return fmt.Errorf("unable to Update 'public_prefixes', error: %v", err)
 		}
 	}
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
@@ -547,7 +547,7 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
@@ -583,7 +583,7 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.VirtualCircuitId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateVirtualCircuit(context.Background(), request)
 	if err != nil {
@@ -626,10 +626,10 @@ func (s *CoreVirtualCircuitResourceCrud) updatePublicPrefixes() error {
 	}
 
 	// Add the public prefixes first, if any
-	// And, wait for the update to complete before proceeding for subsequent updates if state is PROVISIONING
+	// And, wait for the Update to complete before proceeding for subsequent updates if state is PROVISIONING
 	if len(publicPrefixesToAdd) > 0 {
 		addRequest := oci_core.BulkAddVirtualCircuitPublicPrefixesRequest{}
-		addRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		addRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		addRequest.PublicPrefixes = publicPrefixesToAdd
 		addRequest.VirtualCircuitId = &virtualCircuitId
 		_, addErr := s.Client.BulkAddVirtualCircuitPublicPrefixes(context.Background(), addRequest)
@@ -643,10 +643,10 @@ func (s *CoreVirtualCircuitResourceCrud) updatePublicPrefixes() error {
 	}
 
 	// Delete the old public prefixes, if any, after adding new ones
-	// And, wait for the update to complete before proceeding for subsequent updates if state is PROVISIONING
+	// And, wait for the Update to complete before proceeding for subsequent updates if state is PROVISIONING
 	if len(publicPrefixesToDelete) > 0 {
 		deleteRequest := oci_core.BulkDeleteVirtualCircuitPublicPrefixesRequest{}
-		deleteRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		deleteRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		deleteRequest.PublicPrefixes = publicPrefixesToDelete
 		deleteRequest.VirtualCircuitId = &virtualCircuitId
 		_, deleteErr := s.Client.BulkDeleteVirtualCircuitPublicPrefixes(context.Background(), deleteRequest)
@@ -668,7 +668,7 @@ func (s *CoreVirtualCircuitResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.VirtualCircuitId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteVirtualCircuit(context.Background(), request)
 	return err
@@ -905,7 +905,7 @@ func (s *CoreVirtualCircuitResourceCrud) updateCompartment(compartment interface
 	idTmp := s.D.Id()
 	changeCompartmentRequest.VirtualCircuitId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeVirtualCircuitCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

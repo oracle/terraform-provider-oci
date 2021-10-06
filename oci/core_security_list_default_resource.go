@@ -10,7 +10,7 @@ import (
 
 	"fmt"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -48,7 +48,7 @@ func deleteDefaultSecurityList(d *schema.ResourceData, m interface{}) error {
 
 func (s *DefaultSecurityListResourceCrud) Create() error {
 	// If we are creating a default resource, then don't have to
-	// actually create it. Just set the ID and update it.
+	// actually Create it. Just set the ID and Update it.
 	if defaultId, ok := s.D.GetOkExists("manage_default_resource_id"); ok {
 		s.D.SetId(defaultId.(string))
 		return s.Update()
@@ -69,7 +69,7 @@ func (s *DefaultSecurityListResourceCrud) reset() error {
 
 	request.EgressSecurityRules = []oci_core.EgressSecurityRule{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateSecurityList(context.Background(), request)
 	if err != nil {

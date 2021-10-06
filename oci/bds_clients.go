@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_bds "github.com/oracle/oci-go-sdk/v48/bds"
+	oci_bds "github.com/oracle/oci-go-sdk/v49/bds"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_bds.BdsClient", &OracleClient{initClientFn: initBdsBdsClient})
+	RegisterOracleClient("oci_bds.BdsClient", &OracleClient{InitClientFn: initBdsBdsClient})
 }
 
 func initBdsBdsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

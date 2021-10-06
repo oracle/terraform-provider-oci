@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 )
 
 func init() {
@@ -89,7 +89,7 @@ func (s *DataSafeCompareSecurityAssessmentResourceCrud) Get() error {
 		request.SecurityAssessmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.GetSecurityAssessmentComparison(context.Background(), request)
 	if err != nil {
@@ -113,7 +113,7 @@ func (s *DataSafeCompareSecurityAssessmentResourceCrud) Create() error {
 		request.SecurityAssessmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.CompareSecurityAssessment(context.Background(), request)
 	if err != nil {
@@ -121,7 +121,7 @@ func (s *DataSafeCompareSecurityAssessmentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCompareSecurityAssessmentFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCompareSecurityAssessmentFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DataSafeCompareSecurityAssessmentResourceCrud) getCompareSecurityAssessmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -164,7 +164,7 @@ func compareSecurityAssessmentWorkRequestShouldRetryFunc(timeout time.Duration) 
 
 func compareSecurityAssessmentWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "data_safe")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = compareSecurityAssessmentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_data_safe.GetWorkRequestResponse{}

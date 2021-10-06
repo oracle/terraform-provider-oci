@@ -13,76 +13,76 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v48/ocvp"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v49/ocvp"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	SddcRequiredOnlyResource = SddcResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcRepresentation)
 
 	SddcResourceConfig = SddcResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcRepresentation)
 
 	SddcV7ResourceConfig = SddcResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation)
+		GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation)
 
 	sddcSingularDataSourceRepresentation = map[string]interface{}{
-		"sddc_id": Representation{repType: Required, create: `${oci_ocvp_sddc.test_sddc.id}`},
+		"sddc_id": Representation{RepType: Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
 	}
 
 	sddcDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
-		"compute_availability_domain": Representation{repType: Optional, create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
-		"display_name":                Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":                       Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id":              Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compute_availability_domain": Representation{RepType: Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
+		"display_name":                Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":                       Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                      RepresentationGroup{Required, sddcDataSourceFilterRepresentation}}
 	sddcDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_ocvp_sddc.test_sddc.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_ocvp_sddc.test_sddc.id}`}},
 	}
 
 	sddcRepresentation = map[string]interface{}{
-		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
-		"initial_sku":                  Representation{repType: Optional, create: `HOUR`},
-		"compute_availability_domain":  Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
-		"esxi_hosts_count":             Representation{repType: Required, create: `3`},
-		"nsx_edge_uplink1vlan_id":      Representation{repType: Required, create: `${oci_core_vlan.test_nsx_edge_uplink1_vlan.id}`},
-		"nsx_edge_uplink2vlan_id":      Representation{repType: Required, create: `${oci_core_vlan.test_nsx_edge_uplink2_vlan.id}`},
-		"nsx_edge_vtep_vlan_id":        Representation{repType: Required, create: `${oci_core_vlan.test_nsx_edge_vtep_vlan.id}`},
-		"nsx_vtep_vlan_id":             Representation{repType: Required, create: `${oci_core_vlan.test_nsx_vtep_vlan.id}`},
-		"provisioning_subnet_id":       Representation{repType: Required, create: `${oci_core_subnet.test_provisioning_subnet.id}`},
-		"ssh_authorized_keys":          Representation{repType: Required, create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
-		"vmotion_vlan_id":              Representation{repType: Required, create: `${oci_core_vlan.test_vmotion_net_vlan.id}`},
-		"vmware_software_version":      Representation{repType: Required, create: `6.7 update 3`, update: `6.5 update 3`},
-		"vsan_vlan_id":                 Representation{repType: Required, create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
-		"vsphere_vlan_id":              Representation{repType: Required, create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
-		"defined_tags":                 Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                 Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"hcx_action":                   Representation{repType: Optional, create: UpgradeHcxAction},
-		"hcx_vlan_id":                  Representation{repType: Optional, create: `${oci_core_vlan.test_hcx_vlan.id}`},
-		"instance_display_name_prefix": Representation{repType: Optional, create: `njki`},
-		"is_hcx_enabled":               Representation{repType: Optional, create: `true`},
-		"workload_network_cidr":        Representation{repType: Optional, create: `172.20.0.0/24`},
-		"provisioning_vlan_id":         Representation{repType: Optional, create: `${oci_core_vlan.test_provisioning_vlan.id}`},
-		"replication_vlan_id":          Representation{repType: Optional, create: `${oci_core_vlan.test_replication_vlan.id}`},
-		"refresh_hcx_license_status":   Representation{repType: Optional, create: `false`, update: `true`},
+		"compartment_id":               Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"initial_sku":                  Representation{RepType: Optional, Create: `HOUR`},
+		"compute_availability_domain":  Representation{RepType: Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
+		"esxi_hosts_count":             Representation{RepType: Required, Create: `3`},
+		"nsx_edge_uplink1vlan_id":      Representation{RepType: Required, Create: `${oci_core_vlan.test_nsx_edge_uplink1_vlan.id}`},
+		"nsx_edge_uplink2vlan_id":      Representation{RepType: Required, Create: `${oci_core_vlan.test_nsx_edge_uplink2_vlan.id}`},
+		"nsx_edge_vtep_vlan_id":        Representation{RepType: Required, Create: `${oci_core_vlan.test_nsx_edge_vtep_vlan.id}`},
+		"nsx_vtep_vlan_id":             Representation{RepType: Required, Create: `${oci_core_vlan.test_nsx_vtep_vlan.id}`},
+		"provisioning_subnet_id":       Representation{RepType: Required, Create: `${oci_core_subnet.test_provisioning_subnet.id}`},
+		"ssh_authorized_keys":          Representation{RepType: Required, Create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
+		"vmotion_vlan_id":              Representation{RepType: Required, Create: `${oci_core_vlan.test_vmotion_net_vlan.id}`},
+		"vmware_software_version":      Representation{RepType: Required, Create: `6.7 update 3`, Update: `6.5 update 3`},
+		"vsan_vlan_id":                 Representation{RepType: Required, Create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
+		"vsphere_vlan_id":              Representation{RepType: Required, Create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
+		"defined_tags":                 Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                 Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hcx_action":                   Representation{RepType: Optional, Create: UpgradeHcxAction},
+		"hcx_vlan_id":                  Representation{RepType: Optional, Create: `${oci_core_vlan.test_hcx_vlan.id}`},
+		"instance_display_name_prefix": Representation{RepType: Optional, Create: `njki`},
+		"is_hcx_enabled":               Representation{RepType: Optional, Create: `true`},
+		"workload_network_cidr":        Representation{RepType: Optional, Create: `172.20.0.0/24`},
+		"provisioning_vlan_id":         Representation{RepType: Optional, Create: `${oci_core_vlan.test_provisioning_vlan.id}`},
+		"replication_vlan_id":          Representation{RepType: Optional, Create: `${oci_core_vlan.test_replication_vlan.id}`},
+		"refresh_hcx_license_status":   Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"lifecycle":                    RepresentationGroup{Required, ignoreDefinedTagsChangesRepresentation},
 	}
 
 	ignoreDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
-	sddcV7Representation = representationCopyWithNewProperties(sddcRepresentation, map[string]interface{}{
-		"vmware_software_version": Representation{repType: Required, create: `7.0 update 2`},
+	sddcV7Representation = RepresentationCopyWithNewProperties(sddcRepresentation, map[string]interface{}{
+		"vmware_software_version": Representation{RepType: Required, Create: `7.0 update 2`},
 	})
 
 	SddcResourceDependencies = DefinedTagsDependencies +
-		generateDataSourceFromRepresentationMap("oci_ocvp_supported_vmware_software_versions", "test_supported_vmware_software_versions", Required, Create, supportedVmwareSoftwareVersionDataSourceRepresentation) + `
+		GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_vmware_software_versions", "test_supported_vmware_software_versions", Required, Create, supportedVmwareSoftwareVersionDataSourceRepresentation) + `
 
 data "oci_core_services" "test_services" {}
 
@@ -397,15 +397,15 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_ocvp_sddc.test_sddc"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SddcResourceDependencies+
-		generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcRepresentation), "ocvp", "sddc", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SddcResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcRepresentation), "ocvp", "sddc", t)
 
 	ResourceTest(t, testAccCheckOcvpSddcDestroy, []resource.TestStep{
-		//verify create
+		//verify Create
 		{
 			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
@@ -426,16 +426,16 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// verify update VMware version
+		// verify Update VMware version
 		{
 			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Update, sddcRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Update, sddcRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
@@ -454,20 +454,20 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SddcResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcV7Representation),
+				GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create, sddcV7Representation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
@@ -506,9 +506,9 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -517,12 +517,12 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SddcResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create,
-					representationCopyWithNewProperties(sddcV7Representation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Create,
+					RepresentationCopyWithNewProperties(sddcV7Representation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -562,7 +562,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "false"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -572,10 +572,10 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		},
 
 		// verify updates to updatable parameters
-		// Cannot update VMware version here because some of the optional arguments are not applicable to VMware version less than 7.0
+		// Cannot Update VMware version here because some of the optional arguments are not applicable to VMware version less than 7.0
 		{
 			Config: config + compartmentIdVariableStr + SddcResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation),
+				GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Optional, Update, sddcV7Representation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
@@ -616,7 +616,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -628,7 +628,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", Optional, Update, sddcDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", Optional, Update, sddcDataSourceRepresentation) +
 				compartmentIdVariableStr + SddcV7ResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
@@ -649,7 +649,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", Required, Create, sddcSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SddcV7ResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
@@ -719,7 +719,7 @@ func testAccCheckOcvpSddcDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SddcId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ocvp")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ocvp")
 
 			response, err := client.GetSddc(context.Background(), request)
 
@@ -752,7 +752,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("OcvpSddc") {
+	if !InSweeperExcludeList("OcvpSddc") {
 		resource.AddTestSweepers("OcvpSddc", &resource.Sweeper{
 			Name:         "OcvpSddc",
 			Dependencies: DependencyGraph["sddc"],
@@ -773,13 +773,13 @@ func sweepOcvpSddcResource(compartment string) error {
 
 			deleteSddcRequest.SddcId = &sddcId
 
-			deleteSddcRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ocvp")
+			deleteSddcRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ocvp")
 			_, error := sddcClient.DeleteSddc(context.Background(), deleteSddcRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Sddc %s %s, It is possible that the resource is already deleted. Please verify manually \n", sddcId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &sddcId, sddcSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &sddcId, sddcSweepWaitCondition, time.Duration(3*time.Minute),
 				sddcSweepResponseFetchOperation, "ocvp", true)
 		}
 	}
@@ -787,7 +787,7 @@ func sweepOcvpSddcResource(compartment string) error {
 }
 
 func getSddcIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SddcId")
+	ids := GetResourceIdsToSweep(compartment, "SddcId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -806,7 +806,7 @@ func getSddcIds(compartment string) ([]string, error) {
 	for _, sddc := range listSddcsResponse.Items {
 		id := *sddc.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "SddcId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "SddcId", id)
 	}
 	return resourceIds, nil
 }

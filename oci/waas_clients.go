@@ -4,14 +4,14 @@
 package oci
 
 import (
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_waas.RedirectClient", &OracleClient{initClientFn: initWaasRedirectClient})
-	RegisterOracleClient("oci_waas.WaasClient", &OracleClient{initClientFn: initWaasWaasClient})
+	RegisterOracleClient("oci_waas.RedirectClient", &OracleClient{InitClientFn: initWaasRedirectClient})
+	RegisterOracleClient("oci_waas.WaasClient", &OracleClient{InitClientFn: initWaasWaasClient})
 }
 
 func initWaasRedirectClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

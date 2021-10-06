@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 )
 
 func init() {
@@ -152,7 +152,7 @@ func (s *DatascienceModelProvenanceResourceCrud) Create() error {
 		request.TrainingScript = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.CreateModelProvenance(context.Background(), request)
 	if err != nil {
@@ -178,7 +178,7 @@ func (s *DatascienceModelProvenanceResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.GetModelProvenance(context.Background(), request)
 	if err != nil {
@@ -227,7 +227,7 @@ func (s *DatascienceModelProvenanceResourceCrud) Update() error {
 		request.TrainingScript = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "datascience")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateModelProvenance(context.Background(), request)
 	if err != nil {

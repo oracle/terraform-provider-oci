@@ -13,39 +13,39 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	VcnRequiredOnlyResource = VcnRequiredOnlyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 
-	VcnResourceConfig = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation)
+	VcnResourceConfig = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation)
 
 	vcnSingularDataSourceRepresentation = map[string]interface{}{
-		"vcn_id": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"vcn_id": Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
 	vcnDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, vcnDataSourceFilterRepresentation}}
 	vcnDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_vcn.test_vcn.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_vcn.test_vcn.id}`}},
 	}
 
 	vcnRepresentation = map[string]interface{}{
-		"cidr_block":     Representation{repType: Required, create: `10.0.0.0/16`},
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"dns_label":      Representation{repType: Optional, create: `dnslabel`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"cidr_block":     Representation{RepType: Required, Create: `10.0.0.0/16`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"dns_label":      Representation{RepType: Optional, Create: `dnslabel`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      RepresentationGroup{Required, ignoreDefinedTagsChangesRep},
 	}
 
@@ -71,36 +71,36 @@ func TestCoreVcnResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_vcn.test_vcn"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+VcnResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation), "core", "vcn", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+VcnResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation), "core", "vcn", t)
 
 	ResourceTest(t, testAccCheckCoreVcnDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create,
-					representationCopyWithNewProperties(representationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"}), map[string]interface{}{
-						"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create,
+					RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(vcnRepresentation, []string{"cidr_blocks"}), map[string]interface{}{
+						"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -114,9 +114,9 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -125,12 +125,12 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VcnResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create,
-					representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create,
+					RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -144,7 +144,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -156,8 +156,8 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-					"is_ipv6enabled": Representation{repType: Optional, update: `true`},
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+					"is_ipv6enabled": Representation{RepType: Optional, Update: `true`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -171,7 +171,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -182,10 +182,10 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", Optional, Update, vcnDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", Optional, Update, vcnDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-					"is_ipv6enabled": Representation{repType: Optional, update: `true`},
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+					"is_ipv6enabled": Representation{RepType: Optional, Update: `true`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -212,10 +212,10 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-					"is_ipv6enabled": Representation{repType: Optional, create: `true`},
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+					"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
@@ -239,7 +239,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
 		},
 		// verify resource import
 		{
@@ -265,7 +265,7 @@ func testAccCheckCoreVcnDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VcnId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			response, err := client.GetVcn(context.Background(), request)
 
@@ -298,7 +298,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreVcn") {
+	if !InSweeperExcludeList("CoreVcn") {
 		resource.AddTestSweepers("CoreVcn", &resource.Sweeper{
 			Name:         "CoreVcn",
 			Dependencies: DependencyGraph["vcn"],
@@ -319,13 +319,13 @@ func sweepCoreVcnResource(compartment string) error {
 
 			deleteVcnRequest.VcnId = &vcnId
 
-			deleteVcnRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteVcnRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := virtualNetworkClient.DeleteVcn(context.Background(), deleteVcnRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Vcn %s %s, It is possible that the resource is already deleted. Please verify manually \n", vcnId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &vcnId, vcnSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &vcnId, vcnSweepWaitCondition, time.Duration(3*time.Minute),
 				vcnSweepResponseFetchOperation, "core", true)
 		}
 	}
@@ -333,7 +333,7 @@ func sweepCoreVcnResource(compartment string) error {
 }
 
 func getVcnIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "VcnId")
+	ids := GetResourceIdsToSweep(compartment, "VcnId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -352,7 +352,7 @@ func getVcnIds(compartment string) ([]string, error) {
 	for _, vcn := range listVcnsResponse.Items {
 		id := *vcn.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "VcnId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "VcnId", id)
 		SweeperDefaultResourceId[*vcn.DefaultDhcpOptionsId] = true
 		SweeperDefaultResourceId[*vcn.DefaultRouteTableId] = true
 		SweeperDefaultResourceId[*vcn.DefaultSecurityListId] = true

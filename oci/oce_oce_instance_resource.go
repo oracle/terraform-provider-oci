@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_oce "github.com/oracle/oci-go-sdk/v48/oce"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_oce "github.com/oracle/oci-go-sdk/v49/oce"
 )
 
 func init() {
@@ -27,9 +27,9 @@ func OceOceInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("30m"),
-			Update: getTimeoutDuration("20m"),
-			Delete: getTimeoutDuration("20m"),
+			Create: GetTimeoutDuration("30m"),
+			Update: GetTimeoutDuration("20m"),
+			Delete: GetTimeoutDuration("20m"),
 		},
 		Create: createOceOceInstance,
 		Read:   readOceOceInstance,
@@ -50,7 +50,7 @@ func OceOceInstanceResource() *schema.Resource {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
-				StateFunc: getMd5Hash,
+				StateFunc: GetMd5Hash,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -254,7 +254,7 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if idcsAccessToken, ok := s.D.GetOkExists("idcs_access_token"); ok {
@@ -303,7 +303,7 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 		request.WafPrimaryDomain = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oce")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
 	response, err := s.Client.CreateOceInstance(context.Background(), request)
 	if err != nil {
@@ -311,7 +311,7 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOceInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOceInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *OceOceInstanceResourceCrud) getOceInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -359,7 +359,7 @@ func oceInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 
 func oceInstanceWaitForWorkRequest(wId *string, entityType string, action oci_oce.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_oce.OceInstanceClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "oce")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "oce")
 	retryPolicy.ShouldRetryOperation = oceInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_oce.GetWorkRequestResponse{}
@@ -440,7 +440,7 @@ func (s *OceOceInstanceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.OceInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oce")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
 	response, err := s.Client.GetOceInstance(context.Background(), request)
 	if err != nil {
@@ -477,7 +477,7 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceLicenseType, ok := s.D.GetOkExists("instance_license_type"); ok {
@@ -496,7 +496,7 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 		request.WafPrimaryDomain = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oce")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
 	response, err := s.Client.UpdateOceInstance(context.Background(), request)
 	if err != nil {
@@ -504,7 +504,7 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOceInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOceInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *OceOceInstanceResourceCrud) Delete() error {
@@ -513,7 +513,7 @@ func (s *OceOceInstanceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.OceInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oce")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
 	response, err := s.Client.DeleteOceInstance(context.Background(), request)
 	if err != nil {
@@ -568,7 +568,7 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 		s.D.Set("object_storage_namespace", *s.Res.ObjectStorageNamespace)
 	}
 
-	s.D.Set("service", genericMapToJsonMap(s.Res.Service))
+	s.D.Set("service", GenericMapToJsonMap(s.Res.Service))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -614,7 +614,7 @@ func (s *OceOceInstanceResourceCrud) updateCompartment(compartment interface{}) 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.OceInstanceId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oce")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "oce")
 
 	response, err := s.Client.ChangeOceInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -622,5 +622,5 @@ func (s *OceOceInstanceResourceCrud) updateCompartment(compartment interface{}) 
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOceInstanceFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOceInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "oce"), oci_oce.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

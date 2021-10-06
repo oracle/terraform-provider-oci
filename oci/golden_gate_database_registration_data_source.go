@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v48/goldengate"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v49/goldengate"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *GoldenGateDatabaseRegistrationDataSourceCrud) Get() error {
 		request.DatabaseRegistrationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "golden_gate")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "golden_gate")
 
 	response, err := s.Client.GetDatabaseRegistration(context.Background(), request)
 	if err != nil {

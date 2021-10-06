@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v48/databasemigration"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v49/databasemigration"
 )
 
 func init() {
@@ -395,7 +395,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if privateEndpoint, ok := s.D.GetOkExists("private_endpoint"); ok {
@@ -441,7 +441,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.CreateConnection(context.Background(), request)
 	if err != nil {
@@ -449,7 +449,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConnectionFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getConnectionFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) getConnectionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -494,7 +494,7 @@ func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 
 func connectionWaitForWorkRequest(wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_migration.DatabaseMigrationClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "database_migration")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "database_migration")
 	retryPolicy.ShouldRetryOperation = connectionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_database_migration.GetWorkRequestResponse{}
@@ -574,7 +574,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ConnectionId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.GetConnection(context.Background(), request)
 	if err != nil {
@@ -646,7 +646,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if privateEndpoint, ok := s.D.GetOkExists("private_endpoint"); ok {
@@ -693,7 +693,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.UpdateConnection(context.Background(), request)
 	if err != nil {
@@ -701,7 +701,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConnectionFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getConnectionFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) Delete() error {
@@ -709,7 +709,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.ConnectionId = &tmp
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.DeleteConnection(context.Background(), request)
 	if err != nil {
@@ -1270,7 +1270,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) updateCompartment(compartment 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ConnectionId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	_, err := s.Client.ChangeConnectionCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

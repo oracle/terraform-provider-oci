@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v48/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v49/keymanagement"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func KmsVaultReplicasDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readKmsVaultReplicas,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"vault_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -82,7 +82,7 @@ func (s *KmsVaultReplicasDataSourceCrud) Get() error {
 		request.VaultId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "kms")
 
 	response, err := s.Client.ListVaultReplicas(context.Background(), request)
 	if err != nil {

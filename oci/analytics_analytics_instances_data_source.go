@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_analytics "github.com/oracle/oci-go-sdk/v48/analytics"
+	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func AnalyticsAnalyticsInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAnalyticsAnalyticsInstances,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"capacity_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -91,7 +91,7 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_analytics.ListAnalyticsInstancesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "analytics")
 
 	response, err := s.Client.ListAnalyticsInstances(context.Background(), request)
 	if err != nil {

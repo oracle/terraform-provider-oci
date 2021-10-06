@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v48/servicecatalog"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v49/servicecatalog"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_service_catalog.ServiceCatalogClient", &OracleClient{initClientFn: initServicecatalogServiceCatalogClient})
+	RegisterOracleClient("oci_service_catalog.ServiceCatalogClient", &OracleClient{InitClientFn: initServicecatalogServiceCatalogClient})
 }
 
 func initServicecatalogServiceCatalogClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

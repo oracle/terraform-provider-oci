@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_file_storage "github.com/oracle/oci-go-sdk/v48/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v49/filestorage"
 )
 
 func init() {
@@ -163,7 +163,7 @@ func (s *FileStorageSnapshotResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -171,7 +171,7 @@ func (s *FileStorageSnapshotResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.CreateSnapshot(context.Background(), request)
 	if err != nil {
@@ -188,7 +188,7 @@ func (s *FileStorageSnapshotResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.SnapshotId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.GetSnapshot(context.Background(), request)
 	if err != nil {
@@ -211,13 +211,13 @@ func (s *FileStorageSnapshotResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.SnapshotId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.UpdateSnapshot(context.Background(), request)
 	if err != nil {
@@ -234,7 +234,7 @@ func (s *FileStorageSnapshotResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SnapshotId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	_, err := s.Client.DeleteSnapshot(context.Background(), request)
 	return err

@@ -14,37 +14,37 @@ import (
 
 var (
 	shapeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"image_id":            Representation{repType: Optional, create: `${oci_core_image.test_image.id}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"image_id":            Representation{RepType: Optional, Create: `${oci_core_image.test_image.id}`},
 	}
 
-	shapeDataSourceRepresentationForFlexShape = representationCopyWithNewProperties(shapeDataSourceRepresentation, map[string]interface{}{
+	shapeDataSourceRepresentationForFlexShape = RepresentationCopyWithNewProperties(shapeDataSourceRepresentation, map[string]interface{}{
 		"filter": RepresentationGroup{Required, shapeDataSourceFilterRepresentationForFlexShape},
 	})
 
 	shapeDataSourceFilterRepresentationForFlexShape = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`VM.Standard.E3.Flex`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`VM.Standard.E3.Flex`}},
 	}
 
 	shapeResourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"image_id":       Representation{repType: Required, create: `${oci_core_image.test_image.id}`},
-		"shape_name":     Representation{repType: Required, create: `VM.Standard.E2.1`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"image_id":       Representation{RepType: Required, Create: `${oci_core_image.test_image.id}`},
+		"shape_name":     Representation{RepType: Required, Create: `VM.Standard.E2.1`},
 	}
 
-	shapeResourceRepresentationForFlexShape = getUpdatedRepresentationCopy("shape_name", Representation{repType: Required, create: InstanceConfigurationVmShapeForFlex},
-		representationCopyWithNewProperties(shapeResourceRepresentation, map[string]interface{}{"shape_config": RepresentationGroup{Optional, instanceShapeConfigRepresentationForFlexShape}}))
+	shapeResourceRepresentationForFlexShape = GetUpdatedRepresentationCopy("shape_name", Representation{RepType: Required, Create: InstanceConfigurationVmShapeForFlex},
+		RepresentationCopyWithNewProperties(shapeResourceRepresentation, map[string]interface{}{"shape_config": RepresentationGroup{Optional, instanceShapeConfigRepresentationForFlexShape}}))
 
 	commonShapeResourceConfig = AvailabilityDomainConfig +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
 )
 
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm
@@ -60,14 +60,14 @@ func TestCoreShapeResource_basic(t *testing.T) {
 	resourceName := "oci_core_shape_management.test_shape"
 	datasourceName := "data.oci_core_shapes.test_shapes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify Add Compatible Image Shape
 		{
 			Config: config + compartmentIdVariableStr + commonShapeResourceConfig + OciImageIdsVariable +
-				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-				generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.1"),
@@ -81,7 +81,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -110,8 +110,8 @@ func TestCoreShapeResource_basic(t *testing.T) {
 		// verify Add Compatible Image Shape
 		{
 			Config: config + compartmentIdVariableStr + commonShapeResourceConfig + FlexVmImageIdsVariable +
-				generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentationForFlexShape) +
-				generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentationForFlexShape),
+				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentationForFlexShape) +
+				GenerateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentationForFlexShape),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "image_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E3.Flex"),
@@ -126,7 +126,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentationForFlexShape) +
+				GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentationForFlexShape) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

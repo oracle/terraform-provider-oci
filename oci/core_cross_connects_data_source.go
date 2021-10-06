@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func CoreCrossConnectsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreCrossConnects,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *CoreCrossConnectsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_core.CrossConnectLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "core")
 
 	response, err := s.Client.ListCrossConnects(context.Background(), request)
 	if err != nil {

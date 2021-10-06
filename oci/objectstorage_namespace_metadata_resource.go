@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_object_storage "github.com/oracle/oci-go-sdk/v48/objectstorage"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v49/objectstorage"
 )
 
 func init() {
@@ -81,7 +81,7 @@ func (s *NamespaceMetadataResourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetNamespaceMetadata(context.Background(), request)
 	if err != nil {
@@ -111,7 +111,7 @@ func (s *NamespaceMetadataResourceCrud) Update() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.UpdateNamespaceMetadata(context.Background(), request)
 	if err != nil {

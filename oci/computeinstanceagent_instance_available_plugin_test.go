@@ -14,9 +14,9 @@ import (
 
 var (
 	instanceAvailablePluginDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"os_name":        Representation{repType: Required, create: `Oracle Linux`},
-		"os_version":     Representation{repType: Required, create: `7.8`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"os_name":        Representation{RepType: Required, Create: `Oracle Linux`},
+		"os_version":     Representation{RepType: Required, Create: `7.8`},
 	}
 
 	InstanceAvailablePluginResourceConfig = ""
@@ -34,13 +34,13 @@ func TestComputeinstanceagentInstanceAvailablePluginResource_basic(t *testing.T)
 
 	datasourceName := "data.oci_computeinstanceagent_instance_available_plugins.test_instance_available_plugins"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_available_plugins", "test_instance_available_plugins", Required, Create, instanceAvailablePluginDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_computeinstanceagent_instance_available_plugins", "test_instance_available_plugins", Required, Create, instanceAvailablePluginDataSourceRepresentation) +
 				compartmentIdVariableStr + InstanceAvailablePluginResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "os_name", "Oracle Linux"),

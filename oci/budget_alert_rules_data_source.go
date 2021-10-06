@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_budget "github.com/oracle/oci-go-sdk/v48/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v49/budget"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func BudgetAlertRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBudgetAlertRules,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"budget_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,7 +75,7 @@ func (s *BudgetAlertRulesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_budget.ListAlertRulesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "budget")
 
 	response, err := s.Client.ListAlertRules(context.Background(), request)
 	if err != nil {

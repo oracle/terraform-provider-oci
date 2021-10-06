@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
 
 func init() {
@@ -213,8 +213,8 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional:         true,
 													Computed:         true,
 													ForceNew:         true,
-													ValidateFunc:     validateInt64TypeString,
-													DiffSuppressFunc: int64StringDiffSuppressFunction,
+													ValidateFunc:     ValidateInt64TypeString,
+													DiffSuppressFunc: Int64StringDiffSuppressFunction,
 												},
 												"source_details": {
 													Type:     schema.TypeList,
@@ -254,8 +254,8 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional:         true,
 													Computed:         true,
 													ForceNew:         true,
-													ValidateFunc:     validateInt64TypeString,
-													DiffSuppressFunc: int64StringDiffSuppressFunction,
+													ValidateFunc:     ValidateInt64TypeString,
+													DiffSuppressFunc: Int64StringDiffSuppressFunction,
 												},
 
 												// Computed
@@ -442,7 +442,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Type:     schema.TypeSet,
 													Optional: true,
 													ForceNew: true,
-													Set:      literalTypeHashCodeForSets,
+													Set:      LiteralTypeHashCodeForSets,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -495,7 +495,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										Optional:         true,
 										Computed:         true,
 										ForceNew:         true,
-										DiffSuppressFunc: jsonStringDiffSuppressFunction,
+										DiffSuppressFunc: JsonStringDiffSuppressFunction,
 										Elem:             schema.TypeString,
 									},
 									"fault_domain": {
@@ -794,8 +794,8 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional:         true,
 													Computed:         true,
 													ForceNew:         true,
-													ValidateFunc:     validateInt64TypeString,
-													DiffSuppressFunc: int64StringDiffSuppressFunction,
+													ValidateFunc:     ValidateInt64TypeString,
+													DiffSuppressFunc: Int64StringDiffSuppressFunction,
 												},
 												"image_id": {
 													Type:     schema.TypeString,
@@ -878,7 +878,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Type:     schema.TypeSet,
 													Optional: true,
 													ForceNew: true,
-													Set:      literalTypeHashCodeForSets,
+													Set:      LiteralTypeHashCodeForSets,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -1013,7 +1013,7 @@ func (s *CoreInstanceConfigurationResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateInstanceConfiguration(context.Background(), request)
 	if err != nil {
@@ -1030,7 +1030,7 @@ func (s *CoreInstanceConfigurationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.InstanceConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.GetInstanceConfiguration(context.Background(), request)
 	if err != nil {
@@ -1067,13 +1067,13 @@ func (s *CoreInstanceConfigurationResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.InstanceConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateInstanceConfiguration(context.Background(), request)
 	if err != nil {
@@ -1090,7 +1090,7 @@ func (s *CoreInstanceConfigurationResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.InstanceConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.DeleteInstanceConfiguration(context.Background(), request)
 	return err
@@ -1420,7 +1420,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
@@ -1494,7 +1494,7 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 	if datasource {
 		result["nsg_ids"] = nsgIds
 	} else {
-		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+		result["nsg_ids"] = schema.NewSet(LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateIp != nil {
@@ -1544,7 +1544,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
@@ -1955,7 +1955,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		result.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if instanceOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_options")); ok {
@@ -1995,7 +1995,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 	}
 
 	if metadata, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metadata")); ok {
-		result.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
+		result.Metadata = ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
 
 	if platformConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "platform_config")); ok {
@@ -2093,7 +2093,7 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["extended_metadata"] = genericMapToJsonMap(obj.ExtendedMetadata)
+	result["extended_metadata"] = GenericMapToJsonMap(obj.ExtendedMetadata)
 
 	if obj.FaultDomain != nil {
 		result["fault_domain"] = string(*obj.FaultDomain)
@@ -2489,7 +2489,7 @@ func (s *CoreInstanceConfigurationResourceCrud) populateTopLevelPolymorphicCreat
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateInstanceConfiguration = details
 	case strings.ToLower("NONE"):
@@ -2520,7 +2520,7 @@ func (s *CoreInstanceConfigurationResourceCrud) populateTopLevelPolymorphicCreat
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateInstanceConfiguration = details
 	default:
@@ -2538,7 +2538,7 @@ func (s *CoreInstanceConfigurationResourceCrud) updateCompartment(compartment in
 	idTmp := s.D.Id()
 	changeCompartmentRequest.InstanceConfigurationId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeInstanceConfigurationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_health_checks "github.com/oracle/oci-go-sdk/v48/healthchecks"
+	oci_health_checks "github.com/oracle/oci-go-sdk/v49/healthchecks"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *HealthChecksPingMonitorDataSourceCrud) Get() error {
 		request.MonitorId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "health_checks")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "health_checks")
 
 	response, err := s.Client.GetPingMonitor(context.Background(), request)
 	if err != nil {

@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_nosql "github.com/oracle/oci-go-sdk/v48/nosql"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_nosql "github.com/oracle/oci-go-sdk/v49/nosql"
 )
 
 func init() {
@@ -212,7 +212,7 @@ func (s *NosqlIndexResourceCrud) Create() error {
 		request.TableNameOrId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
 	response, err := s.Client.CreateIndex(context.Background(), request)
 	if err != nil {
@@ -220,7 +220,7 @@ func (s *NosqlIndexResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getIndexFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getIndexFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *NosqlIndexResourceCrud) getIndexFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -275,7 +275,7 @@ func indexWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 
 func indexWaitForWorkRequest(wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_nosql.NosqlClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "nosql")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "nosql")
 	retryPolicy.ShouldRetryOperation = indexWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_nosql.GetWorkRequestResponse{}
@@ -376,7 +376,7 @@ func (s *NosqlIndexResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
 	response, err := s.Client.GetIndex(context.Background(), request)
 	if err != nil {
@@ -410,7 +410,7 @@ func (s *NosqlIndexResourceCrud) Delete() error {
 		request.TableNameOrId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
 	response, err := s.Client.DeleteIndex(context.Background(), request)
 	if err != nil {

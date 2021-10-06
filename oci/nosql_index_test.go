@@ -14,59 +14,59 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_nosql "github.com/oracle/oci-go-sdk/v48/nosql"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_nosql "github.com/oracle/oci-go-sdk/v49/nosql"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	IndexRequiredOnlyResource = IndexResourceDependencies +
-		generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexRepresentation)
+		GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexRepresentation)
 
 	IndexResourceConfig = IndexResourceDependencies +
-		generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Update, indexRepresentation)
+		GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Update, indexRepresentation)
 
 	indexSingularDataSourceRepresentation = map[string]interface{}{
-		"index_name":       Representation{repType: Required, create: `${oci_nosql_index.test_index.id}`},
-		"table_name_or_id": Representation{repType: Required, create: `${oci_nosql_table.test_table.id}`},
-		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
+		"index_name":       Representation{RepType: Required, Create: `${oci_nosql_index.test_index.id}`},
+		"table_name_or_id": Representation{RepType: Required, Create: `${oci_nosql_table.test_table.id}`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	indexDataSourceRepresentation = map[string]interface{}{
-		"table_name_or_id": Representation{repType: Required, create: `${oci_nosql_table.test_table.id}`},
-		"compartment_id":   Representation{repType: Optional, create: `${var.compartment_id}`},
-		"name":             Representation{repType: Optional, create: `test_index`},
-		"state":            Representation{repType: Optional, create: `ACTIVE`},
+		"table_name_or_id": Representation{RepType: Required, Create: `${oci_nosql_table.test_table.id}`},
+		"compartment_id":   Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"name":             Representation{RepType: Optional, Create: `test_index`},
+		"state":            Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":           RepresentationGroup{Required, indexDataSourceFilterRepresentation}}
 	indexDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`${oci_nosql_index.test_index.name}`}},
+		"name":   Representation{RepType: Required, Create: `name`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_nosql_index.test_index.name}`}},
 	}
 
 	indexRepresentation = map[string]interface{}{
 		"keys":             RepresentationGroup{Required, indexKeysRepresentation},
-		"name":             Representation{repType: Required, create: `test_index`},
-		"table_name_or_id": Representation{repType: Required, create: `${oci_nosql_table.test_table.id}`},
+		"name":             Representation{RepType: Required, Create: `test_index`},
+		"table_name_or_id": Representation{RepType: Required, Create: `${oci_nosql_table.test_table.id}`},
 	}
 	indexKeysRepresentation = map[string]interface{}{
-		"column_name": Representation{repType: Required, create: `name`},
+		"column_name": Representation{RepType: Required, Create: `name`},
 	}
 
 	indexOptionalRepresentation = map[string]interface{}{
 		"keys":             RepresentationGroup{Required, indexKeyWithJsonRepresentation},
-		"name":             Representation{repType: Required, create: `test_index`},
-		"table_name_or_id": Representation{repType: Required, create: `${oci_nosql_table.test_table.id}`},
-		"compartment_id":   Representation{repType: Optional, create: `${var.compartment_id}`},
-		"is_if_not_exists": Representation{repType: Optional, create: `false`},
+		"name":             Representation{RepType: Required, Create: `test_index`},
+		"table_name_or_id": Representation{RepType: Required, Create: `${oci_nosql_table.test_table.id}`},
+		"compartment_id":   Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"is_if_not_exists": Representation{RepType: Optional, Create: `false`},
 	}
 	indexKeyWithJsonRepresentation = map[string]interface{}{
-		"column_name":     Representation{repType: Required, create: `info`},
-		"json_field_type": Representation{repType: Optional, create: `STRING`},
-		"json_path":       Representation{repType: Optional, create: `info`},
+		"column_name":     Representation{RepType: Required, Create: `info`},
+		"json_field_type": Representation{RepType: Optional, Create: `STRING`},
+		"json_path":       Representation{RepType: Optional, Create: `info`},
 	}
 
-	IndexResourceDependencies = generateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation)
+	IndexResourceDependencies = GenerateResourceFromRepresentationMap("oci_nosql_table", "test_table", Required, Create, tableRepresentation)
 )
 
 // issue-routing-tag: nosql/default
@@ -86,15 +86,15 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 
 	var compositeId string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+IndexResourceDependencies+
-		generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Create, indexRepresentation), "nosql", "index", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+IndexResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Create, indexRepresentation), "nosql", "index", t)
 
 	ResourceTest(t, testAccCheckNosqlIndexDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + IndexResourceDependencies +
-				generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexRepresentation),
+				GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "keys.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "keys.0.column_name", "name"),
@@ -103,14 +103,14 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + IndexResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + IndexResourceDependencies +
-				generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Create, indexOptionalRepresentation),
+				GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Create, indexOptionalRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_if_not_exists", "false"),
@@ -122,12 +122,12 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "table_name_or_id"),
 
 				func(s *terraform.State) (err error) {
-					indexName, err := fromInstanceState(s, resourceName, "id")
-					tableName, _ := fromInstanceState(s, resourceName, "table_name_or_id")
+					indexName, err := FromInstanceState(s, resourceName, "id")
+					tableName, _ := FromInstanceState(s, resourceName, "table_name_or_id")
 					compositeId = "tables/" + tableName + "/indexes/" + indexName
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -139,9 +139,9 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_nosql_indexes", "test_indexes", Optional, Update, indexDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_nosql_indexes", "test_indexes", Optional, Update, indexDataSourceRepresentation) +
 				compartmentIdVariableStr + IndexResourceDependencies +
-				generateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Update, indexRepresentation),
+				GenerateResourceFromRepresentationMap("oci_nosql_index", "test_index", Optional, Update, indexRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test_index"),
@@ -155,7 +155,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_nosql_index", "test_index", Required, Create, indexSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + IndexResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -194,7 +194,7 @@ func testAccCheckNosqlIndexDestroy(s *terraform.State) error {
 				request.TableNameOrId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "nosql")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "nosql")
 
 			response, err := client.GetIndex(context.Background(), request)
 
@@ -227,7 +227,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("NosqlIndex") {
+	if !InSweeperExcludeList("NosqlIndex") {
 		resource.AddTestSweepers("NosqlIndex", &resource.Sweeper{
 			Name:         "NosqlIndex",
 			Dependencies: DependencyGraph["index"],
@@ -246,13 +246,13 @@ func sweepNosqlIndexResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[indexId]; !ok {
 			deleteIndexRequest := oci_nosql.DeleteIndexRequest{}
 
-			deleteIndexRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "nosql")
+			deleteIndexRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "nosql")
 			_, error := nosqlClient.DeleteIndex(context.Background(), deleteIndexRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Index %s %s, It is possible that the resource is already deleted. Please verify manually \n", indexId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &indexId, indexSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &indexId, indexSweepWaitCondition, time.Duration(3*time.Minute),
 				indexSweepResponseFetchOperation, "nosql", true)
 		}
 	}
@@ -260,7 +260,7 @@ func sweepNosqlIndexResource(compartment string) error {
 }
 
 func getIndexIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "IndexId")
+	ids := GetResourceIdsToSweep(compartment, "IndexId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -287,7 +287,7 @@ func getIndexIds(compartment string) ([]string, error) {
 		for _, index := range listIndexesResponse.Items {
 			id := *index.Name
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "IndexId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "IndexId", id)
 		}
 
 	}

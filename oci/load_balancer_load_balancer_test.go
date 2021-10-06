@@ -13,61 +13,61 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v48/loadbalancer"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v49/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	LoadBalancerRequiredOnlyResource = LoadBalancerResourceDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation)
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation)
 
 	loadBalancerDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"detail":         Representation{repType: Optional, create: `detail`},
-		"display_name":   Representation{repType: Optional, create: `example_load_balancer`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"detail":         Representation{RepType: Optional, Create: `detail`},
+		"display_name":   Representation{RepType: Optional, Create: `example_load_balancer`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, loadBalancerDataSourceFilterRepresentation}}
 	loadBalancerDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_load_balancer.test_load_balancer.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_load_balancer_load_balancer.test_load_balancer.id}`}},
 	}
 
 	LoadBalancerResourceConfig = LoadBalancerResourceDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation)
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation)
 
 	loadBalancerRepresentation = map[string]interface{}{
-		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":               Representation{repType: Required, create: `example_load_balancer`, update: `displayName2`},
-		"shape":                      Representation{repType: Required, create: `100Mbps`, update: `400Mbps`},
-		"subnet_ids":                 Representation{repType: Required, create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
-		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_private":                 Representation{repType: Optional, create: `false`},
+		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":               Representation{RepType: Required, Create: `example_load_balancer`, Update: `displayName2`},
+		"shape":                      Representation{RepType: Required, Create: `100Mbps`, Update: `400Mbps`},
+		"subnet_ids":                 Representation{RepType: Required, Create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
+		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_private":                 Representation{RepType: Optional, Create: `false`},
 		"reserved_ips":               RepresentationGroup{Optional, loadBalancerReservedIpsRepresentation},
-		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{}},
+		"network_security_group_ids": Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{}},
 		"lifecycle":                  RepresentationGroup{Required, ignoreChangesLBRepresentation},
 	}
 
 	loadBalancer2Representation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `example_load_balancer2`, update: `displayName3`},
-		"shape":          Representation{repType: Required, create: `100Mbps`, update: `400Mbps`},
-		"subnet_ids":     Representation{repType: Required, create: []string{`${oci_core_subnet.lb_test_subnet_3.id}`, `${oci_core_subnet.lb_test_subnet_4.id}`}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `example_load_balancer2`, Update: `displayName3`},
+		"shape":          Representation{RepType: Required, Create: `100Mbps`, Update: `400Mbps`},
+		"subnet_ids":     Representation{RepType: Required, Create: []string{`${oci_core_subnet.lb_test_subnet_3.id}`, `${oci_core_subnet.lb_test_subnet_4.id}`}},
 		"lifecycle":      RepresentationGroup{Required, ignoreChangesLBRepresentation},
 	}
 
 	ignoreChangesLBRepresentation = map[string]interface{}{
-		"ignore_changes": Representation{repType: Required, create: []string{`defined_tags`}},
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
 	}
 
 	loadBalancerReservedIpsRepresentation = map[string]interface{}{
-		"id": Representation{repType: Optional, create: `${oci_core_public_ip.test_public_ip.id}`},
+		"id": Representation{RepType: Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
 
-	LoadBalancerSubnetDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-		"dns_label": Representation{repType: Required, create: `dnslabel`},
+	LoadBalancerSubnetDependencies = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 	})) +
 		`
 	data "oci_load_balancer_shapes" "t" {
@@ -118,12 +118,12 @@ var (
 	}
 `
 
-	LoadBalancerReservedIpDependencies = generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation)
+	LoadBalancerReservedIpDependencies = GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation)
 
 	LoadBalancerResourceDependencies = LoadBalancerSubnetDependencies + LoadBalancerReservedIpDependencies +
-		generateResourceFromRepresentationMap("oci_core_network_security_group",
-			"test_network_security_group1", Required, Create, representationCopyWithNewProperties(networkSecurityGroupRepresentation, map[string]interface{}{
-				"vcn_id": Representation{repType: Required, create: `${oci_core_vcn.test_lb_vcn.id}`},
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group",
+			"test_network_security_group1", Required, Create, RepresentationCopyWithNewProperties(networkSecurityGroupRepresentation, map[string]interface{}{
+				"vcn_id": Representation{RepType: Required, Create: `${oci_core_vcn.test_lb_vcn.id}`},
 			})) +
 		DefinedTagsDependencies
 )
@@ -145,15 +145,15 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 	datasourceName := "data.oci_load_balancer_load_balancers.test_load_balancers"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+LoadBalancerResourceDependencies+
-		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation), "loadbalancer", "loadBalancer", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+LoadBalancerResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation), "loadbalancer", "loadBalancer", t)
 
 	ResourceTest(t, testAccCheckLoadBalancerLoadBalancerDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
@@ -161,20 +161,20 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
@@ -192,9 +192,9 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -203,12 +203,12 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LoadBalancerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
-					representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
+					RepresentationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -226,7 +226,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -238,7 +238,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
@@ -256,7 +256,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -267,9 +267,9 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_load_balancers", "test_load_balancers", Optional, Update, loadBalancerDataSourceRepresentation) +
 				compartmentIdVariableStr + LoadBalancerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Update, loadBalancerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "detail", "detail"),
@@ -317,7 +317,7 @@ func testAccCheckLoadBalancerLoadBalancerDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.LoadBalancerId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 
 			response, err := client.GetLoadBalancer(context.Background(), request)
 
@@ -350,7 +350,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("LoadBalancerLoadBalancer") {
+	if !InSweeperExcludeList("LoadBalancerLoadBalancer") {
 		resource.AddTestSweepers("LoadBalancerLoadBalancer", &resource.Sweeper{
 			Name:         "LoadBalancerLoadBalancer",
 			Dependencies: DependencyGraph["loadBalancer"],
@@ -371,13 +371,13 @@ func sweepLoadBalancerLoadBalancerResource(compartment string) error {
 
 			deleteLoadBalancerRequest.LoadBalancerId = &loadBalancerId
 
-			deleteLoadBalancerRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			deleteLoadBalancerRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
 			_, error := loadBalancerClient.DeleteLoadBalancer(context.Background(), deleteLoadBalancerRequest)
 			if error != nil {
 				fmt.Printf("Error deleting LoadBalancer %s %s, It is possible that the resource is already deleted. Please verify manually \n", loadBalancerId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &loadBalancerId, loadBalancerSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &loadBalancerId, loadBalancerSweepWaitCondition, time.Duration(3*time.Minute),
 				loadBalancerSweepResponseFetchOperation, "load_balancer", true)
 		}
 	}
@@ -385,7 +385,7 @@ func sweepLoadBalancerLoadBalancerResource(compartment string) error {
 }
 
 func getLoadBalancerIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "LoadBalancerId")
+	ids := GetResourceIdsToSweep(compartment, "LoadBalancerId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -404,7 +404,7 @@ func getLoadBalancerIds(compartment string) ([]string, error) {
 	for _, loadBalancer := range listLoadBalancersResponse.Items {
 		id := *loadBalancer.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "LoadBalancerId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "LoadBalancerId", id)
 	}
 	return resourceIds, nil
 }

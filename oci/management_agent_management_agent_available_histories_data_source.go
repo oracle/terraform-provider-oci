@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v48/managementagent"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
 )
 
 func init() {
@@ -20,7 +20,7 @@ func ManagementAgentManagementAgentAvailableHistoriesDataSource() *schema.Resour
 	return &schema.Resource{
 		Read: readManagementAgentManagementAgentAvailableHistories,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"management_agent_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -108,7 +108,7 @@ func (s *ManagementAgentManagementAgentAvailableHistoriesDataSourceCrud) Get() e
 		request.TimeAvailabilityStatusStartedLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "management_agent")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "management_agent")
 
 	response, err := s.Client.ListAvailabilityHistories(context.Background(), request)
 	if err != nil {

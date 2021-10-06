@@ -13,49 +13,49 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v48/dataflow"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v49/dataflow"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	InvokeRunSubmitRequiredOnlyResource = InvokeRunSubmitResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Required, Create, invokeRunSubmitRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Required, Create, invokeRunSubmitRepresentation)
 
 	InvokeRunSubmitResourceConfig = InvokeRunSubmitResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Update, invokeRunSubmitRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Update, invokeRunSubmitRepresentation)
 
 	invokeRunSubmitSingularDataSourceRepresentation = map[string]interface{}{
-		"run_id": Representation{repType: Required, create: `${oci_dataflow_invoke_run.test_invoke_run_submit.id}`},
+		"run_id": Representation{RepType: Required, Create: `${oci_dataflow_invoke_run.test_invoke_run_submit.id}`},
 	}
 
 	invokeRunSubmitDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"filter":         RepresentationGroup{Required, invokeRunSubmitDataSourceFilterRepresentation}}
 	invokeRunSubmitDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dataflow_invoke_run.test_invoke_run_submit.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dataflow_invoke_run.test_invoke_run_submit.id}`}},
 	}
 
 	invokeRunSubmitRepresentation = map[string]interface{}{
-		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
-		"archive_uri":          Representation{repType: Optional, create: getEnvSettingWithBlankDefault("dataflow_archive_uri")},
-		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":         Representation{repType: Optional, create: `test_wordcount_runsubmit`},
-		"driver_shape":         Representation{repType: Optional, create: `VM.Standard2.1`},
-		"execute":              Representation{repType: Required, create: `--conf spark.shuffle.io.maxRetries=10 ` + getEnvSettingWithBlankDefault("dataflow_file_uri") + ` arguments`},
-		"executor_shape":       Representation{repType: Optional, create: `VM.Standard2.1`},
-		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"logs_bucket_uri":      Representation{repType: Optional, create: `${var.dataflow_logs_bucket_uri}`},
-		"metastore_id":         Representation{repType: Optional, create: `${var.metastore_id}`},
-		"num_executors":        Representation{repType: Optional, create: `1`},
-		"spark_version":        Representation{repType: Optional, create: `2.4.4`},
-		"warehouse_bucket_uri": Representation{repType: Optional, create: `${var.dataflow_warehouse_bucket_uri}`},
+		"compartment_id":       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"archive_uri":          Representation{RepType: Optional, Create: getEnvSettingWithBlankDefault("dataflow_archive_uri")},
+		"defined_tags":         Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":         Representation{RepType: Optional, Create: `test_wordcount_runsubmit`},
+		"driver_shape":         Representation{RepType: Optional, Create: `VM.Standard2.1`},
+		"execute":              Representation{RepType: Required, Create: `--conf spark.shuffle.io.maxRetries=10 ` + getEnvSettingWithBlankDefault("dataflow_file_uri") + ` arguments`},
+		"executor_shape":       Representation{RepType: Optional, Create: `VM.Standard2.1`},
+		"freeform_tags":        Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"logs_bucket_uri":      Representation{RepType: Optional, Create: `${var.dataflow_logs_bucket_uri}`},
+		"metastore_id":         Representation{RepType: Optional, Create: `${var.metastore_id}`},
+		"num_executors":        Representation{RepType: Optional, Create: `1`},
+		"spark_version":        Representation{RepType: Optional, Create: `2.4.4`},
+		"warehouse_bucket_uri": Representation{RepType: Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
 	}
 
-	InvokeRunSubmitResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+	InvokeRunSubmitResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -89,29 +89,29 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create run with required execute
+		// verify Create run with required execute
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Required, Create, invokeRunSubmitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Required, Create, invokeRunSubmitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "execute", "--conf spark.shuffle.io.maxRetries=10 "+fileUri+" arguments"),
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies,
 		},
-		// verify create with execute, display_name, spark_version
+		// verify Create with execute, display_name, spark_version
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Create, invokeRunSubmitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Create, invokeRunSubmitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
@@ -136,9 +136,9 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -147,14 +147,14 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			PreConfig: waitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(20*time.Minute),
+			PreConfig: WaitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(20*time.Minute),
 				dataFlowInvokeRunFetchOperation, "dataflow", false),
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InvokeRunSubmitResourceDependencies + warehouseBucketUriVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
-				generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Create,
-					representationCopyWithNewProperties(invokeRunSubmitRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Create,
+					RepresentationCopyWithNewProperties(invokeRunSubmitRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -180,7 +180,7 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "warehouse_bucket_uri"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -192,7 +192,7 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Update, invokeRunSubmitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Update, invokeRunSubmitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "archive_uri", archiveUri),
@@ -217,7 +217,7 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -228,9 +228,9 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataflow_invoke_runs", "test_invoke_run_submit", Optional, Update, invokeRunSubmitDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataflow_invoke_runs", "test_invoke_run_submit", Optional, Update, invokeRunSubmitDataSourceRepresentation) +
 				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Update, invokeRunSubmitRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Optional, Update, invokeRunSubmitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				//resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -258,7 +258,7 @@ func TestDataflowInvokeRunResource_SparkSubmit(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Required, Create, invokeRunSubmitSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run_submit", Required, Create, invokeRunSubmitSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + InvokeRunSubmitResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "run_id"),
@@ -298,7 +298,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DataflowInvokeRunSubmit") {
+	if !InSweeperExcludeList("DataflowInvokeRunSubmit") {
 		resource.AddTestSweepers("DataflowInvokeRunSubmit", &resource.Sweeper{
 			Name:         "DataflowInvokeRun",
 			Dependencies: DependencyGraph["invokeRun"],
@@ -317,7 +317,7 @@ func sweepDataflowInvokeRunSubmitResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[invokeRunId]; !ok {
 			deleteRunRequest := oci_dataflow.DeleteRunRequest{}
 
-			deleteRunRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dataflow")
+			deleteRunRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dataflow")
 			_, error := dataFlowClient.DeleteRun(context.Background(), deleteRunRequest)
 			if error != nil {
 				fmt.Printf("Error deleting InvokeRun %s %s, It is possible that the resource is already deleted. Please verify manually \n", invokeRunId, error)

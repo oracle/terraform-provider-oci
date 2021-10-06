@@ -13,97 +13,97 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_bastion "github.com/oracle/oci-go-sdk/v48/bastion"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_bastion "github.com/oracle/oci-go-sdk/v49/bastion"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	SessionRequiredOnlyResource = SessionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, sessionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, sessionRepresentation)
 
 	SessionResourceConfig = SessionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, sessionRepresentation)
+		GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, sessionRepresentation)
 
 	sessionSingularDataSourceRepresentation = map[string]interface{}{
-		"session_id": Representation{repType: Required, create: `${oci_bastion_session.test_session.id}`},
+		"session_id": Representation{RepType: Required, Create: `${oci_bastion_session.test_session.id}`},
 	}
 
 	sessionDataSourceRepresentation = map[string]interface{}{
-		"bastion_id":              Representation{repType: Required, create: `${oci_bastion_bastion.test_bastion.id}`},
-		"display_name":            Representation{repType: Optional, create: `managed_ssh`, update: `managed_ssh2`},
-		"session_id":              Representation{repType: Optional, create: `${oci_bastion_session.test_session.id}`},
-		"session_lifecycle_state": Representation{repType: Optional, create: `ACTIVE`},
+		"bastion_id":              Representation{RepType: Required, Create: `${oci_bastion_bastion.test_bastion.id}`},
+		"display_name":            Representation{RepType: Optional, Create: `managed_ssh`, Update: `managed_ssh2`},
+		"session_id":              Representation{RepType: Optional, Create: `${oci_bastion_session.test_session.id}`},
+		"session_lifecycle_state": Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":                  RepresentationGroup{Required, sessionDataSourceFilterRepresentation}}
 	sessionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_bastion_session.test_session.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_bastion_session.test_session.id}`}},
 	}
 
 	sessionRepresentation = map[string]interface{}{
-		"bastion_id":              Representation{repType: Required, create: `${oci_bastion_bastion.test_bastion.id}`},
+		"bastion_id":              Representation{RepType: Required, Create: `${oci_bastion_bastion.test_bastion.id}`},
 		"key_details":             RepresentationGroup{Required, sessionKeyDetailsRepresentation},
 		"target_resource_details": RepresentationGroup{Required, sessionTargetResourceDetailsRepresentation},
-		"display_name":            Representation{repType: Optional, create: `managed_ssh`, update: `managed_ssh2`},
-		"key_type":                Representation{repType: Optional, create: `PUB`},
-		"session_ttl_in_seconds":  Representation{repType: Optional, create: `1800`},
+		"display_name":            Representation{RepType: Optional, Create: `managed_ssh`, Update: `managed_ssh2`},
+		"key_type":                Representation{RepType: Optional, Create: `PUB`},
+		"session_ttl_in_seconds":  Representation{RepType: Optional, Create: `1800`},
 	}
 	sessionTargetResourceDetailsRepresentation = map[string]interface{}{
-		"session_type":       Representation{repType: Required, create: `MANAGED_SSH`},
-		"target_resource_id": Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"target_resource_operating_system_user_name": Representation{repType: Required, create: `opc`},
-		"target_resource_port":                       Representation{repType: Optional, create: `22`},
-		"target_resource_private_ip_address":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.private_ip}`},
+		"session_type":       Representation{RepType: Required, Create: `MANAGED_SSH`},
+		"target_resource_id": Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"target_resource_operating_system_user_name": Representation{RepType: Required, Create: `opc`},
+		"target_resource_port":                       Representation{RepType: Optional, Create: `22`},
+		"target_resource_private_ip_address":         Representation{RepType: Optional, Create: `${oci_core_instance.test_instance.private_ip}`},
 	}
 
 	sessionKeyDetailsRepresentation = map[string]interface{}{
-		"public_key_content": Representation{repType: Required, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDjk96o3uQcgHId6l/gkCwiid5J48CxKEiyk+1tPQugfhzgIIBs2Xr4xLX/rb5Xkr7MIeXuU3gdYrrMPLuMhOvthIKj6U5ROJWiZ67X00pOLq64dFyam1lQ+S/R/SaQ4W0KhKfkVskRhg7V96U07BGo8lDwYRGnvJsNb7rt3oHgnXtTFs7cy3IbzH5Sl7XBZv7yePu9sY39FrxktHw7Avz9BDZQbNYFC/cpj5eVvtPX/sMbc/D1yfrvhAIrYarhcAjEmWkjOJvkVlyKBxaSA7+mnOqFcj99hj5ZQN69h2B4TtHw2G8WEsU/nlyzBAj1iGQEvCLKnyp7Lxviy81jyKt91NQ7W6qh4tcs1mOFBsTGx/mBsNPwZhGRe4jWH15T++qnBAp6Zzw8ydPrJTgHLK+h1AMGFKMQZKYnMRV+6JYaNbnCVmLlxXoxhGsufXZMMS4qmjAQUBakZQsfiwLUxZBd0ZXmDCaZBxf6KP7HgL2x0Gb8IF38F7ryaOg9oxifqI8= chiweng@chiweng-mac`},
+		"public_key_content": Representation{RepType: Required, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDjk96o3uQcgHId6l/gkCwiid5J48CxKEiyk+1tPQugfhzgIIBs2Xr4xLX/rb5Xkr7MIeXuU3gdYrrMPLuMhOvthIKj6U5ROJWiZ67X00pOLq64dFyam1lQ+S/R/SaQ4W0KhKfkVskRhg7V96U07BGo8lDwYRGnvJsNb7rt3oHgnXtTFs7cy3IbzH5Sl7XBZv7yePu9sY39FrxktHw7Avz9BDZQbNYFC/cpj5eVvtPX/sMbc/D1yfrvhAIrYarhcAjEmWkjOJvkVlyKBxaSA7+mnOqFcj99hj5ZQN69h2B4TtHw2G8WEsU/nlyzBAj1iGQEvCLKnyp7Lxviy81jyKt91NQ7W6qh4tcs1mOFBsTGx/mBsNPwZhGRe4jWH15T++qnBAp6Zzw8ydPrJTgHLK+h1AMGFKMQZKYnMRV+6JYaNbnCVmLlxXoxhGsufXZMMS4qmjAQUBakZQsfiwLUxZBd0ZXmDCaZBxf6KP7HgL2x0Gb8IF38F7ryaOg9oxifqI8= chiweng@chiweng-mac`},
 	}
 
 	bastionEnabledInstanceAgentConfigRepresentation = map[string]interface{}{
-		"are_all_plugins_disabled": Representation{repType: Required, create: `false`, update: `false`},
-		"is_management_disabled":   Representation{repType: Required, create: `false`, update: `false`},
-		"is_monitoring_disabled":   Representation{repType: Required, create: `false`, update: `false`},
+		"are_all_plugins_disabled": Representation{RepType: Required, Create: `false`, Update: `false`},
+		"is_management_disabled":   Representation{RepType: Required, Create: `false`, Update: `false`},
+		"is_monitoring_disabled":   Representation{RepType: Required, Create: `false`, Update: `false`},
 		"plugins_config":           RepresentationGroup{Required, bastionEnabledInstanceAgentConfigPluginsConfigRepresentation},
 	}
 
 	bastionEnabledInstanceAgentConfigPluginsConfigRepresentation = map[string]interface{}{
-		"desired_state": Representation{repType: Required, create: `ENABLED`},
-		"name":          Representation{repType: Required, create: `Bastion`},
+		"desired_state": Representation{RepType: Required, Create: `ENABLED`},
+		"name":          Representation{RepType: Required, Create: `Bastion`},
 	}
 
 	allOCIServiceGatewayServicesRepresentation = map[string]interface{}{
-		"service_id": Representation{repType: Required, create: `${lookup(data.oci_core_services.test_services.services[1], "id")}`},
+		"service_id": Representation{RepType: Required, Create: `${lookup(data.oci_core_services.test_services.services[1], "id")}`},
 	}
 
 	allOCIServiceRouteTableRouteRulesRepresentationWithServiceCidr = map[string]interface{}{
-		"network_entity_id": Representation{repType: Required, create: `${oci_core_service_gateway.test_service_gateway.id}`},
-		"destination":       Representation{repType: Required, create: `${lookup(data.oci_core_services.test_services.services[1], "cidr_block")}`},
-		"destination_type":  Representation{repType: Required, create: `SERVICE_CIDR_BLOCK`},
+		"network_entity_id": Representation{RepType: Required, Create: `${oci_core_service_gateway.test_service_gateway.id}`},
+		"destination":       Representation{RepType: Required, Create: `${lookup(data.oci_core_services.test_services.services[1], "cidr_block")}`},
+		"destination_type":  Representation{RepType: Required, Create: `SERVICE_CIDR_BLOCK`},
 	}
 
-	SessionResourceDependencies = generateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	SessionResourceDependencies = GenerateResourceFromRepresentationMap("oci_bastion_bastion", "test_bastion", Required, Create, bastionRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		AvailabilityDomainConfig +
 		seestionImageInstanceDependencies +
 		// Create instance as target host
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create,
-			representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-				"shape":        Representation{repType: Required, create: `VM.Standard1.1`},
-				"image":        Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create,
+			RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+				"shape":        Representation{RepType: Required, Create: `VM.Standard1.1`},
+				"image":        Representation{RepType: Required, Create: `${var.InstanceImageOCID[var.region]}`},
 				"agent_config": RepresentationGroup{Required, bastionEnabledInstanceAgentConfigRepresentation},
-				"metadata":     Representation{repType: Required, create: map[string]string{"ssh_authorized_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDjk96o3uQcgHId6l/gkCwiid5J48CxKEiyk+1tPQugfhzgIIBs2Xr4xLX/rb5Xkr7MIeXuU3gdYrrMPLuMhOvthIKj6U5ROJWiZ67X00pOLq64dFyam1lQ+S/R/SaQ4W0KhKfkVskRhg7V96U07BGo8lDwYRGnvJsNb7rt3oHgnXtTFs7cy3IbzH5Sl7XBZv7yePu9sY39FrxktHw7Avz9BDZQbNYFC/cpj5eVvtPX/sMbc/D1yfrvhAIrYarhcAjEmWkjOJvkVlyKBxaSA7+mnOqFcj99hj5ZQN69h2B4TtHw2G8WEsU/nlyzBAj1iGQEvCLKnyp7Lxviy81jyKt91NQ7W6qh4tcs1mOFBsTGx/mBsNPwZhGRe4jWH15T++qnBAp6Zzw8ydPrJTgHLK+h1AMGFKMQZKYnMRV+6JYaNbnCVmLlxXoxhGsufXZMMS4qmjAQUBakZQsfiwLUxZBd0ZXmDCaZBxf6KP7HgL2x0Gb8IF38F7ryaOg9oxifqI8= chiweng@chiweng-mac"}},
+				"metadata":     Representation{RepType: Required, Create: map[string]string{"ssh_authorized_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDjk96o3uQcgHId6l/gkCwiid5J48CxKEiyk+1tPQugfhzgIIBs2Xr4xLX/rb5Xkr7MIeXuU3gdYrrMPLuMhOvthIKj6U5ROJWiZ67X00pOLq64dFyam1lQ+S/R/SaQ4W0KhKfkVskRhg7V96U07BGo8lDwYRGnvJsNb7rt3oHgnXtTFs7cy3IbzH5Sl7XBZv7yePu9sY39FrxktHw7Avz9BDZQbNYFC/cpj5eVvtPX/sMbc/D1yfrvhAIrYarhcAjEmWkjOJvkVlyKBxaSA7+mnOqFcj99hj5ZQN69h2B4TtHw2G8WEsU/nlyzBAj1iGQEvCLKnyp7Lxviy81jyKt91NQ7W6qh4tcs1mOFBsTGx/mBsNPwZhGRe4jWH15T++qnBAp6Zzw8ydPrJTgHLK+h1AMGFKMQZKYnMRV+6JYaNbnCVmLlxXoxhGsufXZMMS4qmjAQUBakZQsfiwLUxZBd0ZXmDCaZBxf6KP7HgL2x0Gb8IF38F7ryaOg9oxifqI8= chiweng@chiweng-mac"}},
 			})) +
 		// Create Routable, Service Gateway, Internet Gateway for testing
-		generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Required, Create,
-			representationCopyWithNewProperties(serviceGatewayRepresentation, map[string]interface{}{
+		GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", Required, Create,
+			RepresentationCopyWithNewProperties(serviceGatewayRepresentation, map[string]interface{}{
 				"services": RepresentationGroup{Required, allOCIServiceGatewayServicesRepresentation},
 			})) +
-		generateResourceFromRepresentationMap("oci_core_default_route_table", "default_route_table", Required, Create,
-			representationCopyWithNewProperties(routeTablesRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_default_route_table", "default_route_table", Required, Create,
+			RepresentationCopyWithNewProperties(routeTablesRepresentation, map[string]interface{}{
 				"route_rules": RepresentationGroup{Required, allOCIServiceRouteTableRouteRulesRepresentationWithServiceCidr},
 			}))
 
@@ -138,15 +138,15 @@ func TestBastionSessionResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_bastion_session.test_session"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+SessionResourceDependencies+
-		generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, sessionRepresentation), "bastion", "session", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+SessionResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, sessionRepresentation), "bastion", "session", t)
 
 	ResourceTest(t, testAccCheckBastionSessionDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SessionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, sessionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, sessionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 				resource.TestCheckResourceAttr(resourceName, "key_details.#", "1"),
@@ -157,20 +157,20 @@ func TestBastionSessionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "target_resource_details.0.target_resource_operating_system_user_name"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SessionResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SessionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, sessionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, sessionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
@@ -190,9 +190,9 @@ func TestBastionSessionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -203,7 +203,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SessionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, sessionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, sessionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "bastion_name"),
@@ -223,7 +223,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -235,9 +235,9 @@ func TestBastionSessionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bastion_sessions", "test_sessions", Optional, Update, sessionDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bastion_sessions", "test_sessions", Optional, Update, sessionDataSourceRepresentation) +
 				compartmentIdVariableStr + SessionResourceDependencies +
-				generateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, sessionRepresentation),
+				GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Update, sessionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "managed_ssh2"),
@@ -265,7 +265,7 @@ func TestBastionSessionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, sessionSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_bastion_session", "test_session", Required, Create, sessionSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + SessionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "session_id"),
@@ -314,7 +314,7 @@ func testAccCheckBastionSessionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SessionId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "bastion")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "bastion")
 
 			response, err := client.GetSession(context.Background(), request)
 
@@ -347,7 +347,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("BastionSession") {
+	if !InSweeperExcludeList("BastionSession") {
 		resource.AddTestSweepers("BastionSession", &resource.Sweeper{
 			Name:         "BastionSession",
 			Dependencies: DependencyGraph["session"],
@@ -368,13 +368,13 @@ func sweepBastionSessionResource(compartment string) error {
 
 			deleteSessionRequest.SessionId = &sessionId
 
-			deleteSessionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "bastion")
+			deleteSessionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "bastion")
 			_, error := bastionClient.DeleteSession(context.Background(), deleteSessionRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Session %s %s, It is possible that the resource is already deleted. Please verify manually \n", sessionId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &sessionId, sessionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &sessionId, sessionSweepWaitCondition, time.Duration(3*time.Minute),
 				sessionSweepResponseFetchOperation, "bastion", true)
 		}
 	}
@@ -382,7 +382,7 @@ func sweepBastionSessionResource(compartment string) error {
 }
 
 func getSessionIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "SessionId")
+	ids := GetResourceIdsToSweep(compartment, "SessionId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -407,7 +407,7 @@ func getSessionIds(compartment string) ([]string, error) {
 		for _, session := range listSessionsResponse.Items {
 			id := *session.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "SessionId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "SessionId", id)
 		}
 
 	}

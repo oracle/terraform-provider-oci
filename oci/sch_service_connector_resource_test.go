@@ -16,41 +16,41 @@ import (
 var (
 	// streaming as a source definition
 	serviceConnectorStreamingSourceCursorRepresentation = map[string]interface{}{
-		"kind": Representation{repType: Optional, create: `LATEST`, update: `TRIM_HORIZON`},
+		"kind": Representation{RepType: Optional, Create: `LATEST`, Update: `TRIM_HORIZON`},
 	}
 
 	serviceConnectorStreamingSourceRepresentation = map[string]interface{}{
-		"kind":      Representation{repType: Required, create: `streaming`},
+		"kind":      Representation{RepType: Required, Create: `streaming`},
 		"cursor":    RepresentationGroup{Optional, serviceConnectorStreamingSourceCursorRepresentation},
-		"stream_id": Representation{repType: Required, create: `${oci_streaming_stream.test_stream.id}`},
+		"stream_id": Representation{RepType: Required, Create: `${oci_streaming_stream.test_stream.id}`},
 	}
 
 	// function as a task
 	serviceConnectorFunctionTasksRepresentation = map[string]interface{}{
-		"kind":              Representation{repType: Required, create: `function`},
-		"batch_size_in_kbs": Representation{repType: Required, create: `60`},
-		"batch_time_in_sec": Representation{repType: Required, create: `60`},
-		"function_id":       Representation{repType: Required, create: `${oci_functions_function.test_function.id}`},
+		"kind":              Representation{RepType: Required, Create: `function`},
+		"batch_size_in_kbs": Representation{RepType: Required, Create: `60`},
+		"batch_time_in_sec": Representation{RepType: Required, Create: `60`},
+		"function_id":       Representation{RepType: Required, Create: `${oci_functions_function.test_function.id}`},
 	}
 
-	// create serviceConnector definitions
+	// Create serviceConnector definitions
 	serviceConnectorRepresentationNoTargetStreamingSource = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `My_Service_Connector`, update: `displayName2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `My_Service_Connector`, Update: `displayName2`},
 		"source":         RepresentationGroup{Required, serviceConnectorStreamingSourceRepresentation},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `My service connector description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `My service connector description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"tasks":          RepresentationGroup{Optional, serviceConnectorTasksRepresentation},
 	}
 
 	serviceConnectorRepresentationNoTargetStreamingSourceFunctionTask = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `My_Service_Connector`, update: `displayName2`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `My_Service_Connector`, Update: `displayName2`},
 		"source":         RepresentationGroup{Required, serviceConnectorStreamingSourceRepresentation},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `My service connector description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `My service connector description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"tasks":          RepresentationGroup{Required, serviceConnectorFunctionTasksRepresentation},
 	}
 
@@ -59,16 +59,16 @@ var (
 	serviceConnectorFunctionTargetStreamingSourceFunctionTaskRepresentation = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTargetStreamingSourceFunctionTask, functionTargetRepresentation)
 
 	updatedServiceConnectorFunctionTasksRepresentation = map[string]interface{}{
-		"kind":              Representation{repType: Optional, update: `function`},
-		"batch_size_in_kbs": Representation{repType: Optional, update: `60`},
-		"batch_time_in_sec": Representation{repType: Optional, update: `60`},
-		"function_id":       Representation{repType: Optional, update: `${oci_functions_function.test_function.id}`},
+		"kind":              Representation{RepType: Optional, Update: `function`},
+		"batch_size_in_kbs": Representation{RepType: Optional, Update: `60`},
+		"batch_time_in_sec": Representation{RepType: Optional, Update: `60`},
+		"function_id":       Representation{RepType: Optional, Update: `${oci_functions_function.test_function.id}`},
 	}
 
 	updatedServiceConnectorStreamingSourceRepresentation = map[string]interface{}{
-		"kind":      Representation{repType: Optional, update: `streaming`},
+		"kind":      Representation{RepType: Optional, Update: `streaming`},
 		"cursor":    RepresentationGroup{Optional, serviceConnectorStreamingSourceCursorRepresentation},
-		"stream_id": Representation{repType: Optional, create: `${oci_streaming_stream.test_stream.id}`},
+		"stream_id": Representation{RepType: Optional, Create: `${oci_streaming_stream.test_stream.id}`},
 	}
 )
 
@@ -94,7 +94,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 		// verify streaming as a source with functions target
 		{
 			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetStreamingSourceRepresentation),
+				GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetStreamingSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
@@ -107,13 +107,13 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "target.0.function_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr,
 		},
@@ -121,7 +121,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 		// verify streaming as a source with functions task and functions target
 		{
 			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetStreamingSourceFunctionTaskRepresentation),
+				GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorFunctionTargetStreamingSourceFunctionTaskRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
@@ -139,7 +139,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "tasks.0.kind", "function"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -148,8 +148,8 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-					representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetStreamingSourceFunctionTaskRepresentation, []string{"target"}), map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
+					RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(serviceConnectorFunctionTargetStreamingSourceFunctionTaskRepresentation, []string{"target"}), map[string]interface{}{
 						"source": RepresentationGroup{Optional, serviceConnectorStreamingSourceRepresentation},
 						"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},
 					})),
@@ -176,7 +176,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -188,10 +188,10 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Required, Create, serviceConnectorSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ServiceConnectorResourceDependencies + imageVariableStr +
-				generateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
-					representationCopyWithNewProperties(representationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"source", "task", "target"}), map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update,
+					RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(serviceConnectorFunctionTargetRepresentation, []string{"source", "task", "target"}), map[string]interface{}{
 						"source": RepresentationGroup{Optional, updatedServiceConnectorStreamingSourceRepresentation},
 						"tasks":  RepresentationGroup{Optional, updatedServiceConnectorFunctionTasksRepresentation},
 						"target": RepresentationGroup{Required, updatedServiceConnectorTargetRepresentation},

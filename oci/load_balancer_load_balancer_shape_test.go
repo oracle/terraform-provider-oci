@@ -14,7 +14,7 @@ import (
 
 var (
 	loadBalancerShapeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
 
 	LoadBalancerShapeResourceConfig = ""
@@ -32,13 +32,13 @@ func TestLoadBalancerLoadBalancerShapeResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_load_balancer_shapes.test_load_balancer_shapes"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_load_balancer_shapes", "test_load_balancer_shapes", Required, Create, loadBalancerShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_load_balancer_shapes", "test_load_balancer_shapes", Required, Create, loadBalancerShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + LoadBalancerShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

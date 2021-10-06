@@ -14,28 +14,28 @@ import (
 
 var (
 	dbVersionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                       Representation{repType: Required, create: `${var.compartment_id}`},
-		"db_system_id":                         Representation{repType: Optional, create: `${oci_database_db_system.test_db_system.id}`},
-		"db_system_shape":                      Representation{repType: Optional, create: `BM.DenseIO2.52`},
-		"is_database_software_image_supported": Representation{repType: Optional, create: `false`},
-		"is_upgrade_supported":                 Representation{repType: Optional, create: `false`},
-		"storage_management":                   Representation{repType: Optional, create: `ASM`},
+		"compartment_id":                       Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"db_system_id":                         Representation{RepType: Optional, Create: `${oci_database_db_system.test_db_system.id}`},
+		"db_system_shape":                      Representation{RepType: Optional, Create: `BM.DenseIO2.52`},
+		"is_database_software_image_supported": Representation{RepType: Optional, Create: `false`},
+		"is_upgrade_supported":                 Representation{RepType: Optional, Create: `false`},
+		"storage_management":                   Representation{RepType: Optional, Create: `ASM`},
 	}
 	dbVersionDataSourceRepresentationRequiredOnly = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 	}
-	dbVersionDataSourceRepresentationWithDbSystemIdOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"db_system_id": Representation{repType: Optional, create: `${oci_database_db_system.test_db_system.id}`},
+	dbVersionDataSourceRepresentationWithDbSystemIdOptional = RepresentationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"db_system_id": Representation{RepType: Optional, Create: `${oci_database_db_system.test_db_system.id}`},
 	})
-	dbVersionDataSourceRepresentationWithUpgradeSupportedOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"db_system_shape":      Representation{repType: Optional, create: `BM.DenseIO2.52`},
-		"is_upgrade_supported": Representation{repType: Optional, create: `false`},
+	dbVersionDataSourceRepresentationWithUpgradeSupportedOptional = RepresentationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"db_system_shape":      Representation{RepType: Optional, Create: `BM.DenseIO2.52`},
+		"is_upgrade_supported": Representation{RepType: Optional, Create: `false`},
 	})
-	dbVersionDataSourceRepresentationWithDbSystemShapeOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"db_system_shape": Representation{repType: Optional, create: `BM.DenseIO2.52`},
+	dbVersionDataSourceRepresentationWithDbSystemShapeOptional = RepresentationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"db_system_shape": Representation{RepType: Optional, Create: `BM.DenseIO2.52`},
 	})
-	dbVersionDataSourceRepresentationWithStorageManagementOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"storage_management": Representation{repType: Optional, create: `ASM`},
+	dbVersionDataSourceRepresentationWithStorageManagementOptional = RepresentationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"storage_management": Representation{RepType: Optional, Create: `ASM`},
 	})
 	DbVersionResourceConfig = DbSystemResourceConfig
 )
@@ -52,17 +52,17 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_database_db_versions.test_db_versions"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions", Required, Create, dbVersionDataSourceRepresentationRequiredOnly) +
-				generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_db_system_id", Optional, Create, dbVersionDataSourceRepresentationWithDbSystemIdOptional) +
-				generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_db_system_shape", Optional, Create, dbVersionDataSourceRepresentationWithDbSystemShapeOptional) +
-				generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_is_upgrade_supported", Optional, Create, dbVersionDataSourceRepresentationWithUpgradeSupportedOptional) +
-				generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_storage_management", Optional, Create, dbVersionDataSourceRepresentationWithStorageManagementOptional) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions", Required, Create, dbVersionDataSourceRepresentationRequiredOnly) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_db_system_id", Optional, Create, dbVersionDataSourceRepresentationWithDbSystemIdOptional) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_db_system_shape", Optional, Create, dbVersionDataSourceRepresentationWithDbSystemShapeOptional) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_is_upgrade_supported", Optional, Create, dbVersionDataSourceRepresentationWithUpgradeSupportedOptional) +
+				GenerateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_storage_management", Optional, Create, dbVersionDataSourceRepresentationWithStorageManagementOptional) +
 				compartmentIdVariableStr + DbVersionResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

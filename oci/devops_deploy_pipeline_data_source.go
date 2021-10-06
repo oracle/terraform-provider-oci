@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_devops "github.com/oracle/oci-go-sdk/v48/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *DevopsDeployPipelineDataSourceCrud) Get() error {
 		request.DeployPipelineId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.GetDeployPipeline(context.Background(), request)
 	if err != nil {

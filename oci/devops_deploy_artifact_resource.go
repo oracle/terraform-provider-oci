@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v48/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
 )
 
 func init() {
@@ -267,7 +267,7 @@ func (s *DevopsDeployArtifactResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
@@ -275,7 +275,7 @@ func (s *DevopsDeployArtifactResourceCrud) Create() error {
 		request.ProjectId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.CreateDeployArtifact(context.Background(), request)
 	if err != nil {
@@ -283,7 +283,7 @@ func (s *DevopsDeployArtifactResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeployArtifactFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeployArtifactFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DevopsDeployArtifactResourceCrud) getDeployArtifactFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -326,7 +326,7 @@ func deployArtifactWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 
 func deployArtifactWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "devops")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = deployArtifactWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_devops.GetWorkRequestResponse{}
@@ -407,7 +407,7 @@ func (s *DevopsDeployArtifactResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DeployArtifactId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.GetDeployArtifact(context.Background(), request)
 	if err != nil {
@@ -462,10 +462,10 @@ func (s *DevopsDeployArtifactResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.UpdateDeployArtifact(context.Background(), request)
 	if err != nil {
@@ -473,7 +473,7 @@ func (s *DevopsDeployArtifactResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeployArtifactFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDeployArtifactFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DevopsDeployArtifactResourceCrud) Delete() error {
@@ -482,7 +482,7 @@ func (s *DevopsDeployArtifactResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DeployArtifactId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
 	response, err := s.Client.DeleteDeployArtifact(context.Background(), request)
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_kms "github.com/oracle/oci-go-sdk/v48/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v49/keymanagement"
 )
 
 func init() {
@@ -69,7 +69,7 @@ func (s *KmsVaultUsageDataSourceCrud) Get() error {
 		request.VaultId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "kms")
 
 	response, err := s.Client.GetVaultUsage(context.Background(), request)
 	if err != nil {

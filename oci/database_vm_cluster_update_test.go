@@ -15,18 +15,18 @@ import (
 
 var (
 	vmClusterUpdateSingularDataSourceRepresentation = map[string]interface{}{
-		"update_id":     Representation{repType: Required, create: `{}`},
-		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"update_id":     Representation{RepType: Required, Create: `{}`},
+		"vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
 	vmClusterUpdateDataSourceRepresentation = map[string]interface{}{
-		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
-		"state":         Representation{repType: Optional, create: `AVAILABLE`},
-		"update_type":   Representation{repType: Optional, create: `GI_UPGRADE`},
+		"vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"state":         Representation{RepType: Optional, Create: `AVAILABLE`},
+		"update_type":   Representation{RepType: Optional, Create: `GI_UPGRADE`},
 	}
 
 	VmClusterUpdateResourceConfig = VmClusterNetworkValidatedResourceConfig +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -44,13 +44,13 @@ func TestDatabaseVmClusterUpdateResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_vm_cluster_updates.test_vm_cluster_updates"
 	singularDatasourceName := "data.oci_database_vm_cluster_update.test_vm_cluster_update"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_updates", "test_vm_cluster_updates", Required, Create, vmClusterUpdateDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_updates", "test_vm_cluster_updates", Required, Create, vmClusterUpdateDataSourceRepresentation) +
 				compartmentIdVariableStr + VmClusterUpdateResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -71,7 +71,7 @@ func TestDatabaseVmClusterUpdateResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_vm_cluster_update", "test_vm_cluster_update", Required, Create, vmClusterUpdateSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_update", "test_vm_cluster_update", Required, Create, vmClusterUpdateSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VmClusterUpdateResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "update_id"),

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *CloudGuardDetectorRecipeDataSourceCrud) Get() error {
 		request.DetectorRecipeId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "cloud_guard")
 
 	response, err := s.Client.GetDetectorRecipe(context.Background(), request)
 	if err != nil {

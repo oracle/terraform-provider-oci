@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_ons "github.com/oracle/oci-go-sdk/v48/ons"
+	oci_ons "github.com/oracle/oci-go-sdk/v49/ons"
 )
 
 func init() {
@@ -21,9 +21,9 @@ func OnsNotificationTopicResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("15m"),
-			Update: getTimeoutDuration("15m"),
-			Delete: getTimeoutDuration("150m"),
+			Create: GetTimeoutDuration("15m"),
+			Update: GetTimeoutDuration("15m"),
+			Delete: GetTimeoutDuration("150m"),
 		},
 		Create: createOnsNotificationTopic,
 		Read:   readOnsNotificationTopic,
@@ -183,7 +183,7 @@ func (s *OnsNotificationTopicResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -191,7 +191,7 @@ func (s *OnsNotificationTopicResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	response, err := s.Client.CreateTopic(context.Background(), request)
 	if err != nil {
@@ -213,7 +213,7 @@ func (s *OnsNotificationTopicResourceCrud) Get() error {
 		request.TopicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	response, err := s.Client.GetTopic(context.Background(), request)
 	if err != nil {
@@ -250,7 +250,7 @@ func (s *OnsNotificationTopicResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if topicId, ok := s.D.GetOkExists("topic_id"); ok {
@@ -258,7 +258,7 @@ func (s *OnsNotificationTopicResourceCrud) Update() error {
 		request.TopicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	response, err := s.Client.UpdateTopic(context.Background(), request)
 	if err != nil {
@@ -277,7 +277,7 @@ func (s *OnsNotificationTopicResourceCrud) Delete() error {
 		request.TopicId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	_, err := s.Client.DeleteTopic(context.Background(), request)
 	return err
@@ -341,7 +341,7 @@ func (s *OnsNotificationTopicResourceCrud) updateCompartment(compartment interfa
 		changeCompartmentRequest.TopicId = &tmp
 	}
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "ons")
 
 	_, err := s.Client.ChangeTopicCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

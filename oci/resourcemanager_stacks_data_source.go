@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v48/resourcemanager"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/v49/resourcemanager"
 )
 
 func init() {
@@ -19,7 +19,7 @@ func ResourcemanagerStacksDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readResourcemanagerStacks,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -170,7 +170,7 @@ func (s *ResourcemanagerStacksDataSourceCrud) Get() error {
 		request.LifecycleState = oci_resourcemanager.StackLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "resourcemanager")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "resourcemanager")
 
 	response, err := s.Client.ListStacks(context.Background(), request)
 	if err != nil {

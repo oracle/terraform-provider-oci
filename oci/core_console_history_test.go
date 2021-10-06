@@ -12,38 +12,38 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_core "github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ConsoleHistoryRequiredOnlyResource = ConsoleHistoryResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Required, Create, consoleHistoryRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Required, Create, consoleHistoryRepresentation)
 
 	consoleHistoryDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
-		"state":               Representation{repType: Optional, create: `SUCCEEDED`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": Representation{RepType: Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"instance_id":         Representation{RepType: Optional, Create: `${oci_core_instance.test_instance.id}`},
+		"state":               Representation{RepType: Optional, Create: `SUCCEEDED`},
 		"filter":              RepresentationGroup{Required, consoleHistoryDataSourceFilterRepresentation}}
 	consoleHistoryDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_core_console_history.test_console_history.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_core_console_history.test_console_history.id}`}},
 	}
 
 	consoleHistoryRepresentation = map[string]interface{}{
-		"instance_id":   Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":  Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"instance_id":   Representation{RepType: Required, Create: `${oci_core_instance.test_instance.id}`},
+		"defined_tags":  Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":  Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ConsoleHistoryResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	ConsoleHistoryResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -62,33 +62,33 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_console_histories.test_console_histories"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ConsoleHistoryResourceDependencies+
-		generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Create, consoleHistoryRepresentation), "core", "consoleHistory", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ConsoleHistoryResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Create, consoleHistoryRepresentation), "core", "consoleHistory", t)
 
 	ResourceTest(t, testAccCheckCoreConsoleHistoryDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Required, Create, consoleHistoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Required, Create, consoleHistoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Create, consoleHistoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Create, consoleHistoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -101,9 +101,9 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -115,7 +115,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Update, consoleHistoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Update, consoleHistoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -128,7 +128,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -139,9 +139,9 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_console_histories", "test_console_histories", Optional, Update, consoleHistoryDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_console_histories", "test_console_histories", Optional, Update, consoleHistoryDataSourceRepresentation) +
 				compartmentIdVariableStr + ConsoleHistoryResourceDependencies +
-				generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Update, consoleHistoryRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Optional, Update, consoleHistoryRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -182,7 +182,7 @@ func testAccCheckCoreConsoleHistoryDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.InstanceConsoleHistoryId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 
 			_, err := client.GetConsoleHistory(context.Background(), request)
 
@@ -207,7 +207,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("CoreConsoleHistory") {
+	if !InSweeperExcludeList("CoreConsoleHistory") {
 		resource.AddTestSweepers("CoreConsoleHistory", &resource.Sweeper{
 			Name:         "CoreConsoleHistory",
 			Dependencies: DependencyGraph["consoleHistory"],
@@ -228,7 +228,7 @@ func sweepCoreConsoleHistoryResource(compartment string) error {
 
 			deleteConsoleHistoryRequest.InstanceConsoleHistoryId = &consoleHistoryId
 
-			deleteConsoleHistoryRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			deleteConsoleHistoryRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "core")
 			_, error := computeClient.DeleteConsoleHistory(context.Background(), deleteConsoleHistoryRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ConsoleHistory %s %s, It is possible that the resource is already deleted. Please verify manually \n", consoleHistoryId, error)
@@ -240,7 +240,7 @@ func sweepCoreConsoleHistoryResource(compartment string) error {
 }
 
 func getConsoleHistoryIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ConsoleHistoryId")
+	ids := GetResourceIdsToSweep(compartment, "ConsoleHistoryId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -258,7 +258,7 @@ func getConsoleHistoryIds(compartment string) ([]string, error) {
 	for _, consoleHistory := range listConsoleHistoriesResponse.Items {
 		id := *consoleHistory.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ConsoleHistoryId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ConsoleHistoryId", id)
 	}
 	return resourceIds, nil
 }

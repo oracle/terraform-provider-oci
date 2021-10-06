@@ -16,22 +16,22 @@ import (
 
 var (
 	EnrollmentStatusResourceConfig = EnrollmentStatusResourceDependencies +
-		generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation)
+		GenerateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation)
 
 	enrollmentStatusSingularDataSourceRepresentation = map[string]interface{}{
-		"enrollment_status_id": Representation{repType: Required, create: `${data.oci_optimizer_enrollment_statuses.test_enrollment_statuses.enrollment_status_collection.0.items.0.id}`},
+		"enrollment_status_id": Representation{RepType: Required, Create: `${data.oci_optimizer_enrollment_statuses.test_enrollment_statuses.enrollment_status_collection.0.items.0.id}`},
 	}
 
 	enrollmentStatusDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
-		"status":         Representation{repType: Optional, create: `INACTIVE`, update: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
+		"status":         Representation{RepType: Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 	}
 
 	enrollmentStatusRepresentation = map[string]interface{}{
-		"enrollment_status_id": Representation{repType: Required, create: `${data.oci_optimizer_enrollment_statuses.test_enrollment_statuses.enrollment_status_collection.0.items.0.id}`},
-		"status":               Representation{repType: Required, create: `INACTIVE`, update: `ACTIVE`},
+		"enrollment_status_id": Representation{RepType: Required, Create: `${data.oci_optimizer_enrollment_statuses.test_enrollment_statuses.enrollment_status_collection.0.items.0.id}`},
+		"status":               Representation{RepType: Required, Create: `INACTIVE`, Update: `ACTIVE`},
 	}
 
 	EnrollmentStatusResourceDependencies = ""
@@ -52,24 +52,24 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_optimizer_enrollment_status.test_enrollment_status"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+EnrollmentStatusResourceDependencies+
-		generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusRepresentation), "optimizer", "enrollmentStatus", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+EnrollmentStatusResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusRepresentation), "optimizer", "enrollmentStatus", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "enrollment_status_id"),
 				resource.TestCheckResourceAttr(resourceName, "status", "INACTIVE"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -81,8 +81,8 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
-				generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
-				generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Required, Create, enrollmentStatusDataSourceRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "enrollment_status_id"),
@@ -91,7 +91,7 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "status", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -102,9 +102,9 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Optional, Update, enrollmentStatusDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_enrollment_statuses", "test_enrollment_statuses", Optional, Update, enrollmentStatusDataSourceRepresentation) +
 				compartmentIdVariableStr + EnrollmentStatusResourceDependencies +
-				generateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
+				GenerateResourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Optional, Update, enrollmentStatusRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "enrollment_status_collection.0.items.0.state", "ACTIVE"),
@@ -120,7 +120,7 @@ func TestOptimizerEnrollmentStatusResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_optimizer_enrollment_status", "test_enrollment_status", Required, Create, enrollmentStatusSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + EnrollmentStatusResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enrollment_status_id"),

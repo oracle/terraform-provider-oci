@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_logging "github.com/oracle/oci-go-sdk/v48/logging"
+	oci_logging "github.com/oracle/oci-go-sdk/v49/logging"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *LoggingUnifiedAgentConfigurationDataSourceCrud) Get() error {
 		request.UnifiedAgentConfigurationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "logging")
 
 	response, err := s.Client.GetUnifiedAgentConfiguration(context.Background(), request)
 	if err != nil {

@@ -6,10 +6,10 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
 )
 
 func init() {
@@ -19,8 +19,8 @@ func init() {
 func DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("12h"),
-			Delete: getTimeoutDuration("12h"),
+			Create: GetTimeoutDuration("12h"),
+			Delete: GetTimeoutDuration("12h"),
 		},
 		Create: createDatabaseAutonomousContainerDatabaseDataguardAssociationOperation,
 		Read:   readDatabaseAutonomousContainerDatabaseDataguardAssociationOperation,
@@ -111,7 +111,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			switchoverRequest := oci_database.SwitchoverAutonomousContainerDatabaseDataguardAssociationRequest{}
 			switchoverRequest.AutonomousContainerDatabaseDataguardAssociationId = &dataguardAssociationId
 			switchoverRequest.AutonomousContainerDatabaseId = &tmpId
-			switchoverRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+			switchoverRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 			switchoverRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
 			response, err := s.Client.SwitchoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), switchoverRequest)
 			if err != nil {
@@ -129,7 +129,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			failoverRequest := oci_database.FailoverAutonomousContainerDatabaseDataguardAssociationRequest{}
 			failoverRequest.AutonomousContainerDatabaseDataguardAssociationId = &dataguardAssociationId
 			failoverRequest.AutonomousContainerDatabaseId = &tmpId
-			failoverRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+			failoverRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 			failoverRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
 			response, err := s.Client.FailoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), failoverRequest)
 			if err != nil {
@@ -147,7 +147,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			reinstateRequest := oci_database.ReinstateAutonomousContainerDatabaseDataguardAssociationRequest{}
 			reinstateRequest.AutonomousContainerDatabaseDataguardAssociationId = &dataguardAssociationId
 			reinstateRequest.AutonomousContainerDatabaseId = &tmpId
-			reinstateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+			reinstateRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 			reinstateRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
 			response, err := s.Client.ReinstateAutonomousContainerDatabaseDataguardAssociation(context.Background(), reinstateRequest)
 			if err != nil {

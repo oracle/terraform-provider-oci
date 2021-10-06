@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database_management "github.com/oracle/oci-go-sdk/v48/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v49/databasemanagement"
 )
 
 func init() {
@@ -151,7 +151,7 @@ func (s *DatabaseManagementManagedDatabasesResetDatabaseParameterResourceCrud) C
 		request.Scope = oci_database_management.ParameterScopeEnum(scope.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.ResetDatabaseParameters(context.Background(), request)
 	if err != nil {

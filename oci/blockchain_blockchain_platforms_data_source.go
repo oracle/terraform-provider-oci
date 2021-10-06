@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v48/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v49/blockchain"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func BlockchainBlockchainPlatformsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBlockchainBlockchainPlatforms,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *BlockchainBlockchainPlatformsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_blockchain.BlockchainPlatformLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "blockchain")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "blockchain")
 
 	response, err := s.Client.ListBlockchainPlatforms(context.Background(), request)
 	if err != nil {

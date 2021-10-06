@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v48/dataintegration"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v49/dataintegration"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *DataintegrationWorkspaceDataSourceCrud) Get() error {
 		request.WorkspaceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "dataintegration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "dataintegration")
 
 	response, err := s.Client.GetWorkspace(context.Background(), request)
 	if err != nil {

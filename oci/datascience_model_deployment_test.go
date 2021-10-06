@@ -13,64 +13,64 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_datascience "github.com/oracle/oci-go-sdk/v48/datascience"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	ModelDeploymentRequiredOnlyResource = ModelDeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Required, Create, modelDeploymentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Required, Create, modelDeploymentRepresentation)
 
 	ModelDeploymentResourceConfig = ModelDeploymentResourceDependencies +
-		generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Update, modelDeploymentRepresentation)
+		GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Update, modelDeploymentRepresentation)
 
 	modelDeploymentSingularDataSourceRepresentation = map[string]interface{}{
-		"model_deployment_id": Representation{repType: Required, create: `${oci_datascience_model_deployment.test_model_deployment.id}`},
+		"model_deployment_id": Representation{RepType: Required, Create: `${oci_datascience_model_deployment.test_model_deployment.id}`},
 	}
 
 	modelForModelDeploymentRepresentation = map[string]interface{}{
-		"artifact_content_length":      Representation{repType: Required, create: `6954`},
-		"model_artifact":               Representation{repType: Required, create: `../examples/datascience/artifact.zip`},
-		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
-		"project_id":                   Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
-		"artifact_content_disposition": Representation{repType: Optional, create: `attachment; filename=tfTestArtifact.zip`},
+		"artifact_content_length":      Representation{RepType: Required, Create: `6954`},
+		"model_artifact":               Representation{RepType: Required, Create: `../examples/datascience/artifact.zip`},
+		"compartment_id":               Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"project_id":                   Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
+		"artifact_content_disposition": Representation{RepType: Optional, Create: `attachment; filename=tfTestArtifact.zip`},
 	}
 
 	modelForUpdateModelDeploymentRepresentation = map[string]interface{}{
-		"artifact_content_length":      Representation{repType: Required, create: `6954`},
-		"model_artifact":               Representation{repType: Required, create: `../examples/datascience/artifact.zip`},
-		"compartment_id":               Representation{repType: Required, create: `${var.compartment_id}`},
-		"project_id":                   Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
-		"artifact_content_disposition": Representation{repType: Optional, create: `attachment; filename=tfTestArtifact.zip`},
+		"artifact_content_length":      Representation{RepType: Required, Create: `6954`},
+		"model_artifact":               Representation{RepType: Required, Create: `../examples/datascience/artifact.zip`},
+		"compartment_id":               Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"project_id":                   Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
+		"artifact_content_disposition": Representation{RepType: Optional, Create: `attachment; filename=tfTestArtifact.zip`},
 	}
 
 	modelDeploymentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"created_by":     Representation{repType: Optional, create: `${var.user_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":             Representation{repType: Optional, create: `${oci_datascience_model_deployment.test_model_deployment.id}`},
-		"project_id":     Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"created_by":     Representation{RepType: Optional, Create: `${var.user_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"id":             Representation{RepType: Optional, Create: `${oci_datascience_model_deployment.test_model_deployment.id}`},
+		"project_id":     Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, modelDeploymentDataSourceFilterRepresentation}}
 	modelDeploymentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_datascience_model_deployment.test_model_deployment.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_datascience_model_deployment.test_model_deployment.id}`}},
 	}
 
 	modelDeploymentRepresentation = map[string]interface{}{
-		"compartment_id":                         Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":                         Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"model_deployment_configuration_details": RepresentationGroup{Required, modelDeploymentModelDeploymentConfigurationDetailsRepresentation},
-		"project_id":                             Representation{repType: Required, create: `${oci_datascience_project.test_project.id}`},
+		"project_id":                             Representation{RepType: Required, Create: `${oci_datascience_project.test_project.id}`},
 		"category_log_details":                   RepresentationGroup{Optional, modelDeploymentCategoryLogDetailsRepresentation},
-		"defined_tags":                           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                            Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":                           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":                          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":                           Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                            Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":                           Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                          Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	modelDeploymentModelDeploymentConfigurationDetailsRepresentation = map[string]interface{}{
-		"deployment_type":             Representation{repType: Required, create: `SINGLE_MODEL`},
+		"deployment_type":             Representation{RepType: Required, Create: `SINGLE_MODEL`},
 		"model_configuration_details": RepresentationGroup{Required, modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation},
 	}
 	modelDeploymentCategoryLogDetailsRepresentation = map[string]interface{}{
@@ -79,73 +79,73 @@ var (
 	}
 	modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation = map[string]interface{}{
 		"instance_configuration": RepresentationGroup{Required, modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation},
-		"model_id":               Representation{repType: Required, create: `${oci_datascience_model.test_model.id}`, update: `${oci_datascience_model.test_model_update.id}`},
-		"bandwidth_mbps":         Representation{repType: Optional, create: `10`},
+		"model_id":               Representation{RepType: Required, Create: `${oci_datascience_model.test_model.id}`, Update: `${oci_datascience_model.test_model_update.id}`},
+		"bandwidth_mbps":         Representation{RepType: Optional, Create: `10`},
 		"scaling_policy":         RepresentationGroup{Optional, modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsScalingPolicyRepresentation},
 	}
 	modelDeploymentCategoryLogDetailsAccessRepresentation = map[string]interface{}{
-		"log_group_id": Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`},
-		"log_id":       Representation{repType: Required, create: `${oci_logging_log.test_access_log.id}`},
+		"log_group_id": Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_id":       Representation{RepType: Required, Create: `${oci_logging_log.test_access_log.id}`},
 	}
 	modelDeploymentCategoryLogDetailsPredictRepresentation = map[string]interface{}{
-		"log_group_id": Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`},
-		"log_id":       Representation{repType: Required, create: `${oci_logging_log.test_predict_log.id}`},
+		"log_group_id": Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`},
+		"log_id":       Representation{RepType: Required, Create: `${oci_logging_log.test_predict_log.id}`},
 	}
 	modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation = map[string]interface{}{
-		"instance_shape_name": Representation{repType: Required, create: `VM.Standard2.1`, update: `VM.Standard2.2`},
+		"instance_shape_name": Representation{RepType: Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
 	}
 	modelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsScalingPolicyRepresentation = map[string]interface{}{
-		"instance_count": Representation{repType: Required, create: `1`},
-		"policy_type":    Representation{repType: Required, create: `FIXED_SIZE`},
+		"instance_count": Representation{RepType: Required, Create: `1`},
+		"policy_type":    Representation{RepType: Required, Create: `FIXED_SIZE`},
 	}
 
 	logGroupMDRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `tf_testing_log_group`, update: `tf_testing_log_group_update`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `tf_testing_log_group`, Update: `tf_testing_log_group_update`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	logGroupUpdateMDRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `tf_update_testing_log_group`, update: `tf_update_testing_log_group_update`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Required, Create: `tf_update_testing_log_group`, Update: `tf_update_testing_log_group_update`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	customAccessLogRepresentation = map[string]interface{}{
-		"display_name":       Representation{repType: Required, create: `tf-testing-access-log`, update: `tf-testing-update-access-log`},
-		"log_group_id":       Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`, update: `${oci_logging_log_group.test_update_log_group.id}`},
-		"log_type":           Representation{repType: Required, create: `CUSTOM`},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":         Representation{repType: Optional, create: `false`, update: `true`},
-		"retention_duration": Representation{repType: Optional, create: `30`, update: `60`},
+		"display_name":       Representation{RepType: Required, Create: `tf-testing-access-log`, Update: `tf-testing-Update-access-log`},
+		"log_group_id":       Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
+		"log_type":           Representation{RepType: Required, Create: `CUSTOM`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":         Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"retention_duration": Representation{RepType: Optional, Create: `30`, Update: `60`},
 	}
 
 	customPredictLogRepresentation = map[string]interface{}{
-		"display_name":       Representation{repType: Required, create: `tf-testing-predict-log`, update: `tf-testing-update-predict-log`},
-		"log_group_id":       Representation{repType: Required, create: `${oci_logging_log_group.test_log_group.id}`, update: `${oci_logging_log_group.test_update_log_group.id}`},
-		"log_type":           Representation{repType: Required, create: `CUSTOM`},
-		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_enabled":         Representation{repType: Optional, create: `false`, update: `true`},
-		"retention_duration": Representation{repType: Optional, create: `30`, update: `60`},
+		"display_name":       Representation{RepType: Required, Create: `tf-testing-predict-log`, Update: `tf-testing-Update-predict-log`},
+		"log_group_id":       Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
+		"log_type":           Representation{RepType: Required, Create: `CUSTOM`},
+		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":         Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"retention_duration": Representation{RepType: Optional, Create: `30`, Update: `60`},
 	}
 
-	ModelDeploymentResourceDependencies = generateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelForModelDeploymentRepresentation) +
-		generateResourceFromRepresentationMap("oci_datascience_model", "test_model_update", Optional, Create, modelForUpdateModelDeploymentRepresentation) +
-		generateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
+	ModelDeploymentResourceDependencies = GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", Optional, Create, modelForModelDeploymentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model_update", Optional, Create, modelForUpdateModelDeploymentRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
 
 		DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupMDRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_access_log", Required, Create, customAccessLogRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log", "test_predict_log", Required, Create, customPredictLogRepresentation) +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
-		generateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Create, logGroupUpdateMDRepresentation)
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupMDRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_access_log", Required, Create, customAccessLogRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log", "test_predict_log", Required, Create, customPredictLogRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Create, logGroupUpdateMDRepresentation)
 )
 
 // issue-routing-tag: datascience/default
@@ -171,10 +171,10 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckDatascienceModelDeploymentDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Required, Create, modelDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Required, Create, modelDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
@@ -186,20 +186,20 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Create, modelDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Create, modelDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "category_log_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "category_log_details.0.access.#", "1"),
@@ -231,9 +231,9 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -242,12 +242,12 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ModelDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Create,
-					representationCopyWithNewProperties(modelDeploymentRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Create,
+					RepresentationCopyWithNewProperties(modelDeploymentRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "category_log_details.#", "1"),
@@ -280,7 +280,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -292,7 +292,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ModelDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Update, modelDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Update, modelDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "category_log_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "category_log_details.0.access.#", "1"),
@@ -324,7 +324,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -335,9 +335,9 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 		// verify datasource - list model deployments
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_model_deployments", "test_model_deployments", Optional, Update, modelDeploymentDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployments", "test_model_deployments", Optional, Update, modelDeploymentDataSourceRepresentation) +
 				compartmentIdVariableStr + userIdVariableStr + ModelDeploymentResourceDependencies +
-				generateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Update, modelDeploymentRepresentation),
+				GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Optional, Update, modelDeploymentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "created_by", userId),
@@ -380,7 +380,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 		// verify singular datasource - get model deployment
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Required, Create, modelDeploymentSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", Required, Create, modelDeploymentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ModelDeploymentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_deployment_id"),
@@ -436,7 +436,7 @@ func testAccCheckDatascienceModelDeploymentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ModelDeploymentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 
 			response, err := client.GetModelDeployment(context.Background(), request)
 
@@ -469,7 +469,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatascienceModelDeployment") {
+	if !InSweeperExcludeList("DatascienceModelDeployment") {
 		resource.AddTestSweepers("DatascienceModelDeployment", &resource.Sweeper{
 			Name:         "DatascienceModelDeployment",
 			Dependencies: DependencyGraph["modelDeployment"],
@@ -490,13 +490,13 @@ func sweepDatascienceModelDeploymentResource(compartment string) error {
 
 			deleteModelDeploymentRequest.ModelDeploymentId = &modelDeploymentId
 
-			deleteModelDeploymentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "datascience")
+			deleteModelDeploymentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "datascience")
 			_, error := dataScienceClient.DeleteModelDeployment(context.Background(), deleteModelDeploymentRequest)
 			if error != nil {
 				fmt.Printf("Error deleting ModelDeployment %s %s, It is possible that the resource is already deleted. Please verify manually \n", modelDeploymentId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &modelDeploymentId, modelDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &modelDeploymentId, modelDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
 				modelDeploymentSweepResponseFetchOperation, "datascience", true)
 		}
 	}
@@ -504,7 +504,7 @@ func sweepDatascienceModelDeploymentResource(compartment string) error {
 }
 
 func getModelDeploymentIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ModelDeploymentId")
+	ids := GetResourceIdsToSweep(compartment, "ModelDeploymentId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -524,7 +524,7 @@ func getModelDeploymentIds(compartment string) ([]string, error) {
 	for _, modelDeployment := range listModelDeploymentsResponse.Items {
 		id := *modelDeployment.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ModelDeploymentId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "ModelDeploymentId", id)
 	}
 	return resourceIds, nil
 }

@@ -13,50 +13,50 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v48/dataflow"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v49/dataflow"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	PrivateEndpointRequiredOnlyResource = PrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointRepresentation)
 
 	PrivateEndpointResourceConfig = PrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Update, privateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Update, privateEndpointRepresentation)
 
 	privateEndpointSingularDataSourceRepresentation = map[string]interface{}{
-		"private_endpoint_id": Representation{repType: Required, create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
+		"private_endpoint_id": Representation{RepType: Required, Create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
 	}
 
 	privateEndpointDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":             Representation{repType: Required, create: `pe_1234`, update: `displayName2`},
-		"display_name_starts_with": Representation{repType: Optional, create: `displayNameStartsWith`},
-		"owner_principal_id":       Representation{repType: Optional, create: `${var.user_ocid}`},
-		"state":                    Representation{repType: Optional, create: `INACTIVE`},
+		"compartment_id":           Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":             Representation{RepType: Required, Create: `pe_1234`, Update: `displayName2`},
+		"display_name_starts_with": Representation{RepType: Optional, Create: `displayNameStartsWith`},
+		"owner_principal_id":       Representation{RepType: Optional, Create: `${var.user_ocid}`},
+		"state":                    Representation{RepType: Optional, Create: `INACTIVE`},
 		"filter":                   RepresentationGroup{Required, privateEndpointDataSourceFilterRepresentation}}
 	privateEndpointDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_dataflow_private_endpoint.test_private_endpoint.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_dataflow_private_endpoint.test_private_endpoint.id}`}},
 	}
 
 	privateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"dns_zones":      Representation{repType: Required, create: []string{`custpvtsubnet.oraclevcn.com`}, update: []string{`db.custpvtsubnet.oraclevcn.com`}},
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":   Representation{repType: Optional, create: `pe_1234`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"max_host_count": Representation{repType: Optional, create: `256`, update: `512`},
-		"nsg_ids":        Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"dns_zones":      Representation{RepType: Required, Create: []string{`custpvtsubnet.oraclevcn.com`}, Update: []string{`db.custpvtsubnet.oraclevcn.com`}},
+		"subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":   Representation{RepType: Optional, Create: `pe_1234`, Update: `displayName2`},
+		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"max_host_count": Representation{RepType: Optional, Create: `256`, Update: `512`},
+		"nsg_ids":        Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 	}
 
-	PrivateEndpointResourceDependencies = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	PrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -80,35 +80,35 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_dataflow_private_endpoint.test_private_endpoint"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+PrivateEndpointResourceDependencies+
-		generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Create, privateEndpointRepresentation), "dataflow", "privateEndpoint", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+PrivateEndpointResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Create, privateEndpointRepresentation), "dataflow", "privateEndpoint", t)
 
 	ResourceTest(t, testAccCheckDataflowPrivateEndpointDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Create, privateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Create, privateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -125,9 +125,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -136,12 +136,12 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Create,
-					representationCopyWithNewProperties(privateEndpointRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Create,
+					RepresentationCopyWithNewProperties(privateEndpointRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -159,7 +159,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -171,7 +171,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + PrivateEndpointResourceDependencies +
-				generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Update, privateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Update, privateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -188,7 +188,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -199,9 +199,9 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataflow_private_endpoints", "test_private_endpoints", Required, Update, privateEndpointDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataflow_private_endpoints", "test_private_endpoints", Required, Update, privateEndpointDataSourceRepresentation) +
 				compartmentIdVariableStr + PrivateEndpointResourceDependencies + userIdVariableStr +
-				generateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Update, privateEndpointRepresentation),
+				GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Update, privateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -213,7 +213,7 @@ func TestDataflowPrivateEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Required, Create, privateEndpointSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + PrivateEndpointResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
@@ -258,7 +258,7 @@ func testAccCheckDataflowPrivateEndpointDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PrivateEndpointId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dataflow")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dataflow")
 
 			response, err := client.GetPrivateEndpoint(context.Background(), request)
 
@@ -291,7 +291,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DataflowPrivateEndpoint") {
+	if !InSweeperExcludeList("DataflowPrivateEndpoint") {
 		resource.AddTestSweepers("DataflowPrivateEndpoint", &resource.Sweeper{
 			Name:         "DataflowPrivateEndpoint",
 			Dependencies: DependencyGraph["privateEndpoint"],
@@ -312,13 +312,13 @@ func sweepDataflowPrivateEndpointResource(compartment string) error {
 
 			deletePrivateEndpointRequest.PrivateEndpointId = &privateEndpointId
 
-			deletePrivateEndpointRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dataflow")
+			deletePrivateEndpointRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "dataflow")
 			_, error := dataFlowClient.DeletePrivateEndpoint(context.Background(), deletePrivateEndpointRequest)
 			if error != nil {
 				fmt.Printf("Error deleting PrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", privateEndpointId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &privateEndpointId, privateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &privateEndpointId, privateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
 				privateEndpointSweepResponseFetchOperation, "dataflow", true)
 		}
 	}
@@ -326,7 +326,7 @@ func sweepDataflowPrivateEndpointResource(compartment string) error {
 }
 
 func getPrivateEndpointIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "PrivateEndpointId")
+	ids := GetResourceIdsToSweep(compartment, "PrivateEndpointId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -345,7 +345,7 @@ func getPrivateEndpointIds(compartment string) ([]string, error) {
 	for _, privateEndpoint := range listPrivateEndpointsResponse.Items {
 		id := *privateEndpoint.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "PrivateEndpointId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "PrivateEndpointId", id)
 	}
 	return resourceIds, nil
 }

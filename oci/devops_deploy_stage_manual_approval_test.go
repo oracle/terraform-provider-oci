@@ -16,23 +16,23 @@ import (
 
 var (
 	DeployManualApprovalStageRequiredOnlyResource = DeployStageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployManualApprovalStageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployManualApprovalStageRepresentation)
 
 	DeployManualApprovalStageResourceConfig = DeployStageResourceDependencies +
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployManualApprovalStageRepresentation)
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployManualApprovalStageRepresentation)
 
 	deployManualApprovalStageSingularDataSourceRepresentation = map[string]interface{}{
-		"deploy_stage_id": Representation{repType: Required, create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
+		"deploy_stage_id": Representation{RepType: Required, Create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
 	}
 
-	deployManualApprovalStageRepresentation = getUpdatedRepresentationCopy("deploy_stage_type", Representation{repType: Required, create: `MANUAL_APPROVAL`},
-		representationCopyWithNewProperties(representationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
+	deployManualApprovalStageRepresentation = GetUpdatedRepresentationCopy("deploy_stage_type", Representation{RepType: Required, Create: `MANUAL_APPROVAL`},
+		RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(deployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
 			"approval_policy": RepresentationGroup{Required, deployStageApprovalPolicyRepresentation},
 		}))
 
 	deployStageApprovalPolicyRepresentation = map[string]interface{}{
-		"approval_policy_type":         Representation{repType: Required, create: `COUNT_BASED_APPROVAL`},
-		"number_of_approvals_required": Representation{repType: Required, create: `1`, update: `2`},
+		"approval_policy_type":         Representation{RepType: Required, Create: `COUNT_BASED_APPROVAL`},
+		"number_of_approvals_required": Representation{RepType: Required, Create: `1`, Update: `2`},
 	}
 )
 
@@ -51,15 +51,15 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 	singularDatasourceName := "data.oci_devops_deploy_stage.test_deploy_stage"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DeployStageResourceDependencies+
-		generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployManualApprovalStageRepresentation), "devops", "deployStage", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DeployStageResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployManualApprovalStageRepresentation), "devops", "deployStage", t)
 
 	ResourceTest(t, testAccCheckDevopsDeployStageDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DeployStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployManualApprovalStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployManualApprovalStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
@@ -71,20 +71,20 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "approval_policy.0.number_of_approvals_required", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DeployStageResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DeployStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployManualApprovalStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Create, deployManualApprovalStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -103,9 +103,9 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "approval_policy.0.number_of_approvals_required", "1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -117,7 +117,7 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DeployStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployManualApprovalStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployManualApprovalStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -134,7 +134,7 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "approval_policy.0.number_of_approvals_required", "2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -145,9 +145,9 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stages", "test_deploy_stages", Optional, Update, deployStageDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployStageResourceDependencies +
-				generateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployManualApprovalStageRepresentation),
+				GenerateResourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Optional, Update, deployManualApprovalStageRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deploy_pipeline_id"),
@@ -160,7 +160,7 @@ func TestDevopsDeployStageResource_ManualApproval(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployManualApprovalStageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_devops_deploy_stage", "test_deploy_stage", Required, Create, deployManualApprovalStageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DeployManualApprovalStageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_stage_id"),

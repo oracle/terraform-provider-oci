@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_devops "github.com/oracle/oci-go-sdk/v48/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DevopsDeployPipelinesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDevopsDeployPipelines,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -102,7 +102,7 @@ func (s *DevopsDeployPipelinesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_devops.DeployPipelineLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "devops")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "devops")
 
 	response, err := s.Client.ListDeployPipelines(context.Background(), request)
 	if err != nil {

@@ -20,8 +20,8 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_kms "github.com/oracle/oci-go-sdk/v48/keymanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_kms "github.com/oracle/oci-go-sdk/v49/keymanagement"
 )
 
 func init() {
@@ -177,8 +177,8 @@ func KmsKeyResource() *schema.Resource {
 						"content_length": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
+							ValidateFunc:     ValidateInt64TypeString,
+							DiffSuppressFunc: Int64StringDiffSuppressFunction,
 						},
 
 						// Optional
@@ -428,7 +428,7 @@ func (s *KmsKeyResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if keyShape, ok := s.D.GetOkExists("key_shape"); ok {
@@ -446,7 +446,7 @@ func (s *KmsKeyResourceCrud) Create() error {
 		request.ProtectionMode = oci_kms.CreateKeyDetailsProtectionModeEnum(protectionMode.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.CreateKey(context.Background(), request)
 	if err != nil {
@@ -463,7 +463,7 @@ func (s *KmsKeyResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.KeyId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.GetKey(context.Background(), request)
 	if err != nil {
@@ -516,12 +516,12 @@ func (s *KmsKeyResourceCrud) UpdateKeyDetails() error {
 		request.DisplayName = &tmp
 	}
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 	tmp := s.D.Id()
 
 	request.KeyId = &tmp
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.UpdateKey(context.Background(), request)
 	if err != nil {
@@ -539,7 +539,7 @@ func (s *KmsKeyResourceCrud) UpdateKeyDetails() error {
 			tmpId := s.D.Id()
 			activationRequest.KeyId = &tmpId
 
-			activationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+			activationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 			activationResponse, err := s.Client.EnableKey(context.Background(), activationRequest)
 			if err != nil {
 				return err
@@ -550,7 +550,7 @@ func (s *KmsKeyResourceCrud) UpdateKeyDetails() error {
 			tmpId := s.D.Id()
 			deactivationRequest.KeyId = &tmpId
 
-			deactivationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+			deactivationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 			deactivationResponse, err := s.Client.DisableKey(context.Background(), deactivationRequest)
 			if err != nil {
 				return err
@@ -573,7 +573,7 @@ func (s *KmsKeyResourceCrud) Delete() error {
 		request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 	tmp := s.D.Id()
 	request.KeyId = &tmp
 
@@ -693,7 +693,7 @@ func (s *KmsKeyResourceCrud) updateCompartment(compartment interface{}) error {
 	idTmp := s.D.Id()
 	changeCompartmentRequest.KeyId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	_, err := s.Client.ChangeKeyCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -721,7 +721,7 @@ func (s *KmsKeyResourceCrud) RestoreKeyFromObjectStore() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.RestoreKeyFromObjectStore(context.Background(), request)
 	if err != nil {
@@ -755,7 +755,7 @@ func (s *KmsKeyResourceCrud) RestoreKeyFromFile() error {
 		request.ContentMd5 = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 
 	response, err := s.Client.RestoreKeyFromFile(context.Background(), request)
 	if err != nil {

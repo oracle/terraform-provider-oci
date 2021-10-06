@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_bastion "github.com/oracle/oci-go-sdk/v48/bastion"
+	oci_bastion "github.com/oracle/oci-go-sdk/v49/bastion"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func BastionSessionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBastionSessions,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"bastion_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *BastionSessionsDataSourceCrud) Get() error {
 		request.SessionLifecycleState = oci_bastion.ListSessionsSessionLifecycleStateEnum(sessionLifecycleState.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "bastion")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "bastion")
 
 	response, err := s.Client.ListSessions(context.Background(), request)
 	if err != nil {

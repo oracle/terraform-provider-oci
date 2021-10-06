@@ -13,45 +13,45 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_database_management "github.com/oracle/oci-go-sdk/v48/databasemanagement"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_database_management "github.com/oracle/oci-go-sdk/v49/databasemanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	DbManagementPrivateEndpointRequiredOnlyResource = DbManagementPrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Required, Create, dbManagementPrivateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Required, Create, dbManagementPrivateEndpointRepresentation)
 
 	DbManagementPrivateEndpointResourceConfig = DbManagementPrivateEndpointResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Update, dbManagementPrivateEndpointRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Update, dbManagementPrivateEndpointRepresentation)
 
 	dbManagementPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
-		"db_management_private_endpoint_id": Representation{repType: Required, create: `${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`},
+		"db_management_private_endpoint_id": Representation{RepType: Required, Create: `${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`},
 	}
 
 	dbManagementPrivateEndpointDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Optional, create: `name`, update: `name2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
-		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Optional, Create: `name`, Update: `name2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
+		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"filter":         RepresentationGroup{Required, dbManagementPrivateEndpointDataSourceFilterRepresentation}}
 	dbManagementPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`}},
 	}
 
 	dbManagementPrivateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: `name`, update: `name2`},
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
-		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
-		"nsg_ids":        Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"name":           Representation{RepType: Required, Create: `name`, Update: `name2`},
+		"subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"nsg_ids":        Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 	}
 
-	DbManagementPrivateEndpointResourceDependencies = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+	DbManagementPrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 // issue-routing-tag: database_management/default
@@ -73,9 +73,9 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 	singularDatasourceName := "data.oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DbManagementPrivateEndpointResourceDependencies+
-		generateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Create, dbManagementPrivateEndpointRepresentation), "databasemanagement", "dbManagementPrivateEndpoint", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DbManagementPrivateEndpointResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Create, dbManagementPrivateEndpointRepresentation), "databasemanagement", "dbManagementPrivateEndpoint", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -84,30 +84,30 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 		},
 		CheckDestroy: testAccCheckDatabaseManagementDbManagementPrivateEndpointDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Required, Create, dbManagementPrivateEndpointRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Required, Create, dbManagementPrivateEndpointRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
 
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies,
 			},
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Create, dbManagementPrivateEndpointRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Create, dbManagementPrivateEndpointRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -119,9 +119,9 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -130,12 +130,12 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 				),
 			},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
+			// verify Update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DbManagementPrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Create,
-						representationCopyWithNewProperties(dbManagementPrivateEndpointRepresentation, map[string]interface{}{
-							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Create,
+						RepresentationCopyWithNewProperties(dbManagementPrivateEndpointRepresentation, map[string]interface{}{
+							"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 						})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -147,7 +147,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
@@ -159,7 +159,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Update, dbManagementPrivateEndpointRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Update, dbManagementPrivateEndpointRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -171,7 +171,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -182,9 +182,9 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoints", "test_db_management_private_endpoints", Optional, Update, dbManagementPrivateEndpointDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoints", "test_db_management_private_endpoints", Optional, Update, dbManagementPrivateEndpointDataSourceRepresentation) +
 					compartmentIdVariableStr + DbManagementPrivateEndpointResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Update, dbManagementPrivateEndpointRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Update, dbManagementPrivateEndpointRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
@@ -198,7 +198,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Required, Create, dbManagementPrivateEndpointSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Required, Create, dbManagementPrivateEndpointSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + DbManagementPrivateEndpointResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_management_private_endpoint_id"),
@@ -239,7 +239,7 @@ func testAccCheckDatabaseManagementDbManagementPrivateEndpointDestroy(s *terrafo
 			tmp := rs.Primary.ID
 			request.DbManagementPrivateEndpointId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database_management")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database_management")
 
 			response, err := client.GetDbManagementPrivateEndpoint(context.Background(), request)
 
@@ -272,7 +272,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("DatabaseManagementDbManagementPrivateEndpoint") {
+	if !InSweeperExcludeList("DatabaseManagementDbManagementPrivateEndpoint") {
 		resource.AddTestSweepers("DatabaseManagementDbManagementPrivateEndpoint", &resource.Sweeper{
 			Name:         "DatabaseManagementDbManagementPrivateEndpoint",
 			Dependencies: DependencyGraph["dbManagementPrivateEndpoint"],
@@ -293,13 +293,13 @@ func sweepDatabaseManagementDbManagementPrivateEndpointResource(compartment stri
 
 			deleteDbManagementPrivateEndpointRequest.DbManagementPrivateEndpointId = &dbManagementPrivateEndpointId
 
-			deleteDbManagementPrivateEndpointRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database_management")
+			deleteDbManagementPrivateEndpointRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "database_management")
 			_, error := dbManagementClient.DeleteDbManagementPrivateEndpoint(context.Background(), deleteDbManagementPrivateEndpointRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DbManagementPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", dbManagementPrivateEndpointId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &dbManagementPrivateEndpointId, dbManagementPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &dbManagementPrivateEndpointId, dbManagementPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
 				dbManagementPrivateEndpointSweepResponseFetchOperation, "database_management", true)
 		}
 	}
@@ -307,7 +307,7 @@ func sweepDatabaseManagementDbManagementPrivateEndpointResource(compartment stri
 }
 
 func getDbManagementPrivateEndpointIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DbManagementPrivateEndpointId")
+	ids := GetResourceIdsToSweep(compartment, "DbManagementPrivateEndpointId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -326,7 +326,7 @@ func getDbManagementPrivateEndpointIds(compartment string) ([]string, error) {
 	for _, dbManagementPrivateEndpoint := range listDbManagementPrivateEndpointsResponse.Items {
 		id := *dbManagementPrivateEndpoint.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DbManagementPrivateEndpointId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DbManagementPrivateEndpointId", id)
 	}
 	return resourceIds, nil
 }

@@ -12,37 +12,37 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v48/networkloadbalancer"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v49/networkloadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	NlbListenerResourceConfig = NlbListenerResourceDependencies +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Update, nlbListenerRepresentation)
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Update, nlbListenerRepresentation)
 
 	nlbListenerDataSourceRepresentation = map[string]interface{}{
-		"network_load_balancer_id": Representation{repType: Required, create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"network_load_balancer_id": Representation{RepType: Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 
 	nlbListenerSingularDataSourceRepresentation = map[string]interface{}{
-		"listener_name":            Representation{repType: Required, create: `${oci_network_load_balancer_listener.test_listener.name}`},
-		"network_load_balancer_id": Representation{repType: Required, create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"listener_name":            Representation{RepType: Required, Create: `${oci_network_load_balancer_listener.test_listener.name}`},
+		"network_load_balancer_id": Representation{RepType: Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 	}
 
 	nlbListenerRepresentation = map[string]interface{}{
-		"default_backend_set_name": Representation{repType: Required, create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
-		"name":                     Representation{repType: Required, create: `example_listener`},
-		"network_load_balancer_id": Representation{repType: Required, create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
-		"port":                     Representation{repType: Required, create: `10`, update: `11`},
-		"protocol":                 Representation{repType: Required, create: `UDP`, update: `TCP`},
+		"default_backend_set_name": Representation{RepType: Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
+		"name":                     Representation{RepType: Required, Create: `example_listener`},
+		"network_load_balancer_id": Representation{RepType: Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"port":                     Representation{RepType: Required, Create: `10`, Update: `11`},
+		"protocol":                 Representation{RepType: Required, Create: `UDP`, Update: `TCP`},
 	}
 
-	NlbListenerResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", Required, Create, networkLoadBalancerRepresentation)
+	NlbListenerResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", Required, Create, networkLoadBalancerRepresentation)
 )
 
 // issue-routing-tag: network_load_balancer/default
@@ -62,10 +62,10 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	ResourceTest(t, testAccCheckNetworkLoadBalancerListenerDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
@@ -74,9 +74,9 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -88,7 +88,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
-				generateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Update, nlbListenerRepresentation),
+				GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Optional, Update, nlbListenerRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
@@ -97,7 +97,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -108,7 +108,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_network_load_balancer_listeners", "test_listeners", Optional, Update, nlbListenerDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_listeners", "test_listeners", Optional, Update, nlbListenerDataSourceRepresentation) +
 				compartmentIdVariableStr + NlbListenerResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "network_load_balancer_id"),
@@ -120,7 +120,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", Required, Create, nlbListenerSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NlbListenerResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_name"),
@@ -162,7 +162,7 @@ func testAccCheckNetworkLoadBalancerListenerDestroy(s *terraform.State) error {
 				request.NetworkLoadBalancerId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "network_load_balancer")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "network_load_balancer")
 
 			_, err := client.GetListener(context.Background(), request)
 
@@ -187,7 +187,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("NetworkLoadBalancerListener") {
+	if !InSweeperExcludeList("NetworkLoadBalancerListener") {
 		resource.AddTestSweepers("NetworkLoadBalancerListener", &resource.Sweeper{
 			Name:         "NetworkLoadBalancerListener",
 			Dependencies: DependencyGraph["listener"],
@@ -206,7 +206,7 @@ func sweepNetworkLoadBalancerListenerResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[listenerId]; !ok {
 			deleteListenerRequest := oci_network_load_balancer.DeleteListenerRequest{}
 
-			deleteListenerRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "network_load_balancer")
+			deleteListenerRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "network_load_balancer")
 			_, error := networkLoadBalancerClient.DeleteListener(context.Background(), deleteListenerRequest)
 			if error != nil {
 				fmt.Printf("Error deleting Listener %s %s, It is possible that the resource is already deleted. Please verify manually \n", listenerId, error)
@@ -218,7 +218,7 @@ func sweepNetworkLoadBalancerListenerResource(compartment string) error {
 }
 
 func getNetworkLoadBalancerListenerIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ListenerId")
+	ids := GetResourceIdsToSweep(compartment, "ListenerId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -243,7 +243,7 @@ func getNetworkLoadBalancerListenerIds(compartment string) ([]string, error) {
 		for _, listener := range listListenersResponse.Items {
 			id := *listener.Name
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "ListenerId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "ListenerId", id)
 			SweeperDefaultResourceId[*listener.Name] = true
 		}
 

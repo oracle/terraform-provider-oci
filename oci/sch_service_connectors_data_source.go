@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_sch "github.com/oracle/oci-go-sdk/v48/sch"
+	oci_sch "github.com/oracle/oci-go-sdk/v49/sch"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func SchServiceConnectorsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSchServiceConnectors,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -84,7 +84,7 @@ func (s *SchServiceConnectorsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_sch.ListServiceConnectorsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "sch")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "sch")
 
 	response, err := s.Client.ListServiceConnectors(context.Background(), request)
 	if err != nil {

@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oracle/oci-go-sdk/v48/core"
+	"github.com/oracle/oci-go-sdk/v49/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -21,137 +21,137 @@ import (
 
 var (
 	instancePlatformConfigRepresentation = map[string]interface{}{
-		"type":                               Representation{repType: Required, create: `INTEL_VM`},
-		"is_measured_boot_enabled":           Representation{repType: Optional, create: `false`},
-		"is_secure_boot_enabled":             Representation{repType: Optional, create: `false`},
-		"is_trusted_platform_module_enabled": Representation{repType: Optional, create: `false`},
+		"type":                               Representation{RepType: Required, Create: `INTEL_VM`},
+		"is_measured_boot_enabled":           Representation{RepType: Optional, Create: `false`},
+		"is_secure_boot_enabled":             Representation{RepType: Optional, Create: `false`},
+		"is_trusted_platform_module_enabled": Representation{RepType: Optional, Create: `false`},
 	}
 	instanceBMMilanPlatformConfigRepresentation = map[string]interface{}{
-		"type":                               Representation{repType: Required, create: `AMD_MILAN_BM`},
-		"is_measured_boot_enabled":           Representation{repType: Optional, create: `false`},
-		"is_secure_boot_enabled":             Representation{repType: Optional, create: `false`},
-		"is_trusted_platform_module_enabled": Representation{repType: Optional, create: `false`},
-		"numa_nodes_per_socket":              Representation{repType: Optional, create: `NPS1`},
+		"type":                               Representation{RepType: Required, Create: `AMD_MILAN_BM`},
+		"is_measured_boot_enabled":           Representation{RepType: Optional, Create: `false`},
+		"is_secure_boot_enabled":             Representation{RepType: Optional, Create: `false`},
+		"is_trusted_platform_module_enabled": Representation{RepType: Optional, Create: `false`},
+		"numa_nodes_per_socket":              Representation{RepType: Optional, Create: `NPS1`},
 	}
 	instanceBMRomeShieldedPlatformConfigRepresentation = map[string]interface{}{
-		"type":                               Representation{repType: Required, create: `AMD_ROME_BM`},
-		"is_measured_boot_enabled":           Representation{repType: Required, create: `false`},
-		"is_secure_boot_enabled":             Representation{repType: Required, create: `true`},
-		"is_trusted_platform_module_enabled": Representation{repType: Required, create: `true`},
+		"type":                               Representation{RepType: Required, Create: `AMD_ROME_BM`},
+		"is_measured_boot_enabled":           Representation{RepType: Required, Create: `false`},
+		"is_secure_boot_enabled":             Representation{RepType: Required, Create: `true`},
+		"is_trusted_platform_module_enabled": Representation{RepType: Required, Create: `true`},
 	}
 	instanceBMSkylakeShieldedPlatformConfigRepresentation = map[string]interface{}{
-		"type":                               Representation{repType: Required, create: `INTEL_SKYLAKE_BM`},
-		"is_measured_boot_enabled":           Representation{repType: Required, create: `false`},
-		"is_secure_boot_enabled":             Representation{repType: Required, create: `true`},
-		"is_trusted_platform_module_enabled": Representation{repType: Required, create: `true`},
+		"type":                               Representation{RepType: Required, Create: `INTEL_SKYLAKE_BM`},
+		"is_measured_boot_enabled":           Representation{RepType: Required, Create: `false`},
+		"is_secure_boot_enabled":             Representation{RepType: Required, Create: `true`},
+		"is_trusted_platform_module_enabled": Representation{RepType: Required, Create: `true`},
 	}
 	instanceVMIntelShieldedPlatformConfigRepresentation = map[string]interface{}{
-		"type":                               Representation{repType: Required, create: `INTEL_VM`},
-		"is_measured_boot_enabled":           Representation{repType: Required, create: `true`},
-		"is_secure_boot_enabled":             Representation{repType: Required, create: `true`},
-		"is_trusted_platform_module_enabled": Representation{repType: Required, create: `true`},
+		"type":                               Representation{RepType: Required, Create: `INTEL_VM`},
+		"is_measured_boot_enabled":           Representation{RepType: Required, Create: `true`},
+		"is_secure_boot_enabled":             Representation{RepType: Required, Create: `true`},
+		"is_trusted_platform_module_enabled": Representation{RepType: Required, Create: `true`},
 	}
 	instanceVMAmdShieldedPlatformConfigRepresentation = map[string]interface{}{
-		"type":                               Representation{repType: Required, create: `AMD_VM`},
-		"is_measured_boot_enabled":           Representation{repType: Required, create: `false`},
-		"is_secure_boot_enabled":             Representation{repType: Required, create: `false`},
-		"is_trusted_platform_module_enabled": Representation{repType: Required, create: `false`},
+		"type":                               Representation{RepType: Required, Create: `AMD_VM`},
+		"is_measured_boot_enabled":           Representation{RepType: Required, Create: `false`},
+		"is_secure_boot_enabled":             Representation{RepType: Required, Create: `false`},
+		"is_trusted_platform_module_enabled": Representation{RepType: Required, Create: `false`},
 	}
-	// instance representation for testing update to launch_options and fault_domain
-	instanceRepresentationCore_ForLaunchOptionsUpdate = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+	// instance representation for testing Update to launch_options and fault_domain
+	instanceRepresentationCore_ForLaunchOptionsUpdate = RepresentationCopyWithRemovedProperties(RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
 		"launch_options": RepresentationGroup{Optional, instanceLaunchOptionsRepresentation_ForLaunchOptionsUpdate},
-		"fault_domain":   Representation{repType: Optional, create: `FAULT-DOMAIN-3`, update: `FAULT-DOMAIN-2`},
-		"shape":          Representation{repType: Required, create: `VM.Standard2.1`, update: `VM.Standard2.2`},
+		"fault_domain":   Representation{RepType: Optional, Create: `FAULT-DOMAIN-3`, Update: `FAULT-DOMAIN-2`},
+		"shape":          Representation{RepType: Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.2`},
 		"shape_config":   RepresentationGroup{Optional, instanceShapeConfigRepresentation_ForLaunchOptionsUpdate},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
 	instanceShapeConfigRepresentation_ForLaunchOptionsUpdate = map[string]interface{}{
-		"ocpus": Representation{repType: Optional, create: "1", update: "2"},
+		"ocpus": Representation{RepType: Optional, Create: "1", Update: "2"},
 	}
-	instanceRepresentationCore_ForFlexibleMemory = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-		"fault_domain":   Representation{repType: Optional, create: `FAULT-DOMAIN-3`, update: `FAULT-DOMAIN-2`},
-		"shape":          Representation{repType: Required, create: `VM.Standard.E3.Flex`},
-		"image":          Representation{repType: Required, create: `${var.FlexInstanceImageOCID[var.region]}`},
+	instanceRepresentationCore_ForFlexibleMemory = RepresentationCopyWithRemovedProperties(RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"fault_domain":   Representation{RepType: Optional, Create: `FAULT-DOMAIN-3`, Update: `FAULT-DOMAIN-2`},
+		"shape":          Representation{RepType: Required, Create: `VM.Standard.E3.Flex`},
+		"image":          Representation{RepType: Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
 		"shape_config":   RepresentationGroup{Optional, instanceShapeConfigRepresentation_ForFlexibleMemory},
 		"source_details": RepresentationGroup{Optional, instanceFlexSourceDetailsRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
 	instanceShapeConfigRepresentation_ForFlexibleMemory = map[string]interface{}{
-		"ocpus":         Representation{repType: Optional, create: "2"},
-		"memory_in_gbs": Representation{repType: Optional, create: `10.0`, update: `20.0`},
+		"ocpus":         Representation{RepType: Optional, Create: "2"},
+		"memory_in_gbs": Representation{RepType: Optional, Create: `10.0`, Update: `20.0`},
 	}
 	instanceShapeConfigRepresentation_ForFlexibleMemoryNoUpdate = map[string]interface{}{
-		"ocpus":         Representation{repType: Optional, create: "2"},
-		"memory_in_gbs": Representation{repType: Optional, create: `10.0`, update: `20.0`},
+		"ocpus":         Representation{RepType: Optional, Create: "2"},
+		"memory_in_gbs": Representation{RepType: Optional, Create: `10.0`, Update: `20.0`},
 	}
-	instanceRepresentationCore_ForFlexibleMemoryNoUpdate = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-		"fault_domain":   Representation{repType: Optional, create: `FAULT-DOMAIN-3`, update: `FAULT-DOMAIN-2`},
-		"shape":          Representation{repType: Required, create: `VM.Standard.E3.Flex`},
-		"image":          Representation{repType: Required, create: `${var.FlexInstanceImageOCID[var.region]}`},
+	instanceRepresentationCore_ForFlexibleMemoryNoUpdate = RepresentationCopyWithRemovedProperties(RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"fault_domain":   Representation{RepType: Optional, Create: `FAULT-DOMAIN-3`, Update: `FAULT-DOMAIN-2`},
+		"shape":          Representation{RepType: Required, Create: `VM.Standard.E3.Flex`},
+		"image":          Representation{RepType: Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
 		"shape_config":   RepresentationGroup{Optional, instanceShapeConfigRepresentation_ForFlexibleMemoryNoUpdate},
 		"source_details": RepresentationGroup{Optional, instanceFlexSourceDetailsRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
-	instanceLaunchOptionsRepresentation_ForLaunchOptionsUpdate = representationCopyWithNewProperties(instanceLaunchOptionsRepresentation, map[string]interface{}{
-		"boot_volume_type":                    Representation{repType: Optional, create: `ISCSI`, update: `PARAVIRTUALIZED`},
-		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, update: `true`},
-		"network_type":                        Representation{repType: Optional, create: `PARAVIRTUALIZED`, update: `VFIO`},
+	instanceLaunchOptionsRepresentation_ForLaunchOptionsUpdate = RepresentationCopyWithNewProperties(instanceLaunchOptionsRepresentation, map[string]interface{}{
+		"boot_volume_type":                    Representation{RepType: Optional, Create: `ISCSI`, Update: `PARAVIRTUALIZED`},
+		"is_pv_encryption_in_transit_enabled": Representation{RepType: Optional, Update: `true`},
+		"network_type":                        Representation{RepType: Optional, Create: `PARAVIRTUALIZED`, Update: `VFIO`},
 	})
 	instanceFlexSourceDetailsRepresentation = map[string]interface{}{
-		"source_id":   Representation{repType: Required, create: `${var.FlexInstanceImageOCID[var.region]}`},
-		"source_type": Representation{repType: Required, create: `image`},
-		"kms_key_id":  Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"source_id":   Representation{RepType: Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
+		"source_type": Representation{RepType: Required, Create: `image`},
+		"kms_key_id":  Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
-	instanceWithBMMilanPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-		"shape":               Representation{repType: Required, create: `BM.Standard.E4.128`},
-		"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+	instanceWithBMMilanPlatformConfigRepresentation = RepresentationCopyWithRemovedProperties(RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"shape":               Representation{RepType: Required, Create: `BM.Standard.E4.128`},
+		"image":               Representation{RepType: Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
 		"platform_config":     RepresentationGroup{Required, instanceBMMilanPlatformConfigRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
-	instanceWithBMRomeShieldedPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-		"shape":               Representation{repType: Required, create: `BM.Standard.E3.128`},
-		"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+	instanceWithBMRomeShieldedPlatformConfigRepresentation = RepresentationCopyWithRemovedProperties(RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"shape":               Representation{RepType: Required, Create: `BM.Standard.E3.128`},
+		"image":               Representation{RepType: Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
 		"platform_config":     RepresentationGroup{Required, instanceBMRomeShieldedPlatformConfigRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
-	instanceWithBMSkylakeShieldedPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-		"shape":               Representation{repType: Required, create: `BM.Standard2.52`},
-		"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+	instanceWithBMSkylakeShieldedPlatformConfigRepresentation = RepresentationCopyWithRemovedProperties(RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"shape":               Representation{RepType: Required, Create: `BM.Standard2.52`},
+		"image":               Representation{RepType: Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
 		"platform_config":     RepresentationGroup{Required, instanceBMSkylakeShieldedPlatformConfigRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
-	instanceWithVMIntelPlatformConfigRepresentation = representationCopyWithRemovedProperties(representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-		"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+	instanceWithVMIntelPlatformConfigRepresentation = RepresentationCopyWithRemovedProperties(RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+		"image":               Representation{RepType: Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
 		"platform_config":     RepresentationGroup{Required, instanceVMIntelShieldedPlatformConfigRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
-	instanceWithVMAmdPlatformConfigRepresentation = representationCopyWithRemovedProperties(
-		representationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
-			"image":               Representation{repType: Required, create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
-			"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+	instanceWithVMAmdPlatformConfigRepresentation = RepresentationCopyWithRemovedProperties(
+		RepresentationCopyWithNewProperties(instanceRepresentation, map[string]interface{}{
+			"image":               Representation{RepType: Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+			"availability_domain": Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
 			"platform_config":     RepresentationGroup{Required, instanceVMAmdShieldedPlatformConfigRepresentation},
 		}), []string{
 			"dedicated_vm_host_id",
 		})
 
 	ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan = DefinedShieldedImageOCIDs +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
-			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
@@ -216,7 +216,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -267,8 +267,8 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "3"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyA", "valA"),
-					testCheckJsonResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\":\"valB1\",\"keyB2\":{\"keyB2\":\"valB2\"}}"),
-					testCheckJsonResourceAttr(s.ResourceName, "extended_metadata.keyC", "[\"valC1\",\"valC2\"]"),
+					TestCheckJsonResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\":\"valB1\",\"keyB2\":{\"keyB2\":\"valB2\"}}"),
+					TestCheckJsonResourceAttr(s.ResourceName, "extended_metadata.keyC", "[\"valC1\",\"valC2\"]"),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "region"),
@@ -284,7 +284,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "source_details.0.source_id"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "preserve_boot_volume"),
 					func(ts *terraform.State) (err error) {
-						instanceId, err = fromInstanceState(ts, s.ResourceName, "id")
+						instanceId, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
@@ -350,7 +350,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				ExpectNonEmptyPlan: false,
 				PlanOnly:           true,
 			},
-			// verify update - adds display name, update tags
+			// verify Update - adds display name, Update tags
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -378,7 +378,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					func(ts *terraform.State) (err error) {
-						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						newId, err := FromInstanceState(ts, s.ResourceName, "id")
 						if newId != instanceId {
 							return fmt.Errorf("expected same instance ocid, got different")
 						}
@@ -386,7 +386,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					},
 				),
 			},
-			// Adding create_vnic_details with the same subnet_id and an updatable fields should cause an update only.
+			// Adding create_vnic_details with the same subnet_id and an updatable fields should cause an Update only.
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -426,7 +426,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.private_ip"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
 					func(ts *terraform.State) (err error) {
-						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						newId, err := FromInstanceState(ts, s.ResourceName, "id")
 						if newId != instanceId {
 							return fmt.Errorf("expected same instance ocid, got different")
 						}
@@ -511,7 +511,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.private_ip"),
 					func(ts *terraform.State) (err error) {
-						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						newId, err := FromInstanceState(ts, s.ResourceName, "id")
 						if newId != instanceId {
 							return fmt.Errorf("Expected same instance ocid, got different.")
 						}
@@ -565,7 +565,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttr(vnicResourceName, "display_name", "-tf-vnic-2"),
 					resource.TestCheckResourceAttr(vnicResourceName, "skip_source_dest_check", "true"),
 					func(ts *terraform.State) (err error) {
-						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						newId, err := FromInstanceState(ts, s.ResourceName, "id")
 						if newId == instanceId {
 							return fmt.Errorf("expected new instance ocid, got the same")
 						}
@@ -574,7 +574,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					},
 				),
 			},
-			// verify updating vnic tags result in an update only
+			// verify updating vnic tags result in an Update only
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -616,7 +616,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
 					func(ts *terraform.State) (err error) {
-						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						newId, err := FromInstanceState(ts, s.ResourceName, "id")
 						if newId != instanceId {
 							return fmt.Errorf("Expected same instance ocid, got different.")
 						}
@@ -674,7 +674,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// create a new instance with metadata interpolations so that no state exists
+			// Create a new instance with metadata interpolations so that no state exists
 			{
 				Config: s.Config + `
 				locals {
@@ -726,7 +726,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "ZWNobyBoZWxsbw=="),
 					func(ts *terraform.State) (err error) {
-						instanceId, err = fromInstanceState(ts, s.ResourceName, "id")
+						instanceId, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
@@ -783,7 +783,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.ssh_authorized_keys", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "ZWNobyB3b3JsZA=="),
 					func(ts *terraform.State) (err error) {
-						newId, err := fromInstanceState(ts, s.ResourceName, "id")
+						newId, err := FromInstanceState(ts, s.ResourceName, "id")
 						if newId == instanceId {
 							return fmt.Errorf("expected new instance ocid, got the same")
 						}
@@ -809,7 +809,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 	var testStepsReference []resource.TestStep
 
 	testSteps := []resource.TestStep{
-		// verify create of an instance with source_details and that we can get a boot volume id
+		// verify Create of an instance with source_details and that we can get a boot volume id
 		{
 			Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -868,7 +868,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				resource.TestCheckResourceAttrSet(s.ResourceName, "boot_volume_id"),
 				// Store the instance ID for future verification
 				func(ts *terraform.State) (err error) {
-					instanceId, err = fromInstanceState(ts, s.ResourceName, "id")
+					instanceId, err = FromInstanceState(ts, s.ResourceName, "id")
 					return err
 				},
 			),
@@ -921,18 +921,18 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				resource.TestCheckResourceAttrSet(s.ResourceName, "boot_volume_id"),
 				// Verify that we didn't get a new Instance
 				func(ts *terraform.State) (err error) {
-					newId, err := fromInstanceState(ts, s.ResourceName, "id")
+					newId, err := FromInstanceState(ts, s.ResourceName, "id")
 					if newId != instanceId {
 						return fmt.Errorf("expected same instance ocid, got different")
 					}
 					return err
 				},
 				// Store the boot volume id, so we can use it for attaching to an Instance later
-				// Also update all the config test steps to use the computed boot volume ID
+				// Also Update all the config test steps to use the computed boot volume ID
 				func(ts *terraform.State) (err error) {
-					preservedBootVolumeId, err = fromInstanceState(ts, s.ResourceName, "boot_volume_id")
+					preservedBootVolumeId, err = FromInstanceState(ts, s.ResourceName, "boot_volume_id")
 
-					_, tokenFn := tokenizeWithHttpReplay("instance_resource")
+					_, tokenFn := TokenizeWithHttpReplay("instance_resource")
 					for idx := range testStepsReference {
 						testStepsReference[idx].Config = tokenFn(testStepsReference[idx].Config, map[string]string{"preservedBootVolumeId": preservedBootVolumeId})
 					}
@@ -982,7 +982,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
 				// Verify that we got a new Instance
 				func(ts *terraform.State) (err error) {
-					newId, err := fromInstanceState(ts, s.ResourceName, "id")
+					newId, err := FromInstanceState(ts, s.ResourceName, "id")
 					if newId == instanceId {
 						return fmt.Errorf("expected different instance ocid, got same")
 					}
@@ -992,7 +992,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				},
 				// Verify that the volume attachment's ID is the same as the preserved boot volume
 				func(ts *terraform.State) (err error) {
-					volumeId, err := fromInstanceState(ts, "oci_core_volume_attachment.volume_attach", "volume_id")
+					volumeId, err := FromInstanceState(ts, "oci_core_volume_attachment.volume_attach", "volume_id")
 					if preservedBootVolumeId != volumeId {
 						return fmt.Errorf("expected attached volume id to be same as preserved boot volume, got different one")
 					}
@@ -1027,7 +1027,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				resource.TestCheckResourceAttr(s.ResourceName, "preserve_boot_volume", "false"),
 				// Verify that we got a new Instance
 				func(ts *terraform.State) (err error) {
-					newId, err := fromInstanceState(ts, s.ResourceName, "id")
+					newId, err := FromInstanceState(ts, s.ResourceName, "id")
 					if newId == instanceId {
 						return fmt.Errorf("expected different instance ocid, got same")
 					}
@@ -1037,7 +1037,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				},
 				// Verify that the boot volume attachment is the same as the preserved boot volume
 				func(ts *terraform.State) (err error) {
-					volumeId, err := fromInstanceState(ts, s.ResourceName, "boot_volume_id")
+					volumeId, err := FromInstanceState(ts, s.ResourceName, "boot_volume_id")
 					if preservedBootVolumeId != volumeId {
 						return fmt.Errorf("expected attached boot volume ID to be same as preserved boot volume, got different one")
 					}
@@ -1074,7 +1074,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
 				// Verify that we got a new Instance
 				func(ts *terraform.State) (err error) {
-					newId, err := fromInstanceState(ts, s.ResourceName, "id")
+					newId, err := FromInstanceState(ts, s.ResourceName, "id")
 					if newId != instanceId {
 						return fmt.Errorf("expected same instance ocid, got different")
 					}
@@ -1084,7 +1084,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				},
 				// Verify that the boot volume attachment is the same as the preserved boot volume
 				func(ts *terraform.State) (err error) {
-					volumeId, err := fromInstanceState(ts, s.ResourceName, "boot_volume_id")
+					volumeId, err := FromInstanceState(ts, s.ResourceName, "boot_volume_id")
 					if preservedBootVolumeId != volumeId {
 						return fmt.Errorf("expected attached boot volume ID to be same as preserved boot volume, got different one")
 					}
@@ -1102,7 +1102,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 		// this should result in an error from service.
 		{
 			PreConfig: func() {
-				waitTillCondition(testAccProvider, &preservedBootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
+				WaitTillCondition(testAccProvider, &preservedBootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
 					bootVolumeSweepResponseFetchOperation, "core", true)
 			},
 			Config: s.Config + `
@@ -1139,7 +1139,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_failedByTimeout() {
 
 	testSteps := []resource.TestStep{
-		// verify create of an instance with source_details and that we can get a boot volume id
+		// verify Create of an instance with source_details and that we can get a boot volume id
 		{
 			Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -1243,7 +1243,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 					resource.TestCheckResourceAttrSet(s.ResourceName, "source_details.0.source_id"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "preserve_boot_volume"),
 					func(ts *terraform.State) (err error) {
-						_, err = fromInstanceState(ts, s.ResourceName, "id")
+						_, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
@@ -1275,7 +1275,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// create with assign_public_ip
+			// Create with assign_public_ip
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -1303,12 +1303,12 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
 					func(ts *terraform.State) (err error) {
-						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
 			},
-			// update assign_public_ip to false
+			// Update assign_public_ip to false
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -1336,7 +1336,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "false"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -1344,7 +1344,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 					},
 				),
 			},
-			// update assign_public_ip to true with freeform_tags
+			// Update assign_public_ip to true with freeform_tags
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -1374,7 +1374,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssign
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -1393,7 +1393,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
-			// create with flex shape and shape config
+			// Create with flex shape and shape config
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -1425,12 +1425,12 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					func(ts *terraform.State) (err error) {
-						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId, err = FromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
 			},
-			// update shape config
+			// Update shape config
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -1462,7 +1462,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -1470,7 +1470,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 					},
 				),
 			},
-			// update shape_config and displayName
+			// Update shape_config and displayName
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -1502,7 +1502,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance-1"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -1510,7 +1510,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 					},
 				),
 			},
-			// update displayName
+			// Update displayName
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -1542,7 +1542,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -1550,7 +1550,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 					},
 				),
 			},
-			// update shape and shape_config
+			// Update shape and shape_config
 			{
 				Config: s.Config + `
 				resource "oci_core_instance" "t" {
@@ -1582,7 +1582,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = FromInstanceState(ts, s.ResourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -1621,10 +1621,10 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
 		Steps: []resource.TestStep{
-			// create with platform config
+			// Create with platform config
 			{
 				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create,
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create,
 						instanceWithBMMilanPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard.E4.128"),
@@ -1642,9 +1642,9 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMMilanPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMMilanPlatformConfigRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "BM.Standard.E4.128"),
@@ -1658,9 +1658,9 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMMilanPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMMilanPlatformConfigRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
@@ -1729,10 +1729,10 @@ func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
 		Steps: []resource.TestStep{
-			// create with platform config
+			// Create with platform config
 			{
 				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMRomeShieldedPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMRomeShieldedPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard.E3.128"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
@@ -1749,9 +1749,9 @@ func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMRomeShieldedPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMRomeShieldedPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -1767,9 +1767,9 @@ func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMRomeShieldedPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMRomeShieldedPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
@@ -1838,10 +1838,10 @@ func TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource(t *testin
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
 		Steps: []resource.TestStep{
-			// create with platform config
+			// Create with platform config
 			{
 				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMSkylakeShieldedPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMSkylakeShieldedPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard2.52"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
@@ -1858,9 +1858,9 @@ func TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource(t *testin
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMSkylakeShieldedPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMSkylakeShieldedPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -1876,9 +1876,9 @@ func TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource(t *testin
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMSkylakeShieldedPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithBMSkylakeShieldedPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
@@ -1946,10 +1946,10 @@ func TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource(t *testing.
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
 		Steps: []resource.TestStep{
-			// create with platform config
+			// Create with platform config
 			{
 				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMIntelPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMIntelPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
@@ -1966,9 +1966,9 @@ func TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource(t *testing.
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Required, Create, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMIntelPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMIntelPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -1984,9 +1984,9 @@ func TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource(t *testing.
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMIntelPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMIntelPlatformConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
@@ -2053,7 +2053,7 @@ func TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource(t *testing.T)
 		Steps: []resource.TestStep{
 			{
 				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMAmdPlatformConfigRepresentation),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithVMAmdPlatformConfigRepresentation),
 				ExpectError: regexp.MustCompile("VM.Standard2.1 does not support the provided platform configuration"),
 			},
 		},
@@ -2091,10 +2091,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 		Providers:    s.Providers,
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
 		Steps: []resource.TestStep{
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationCore_ForLaunchOptionsUpdate),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationCore_ForLaunchOptionsUpdate),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -2141,7 +2141,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -2150,7 +2150,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForLaunchOptionsUpdate),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForLaunchOptionsUpdate),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -2197,7 +2197,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -2208,9 +2208,9 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForLaunchOptionsUpdate),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForLaunchOptionsUpdate),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -2262,9 +2262,9 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForLaunchOptionsUpdate),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForLaunchOptionsUpdate),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
@@ -2343,10 +2343,10 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckCoreInstanceDestroy,
 		Steps: []resource.TestStep{
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationCore_ForFlexibleMemory),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationCore_ForFlexibleMemory),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -2386,7 +2386,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -2395,7 +2395,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 			// verify updates to updatable parameters but no change in shape_config
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemoryNoUpdate),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemoryNoUpdate),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -2435,7 +2435,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -2447,7 +2447,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemory),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemory),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
@@ -2487,7 +2487,7 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -2499,9 +2499,9 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemory),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemory),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -2545,9 +2545,9 @@ func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
-					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemory),
+					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationCore_ForFlexibleMemory),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),

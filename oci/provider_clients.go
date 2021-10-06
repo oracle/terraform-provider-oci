@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"strings"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v48/functions"
-	oci_kms "github.com/oracle/oci-go-sdk/v48/keymanagement"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v49/functions"
+	oci_kms "github.com/oracle/oci-go-sdk/v49/keymanagement"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 )
 
 var oracleClientRegistrations *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region
@@ -35,7 +35,7 @@ type ServiceClientOverrides struct {
 }
 
 type OracleClient struct {
-	initClientFn InitSdkClientFn
+	InitClientFn InitSdkClientFn
 }
 
 type OracleClients struct {
@@ -49,7 +49,7 @@ func (m *OracleClients) GetClient(name string) interface{} {
 }
 
 // The following clients require special endpoint information that is only known at Terraform apply time; so they
-// create duplicate clients reusing the same configuration provider as the initialized client and adding the endpoint
+// Create duplicate clients reusing the same configuration provider as the initialized client and adding the endpoint
 // here.
 func (m *OracleClients) FunctionsInvokeClient(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
 	if client, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(*m.functionsInvokeClient().ConfigurationProvider(), endpoint); err == nil {
@@ -105,19 +105,19 @@ func getClientHostOverrides() map[string]string {
 
 func createSDKClients(clients *OracleClients, configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (err error) {
 	if oracleClientRegistrations == nil || len(oracleClientRegistrations.registeredClients) == 0 {
-		return fmt.Errorf("there are no clients to create")
+		return fmt.Errorf("there are no clients to Create")
 	}
 
 	clientHostOverrides := getClientHostOverrides()
 	for serviceName, clientRegistration := range oracleClientRegistrations.registeredClients {
-		if clientRegistration.initClientFn != nil {
+		if clientRegistration.InitClientFn != nil {
 			serviceClientOverrides := ServiceClientOverrides{}
 			// apply client host override
 			if host, ok := clientHostOverrides[serviceName]; ok {
 				serviceClientOverrides.hostUrlOverride = host
 			}
 
-			clients.sdkClientMap[serviceName], err = clientRegistration.initClientFn(configProvider, configureClient, serviceClientOverrides)
+			clients.sdkClientMap[serviceName], err = clientRegistration.InitClientFn(configProvider, configureClient, serviceClientOverrides)
 			if err != nil {
 				return err
 			}

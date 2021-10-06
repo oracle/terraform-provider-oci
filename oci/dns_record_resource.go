@@ -20,7 +20,7 @@ import (
 	"net"
 	"regexp"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v48/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v49/dns"
 )
 
 func init() {
@@ -169,7 +169,7 @@ func (s *DnsRecordResourceCrud) Create() error {
 
 	request.Items = []oci_dns.RecordOperation{ro}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 	response, err := s.Client.PatchRRSet(context.Background(), request)
 	if err != nil {
 		return err
@@ -218,7 +218,7 @@ func (s *DnsRecordResourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 
 	var err error
 	for true {
@@ -270,7 +270,7 @@ func (s *DnsRecordResourceCrud) Update() error {
 
 	request.Items = []oci_dns.RecordOperation{removeOp, addOp}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 	response, err := s.Client.PatchRRSet(context.Background(), request)
 	if err != nil {
 		return err
@@ -315,7 +315,7 @@ func (s *DnsRecordResourceCrud) Delete() error {
 
 	request.Items = []oci_dns.RecordOperation{ro}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "dns")
 	_, err := s.Client.PatchRRSet(context.Background(), request)
 	return err
 }

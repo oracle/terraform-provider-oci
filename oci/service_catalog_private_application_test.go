@@ -13,44 +13,44 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v48/servicecatalog"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v49/servicecatalog"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	PrivateApplicationResourceConfig = PrivateApplicationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation)
 
 	privateApplicationSingularDataSourceRepresentation = map[string]interface{}{
-		"private_application_id": Representation{repType: Required, create: `${oci_service_catalog_private_application.test_private_application.id}`},
+		"private_application_id": Representation{RepType: Required, Create: `${oci_service_catalog_private_application.test_private_application.id}`},
 	}
 
 	privateApplicationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"private_application_id": Representation{repType: Optional, create: `${oci_service_catalog_private_application.test_private_application.id}`},
+		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":           Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"private_application_id": Representation{RepType: Optional, Create: `${oci_service_catalog_private_application.test_private_application.id}`},
 		"filter":                 RepresentationGroup{Required, privateApplicationDataSourceFilterRepresentation}}
 	privateApplicationDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_service_catalog_private_application.test_private_application.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_service_catalog_private_application.test_private_application.id}`}},
 	}
 
 	privateApplicationRepresentation = map[string]interface{}{
-		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":            Representation{repType: Required, create: `displayName`, update: `displayName2`},
+		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":            Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
 		"package_details":         RepresentationGroup{Required, privateApplicationPackageDetailsRepresentation},
-		"short_description":       Representation{repType: Required, create: `shortDescription`, update: `shortDescription2`},
-		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"logo_file_base64encoded": Representation{repType: Optional, create: `data:image/jpeg;base64,SWNvbkZvclRlcnJhZm9ybVRlc3Rpbmc=`, update: `data:image/jpeg;base64,VXBkYXRlZEljb25Gb3JUZXJyYWZvcm1UZXN0aW5n`},
-		"long_description":        Representation{repType: Optional, create: `longDescription`, update: `longDescription2`},
+		"short_description":       Representation{RepType: Required, Create: `shortDescription`, Update: `shortDescription2`},
+		"defined_tags":            Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":           Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"logo_file_base64encoded": Representation{RepType: Optional, Create: `data:image/jpeg;base64,SWNvbkZvclRlcnJhZm9ybVRlc3Rpbmc=`, Update: `data:image/jpeg;base64,VXBkYXRlZEljb25Gb3JUZXJyYWZvcm1UZXN0aW5n`},
+		"long_description":        Representation{RepType: Optional, Create: `longDescription`, Update: `longDescription2`},
 	}
 	privateApplicationPackageDetailsRepresentation = map[string]interface{}{
-		"package_type":           Representation{repType: Required, create: `STACK`},
-		"version":                Representation{repType: Required, create: `version`},
-		"zip_file_base64encoded": Representation{repType: Required, create: `data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0=`},
+		"package_type":           Representation{RepType: Required, Create: `STACK`},
+		"version":                Representation{RepType: Required, Create: `version`},
+		"zip_file_base64encoded": Representation{RepType: Required, Create: `data:application/zip;base64,VGVzdERhdGFGb3JUZXJyYWZvcm0=`},
 	}
 
 	PrivateApplicationResourceDependencies = DefinedTagsDependencies
@@ -74,15 +74,15 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_service_catalog_private_application.test_private_application"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+
-		generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create, privateApplicationRepresentation), "servicecatalog", "privateApplication", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+
+		GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create, privateApplicationRepresentation), "servicecatalog", "privateApplication", t)
 
 	ResourceTest(t, testAccCheckServiceCatalogPrivateApplicationDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -93,20 +93,20 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "short_description", "shortDescription"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create, privateApplicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create, privateApplicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -125,9 +125,9 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -136,12 +136,12 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PrivateApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create,
-					representationCopyWithNewProperties(privateApplicationRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Create,
+					RepresentationCopyWithNewProperties(privateApplicationRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -161,7 +161,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -173,7 +173,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -192,7 +192,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -203,9 +203,9 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_service_catalog_private_applications", "test_private_applications", Optional, Update, privateApplicationDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_service_catalog_private_applications", "test_private_applications", Optional, Update, privateApplicationDataSourceRepresentation) +
 				compartmentIdVariableStr + PrivateApplicationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Optional, Update, privateApplicationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -218,7 +218,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_service_catalog_private_application", "test_private_application", Required, Create, privateApplicationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + PrivateApplicationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_application_id"),
@@ -266,7 +266,7 @@ func testAccCheckServiceCatalogPrivateApplicationDestroy(s *terraform.State) err
 			tmp := rs.Primary.ID
 			request.PrivateApplicationId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "service_catalog")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "service_catalog")
 
 			response, err := client.GetPrivateApplication(context.Background(), request)
 
@@ -299,7 +299,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("ServiceCatalogPrivateApplication") {
+	if !InSweeperExcludeList("ServiceCatalogPrivateApplication") {
 		resource.AddTestSweepers("ServiceCatalogPrivateApplication", &resource.Sweeper{
 			Name:         "ServiceCatalogPrivateApplication",
 			Dependencies: DependencyGraph["privateApplication"],
@@ -320,13 +320,13 @@ func sweepServiceCatalogPrivateApplicationResource(compartment string) error {
 
 			deletePrivateApplicationRequest.PrivateApplicationId = &privateApplicationId
 
-			deletePrivateApplicationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "service_catalog")
+			deletePrivateApplicationRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "service_catalog")
 			_, err := serviceCatalogClient.DeletePrivateApplication(context.Background(), deletePrivateApplicationRequest)
 			if err != nil {
 				fmt.Printf("Error deleting PrivateApplication %s %s, It is possible that the resource is already deleted. Please verify manually \n", privateApplicationId, err)
 				continue
 			}
-			waitTillCondition(testAccProvider, &privateApplicationId, privateApplicationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &privateApplicationId, privateApplicationSweepWaitCondition, time.Duration(3*time.Minute),
 				privateApplicationSweepResponseFetchOperation, "service_catalog", true)
 		}
 	}
@@ -334,7 +334,7 @@ func sweepServiceCatalogPrivateApplicationResource(compartment string) error {
 }
 
 func getPrivateApplicationIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "PrivateApplicationId")
+	ids := GetResourceIdsToSweep(compartment, "PrivateApplicationId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -352,7 +352,7 @@ func getPrivateApplicationIds(compartment string) ([]string, error) {
 	for _, privateApplication := range listPrivateApplicationsResponse.Items {
 		id := *privateApplication.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "PrivateApplicationId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "PrivateApplicationId", id)
 	}
 	return resourceIds, nil
 }

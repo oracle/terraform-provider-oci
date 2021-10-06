@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_nosql "github.com/oracle/oci-go-sdk/v48/nosql"
+	oci_nosql "github.com/oracle/oci-go-sdk/v49/nosql"
 )
 
 func init() {
@@ -67,7 +67,7 @@ func (s *NosqlIndexDataSourceCrud) Get() error {
 		request.TableNameOrId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "nosql")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "nosql")
 
 	response, err := s.Client.GetIndex(context.Background(), request)
 	if err != nil {

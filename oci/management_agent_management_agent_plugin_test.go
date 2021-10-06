@@ -14,9 +14,9 @@ import (
 
 var (
 	managementAgentPluginDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"platform_type":  Representation{repType: Optional, create: []string{`LINUX`}},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"platform_type":  Representation{RepType: Optional, Create: []string{`LINUX`}},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
 	ManagementAgentPluginResourceConfig = ""
@@ -34,13 +34,13 @@ func TestManagementAgentManagementAgentPluginResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_management_agent_management_agent_plugins.test_management_agent_plugins"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", Required, Create, managementAgentPluginDataSourceRepresentation) +
 				compartmentIdVariableStr + ManagementAgentPluginResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

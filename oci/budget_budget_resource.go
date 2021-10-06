@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v48/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v49/budget"
 )
 
 func init() {
@@ -231,7 +231,7 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if resetPeriod, ok := s.D.GetOkExists("reset_period"); ok {
@@ -260,7 +260,7 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	response, err := s.Client.CreateBudget(context.Background(), request)
 	if err != nil {
@@ -277,7 +277,7 @@ func (s *BudgetBudgetResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.BudgetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	response, err := s.Client.GetBudget(context.Background(), request)
 	if err != nil {
@@ -323,14 +323,14 @@ func (s *BudgetBudgetResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if resetPeriod, ok := s.D.GetOkExists("reset_period"); ok {
 		request.ResetPeriod = oci_budget.ResetPeriodEnum(resetPeriod.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	response, err := s.Client.UpdateBudget(context.Background(), request)
 	if err != nil {
@@ -347,7 +347,7 @@ func (s *BudgetBudgetResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.BudgetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	_, err := s.Client.DeleteBudget(context.Background(), request)
 	return err

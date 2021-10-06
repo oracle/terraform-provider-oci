@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v48/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v49/loganalytics"
 )
 
 func init() {
@@ -58,7 +58,7 @@ func (s *LogAnalyticsLogAnalyticsEntityDataSourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "log_analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "log_analytics")
 
 	response, err := s.Client.GetLogAnalyticsEntity(context.Background(), request)
 	if err != nil {

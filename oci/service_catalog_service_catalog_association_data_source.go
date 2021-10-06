@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_service_catalog "github.com/oracle/oci-go-sdk/v48/servicecatalog"
+	oci_service_catalog "github.com/oracle/oci-go-sdk/v49/servicecatalog"
 )
 
 func init() {
@@ -49,7 +49,7 @@ func (s *ServiceCatalogServiceCatalogAssociationDataSourceCrud) Get() error {
 		request.ServiceCatalogAssociationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "service_catalog")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "service_catalog")
 
 	response, err := s.Client.GetServiceCatalogAssociation(context.Background(), request)
 	if err != nil {

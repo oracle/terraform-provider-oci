@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v48/databasemigration"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v49/databasemigration"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DatabaseMigrationAgentImagesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseMigrationAgentImages,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"agent_image_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -78,7 +78,7 @@ func (s *DatabaseMigrationAgentImagesDataSourceCrud) VoidState() {
 func (s *DatabaseMigrationAgentImagesDataSourceCrud) Get() error {
 	request := oci_database_migration.ListAgentImagesRequest{}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_migration")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_migration")
 
 	response, err := s.Client.ListAgentImages(context.Background(), request)
 	if err != nil {

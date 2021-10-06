@@ -16,50 +16,50 @@ import (
 var (
 	databaseBackupRepresentation = map[string]interface{}{
 		"database":   RepresentationGroup{Required, databaseDatabaseBackupRepresentation},
-		"db_home_id": Representation{repType: Required, create: `${oci_database_db_home.test_db_home.id}`},
-		"source":     Representation{repType: Required, create: `DB_BACKUP`},
-		"db_version": Representation{repType: Optional, create: `12.1.0.2`},
+		"db_home_id": Representation{RepType: Required, Create: `${oci_database_db_home.test_db_home.id}`},
+		"source":     Representation{RepType: Required, Create: `DB_BACKUP`},
+		"db_version": Representation{RepType: Optional, Create: `12.1.0.2`},
 	}
 	databaseDatabaseBackupRepresentation = map[string]interface{}{
-		"admin_password":      Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"db_name":             Representation{repType: Required, create: `testDbBu`},
-		"backup_id":           Representation{repType: Required, create: `${oci_database_backup.test_backup.id}`},
-		"backup_tde_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"character_set":       Representation{repType: Optional, create: `AL32UTF8`},
+		"admin_password":      Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"db_name":             Representation{RepType: Required, Create: `testDbBu`},
+		"backup_id":           Representation{RepType: Required, Create: `${oci_database_backup.test_backup.id}`},
+		"backup_tde_password": Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"character_set":       Representation{RepType: Optional, Create: `AL32UTF8`},
 		"db_backup_config":    RepresentationGroup{Optional, databaseDatabaseDbBackupBackupConfigRepresentation},
-		"db_unique_name":      Representation{repType: Optional, create: `testDbBu_12`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"ncharacter_set":      Representation{repType: Optional, create: `AL16UTF16`},
-		"pdb_name":            Representation{repType: Optional, create: `pdbName`},
+		"db_unique_name":      Representation{RepType: Optional, Create: `testDbBu_12`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set":      Representation{RepType: Optional, Create: `AL16UTF16`},
+		"pdb_name":            Representation{RepType: Optional, Create: `pdbName`},
 	}
 	backupDatabaseRepresentation = map[string]interface{}{
-		"database_id":  Representation{repType: Required, create: `${oci_database_database.db.id}`},
-		"display_name": Representation{repType: Required, create: `Monthly Backup`},
+		"database_id":  Representation{RepType: Required, Create: `${oci_database_database.db.id}`},
+		"display_name": Representation{RepType: Required, Create: `Monthly Backup`},
 	}
 	databaseDatabaseDbBackupBackupConfigRepresentation = map[string]interface{}{
-		"auto_backup_enabled":     Representation{repType: Optional, create: `true`},
-		"auto_backup_window":      Representation{repType: Optional, create: `SLOT_TWO`, update: `SLOT_THREE`},
-		"recovery_window_in_days": Representation{repType: Optional, create: `10`, update: `30`},
+		"auto_backup_enabled":     Representation{RepType: Optional, Create: `true`},
+		"auto_backup_window":      Representation{RepType: Optional, Create: `SLOT_TWO`, Update: `SLOT_THREE`},
+		"recovery_window_in_days": Representation{RepType: Optional, Create: `10`, Update: `30`},
 	}
 	databaseBackupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"db_home_id":     Representation{repType: Optional, create: `${oci_database_db_home.test_db_home.id}`},
-		"db_name":        Representation{repType: Optional, create: `testDbBu`},
-		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"db_home_id":     Representation{RepType: Optional, Create: `${oci_database_db_home.test_db_home.id}`},
+		"db_name":        Representation{RepType: Optional, Create: `testDbBu`},
+		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, databaseBackupDataSourceFilterRepresentation}}
 	databaseBackupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_database.test_database.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_database.test_database.id}`}},
 	}
 	databaseBackupSingularDataSourceRepresentation = map[string]interface{}{
-		"database_id": Representation{repType: Required, create: `${oci_database_database.test_database.id}`},
+		"database_id": Representation{RepType: Required, Create: `${oci_database_database.test_database.id}`},
 	}
 	DatabaseBackupResourceConfig = DatabaseBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation)
 	DatabaseBackupResourceDependencies = DatabaseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_database", "db", Optional, Create, databaseRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupDatabaseRepresentation)
+		GenerateResourceFromRepresentationMap("oci_database_database", "db", Optional, Create, databaseRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupDatabaseRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -88,10 +88,10 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckDatabaseDatabaseDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseBackupRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseBackupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
@@ -103,14 +103,14 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 				),
 			},
 
-			// delete before next create
+			// delete before next Create
 			{
 				Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies,
 			},
-			// verify create with optionals
+			// verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Create, databaseBackupRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Create, databaseBackupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
@@ -135,7 +135,7 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -144,7 +144,7 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
@@ -169,7 +169,7 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 						}
@@ -180,9 +180,9 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config + DatabaseBackupResourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", Optional, Update, databaseBackupDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", Optional, Update, databaseBackupDataSourceRepresentation) +
 					compartmentIdVariableStr +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation),
+					GenerateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
@@ -207,8 +207,8 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config + DatabaseBackupResourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseBackupSingularDataSourceRepresentation) +
-					generateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_database_database", "test_database", Required, Create, databaseBackupSingularDataSourceRepresentation) +
+					GenerateResourceFromRepresentationMap("oci_database_database", "test_database", Optional, Update, databaseBackupRepresentation) +
 					compartmentIdVariableStr,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),

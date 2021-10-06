@@ -14,17 +14,17 @@ import (
 
 var (
 	managedDatabasesDatabaseParameterSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id":        Representation{repType: Required, create: "ocid.database.testId"},
-		"is_allowed_values_included": Representation{repType: Optional, create: `false`},
-		"name":                       Representation{repType: Required, create: "open_cursors"},
-		"source":                     Representation{repType: Optional, create: `CURRENT`},
+		"managed_database_id":        Representation{RepType: Required, Create: "ocid.database.testId"},
+		"is_allowed_values_included": Representation{RepType: Optional, Create: `false`},
+		"name":                       Representation{RepType: Required, Create: "open_cursors"},
+		"source":                     Representation{RepType: Optional, Create: `CURRENT`},
 	}
 
 	managedDatabasesDatabaseParameterDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id":        Representation{repType: Required, create: "ocid.database.testId"},
-		"is_allowed_values_included": Representation{repType: Optional, create: `false`},
-		"name":                       Representation{repType: Required, create: `open_cursors`},
-		"source":                     Representation{repType: Optional, create: `CURRENT`},
+		"managed_database_id":        Representation{RepType: Required, Create: "ocid.database.testId"},
+		"is_allowed_values_included": Representation{RepType: Optional, Create: `false`},
+		"name":                       Representation{RepType: Required, Create: `open_cursors`},
+		"source":                     Representation{RepType: Optional, Create: `CURRENT`},
 	}
 )
 
@@ -42,13 +42,13 @@ func TestDatabaseManagementManagedDatabasesDatabaseParameterResource_basic(t *te
 	datasourceName := "data.oci_database_management_managed_databases_database_parameters.test_managed_databases_database_parameters"
 	singularDatasourceName := "data.oci_database_management_managed_databases_database_parameter.test_managed_databases_database_parameter"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameters", "test_managed_databases_database_parameters", Required, Create, managedDatabasesDatabaseParameterDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameters", "test_managed_databases_database_parameters", Required, Create, managedDatabasesDatabaseParameterDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_parameters_collection.#"),
@@ -62,7 +62,7 @@ func TestDatabaseManagementManagedDatabasesDatabaseParameterResource_basic(t *te
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameter", "test_managed_databases_database_parameter", Required, Create, managedDatabasesDatabaseParameterSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases_database_parameter", "test_managed_databases_database_parameter", Required, Create, managedDatabasesDatabaseParameterSingularDataSourceRepresentation) +
 				compartmentIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_name"),

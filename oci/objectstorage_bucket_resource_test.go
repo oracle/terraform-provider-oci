@@ -16,42 +16,42 @@ import (
 
 var (
 	retentionRuleRepresentation1 = map[string]interface{}{
-		"display_name":     Representation{repType: Optional, create: `sampleRetentionRule1`, update: `sampleRetentionRule1`},
+		"display_name":     Representation{RepType: Optional, Create: `sampleRetentionRule1`, Update: `sampleRetentionRule1`},
 		"duration":         RepresentationGroup{Optional, retentionRuleDurationRepresentation},
-		"time_rule_locked": Representation{repType: Optional, create: `2120-05-04T17:23:46Z`, update: `2120-05-06T17:23:46Z`},
+		"time_rule_locked": Representation{RepType: Optional, Create: `2120-05-04T17:23:46Z`, Update: `2120-05-06T17:23:46Z`},
 	}
 
 	retentionRuleRepresentation2 = map[string]interface{}{
-		"display_name":     Representation{repType: Optional, create: `sampleRetentionRule2`, update: `sampleRetentionRule2`},
+		"display_name":     Representation{RepType: Optional, Create: `sampleRetentionRule2`, Update: `sampleRetentionRule2`},
 		"duration":         RepresentationGroup{Optional, retentionRuleDurationRepresentation},
-		"time_rule_locked": Representation{repType: Optional, create: `2120-05-04T17:23:46Z`, update: `2120-05-06T17:23:46Z`},
+		"time_rule_locked": Representation{RepType: Optional, Create: `2120-05-04T17:23:46Z`, Update: `2120-05-06T17:23:46Z`},
 	}
 
 	retentionRuleRepresentation3 = map[string]interface{}{
-		"display_name":     Representation{repType: Optional, create: `sampleRetentionRule3`, update: `sampleRetentionRule3`},
+		"display_name":     Representation{RepType: Optional, Create: `sampleRetentionRule3`, Update: `sampleRetentionRule3`},
 		"duration":         RepresentationGroup{Optional, retentionRuleDurationRepresentation},
-		"time_rule_locked": Representation{repType: Optional, create: `2120-05-04T17:23:46Z`, update: `2120-05-06T17:23:46Z`},
+		"time_rule_locked": Representation{RepType: Optional, Create: `2120-05-04T17:23:46Z`, Update: `2120-05-06T17:23:46Z`},
 	}
 
 	retentionRuleRepresentation4 = map[string]interface{}{
-		"display_name": Representation{repType: Optional, create: `sampleRetentionRule4`, update: `sampleRetentionRule4`},
+		"display_name": Representation{RepType: Optional, Create: `sampleRetentionRule4`, Update: `sampleRetentionRule4`},
 		"duration":     RepresentationGroup{Optional, retentionRuleDurationRepresentation},
 	}
 
 	retentionRuleDurationRepresentation = map[string]interface{}{
-		"time_amount": Representation{repType: Required, create: `10`, update: `15`},
-		"time_unit":   Representation{repType: Required, create: `DAYS`, update: `DAYS`},
+		"time_amount": Representation{RepType: Required, Create: `10`, Update: `15`},
+		"time_unit":   Representation{RepType: Required, Create: `DAYS`, Update: `DAYS`},
 	}
 
-	bucketRepresentationWithoutUpdateToForceNewFields = representationCopyWithNewProperties(
-		representationCopyWithRemovedProperties(bucketRepresentation, []string{"name", "namespace", "storage_tier", "versioning"}),
+	bucketRepresentationWithoutUpdateToForceNewFields = RepresentationCopyWithNewProperties(
+		RepresentationCopyWithRemovedProperties(bucketRepresentation, []string{"name", "namespace", "storage_tier", "versioning"}),
 		map[string]interface{}{
-			"name":         Representation{repType: Required, create: testBucketName},
-			"namespace":    Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-			"storage_tier": Representation{repType: Optional, create: `Standard`},
+			"name":         Representation{RepType: Required, Create: testBucketName},
+			"namespace":    Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+			"storage_tier": Representation{RepType: Optional, Create: `Standard`},
 		})
 
-	bucketRepresentationForRetentionRules = representationCopyWithNewProperties(bucketRepresentationWithoutUpdateToForceNewFields,
+	bucketRepresentationForRetentionRules = RepresentationCopyWithNewProperties(bucketRepresentationWithoutUpdateToForceNewFields,
 		map[string]interface{}{
 			"retention_rules": []RepresentationGroup{
 				{Optional, retentionRuleRepresentation1},
@@ -60,7 +60,7 @@ var (
 			},
 		})
 
-	bucketRepresentationForRetentionRulesWithoutLock = representationCopyWithNewProperties(bucketRepresentationWithoutUpdateToForceNewFields,
+	bucketRepresentationForRetentionRulesWithoutLock = RepresentationCopyWithNewProperties(bucketRepresentationWithoutUpdateToForceNewFields,
 		map[string]interface{}{
 			"retention_rules": []RepresentationGroup{
 				{Optional, retentionRuleRepresentation1},
@@ -70,7 +70,7 @@ var (
 			},
 		})
 
-	bucketRepresentationForRetentionRulesReordered = representationCopyWithNewProperties(bucketRepresentationWithoutUpdateToForceNewFields,
+	bucketRepresentationForRetentionRulesReordered = RepresentationCopyWithNewProperties(bucketRepresentationWithoutUpdateToForceNewFields,
 		map[string]interface{}{
 			"retention_rules": []RepresentationGroup{
 				{Optional, retentionRuleRepresentation1},
@@ -79,7 +79,7 @@ var (
 			},
 		})
 
-	bucketRepresentationForRetentionRulesDelete = representationCopyWithNewProperties(bucketRepresentationWithoutUpdateToForceNewFields,
+	bucketRepresentationForRetentionRulesDelete = RepresentationCopyWithNewProperties(bucketRepresentationWithoutUpdateToForceNewFields,
 		map[string]interface{}{
 			"retention_rules": []RepresentationGroup{
 				{Optional, retentionRuleRepresentation1},
@@ -87,8 +87,8 @@ var (
 		})
 
 	bucketSingularDataSourceRetentionRulesRepresentation = map[string]interface{}{
-		"name":      Representation{repType: Required, create: testBucketName},
-		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
+		"name":      Representation{RepType: Required, Create: testBucketName},
+		"namespace": Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 )
 
@@ -115,10 +115,10 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckObjectStorageBucketDestroy,
 		Steps: []resource.TestStep{
-			//verify create with optionals
+			//verify Create with optionals
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentationForRetentionRules),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentationForRetentionRules),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -167,9 +167,9 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 						[]string{}),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -181,7 +181,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			// changing display Name forces deletion of old rule and creation of the new rule
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -231,7 +231,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 						[]string{}),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						// The id changes when the name changes
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
@@ -243,7 +243,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			// verify that no change on reordering
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesReordered),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesReordered),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -293,7 +293,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 						[]string{}),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						// The id changes when the name changes
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
@@ -305,7 +305,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			// verify retention rules delete
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesDelete),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesDelete),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -335,7 +335,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 						[]string{}),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						// The id changes when the name changes
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
@@ -347,7 +347,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			// verify retention rules add new rules
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -397,7 +397,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 						[]string{}),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						// The id changes when the name changes
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
@@ -409,7 +409,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			// verify adding a new retention rule without timeRuleLocked
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesWithoutLock),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesWithoutLock),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -468,7 +468,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 						[]string{}),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						// The id changes when the name changes
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
@@ -480,7 +480,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			// verify deleting a old retention rule without timeRuleLocked
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
@@ -530,7 +530,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 						[]string{}),
 
 					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
+						resId2, err = FromInstanceState(s, resourceName, "id")
 						// The id changes when the name changes
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
@@ -542,8 +542,8 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			//verify singular datasource
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesWithoutLock) +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRetentionRulesRepresentation),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRulesWithoutLock) +
+					GenerateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRetentionRulesRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
@@ -597,7 +597,7 @@ func TestResourceBucket_retentionRules(t *testing.T) {
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
+					GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentationForRetentionRules),
 			},
 			//verify resource import
 			{

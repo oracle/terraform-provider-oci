@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v48/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DataSafeTargetDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataSafeTargetDatabases,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -117,7 +117,7 @@ func (s *DataSafeTargetDatabasesDataSourceCrud) Get() error {
 		request.TargetDatabaseId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "data_safe")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListTargetDatabases(context.Background(), request)
 	if err != nil {

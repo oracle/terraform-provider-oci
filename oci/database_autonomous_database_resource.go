@@ -12,9 +12,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 )
 
 func init() {
@@ -27,9 +27,9 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("12h"),
-			Update: getTimeoutDuration("12h"),
-			Delete: getTimeoutDuration("12h"),
+			Create: GetTimeoutDuration("12h"),
+			Update: GetTimeoutDuration("12h"),
+			Delete: GetTimeoutDuration("12h"),
 		},
 		Create: createDatabaseAutonomousDatabase,
 		Read:   readDatabaseAutonomousDatabase,
@@ -218,7 +218,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -282,7 +282,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: timeDiffSuppressFunction,
+				DiffSuppressFunc: TimeDiffSuppressFunction,
 			},
 			"vault_id": {
 				Type:     schema.TypeString,
@@ -292,7 +292,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"whitelisted_ips": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Set:      literalTypeHashCodeForSets,
+				Set:      LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -875,7 +875,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateAutonomousDatabase(context.Background(), request)
 	if err != nil {
@@ -900,7 +900,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetAutonomousDatabase(context.Background(), request)
 	if err != nil {
@@ -1046,7 +1046,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
@@ -1146,7 +1146,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), request)
 	if err != nil {
@@ -1171,7 +1171,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.DeleteAutonomousDatabase(context.Background(), request)
 	return err
@@ -1328,7 +1328,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", schema.NewSet(LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.OcpuCount != nil {
 		s.D.Set("ocpu_count", *s.Res.OcpuCount)
@@ -1438,7 +1438,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	for _, item := range s.Res.WhitelistedIps {
 		whitelistedIps = append(whitelistedIps, item)
 	}
-	s.D.Set("whitelisted_ips", schema.NewSet(literalTypeHashCodeForSets, whitelistedIps))
+	s.D.Set("whitelisted_ips", schema.NewSet(LiteralTypeHashCodeForSets, whitelistedIps))
 
 	return nil
 }
@@ -1690,7 +1690,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
@@ -1866,7 +1866,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
@@ -2035,7 +2035,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
@@ -2206,7 +2206,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
 			tmp := isAccessControlEnabled.(bool)
@@ -2370,7 +2370,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DisplayName = &tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
 			tmp := isAccessControlEnabled.(bool)
@@ -2476,7 +2476,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment i
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.ChangeAutonomousDatabaseCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -2501,7 +2501,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 			request.PdbAdminPassword = &tmp
 		}
 		request.AutonomousDatabaseId = &autonomousDatabaseId
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.RegisterAutonomousDatabaseDataSafe(context.Background(), request)
 
@@ -2522,7 +2522,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 			request.PdbAdminPassword = &tmp
 		}
 		request.AutonomousDatabaseId = &autonomousDatabaseId
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 		response, err := s.Client.DeregisterAutonomousDatabaseDataSafe(context.Background(), request)
 
@@ -2549,7 +2549,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDbVersion(dbVersion strin
 	tmp := s.D.Id()
 	changeDbVersionRequest.AutonomousDatabaseId = &tmp
 
-	changeDbVersionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeDbVersionRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), changeDbVersionRequest)
 	if err != nil {
@@ -2589,7 +2589,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(nsgIds []string) e
 	tmp := s.D.Id()
 	changeNsgIdsRequest.AutonomousDatabaseId = &tmp
 
-	changeNsgIdsRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeNsgIdsRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), changeNsgIdsRequest)
 	if err != nil {
@@ -2668,7 +2668,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.SwitchoverAutonomousDatabase(context.Background(), request)
 	if err != nil {
@@ -2692,7 +2692,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(
 		request := oci_database.EnableAutonomousDatabaseOperationsInsightsRequest{}
 
 		request.AutonomousDatabaseId = &autonomousDatabaseId
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 		response, err := s.Client.EnableAutonomousDatabaseOperationsInsights(context.Background(), request)
 		if err != nil {
 			return err
@@ -2709,7 +2709,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(
 		request := oci_database.DisableAutonomousDatabaseOperationsInsightsRequest{}
 
 		request.AutonomousDatabaseId = &autonomousDatabaseId
-		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 		response, err := s.Client.DisableAutonomousDatabaseOperationsInsights(context.Background(), request)
 		if err != nil {
 			return err
@@ -2738,7 +2738,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) StartAutonomousDatabase(state o
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	if _, err := s.Client.StartAutonomousDatabase(context.Background(), request); err != nil {
 		return err
@@ -2754,7 +2754,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) StopAutonomousDatabase(state oc
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	if _, err := s.Client.StopAutonomousDatabase(context.Background(), request); err != nil {
 		return err
@@ -2790,7 +2790,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(aut
 			updateRequest.PermissionLevel = oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum(permissionLevel.(string))
 		}
 	}
-	updateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	updateRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	updateResponse, err := s.Client.UpdateAutonomousDatabase(context.Background(), updateRequest)
 	if err != nil {
@@ -2817,7 +2817,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncrypt
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.RotateAutonomousDatabaseEncryptionKey(context.Background(), request)
 	if err != nil {
@@ -2842,7 +2842,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) ConfigureAutonomousDatabaseVaul
 
 	request.AutonomousDatabaseId = &autonomousDatabaseId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	request.KmsKeyId = &kmsKeyId
 

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_management "github.com/oracle/oci-go-sdk/v48/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v49/databasemanagement"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func DatabaseManagementManagedDatabasesDatabaseParametersDataSource() *schema.Re
 	return &schema.Resource{
 		Read: readDatabaseManagementManagedDatabasesDatabaseParameters,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"is_allowed_values_included": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -234,7 +234,7 @@ func (s *DatabaseManagementManagedDatabasesDatabaseParametersDataSourceCrud) Get
 		request.Source = oci_database_management.ListDatabaseParametersSourceEnum(source.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database_management")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "database_management")
 
 	response, err := s.Client.ListDatabaseParameters(context.Background(), request)
 	if err != nil {

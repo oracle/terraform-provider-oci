@@ -14,12 +14,12 @@ import (
 
 var (
 	imageShapeSingularDataSourceRepresentation = map[string]interface{}{
-		"image_id":   Representation{repType: Required, create: `${var.FlexInstanceImageOCID[var.region]}`},
-		"shape_name": Representation{repType: Required, create: `VM.Standard.E3.Flex`},
+		"image_id":   Representation{RepType: Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
+		"shape_name": Representation{RepType: Required, Create: `VM.Standard.E3.Flex`},
 	}
 
 	imageShapeDataSourceRepresentation = map[string]interface{}{
-		"image_id": Representation{repType: Required, create: `${var.FlexInstanceImageOCID[var.region]}`},
+		"image_id": Representation{RepType: Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
 	}
 
 	ImageShapeResourceConfig = FlexVmImageIdsVariable
@@ -38,13 +38,13 @@ func TestCoreImageShapeResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_image_shapes.test_image_shapes"
 	singularDatasourceName := "data.oci_core_image_shape.test_image_shape"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_image_shapes", "test_image_shapes", Required, Create, imageShapeDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_image_shapes", "test_image_shapes", Required, Create, imageShapeDataSourceRepresentation) +
 				compartmentIdVariableStr + ImageShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
@@ -57,7 +57,7 @@ func TestCoreImageShapeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_image_shape", "test_image_shape", Required, Create, imageShapeSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_image_shape", "test_image_shape", Required, Create, imageShapeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ImageShapeResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),

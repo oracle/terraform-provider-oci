@@ -14,7 +14,7 @@ import (
 
 var (
 	appCatalogListingSingularDataSourceRepresentation = map[string]interface{}{
-		"listing_id": Representation{repType: Required, create: `${lookup(data.oci_core_app_catalog_listings.test_app_catalog_listings.app_catalog_listings[0],"listing_id")}`},
+		"listing_id": Representation{RepType: Required, Create: `${lookup(data.oci_core_app_catalog_listings.test_app_catalog_listings.app_catalog_listings[0],"listing_id")}`},
 	}
 
 	appCatalogListingDataSourceRepresentation = map[string]interface{}{}
@@ -35,13 +35,13 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 	datasourceName := "data.oci_core_app_catalog_listings.test_app_catalog_listings"
 	singularDatasourceName := "data.oci_core_app_catalog_listing.test_app_catalog_listing"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
 				compartmentIdVariableStr + AppCatalogListingResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.#"),
@@ -54,8 +54,8 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
-				generateDataSourceFromRepresentationMap("oci_core_app_catalog_listing", "test_app_catalog_listing", Required, Create, appCatalogListingSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listings", "test_app_catalog_listings", Required, Create, appCatalogListingDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_core_app_catalog_listing", "test_app_catalog_listing", Required, Create, appCatalogListingSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AppCatalogListingResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),

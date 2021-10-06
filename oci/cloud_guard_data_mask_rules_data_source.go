@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func CloudGuardDataMaskRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCloudGuardDataMaskRules,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -127,7 +127,7 @@ func (s *CloudGuardDataMaskRulesDataSourceCrud) Get() error {
 		request.TargetType = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "cloud_guard")
 
 	response, err := s.Client.ListDataMaskRules(context.Background(), request)
 	if err != nil {

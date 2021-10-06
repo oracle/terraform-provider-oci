@@ -12,46 +12,46 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v48/common"
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v48/usageapi"
+	"github.com/oracle/oci-go-sdk/v49/common"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v49/usageapi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	CustomTableResourceConfig = CustomTableResourceDependencies +
-		generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation)
+		GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation)
 
 	customTableSingularDataSourceRepresentation = map[string]interface{}{
-		"custom_table_id": Representation{repType: Required, create: `${oci_metering_computation_custom_table.test_custom_table.id}`},
+		"custom_table_id": Representation{RepType: Required, Create: `${oci_metering_computation_custom_table.test_custom_table.id}`},
 	}
 
 	customTableDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":  Representation{repType: Required, create: `${var.compartment_id}`},
-		"saved_report_id": Representation{repType: Required, create: `savedReportId`},
+		"compartment_id":  Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"saved_report_id": Representation{RepType: Required, Create: `savedReportId`},
 		"filter":          RepresentationGroup{Required, customTableDataSourceFilterRepresentation}}
 	customTableDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_metering_computation_custom_table.test_custom_table.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_metering_computation_custom_table.test_custom_table.id}`}},
 	}
 
 	customTableRepresentation = map[string]interface{}{
-		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":     Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"saved_custom_table": RepresentationGroup{Required, customTableSavedCustomTableRepresentation},
-		"saved_report_id":    Representation{repType: Required, create: `savedReportId`},
+		"saved_report_id":    Representation{RepType: Required, Create: `savedReportId`},
 	}
 	customTableSavedCustomTableRepresentation = map[string]interface{}{
-		"display_name":      Representation{repType: Required, create: `displayName`, update: `displayName2`},
-		"column_group_by":   Representation{repType: Required, create: []string{`columnGroupBy`}, update: []string{`columnGroupBy2`}},
-		"compartment_depth": Representation{repType: Required, create: `1.0`, update: `2.0`},
+		"display_name":      Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
+		"column_group_by":   Representation{RepType: Required, Create: []string{`columnGroupBy`}, Update: []string{`columnGroupBy2`}},
+		"compartment_depth": Representation{RepType: Required, Create: `1.0`, Update: `2.0`},
 		"group_by_tag":      RepresentationGroup{Optional, customTableSavedCustomTableGroupByTagRepresentation},
-		"row_group_by":      Representation{repType: Required, create: []string{`rowGroupBy`}, update: []string{}},
-		"version":           Representation{repType: Required, create: `1.0`, update: `1.0`},
+		"row_group_by":      Representation{RepType: Required, Create: []string{`rowGroupBy`}, Update: []string{}},
+		"version":           Representation{RepType: Required, Create: `1.0`, Update: `1.0`},
 	}
 	customTableSavedCustomTableGroupByTagRepresentation = map[string]interface{}{
-		"key":       Representation{repType: Optional, create: `key`, update: `key2`},
-		"namespace": Representation{repType: Optional, create: `namespace`, update: `namespace2`},
-		"value":     Representation{repType: Optional, create: `value`, update: `value2`},
+		"key":       Representation{RepType: Optional, Create: `key`, Update: `key2`},
+		"namespace": Representation{RepType: Optional, Create: `namespace`, Update: `namespace2`},
+		"value":     Representation{RepType: Optional, Create: `value`, Update: `value2`},
 	}
 
 	CustomTableResourceDependencies = ""
@@ -71,15 +71,15 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_metering_computation_custom_table.test_custom_table"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+CustomTableResourceDependencies+
-		generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableRepresentation), "usageapi", "customTable", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+CustomTableResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableRepresentation), "usageapi", "customTable", t)
 
 	ResourceTest(t, testAccCheckMeteringComputationCustomTableDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CustomTableResourceDependencies +
-				generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableRepresentation),
+				GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "saved_custom_table.#", "1"),
@@ -87,9 +87,9 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "saved_report_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -101,7 +101,7 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CustomTableResourceDependencies +
-				generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation),
+				GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -116,7 +116,7 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "saved_report_id"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -127,9 +127,9 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_metering_computation_custom_tables", "test_custom_tables", Optional, Update, customTableDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_metering_computation_custom_tables", "test_custom_tables", Optional, Update, customTableDataSourceRepresentation) +
 				compartmentIdVariableStr + CustomTableResourceDependencies +
-				generateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation),
+				GenerateResourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Optional, Update, customTableRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "saved_report_id"),
@@ -141,7 +141,7 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_metering_computation_custom_table", "test_custom_table", Required, Create, customTableSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CustomTableResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_table_id"),
@@ -185,7 +185,7 @@ func testAccCheckMeteringComputationCustomTableDestroy(s *terraform.State) error
 			tmp := rs.Primary.ID
 			request.CustomTableId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "metering_computation")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "metering_computation")
 
 			_, err := client.GetCustomTable(context.Background(), request)
 
@@ -210,7 +210,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("MeteringComputationCustomTable") {
+	if !InSweeperExcludeList("MeteringComputationCustomTable") {
 		resource.AddTestSweepers("MeteringComputationCustomTable", &resource.Sweeper{
 			Name:         "MeteringComputationCustomTable",
 			Dependencies: DependencyGraph["customTable"],
@@ -231,7 +231,7 @@ func sweepMeteringComputationCustomTableResource(compartment string) error {
 
 			deleteCustomTableRequest.CustomTableId = &customTableId
 
-			deleteCustomTableRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "metering_computation")
+			deleteCustomTableRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "metering_computation")
 			_, error := usageapiClient.DeleteCustomTable(context.Background(), deleteCustomTableRequest)
 			if error != nil {
 				fmt.Printf("Error deleting CustomTable %s %s, It is possible that the resource is already deleted. Please verify manually \n", customTableId, error)
@@ -243,7 +243,7 @@ func sweepMeteringComputationCustomTableResource(compartment string) error {
 }
 
 func getCustomTableIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "CustomTableId")
+	ids := GetResourceIdsToSweep(compartment, "CustomTableId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -269,7 +269,7 @@ func getCustomTableIds(compartment string) ([]string, error) {
 		for _, customTable := range listCustomTablesResponse.Items {
 			id := *customTable.Id
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "CustomTableId", id)
+			AddResourceIdToSweeperResourceIdMap(compartmentId, "CustomTableId", id)
 		}
 
 	}

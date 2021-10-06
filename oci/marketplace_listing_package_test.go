@@ -14,20 +14,20 @@ import (
 
 var (
 	listingPackageSingularDataSourceRepresentation = map[string]interface{}{
-		"listing_id":      Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.id}`},
-		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
-		"package_version": Representation{repType: Required, create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
+		"listing_id":      Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
+		"compartment_id":  Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"package_version": Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
 	}
 
 	listingPackageDataSourceRepresentation = map[string]interface{}{
-		"listing_id":      Representation{repType: Required, create: `${data.oci_marketplace_listings.test_listings.listings.0.id}`},
-		"compartment_id":  Representation{repType: Optional, create: `${var.compartment_id}`},
-		"package_type":    Representation{repType: Optional, create: `packageType`},
-		"package_version": Representation{repType: Optional, create: `packageVersion`},
+		"listing_id":      Representation{RepType: Required, Create: `${data.oci_marketplace_listings.test_listings.listings.0.id}`},
+		"compartment_id":  Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"package_type":    Representation{RepType: Optional, Create: `packageType`},
+		"package_version": Representation{RepType: Optional, Create: `packageVersion`},
 	}
 
-	ListingPackageResourceConfig = generateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation) +
-		generateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation)
+	ListingPackageResourceConfig = GenerateDataSourceFromRepresentationMap("oci_marketplace_listings", "test_listings", Required, Create, listingDataSourceRepresentation) +
+		GenerateDataSourceFromRepresentationMap("oci_marketplace_listing", "test_listing", Required, Create, listingSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: marketplace/default
@@ -43,13 +43,13 @@ func TestMarketplaceListingPackageResource_basic(t *testing.T) {
 	datasourceName := "data.oci_marketplace_listing_packages.test_listing_packages"
 	singularDatasourceName := "data.oci_marketplace_listing_package.test_listing_package"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_listing_packages", "test_listing_packages", Required, Create, listingPackageDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_packages", "test_listing_packages", Required, Create, listingPackageDataSourceRepresentation) +
 				compartmentIdVariableStr + ListingPackageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "listing_id"),
@@ -65,7 +65,7 @@ func TestMarketplaceListingPackageResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_marketplace_listing_package", "test_listing_package", Required, Create, listingPackageSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_marketplace_listing_package", "test_listing_package", Required, Create, listingPackageSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ListingPackageResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),

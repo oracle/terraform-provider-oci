@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_waas "github.com/oracle/oci-go-sdk/v48/waas"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
 )
 
 func init() {
@@ -20,7 +20,7 @@ func WaasAddressListsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readWaasAddressLists,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -144,7 +144,7 @@ func (s *WaasAddressListsDataSourceCrud) Get() error {
 		request.TimeCreatedLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "waas")
 
 	response, err := s.Client.ListAddressLists(context.Background(), request)
 	if err != nil {

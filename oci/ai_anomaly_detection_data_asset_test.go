@@ -13,108 +13,108 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v48/aianomalydetection"
-	"github.com/oracle/oci-go-sdk/v48/common"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v49/aianomalydetection"
+	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	AiAnomalyDetectionDataAssetRequiredOnlyResource = AiAnomalyDetectionDataAssetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetRepresentation)
 
 	AiAnomalyDetectionDataAssetResourceConfig = AiAnomalyDetectionDataAssetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation)
+		GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation)
 
 	aiAnomalyDetectionDataAssetSingularDataSourceRepresentation = map[string]interface{}{
-		"data_asset_id": Representation{repType: Required, create: `${oci_ai_anomaly_detection_data_asset.test_data_asset.id}`},
+		"data_asset_id": Representation{RepType: Required, Create: `${oci_ai_anomaly_detection_data_asset.test_data_asset.id}`},
 	}
 
 	aiAnomalyDetectionDataAssetDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"display_name":   Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"filter":         RepresentationGroup{Required, aiAnomalyDetectionDataAssetDataSourceFilterRepresentation}}
 	aiAnomalyDetectionDataAssetDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_ai_anomaly_detection_data_asset.test_data_asset.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_ai_anomaly_detection_data_asset.test_data_asset.id}`}},
 	}
 
 	aiAnomalyDetectionDataAssetRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"data_source_details": RepresentationGroup{Required, dataAssetDataSourceDetailsObjRepresentation},
-		"project_id":          Representation{repType: Required, create: `${oci_ai_anomaly_detection_project.test_project.id}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":         Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"project_id":          Representation{RepType: Required, Create: `${oci_ai_anomaly_detection_project.test_project.id}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":         Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":           RepresentationGroup{Required, ignoreDefinedTagsChangesRep},
 	}
 
 	aiAnomalyDetectionDataAssetAtpRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"data_source_details": RepresentationGroup{Required, dataAssetDataSourceDetailsAtpRepresentation},
-		"project_id":          Representation{repType: Required, create: `${oci_ai_anomaly_detection_project.test_project.id}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":         Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"private_endpoint_id": Representation{repType: Optional, create: `${oci_ai_anomaly_detection_ai_private_endpoint.test_private_endpoint.id}`},
+		"project_id":          Representation{RepType: Required, Create: `${oci_ai_anomaly_detection_project.test_project.id}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":         Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"private_endpoint_id": Representation{RepType: Optional, Create: `${oci_ai_anomaly_detection_ai_private_endpoint.test_private_endpoint.id}`},
 	}
 
 	aiAnomalyDetectionDataAssetInfluxRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":      Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"data_source_details": RepresentationGroup{Required, dataAssetDataSourceDetailsInfluxRepresentation},
-		"project_id":          Representation{repType: Required, create: `${oci_ai_anomaly_detection_project.test_project.id}`},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":         Representation{repType: Optional, create: `description`, update: `description2`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
-		"private_endpoint_id": Representation{repType: Optional, create: `${oci_ai_anomaly_detection_ai_private_endpoint.test_private_endpoint.id}`},
+		"project_id":          Representation{RepType: Required, Create: `${oci_ai_anomaly_detection_project.test_project.id}`},
+		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":         Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"private_endpoint_id": Representation{RepType: Optional, Create: `${oci_ai_anomaly_detection_ai_private_endpoint.test_private_endpoint.id}`},
 	}
 
 	dataAssetDataSourceDetailsObjRepresentation = map[string]interface{}{
-		"data_source_type": Representation{repType: Required, create: `ORACLE_OBJECT_STORAGE`},
-		"bucket":           Representation{repType: Required, create: `bucket-test`},
-		"namespace":        Representation{repType: Required, create: `dxterraformtest`},
-		"object":           Representation{repType: Required, create: `latest_training_data.json`},
+		"data_source_type": Representation{RepType: Required, Create: `ORACLE_OBJECT_STORAGE`},
+		"bucket":           Representation{RepType: Required, Create: `bucket-test`},
+		"namespace":        Representation{RepType: Required, Create: `dxterraformtest`},
+		"object":           Representation{RepType: Required, Create: `latest_training_data.json`},
 	}
 
 	dataAssetDataSourceDetailsAtpRepresentation = map[string]interface{}{
-		"data_source_type":          Representation{repType: Required, create: `ORACLE_ATP`},
-		"atp_password_secret_id":    Representation{repType: Optional, create: `${oci_deslt_secret.test_secret.id}`},
-		"atp_user_name":             Representation{repType: Optional, create: `${oci_identity_user.test_user.name}`},
-		"cwallet_file_secret_id":    Representation{repType: Optional, create: `${oci_vault_secret.test_secret.id}`},
-		"database_name":             Representation{repType: Optional, create: `${oci_database_database.test_database.name}`},
-		"ewallet_file_secret_id":    Representation{repType: Optional, create: `${oci_vault_secret.test_secret.id}`},
-		"key_store_file_secret_id":  Representation{repType: Optional, create: `${oci_vault_secret.test_secret.id}`},
-		"ojdbc_file_secret_id":      Representation{repType: Optional, create: `${oci_vault_secret.test_secret.id}`},
-		"table_name":                Representation{repType: Optional, create: `${oci_nosql_table.test_table.name}`},
-		"tnsnames_file_secret_id":   Representation{repType: Optional, create: `${oci_vault_secret.test_secret.id}`},
-		"truststore_file_secret_id": Representation{repType: Optional, create: `${oci_vault_secret.test_secret.id}`},
-		"wallet_password_secret_id": Representation{repType: Optional, create: `${oci_vault_secret.test_secret.id}`},
+		"data_source_type":          Representation{RepType: Required, Create: `ORACLE_ATP`},
+		"atp_password_secret_id":    Representation{RepType: Optional, Create: `${oci_deslt_secret.test_secret.id}`},
+		"atp_user_name":             Representation{RepType: Optional, Create: `${oci_identity_user.test_user.name}`},
+		"cwallet_file_secret_id":    Representation{RepType: Optional, Create: `${oci_vault_secret.test_secret.id}`},
+		"database_name":             Representation{RepType: Optional, Create: `${oci_database_database.test_database.name}`},
+		"ewallet_file_secret_id":    Representation{RepType: Optional, Create: `${oci_vault_secret.test_secret.id}`},
+		"key_store_file_secret_id":  Representation{RepType: Optional, Create: `${oci_vault_secret.test_secret.id}`},
+		"ojdbc_file_secret_id":      Representation{RepType: Optional, Create: `${oci_vault_secret.test_secret.id}`},
+		"table_name":                Representation{RepType: Optional, Create: `${oci_nosql_table.test_table.name}`},
+		"tnsnames_file_secret_id":   Representation{RepType: Optional, Create: `${oci_vault_secret.test_secret.id}`},
+		"truststore_file_secret_id": Representation{RepType: Optional, Create: `${oci_vault_secret.test_secret.id}`},
+		"wallet_password_secret_id": Representation{RepType: Optional, Create: `${oci_vault_secret.test_secret.id}`},
 	}
 
 	dataAssetDataSourceDetailsInfluxRepresentation = map[string]interface{}{
-		"data_source_type":   Representation{repType: Required, create: `INFLUX`},
-		"measurement_name":   Representation{repType: Optional, create: `measurementName`},
-		"password_secret_id": Representation{repType: Optional, create: `${oci_vault_secret.test_secret.id}`},
-		"url":                Representation{repType: Optional, create: `url`},
-		"user_name":          Representation{repType: Optional, create: `${oci_identity_user.test_user.name}`},
+		"data_source_type":   Representation{RepType: Required, Create: `INFLUX`},
+		"measurement_name":   Representation{RepType: Optional, Create: `measurementName`},
+		"password_secret_id": Representation{RepType: Optional, Create: `${oci_vault_secret.test_secret.id}`},
+		"url":                Representation{RepType: Optional, Create: `url`},
+		"user_name":          Representation{RepType: Optional, Create: `${oci_identity_user.test_user.name}`},
 	}
 
 	dataAssetDataSourceDetailsVersionSpecificDetailsRepresentation = map[string]interface{}{
-		"influx_version":        Representation{repType: Required, create: `V_1_8`},
-		"bucket":                Representation{repType: Optional, create: `bucket`},
-		"database_name":         Representation{repType: Optional, create: `${oci_database_database.test_database.name}`},
-		"organization_name":     Representation{repType: Optional, create: `organizationName`},
-		"retention_policy_name": Representation{repType: Optional, create: `${oci_identity_policy.test_policy.name}`},
+		"influx_version":        Representation{RepType: Required, Create: `V_1_8`},
+		"bucket":                Representation{RepType: Optional, Create: `bucket`},
+		"database_name":         Representation{RepType: Optional, Create: `${oci_database_database.test_database.name}`},
+		"organization_name":     Representation{RepType: Optional, Create: `organizationName`},
+		"retention_policy_name": Representation{RepType: Optional, Create: `${oci_identity_policy.test_policy.name}`},
 	}
 
 	//Change this to only what is required
-	AiAnomalyDetectionDataAssetResourceDependencies = generateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Required, Create, aiAnomalyDetectionProjectRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
+	AiAnomalyDetectionDataAssetResourceDependencies = GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_project", "test_project", Required, Create, aiAnomalyDetectionProjectRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -137,16 +137,16 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+AiAnomalyDetectionDataAssetResourceDependencies+
-		generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create, aiAnomalyDetectionDataAssetRepresentation), "aianomalydetection", "dataAsset", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+AiAnomalyDetectionDataAssetResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create, aiAnomalyDetectionDataAssetRepresentation), "aianomalydetection", "dataAsset", t)
 
 	ResourceTest(t, testAccCheckAiAnomalyDetectionDataAssetDestroy, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			//print this
 			Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
@@ -157,20 +157,20 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies,
 		},
-		//verify create with optionals
+		//verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create, aiAnomalyDetectionDataAssetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create, aiAnomalyDetectionDataAssetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
@@ -188,9 +188,9 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -199,12 +199,12 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify update to the compartment (the compartment will be switched back in the next step)
+		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create,
-					representationCopyWithNewProperties(aiAnomalyDetectionDataAssetRepresentation, map[string]interface{}{
-						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Create,
+					RepresentationCopyWithNewProperties(aiAnomalyDetectionDataAssetRepresentation, map[string]interface{}{
+						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -223,7 +223,7 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -235,7 +235,7 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
@@ -253,7 +253,7 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -264,9 +264,9 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_data_assets", "test_data_assets", Optional, Update, aiAnomalyDetectionDataAssetDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_data_assets", "test_data_assets", Optional, Update, aiAnomalyDetectionDataAssetDataSourceRepresentation) +
 				compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceDependencies +
-				generateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Optional, Update, aiAnomalyDetectionDataAssetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -279,7 +279,7 @@ func TestAiAnomalyDetectionDataAssetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_ai_anomaly_detection_data_asset", "test_data_asset", Required, Create, aiAnomalyDetectionDataAssetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AiAnomalyDetectionDataAssetResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_asset_id"),
@@ -321,7 +321,7 @@ func testAccCheckAiAnomalyDetectionDataAssetDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DataAssetId = &tmp
 
-			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ai_anomaly_detection")
+			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ai_anomaly_detection")
 
 			response, err := client.GetDataAsset(context.Background(), request)
 
@@ -354,7 +354,7 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("AiAnomalyDetectionDataAsset") {
+	if !InSweeperExcludeList("AiAnomalyDetectionDataAsset") {
 		resource.AddTestSweepers("AiAnomalyDetectionDataAsset", &resource.Sweeper{
 			Name:         "AiAnomalyDetectionDataAsset",
 			Dependencies: DependencyGraph["dataAsset"],
@@ -375,13 +375,13 @@ func sweepAiAnomalyDetectionDataAssetResource(compartment string) error {
 
 			deleteDataAssetRequest.DataAssetId = &dataAssetId
 
-			deleteDataAssetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ai_anomaly_detection")
+			deleteDataAssetRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "ai_anomaly_detection")
 			_, error := anomalyDetectionClient.DeleteDataAsset(context.Background(), deleteDataAssetRequest)
 			if error != nil {
 				fmt.Printf("Error deleting DataAsset %s %s, It is possible that the resource is already deleted. Please verify manually \n", dataAssetId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &dataAssetId, dataAssetSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(testAccProvider, &dataAssetId, dataAssetSweepWaitCondition, time.Duration(3*time.Minute),
 				dataAssetSweepResponseFetchOperation, "ai_anomaly_detection", true)
 		}
 	}
@@ -389,7 +389,7 @@ func sweepAiAnomalyDetectionDataAssetResource(compartment string) error {
 }
 
 func getDataAssetIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "DataAssetId")
+	ids := GetResourceIdsToSweep(compartment, "DataAssetId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -408,7 +408,7 @@ func getDataAssetIds(compartment string) ([]string, error) {
 	for _, dataAsset := range listDataAssetsResponse.Items {
 		id := *dataAsset.Id
 		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DataAssetId", id)
+		AddResourceIdToSweeperResourceIdMap(compartmentId, "DataAssetId", id)
 	}
 	return resourceIds, nil
 }

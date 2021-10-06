@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v48/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
 )
 
 func init() {
@@ -205,7 +205,7 @@ func (s *CloudGuardManagedListResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if listItems, ok := s.D.GetOkExists("list_items"); ok {
@@ -230,7 +230,7 @@ func (s *CloudGuardManagedListResourceCrud) Create() error {
 		request.SourceManagedListId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.CreateManagedList(context.Background(), request)
 	if err != nil {
@@ -247,7 +247,7 @@ func (s *CloudGuardManagedListResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ManagedListId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.GetManagedList(context.Background(), request)
 	if err != nil {
@@ -289,7 +289,7 @@ func (s *CloudGuardManagedListResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if listItems, ok := s.D.GetOkExists("list_items"); ok {
@@ -308,7 +308,7 @@ func (s *CloudGuardManagedListResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ManagedListId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	response, err := s.Client.UpdateManagedList(context.Background(), request)
 	if err != nil {
@@ -325,7 +325,7 @@ func (s *CloudGuardManagedListResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ManagedListId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	_, err := s.Client.DeleteManagedList(context.Background(), request)
 	return err
@@ -454,7 +454,7 @@ func (s *CloudGuardManagedListResourceCrud) updateCompartment(compartment interf
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ManagedListId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
 	_, err := s.Client.ChangeManagedListCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

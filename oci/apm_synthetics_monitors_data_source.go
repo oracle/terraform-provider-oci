@@ -8,7 +8,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v48/apmsynthetics"
+	oci_apm_synthetics "github.com/oracle/oci-go-sdk/v49/apmsynthetics"
 )
 
 func init() {
@@ -19,7 +19,7 @@ func ApmSyntheticsMonitorsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readApmSyntheticsMonitors,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"apm_domain_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -109,7 +109,7 @@ func (s *ApmSyntheticsMonitorsDataSourceCrud) Get() error {
 		request.Status = oci_apm_synthetics.ListMonitorsStatusEnum(status.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "apm_synthetics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "apm_synthetics")
 
 	response, err := s.Client.ListMonitors(context.Background(), request)
 	if err != nil {

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_logging "github.com/oracle/oci-go-sdk/v48/logging"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_logging "github.com/oracle/oci-go-sdk/v49/logging"
 )
 
 func init() {
@@ -172,10 +172,10 @@ func (s *LoggingLogGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.CreateLogGroup(context.Background(), request)
 	if err != nil {
@@ -183,7 +183,7 @@ func (s *LoggingLogGroupResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLogGroupFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, 5*time.Minute)
+	return s.getLogGroupFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, 5*time.Minute)
 
 }
 
@@ -239,7 +239,7 @@ func logGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 
 func logGroupWaitForWorkRequest(wId *string, entityType string, action oci_logging.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_logging.LoggingManagementClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "logging")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "logging")
 	retryPolicy.ShouldRetryOperation = logGroupWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_logging.GetWorkRequestResponse{}
@@ -320,7 +320,7 @@ func (s *LoggingLogGroupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.LogGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.GetLogGroup(context.Background(), request)
 	if err != nil {
@@ -362,13 +362,13 @@ func (s *LoggingLogGroupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.LogGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.UpdateLogGroup(context.Background(), request)
 	if err != nil {
@@ -376,7 +376,7 @@ func (s *LoggingLogGroupResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLogGroupFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getLogGroupFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *LoggingLogGroupResourceCrud) Delete() error {
@@ -385,7 +385,7 @@ func (s *LoggingLogGroupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.LogGroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	_, err := s.Client.DeleteLogGroup(context.Background(), request)
 	return err
@@ -432,7 +432,7 @@ func (s *LoggingLogGroupResourceCrud) updateCompartment(compartment interface{})
 	idTmp := s.D.Id()
 	changeCompartmentRequest.LogGroupId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "logging")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
 	response, err := s.Client.ChangeLogGroupCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -442,5 +442,5 @@ func (s *LoggingLogGroupResourceCrud) updateCompartment(compartment interface{})
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
 
-	return s.getLogGroupFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getLogGroupFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
 }

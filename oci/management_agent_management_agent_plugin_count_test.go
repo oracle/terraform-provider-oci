@@ -15,8 +15,8 @@ import (
 
 var (
 	managementAgentPluginCountSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"group_by":       Representation{repType: Required, create: `pluginName`},
+		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"group_by":       Representation{RepType: Required, Create: `pluginName`},
 	}
 
 	ManagementAgentPluginCountResourceConfig = ""
@@ -35,7 +35,7 @@ func TestManagementAgentManagementAgentPluginCountResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_management_agent_management_agent_plugin_count.test_management_agent_plugin_count"
 
-	saveConfigContent("", "", "", t)
+	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -46,7 +46,7 @@ func TestManagementAgentManagementAgentPluginCountResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugin_count", "test_management_agent_plugin_count", Required, Create, managementAgentPluginCountSingularDataSourceRepresentation) +
+					GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugin_count", "test_management_agent_plugin_count", Required, Create, managementAgentPluginCountSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + ManagementAgentPluginCountResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

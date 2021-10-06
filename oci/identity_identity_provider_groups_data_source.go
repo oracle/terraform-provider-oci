@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func IdentityIdentityProviderGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityIdentityProviderGroups,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"identity_provider_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -111,7 +111,7 @@ func (s *IdentityIdentityProviderGroupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_identity.IdentityProviderLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListIdentityProviderGroups(context.Background(), request)
 	if err != nil {

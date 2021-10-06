@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v48/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v49/filestorage"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func FileStorageExportsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFileStorageExports,
 		Schema: map[string]*schema.Schema{
-			"filter": dataSourceFiltersSchema(),
+			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -93,7 +93,7 @@ func (s *FileStorageExportsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_file_storage.ListExportsLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "file_storage")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "file_storage")
 
 	response, err := s.Client.ListExports(context.Background(), request)
 	if err != nil {

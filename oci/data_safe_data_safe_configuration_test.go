@@ -16,18 +16,18 @@ import (
 
 var (
 	DataSafeConfigurationRequiredOnlyResource = DataSafeConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Required, Create, dataSafeConfigurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Required, Create, dataSafeConfigurationRepresentation)
 
 	DataSafeConfigurationResourceConfig = DataSafeConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Update, dataSafeConfigurationRepresentation)
+		GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Update, dataSafeConfigurationRepresentation)
 
 	dataSafeConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
 	dataSafeConfigurationRepresentation = map[string]interface{}{
-		"is_enabled":     Representation{repType: Required, create: `true`},
-		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"is_enabled":     Representation{RepType: Required, Create: `true`},
+		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
 	DataSafeConfigurationResourceDependencies = ""
@@ -49,41 +49,41 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+DataSafeConfigurationResourceDependencies+
-		generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Create, dataSafeConfigurationRepresentation), "datasafe", "dataSafeConfiguration", t)
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DataSafeConfigurationResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Create, dataSafeConfigurationRepresentation), "datasafe", "dataSafeConfiguration", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Required, Create, dataSafeConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Required, Create, dataSafeConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
 
-		// delete before next create
+		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies,
 		},
-		// verify create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Create, dataSafeConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Create, dataSafeConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -95,13 +95,13 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DataSafeConfigurationResourceDependencies +
-				generateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Update, dataSafeConfigurationRepresentation),
+				GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Update, dataSafeConfigurationRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -112,7 +112,7 @@ func TestDataSafeDataSafeConfigurationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Create, dataSafeConfigurationSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_data_safe_data_safe_configuration", "test_data_safe_configuration", Optional, Create, dataSafeConfigurationSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafeConfigurationResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

@@ -4,13 +4,13 @@
 package oci
 
 import (
-	oci_metering_computation "github.com/oracle/oci-go-sdk/v48/usageapi"
+	oci_metering_computation "github.com/oracle/oci-go-sdk/v49/usageapi"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
-	RegisterOracleClient("oci_metering_computation.UsageapiClient", &OracleClient{initClientFn: initUsageapiUsageapiClient})
+	RegisterOracleClient("oci_metering_computation.UsageapiClient", &OracleClient{InitClientFn: initUsageapiUsageapiClient})
 }
 
 func initUsageapiUsageapiClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

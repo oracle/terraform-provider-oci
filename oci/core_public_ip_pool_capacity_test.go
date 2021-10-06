@@ -15,9 +15,9 @@ import (
 
 var (
 	publicIpPoolCapacityRepresentation = map[string]interface{}{
-		"public_ip_pool_id": Representation{repType: Required, create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
-		"byoip_id":          Representation{repType: Required, create: `${var.byoip_range_id}`},
-		"cidr_block":        Representation{repType: Required, create: `${var.public_ip_pool_cidr_block}`},
+		"public_ip_pool_id": Representation{RepType: Required, Create: `${oci_core_public_ip_pool.test_public_ip_pool.id}`},
+		"byoip_id":          Representation{RepType: Required, Create: `${var.byoip_range_id}`},
+		"cidr_block":        Representation{RepType: Required, Create: `${var.public_ip_pool_cidr_block}`},
 	}
 
 	publicIpPoolCidrBlock            = getEnvSettingWithBlankDefault("public_ip_pool_cidr_block")
@@ -26,7 +26,7 @@ var (
 	byoipRangeId            = getEnvSettingWithBlankDefault("byoip_range_ocid")
 	byoipRangeIdVariableStr = fmt.Sprintf("variable \"byoip_range_id\" { default = \"%s\" }\n", byoipRangeId)
 
-	PublicIpPoolAddCapacityResourceDependencies = publicIpPoolCidrBlockVariableStr + byoipRangeIdVariableStr + generateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation)
+	PublicIpPoolAddCapacityResourceDependencies = publicIpPoolCidrBlockVariableStr + byoipRangeIdVariableStr + GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation)
 )
 
 // issue-routing-tag: core/vcnip
@@ -42,15 +42,15 @@ func TestResourceCorePublicIpPoolCapacity_basic(t *testing.T) {
 	resourceName := "oci_core_public_ip_pool_capacity.test_public_ip_pool_capacity"
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + PublicIpPoolAddCapacityResourceDependencies + compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", publicIpPoolCidrBlock),
 
 				func(s *terraform.State) (err error) {
-					_, err = fromInstanceState(s, resourceName, "id")
+					_, err = FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),

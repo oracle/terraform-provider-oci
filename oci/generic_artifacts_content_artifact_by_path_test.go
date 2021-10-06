@@ -18,24 +18,24 @@ import (
 
 var (
 	ArtifactByPathResourceConfig = ArtifactByPathResourceDependencies +
-		generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation)
+		GenerateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation)
 
 	artifactByPathSingularDataSourceRepresentation = map[string]interface{}{
-		"artifact_path": Representation{repType: Required, create: `artifactPath`},
-		"repository_id": Representation{repType: Required, create: `${oci_artifacts_repository.test_repository.id}`},
-		"version":       Representation{repType: Required, create: `1.0`},
+		"artifact_path": Representation{RepType: Required, Create: `artifactPath`},
+		"repository_id": Representation{RepType: Required, Create: `${oci_artifacts_repository.test_repository.id}`},
+		"version":       Representation{RepType: Required, Create: `1.0`},
 	}
 
 	artifactByPathRepresentation = map[string]interface{}{
-		"artifact_path": Representation{repType: Required, create: `artifactPath`},
-		"repository_id": Representation{repType: Required, create: `${oci_artifacts_repository.test_repository.id}`},
-		"version":       Representation{repType: Required, create: `1.0`},
-		"content":       Representation{repType: Required, create: `<a1>content</a1>`},
+		"artifact_path": Representation{RepType: Required, Create: `artifactPath`},
+		"repository_id": Representation{RepType: Required, Create: `${oci_artifacts_repository.test_repository.id}`},
+		"version":       Representation{RepType: Required, Create: `1.0`},
+		"content":       Representation{RepType: Required, Create: `<a1>content</a1>`},
 	}
 
-	ArtifactByPathResourceDependencies = generateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation)
+	ArtifactByPathResourceDependencies = GenerateResourceFromRepresentationMap("oci_artifacts_repository", "test_repository", Required, Create, repositoryRepresentation)
 	// the deletion of oci_generic_artifacts_content_artifact_by_path is done by oci_artifacts_generic_artifact
-	GenericArtifactManager = generateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactRepresentation)
+	GenericArtifactManager = GenerateResourceFromRepresentationMap("oci_artifacts_generic_artifact", "test_generic_artifact", Required, Create, genericArtifactRepresentation)
 )
 
 // issue-routing-tag: generic_artifacts_content/default
@@ -53,21 +53,21 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_generic_artifacts_content_artifact_by_path.test_artifact_by_path"
 
 	var resId, resId2 string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ArtifactByPathResourceDependencies+
-		generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation), "genericartifactscontent", "artifactByPath", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ArtifactByPathResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation), "genericartifactscontent", "artifactByPath", t)
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
-				generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation) + GenericArtifactManager,
+				GenerateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation) + GenericArtifactManager,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
-					resId, err = fromInstanceState(s, resourceName, "id")
+					resId, err = FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -79,11 +79,11 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
-				generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Optional, Update, artifactByPathRepresentation) + GenericArtifactManager,
+				GenerateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Optional, Update, artifactByPathRepresentation) + GenericArtifactManager,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
-					resId2, err = fromInstanceState(s, resourceName, "id")
+					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -95,7 +95,7 @@ func TestGenericArtifactsContentArtifactByPathResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathSingularDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + ArtifactByPathResourceConfig + GenericArtifactManager,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "artifact_path", "artifactPath"),
@@ -125,10 +125,10 @@ func createTmpFile() (string, error) {
 
 var (
 	artifactByPathSourceRepresentation = map[string]interface{}{
-		"artifact_path": Representation{repType: Required, create: `artifactPath`},
-		"repository_id": Representation{repType: Required, create: `${oci_artifacts_repository.test_repository.id}`},
-		"version":       Representation{repType: Required, create: `1.0`},
-		"source":        Representation{repType: Required, create: ``},
+		"artifact_path": Representation{RepType: Required, Create: `artifactPath`},
+		"repository_id": Representation{RepType: Required, Create: `${oci_artifacts_repository.test_repository.id}`},
+		"version":       Representation{RepType: Required, Create: `1.0`},
+		"source":        Representation{RepType: Required, Create: ``},
 	}
 )
 
@@ -147,13 +147,13 @@ func TestGenericArtifactsContentArtifactByPathResource_uploadFile(t *testing.T) 
 
 	tempFilePath, err := createTmpFile()
 	if err != nil {
-		t.Fatalf("Unable to create file to upload. Error: %q", err)
+		t.Fatalf("Unable to Create file to upload. Error: %q", err)
 	}
 
 	var resId, _ string
-	// Save TF content to create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	saveConfigContent(config+compartmentIdVariableStr+ArtifactByPathResourceDependencies+
-		generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation), "genericartifactscontent", "artifactByPath", t)
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+ArtifactByPathResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create, artifactByPathRepresentation), "genericartifactscontent", "artifactByPath", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -161,18 +161,18 @@ func TestGenericArtifactsContentArtifactByPathResource_uploadFile(t *testing.T) 
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create
+			// verify Create
 			{
 				Config: config + compartmentIdVariableStr + ArtifactByPathResourceDependencies +
-					generateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create,
-						getUpdatedRepresentationCopy("source", Representation{repType: Required, create: tempFilePath}, artifactByPathSourceRepresentation)) + GenericArtifactManager,
+					GenerateResourceFromRepresentationMap("oci_generic_artifacts_content_artifact_by_path", "test_artifact_by_path", Required, Create,
+						GetUpdatedRepresentationCopy("source", Representation{RepType: Required, Create: tempFilePath}, artifactByPathSourceRepresentation)) + GenericArtifactManager,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "sha256", tempFileSha256),
 					resource.TestCheckResourceAttr(resourceName, "size_in_bytes", strconv.Itoa(tempFileSize)),
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						resId, err = FromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}

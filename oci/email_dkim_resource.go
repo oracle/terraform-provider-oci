@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
-	oci_email "github.com/oracle/oci-go-sdk/v48/email"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_email "github.com/oracle/oci-go-sdk/v49/email"
 )
 
 func init() {
@@ -198,7 +198,7 @@ func (s *EmailDkimResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -206,7 +206,7 @@ func (s *EmailDkimResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.CreateDkim(context.Background(), request)
 	if err != nil {
@@ -214,7 +214,7 @@ func (s *EmailDkimResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDkimFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDkimFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *EmailDkimResourceCrud) getDkimFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -259,7 +259,7 @@ func dkimWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_com
 
 func dkimWaitForWorkRequest(wId *string, entityType string, action oci_email.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_email.EmailClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "email")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "email")
 	retryPolicy.ShouldRetryOperation = dkimWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_email.GetWorkRequestResponse{}
@@ -340,7 +340,7 @@ func (s *EmailDkimResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.DkimId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.GetDkim(context.Background(), request)
 	if err != nil {
@@ -371,10 +371,10 @@ func (s *EmailDkimResourceCrud) Update() error {
 	request.DkimId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.UpdateDkim(context.Background(), request)
 	if err != nil {
@@ -382,7 +382,7 @@ func (s *EmailDkimResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDkimFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDkimFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "email"), oci_email.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *EmailDkimResourceCrud) Delete() error {
@@ -391,7 +391,7 @@ func (s *EmailDkimResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.DkimId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "email")
 
 	response, err := s.Client.DeleteDkim(context.Background(), request)
 	if err != nil {

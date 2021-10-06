@@ -14,7 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v48/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 func init() {
@@ -156,7 +156,7 @@ func (s *IdentityIdpGroupMappingResourceCrud) Create() error {
 		request.IdpGroupName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateIdpGroupMapping(context.Background(), request)
 	if err != nil {
@@ -186,7 +186,7 @@ func (s *IdentityIdpGroupMappingResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetIdpGroupMapping(context.Background(), request)
 	if err != nil {
@@ -218,7 +218,7 @@ func (s *IdentityIdpGroupMappingResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.MappingId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateIdpGroupMapping(context.Background(), request)
 	if err != nil {
@@ -240,7 +240,7 @@ func (s *IdentityIdpGroupMappingResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.MappingId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteIdpGroupMapping(context.Background(), request)
 	return err

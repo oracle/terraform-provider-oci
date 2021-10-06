@@ -15,58 +15,58 @@ import (
 
 var (
 	dataGuardAssociationSingularExadataDataSourceRepresentation = map[string]interface{}{
-		"data_guard_association_id": Representation{repType: Required, create: `${oci_database_data_guard_association.test_exadata_data_guard_association.id}`},
-		"database_id":               Representation{repType: Required, create: `${data.oci_database_databases.exadb.databases.0.id}`},
+		"data_guard_association_id": Representation{RepType: Required, Create: `${oci_database_data_guard_association.test_exadata_data_guard_association.id}`},
+		"database_id":               Representation{RepType: Required, Create: `${data.oci_database_databases.exadb.databases.0.id}`},
 	}
 
 	dataGuardAssociationExadataDataSourceRepresentation = map[string]interface{}{
-		"database_id": Representation{repType: Required, create: `${data.oci_database_databases.exadb.databases.0.id}`},
+		"database_id": Representation{RepType: Required, Create: `${data.oci_database_databases.exadb.databases.0.id}`},
 		"filter":      RepresentationGroup{Required, dataGuardAssociationExadataDataSourceFilterRepresentation}}
 	dataGuardAssociationExadataDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_database_data_guard_association.test_exadata_data_guard_association.id}`}},
+		"name":   Representation{RepType: Required, Create: `id`},
+		"values": Representation{RepType: Required, Create: []string{`${oci_database_data_guard_association.test_exadata_data_guard_association.id}`}},
 	}
 
-	dataGuardAssociationRepresentationExistingExadataDbSystem = representationCopyWithNewProperties(dataGuardAssociationRepresentationExistingDbSystem, map[string]interface{}{
-		"depends_on":        Representation{repType: Required, create: []string{"oci_database_db_system.test_exadata_db_system", `oci_database_db_system.test_exadata_db_system2`}},
-		"database_id":       Representation{repType: Required, create: `${data.oci_database_databases.exadb.databases.0.id}`},
-		"creation_type":     Representation{repType: Required, create: `ExistingDbSystem`},
-		"peer_db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_exadata_db_system2.id}`},
+	dataGuardAssociationRepresentationExistingExadataDbSystem = RepresentationCopyWithNewProperties(dataGuardAssociationRepresentationExistingDbSystem, map[string]interface{}{
+		"depends_on":        Representation{RepType: Required, Create: []string{"oci_database_db_system.test_exadata_db_system", `oci_database_db_system.test_exadata_db_system2`}},
+		"database_id":       Representation{RepType: Required, Create: `${data.oci_database_databases.exadb.databases.0.id}`},
+		"creation_type":     Representation{RepType: Required, Create: `ExistingDbSystem`},
+		"peer_db_system_id": Representation{RepType: Required, Create: `${oci_database_db_system.test_exadata_db_system2.id}`},
 	})
 
-	dataGuardAssociationRepresentationExistingExadataDbHome = representationCopyWithNewProperties(dataGuardAssociationRepresentationExistingDbSystem, map[string]interface{}{
-		"depends_on":        Representation{repType: Required, create: []string{"oci_database_db_system.test_exadata_db_system", `oci_database_db_system.test_exadata_db_system2`}},
-		"database_id":       Representation{repType: Required, create: `${oci_database_db_system.test_exadata_db_system.db_home.0.database.0.id}`},
-		"creation_type":     Representation{repType: Required, create: `ExistingDbSystem`},
-		"peer_db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_exadata_db_system2.id}`},
-		"peer_db_home_id":   Representation{repType: Required, create: `${oci_database_db_system.test_exadata_db_system2.db_home.0.id}`},
+	dataGuardAssociationRepresentationExistingExadataDbHome = RepresentationCopyWithNewProperties(dataGuardAssociationRepresentationExistingDbSystem, map[string]interface{}{
+		"depends_on":        Representation{RepType: Required, Create: []string{"oci_database_db_system.test_exadata_db_system", `oci_database_db_system.test_exadata_db_system2`}},
+		"database_id":       Representation{RepType: Required, Create: `${oci_database_db_system.test_exadata_db_system.db_home.0.database.0.id}`},
+		"creation_type":     Representation{RepType: Required, Create: `ExistingDbSystem`},
+		"peer_db_system_id": Representation{RepType: Required, Create: `${oci_database_db_system.test_exadata_db_system2.id}`},
+		"peer_db_home_id":   Representation{RepType: Required, Create: `${oci_database_db_system.test_exadata_db_system2.db_home.0.id}`},
 	})
 
 	ExadataBaseDependenciesForDataGuardWithExistingVMCluster = ExadataBaseDependencies +
-		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
-			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
-				"activation_file":    Representation{repType: Optional, update: activationFilePath},
-				"shape":              Representation{repType: Required, create: `ExadataCC.Quarter2.92`},
+		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+			RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{
+				"activation_file":    Representation{RepType: Optional, Update: activationFilePath},
+				"shape":              Representation{RepType: Required, Create: `ExadataCC.Quarter2.92`},
 				"maintenance_window": RepresentationGroup{Optional, exadataInfrastructureMaintenanceWindowRepresentationComplete},
 			}),
 		) +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster", Required, Create,
-			representationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
-				"depends_on":   Representation{repType: Required, create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network`}},
-				"display_name": Representation{repType: Required, create: `vmClusterForPrimaryDB`},
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster", Required, Create,
+			RepresentationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
+				"depends_on":   Representation{RepType: Required, Create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network`}},
+				"display_name": Representation{RepType: Required, Create: `vmClusterForPrimaryDB`},
 			})) +
-		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster_for_standby_db", Required, Create,
-			representationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
-				"depends_on":   Representation{repType: Required, create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network`}},
-				"display_name": Representation{repType: Required, create: `vmClusterForStandbyDB`},
+		GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_exadata_vm_cluster_for_standby_db", Required, Create,
+			RepresentationCopyWithNewProperties(vmClusterRepresentation, map[string]interface{}{
+				"depends_on":   Representation{RepType: Required, Create: []string{`oci_database_vm_cluster_network.test_vm_cluster_network`}},
+				"display_name": Representation{RepType: Required, Create: `vmClusterForStandbyDB`},
 			}))
 
-	dataGuardAssociationRepresentationExistingExadataVmCluster = representationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
-		"depends_on":         Representation{repType: Required, create: []string{`oci_database_vm_cluster.test_exadata_vm_cluster`, `oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db`}},
-		"database_id":        Representation{repType: Required, create: `${data.oci_database_databases.exadb.databases.0.id}`},
-		"creation_type":      Representation{repType: Required, create: `ExistingVmCluster`},
-		"peer_vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db.id}`},
+	dataGuardAssociationRepresentationExistingExadataVmCluster = RepresentationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
+		"depends_on":         Representation{RepType: Required, Create: []string{`oci_database_vm_cluster.test_exadata_vm_cluster`, `oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db`}},
+		"database_id":        Representation{RepType: Required, Create: `${data.oci_database_databases.exadb.databases.0.id}`},
+		"creation_type":      Representation{RepType: Required, Create: `ExistingVmCluster`},
+		"peer_vm_cluster_id": Representation{RepType: Required, Create: `${oci_database_vm_cluster.test_exadata_vm_cluster_for_standby_db.id}`},
 	})
 
 	ExadataBaseDependencies = DefinedTagsDependencies + `
@@ -239,10 +239,10 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 	singularDatasourceName := "data.oci_database_data_guard_association.test_exadata_data_guard_association"
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create with optionals Existing DbSystem
+		// verify Create with optionals Existing DbSystem
 		{
 			Config: config + compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbSystem),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbSystem),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
@@ -259,9 +259,9 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
 				compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
@@ -279,9 +279,9 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
 				compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbSystem),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
@@ -339,10 +339,10 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 	singularDatasourceName := "data.oci_database_data_guard_association.test_exadata_data_guard_association"
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create with optionals Existing VM Cluster
+		// verify Create with optionals Existing VM Cluster
 		{
 			Config: config + compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataVmCluster),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataVmCluster),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingVmCluster"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
@@ -359,9 +359,9 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
 				compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
@@ -379,9 +379,9 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
 				compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataVmCluster),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
@@ -730,10 +730,10 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 	singularDatasourceName := "data.oci_database_data_guard_association.test_exadata_data_guard_association"
 
 	ResourceTest(t, nil, []resource.TestStep{
-		// verify create with optionals Existing DbSystem
+		// verify Create with optionals Existing DbSystem
 		{
 			Config: config + compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbHome),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingExadataDbHome),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "creation_type", "ExistingDbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
@@ -751,9 +751,9 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 		// verify datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_data_guard_associations", "test_exadata_data_guard_associations", Optional, Update, dataGuardAssociationExadataDataSourceRepresentation) +
 				compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
@@ -771,9 +771,9 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 		// verify singular datasource
 		{
 			Config: config +
-				generateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
+				GenerateDataSourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Required, Create, dataGuardAssociationSingularExadataDataSourceRepresentation) +
 				compartmentIdVariableStr +
-				generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
+				GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_exadata_data_guard_association", Optional, Update, dataGuardAssociationRepresentationExistingExadataDbHome),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_guard_association_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),

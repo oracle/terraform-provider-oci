@@ -8,8 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v48/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v48/workrequests"
+	oci_database "github.com/oracle/oci-go-sdk/v49/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
 )
 
 func init() {
@@ -227,10 +227,10 @@ func (s *DatabaseExternalContainerDatabaseResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateExternalContainerDatabase(context.Background(), request)
 	if err != nil {
@@ -256,7 +256,7 @@ func (s *DatabaseExternalContainerDatabaseResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.ExternalContainerDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetExternalContainerDatabase(context.Background(), request)
 	if err != nil {
@@ -296,10 +296,10 @@ func (s *DatabaseExternalContainerDatabaseResourceCrud) Update() error {
 	request.ExternalContainerDatabaseId = &tmp
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateExternalContainerDatabase(context.Background(), request)
 	if err != nil {
@@ -323,7 +323,7 @@ func (s *DatabaseExternalContainerDatabaseResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ExternalContainerDatabaseId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.DeleteExternalContainerDatabase(context.Background(), request)
 	if err != nil {
@@ -416,7 +416,7 @@ func (s *DatabaseExternalContainerDatabaseResourceCrud) updateCompartment(compar
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ExternalContainerDatabaseId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	_, err := s.Client.ChangeExternalContainerDatabaseCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {

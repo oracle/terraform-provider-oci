@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_analytics "github.com/oracle/oci-go-sdk/v48/analytics"
-	oci_common "github.com/oracle/oci-go-sdk/v48/common"
+	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
@@ -29,9 +29,9 @@ func AnalyticsAnalyticsInstancePrivateAccessChannelResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: getTimeoutDuration("2h0m"),
-			Update: getTimeoutDuration("2h0m"),
-			Delete: getTimeoutDuration("2h0m"),
+			Create: GetTimeoutDuration("2h0m"),
+			Update: GetTimeoutDuration("2h0m"),
+			Delete: GetTimeoutDuration("2h0m"),
 		},
 		Create: createAnalyticsAnalyticsInstancePrivateAccessChannel,
 		Read:   readAnalyticsAnalyticsInstancePrivateAccessChannel,
@@ -193,7 +193,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Create() er
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.CreatePrivateAccessChannel(context.Background(), request)
 	if err != nil {
@@ -201,10 +201,10 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Create() er
 	}
 
 	workId := response.OpcWorkRequestId
-	returnError := s.getAnalyticsInstancePrivateAccessChannelFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultPrivateAccessChannelCreated, s.D.Timeout(schema.TimeoutCreate))
+	returnError := s.getAnalyticsInstancePrivateAccessChannelFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultPrivateAccessChannelCreated, s.D.Timeout(schema.TimeoutCreate))
 	getWorkRequestRequest := oci_analytics.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workId
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 	workRequestResponse, _ := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	s.WorkRequest = &workRequestResponse.WorkRequest
 	return returnError
@@ -236,7 +236,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) getAnalytic
 	request := oci_analytics.GetAnalyticsInstanceRequest{}
 	request.AnalyticsInstanceId = analyticsInstanceId
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -284,7 +284,7 @@ func analyticsInstancePrivateAccessChannelWorkRequestShouldRetryFunc(timeout tim
 
 func analyticsInstancePrivateAccessChannelWaitForWorkRequest(wId *string, entityType string, action oci_analytics.WorkRequestActionResultEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_analytics.AnalyticsClient) (*string, error) {
-	retryPolicy := getRetryPolicy(disableFoundRetries, "analytics")
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "analytics")
 	retryPolicy.ShouldRetryOperation = analyticsInstancePrivateAccessChannelWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_analytics.GetWorkRequestResponse{}
@@ -369,7 +369,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Get() error
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.GetPrivateAccessChannel(context.Background(), request)
 	if err != nil {
@@ -382,7 +382,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Get() error
 
 func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Update() error {
 	request := oci_analytics.UpdatePrivateAccessChannelRequest{}
-	// The PAC api will give an error if certain values are specified in update that have not changed.  Therefore, we must get the current value of the PAC and compare
+	// The PAC api will give an error if certain values are specified in Update that have not changed.  Therefore, we must get the current value of the PAC and compare
 	// the values specified in the terraform payload with the current values, and only include those that are different.
 
 	if analyticsInstanceId, ok := s.D.GetOkExists("analytics_instance_id"); ok {
@@ -398,7 +398,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Update() er
 	getRequest := oci_analytics.GetPrivateAccessChannelRequest{}
 	getRequest.AnalyticsInstanceId = request.AnalyticsInstanceId
 	getRequest.PrivateAccessChannelKey = request.PrivateAccessChannelKey
-	getRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	getRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	getResponse, err := s.Client.GetPrivateAccessChannel(context.Background(), getRequest)
 	if err != nil {
@@ -445,7 +445,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Update() er
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.UpdatePrivateAccessChannel(context.Background(), request)
 	if err != nil {
@@ -453,7 +453,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Update() er
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstancePrivateAccessChannelFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultPrivateAccessChannelUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAnalyticsInstancePrivateAccessChannelFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultPrivateAccessChannelUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Delete() error {
@@ -469,7 +469,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Delete() er
 		request.PrivateAccessChannelKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.DeletePrivateAccessChannel(context.Background(), request)
 	if err != nil {
