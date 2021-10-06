@@ -1,4 +1,4 @@
-## 4.47.0 (Unreleased)
+## 4.47.0 (October 06, 2021)
 
 ### Added
 - Support for MySQL MDS Outbound replication added
