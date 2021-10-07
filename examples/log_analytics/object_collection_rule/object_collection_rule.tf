@@ -5,6 +5,26 @@
  * This example shows how to manage log analytics object collection rule resource
  */
 
+variable "tenancy_ocid" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
+variable "compartment_ocid" {}
+variable "region" {}
+
+provider "oci" {
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
+}
+
+# Fetch namespace name from object store GET /n
+data "oci_objectstorage_namespace" "ns" {
+  compartment_id             = var.compartment_ocid
+}
+
 variable "log_analytics_log_group_id" {}
 variable "log_analytics_entity_id" {}
 variable "object_collection_rule_bucket_name" {}
@@ -44,6 +64,9 @@ variable "object_collection_rule_char_encoding_override_match_value" {
 }
 variable "object_collection_rule_char_encoding_override_property_value" {
   default = "utf-16"
+}
+variable "object_collection_rule_object_name_filter" {
+  default = "*"
 }
 
 # Create a object collection rule with required parameters
@@ -90,6 +113,7 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollect
     property_name    = "logSourceName"
     property_value   = var.object_collection_rule_log_source_override_property_value
   }
+  object_name_filters              = [var.object_collection_rule_object_name_filter]
 }
 
 # Get details of above created object collection rule with optional parameters

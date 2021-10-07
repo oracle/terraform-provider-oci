@@ -40,6 +40,12 @@ func LogAnalyticsLogAnalyticsImportCustomContentResource() *schema.Resource {
 			},
 
 			// Optional
+			"expect": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_overwrite": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -192,6 +198,11 @@ func (s *LogAnalyticsLogAnalyticsImportCustomContentResourceCrud) Create() error
 			return fmt.Errorf("the specified content file is not available: %q", err)
 		}
 		request.ImportCustomContentFileBody = ioutil.NopCloser(bytes.NewReader(contents))
+	}
+
+	if expect, ok := s.D.GetOkExists("expect"); ok {
+		tmp := expect.(string)
+		request.Expect = &tmp
 	}
 
 	if isOverwrite, ok := s.D.GetOkExists("is_overwrite"); ok {

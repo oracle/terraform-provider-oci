@@ -100,6 +100,13 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"object_name_filters": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"overrides": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -292,6 +299,19 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Create() erro
 		request.NamespaceName = &tmp
 	}
 
+	if objectNameFilters, ok := s.D.GetOkExists("object_name_filters"); ok {
+		interfaces := objectNameFilters.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("object_name_filters") {
+			request.ObjectNameFilters = tmp
+		}
+	}
+
 	if osBucketName, ok := s.D.GetOkExists("os_bucket_name"); ok {
 		tmp := osBucketName.(string)
 		request.OsBucketName = &tmp
@@ -432,6 +452,19 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Update() erro
 		request.NamespaceName = &tmp
 	}
 
+	if objectNameFilters, ok := s.D.GetOkExists("object_name_filters"); ok {
+		interfaces := objectNameFilters.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("object_name_filters") {
+			request.ObjectNameFilters = tmp
+		}
+	}
+
 	if overrides, ok := s.D.GetOkExists("overrides"); ok {
 		interfaces := overrides.([]interface{})
 		tmp := make([]oci_log_analytics.PropertyOverride, len(interfaces))
@@ -527,6 +560,8 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) SetData() err
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	s.D.Set("object_name_filters", s.Res.ObjectNameFilters)
+
 	if s.Res.OsBucketName != nil {
 		s.D.Set("os_bucket_name", *s.Res.OsBucketName)
 	}
@@ -612,6 +647,8 @@ func LogAnalyticsObjectCollectionRuleSummaryToMap(obj oci_log_analytics.LogAnaly
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
+
+	result["object_name_filters"] = obj.ObjectNameFilters
 
 	if obj.OsBucketName != nil {
 		result["os_bucket_name"] = string(*obj.OsBucketName)
