@@ -260,6 +260,7 @@ github.com/oklog/run
 github.com/oracle/oci-go-sdk/v49/aianomalydetection
 github.com/oracle/oci-go-sdk/v49/analytics
 github.com/oracle/oci-go-sdk/v49/apigateway
+github.com/oracle/oci-go-sdk/v49/apmconfig
 github.com/oracle/oci-go-sdk/v49/apmcontrolplane
 github.com/oracle/oci-go-sdk/v49/apmsynthetics
 github.com/oracle/oci-go-sdk/v49/artifacts
