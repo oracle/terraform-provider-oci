@@ -79,7 +79,7 @@ func (client *SddcClient) ConfigurationProvider() *common.ConfigurationProvider 
 	return client.config
 }
 
-// CancelDowngradeHcx Cancel the pending SDDC downgrade from HCX Enterprise to HCX Advanced
+// CancelDowngradeHcx Cancel the pending SDDC downgrade from HCX Enterprise to HCX Advanced.
 //
 // See also
 //
@@ -323,7 +323,10 @@ func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
-// DowngradeHcx Downgrade the specified SDDC from HCX Enterprise to HCX Advanced
+// DowngradeHcx Downgrade the specified SDDC from HCX Enterprise to HCX Advanced.
+// Downgrading from HCX Enterprise to HCX Advanced reduces the number of provided license keys from 10 to 3.
+// Downgrade remains in a `PENDING` state until the end of the current billing cycle. You can use CancelDowngradeHcx
+// to cancel the downgrade while it's still in a `PENDING` state.
 //
 // See also
 //
@@ -494,8 +497,7 @@ func (client SddcClient) listSddcs(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// ListSupportedSkus Lists supported SKUs. Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
-// HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
+// ListSupportedSkus Lists supported SKUs.
 //
 // See also
 //

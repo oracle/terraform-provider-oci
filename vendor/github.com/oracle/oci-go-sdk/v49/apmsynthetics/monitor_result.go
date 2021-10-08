@@ -21,7 +21,7 @@ type MonitorResult struct {
 	ResultContentType *string `mandatory:"true" json:"resultContentType"`
 
 	// Type of result.
-	// Example: HAR, Screenshot or Log.
+	// Example: HAR, Screenshot, Log or Network.
 	ResultType *string `mandatory:"false" json:"resultType"`
 
 	// Monitor result data set.

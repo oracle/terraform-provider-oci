@@ -26,6 +26,8 @@ type BrowserMonitorConfiguration struct {
 	// Verify all the search strings present in response.
 	// If any search string is not present in the response, then it will be considered as a failure.
 	VerifyTexts []VerifyText `mandatory:"false" json:"verifyTexts"`
+
+	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
 //GetIsFailureRetried returns IsFailureRetried

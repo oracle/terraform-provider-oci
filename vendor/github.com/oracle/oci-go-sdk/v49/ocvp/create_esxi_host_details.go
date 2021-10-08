@@ -29,14 +29,12 @@ type CreateEsxiHostDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Billing option selected during SDDC creation.
-	// Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
-	// HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
+	// The billing option currently used by the ESXi host.
 	// ListSupportedSkus.
 	CurrentSku SkuEnum `mandatory:"false" json:"currentSku,omitempty"`
 
-	// Billing option to switch to once existing billing cycle ends.
-	// If nextSku is null or empty, currentSku will be used to continue with next billing term.
+	// The billing option to switch to after the existing billing cycle ends.
+	// If `nextSku` is null or empty, `currentSku` continues to the next billing cycle.
 	// ListSupportedSkus.
 	NextSku SkuEnum `mandatory:"false" json:"nextSku,omitempty"`
 

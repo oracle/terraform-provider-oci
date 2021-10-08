@@ -44,6 +44,8 @@ type RestMonitorConfiguration struct {
 	// Expected HTTP response codes. For status code range, set values such as 2xx, 3xx.
 	VerifyResponseCodes []string `mandatory:"false" json:"verifyResponseCodes"`
 
+	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
+
 	// Request HTTP method.
 	RequestMethod RequestMethodsEnum `mandatory:"false" json:"requestMethod,omitempty"`
 

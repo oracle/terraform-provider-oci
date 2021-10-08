@@ -62,7 +62,7 @@ type SddcSummary struct {
 	// HCX Fully Qualified Domain Name
 	HcxFqdn *string `mandatory:"false" json:"hcxFqdn"`
 
-	// HCX enabled or not
+	// Indicates whether HCX is enabled.
 	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
 
 	// FQDN for vCenter

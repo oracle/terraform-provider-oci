@@ -16,10 +16,10 @@ import (
 // HcxLicenseSummary HCX on-premise license information summary.
 type HcxLicenseSummary struct {
 
-	// HCX on-premise license key value
+	// HCX on-premise license key value.
 	ActivationKey *string `mandatory:"true" json:"activationKey"`
 
-	// status of HCX on-premise license
+	// status of HCX on-premise license.
 	Status HcxLicenseStatusEnum `mandatory:"true" json:"status"`
 
 	// Name of the system that consumed the HCX on-premise license

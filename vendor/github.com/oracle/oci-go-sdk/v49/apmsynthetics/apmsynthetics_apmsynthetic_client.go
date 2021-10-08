@@ -364,7 +364,7 @@ func (client ApmSyntheticClient) getMonitor(ctx context.Context, request common.
 	return response, err
 }
 
-// GetMonitorResult Gets the results for a specific execution of a monitor identified by OCID. The results are in a HAR file, Screenshot, or Console Log.
+// GetMonitorResult Gets the results for a specific execution of a monitor identified by OCID. The results are in a HAR file, Screenshot, Console Log or Network details.
 //
 // See also
 //

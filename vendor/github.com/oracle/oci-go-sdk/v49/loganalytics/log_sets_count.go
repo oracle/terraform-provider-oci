@@ -2,24 +2,24 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud VMware Solution API
+// LogAnalytics API
 //
-// Use this API to manage your Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// The LogAnalytics API for the LogAnalytics service.
 //
 
-package ocvp
+package loganalytics
 
 import (
 	"github.com/oracle/oci-go-sdk/v49/common"
 )
 
-// SupportedSkuSummary A specific SKU.
-type SupportedSkuSummary struct {
+// LogSetsCount total number of log sets
+type LogSetsCount struct {
 
-	// name of SKU
-	Name SkuEnum `mandatory:"true" json:"name"`
+	// This is the total number of log sets the tenancy has configured.
+	Count *int64 `mandatory:"true" json:"count"`
 }
 
-func (m SupportedSkuSummary) String() string {
+func (m LogSetsCount) String() string {
 	return common.PointerString(m)
 }
