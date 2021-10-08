@@ -13,8 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v49/common"
 )
 
-// SupportedSkuSummaryCollection A specific SKU. Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
-// HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
+// SupportedSkuSummaryCollection A specific SKU.
 type SupportedSkuSummaryCollection struct {
 
 	// A list of the supported SKUs.

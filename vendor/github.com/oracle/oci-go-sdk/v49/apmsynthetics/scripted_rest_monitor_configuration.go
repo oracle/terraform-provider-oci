@@ -19,6 +19,8 @@ type ScriptedRestMonitorConfiguration struct {
 
 	// If isFailureRetried is enabled, then a failed call will be retried.
 	IsFailureRetried *bool `mandatory:"false" json:"isFailureRetried"`
+
+	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
 //GetIsFailureRetried returns IsFailureRetried

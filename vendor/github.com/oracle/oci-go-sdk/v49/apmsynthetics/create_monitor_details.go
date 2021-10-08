@@ -38,6 +38,9 @@ type CreateMonitorDetails struct {
 	// Enables or disables the monitor.
 	Status MonitorStatusEnum `mandatory:"false" json:"status,omitempty"`
 
+	// If runOnce is enabled, then the monitor will run once.
+	IsRunOnce *bool `mandatory:"false" json:"isRunOnce"`
+
 	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
 	// Also, timeoutInSeconds should be a multiple of 60. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
@@ -73,6 +76,7 @@ func (m *CreateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		ScriptId                *string                           `json:"scriptId"`
 		Status                  MonitorStatusEnum                 `json:"status"`
+		IsRunOnce               *bool                             `json:"isRunOnce"`
 		TimeoutInSeconds        *int                              `json:"timeoutInSeconds"`
 		Target                  *string                           `json:"target"`
 		ScriptParameters        []MonitorScriptParameter          `json:"scriptParameters"`
@@ -93,6 +97,8 @@ func (m *CreateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ScriptId = model.ScriptId
 
 	m.Status = model.Status
+
+	m.IsRunOnce = model.IsRunOnce
 
 	m.TimeoutInSeconds = model.TimeoutInSeconds
 
