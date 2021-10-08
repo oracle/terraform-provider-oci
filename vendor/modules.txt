@@ -281,6 +281,7 @@ github.com/oracle/oci-go-sdk/v49/databasemigration
 github.com/oracle/oci-go-sdk/v49/datacatalog
 github.com/oracle/oci-go-sdk/v49/dataflow
 github.com/oracle/oci-go-sdk/v49/dataintegration
+github.com/oracle/oci-go-sdk/v49/datalabelingservice
 github.com/oracle/oci-go-sdk/v49/datasafe
 github.com/oracle/oci-go-sdk/v49/datascience
 github.com/oracle/oci-go-sdk/v49/devops
