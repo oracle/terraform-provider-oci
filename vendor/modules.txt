@@ -324,6 +324,7 @@ github.com/oracle/oci-go-sdk/v49/usageapi
 github.com/oracle/oci-go-sdk/v49/vault
 github.com/oracle/oci-go-sdk/v49/vulnerabilityscanning
 github.com/oracle/oci-go-sdk/v49/waas
+github.com/oracle/oci-go-sdk/v49/waf
 github.com/oracle/oci-go-sdk/v49/workrequests
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
