@@ -199,6 +199,30 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-apm_config") %>>
+            <a href="#">Apm Config</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-apm_config-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/apm_config_config.html">oci_apm_config_config</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apm_config_configs.html">oci_apm_config_configs</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-apm_config-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/apm_config_config.html">oci_apm_config_config</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-apm_synthetics") %>>
             <a href="#">Apm Synthetics</a>
             <ul class="nav">
@@ -1367,6 +1391,36 @@
                     <ul class="nav nav-auto-expand">
                         <li>
                             <a href="/docs/providers/oci/r/dataintegration_workspace.html">oci_dataintegration_workspace</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-data_labeling_service") %>>
+            <a href="#">Data Labeling Service</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-data_labeling_service-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/data_labeling_service_annotation_format.html">oci_data_labeling_service_annotation_format</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/data_labeling_service_annotation_formats.html">oci_data_labeling_service_annotation_formats</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/data_labeling_service_dataset.html">oci_data_labeling_service_dataset</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/data_labeling_service_datasets.html">oci_data_labeling_service_datasets</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-data_labeling_service-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/data_labeling_service_dataset.html">oci_data_labeling_service_dataset</a>
                         </li>
                     </ul>
                 </li>
@@ -2960,7 +3014,16 @@
                             <a href="/docs/providers/oci/d/log_analytics_log_analytics_object_collection_rules.html">oci_log_analytics_log_analytics_object_collection_rules</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/log_analytics_log_sets_count.html">oci_log_analytics_log_sets_count</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/log_analytics_namespace.html">oci_log_analytics_namespace</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/log_analytics_namespace_scheduled_task.html">oci_log_analytics_namespace_scheduled_task</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/log_analytics_namespace_scheduled_tasks.html">oci_log_analytics_namespace_scheduled_tasks</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/log_analytics_namespaces.html">oci_log_analytics_namespaces</a>
@@ -2984,6 +3047,9 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/log_analytics_namespace.html">oci_log_analytics_namespace</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/log_analytics_namespace_scheduled_task.html">oci_log_analytics_namespace_scheduled_task</a>
                         </li>
                     </ul>
                 </li>
@@ -3917,6 +3983,54 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/vulnerability_scanning_host_scan_target.html">oci_vulnerability_scanning_host_scan_target</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-waf") %>>
+            <a href="#">Waf</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-waf-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/waf_network_address_list.html">oci_waf_network_address_list</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waf_network_address_lists.html">oci_waf_network_address_lists</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waf_protection_capabilities.html">oci_waf_protection_capabilities</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waf_protection_capability_group_tags.html">oci_waf_protection_capability_group_tags</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waf_web_app_firewall.html">oci_waf_web_app_firewall</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waf_web_app_firewall_policies.html">oci_waf_web_app_firewall_policies</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waf_web_app_firewall_policy.html">oci_waf_web_app_firewall_policy</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/waf_web_app_firewalls.html">oci_waf_web_app_firewalls</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-waf-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/waf_network_address_list.html">oci_waf_network_address_list</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/waf_web_app_firewall.html">oci_waf_web_app_firewall</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/waf_web_app_firewall_policy.html">oci_waf_web_app_firewall_policy</a>
                         </li>
                     </ul>
                 </li>
