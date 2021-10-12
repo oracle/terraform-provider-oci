@@ -40,6 +40,7 @@ var (
 
 // issue-routing-tag: log_analytics/default
 func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
+	t.Skip("skipping test as onboarding tenancy is a one time operation only and cannot be done on a recurring basis")
 	httpreplay.SetScenario("TestLogAnalyticsNamespaceResource_basic")
 	defer httpreplay.SaveScenario()
 

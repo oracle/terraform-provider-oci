@@ -1179,6 +1179,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					"work_request_id",
 					"delete_all_object_versions",
 					"storage_tier",
+					"opc_sse_kms_key_id",
 				},
 				ResourceName: resourceNameCopy,
 			},
