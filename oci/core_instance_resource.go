@@ -59,6 +59,11 @@ func CoreInstanceResource() *schema.Resource {
 			},
 
 			// Optional
+			"async": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+
 			"agent_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -775,6 +780,16 @@ func (s *CoreInstanceResourceCrud) CreatedPending() []string {
 }
 
 func (s *CoreInstanceResourceCrud) CreatedTarget() []string {
+	if asyn, ok := s.D.GetOk("async"); ok {
+		tmp := asyn.(bool)
+		if tmp {
+			return []string{
+				string(oci_core.InstanceLifecycleStateRunning),
+				string(oci_core.InstanceLifecycleStateProvisioning),
+				string(oci_core.InstanceLifecycleStateStarting),
+			}
+		}
+	}
 	return []string{
 		string(oci_core.InstanceLifecycleStateRunning),
 	}
@@ -787,6 +802,16 @@ func (s *CoreInstanceResourceCrud) DeletedPending() []string {
 }
 
 func (s *CoreInstanceResourceCrud) DeletedTarget() []string {
+
+	if asyn, ok := s.D.GetOk("async"); ok {
+		tmp := asyn.(bool)
+		if tmp {
+			return []string{
+				string(oci_core.InstanceLifecycleStateTerminated),
+				string(oci_core.InstanceLifecycleStateTerminating),
+			}
+		}
+	}
 	return []string{
 		string(oci_core.InstanceLifecycleStateTerminated),
 	}
