@@ -1254,6 +1254,39 @@ func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, set
 
 }
 
+/*
+	This struct extends the HashiCorp plugin framework testing.T
+	It adds a slice to store all error messages encountered during test execution
+*/
+type OciTestT struct {
+	T             *testing.T
+	ErrorMessages []string
+}
+
+func (t *OciTestT) Error(args ...interface{}) {
+	t.T.Error(args...)
+	str := fmt.Sprintf("%v", args)
+	t.ErrorMessages = append(t.ErrorMessages, str)
+}
+
+func (t *OciTestT) Fatal(args ...interface{}) {
+	t.T.Fatal(args...)
+	str := fmt.Sprintf("%v", args)
+	t.ErrorMessages = append(t.ErrorMessages, str)
+}
+
+func (t *OciTestT) Skip(args ...interface{}) {
+	t.T.Skip(args...)
+}
+
+func (t *OciTestT) Name() string {
+	return t.T.Name()
+}
+
+func (t *OciTestT) Parallel() {
+	t.T.Parallel()
+}
+
 // Method to execute tests
 func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps []resource.TestStep) {
 	// set Generic preconfiguration method if not explicitly set
@@ -1263,7 +1296,8 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 		}
 	}
 
-	resource.Test(t, resource.TestCase{
+	ociTest := OciTestT{t, make([]string, 0)}
+	resource.Test(&ociTest, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": testAccProvider,
@@ -1271,4 +1305,15 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 		CheckDestroy: checkDestroyFunc,
 		Steps:        steps,
 	})
+
+	// check if any error was logged
+	if len(ociTest.ErrorMessages) <= 0 {
+		return
+	}
+
+	fmt.Println("================ Error Summary ================")
+	// print out the errors in an error summary
+	for _, error := range ociTest.ErrorMessages {
+		fmt.Println(error)
+	}
 }
