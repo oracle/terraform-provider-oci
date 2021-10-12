@@ -100,6 +100,12 @@ func BlockchainBlockchainPlatformResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"platform_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"load_balancer_shape": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -455,6 +461,11 @@ func (s *BlockchainBlockchainPlatformResourceCrud) Create() error {
 		request.PlatformRole = oci_blockchain.BlockchainPlatformPlatformRoleEnum(platformRole.(string))
 	}
 
+	if platformVersion, ok := s.D.GetOkExists("platform_version"); ok {
+		tmp := platformVersion.(string)
+		request.PlatformVersion = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "blockchain")
 
 	response, err := s.Client.CreateBlockchainPlatform(context.Background(), request)
@@ -791,6 +802,10 @@ func (s *BlockchainBlockchainPlatformResourceCrud) SetData() error {
 	s.D.Set("platform_role", s.Res.PlatformRole)
 
 	s.D.Set("platform_shape_type", s.Res.PlatformShapeType)
+
+	if s.Res.PlatformVersion != nil {
+		s.D.Set("platform_version", *s.Res.PlatformVersion)
+	}
 
 	if s.Res.Replicas != nil {
 		s.D.Set("replicas", []interface{}{ReplicaDetailsToMap(s.Res.Replicas)})
