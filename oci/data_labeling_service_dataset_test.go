@@ -165,8 +165,8 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.0.name", "name"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_Created"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_Updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
@@ -207,13 +207,13 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.0.name", "name"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_Created"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_Updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
-						return fmt.Errorf("resource reCreated when it was supposed to be Updated")
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},
@@ -244,13 +244,13 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "label_set.0.items.0.name", "name2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_Created"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_Updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
-						return fmt.Errorf("Resource reCreated when it was supposed to be Updated.")
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
 					return err
 				},
@@ -300,8 +300,8 @@ func TestDataLabelingServiceDatasetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "label_set.0.items.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "label_set.0.items.0.name", "name2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_Created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_Updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
