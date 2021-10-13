@@ -1,4 +1,4 @@
-## 4.48.0 (Unreleased)
+## 4.48.0 (October 13, 2021)
 
 ### Added
 - Support for APM Configuration Service
