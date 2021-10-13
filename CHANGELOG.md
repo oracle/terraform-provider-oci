@@ -1,3 +1,14 @@
+## 4.48.0 (Unreleased)
+
+### Added
+- Support for APM Configuration Service
+- Support for network_configuration in oci_apm_synthetics_monitor resource
+- Support for WAF service
+- Support for Log Analytics Scheduled Tasks
+- Support for Data Labeling Service
+- Support for oci_log_analytics_log_sets_count data_source
+- Support for Server side encryption using object specific KMS key
+
 ## 4.47.0 (October 06, 2021)
 
 ### Added

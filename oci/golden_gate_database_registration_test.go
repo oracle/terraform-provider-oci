@@ -68,7 +68,7 @@ var (
 		"description":       Representation{RepType: Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":     Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		//IP address from db Nodes need vnic_id, which is null because of using test header purposes
-		// "ip_address":    Representation{repType: Optional, create: `ipAddress`},
+		// "ip_address":    Representation{RepType: Optional, create: `ipAddress`},
 		"key_id":                Representation{RepType: Optional, Create: `${var.kms_key_id}`},
 		"secret_compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
 		"subnet_id":             Representation{RepType: Optional, Create: `${oci_core_subnet.test_subnet.id}`},

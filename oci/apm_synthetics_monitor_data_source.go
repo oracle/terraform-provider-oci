@@ -104,6 +104,10 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsRunOnce != nil {
+		s.D.Set("is_run_once", *s.Res.IsRunOnce)
+	}
+
 	s.D.Set("monitor_type", s.Res.MonitorType)
 
 	if s.Res.RepeatIntervalInSeconds != nil {

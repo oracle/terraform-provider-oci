@@ -16,7 +16,7 @@ resource "oci_objectstorage_bucket" "bucket1" {
 resource "oci_objectstorage_bucket" "bucket_with_versioning" {
   compartment_id = var.compartment_ocid
   namespace      = data.oci_objectstorage_namespace.ns.namespace
-  name           = "bucketWithVersioning"
+  name           = "bucket-with-versioning"
   access_type    = "NoPublicAccess"
   versioning     = "Enabled"
 }

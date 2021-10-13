@@ -19,6 +19,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"analytics":              analyticsResourceGraph,
 	"apigateway":             apigatewayResourceGraph,
 	"apm":                    apmResourceGraph,
+	"apm_config":             apmConfigResourceGraph,
 	"apm_synthetics":         apmSyntheticsResourceGraph,
 	"artifacts":              artifactsResourceGraph,
 	"auto_scaling":           autoScalingResourceGraph,
@@ -28,6 +29,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"cloud_guard":            cloudGuardResourceGraph,
 	"containerengine":        containerengineResourceGraph,
 	"core":                   coreResourceGraph,
+	"data_labeling_service":  dataLabelingServiceResourceGraph,
 	"data_safe":              dataSafeResourceGraph,
 	"database":               databaseResourceGraph,
 	"database_migration":     databaseMigrationResourceGraph,
@@ -67,6 +69,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"tagging":                taggingResourceGraph,
 	"vulnerability_scanning": vulnerabilityScanningResourceGraph,
 	"waas":                   waasResourceGraph,
+	"waf":                    wafResourceGraph,
 }
 
 var availabilityDomainResourceGraph = TerraformResourceGraph{
@@ -133,6 +136,10 @@ var apmResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportApmApmDomainHints},
 	},
+}
+
+var apmConfigResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {},
 }
 
 var apmSyntheticsResourceGraph = TerraformResourceGraph{
@@ -381,6 +388,12 @@ var coreResourceGraph = TerraformResourceGraph{
 				"drg_route_table_id": "id",
 			},
 		},
+	},
+}
+
+var dataLabelingServiceResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportDataLabelingServiceDatasetHints},
 	},
 }
 
@@ -1018,6 +1031,14 @@ var waasResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportWaasCustomProtectionRuleHints},
 		{TerraformResourceHints: exportWaasHttpRedirectHints},
 		{TerraformResourceHints: exportWaasWaasPolicyHints},
+	},
+}
+
+var wafResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportWafWebAppFirewallPolicyHints},
+		{TerraformResourceHints: exportWafWebAppFirewallHints},
+		{TerraformResourceHints: exportWafNetworkAddressListHints},
 	},
 }
 

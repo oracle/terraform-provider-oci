@@ -190,5 +190,11 @@
         "realmDomainComponent": "oraclecloud8.com", 
         "regionIdentifier": "ap-ibaraki-1", 
         "realmKey": "oc8"
+    }, 
+    {
+        "regionKey": "mtz", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "il-jerusalem-1", 
+        "realmKey": "oc1"
     }
 ]

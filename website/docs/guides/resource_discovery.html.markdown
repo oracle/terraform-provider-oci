@@ -119,6 +119,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `analytics` - Discovers analytics resources within the specified compartment
     * `apigateway` - Discovers apigateway resources within the specified compartment
     * `apm` - Discovers apm resources within the specified compartment
+    * `apm_config` - Discovers apm_config resources within the specified compartment
     * `apm_synthetics` - Discovers apm_synthetics resources within the specified compartment
     * `artifacts` - Discovers artifacts resources within the specified compartment
     * `auto_scaling` - Discovers auto_scaling resources within the specified compartment
@@ -129,6 +130,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `cloud_guard` - Discovers cloud guard resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
+    * `data_labeling_service` - Discovers data_labeling_service resources within the specified compartment
     * `data_safe` - Discovers data_safe resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
     * `database_migration` - Discovers database_migration resources within the specified compartment
@@ -171,6 +173,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `streaming` - Discovers streaming resources within the specified compartment
     * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
+    * `waf` - Discovers waf resources within the specified compartment
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
     * 0.11
     * 0.12
@@ -290,6 +293,10 @@ apm
     
 * oci\_apm\_apm\_domain
 
+apm_config
+    
+* oci\_apm\_config\_config
+
 apm_synthetics
     
 * oci\_apm\_synthetics\_script
@@ -388,6 +395,10 @@ core
 * oci\_core\_drg\_route\_table
 * oci\_core\_drg\_route\_distribution
 * oci\_core\_drg\_route\_table\_route\_rule
+
+data_labeling_service
+    
+* oci\_data\_labeling\_service\_dataset
 
 data_safe
     
@@ -674,3 +685,9 @@ waas
 * oci\_waas\_custom\_protection\_rule
 * oci\_waas\_http\_redirect
 * oci\_waas\_waas\_policy
+
+waf
+    
+* oci\_waf\_web\_app\_firewall\_policy
+* oci\_waf\_web\_app\_firewall
+* oci\_waf\_network\_address\_list

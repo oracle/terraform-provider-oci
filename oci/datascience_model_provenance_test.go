@@ -41,6 +41,7 @@ var (
 
 // issue-routing-tag: datascience/default
 func TestDatascienceModelProvenanceResource_basic(t *testing.T) {
+	t.Skip("Skip this test till data science team provides an execution for the test within few hours")
 	httpreplay.SetScenario("TestDatascienceModelProvenanceResource_basic")
 	defer httpreplay.SaveScenario()
 

@@ -16,7 +16,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DowngradeHcx.go.html to see an example of how to use DowngradeHcxRequest.
 type DowngradeHcxRequest struct {
 
-	// The HCX on-premise license keys to be reserved when downgrade from HCX Enterprise to HCX Advanced.
+	// The HCX on-premise license keys to be reserved when downgrading from HCX Enterprise to HCX Advanced.
 	DowngradeHcxDetails `contributesTo:"body"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.

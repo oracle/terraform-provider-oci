@@ -84,9 +84,7 @@ type CreateSddcDetails struct {
 	// `mySDDC-2`, and so on.
 	InstanceDisplayNamePrefix *string `mandatory:"false" json:"instanceDisplayNamePrefix"`
 
-	// Billing option selected during SDDC creation.
-	// Oracle Cloud Infrastructure VMware Solution supports the following billing interval SKUs:
-	// HOUR, MONTH, ONE_YEAR, and THREE_YEARS.
+	// The billing option selected during SDDC creation.
 	// ListSupportedSkus.
 	InitialSku SkuEnum `mandatory:"false" json:"initialSku,omitempty"`
 
