@@ -45,6 +45,9 @@ type MonitorSummary struct {
 	// Minimum repeatIntervalInSeconds should be 300 seconds.
 	RepeatIntervalInSeconds *int `mandatory:"true" json:"repeatIntervalInSeconds"`
 
+	// If runOnce is enabled, then the monitor will run once.
+	IsRunOnce *bool `mandatory:"true" json:"isRunOnce"`
+
 	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
 	// Also, timeoutInSeconds should be a multiple of 60.
 	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.

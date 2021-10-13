@@ -15,7 +15,7 @@ import (
 
 var (
 	//goldenGateDeploymentUpgradeSingularDataSourceRepresentation = map[string]interface{}{
-	//	"deployment_upgrade_id": Representation{repType: Required, create: `${oci_golden_gate_deployment_upgrade.test_deployment_upgrade.id}`},
+	//	"deployment_upgrade_id": Representation{RepType: Required, create: `${oci_golden_gate_deployment_upgrade.test_deployment_upgrade.id}`},
 	//}
 
 	goldenGatedeploymentUpgradeDataSourceRepresentation = map[string]interface{}{

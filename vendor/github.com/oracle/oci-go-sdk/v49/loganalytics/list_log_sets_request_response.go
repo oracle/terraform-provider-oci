@@ -31,6 +31,9 @@ type ListLogSetsRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListLogSetsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// If this filter is present, each of the logsets returned must contain the value of this filter.
+	LogSetNameContains []string `contributesTo:"query" name:"logSetNameContains" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

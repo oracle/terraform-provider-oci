@@ -21,6 +21,7 @@ import (
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v49/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v49/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v49/dataintegration"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v49/datalabelingservice"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
 	oci_datascience "github.com/oracle/oci-go-sdk/v49/datascience"
 	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
@@ -55,6 +56,7 @@ import (
 	oci_streaming "github.com/oracle/oci-go-sdk/v49/streaming"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v49/vulnerabilityscanning"
 	oci_waas "github.com/oracle/oci-go-sdk/v49/waas"
+	oci_waf "github.com/oracle/oci-go-sdk/v49/waf"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -171,6 +173,15 @@ var exportApmApmDomainHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_apm.LifecycleStatesActive),
 	},
+}
+
+var exportApmConfigConfigHints = &TerraformResourceHints{
+	resourceClass:          "oci_apm_config_config",
+	datasourceClass:        "oci_apm_config_configs",
+	datasourceItemsAttr:    "config_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "config",
+	requireResourceRefresh: true,
 }
 
 var exportApmSyntheticsScriptHints = &TerraformResourceHints{
@@ -865,6 +876,19 @@ var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_data_safe.ListDataSafePrivateEndpointsLifecycleStateActive),
+	},
+}
+
+var exportDataLabelingServiceDatasetHints = &TerraformResourceHints{
+	resourceClass:          "oci_data_labeling_service_dataset",
+	datasourceClass:        "oci_data_labeling_service_datasets",
+	datasourceItemsAttr:    "dataset_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "dataset",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_data_labeling_service.DatasetLifecycleStateActive),
+		string(oci_data_labeling_service.DatasetLifecycleStateNeedsAttention),
 	},
 }
 
@@ -1961,6 +1985,18 @@ var exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints = &TerraformResource
 	},
 }
 
+var exportLogAnalyticsNamespaceScheduledTaskHints = &TerraformResourceHints{
+	resourceClass:          "oci_log_analytics_namespace_scheduled_task",
+	datasourceClass:        "oci_log_analytics_namespace_scheduled_tasks",
+	datasourceItemsAttr:    "scheduled_task_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "namespace_scheduled_task",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_log_analytics.ScheduledTaskLifecycleStateActive),
+	},
+}
+
 var exportLoggingLogGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_logging_log_group",
 	datasourceClass:      "oci_logging_log_groups",
@@ -2478,5 +2514,41 @@ var exportWaasWaasPolicyHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_waas.WaasPolicyLifecycleStateActive),
+	},
+}
+
+var exportWafWebAppFirewallPolicyHints = &TerraformResourceHints{
+	resourceClass:          "oci_waf_web_app_firewall_policy",
+	datasourceClass:        "oci_waf_web_app_firewall_policies",
+	datasourceItemsAttr:    "web_app_firewall_policy_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "web_app_firewall_policy",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waf.WebAppFirewallPolicyLifecycleStateActive),
+	},
+}
+
+var exportWafWebAppFirewallHints = &TerraformResourceHints{
+	resourceClass:          "oci_waf_web_app_firewall",
+	datasourceClass:        "oci_waf_web_app_firewalls",
+	datasourceItemsAttr:    "web_app_firewall_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "web_app_firewall",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waf.WebAppFirewallLifecycleStateActive),
+	},
+}
+
+var exportWafNetworkAddressListHints = &TerraformResourceHints{
+	resourceClass:          "oci_waf_network_address_list",
+	datasourceClass:        "oci_waf_network_address_lists",
+	datasourceItemsAttr:    "network_address_list_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "network_address_list",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_waf.NetworkAddressListLifecycleStateActive),
 	},
 }

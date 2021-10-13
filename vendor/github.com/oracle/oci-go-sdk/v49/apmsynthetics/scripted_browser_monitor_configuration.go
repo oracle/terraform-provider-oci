@@ -22,6 +22,8 @@ type ScriptedBrowserMonitorConfiguration struct {
 
 	// If certificate validation is enabled, then the call will fail in case of certification errors.
 	IsCertificateValidationEnabled *bool `mandatory:"false" json:"isCertificateValidationEnabled"`
+
+	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
 //GetIsFailureRetried returns IsFailureRetried

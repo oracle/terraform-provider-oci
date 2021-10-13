@@ -46,6 +46,9 @@ type Monitor struct {
 	// Minimum repeatIntervalInSeconds should be 300 seconds.
 	RepeatIntervalInSeconds *int `mandatory:"true" json:"repeatIntervalInSeconds"`
 
+	// If runOnce is enabled, then the monitor will run once.
+	IsRunOnce *bool `mandatory:"true" json:"isRunOnce"`
+
 	// Timeout in seconds. Timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors.
 	// Also, timeoutInSeconds should be a multiple of 60. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"true" json:"timeoutInSeconds"`
@@ -103,6 +106,7 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 		ScriptName              *string                           `json:"scriptName"`
 		Status                  MonitorStatusEnum                 `json:"status"`
 		RepeatIntervalInSeconds *int                              `json:"repeatIntervalInSeconds"`
+		IsRunOnce               *bool                             `json:"isRunOnce"`
 		TimeoutInSeconds        *int                              `json:"timeoutInSeconds"`
 	}{}
 
@@ -156,6 +160,8 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	m.Status = model.Status
 
 	m.RepeatIntervalInSeconds = model.RepeatIntervalInSeconds
+
+	m.IsRunOnce = model.IsRunOnce
 
 	m.TimeoutInSeconds = model.TimeoutInSeconds
 

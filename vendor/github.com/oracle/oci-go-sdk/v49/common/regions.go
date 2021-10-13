@@ -50,6 +50,8 @@ const (
 	RegionSAVinhedo1 Region = "sa-vinhedo-1"
 	//RegionSASantiago1 region Santiago
 	RegionSASantiago1 Region = "sa-santiago-1"
+	//RegionILJerusalem1 region Jerusalem
+	RegionILJerusalem1 Region = "il-jerusalem-1"
 	//RegionUSLangley1 region Langley
 	RegionUSLangley1 Region = "us-langley-1"
 	//RegionUSLuke1 region Luke
@@ -94,6 +96,7 @@ var shortNameRegion = map[string]Region{
 	"sjc": RegionSJC1,
 	"vcp": RegionSAVinhedo1,
 	"scl": RegionSASantiago1,
+	"mtz": RegionILJerusalem1,
 	"lfi": RegionUSLangley1,
 	"luf": RegionUSLuke1,
 	"ric": RegionUSGovAshburn1,
@@ -137,6 +140,7 @@ var regionRealm = map[Region]string{
 	RegionSJC1:         "oc1",
 	RegionSAVinhedo1:   "oc1",
 	RegionSASantiago1:  "oc1",
+	RegionILJerusalem1: "oc1",
 
 	RegionUSLangley1: "oc2",
 	RegionUSLuke1:    "oc2",

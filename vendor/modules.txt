@@ -256,10 +256,11 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v49 v49.0.0
+# github.com/oracle/oci-go-sdk/v49 v49.1.0
 github.com/oracle/oci-go-sdk/v49/aianomalydetection
 github.com/oracle/oci-go-sdk/v49/analytics
 github.com/oracle/oci-go-sdk/v49/apigateway
+github.com/oracle/oci-go-sdk/v49/apmconfig
 github.com/oracle/oci-go-sdk/v49/apmcontrolplane
 github.com/oracle/oci-go-sdk/v49/apmsynthetics
 github.com/oracle/oci-go-sdk/v49/artifacts
@@ -281,6 +282,7 @@ github.com/oracle/oci-go-sdk/v49/databasemigration
 github.com/oracle/oci-go-sdk/v49/datacatalog
 github.com/oracle/oci-go-sdk/v49/dataflow
 github.com/oracle/oci-go-sdk/v49/dataintegration
+github.com/oracle/oci-go-sdk/v49/datalabelingservice
 github.com/oracle/oci-go-sdk/v49/datasafe
 github.com/oracle/oci-go-sdk/v49/datascience
 github.com/oracle/oci-go-sdk/v49/devops
@@ -323,6 +325,7 @@ github.com/oracle/oci-go-sdk/v49/usageapi
 github.com/oracle/oci-go-sdk/v49/vault
 github.com/oracle/oci-go-sdk/v49/vulnerabilityscanning
 github.com/oracle/oci-go-sdk/v49/waas
+github.com/oracle/oci-go-sdk/v49/waf
 github.com/oracle/oci-go-sdk/v49/workrequests
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib

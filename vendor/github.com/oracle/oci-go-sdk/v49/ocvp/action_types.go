@@ -19,6 +19,7 @@ const (
 	ActionTypesDeleted    ActionTypesEnum = "DELETED"
 	ActionTypesInProgress ActionTypesEnum = "IN_PROGRESS"
 	ActionTypesRelated    ActionTypesEnum = "RELATED"
+	ActionTypesFailed     ActionTypesEnum = "FAILED"
 )
 
 var mappingActionTypes = map[string]ActionTypesEnum{
@@ -27,6 +28,7 @@ var mappingActionTypes = map[string]ActionTypesEnum{
 	"DELETED":     ActionTypesDeleted,
 	"IN_PROGRESS": ActionTypesInProgress,
 	"RELATED":     ActionTypesRelated,
+	"FAILED":      ActionTypesFailed,
 }
 
 // GetActionTypesEnumValues Enumerates the set of values for ActionTypesEnum
