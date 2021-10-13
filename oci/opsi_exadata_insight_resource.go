@@ -15,23 +15,23 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v49/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v49/operationsinsights"
 )
 
 func init() {
-	RegisterResource("oci_opsi_database_insight", OpsiDatabaseInsightResource())
+	RegisterResource("oci_opsi_exadata_insight", OpsiExadataInsightResource())
 }
 
-func OpsiDatabaseInsightResource() *schema.Resource {
+func OpsiExadataInsightResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createOpsiDatabaseInsight,
-		Read:     readOpsiDatabaseInsight,
-		Update:   updateOpsiDatabaseInsight,
-		Delete:   deleteOpsiDatabaseInsight,
+		Create:   createOpsiExadataInsight,
+		Read:     readOpsiExadataInsight,
+		Update:   updateOpsiExadataInsight,
+		Delete:   deleteOpsiExadataInsight,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -58,11 +58,11 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Required:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
-					"EM_MANAGED_EXTERNAL_DATABASE",
+					"EM_MANAGED_EXTERNAL_EXADATA",
 				}, true),
 			},
 
-			// Optional
+			//Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -81,34 +81,13 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Computed: true,
 				Optional: true,
 			},
-			"exadata_insight_id": {
-				Type:     schema.TypeString,
+			"is_auto_sync_enabled": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 
 			// Computed
-			"database_display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"database_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"database_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"database_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"database_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"enterprise_manager_entity_display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -121,12 +100,28 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"lifecycle_details": {
+			"exadata_display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"processor_count": {
-				Type:     schema.TypeInt,
+			"exadata_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"exadata_rack_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"exadata_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_virtualized_exadata": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -150,32 +145,32 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 	}
 }
 
-func createOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) error {
-	sync := &OpsiDatabaseInsightResourceCrud{}
+func createOpsiExadataInsight(d *schema.ResourceData, m interface{}) error {
+	sync := &OpsiExadataInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).operationsInsightsClient()
 
 	return CreateResource(d, sync)
 }
 
-func readOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) error {
-	sync := &OpsiDatabaseInsightResourceCrud{}
+func readOpsiExadataInsight(d *schema.ResourceData, m interface{}) error {
+	sync := &OpsiExadataInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).operationsInsightsClient()
 
 	return ReadResource(sync)
 }
 
-func updateOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) error {
-	sync := &OpsiDatabaseInsightResourceCrud{}
+func updateOpsiExadataInsight(d *schema.ResourceData, m interface{}) error {
+	sync := &OpsiExadataInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).operationsInsightsClient()
 
 	return UpdateResource(d, sync)
 }
 
-func deleteOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) error {
-	sync := &OpsiDatabaseInsightResourceCrud{}
+func deleteOpsiExadataInsight(d *schema.ResourceData, m interface{}) error {
+	sync := &OpsiExadataInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).operationsInsightsClient()
 	sync.DisableNotFoundRetries = true
@@ -183,52 +178,52 @@ func deleteOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type OpsiDatabaseInsightResourceCrud struct {
+type OpsiExadataInsightResourceCrud struct {
 	BaseCrud
 	Client                 *oci_opsi.OperationsInsightsClient
-	Res                    *oci_opsi.DatabaseInsight
+	Res                    *oci_opsi.ExadataInsight
 	DisableNotFoundRetries bool
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) ID() string {
-	databaseInsight := *s.Res
-	return *databaseInsight.GetId()
+func (s *OpsiExadataInsightResourceCrud) ID() string {
+	exadataInsight := *s.Res
+	return *exadataInsight.GetId()
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) CreatedPending() []string {
+func (s *OpsiExadataInsightResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_opsi.LifecycleStateCreating),
 	}
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) CreatedTarget() []string {
+func (s *OpsiExadataInsightResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_opsi.LifecycleStateActive),
 	}
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) DeletedPending() []string {
+func (s *OpsiExadataInsightResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_opsi.LifecycleStateDeleting),
 	}
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) DeletedTarget() []string {
+func (s *OpsiExadataInsightResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_opsi.LifecycleStateDeleted),
 	}
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) Create() error {
-	request := oci_opsi.CreateDatabaseInsightRequest{}
-	err := s.populateTopLevelPolymorphicCreateDatabaseInsightRequest(&request)
+func (s *OpsiExadataInsightResourceCrud) Create() error {
+	request := oci_opsi.CreateExadataInsightRequest{}
+	err := s.populateTopLevelPolymorphicCreateExadataInsightRequest(&request)
 	if err != nil {
 		return err
 	}
 
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateDatabaseInsight(context.Background(), request)
+	response, err := s.Client.CreateExadataInsight(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -236,22 +231,22 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 	workId := response.OpcWorkRequestId
 
 	// Wait until it finishes
-	databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+	exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
 		oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
 	}
-	s.D.SetId(*databaseInsightId)
+	s.D.SetId(*exadataInsightId)
 
 	if status, ok := s.D.GetOkExists("status"); ok {
 		wantedState := strings.ToUpper(status.(string))
 		if oci_opsi.ResourceStatusDisabled == oci_opsi.ResourceStatusEnum(wantedState) {
-			request := oci_opsi.DisableDatabaseInsightRequest{}
+			request := oci_opsi.DisableExadataInsightRequest{}
 			request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 			tmp := s.D.Id()
-			request.DatabaseInsightId = &tmp
-			response, err := s.Client.DisableDatabaseInsight(context.Background(), request)
+			request.ExadataInsightId = &tmp
+			response, err := s.Client.DisableExadataInsight(context.Background(), request)
 			if err != nil {
 				return err
 			}
@@ -259,34 +254,34 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 			workId := response.OpcWorkRequestId
 
 			// Wait until it finishes
-			databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+			exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
 				oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 			if err != nil {
 				return err
 			}
-			s.D.SetId(*databaseInsightId)
+			s.D.SetId(*exadataInsightId)
 		}
 	}
 
 	return s.Get()
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) getDatabaseInsightFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiExadataInsightResourceCrud) getExadataInsightFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+	exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
 	}
-	s.D.SetId(*databaseInsightId)
+	s.D.SetId(*exadataInsightId)
 
 	return s.Get()
 }
 
-func databaseInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+func exadataInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
 	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
@@ -309,10 +304,10 @@ func databaseInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func databaseInsightWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func exadataInsightWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := GetRetryPolicy(disableFoundRetries, "opsi")
-	retryPolicy.ShouldRetryOperation = databaseInsightWorkRequestShouldRetryFunc(timeout)
+	retryPolicy.ShouldRetryOperation = exadataInsightWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_opsi.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
@@ -357,13 +352,13 @@ func databaseInsightWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiDatabaseInsightWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiExadataInsightWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiDatabaseInsightWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+func getErrorFromOpsiExadataInsightWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -386,24 +381,24 @@ func getErrorFromOpsiDatabaseInsightWorkRequest(client *oci_opsi.OperationsInsig
 	return workRequestErr
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) Get() error {
-	request := oci_opsi.GetDatabaseInsightRequest{}
+func (s *OpsiExadataInsightResourceCrud) Get() error {
+	request := oci_opsi.GetExadataInsightRequest{}
 
 	tmp := s.D.Id()
-	request.DatabaseInsightId = &tmp
+	request.ExadataInsightId = &tmp
 
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.GetDatabaseInsight(context.Background(), request)
+	response, err := s.Client.GetExadataInsight(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.DatabaseInsight
+	s.Res = &response.ExadataInsight
 	return nil
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) Update() error {
+func (s *OpsiExadataInsightResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -413,46 +408,46 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 			}
 		}
 	}
-	request := oci_opsi.UpdateDatabaseInsightRequest{}
-	err := s.populateTopLevelPolymorphicUpdateDatabaseInsightRequest(&request)
+	request := oci_opsi.UpdateExadataInsightRequest{}
+	err := s.populateTopLevelPolymorphicUpdateExadataInsightRequest(&request)
 	if err != nil {
 		return err
 	}
 
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateDatabaseInsight(context.Background(), request)
+	response, err := s.Client.UpdateExadataInsight(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+	exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
 		oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
 	}
-	s.D.SetId(*databaseInsightId)
+	s.D.SetId(*exadataInsightId)
 
-	disableDatabaseInsight, enableDatabaseInsight := false, false
+	disableExadataInsight, enableExadataInsight := false, false
 
 	if status, ok := s.D.GetOkExists("status"); ok && s.D.HasChange("status") {
 		wantedState := strings.ToUpper(status.(string))
 		if oci_opsi.ResourceStatusDisabled == oci_opsi.ResourceStatusEnum(wantedState) {
-			disableDatabaseInsight = true
+			disableExadataInsight = true
 		} else if oci_opsi.ResourceStatusEnabled == oci_opsi.ResourceStatusEnum(wantedState) {
-			enableDatabaseInsight = true
+			enableExadataInsight = true
 		}
 	}
 
-	if disableDatabaseInsight {
-		request := oci_opsi.DisableDatabaseInsightRequest{}
+	if disableExadataInsight {
+		request := oci_opsi.DisableExadataInsightRequest{}
 		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
-		request.DatabaseInsightId = &tmp
-		response, err := s.Client.DisableDatabaseInsight(context.Background(), request)
+		request.ExadataInsightId = &tmp
+		response, err := s.Client.DisableExadataInsight(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -460,25 +455,25 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+		exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
 		}
-		s.D.SetId(*databaseInsightId)
+		s.D.SetId(*exadataInsightId)
 	}
 
-	if enableDatabaseInsight {
-		request := oci_opsi.EnableDatabaseInsightRequest{}
+	if enableExadataInsight {
+		request := oci_opsi.EnableExadataInsightRequest{}
 		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
-		request.DatabaseInsightId = &tmp
-		err := s.populateTopLevelPolymorphicEnableDatabaseInsightRequest(&request)
+		request.ExadataInsightId = &tmp
+		err := s.populateTopLevelPolymorphicEnableExadataInsightRequest(&request)
 		if err != nil {
 			return err
 		}
 
-		response, err := s.Client.EnableDatabaseInsight(context.Background(), request)
+		response, err := s.Client.EnableExadataInsight(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -486,25 +481,25 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
-			oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+		exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
+			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
 		}
-		s.D.SetId(*databaseInsightId)
+		s.D.SetId(*exadataInsightId)
 	}
 
 	return s.Get()
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
+func (s *OpsiExadataInsightResourceCrud) Delete() error {
 	status, ok := s.D.GetOkExists("status")
 	if ok && oci_opsi.ResourceStatusEnabled == oci_opsi.ResourceStatusEnum(strings.ToUpper(status.(string))) {
-		request := oci_opsi.DisableDatabaseInsightRequest{}
+		request := oci_opsi.DisableExadataInsightRequest{}
 		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
-		request.DatabaseInsightId = &tmp
-		response, err := s.Client.DisableDatabaseInsight(context.Background(), request)
+		request.ExadataInsightId = &tmp
+		response, err := s.Client.DisableExadataInsight(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -512,36 +507,36 @@ func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		_, disableWorkRequestErr := databaseInsightWaitForWorkRequest(workId, "opsi",
+		_, disableWorkRequestErr := exadataInsightWaitForWorkRequest(workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if disableWorkRequestErr != nil {
 			return disableWorkRequestErr
 		}
 	}
 
-	request := oci_opsi.DeleteDatabaseInsightRequest{}
+	request := oci_opsi.DeleteExadataInsightRequest{}
 
 	tmp := s.D.Id()
-	request.DatabaseInsightId = &tmp
+	request.ExadataInsightId = &tmp
 
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteDatabaseInsight(context.Background(), request)
+	response, err := s.Client.DeleteExadataInsight(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := databaseInsightWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := exadataInsightWaitForWorkRequest(workId, "opsi",
 		oci_opsi.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
+func (s *OpsiExadataInsightResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
-	case oci_opsi.EmManagedExternalDatabaseInsight:
-		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_DATABASE")
+	case oci_opsi.EmManagedExternalExadataInsight:
+		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_EXADATA")
 
 		if v.EnterpriseManagerBridgeId != nil {
 			s.D.Set("enterprise_manager_bridge_id", *v.EnterpriseManagerBridgeId)
@@ -567,16 +562,12 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("enterprise_manager_identifier", *v.EnterpriseManagerIdentifier)
 		}
 
+		if v.IsAutoSyncEnabled != nil {
+			s.D.Set("is_auto_sync_enabled", *v.IsAutoSyncEnabled)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
-		}
-
-		if v.DatabaseType != nil {
-			s.D.Set("database_type", *v.DatabaseType)
-		}
-
-		if v.DatabaseVersion != nil {
-			s.D.Set("database_version", *v.DatabaseVersion)
 		}
 
 		if v.DefinedTags != nil {
@@ -587,22 +578,30 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("enterprise_manager_bridge_id", *v.EnterpriseManagerBridgeId)
 		}
 
+		if v.ExadataDisplayName != nil {
+			s.D.Set("exadata_display_name", *v.ExadataDisplayName)
+		}
+
+		if v.ExadataName != nil {
+			s.D.Set("exadata_name", *v.ExadataName)
+		}
+
+		s.D.Set("exadata_rack_type", v.ExadataRackType)
+
+		s.D.Set("exadata_type", v.ExadataType)
+
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
 			s.D.Set("id", *v.Id)
 		}
 
+		if v.IsVirtualizedExadata != nil {
+			s.D.Set("is_virtualized_exadata", *v.IsVirtualizedExadata)
+		}
+
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
-		}
-
-		if v.ProcessorCount != nil {
-			s.D.Set("processor_count", *v.ProcessorCount)
-		}
-
-		if v.ExadataInsightId != nil {
-			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -627,150 +626,49 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) mapToConnectionDetails(fieldKeyFormat string) (oci_opsi.ConnectionDetails, error) {
-	result := oci_opsi.ConnectionDetails{}
+func (s *OpsiExadataInsightResourceCrud) mapToCreateEmManagedExternalExadataMemberEntityDetails(fieldKeyFormat string) (oci_opsi.CreateEmManagedExternalExadataMemberEntityDetails, error) {
+	result := oci_opsi.CreateEmManagedExternalExadataMemberEntityDetails{}
 
-	if hostName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host_name")); ok {
-		tmp := hostName.(string)
-		result.HostName = &tmp
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
 	}
 
-	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
-		tmp := port.(int)
-		result.Port = &tmp
-	}
-
-	if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
-		result.Protocol = oci_opsi.ConnectionDetailsProtocolEnum(protocol.(string))
-	}
-
-	if serviceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_name")); ok {
-		tmp := serviceName.(string)
-		result.ServiceName = &tmp
+	if enterpriseManagerEntityIdentifier, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "enterprise_manager_entity_identifier")); ok {
+		tmp := enterpriseManagerEntityIdentifier.(string)
+		result.EnterpriseManagerEntityIdentifier = &tmp
 	}
 
 	return result, nil
 }
 
-func ConnectionDetailsToMap(obj *oci_opsi.ConnectionDetails) map[string]interface{} {
+func CreateEmManagedExternalExadataMemberEntityDetailsToMap(obj oci_opsi.CreateEmManagedExternalExadataMemberEntityDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.HostName != nil {
-		result["host_name"] = string(*obj.HostName)
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
-	if obj.Port != nil {
-		result["port"] = int(*obj.Port)
-	}
-
-	result["protocol"] = string(obj.Protocol)
-
-	if obj.ServiceName != nil {
-		result["service_name"] = string(*obj.ServiceName)
+	if obj.EnterpriseManagerEntityIdentifier != nil {
+		result["enterprise_manager_entity_identifier"] = string(*obj.EnterpriseManagerEntityIdentifier)
 	}
 
 	return result
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) mapToCredentialDetails(fieldKeyFormat string) (oci_opsi.CredentialDetails, error) {
-	var baseObject oci_opsi.CredentialDetails
-	//discriminator
-	credentialTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_type"))
-	var credentialType string
-	if ok {
-		credentialType = credentialTypeRaw.(string)
-	} else {
-		credentialType = "" // default value
-	}
-	switch strings.ToLower(credentialType) {
-	case strings.ToLower("CREDENTIALS_BY_SOURCE"):
-		details := oci_opsi.CredentialsBySource{}
-		baseObject = details
-	default:
-		return nil, fmt.Errorf("unknown credential_type '%v' was specified", credentialType)
-	}
-	return baseObject, nil
-}
-
-func CredentialDetailsToMap(obj *oci_opsi.CredentialDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
-	case oci_opsi.CredentialsBySource:
-		result["credential_type"] = "CREDENTIALS_BY_SOURCE"
-	default:
-		log.Printf("[WARN] Received 'credential_type' of unknown type %T", v)
-		return nil
-	}
-
-	return result
-}
-
-func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string]interface{} {
+func ExadataInsightSummaryToMap(obj oci_opsi.ExadataInsightSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
-	case oci_opsi.EmManagedExternalDatabaseInsightSummary:
-		result["entity_source"] = "EM_MANAGED_EXTERNAL_DATABASE"
+	case oci_opsi.EmManagedExternalExadataInsightSummary:
+		result["entity_source"] = "EM_MANAGED_EXTERNAL_EXADATA"
+
 		if v.Id != nil {
 			result["id"] = string(*v.Id)
-		}
-
-		if v.DatabaseId != nil {
-			result["database_id"] = string(*v.DatabaseId)
 		}
 
 		if v.CompartmentId != nil {
 			result["compartment_id"] = string(*v.CompartmentId)
 		}
-
-		if v.DatabaseName != nil {
-			result["database_name"] = string(*v.DatabaseName)
-		}
-
-		if v.DatabaseDisplayName != nil {
-			result["database_display_name"] = string(*v.DatabaseDisplayName)
-		}
-
-		if v.DatabaseType != nil {
-			result["database_type"] = string(*v.DatabaseType)
-		}
-
-		if v.DatabaseVersion != nil {
-			result["database_version"] = string(*v.DatabaseVersion)
-		}
-
-		if v.ExadataInsightId != nil {
-			result["exadata_insight_id"] = string(*v.ExadataInsightId)
-		}
-
-		if v.LifecycleDetails != nil {
-			result["lifecycle_details"] = string(*v.LifecycleDetails)
-		}
-
-		if v.ProcessorCount != nil {
-			result["processor_count"] = fmt.Sprint(*v.ProcessorCount)
-		}
-
-		if v.DatabaseHostNames != nil {
-			result["database_host_names"] = v.DatabaseHostNames
-		}
-
-		result["state"] = string(v.LifecycleState)
-
-		result["status"] = string(v.Status)
-
-		if v.TimeCreated != nil {
-			result["time_created"] = v.TimeCreated.String()
-		}
-
-		if v.TimeUpdated != nil {
-			result["time_updated"] = v.TimeUpdated.String()
-		}
-
-		if v.SystemTags != nil {
-			result["system_tags"] = systemTagsToMap(v.SystemTags)
-		}
-
-		result["freeform_tags"] = v.FreeformTags
 
 		if v.DefinedTags != nil {
 			result["defined_tags"] = definedTagsToMap(v.DefinedTags)
@@ -799,14 +697,49 @@ func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string
 		if v.EnterpriseManagerIdentifier != nil {
 			result["enterprise_manager_identifier"] = string(*v.EnterpriseManagerIdentifier)
 		}
+
+		if v.ExadataDisplayName != nil {
+			result["exadata_display_name"] = string(*v.ExadataDisplayName)
+		}
+
+		if v.ExadataName != nil {
+			result["exadata_name"] = string(*v.ExadataName)
+		}
+
+		result["exadata_rack_type"] = string(v.ExadataRackType)
+
+		result["exadata_type"] = string(v.ExadataType)
+
+		result["freeform_tags"] = v.FreeformTags
+
+		result["state"] = string(v.LifecycleState)
+
+		result["status"] = string(v.Status)
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = string(*v.LifecycleDetails)
+		}
+
+		if v.SystemTags != nil {
+			result["system_tags"] = systemTagsToMap(v.SystemTags)
+		}
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeCreated.String()
+		}
 	default:
 		log.Printf("[WARN] Received 'entity_source' of unknown type %v", obj)
+		return nil
 	}
 
 	return result
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatabaseInsightRequest(request *oci_opsi.CreateDatabaseInsightRequest) error {
+func (s *OpsiExadataInsightResourceCrud) populateTopLevelPolymorphicCreateExadataInsightRequest(request *oci_opsi.CreateExadataInsightRequest) error {
 	//discriminator
 	entitySourceRaw, ok := s.D.GetOkExists("entity_source")
 	var entitySource string
@@ -816,8 +749,8 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 		entitySource = "" // default value
 	}
 	switch strings.ToLower(entitySource) {
-	case strings.ToLower("EM_MANAGED_EXTERNAL_DATABASE"):
-		details := oci_opsi.CreateEmManagedExternalDatabaseInsightDetails{}
+	case strings.ToLower("EM_MANAGED_EXTERNAL_EXADATA"):
+		details := oci_opsi.CreateEmManagedExternalExadataInsightDetails{}
 		if enterpriseManagerBridgeId, ok := s.D.GetOkExists("enterprise_manager_bridge_id"); ok {
 			tmp := enterpriseManagerBridgeId.(string)
 			details.EnterpriseManagerBridgeId = &tmp
@@ -829,6 +762,26 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 		if enterpriseManagerIdentifier, ok := s.D.GetOkExists("enterprise_manager_identifier"); ok {
 			tmp := enterpriseManagerIdentifier.(string)
 			details.EnterpriseManagerIdentifier = &tmp
+		}
+		if isAutoSyncEnabled, ok := s.D.GetOkExists("is_auto_sync_enabled"); ok {
+			tmp := isAutoSyncEnabled.(bool)
+			details.IsAutoSyncEnabled = &tmp
+		}
+		if memberEntityDetails, ok := s.D.GetOkExists("member_entity_details"); ok {
+			interfaces := memberEntityDetails.([]interface{})
+			tmp := make([]oci_opsi.CreateEmManagedExternalExadataMemberEntityDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "member_entity_details", stateDataIndex)
+				converted, err := s.mapToCreateEmManagedExternalExadataMemberEntityDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("member_entity_details") {
+				details.MemberEntityDetails = tmp
+			}
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
@@ -848,14 +801,14 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
-		request.CreateDatabaseInsightDetails = details
+		request.CreateExadataInsightDetails = details
 	default:
 		return fmt.Errorf("unknown entity_source '%v' was specified", entitySource)
 	}
 	return nil
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatabaseInsightRequest(request *oci_opsi.UpdateDatabaseInsightRequest) error {
+func (s *OpsiExadataInsightResourceCrud) populateTopLevelPolymorphicUpdateExadataInsightRequest(request *oci_opsi.UpdateExadataInsightRequest) error {
 	//discriminator
 	entitySourceRaw, ok := s.D.GetOkExists("entity_source")
 	var entitySource string
@@ -865,10 +818,12 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 		entitySource = "" // default value
 	}
 	switch strings.ToLower(entitySource) {
-	case strings.ToLower("EM_MANAGED_EXTERNAL_DATABASE"):
-		details := oci_opsi.UpdateEmManagedExternalDatabaseInsightDetails{}
-		tmp := s.D.Id()
-		request.DatabaseInsightId = &tmp
+	case strings.ToLower("EM_MANAGED_EXTERNAL_EXADATA"):
+		details := oci_opsi.UpdateEmManagedExternalExadataInsightDetails{}
+		if isAutoSyncEnabled, ok := s.D.GetOkExists("is_auto_sync_enabled"); ok {
+			tmp := isAutoSyncEnabled.(bool)
+			details.IsAutoSyncEnabled = &tmp
+		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 			if err != nil {
@@ -876,17 +831,19 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 			}
 			details.DefinedTags = convertedDefinedTags
 		}
+		tmp := s.D.Id()
+		request.ExadataInsightId = &tmp
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
-		request.UpdateDatabaseInsightDetails = details
+		request.UpdateExadataInsightDetails = details
 	default:
 		return fmt.Errorf("unknown entity_source '%v' was specified", entitySource)
 	}
 	return nil
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicEnableDatabaseInsightRequest(request *oci_opsi.EnableDatabaseInsightRequest) error {
+func (s *OpsiExadataInsightResourceCrud) populateTopLevelPolymorphicEnableExadataInsightRequest(request *oci_opsi.EnableExadataInsightRequest) error {
 	//discriminator
 	entitySourceRaw, ok := s.D.GetOkExists("entity_source")
 	var entitySource string
@@ -896,31 +853,31 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicEnableDatab
 		entitySource = "" // default value
 	}
 	switch strings.ToLower(entitySource) {
-	case strings.ToLower("EM_MANAGED_EXTERNAL_DATABASE"):
-		details := oci_opsi.EnableEmManagedExternalDatabaseInsightDetails{}
-		request.EnableDatabaseInsightDetails = details
+	case strings.ToLower("EM_MANAGED_EXTERNAL_EXADATA"):
+		details := oci_opsi.EnableEmManagedExternalExadataInsightDetails{}
+		request.EnableExadataInsightDetails = details
 	default:
 		return fmt.Errorf("unknown entity_source '%v' was specified", entitySource)
 	}
 	return nil
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) updateCompartment(compartment interface{}) error {
-	changeCompartmentRequest := oci_opsi.ChangeDatabaseInsightCompartmentRequest{}
+func (s *OpsiExadataInsightResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_opsi.ChangeExadataInsightCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
 	idTmp := s.D.Id()
-	changeCompartmentRequest.DatabaseInsightId = &idTmp
+	changeCompartmentRequest.ExadataInsightId = &idTmp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeDatabaseInsightCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeExadataInsightCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseInsightFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getExadataInsightFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

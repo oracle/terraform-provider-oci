@@ -92,12 +92,12 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_opsi_database_insight.test_database_insight"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	SaveConfigContent(config+compartmentIdVariableStr+emBridgeIdVariableStr+enterpriseManagerIdVariableStr+enterpriseManagerEntityIdVariableStr+DatabaseInsightResourceDependencies+
 		GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation), "opsi", "databaseInsight", t)
 
 	ResourceTest(t, testAccCheckOpsiDatabaseInsightDestroy, []resource.TestStep{
-		// verify Create with optional
+		// verify create with optional
 		{
 			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + DatabaseInsightResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create, databaseInsightRepresentation),
@@ -130,7 +130,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		// verify update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + emBridgeIdVariableStr + enterpriseManagerIdVariableStr + enterpriseManagerEntityIdVariableStr + compartmentIdUVariableStr + DatabaseInsightResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Create,

@@ -2356,6 +2356,18 @@ var exportOpsiHostInsightHints = &TerraformResourceHints{
 	},
 }
 
+var exportOpsiExadataInsightHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_exadata_insight",
+	datasourceClass:        "oci_opsi_exadata_insights",
+	datasourceItemsAttr:    "exadata_insight_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "exadata_insight",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.ExadataInsightLifecycleStateActive),
+	},
+}
+
 var exportOptimizerProfileHints = &TerraformResourceHints{
 	resourceClass:          "oci_optimizer_profile",
 	datasourceClass:        "oci_optimizer_profiles",

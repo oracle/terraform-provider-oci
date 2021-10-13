@@ -7,41 +7,27 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v49/operationsinsights"
 )
 
 func init() {
-	RegisterDatasource("oci_opsi_database_insights", OpsiDatabaseInsightsDataSource())
+	RegisterDatasource("oci_opsi_exadata_insights", OpsiExadataInsightsDataSource())
 }
 
-func OpsiDatabaseInsightsDataSource() *schema.Resource {
+func OpsiExadataInsightsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOpsiDatabaseInsights,
+		Read: readOpsiExadataInsights,
 		Schema: map[string]*schema.Schema{
 			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"database_id": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
-			"database_type": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
 			"enterprise_manager_bridge_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"fields": {
+			"exadata_type": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Schema{
@@ -49,10 +35,6 @@ func OpsiDatabaseInsightsDataSource() *schema.Resource {
 				},
 			},
 			"id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"exadata_insight_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -70,7 +52,7 @@ func OpsiDatabaseInsightsDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"database_insights_collection": {
+			"exadata_insight_summary_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -79,7 +61,7 @@ func OpsiDatabaseInsightsDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     GetDataSourceItemSchema(OpsiDatabaseInsightResource()),
+							Elem:     GetDataSourceItemSchema(OpsiExadataInsightResource()),
 						},
 					},
 				},
@@ -88,56 +70,30 @@ func OpsiDatabaseInsightsDataSource() *schema.Resource {
 	}
 }
 
-func readOpsiDatabaseInsights(d *schema.ResourceData, m interface{}) error {
-	sync := &OpsiDatabaseInsightsDataSourceCrud{}
+func readOpsiExadataInsights(d *schema.ResourceData, m interface{}) error {
+	sync := &OpsiExadataInsightsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).operationsInsightsClient()
 
 	return ReadResource(sync)
 }
 
-type OpsiDatabaseInsightsDataSourceCrud struct {
+type OpsiExadataInsightsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_opsi.OperationsInsightsClient
-	Res    *oci_opsi.ListDatabaseInsightsResponse
+	Res    *oci_opsi.ListExadataInsightsResponse
 }
 
-func (s *OpsiDatabaseInsightsDataSourceCrud) VoidState() {
+func (s *OpsiExadataInsightsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpsiDatabaseInsightsDataSourceCrud) Get() error {
-	request := oci_opsi.ListDatabaseInsightsRequest{}
+func (s *OpsiExadataInsightsDataSourceCrud) Get() error {
+	request := oci_opsi.ListExadataInsightsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
-	}
-
-	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
-		interfaces := databaseId.([]interface{})
-		tmp := make([]string, len(interfaces))
-		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
-			}
-		}
-		if len(tmp) != 0 || s.D.HasChange("database_id") {
-			request.DatabaseId = tmp
-		}
-	}
-
-	if databaseType, ok := s.D.GetOkExists("database_type"); ok {
-		interfaces := databaseType.([]interface{})
-		tmp := make([]oci_opsi.ListDatabaseInsightsDatabaseTypeEnum, len(interfaces))
-		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = oci_opsi.ListDatabaseInsightsDatabaseTypeEnum(interfaces[i].(string))
-			}
-		}
-		if len(tmp) != 0 || s.D.HasChange("database_type") {
-			request.DatabaseType = tmp
-		}
 	}
 
 	if enterpriseManagerBridgeId, ok := s.D.GetOkExists("enterprise_manager_bridge_id"); ok {
@@ -145,21 +101,16 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) Get() error {
 		request.EnterpriseManagerBridgeId = &tmp
 	}
 
-	if exadataInsightId, ok := s.D.GetOkExists("exadata_insight_id"); ok {
-		tmp := exadataInsightId.(string)
-		request.ExadataInsightId = &tmp
-	}
-
-	if fields, ok := s.D.GetOkExists("fields"); ok {
-		interfaces := fields.([]interface{})
-		tmp := make([]oci_opsi.ListDatabaseInsightsFieldsEnum, len(interfaces))
+	if exadataType, ok := s.D.GetOkExists("exadataType"); ok {
+		interfaces := exadataType.([]interface{})
+		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = oci_opsi.ListDatabaseInsightsFieldsEnum(interfaces[i].(string))
+				tmp[i] = interfaces[i].(string)
 			}
 		}
-		if len(tmp) != 0 || s.D.HasChange("fields") {
-			request.Fields = tmp
+		if len(tmp) != 0 || s.D.HasChange("exadataType") {
+			request.ExadataType = tmp
 		}
 	}
 
@@ -195,7 +146,7 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "opsi")
 
-	response, err := s.Client.ListDatabaseInsights(context.Background(), request)
+	response, err := s.Client.ListExadataInsights(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -204,7 +155,7 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDatabaseInsights(context.Background(), request)
+		listResponse, err := s.Client.ListExadataInsights(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -216,32 +167,31 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiDatabaseInsightsDataSourceCrud) SetData() error {
+func (s *OpsiExadataInsightsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("OpsiDatabaseInsightsDataSource-", OpsiDatabaseInsightsDataSource(), s.D))
+	s.D.SetId(GenerateDataSourceHashID("OpsiExadataInsightsDataSource-", OpsiExadataInsightsDataSource(), s.D))
 	resources := []map[string]interface{}{}
-	databaseInsight := map[string]interface{}{}
+	exadataInsight := map[string]interface{}{}
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		result := DatabaseInsightSummaryToMap(item)
+		result := ExadataInsightSummaryToMap(item)
 		if len(result) != 0 {
 			items = append(items, result)
 		}
-
 	}
-	databaseInsight["items"] = items
+	exadataInsight["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = ApplyFiltersInCollection(f.(*schema.Set), items, OpsiDatabaseInsightsDataSource().Schema["database_insights_collection"].Elem.(*schema.Resource).Schema)
-		databaseInsight["items"] = items
+		items = ApplyFiltersInCollection(f.(*schema.Set), items, OpsiExadataInsightsDataSource().Schema["exadata_insight_summary_collection"].Elem.(*schema.Resource).Schema)
+		exadataInsight["items"] = items
 	}
 
-	resources = append(resources, databaseInsight)
-	if err := s.D.Set("database_insights_collection", resources); err != nil {
+	resources = append(resources, exadataInsight)
+	if err := s.D.Set("exadata_insight_summary_collection", resources); err != nil {
 		return err
 	}
 

@@ -130,6 +130,10 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 			s.D.Set("processor_count", *v.ProcessorCount)
 		}
 
+		if v.ExadataInsightId != nil {
+			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		s.D.Set("status", v.Status)
