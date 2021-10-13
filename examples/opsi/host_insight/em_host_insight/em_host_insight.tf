@@ -7,8 +7,10 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "managed_agent_id" {}
 variable "compartment_ocid" {}
+variable "enterprise_manager_bridge_ocid" {}
+variable "enterprise_manager_entity_id" {}
+variable "enterprise_manager_id" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -38,7 +40,7 @@ variable "host_insight_defined_tags_value" {
 }
 
 variable "host_insight_entity_source" {
-  default = "MACS_MANAGED_EXTERNAL_HOST"
+  default = "EM_MANAGED_EXTERNAL_HOST"
 }
 
 variable "host_insight_freeform_tags" {
@@ -49,18 +51,16 @@ variable "resource_status" {
   default = "ENABLED"
 }
 
-resource "oci_management_agent_management_agent" "test_management_agent" {
-  managed_agent_id = var.managed_agent_id
-}
-
 // To Create a Host insight
 resource "oci_opsi_host_insight" "test_host_insight" {
-  compartment_id      = var.compartment_ocid
-  entity_source       = var.host_insight_entity_source
-  management_agent_id = oci_management_agent_management_agent.test_management_agent.id 
-  defined_tags        = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.host_insight_defined_tags_value}")}"
-  freeform_tags = var.host_insight_freeform_tags
-  status = var.resource_status
+  compartment_id                        = var.compartment_ocid
+  enterprise_manager_bridge_id          = var.enterprise_manager_bridge_ocid
+  enterprise_manager_entity_identifier  = var.enterprise_manager_entity_id
+  enterprise_manager_identifier         = var.enterprise_manager_id
+  entity_source                         = var.host_insight_entity_source
+  defined_tags                          = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.host_insight_defined_tags_value}")}"
+  freeform_tags                         = var.host_insight_freeform_tags
+  status                                = var.resource_status
 }
 
 

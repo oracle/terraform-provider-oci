@@ -653,6 +653,7 @@ opsi
 * oci\_opsi\_enterprise\_manager\_bridge
 * oci\_opsi\_database\_insight
 * oci\_opsi\_host\_insight
+* oci\_opsi\_exadata\_insight
 
 optimizer
     

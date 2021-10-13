@@ -985,6 +985,7 @@ var opsiResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportOpsiEnterpriseManagerBridgeHints},
 		{TerraformResourceHints: exportOpsiDatabaseInsightHints},
 		{TerraformResourceHints: exportOpsiHostInsightHints},
+		{TerraformResourceHints: exportOpsiExadataInsightHints},
 	},
 }
 
