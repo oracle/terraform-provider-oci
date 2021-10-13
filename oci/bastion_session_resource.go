@@ -81,7 +81,7 @@ func BastionSessionResource() *schema.Resource {
 						},
 						"target_resource_id": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
 							ForceNew: true,
 						},
 

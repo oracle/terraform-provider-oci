@@ -26,9 +26,9 @@ resource "oci_bastion_session" "test_session" {
 	target_resource_details {
 		#Required
 		session_type = var.session_target_resource_details_session_type
-		target_resource_id = oci_bastion_target_resource.test_target_resource.id
 
 		#Optional
+        target_resource_id = oci_bastion_target_resource.test_target_resource.id
 		target_resource_operating_system_user_name = oci_identity_user.test_user.name
 		target_resource_port = var.session_target_resource_details_target_resource_port
 		target_resource_private_ip_address = var.session_target_resource_details_target_resource_private_ip_address
@@ -53,10 +53,12 @@ The following arguments are supported:
 * `session_ttl_in_seconds` - (Optional) The amount of time the session can remain active.
 * `target_resource_details` - (Required) Details about a bastion session's target resource.
 	* `session_type` - (Required) The session type.
-	* `target_resource_id` - (Required) The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to.
+	* `target_resource_id` - (Optional) The unique identifier (OCID) of the target resource (a Compute instance, for example) that the session connects to. It's optional depends on the type of session you want to create.
+		* (Required) For MANAGED_SSH session type, we can only use target_resource_id to create session.
+		* (Optional) For PORT_FORWARDING session type, you must either use target_resource_id or target_resource_private_ip_address
 	* `target_resource_operating_system_user_name` - (Required when session_type=MANAGED_SSH) The name of the user on the target resource operating system that the session uses for the connection.
 	* `target_resource_port` - (Optional) The port number to connect to on the target resource.
-	* `target_resource_private_ip_address` - (Optional) The private IP address of the target resource that the session connects to.
+	* `target_resource_private_ip_address` - (Optional) The private IP address of the target resource that the session connects to. For PORT_FORWARDING session type, you must either use target_resource_id or target_resource_private_ip_address
 
 
 ** IMPORTANT **
