@@ -54,6 +54,9 @@ func NewEmailClientWithOboToken(configProvider common.ConfigurationProvider, obo
 }
 
 func newEmailClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EmailClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = EmailClient{BaseClient: baseClient}
 	client.BasePath = "20170907"
 	err = client.setConfigurationProvider(configProvider)

@@ -52,6 +52,9 @@ func NewMonitoringClientWithOboToken(configProvider common.ConfigurationProvider
 }
 
 func newMonitoringClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client MonitoringClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = MonitoringClient{BaseClient: baseClient}
 	client.BasePath = "20180401"
 	err = client.setConfigurationProvider(configProvider)

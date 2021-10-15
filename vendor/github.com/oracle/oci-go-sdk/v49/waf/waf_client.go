@@ -51,6 +51,9 @@ func NewWafClientWithOboToken(configProvider common.ConfigurationProvider, oboTo
 }
 
 func newWafClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client WafClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = WafClient{BaseClient: baseClient}
 	client.BasePath = "20210930"
 	err = client.setConfigurationProvider(configProvider)

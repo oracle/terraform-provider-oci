@@ -54,6 +54,9 @@ func NewAutoScalingClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newAutoScalingClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client AutoScalingClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = AutoScalingClient{BaseClient: baseClient}
 	client.BasePath = "20181001"
 	err = client.setConfigurationProvider(configProvider)

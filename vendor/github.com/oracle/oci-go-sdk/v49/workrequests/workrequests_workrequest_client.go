@@ -54,6 +54,9 @@ func NewWorkRequestClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newWorkRequestClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client WorkRequestClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = WorkRequestClient{BaseClient: baseClient}
 	client.BasePath = "20160918"
 	err = client.setConfigurationProvider(configProvider)

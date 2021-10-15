@@ -50,6 +50,9 @@ func NewNetworkLoadBalancerClientWithOboToken(configProvider common.Configuratio
 }
 
 func newNetworkLoadBalancerClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client NetworkLoadBalancerClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = NetworkLoadBalancerClient{BaseClient: baseClient}
 	client.BasePath = "20200501"
 	err = client.setConfigurationProvider(configProvider)

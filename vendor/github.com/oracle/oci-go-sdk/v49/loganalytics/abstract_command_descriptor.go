@@ -38,8 +38,8 @@ type abstractcommanddescriptor struct {
 	DisplayQueryString  *string         `mandatory:"true" json:"displayQueryString"`
 	InternalQueryString *string         `mandatory:"true" json:"internalQueryString"`
 	Category            *string         `mandatory:"false" json:"category"`
-	ReferencedFields    []AbstractField `mandatory:"false" json:"referencedFields"`
-	DeclaredFields      []AbstractField `mandatory:"false" json:"declaredFields"`
+	ReferencedFields    json.RawMessage `mandatory:"false" json:"referencedFields"`
+	DeclaredFields      json.RawMessage `mandatory:"false" json:"declaredFields"`
 	Name                string          `json:"name"`
 }
 
@@ -119,6 +119,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		return mm, err
 	case "FIELD_SUMMARY":
 		mm := FieldSummaryCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GEO_STATS":
+		mm := GeoStatsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MAP":
@@ -262,12 +266,12 @@ func (m abstractcommanddescriptor) GetCategory() *string {
 }
 
 //GetReferencedFields returns ReferencedFields
-func (m abstractcommanddescriptor) GetReferencedFields() []AbstractField {
+func (m abstractcommanddescriptor) GetReferencedFields() json.RawMessage {
 	return m.ReferencedFields
 }
 
 //GetDeclaredFields returns DeclaredFields
-func (m abstractcommanddescriptor) GetDeclaredFields() []AbstractField {
+func (m abstractcommanddescriptor) GetDeclaredFields() json.RawMessage {
 	return m.DeclaredFields
 }
 
@@ -283,6 +287,7 @@ const (
 	AbstractCommandDescriptorNameCommand         AbstractCommandDescriptorNameEnum = "COMMAND"
 	AbstractCommandDescriptorNameSearch          AbstractCommandDescriptorNameEnum = "SEARCH"
 	AbstractCommandDescriptorNameStats           AbstractCommandDescriptorNameEnum = "STATS"
+	AbstractCommandDescriptorNameGeoStats        AbstractCommandDescriptorNameEnum = "GEO_STATS"
 	AbstractCommandDescriptorNameTimeStats       AbstractCommandDescriptorNameEnum = "TIME_STATS"
 	AbstractCommandDescriptorNameSort            AbstractCommandDescriptorNameEnum = "SORT"
 	AbstractCommandDescriptorNameFields          AbstractCommandDescriptorNameEnum = "FIELDS"
@@ -328,6 +333,7 @@ var mappingAbstractCommandDescriptorName = map[string]AbstractCommandDescriptorN
 	"COMMAND":          AbstractCommandDescriptorNameCommand,
 	"SEARCH":           AbstractCommandDescriptorNameSearch,
 	"STATS":            AbstractCommandDescriptorNameStats,
+	"GEO_STATS":        AbstractCommandDescriptorNameGeoStats,
 	"TIME_STATS":       AbstractCommandDescriptorNameTimeStats,
 	"SORT":             AbstractCommandDescriptorNameSort,
 	"FIELDS":           AbstractCommandDescriptorNameFields,

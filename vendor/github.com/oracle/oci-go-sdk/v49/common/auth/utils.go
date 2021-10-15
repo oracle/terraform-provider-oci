@@ -83,6 +83,9 @@ func GetGenericConfigurationProvider(configProvider common.ConfigurationProvider
 	if authConfig, err := configProvider.AuthType(); err == nil && authConfig.IsFromConfigFile {
 		switch authConfig.AuthType {
 		case common.InstancePrincipalDelegationToken:
+			if region, err := configProvider.Region(); err == nil {
+				return InstancePrincipalDelegationTokenConfigurationProviderForRegion(authConfig.OboToken, common.StringToRegion(region))
+			}
 			return InstancePrincipalDelegationTokenConfigurationProvider(authConfig.OboToken)
 		case common.InstancePrincipal:
 			return InstancePrincipalConfigurationProvider()

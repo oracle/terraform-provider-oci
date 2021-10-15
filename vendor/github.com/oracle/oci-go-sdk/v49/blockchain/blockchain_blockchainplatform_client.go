@@ -50,6 +50,9 @@ func NewBlockchainPlatformClientWithOboToken(configProvider common.Configuration
 }
 
 func newBlockchainPlatformClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client BlockchainPlatformClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = BlockchainPlatformClient{BaseClient: baseClient}
 	client.BasePath = "20191010"
 	err = client.setConfigurationProvider(configProvider)

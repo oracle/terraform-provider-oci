@@ -40,6 +40,9 @@ type ListDbNodesRequest struct {
 	// A filter to return only resources that match the given lifecycle state exactly.
 	LifecycleState DbNodeSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exacc Db server.
+	DbServerId *string `mandatory:"false" contributesTo:"query" name:"dbServerId"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

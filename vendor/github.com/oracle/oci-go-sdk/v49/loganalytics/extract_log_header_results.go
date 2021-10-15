@@ -21,6 +21,9 @@ type ExtractLogHeaderResults struct {
 
 	// The log field or log header values.
 	XmlPaths []string `mandatory:"false" json:"xmlPaths"`
+
+	// The log header values.
+	HeaderPaths []string `mandatory:"false" json:"headerPaths"`
 }
 
 func (m ExtractLogHeaderResults) String() string {

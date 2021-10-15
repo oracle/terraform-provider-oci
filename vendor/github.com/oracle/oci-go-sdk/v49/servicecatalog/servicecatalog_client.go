@@ -50,6 +50,9 @@ func NewServiceCatalogClientWithOboToken(configProvider common.ConfigurationProv
 }
 
 func newServiceCatalogClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ServiceCatalogClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ServiceCatalogClient{BaseClient: baseClient}
 	client.BasePath = "20210527"
 	err = client.setConfigurationProvider(configProvider)

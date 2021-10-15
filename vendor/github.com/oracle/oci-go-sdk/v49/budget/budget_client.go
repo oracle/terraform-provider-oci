@@ -50,6 +50,9 @@ func NewBudgetClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newBudgetClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client BudgetClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = BudgetClient{BaseClient: baseClient}
 	client.BasePath = "20190111"
 	err = client.setConfigurationProvider(configProvider)

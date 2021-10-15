@@ -50,6 +50,9 @@ func NewManagementAgentClientWithOboToken(configProvider common.ConfigurationPro
 }
 
 func newManagementAgentClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ManagementAgentClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ManagementAgentClient{BaseClient: baseClient}
 	client.BasePath = "20200202"
 	err = client.setConfigurationProvider(configProvider)

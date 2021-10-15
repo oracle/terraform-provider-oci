@@ -54,6 +54,9 @@ func NewComputeManagementClientWithOboToken(configProvider common.ConfigurationP
 }
 
 func newComputeManagementClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ComputeManagementClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ComputeManagementClient{BaseClient: baseClient}
 	client.BasePath = "20160918"
 	err = client.setConfigurationProvider(configProvider)

@@ -51,6 +51,9 @@ func NewDataCatalogClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newDataCatalogClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DataCatalogClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = DataCatalogClient{BaseClient: baseClient}
 	client.BasePath = "20190325"
 	err = client.setConfigurationProvider(configProvider)

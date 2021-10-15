@@ -52,6 +52,9 @@ func NewContainerEngineClientWithOboToken(configProvider common.ConfigurationPro
 }
 
 func newContainerEngineClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ContainerEngineClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ContainerEngineClient{BaseClient: baseClient}
 	client.BasePath = "20180222"
 	err = client.setConfigurationProvider(configProvider)

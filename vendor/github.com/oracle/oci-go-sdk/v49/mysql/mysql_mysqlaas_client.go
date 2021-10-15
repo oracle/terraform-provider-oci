@@ -50,6 +50,9 @@ func NewMysqlaasClientWithOboToken(configProvider common.ConfigurationProvider, 
 }
 
 func newMysqlaasClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client MysqlaasClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = MysqlaasClient{BaseClient: baseClient}
 	client.BasePath = "20190415"
 	err = client.setConfigurationProvider(configProvider)

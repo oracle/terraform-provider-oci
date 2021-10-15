@@ -51,6 +51,9 @@ func NewEventClientWithOboToken(configProvider common.ConfigurationProvider, obo
 }
 
 func newEventClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EventClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = EventClient{BaseClient: baseClient}
 	client.BasePath = "20190801"
 	err = client.setConfigurationProvider(configProvider)

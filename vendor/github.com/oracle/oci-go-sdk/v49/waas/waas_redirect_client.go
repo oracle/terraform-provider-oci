@@ -50,6 +50,9 @@ func NewRedirectClientWithOboToken(configProvider common.ConfigurationProvider, 
 }
 
 func newRedirectClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client RedirectClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = RedirectClient{BaseClient: baseClient}
 	client.BasePath = "20181116"
 	err = client.setConfigurationProvider(configProvider)

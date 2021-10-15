@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/sony/gobreaker"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -84,6 +85,18 @@ const (
 
 	secondaryConfigDirName = ".oraclebmc"
 	maxBodyLenForDebug     = 1024 * 1000
+
+	// appendUserAgentEnv The key for retrieving append user agent value from env var
+	appendUserAgentEnv = "OCI_SDK_APPEND_USER_AGENT"
+
+	// requestHeaderOpcClientRetries The key for passing a header to set client retries info
+	requestHeaderOpcClientRetries = "opc-client-retries"
+
+	// isDefaultRetryEnabled The key for set default retry disabled from env var
+	isDefaultRetryEnabled = "OCI_SDK_DEFAULT_RETRY_ENABLED"
+
+	// isDefaultCircuitBreakerEnabled is the key for set default circuit breaker disabled from env var
+	isDefaultCircuitBreakerEnabled = "OCI_SDK_DEFAULT_CIRCUITBREAKER_ENABLED"
 )
 
 // RequestInterceptor function used to customize the request before calling the underlying service
@@ -97,7 +110,8 @@ type HTTPRequestDispatcher interface {
 
 // CustomClientConfiguration contains configurations set at client level, currently it only includes RetryPolicy
 type CustomClientConfiguration struct {
-	RetryPolicy *RetryPolicy
+	RetryPolicy    *RetryPolicy
+	CircuitBreaker *gobreaker.CircuitBreaker
 }
 
 // BaseClient struct implements all basic operations to call oci web services.
@@ -145,7 +159,7 @@ func (client *BaseClient) Endpoint() string {
 
 func defaultUserAgent() string {
 	userAgent := fmt.Sprintf(defaultUserAgentTemplate, defaultSDKMarker, Version(), runtime.GOOS, runtime.GOARCH, runtime.Version())
-	appendUA := os.Getenv("OCI_SDK_APPEND_USER_AGENT")
+	appendUA := os.Getenv(appendUserAgentEnv)
 	if appendUA != "" {
 		userAgent = fmt.Sprintf("%s %s", userAgent, appendUA)
 	}
@@ -161,12 +175,28 @@ func getNextSeed() int64 {
 
 func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) BaseClient {
 	rand.Seed(getNextSeed())
-	return BaseClient{
+
+	baseClient := BaseClient{
 		UserAgent:   defaultUserAgent(),
 		Interceptor: nil,
 		Signer:      signer,
 		HTTPClient:  dispatcher,
 	}
+
+	// check the default retry environment variable setting
+	if IsEnvVarTrue(isDefaultRetryEnabled) {
+		defaultRetry := DefaultRetryPolicy()
+		baseClient.Configuration.RetryPolicy = &defaultRetry
+	} else if IsEnvVarFalse(isDefaultRetryEnabled) {
+		policy := NoRetryPolicy()
+		baseClient.Configuration.RetryPolicy = &policy
+	}
+	// check if user defined global retry is configured
+	if GlobalRetry != nil {
+		baseClient.Configuration.RetryPolicy = GlobalRetry
+	}
+
+	return baseClient
 }
 
 func defaultHTTPDispatcher() http.Client {
@@ -551,6 +581,21 @@ func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Requ
 		return
 	}
 
+	//Execute the http request
+	if goBreaker := client.Configuration.CircuitBreaker; goBreaker != nil {
+		resp, cbErr := goBreaker.Execute(func() (interface{}, error) {
+			return client.httpDo(request)
+		})
+		if cbErr != nil {
+			return nil, cbErr
+		}
+		return resp.(*http.Response), nil
+	}
+	return client.httpDo(request)
+}
+
+func (client BaseClient) httpDo(request *http.Request) (response *http.Response, err error) {
+
 	//Copy request body and save for logging
 	dumpRequestBody := ioutil.NopCloser(bytes.NewBuffer(nil))
 	if request.Body != nil && !checkBodyLengthExceedLimit(request.ContentLength) {
@@ -569,11 +614,11 @@ func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Requ
 		IfInfo(func() {
 			Logf("%v\n", err)
 		})
-		return
+		return response, err
 	}
 
 	err = checkForSuccessfulResponse(response, &dumpRequestBody)
-	return
+	return response, err
 }
 
 //CloseBodyIfValid closes the body of an http response if the response and the body are valid

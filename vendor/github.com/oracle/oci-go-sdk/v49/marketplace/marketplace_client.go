@@ -50,6 +50,9 @@ func NewMarketplaceClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newMarketplaceClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client MarketplaceClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = MarketplaceClient{BaseClient: baseClient}
 	client.BasePath = "20181001"
 	err = client.setConfigurationProvider(configProvider)

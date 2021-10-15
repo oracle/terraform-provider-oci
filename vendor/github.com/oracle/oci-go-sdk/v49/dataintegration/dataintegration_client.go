@@ -50,6 +50,9 @@ func NewDataIntegrationClientWithOboToken(configProvider common.ConfigurationPro
 }
 
 func newDataIntegrationClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DataIntegrationClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = DataIntegrationClient{BaseClient: baseClient}
 	client.BasePath = "20200430"
 	err = client.setConfigurationProvider(configProvider)
