@@ -50,6 +50,9 @@ func NewStreamClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newStreamClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider, endpoint string) (client StreamClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = StreamClient{BaseClient: baseClient}
 	client.BasePath = "20180418"
 	client.Host = endpoint

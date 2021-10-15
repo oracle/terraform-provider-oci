@@ -51,6 +51,9 @@ func NewPluginClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newPluginClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client PluginClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = PluginClient{BaseClient: baseClient}
 	client.BasePath = "20180530"
 	err = client.setConfigurationProvider(configProvider)

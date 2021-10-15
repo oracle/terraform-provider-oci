@@ -50,6 +50,9 @@ func NewBastionClientWithOboToken(configProvider common.ConfigurationProvider, o
 }
 
 func newBastionClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client BastionClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = BastionClient{BaseClient: baseClient}
 	client.BasePath = "20210331"
 	err = client.setConfigurationProvider(configProvider)

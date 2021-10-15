@@ -50,6 +50,9 @@ func NewFileStorageClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newFileStorageClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client FileStorageClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = FileStorageClient{BaseClient: baseClient}
 	client.BasePath = "20171215"
 	err = client.setConfigurationProvider(configProvider)

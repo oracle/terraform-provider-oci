@@ -77,7 +77,7 @@ type scheduledtask struct {
 	DisplayName         *string                           `mandatory:"true" json:"displayName"`
 	TaskType            TaskTypeEnum                      `mandatory:"true" json:"taskType"`
 	Schedules           json.RawMessage                   `mandatory:"true" json:"schedules"`
-	Action              json.RawMessage                   `mandatory:"true" json:"action"`
+	Action              Action                            `mandatory:"true" json:"action"`
 	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
 	TimeCreated         *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated         *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
@@ -163,7 +163,7 @@ func (m scheduledtask) GetSchedules() json.RawMessage {
 }
 
 //GetAction returns Action
-func (m scheduledtask) GetAction() json.RawMessage {
+func (m scheduledtask) GetAction() Action {
 	return m.Action
 }
 

@@ -38,6 +38,9 @@ type HighlightGroupsCommandDescriptor struct {
 	// User specified priority assigned to highlighted matches if found.
 	Priority *string `mandatory:"false" json:"priority"`
 
+	// List of fields to search for terms or phrases to highlight.  If not specified all string fields are scanned.
+	MatchOnly []string `mandatory:"false" json:"matchOnly"`
+
 	// List of fields to search for terms or phrases to highlight.
 	Fields []string `mandatory:"false" json:"fields"`
 
@@ -99,6 +102,7 @@ func (m *HighlightGroupsCommandDescriptor) UnmarshalJSON(data []byte) (e error) 
 		DeclaredFields      []abstractfield    `json:"declaredFields"`
 		Color               *string            `json:"color"`
 		Priority            *string            `json:"priority"`
+		MatchOnly           []string           `json:"matchOnly"`
 		Fields              []string           `json:"fields"`
 		Keywords            []string           `json:"keywords"`
 		SubQueries          []ParseQueryOutput `json:"subQueries"`
@@ -142,6 +146,11 @@ func (m *HighlightGroupsCommandDescriptor) UnmarshalJSON(data []byte) (e error) 
 	m.Color = model.Color
 
 	m.Priority = model.Priority
+
+	m.MatchOnly = make([]string, len(model.MatchOnly))
+	for i, n := range model.MatchOnly {
+		m.MatchOnly[i] = n
+	}
 
 	m.Fields = make([]string, len(model.Fields))
 	for i, n := range model.Fields {

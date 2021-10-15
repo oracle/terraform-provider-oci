@@ -29,6 +29,12 @@ type CreateDataGuardAssociationToExistingVmClusterDetails struct {
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
+	// Specifies the `DB_UNIQUE_NAME` of the peer database to be created.
+	PeerDbUniqueName *string `mandatory:"false" json:"peerDbUniqueName"`
+
+	// Specifies a prefix for the `Oracle SID` of the database to be created.
+	PeerSidPrefix *string `mandatory:"false" json:"peerSidPrefix"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM Cluster in which to create the standby database.
 	// You must supply this value if creationType is `ExistingVmCluster`.
 	PeerVmClusterId *string `mandatory:"false" json:"peerVmClusterId"`
@@ -72,6 +78,16 @@ func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetProtectionMode(
 //GetTransportType returns TransportType
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum {
 	return m.TransportType
+}
+
+//GetPeerDbUniqueName returns PeerDbUniqueName
+func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetPeerDbUniqueName() *string {
+	return m.PeerDbUniqueName
+}
+
+//GetPeerSidPrefix returns PeerSidPrefix
+func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetPeerSidPrefix() *string {
+	return m.PeerSidPrefix
 }
 
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) String() string {

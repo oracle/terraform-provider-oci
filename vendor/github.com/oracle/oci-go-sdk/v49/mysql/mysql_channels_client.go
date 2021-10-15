@@ -50,6 +50,9 @@ func NewChannelsClientWithOboToken(configProvider common.ConfigurationProvider, 
 }
 
 func newChannelsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ChannelsClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ChannelsClient{BaseClient: baseClient}
 	client.BasePath = "20190415"
 	err = client.setConfigurationProvider(configProvider)

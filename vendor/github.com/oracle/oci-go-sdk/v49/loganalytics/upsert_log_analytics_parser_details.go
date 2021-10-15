@@ -88,6 +88,9 @@ type UpsertLogAnalyticsParserDetails struct {
 
 	// The parser type.  Default value is REGEX.
 	Type UpsertLogAnalyticsParserDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
+
+	// A flag indicating whether the XML parser should consider the namespace(s) while processing the log data.
+	IsNamespaceAware *bool `mandatory:"false" json:"isNamespaceAware"`
 }
 
 func (m UpsertLogAnalyticsParserDetails) String() string {

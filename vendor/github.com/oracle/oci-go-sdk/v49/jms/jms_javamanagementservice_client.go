@@ -50,6 +50,9 @@ func NewJavaManagementServiceClientWithOboToken(configProvider common.Configurat
 }
 
 func newJavaManagementServiceClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client JavaManagementServiceClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = JavaManagementServiceClient{BaseClient: baseClient}
 	client.BasePath = "20210610"
 	err = client.setConfigurationProvider(configProvider)

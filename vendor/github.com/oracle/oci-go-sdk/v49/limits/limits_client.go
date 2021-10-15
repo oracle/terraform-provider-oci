@@ -50,6 +50,9 @@ func NewLimitsClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newLimitsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client LimitsClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = LimitsClient{BaseClient: baseClient}
 	client.BasePath = ""
 	err = client.setConfigurationProvider(configProvider)

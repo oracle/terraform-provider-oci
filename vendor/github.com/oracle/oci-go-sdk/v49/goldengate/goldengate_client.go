@@ -50,6 +50,9 @@ func NewGoldenGateClientWithOboToken(configProvider common.ConfigurationProvider
 }
 
 func newGoldenGateClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client GoldenGateClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = GoldenGateClient{BaseClient: baseClient}
 	client.BasePath = "20200407"
 	err = client.setConfigurationProvider(configProvider)

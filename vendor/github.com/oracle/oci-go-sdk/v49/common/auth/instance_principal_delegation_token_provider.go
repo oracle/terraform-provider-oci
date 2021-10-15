@@ -12,6 +12,7 @@ import (
 type instancePrincipalDelegationTokenConfigurationProvider struct {
 	instancePrincipalKeyProvider instancePrincipalKeyProvider
 	delegationToken              string
+	region                       *common.Region
 }
 
 //InstancePrincipalDelegationTokenConfigurationProvider returns a configuration for obo token instance principals
@@ -19,17 +20,28 @@ func InstancePrincipalDelegationTokenConfigurationProvider(delegationToken *stri
 	if delegationToken == nil || len(*delegationToken) == 0 {
 		return nil, fmt.Errorf("failed to create a delagationTokenConfigurationProvider: token is a mondatory input paras")
 	}
-	return newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken, nil)
+	return newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken, "", nil)
 }
 
-func newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken *string, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher,
+//InstancePrincipalDelegationTokenConfigurationProviderForRegion returns a configuration for obo token instance principals with a given region
+func InstancePrincipalDelegationTokenConfigurationProviderForRegion(delegationToken *string, region common.Region) (common.ConfigurationProvider, error) {
+	if delegationToken == nil || len(*delegationToken) == 0 {
+		return nil, fmt.Errorf("failed to create a delagationTokenConfigurationProvider: token is a mondatory input paras")
+	}
+	return newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken, region, nil)
+}
+
+func newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken *string, region common.Region, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher,
 	error)) (common.ConfigurationProvider, error) {
 
 	keyProvider, err := newInstancePrincipalKeyProvider(modifier)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create a new key provider for instance principal: %s", err.Error())
 	}
-	return instancePrincipalDelegationTokenConfigurationProvider{*keyProvider, *delegationToken}, err
+	if len(region) > 0 {
+		return instancePrincipalDelegationTokenConfigurationProvider{*keyProvider, *delegationToken, &region}, err
+	}
+	return instancePrincipalDelegationTokenConfigurationProvider{*keyProvider, *delegationToken, nil}, err
 }
 
 func (p instancePrincipalDelegationTokenConfigurationProvider) getInstancePrincipalDelegationTokenConfigurationProvider() (instancePrincipalDelegationTokenConfigurationProvider, error) {
@@ -57,8 +69,12 @@ func (p instancePrincipalDelegationTokenConfigurationProvider) KeyFingerprint() 
 }
 
 func (p instancePrincipalDelegationTokenConfigurationProvider) Region() (string, error) {
-	region := p.instancePrincipalKeyProvider.RegionForFederationClient()
-	return string(region), nil
+	if p.region == nil {
+		region := p.instancePrincipalKeyProvider.RegionForFederationClient()
+		common.Debugf("Region in instance principal delegation token configuration provider is nil. Returning federation clients region: %s", region)
+		return string(region), nil
+	}
+	return string(*p.region), nil
 }
 
 func (p instancePrincipalDelegationTokenConfigurationProvider) AuthType() (common.AuthConfig, error) {

@@ -32,6 +32,9 @@ type AbstractColumn interface {
 	// Identifies if this column allows multiple values to exist in a single row.
 	GetIsMultiValued() *bool
 
+	// A flag indicating whether or not the field is a case sensitive field.  Only applies to string fields.
+	GetIsCaseSensitive() *bool
+
 	// Identifies if this column can be used as a grouping field in any grouping command.
 	GetIsGroupable() *bool
 
@@ -55,6 +58,7 @@ type abstractcolumn struct {
 	Values              []FieldValue      `mandatory:"false" json:"values"`
 	IsListOfValues      *bool             `mandatory:"false" json:"isListOfValues"`
 	IsMultiValued       *bool             `mandatory:"false" json:"isMultiValued"`
+	IsCaseSensitive     *bool             `mandatory:"false" json:"isCaseSensitive"`
 	IsGroupable         *bool             `mandatory:"false" json:"isGroupable"`
 	IsEvaluable         *bool             `mandatory:"false" json:"isEvaluable"`
 	ValueType           ValueTypeEnum     `mandatory:"false" json:"valueType,omitempty"`
@@ -79,6 +83,7 @@ func (m *abstractcolumn) UnmarshalJSON(data []byte) error {
 	m.Values = s.Model.Values
 	m.IsListOfValues = s.Model.IsListOfValues
 	m.IsMultiValued = s.Model.IsMultiValued
+	m.IsCaseSensitive = s.Model.IsCaseSensitive
 	m.IsGroupable = s.Model.IsGroupable
 	m.IsEvaluable = s.Model.IsEvaluable
 	m.ValueType = s.Model.ValueType
@@ -150,6 +155,11 @@ func (m abstractcolumn) GetIsListOfValues() *bool {
 //GetIsMultiValued returns IsMultiValued
 func (m abstractcolumn) GetIsMultiValued() *bool {
 	return m.IsMultiValued
+}
+
+//GetIsCaseSensitive returns IsCaseSensitive
+func (m abstractcolumn) GetIsCaseSensitive() *bool {
+	return m.IsCaseSensitive
 }
 
 //GetIsGroupable returns IsGroupable

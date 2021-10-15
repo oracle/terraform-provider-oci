@@ -50,6 +50,9 @@ func NewLoggingManagementClientWithOboToken(configProvider common.ConfigurationP
 }
 
 func newLoggingManagementClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client LoggingManagementClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = LoggingManagementClient{BaseClient: baseClient}
 	client.BasePath = "20200531"
 	err = client.setConfigurationProvider(configProvider)

@@ -50,6 +50,9 @@ func NewOceInstanceClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newOceInstanceClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OceInstanceClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = OceInstanceClient{BaseClient: baseClient}
 	client.BasePath = "20190912"
 	err = client.setConfigurationProvider(configProvider)

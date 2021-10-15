@@ -45,6 +45,12 @@ type CreateDataGuardAssociationDetails interface {
 
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	GetDatabaseSoftwareImageId() *string
+
+	// Specifies the `DB_UNIQUE_NAME` of the peer database to be created.
+	GetPeerDbUniqueName() *string
+
+	// Specifies a prefix for the `Oracle SID` of the database to be created.
+	GetPeerSidPrefix() *string
 }
 
 type createdataguardassociationdetails struct {
@@ -53,6 +59,8 @@ type createdataguardassociationdetails struct {
 	ProtectionMode          CreateDataGuardAssociationDetailsProtectionModeEnum `mandatory:"true" json:"protectionMode"`
 	TransportType           CreateDataGuardAssociationDetailsTransportTypeEnum  `mandatory:"true" json:"transportType"`
 	DatabaseSoftwareImageId *string                                             `mandatory:"false" json:"databaseSoftwareImageId"`
+	PeerDbUniqueName        *string                                             `mandatory:"false" json:"peerDbUniqueName"`
+	PeerSidPrefix           *string                                             `mandatory:"false" json:"peerSidPrefix"`
 	CreationType            string                                              `json:"creationType"`
 }
 
@@ -71,6 +79,8 @@ func (m *createdataguardassociationdetails) UnmarshalJSON(data []byte) error {
 	m.ProtectionMode = s.Model.ProtectionMode
 	m.TransportType = s.Model.TransportType
 	m.DatabaseSoftwareImageId = s.Model.DatabaseSoftwareImageId
+	m.PeerDbUniqueName = s.Model.PeerDbUniqueName
+	m.PeerSidPrefix = s.Model.PeerSidPrefix
 	m.CreationType = s.Model.CreationType
 
 	return err
@@ -120,6 +130,16 @@ func (m createdataguardassociationdetails) GetTransportType() CreateDataGuardAss
 //GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m createdataguardassociationdetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
+}
+
+//GetPeerDbUniqueName returns PeerDbUniqueName
+func (m createdataguardassociationdetails) GetPeerDbUniqueName() *string {
+	return m.PeerDbUniqueName
+}
+
+//GetPeerSidPrefix returns PeerSidPrefix
+func (m createdataguardassociationdetails) GetPeerSidPrefix() *string {
+	return m.PeerSidPrefix
 }
 
 func (m createdataguardassociationdetails) String() string {

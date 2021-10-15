@@ -30,6 +30,12 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
+	// Specifies the `DB_UNIQUE_NAME` of the peer database to be created.
+	PeerDbUniqueName *string `mandatory:"false" json:"peerDbUniqueName"`
+
+	// Specifies a prefix for the `Oracle SID` of the database to be created.
+	PeerSidPrefix *string `mandatory:"false" json:"peerSidPrefix"`
+
 	// The user-friendly name of the DB system that will contain the the standby database. The display name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -95,6 +101,16 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetProtectionMode() Cr
 //GetTransportType returns TransportType
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum {
 	return m.TransportType
+}
+
+//GetPeerDbUniqueName returns PeerDbUniqueName
+func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetPeerDbUniqueName() *string {
+	return m.PeerDbUniqueName
+}
+
+//GetPeerSidPrefix returns PeerSidPrefix
+func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetPeerSidPrefix() *string {
+	return m.PeerSidPrefix
 }
 
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) String() string {

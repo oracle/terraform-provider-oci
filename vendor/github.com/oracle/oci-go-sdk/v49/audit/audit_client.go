@@ -52,6 +52,9 @@ func NewAuditClientWithOboToken(configProvider common.ConfigurationProvider, obo
 }
 
 func newAuditClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client AuditClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = AuditClient{BaseClient: baseClient}
 	client.BasePath = "20190901"
 	err = client.setConfigurationProvider(configProvider)

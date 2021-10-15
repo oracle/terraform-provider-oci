@@ -41,7 +41,7 @@ type updatescheduledtaskdetails struct {
 	DisplayName  *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	Schedules    []Schedule                        `mandatory:"false" json:"schedules"`
+	Schedules    json.RawMessage                   `mandatory:"false" json:"schedules"`
 	Kind         string                            `json:"kind"`
 }
 
@@ -99,7 +99,7 @@ func (m updatescheduledtaskdetails) GetDefinedTags() map[string]map[string]inter
 }
 
 //GetSchedules returns Schedules
-func (m updatescheduledtaskdetails) GetSchedules() []Schedule {
+func (m updatescheduledtaskdetails) GetSchedules() json.RawMessage {
 	return m.Schedules
 }
 

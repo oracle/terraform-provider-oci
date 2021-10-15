@@ -50,6 +50,9 @@ func NewDatabaseMigrationClientWithOboToken(configProvider common.ConfigurationP
 }
 
 func newDatabaseMigrationClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DatabaseMigrationClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = DatabaseMigrationClient{BaseClient: baseClient}
 	client.BasePath = "20210929"
 	err = client.setConfigurationProvider(configProvider)

@@ -50,6 +50,9 @@ func NewVaultsClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newVaultsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client VaultsClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = VaultsClient{BaseClient: baseClient}
 	client.BasePath = "20180608"
 	err = client.setConfigurationProvider(configProvider)

@@ -50,6 +50,9 @@ func NewDataScienceClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newDataScienceClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DataScienceClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = DataScienceClient{BaseClient: baseClient}
 	client.BasePath = "20190101"
 	err = client.setConfigurationProvider(configProvider)

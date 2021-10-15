@@ -50,6 +50,9 @@ func NewDataFlowClientWithOboToken(configProvider common.ConfigurationProvider, 
 }
 
 func newDataFlowClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DataFlowClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = DataFlowClient{BaseClient: baseClient}
 	client.BasePath = "20200129"
 	err = client.setConfigurationProvider(configProvider)

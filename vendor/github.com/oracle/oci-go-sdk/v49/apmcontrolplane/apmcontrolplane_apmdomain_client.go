@@ -51,6 +51,9 @@ func NewApmDomainClientWithOboToken(configProvider common.ConfigurationProvider,
 }
 
 func newApmDomainClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ApmDomainClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ApmDomainClient{BaseClient: baseClient}
 	client.BasePath = "20200630"
 	err = client.setConfigurationProvider(configProvider)

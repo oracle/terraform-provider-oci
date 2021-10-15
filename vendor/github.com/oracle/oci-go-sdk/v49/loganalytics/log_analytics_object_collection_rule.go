@@ -83,6 +83,11 @@ type LogAnalyticsObjectCollectionRule struct {
 	// A detailed status of the life cycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// When the filters are provided, only the objects matching the filters are picked up for processing.
+	// The matchType supported is exact match and accommodates wildcard "*".
+	// For more information on filters, see Event Filters (https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm).
+	ObjectNameFilters []string `mandatory:"false" json:"objectNameFilters"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
