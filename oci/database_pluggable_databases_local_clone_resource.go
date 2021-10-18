@@ -28,25 +28,33 @@ func DatabasePluggableDatabasesLocalCloneResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"pdb_admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
-			},
 			"pluggable_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"target_tde_wallet_password": {
+
+			// Optional
+			"pdb_admin_password": {
 				Type:      schema.TypeString,
-				Required:  true,
+				Optional:  true,
+				Computed:  true,
 				ForceNew:  true,
 				Sensitive: true,
 			},
-
-			// Optional
+			"should_pdb_admin_account_be_locked": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"target_tde_wallet_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				ForceNew:  true,
+				Sensitive: true,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -190,6 +198,11 @@ func (s *DatabasePluggableDatabasesLocalCloneResourceCrud) Create() error {
 	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
 		tmp := pluggableDatabaseId.(string)
 		request.PluggableDatabaseId = &tmp
+	}
+
+	if shouldPdbAdminAccountBeLocked, ok := s.D.GetOkExists("should_pdb_admin_account_be_locked"); ok {
+		tmp := shouldPdbAdminAccountBeLocked.(bool)
+		request.ShouldPdbAdminAccountBeLocked = &tmp
 	}
 
 	if targetTdeWalletPassword, ok := s.D.GetOkExists("target_tde_wallet_password"); ok {

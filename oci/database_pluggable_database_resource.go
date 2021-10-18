@@ -32,22 +32,10 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"pdb_admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
-			},
 			"pdb_name": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
-			},
-			"tde_wallet_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
 			},
 
 			// Optional
@@ -63,6 +51,26 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"pdb_admin_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				ForceNew:  true,
+				Sensitive: true,
+			},
+			"should_pdb_admin_account_be_locked": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"tde_wallet_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				ForceNew:  true,
+				Sensitive: true,
 			},
 
 			// Computed
@@ -218,6 +226,11 @@ func (s *DatabasePluggableDatabaseResourceCrud) Create() error {
 	if pdbName, ok := s.D.GetOkExists("pdb_name"); ok {
 		tmp := pdbName.(string)
 		request.PdbName = &tmp
+	}
+
+	if shouldPdbAdminAccountBeLocked, ok := s.D.GetOkExists("should_pdb_admin_account_be_locked"); ok {
+		tmp := shouldPdbAdminAccountBeLocked.(bool)
+		request.ShouldPdbAdminAccountBeLocked = &tmp
 	}
 
 	if tdeWalletPassword, ok := s.D.GetOkExists("tde_wallet_password"); ok {
