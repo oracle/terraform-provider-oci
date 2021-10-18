@@ -28,7 +28,7 @@ data "oci_database_database_upgrade_history_entry" "test_database_upgrade_histor
 The following arguments are supported:
 
 * `database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `upgrade_history_entry_id` - (Required) The database upgrade History [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `upgrade_history_entry_id` - (Required) The database/db system upgrade History [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference
