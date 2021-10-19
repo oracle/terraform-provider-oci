@@ -109,6 +109,12 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
+	keyHistoryEntry := []interface{}{}
+	for _, item := range s.Res.KeyHistoryEntry {
+		keyHistoryEntry = append(keyHistoryEntry, AutonomousDatabaseKeyHistoryEntryToMap(item))
+	}
+	s.D.Set("key_history_entry", keyHistoryEntry)
+
 	if s.Res.KeyStoreId != nil {
 		s.D.Set("key_store_id", *s.Res.KeyStoreId)
 	}
@@ -119,6 +125,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
+	if s.Res.KmsKeyVersionId != nil {
+		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
 	}
 
 	if s.Res.LastMaintenanceRunId != nil {

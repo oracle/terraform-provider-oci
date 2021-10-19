@@ -509,6 +509,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"kms_key_version_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_activated": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -529,6 +533,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"kms_key_lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"kms_key_version_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1351,6 +1359,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("kms_key_lifecycle_details", *s.Res.KmsKeyLifecycleDetails)
 	}
 
+	if s.Res.KmsKeyVersionId != nil {
+		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
@@ -1559,6 +1571,10 @@ func AutonomousDatabaseKeyHistoryEntryToMap(obj oci_database.AutonomousDatabaseK
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.KmsKeyVersionId != nil {
+		result["kms_key_version_id"] = string(*obj.KmsKeyVersionId)
 	}
 
 	if obj.TimeActivated != nil {

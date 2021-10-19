@@ -89,7 +89,7 @@ var (
 
 	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig +
 		GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
-		KeyResourceDependencyConfig +
+		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr +
 		GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create,
 			RepresentationCopyWithNewProperties(exadataInfrastructureRepresentationWithContacts, map[string]interface{}{"activation_file": Representation{RepType: Required, Create: activationFilePath}})) +
 		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
@@ -403,6 +403,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				"peer_autonomous_exadata_infrastructure_id",
 				"peer_db_unique_name",
 				"protection_mode",
+				"lifecycle_details",
 			},
 			ResourceName: resourceName,
 		},

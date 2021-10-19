@@ -209,6 +209,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("kms_key_lifecycle_details", *s.Res.KmsKeyLifecycleDetails)
 	}
 
+	if s.Res.KmsKeyVersionId != nil {
+		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {

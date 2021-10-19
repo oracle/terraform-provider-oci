@@ -88,7 +88,7 @@ resource "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exada
   }
 
   nsg_ids   = [oci_core_network_security_group.test_network_security_group.id]
-  shape     = "Exadata.Quarter2.92"
+  shape     = "Exadata.X8M"
   subnet_id = oci_core_subnet.exadata_subnet.id
 }
 

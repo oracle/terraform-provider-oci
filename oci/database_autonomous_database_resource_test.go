@@ -55,6 +55,7 @@ var (
 			"is_dedicated":                     Representation{RepType: Optional, Create: `true`},
 			"display_name":                     Representation{RepType: Optional, Create: adDedicatedName, Update: adDedicatedUpdateName},
 			"data_safe_status":                 Representation{RepType: Optional, Create: `REGISTERED`, Update: `NOT_REGISTERED`},
+			"is_mtls_connection_required":      Representation{RepType: Optional, Create: `false`},
 		})
 
 	autonomousDatabaseDedicatedRepresentationForClone = RepresentationCopyWithNewProperties(
@@ -422,63 +423,6 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseDedicatedResourceConfig,
 		},
 
-		// verify Create with optionals for Exacc
-		{
-			Config: config + compartmentIdVariableStr + ExaccADBDatabaseResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseExaccRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbExaccName),
-				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", adbExaccName),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_access_control_enabled", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-		// verify updates to acl parameter for Exacc
-		{
-			Config: config + compartmentIdVariableStr + ExaccADBDatabaseResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseUpdateExaccRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbExaccName),
-				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", adbExaccName),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_access_control_enabled", "true"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
-		// remove any previously created resources
-		{
-			Config: config + compartmentIdVariableStr + autonomousDatabaseExaccResourceConfig,
-		},
-
 		// verify resource import
 		{
 			Config:            config,
@@ -493,6 +437,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				"lifecycle_details",
 				"is_auto_scaling_enabled",
 				"rotate_key_trigger",
+				"is_mtls_connection_required",
 			},
 			ResourceName: resourceName,
 		},

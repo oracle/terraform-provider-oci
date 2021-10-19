@@ -44,7 +44,7 @@ var (
 	autonomousExadataInfrastructureRepresentation = map[string]interface{}{
 		"availability_domain":        Representation{RepType: Required, Create: `${data.oci_identity_availability_domain.ad.name}`},
 		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
-		"shape":                      Representation{RepType: Required, Create: `Exadata.Quarter2.92`},
+		"shape":                      Representation{RepType: Required, Create: `Exadata.X8M`},
 		"subnet_id":                  Representation{RepType: Required, Create: `${oci_core_subnet.exadata_subnet.id}`},
 		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":               Representation{RepType: Optional, Create: `tst3dbsys`, Update: `displayName2`},
@@ -112,7 +112,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.Quarter2.92"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -143,7 +143,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.Quarter2.92"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -179,7 +179,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_details.0.preference", "NO_PREFERENCE"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.Quarter2.92"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -216,7 +216,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.Quarter2.92"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -251,7 +251,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_exadata_infrastructures.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.shape", "Exadata.Quarter2.92"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_exadata_infrastructures.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_exadata_infrastructures.0.subnet_id"),
@@ -276,7 +276,7 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "Exadata.Quarter2.92"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),

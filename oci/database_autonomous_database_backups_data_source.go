@@ -158,6 +158,10 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 			autonomousDatabaseBackup["kms_key_id"] = *r.KmsKeyId
 		}
 
+		if r.KmsKeyVersionId != nil {
+			autonomousDatabaseBackup["kms_key_version_id"] = *r.KmsKeyVersionId
+		}
+
 		if r.LifecycleDetails != nil {
 			autonomousDatabaseBackup["lifecycle_details"] = *r.LifecycleDetails
 		}

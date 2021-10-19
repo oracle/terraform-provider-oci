@@ -372,6 +372,35 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"key_history_entry": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"kms_key_version_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_activated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vault_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"key_store_wallet_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -895,6 +924,12 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
+	keyHistoryEntry := []interface{}{}
+	for _, item := range s.Res.KeyHistoryEntry {
+		keyHistoryEntry = append(keyHistoryEntry, AutonomousDatabaseKeyHistoryEntryToMap(item))
+	}
+	s.D.Set("key_history_entry", keyHistoryEntry)
+
 	if s.Res.KeyStoreId != nil {
 		s.D.Set("key_store_id", *s.Res.KeyStoreId)
 	}
@@ -905,6 +940,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
+	if s.Res.KmsKeyVersionId != nil {
+		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
 	}
 
 	if s.Res.LastMaintenanceRunId != nil {
