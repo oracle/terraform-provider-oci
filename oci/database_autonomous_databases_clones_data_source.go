@@ -351,6 +351,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"kms_key_version_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"time_activated": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -375,6 +379,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"kms_key_lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"kms_key_version_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -762,6 +770,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.KmsKeyLifecycleDetails != nil {
 			autonomousDatabasesClone["kms_key_lifecycle_details"] = *r.KmsKeyLifecycleDetails
+		}
+
+		if r.KmsKeyVersionId != nil {
+			autonomousDatabasesClone["kms_key_version_id"] = *r.KmsKeyVersionId
 		}
 
 		autonomousDatabasesClone["license_model"] = r.LicenseModel

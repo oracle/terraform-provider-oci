@@ -197,6 +197,12 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["infrastructure_type"] = r.InfrastructureType
 
+		keyHistoryEntry := []interface{}{}
+		for _, item := range r.KeyHistoryEntry {
+			keyHistoryEntry = append(keyHistoryEntry, AutonomousDatabaseKeyHistoryEntryToMap(item))
+		}
+		autonomousContainerDatabase["key_history_entry"] = keyHistoryEntry
+
 		if r.KeyStoreId != nil {
 			autonomousContainerDatabase["key_store_id"] = *r.KeyStoreId
 		}
@@ -207,6 +213,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		if r.KmsKeyId != nil {
 			autonomousContainerDatabase["kms_key_id"] = *r.KmsKeyId
+		}
+
+		if r.KmsKeyVersionId != nil {
+			autonomousContainerDatabase["kms_key_version_id"] = *r.KmsKeyVersionId
 		}
 
 		if r.LastMaintenanceRunId != nil {

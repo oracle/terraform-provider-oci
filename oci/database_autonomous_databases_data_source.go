@@ -313,6 +313,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["kms_key_lifecycle_details"] = *r.KmsKeyLifecycleDetails
 		}
 
+		if r.KmsKeyVersionId != nil {
+			autonomousDatabase["kms_key_version_id"] = *r.KmsKeyVersionId
+		}
+
 		autonomousDatabase["license_model"] = r.LicenseModel
 
 		if r.LifecycleDetails != nil {
