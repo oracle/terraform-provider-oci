@@ -75,9 +75,9 @@ var (
 	}
 
 	autonomousDatabaseTimeoutsRepresentation = map[string]interface{}{
-		"create": Representation{RepType: Required, Create: `20m`},
-		"update": Representation{RepType: Required, Create: `20m`},
-		"delete": Representation{RepType: Required, Create: `20m`},
+		"create": Representation{RepType: Required, Create: `45m`},
+		"update": Representation{RepType: Required, Create: `45m`},
+		"delete": Representation{RepType: Required, Create: `45m`},
 	}
 	autonomousDatabaseCopyWithUpdatedIPsRepresentation = GetUpdatedRepresentationCopy("whitelisted_ips", Representation{RepType: Optional, Create: []string{"1.1.1.1/28", "1.1.1.29"}, Update: []string{}}, autonomousDatabaseRepresentation)
 
@@ -192,6 +192,53 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			),
 		},
 
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
+					RepresentationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						"database_management_status": Representation{RepType: Optional, Create: `ENABLED`, Update: `ENABLED`},
+						"operations_insights_status": Representation{RepType: Optional, Create: `NOT_ENABLED`, Update: `NOT_ENABLED`},
+					}),
+				),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database_management_status", "ENABLED"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousDatabaseResourceDependencies +
@@ -243,7 +290,10 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					GetUpdatedRepresentationCopy("is_mtls_connection_required", Representation{RepType: Optional, Create: `false`, Update: `false`}, autonomousDatabaseRepresentation)),
+					RepresentationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+						"database_management_status":  Representation{RepType: Optional, Create: `NOT_ENABLED`, Update: `NOT_ENABLED`},
+						"is_mtls_connection_required": Representation{RepType: Optional, Create: `false`, Update: `false`},
+					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
@@ -267,6 +317,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_WRITE"),
 				resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "database_management_status", "NOT_ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "permission_level", "UNRESTRICTED"),
 
 				func(s *terraform.State) (err error) {
@@ -457,7 +508,6 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.apex_details.#"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.autonomous_maintenance_schedule_type", "EARLY"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.available_upgrade_versions.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.backup_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
@@ -482,6 +532,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.operations_insights_status"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.database_management_status"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.permission_level"),
 				// @Codegen: Can't test private_endpoint with fake resource
 				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint"),
@@ -503,7 +554,6 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "apex_details.#"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_maintenance_schedule_type", "EARLY"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "available_upgrade_versions.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
@@ -534,6 +584,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_status"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_management_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "permission_level"),
 				// @Codegen: Can't test private_endpointTestResourceDatabaseAutonomousDatabaseResource_preview with fake resource
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint"),
