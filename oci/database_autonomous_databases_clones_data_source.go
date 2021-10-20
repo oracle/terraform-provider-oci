@@ -263,6 +263,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"database_management_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"db_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -673,6 +677,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.DataStorageSizeInTBs != nil {
 			autonomousDatabasesClone["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
+
+		autonomousDatabasesClone["database_management_status"] = r.DatabaseManagementStatus
 
 		if r.DbName != nil {
 			autonomousDatabasesClone["db_name"] = *r.DbName

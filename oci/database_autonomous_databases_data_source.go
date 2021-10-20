@@ -227,6 +227,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
 
+		autonomousDatabase["database_management_status"] = r.DatabaseManagementStatus
+
 		if r.DbName != nil {
 			autonomousDatabase["db_name"] = *r.DbName
 		}
