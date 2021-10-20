@@ -1,4 +1,4 @@
-## 4.49.0 (Unreleased)
+## 4.49.0 (October 20, 2021)
 
 ### Added
 - Support for Non-CDB to PDB Conversion
