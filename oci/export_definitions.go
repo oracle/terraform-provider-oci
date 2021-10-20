@@ -1997,6 +1997,21 @@ var exportLogAnalyticsNamespaceScheduledTaskHints = &TerraformResourceHints{
 	},
 }
 
+var exportLogAnalyticsLogAnalyticsImportCustomContentHints = &TerraformResourceHints{
+	resourceClass:        "oci_log_analytics_log_analytics_import_custom_content",
+	resourceAbbreviation: "log_analytics_import_custom_content",
+}
+
+var exportLogAnalyticsLogAnalyticsPreferencesManagementHints = &TerraformResourceHints{
+	resourceClass:        "oci_log_analytics_log_analytics_preferences_management",
+	resourceAbbreviation: "log_analytics_preferences_management",
+}
+
+var exportLogAnalyticsLogAnalyticsUnprocessedDataBucketManagementHints = &TerraformResourceHints{
+	resourceClass:        "oci_log_analytics_log_analytics_unprocessed_data_bucket_management",
+	resourceAbbreviation: "log_analytics_unprocessed_data_bucket_management",
+}
+
 var exportLoggingLogGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_logging_log_group",
 	datasourceClass:      "oci_logging_log_groups",

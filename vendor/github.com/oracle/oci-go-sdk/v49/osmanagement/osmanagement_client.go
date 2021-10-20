@@ -51,6 +51,9 @@ func NewOsManagementClientWithOboToken(configProvider common.ConfigurationProvid
 }
 
 func newOsManagementClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OsManagementClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = OsManagementClient{BaseClient: baseClient}
 	client.BasePath = "20190801"
 	err = client.setConfigurationProvider(configProvider)

@@ -50,6 +50,9 @@ func NewAnalyticsClientWithOboToken(configProvider common.ConfigurationProvider,
 }
 
 func newAnalyticsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client AnalyticsClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = AnalyticsClient{BaseClient: baseClient}
 	client.BasePath = "20190331"
 	err = client.setConfigurationProvider(configProvider)

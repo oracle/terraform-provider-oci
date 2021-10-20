@@ -30,6 +30,9 @@ type CreateDatabaseFromBackupDetails struct {
 
 	// The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
 	DbName *string `mandatory:"false" json:"dbName"`
+
+	// Specifies a prefix for the `Oracle SID` of the database to be created.
+	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 }
 
 func (m CreateDatabaseFromBackupDetails) String() string {

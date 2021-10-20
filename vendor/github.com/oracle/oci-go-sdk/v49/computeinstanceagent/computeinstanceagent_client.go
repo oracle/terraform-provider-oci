@@ -51,6 +51,9 @@ func NewComputeInstanceAgentClientWithOboToken(configProvider common.Configurati
 }
 
 func newComputeInstanceAgentClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ComputeInstanceAgentClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ComputeInstanceAgentClient{BaseClient: baseClient}
 	client.BasePath = "20180530"
 	err = client.setConfigurationProvider(configProvider)

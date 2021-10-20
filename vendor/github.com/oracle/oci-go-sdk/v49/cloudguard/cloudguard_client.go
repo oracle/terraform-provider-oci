@@ -50,6 +50,9 @@ func NewCloudGuardClientWithOboToken(configProvider common.ConfigurationProvider
 }
 
 func newCloudGuardClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client CloudGuardClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = CloudGuardClient{BaseClient: baseClient}
 	client.BasePath = "20200131"
 	err = client.setConfigurationProvider(configProvider)

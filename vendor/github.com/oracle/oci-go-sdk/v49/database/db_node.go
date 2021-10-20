@@ -70,6 +70,18 @@ type DbNode struct {
 
 	// Additional information about the planned maintenance.
 	AdditionalDetails *string `mandatory:"false" json:"additionalDetails"`
+
+	// The number of CPU cores enabled on the Db node.
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
+
+	// The allocated memory in GBs on the Db node.
+	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
+
+	// The allocated local node storage in GBs on the Db node.
+	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.
+	DbServerId *string `mandatory:"false" json:"dbServerId"`
 }
 
 func (m DbNode) String() string {

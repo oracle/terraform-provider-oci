@@ -6,6 +6,7 @@ package common
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/sony/gobreaker"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -112,10 +113,24 @@ func (ne NonSeekableRequestRetryFailure) Error() string {
 	return fmt.Sprintf("%s. Unable to perform Retry on this request body type, which did not implement seek() interface", ne.err.Error())
 }
 
-// IsNetworkError validatas if an error is a net.Error and check if it's temporary or timeout
+// IsNetworkError validates if an error is a net.Error and check if it's temporary or timeout
 func IsNetworkError(err error) bool {
 	if r, ok := err.(net.Error); ok && (r.Temporary() || r.Timeout()) {
 		return true
 	}
 	return false
+}
+
+// IsCircuitBreakerError validates if an error's text is Open state ErrOpenState or HalfOpen state ErrTooManyRequests
+func IsCircuitBreakerError(err error) bool {
+	if err.Error() == gobreaker.ErrOpenState.Error() || err.Error() == gobreaker.ErrTooManyRequests.Error() {
+		return true
+	}
+	return false
+}
+
+// StatErrCode is a type which wraps error's statusCode and errorCode from service end
+type StatErrCode struct {
+	statusCode int
+	errorCode  string
 }

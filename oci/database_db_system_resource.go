@@ -1723,6 +1723,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeFromBackupDetails(fieldK
 		}
 	}
 
+	if databaseSoftwareImageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_software_image_id")); ok {
+		tmp := databaseSoftwareImageId.(string)
+		result.DatabaseSoftwareImageId = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
@@ -1736,6 +1741,10 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 
 	if obj.Database != nil {
 		result["database"] = []interface{}{CreateDatabaseFromBackupDetailsToMap(obj.Database)}
+	}
+
+	if obj.DatabaseSoftwareImageId != nil {
+		result["database_software_image_id"] = string(*obj.DatabaseSoftwareImageId)
 	}
 
 	if obj.DisplayName != nil {

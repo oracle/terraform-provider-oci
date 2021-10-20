@@ -50,6 +50,9 @@ func NewOdaClientWithOboToken(configProvider common.ConfigurationProvider, oboTo
 }
 
 func newOdaClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OdaClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = OdaClient{BaseClient: baseClient}
 	client.BasePath = "20190506"
 	err = client.setConfigurationProvider(configProvider)

@@ -50,6 +50,9 @@ func NewDataLabelingManagementClientWithOboToken(configProvider common.Configura
 }
 
 func newDataLabelingManagementClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DataLabelingManagementClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = DataLabelingManagementClient{BaseClient: baseClient}
 	client.BasePath = "20211001"
 	err = client.setConfigurationProvider(configProvider)

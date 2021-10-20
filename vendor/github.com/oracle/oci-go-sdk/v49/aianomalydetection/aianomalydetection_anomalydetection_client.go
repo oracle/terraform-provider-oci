@@ -52,6 +52,9 @@ func NewAnomalyDetectionClientWithOboToken(configProvider common.ConfigurationPr
 }
 
 func newAnomalyDetectionClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client AnomalyDetectionClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = AnomalyDetectionClient{BaseClient: baseClient}
 	client.BasePath = "20210101"
 	err = client.setConfigurationProvider(configProvider)

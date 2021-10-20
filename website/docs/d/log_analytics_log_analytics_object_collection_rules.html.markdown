@@ -58,6 +58,7 @@ The following attributes are exported:
 * `log_group_id` - Logging Analytics Log group OCID to associate the processed logs with.
 * `log_source_name` - Name of the Logging Analytics Source to use for the processing.
 * `name` - A unique name to the rule. The name must be unique, within the tenancy, and cannot be changed.
+* `object_name_filters` - When the filters are provided, only the objects matching the filters are picked up for processing. The matchType supported is exact match and accommodates wildcard "*". For more information on filters, see [Event Filters](https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm). 
 * `os_bucket_name` - Name of the Object Storage bucket.
 * `os_namespace` - Object Storage namespace.
 * `overrides` - Use this to override some property values which are defined at bucket level to the scope of object. Supported propeties for override are, logSourceName, charEncoding. Supported matchType for override are "contains". 

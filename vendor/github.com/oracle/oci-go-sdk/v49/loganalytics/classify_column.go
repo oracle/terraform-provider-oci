@@ -29,6 +29,9 @@ type ClassifyColumn struct {
 	// Identifies if this column allows multiple values to exist in a single row.
 	IsMultiValued *bool `mandatory:"false" json:"isMultiValued"`
 
+	// A flag indicating whether or not the field is a case sensitive field.  Only applies to string fields.
+	IsCaseSensitive *bool `mandatory:"false" json:"isCaseSensitive"`
+
 	// Identifies if this column can be used as a grouping field in any grouping command.
 	IsGroupable *bool `mandatory:"false" json:"isGroupable"`
 
@@ -94,6 +97,11 @@ func (m ClassifyColumn) GetIsMultiValued() *bool {
 	return m.IsMultiValued
 }
 
+//GetIsCaseSensitive returns IsCaseSensitive
+func (m ClassifyColumn) GetIsCaseSensitive() *bool {
+	return m.IsCaseSensitive
+}
+
 //GetIsGroupable returns IsGroupable
 func (m ClassifyColumn) GetIsGroupable() *bool {
 	return m.IsGroupable
@@ -145,6 +153,7 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 		Values                        []FieldValue             `json:"values"`
 		IsListOfValues                *bool                    `json:"isListOfValues"`
 		IsMultiValued                 *bool                    `json:"isMultiValued"`
+		IsCaseSensitive               *bool                    `json:"isCaseSensitive"`
 		IsGroupable                   *bool                    `json:"isGroupable"`
 		IsEvaluable                   *bool                    `json:"isEvaluable"`
 		ValueType                     ValueTypeEnum            `json:"valueType"`
@@ -176,6 +185,8 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 	m.IsListOfValues = model.IsListOfValues
 
 	m.IsMultiValued = model.IsMultiValued
+
+	m.IsCaseSensitive = model.IsCaseSensitive
 
 	m.IsGroupable = model.IsGroupable
 

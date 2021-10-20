@@ -180,6 +180,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"sid_prefix": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"tde_wallet_password": {
 							Type:      schema.TypeString,
 							Optional:  true,
@@ -371,6 +377,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_cdb": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"last_backup_timestamp": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -384,6 +394,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"pdb_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"sid_prefix": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -606,6 +620,10 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsCdb != nil {
+		s.D.Set("is_cdb", *s.Res.IsCdb)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
@@ -624,6 +642,10 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 
 	if s.Res.PdbName != nil {
 		s.D.Set("pdb_name", *s.Res.PdbName)
+	}
+
+	if s.Res.SidPrefix != nil {
+		s.D.Set("sid_prefix", *s.Res.SidPrefix)
 	}
 
 	if s.Res.SourceDatabasePointInTimeRecoveryTimestamp != nil {
@@ -763,6 +785,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.PdbName = &tmp
 	}
 
+	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
+		tmp := sidPrefix.(string)
+		result.SidPrefix = &tmp
+	}
+
 	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
 		tmp := tdeWalletPassword.(string)
 		result.TdeWalletPassword = &tmp
@@ -797,6 +824,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fiel
 	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
 		tmp := dbUniqueName.(string)
 		result.DbUniqueName = &tmp
+	}
+
+	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
+		tmp := sidPrefix.(string)
+		result.SidPrefix = &tmp
 	}
 
 	return result, nil
@@ -1102,6 +1134,10 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if obj.PdbName != nil {
 		result["pdb_name"] = string(*obj.PdbName)
+	}
+
+	if obj.SidPrefix != nil {
+		result["sid_prefix"] = string(*obj.SidPrefix)
 	}
 
 	return result

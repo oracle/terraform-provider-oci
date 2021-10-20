@@ -116,6 +116,8 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	s.D.Set("object_name_filters", s.Res.ObjectNameFilters)
+
 	if s.Res.OsBucketName != nil {
 		s.D.Set("os_bucket_name", *s.Res.OsBucketName)
 	}

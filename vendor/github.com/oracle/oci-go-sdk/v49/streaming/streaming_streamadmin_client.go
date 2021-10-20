@@ -50,6 +50,9 @@ func NewStreamAdminClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newStreamAdminClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client StreamAdminClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = StreamAdminClient{BaseClient: baseClient}
 	client.BasePath = "20180418"
 	err = client.setConfigurationProvider(configProvider)

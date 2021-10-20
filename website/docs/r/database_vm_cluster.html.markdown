@@ -29,6 +29,7 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 	#Optional
 	data_storage_size_in_tbs = var.vm_cluster_data_storage_size_in_tbs
 	db_node_storage_size_in_gbs = var.vm_cluster_db_node_storage_size_in_gbs
+	db_servers = var.vm_cluster_db_servers
 	defined_tags = var.vm_cluster_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 	is_local_backup_enabled = var.vm_cluster_is_local_backup_enabled
@@ -47,6 +48,7 @@ The following arguments are supported:
 * `cpu_core_count` - (Required) (Updatable) The number of CPU cores to enable for the VM cluster. *Note:* If `cpu_core_count` is modified in `DISCONNECTED` state, the provider could experience a drift in Terraform state. To remediate this, refresh your Terraform state and update the configuration file when the Oracle Cloud Infrastructure connection is established.
 * `data_storage_size_in_tbs` - (Optional) (Updatable) The data disk group size to be allocated in TBs.
 * `db_node_storage_size_in_gbs` - (Optional) (Updatable) The local node storage to be allocated in GBs.
+* `db_servers` - (Optional) The list of Db server.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
@@ -72,6 +74,7 @@ The following attributes are exported:
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
+* `db_servers` - The list of Db server.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Exadata Cloud@Customer VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.

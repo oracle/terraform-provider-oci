@@ -89,13 +89,15 @@ type ExtractStructuredLogFieldPathsParserTypeEnum string
 
 // Set of constants representing the allowable values for ExtractStructuredLogFieldPathsParserTypeEnum
 const (
-	ExtractStructuredLogFieldPathsParserTypeXml  ExtractStructuredLogFieldPathsParserTypeEnum = "XML"
-	ExtractStructuredLogFieldPathsParserTypeJson ExtractStructuredLogFieldPathsParserTypeEnum = "JSON"
+	ExtractStructuredLogFieldPathsParserTypeXml       ExtractStructuredLogFieldPathsParserTypeEnum = "XML"
+	ExtractStructuredLogFieldPathsParserTypeJson      ExtractStructuredLogFieldPathsParserTypeEnum = "JSON"
+	ExtractStructuredLogFieldPathsParserTypeDelimited ExtractStructuredLogFieldPathsParserTypeEnum = "DELIMITED"
 )
 
 var mappingExtractStructuredLogFieldPathsParserType = map[string]ExtractStructuredLogFieldPathsParserTypeEnum{
-	"XML":  ExtractStructuredLogFieldPathsParserTypeXml,
-	"JSON": ExtractStructuredLogFieldPathsParserTypeJson,
+	"XML":       ExtractStructuredLogFieldPathsParserTypeXml,
+	"JSON":      ExtractStructuredLogFieldPathsParserTypeJson,
+	"DELIMITED": ExtractStructuredLogFieldPathsParserTypeDelimited,
 }
 
 // GetExtractStructuredLogFieldPathsParserTypeEnumValues Enumerates the set of values for ExtractStructuredLogFieldPathsParserTypeEnum

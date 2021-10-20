@@ -33,6 +33,9 @@ type LogAnalyticsSourceFunction struct {
 	// The source unique identifier as a string.
 	SourceReference *string `mandatory:"false" json:"sourceReference"`
 
+	// Features of the source function to use for enrichment.
+	Features []string `mandatory:"false" json:"features"`
+
 	// The source function unique identifier.
 	FunctionId *int64 `mandatory:"false" json:"functionId"`
 

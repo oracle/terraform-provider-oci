@@ -37,6 +37,11 @@ type ImportCustomContentRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A value of `100-continue` requests preliminary verification of the request method, path, and headers before the request body is sent.
+	// If no error results from such verification, the server will send a 100 (Continue) interim response to indicate readiness for the request body.
+	// The only allowed value for this parameter is "100-Continue" (case-insensitive).
+	Expect *string `mandatory:"false" contributesTo:"header" name:"expect"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

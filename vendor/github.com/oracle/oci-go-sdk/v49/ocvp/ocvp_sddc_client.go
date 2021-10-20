@@ -50,6 +50,9 @@ func NewSddcClientWithOboToken(configProvider common.ConfigurationProvider, oboT
 }
 
 func newSddcClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client SddcClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = SddcClient{BaseClient: baseClient}
 	client.BasePath = "20200501"
 	err = client.setConfigurationProvider(configProvider)

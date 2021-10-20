@@ -51,6 +51,9 @@ func NewArtifactsClientWithOboToken(configProvider common.ConfigurationProvider,
 }
 
 func newArtifactsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ArtifactsClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ArtifactsClient{BaseClient: baseClient}
 	client.BasePath = "20160918"
 	err = client.setConfigurationProvider(configProvider)

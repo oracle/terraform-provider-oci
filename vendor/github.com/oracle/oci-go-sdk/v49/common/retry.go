@@ -107,11 +107,6 @@ var EcContext = EventuallyConsistentContext{
 	timeNowProvider: func() time.Time { return time.Now() },
 }
 
-type httpStatus struct {
-	code    int
-	message string
-}
-
 const (
 	defaultMaximumNumberAttempts  = uint(8)
 	defaultExponentialBackoffBase = 2.0
@@ -125,13 +120,13 @@ const (
 )
 
 var (
-	defaultRetryStatusCodeMap = map[httpStatus]bool{
+	defaultRetryStatusCodeMap = map[StatErrCode]bool{
 		{409, "IncorrectState"}:  true,
 		{429, "TooManyRequests"}: true,
 
 		{501, "MethodNotImplemented"}: false,
 	}
-	affectedByEventualConsistencyRetryStatusCodeMap = map[httpStatus]bool{
+	affectedByEventualConsistencyRetryStatusCodeMap = map[StatErrCode]bool{
 		{400, "RelatedResourceNotAuthorizedOrNotFound"}: true,
 		{404, "NotAuthorizedOrNotFound"}:                true,
 		{409, "NotAuthorizedOrResourceAlreadyExists"}:   true,
@@ -141,7 +136,7 @@ var (
 // IsErrorAffectedByEventualConsistency returns true if the error is affected by eventual consistency.
 func IsErrorAffectedByEventualConsistency(Error error) bool {
 	if err, ok := IsServiceError(Error); ok {
-		return affectedByEventualConsistencyRetryStatusCodeMap[httpStatus{err.GetHTTPStatusCode(), err.GetCode()}]
+		return affectedByEventualConsistencyRetryStatusCodeMap[StatErrCode{err.GetHTTPStatusCode(), err.GetCode()}]
 	}
 	return false
 }
@@ -157,11 +152,11 @@ func IsErrorRetryableByDefault(Error error) bool {
 	}
 
 	if err, ok := IsServiceError(Error); ok {
-		if shouldRetry, ok := defaultRetryStatusCodeMap[httpStatus{err.GetHTTPStatusCode(), err.GetCode()}]; ok {
+		if shouldRetry, ok := defaultRetryStatusCodeMap[StatErrCode{err.GetHTTPStatusCode(), err.GetCode()}]; ok {
 			return shouldRetry
 		}
 
-		return 500 <= err.GetHTTPStatusCode() && err.GetHTTPStatusCode() < 600
+		return 500 <= err.GetHTTPStatusCode() && err.GetHTTPStatusCode() < 505
 	}
 
 	return false
@@ -238,6 +233,10 @@ type RetryPolicy struct {
 	// for Eventual Consistency retries to work.
 	MaximumCumulativeBackoffWithoutJitter float64
 }
+
+// GlobalRetry is user defined global level retry policy, it would impact all services, the precedence is lower
+// than user defined client/request level retry policy
+var GlobalRetry *RetryPolicy = nil
 
 // RetryPolicyOption is the type of the options for NewRetryPolicy.
 type RetryPolicyOption func(rp *RetryPolicy)
@@ -893,8 +892,6 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 			}
 		}
 
-		extraHeaders := make(map[string]string)
-
 		// some legacy code constructing RetryPolicy instances directly may not have set DeterminePolicyToUse.
 		// In that case, just assume that it doesn't handle eventual consistency.
 		if policy.DeterminePolicyToUse == nil {
@@ -905,6 +902,14 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 		// scaling factor should be
 		policyToUse, endOfWindowTime, backoffScalingFactor := policy.DeterminePolicyToUse(policy)
 		Debugln(fmt.Sprintf("Retry policy to use: %v", policyToUse))
+
+		extraHeaders := make(map[string]string)
+
+		if policy.MaximumNumberAttempts == 1 {
+			extraHeaders[requestHeaderOpcClientRetries] = "false"
+		} else {
+			extraHeaders[requestHeaderOpcClientRetries] = "true"
+		}
 
 		// use a one-based counter because it's easier to think about operation retry in terms of attempt numbering
 		for currentOperationAttempt := uint(1); shouldContinueIssuingRequests(currentOperationAttempt, policyToUse.MaximumNumberAttempts); currentOperationAttempt++ {

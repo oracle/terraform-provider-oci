@@ -219,6 +219,11 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_cdb": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+
 			"last_backup_timestamp": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -232,6 +237,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 				Computed: true,
 			},
 			"pdb_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"sid_prefix": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -401,6 +410,10 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsCdb != nil {
+		s.D.Set("is_cdb", *s.Res.IsCdb)
+	}
+
 	if s.Res.LastBackupTimestamp != nil {
 		s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
 	}
@@ -415,6 +428,10 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
 
 	if s.Res.PdbName != nil {
 		s.D.Set("pdb_name", *s.Res.PdbName)
+	}
+
+	if s.Res.SidPrefix != nil {
+		s.D.Set("sid_prefix", *s.Res.SidPrefix)
 	}
 
 	if s.Res.SourceDatabasePointInTimeRecoveryTimestamp != nil {

@@ -51,6 +51,9 @@ func NewKmsCryptoClientWithOboToken(configProvider common.ConfigurationProvider,
 }
 
 func newKmsCryptoClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider, endpoint string) (client KmsCryptoClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = KmsCryptoClient{BaseClient: baseClient}
 	client.BasePath = ""
 	client.Host = endpoint

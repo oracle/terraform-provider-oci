@@ -52,6 +52,9 @@ func NewDeploymentClientWithOboToken(configProvider common.ConfigurationProvider
 }
 
 func newDeploymentClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DeploymentClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = DeploymentClient{BaseClient: baseClient}
 	client.BasePath = "20190501"
 	err = client.setConfigurationProvider(configProvider)

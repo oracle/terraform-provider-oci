@@ -50,6 +50,9 @@ func NewConfigClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newConfigClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ConfigClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ConfigClient{BaseClient: baseClient}
 	client.BasePath = "20210201"
 	err = client.setConfigurationProvider(configProvider)

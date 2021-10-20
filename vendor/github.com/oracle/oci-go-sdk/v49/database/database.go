@@ -84,7 +84,13 @@ type Database struct {
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
+	// True if the database is a container database.
+	IsCdb *bool `mandatory:"false" json:"isCdb"`
+
 	DatabaseManagementConfig *CloudDatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
+
+	// Specifies a prefix for the `Oracle SID` of the database to be created.
+	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 }
 
 func (m Database) String() string {
@@ -101,6 +107,7 @@ const (
 	DatabaseLifecycleStateUpdating         DatabaseLifecycleStateEnum = "UPDATING"
 	DatabaseLifecycleStateBackupInProgress DatabaseLifecycleStateEnum = "BACKUP_IN_PROGRESS"
 	DatabaseLifecycleStateUpgrading        DatabaseLifecycleStateEnum = "UPGRADING"
+	DatabaseLifecycleStateConverting       DatabaseLifecycleStateEnum = "CONVERTING"
 	DatabaseLifecycleStateTerminating      DatabaseLifecycleStateEnum = "TERMINATING"
 	DatabaseLifecycleStateTerminated       DatabaseLifecycleStateEnum = "TERMINATED"
 	DatabaseLifecycleStateRestoreFailed    DatabaseLifecycleStateEnum = "RESTORE_FAILED"
@@ -113,6 +120,7 @@ var mappingDatabaseLifecycleState = map[string]DatabaseLifecycleStateEnum{
 	"UPDATING":           DatabaseLifecycleStateUpdating,
 	"BACKUP_IN_PROGRESS": DatabaseLifecycleStateBackupInProgress,
 	"UPGRADING":          DatabaseLifecycleStateUpgrading,
+	"CONVERTING":         DatabaseLifecycleStateConverting,
 	"TERMINATING":        DatabaseLifecycleStateTerminating,
 	"TERMINATED":         DatabaseLifecycleStateTerminated,
 	"RESTORE_FAILED":     DatabaseLifecycleStateRestoreFailed,

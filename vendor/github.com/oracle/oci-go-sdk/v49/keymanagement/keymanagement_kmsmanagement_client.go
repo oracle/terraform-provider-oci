@@ -51,6 +51,9 @@ func NewKmsManagementClientWithOboToken(configProvider common.ConfigurationProvi
 }
 
 func newKmsManagementClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider, endpoint string) (client KmsManagementClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = KmsManagementClient{BaseClient: baseClient}
 	client.BasePath = ""
 	client.Host = endpoint

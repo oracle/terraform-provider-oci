@@ -53,6 +53,9 @@ func NewNosqlClientWithOboToken(configProvider common.ConfigurationProvider, obo
 }
 
 func newNosqlClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client NosqlClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = NosqlClient{BaseClient: baseClient}
 	client.BasePath = "20190828"
 	err = client.setConfigurationProvider(configProvider)

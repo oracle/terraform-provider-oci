@@ -51,6 +51,9 @@ func NewGenericArtifactsContentClientWithOboToken(configProvider common.Configur
 }
 
 func newGenericArtifactsContentClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client GenericArtifactsContentClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = GenericArtifactsContentClient{BaseClient: baseClient}
 	client.BasePath = "20160918"
 	err = client.setConfigurationProvider(configProvider)

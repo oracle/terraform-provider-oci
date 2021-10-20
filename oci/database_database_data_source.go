@@ -123,6 +123,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsCdb != nil {
+		s.D.Set("is_cdb", *s.Res.IsCdb)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
@@ -141,6 +145,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.PdbName != nil {
 		s.D.Set("pdb_name", *s.Res.PdbName)
+	}
+
+	if s.Res.SidPrefix != nil {
+		s.D.Set("sid_prefix", *s.Res.SidPrefix)
 	}
 
 	if s.Res.SourceDatabasePointInTimeRecoveryTimestamp != nil {

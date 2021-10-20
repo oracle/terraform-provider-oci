@@ -50,6 +50,9 @@ func NewOptimizerClientWithOboToken(configProvider common.ConfigurationProvider,
 }
 
 func newOptimizerClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OptimizerClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = OptimizerClient{BaseClient: baseClient}
 	client.BasePath = "20200606"
 	err = client.setConfigurationProvider(configProvider)

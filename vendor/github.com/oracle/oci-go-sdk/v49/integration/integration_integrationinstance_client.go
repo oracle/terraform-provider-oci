@@ -50,6 +50,9 @@ func NewIntegrationInstanceClientWithOboToken(configProvider common.Configuratio
 }
 
 func newIntegrationInstanceClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client IntegrationInstanceClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = IntegrationInstanceClient{BaseClient: baseClient}
 	client.BasePath = "20190131"
 	err = client.setConfigurationProvider(configProvider)
