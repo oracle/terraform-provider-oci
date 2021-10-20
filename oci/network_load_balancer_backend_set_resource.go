@@ -119,6 +119,11 @@ func NetworkLoadBalancerBackendSetResource() *schema.Resource {
 			},
 
 			// Optional
+			"ip_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"is_preserve_source": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -245,6 +250,10 @@ func (s *NetworkLoadBalancerBackendSetResourceCrud) Create() error {
 			}
 			request.HealthChecker = &tmp
 		}
+	}
+
+	if ipVersion, ok := s.D.GetOkExists("ip_version"); ok {
+		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
 	}
 
 	if isPreserveSource, ok := s.D.GetOkExists("is_preserve_source"); ok {
@@ -472,6 +481,10 @@ func (s *NetworkLoadBalancerBackendSetResourceCrud) Update() error {
 		}
 	}
 
+	if ipVersion, ok := s.D.GetOkExists("ip_version"); ok {
+		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
+	}
+
 	if isPreserveSource, ok := s.D.GetOkExists("is_preserve_source"); ok {
 		tmp := isPreserveSource.(bool)
 		request.IsPreserveSource = &tmp
@@ -546,6 +559,8 @@ func (s *NetworkLoadBalancerBackendSetResourceCrud) SetData() error {
 	} else {
 		s.D.Set("health_checker", nil)
 	}
+
+	s.D.Set("ip_version", s.Res.IpVersion)
 
 	if s.Res.IsPreserveSource != nil {
 		s.D.Set("is_preserve_source", *s.Res.IsPreserveSource)
@@ -676,6 +691,8 @@ func NlbBackendSetSummaryToMap(obj oci_network_load_balancer.BackendSetSummary) 
 	if obj.HealthChecker != nil {
 		result["health_checker"] = []interface{}{NlbHealthCheckerToMap(obj.HealthChecker)}
 	}
+
+	result["ip_version"] = string(obj.IpVersion)
 
 	if obj.IsPreserveSource != nil {
 		result["is_preserve_source"] = bool(*obj.IsPreserveSource)

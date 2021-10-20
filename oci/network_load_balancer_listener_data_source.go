@@ -80,6 +80,8 @@ func (s *NetworkLoadBalancerListenerDataSourceCrud) SetData() error {
 		s.D.Set("default_backend_set_name", *s.Res.DefaultBackendSetName)
 	}
 
+	s.D.Set("ip_version", s.Res.IpVersion)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
