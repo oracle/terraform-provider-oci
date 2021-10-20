@@ -1,3 +1,12 @@
+## 4.49.0 (Unreleased)
+
+### Added
+- Support for Non-CDB to PDB Conversion
+- support to provide database software image as user input while creating db system from backup
+- Support for db_unique_name and SID for primary and standby in DG association
+- Support for Logging Analytics Cedar Release
+- Support for VM Node Subsetting
+
 ## 4.48.0 (October 13, 2021)
 
 ### Added

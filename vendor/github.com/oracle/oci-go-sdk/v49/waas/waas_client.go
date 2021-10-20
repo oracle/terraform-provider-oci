@@ -50,6 +50,9 @@ func NewWaasClientWithOboToken(configProvider common.ConfigurationProvider, oboT
 }
 
 func newWaasClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client WaasClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = WaasClient{BaseClient: baseClient}
 	client.BasePath = "20181116"
 	err = client.setConfigurationProvider(configProvider)

@@ -50,6 +50,9 @@ func NewEsxiHostClientWithOboToken(configProvider common.ConfigurationProvider, 
 }
 
 func newEsxiHostClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EsxiHostClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = EsxiHostClient{BaseClient: baseClient}
 	client.BasePath = "20200501"
 	err = client.setConfigurationProvider(configProvider)

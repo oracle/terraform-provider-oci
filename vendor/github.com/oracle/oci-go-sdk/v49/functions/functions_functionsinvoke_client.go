@@ -50,6 +50,9 @@ func NewFunctionsInvokeClientWithOboToken(configProvider common.ConfigurationPro
 }
 
 func newFunctionsInvokeClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider, endpoint string) (client FunctionsInvokeClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = FunctionsInvokeClient{BaseClient: baseClient}
 	client.BasePath = "20181201"
 	client.Host = endpoint

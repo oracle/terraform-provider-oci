@@ -50,6 +50,9 @@ func NewDbSystemClientWithOboToken(configProvider common.ConfigurationProvider, 
 }
 
 func newDbSystemClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DbSystemClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = DbSystemClient{BaseClient: baseClient}
 	client.BasePath = "20190415"
 	err = client.setConfigurationProvider(configProvider)

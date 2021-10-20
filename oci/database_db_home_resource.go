@@ -242,6 +242,10 @@ func DatabaseDbHomeResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"sid_prefix": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1306,6 +1310,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 
 	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf("database.0.time_stamp_for_point_in_time_recovery")); ok {
 		result["time_stamp_for_point_in_time_recovery"] = timeStampForPointInTimeRecovery
+	}
+
+	if obj.SidPrefix != nil {
+		result["sid_prefix"] = string(*obj.SidPrefix)
 	}
 
 	return result

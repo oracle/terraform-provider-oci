@@ -52,6 +52,9 @@ func NewGatewayClientWithOboToken(configProvider common.ConfigurationProvider, o
 }
 
 func newGatewayClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client GatewayClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = GatewayClient{BaseClient: baseClient}
 	client.BasePath = "20190501"
 	err = client.setConfigurationProvider(configProvider)

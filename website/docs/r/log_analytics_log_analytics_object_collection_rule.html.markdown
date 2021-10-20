@@ -32,6 +32,7 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "test_log_anal
 	description = var.log_analytics_object_collection_rule_description
 	entity_id = oci_log_analytics_entity.test_entity.id
 	freeform_tags = {"bar-key"= "value"}
+	object_name_filters = var.log_analytics_object_collection_rule_object_name_filters
 	overrides = var.log_analytics_object_collection_rule_overrides
 	poll_since = var.log_analytics_object_collection_rule_poll_since
 	poll_till = var.log_analytics_object_collection_rule_poll_till
@@ -53,6 +54,7 @@ The following arguments are supported:
 * `log_source_name` - (Required) (Updatable) Name of the Logging Analytics Source to use for the processing.
 * `name` - (Required) A unique name given to the rule. The name must be unique within the tenancy, and cannot be modified.
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `object_name_filters` - (Optional) (Updatable) When the filters are provided, only the objects matching the filters are picked up for processing. The matchType supported is exact match and accommodates wildcard "*". For more information on filters, see [Event Filters](https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm). 
 * `os_bucket_name` - (Required) Name of the Object Storage bucket.
 * `os_namespace` - (Required) Object Storage namespace.
 * `overrides` - (Optional) (Updatable) The override is used to modify some important configuration properties for objects matching a specific pattern inside the bucket. Supported propeties for override are - logSourceName, charEncoding. Supported matchType for override are "contains". 
@@ -79,6 +81,7 @@ The following attributes are exported:
 * `log_group_id` - Logging Analytics Log group OCID to associate the processed logs with.
 * `log_source_name` - Name of the Logging Analytics Source to use for the processing.
 * `name` - A unique name to the rule. The name must be unique, within the tenancy, and cannot be changed.
+* `object_name_filters` - When the filters are provided, only the objects matching the filters are picked up for processing. The matchType supported is exact match and accommodates wildcard "*". For more information on filters, see [Event Filters](https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm). 
 * `os_bucket_name` - Name of the Object Storage bucket.
 * `os_namespace` - Object Storage namespace.
 * `overrides` - Use this to override some property values which are defined at bucket level to the scope of object. Supported propeties for override are, logSourceName, charEncoding. Supported matchType for override are "contains". 

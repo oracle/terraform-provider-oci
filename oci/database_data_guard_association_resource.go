@@ -129,6 +129,16 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"peer_db_unique_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"peer_sid_prefix": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"peer_vm_cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -436,6 +446,14 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := databaseSoftwareImageId.(string)
 			details.DatabaseSoftwareImageId = &tmp
 		}
+		if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
+			tmp := peerDbUniqueName.(string)
+			details.PeerDbUniqueName = &tmp
+		}
+		if peerSidPrefix, ok := s.D.GetOkExists("peer_sid_prefix"); ok {
+			tmp := peerSidPrefix.(string)
+			details.PeerSidPrefix = &tmp
+		}
 		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
 		}
@@ -464,6 +482,14 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
 			tmp := databaseSoftwareImageId.(string)
 			details.DatabaseSoftwareImageId = &tmp
+		}
+		if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
+			tmp := peerDbUniqueName.(string)
+			details.PeerDbUniqueName = &tmp
+		}
+		if peerSidPrefix, ok := s.D.GetOkExists("peer_sid_prefix"); ok {
+			tmp := peerSidPrefix.(string)
+			details.PeerSidPrefix = &tmp
 		}
 		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
@@ -531,6 +557,14 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
 			tmp := databaseSoftwareImageId.(string)
 			details.DatabaseSoftwareImageId = &tmp
+		}
+		if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
+			tmp := peerDbUniqueName.(string)
+			details.PeerDbUniqueName = &tmp
+		}
+		if peerSidPrefix, ok := s.D.GetOkExists("peer_sid_prefix"); ok {
+			tmp := peerSidPrefix.(string)
+			details.PeerSidPrefix = &tmp
 		}
 		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
 			details.ProtectionMode = oci_database.CreateDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))

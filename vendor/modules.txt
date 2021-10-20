@@ -256,7 +256,7 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v49 v49.1.0
+# github.com/oracle/oci-go-sdk/v49 v49.2.0
 github.com/oracle/oci-go-sdk/v49/aianomalydetection
 github.com/oracle/oci-go-sdk/v49/analytics
 github.com/oracle/oci-go-sdk/v49/apigateway
@@ -334,6 +334,8 @@ github.com/posener/complete
 github.com/posener/complete/cmd
 github.com/posener/complete/cmd/install
 github.com/posener/complete/match
+# github.com/sony/gobreaker v0.4.2-0.20210216022020-dd874f9dd33b
+github.com/sony/gobreaker
 # github.com/spf13/afero v1.2.2
 github.com/spf13/afero
 github.com/spf13/afero/mem

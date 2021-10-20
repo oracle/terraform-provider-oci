@@ -52,6 +52,9 @@ func NewApiGatewayClientWithOboToken(configProvider common.ConfigurationProvider
 }
 
 func newApiGatewayClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ApiGatewayClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ApiGatewayClient{BaseClient: baseClient}
 	client.BasePath = "20190501"
 	err = client.setConfigurationProvider(configProvider)

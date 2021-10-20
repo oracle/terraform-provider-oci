@@ -22,6 +22,7 @@ resource "oci_log_analytics_log_analytics_import_custom_content" "test_log_analy
 	namespace = var.log_analytics_import_custom_content_namespace
 
 	#Optional
+	expect = var.log_analytics_import_custom_content_expect
 	is_overwrite = var.log_analytics_import_custom_content_is_overwrite
 }
 ```
@@ -32,7 +33,8 @@ The following arguments are supported:
 
 * `import_custom_content_file` - (Required) Path to the file to upload which contains the custom content.
 * `is_overwrite` - (Optional) A flag indicating whether or not to overwrite existing content if a conflict is found during import content operation. 
-* `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `namespace` - (Required) The Logging Analytics namespace used for the request.
+* `expect` - (Optional) A value of `100-continue` requests preliminary verification of the request method, path, and headers before the request body is sent. If no error results from such verification, the server will send a 100 (Continue) interim response to indicate readiness for the request body. The only allowed value for this parameter is "100-Continue" (case-insensitive).
 
 
 ** IMPORTANT **

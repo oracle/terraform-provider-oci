@@ -38,6 +38,7 @@ type customError struct {
 // Create new error format for Terraform output
 func newCustomError(sync interface{}, err error) error {
 	var tfError customError
+	errorMessage := err.Error()
 
 	// Service error
 	if failure, isServiceError := oci_common.IsServiceError(err); isServiceError {
@@ -49,20 +50,28 @@ func newCustomError(sync interface{}, err error) error {
 			OpcRequestID:  failure.GetOpcRequestID(),
 			Service:       getServiceName(sync),
 		}
-	} else if strings.Contains(err.Error(), "timeout while waiting for state") {
+	} else if strings.Contains(errorMessage, "timeout while waiting for state") {
 		// Timeout error
 		tfError = customError{
 			TypeOfError:   TimeoutError,
 			ErrorCodeName: "Operation Timeout",
-			Message:       err.Error(),
+			Message:       errorMessage,
 			Service:       getServiceName(sync),
 		}
 		// Unexpected state error
-	} else if strings.Contains(err.Error(), "unexpected state") {
+	} else if strings.Contains(errorMessage, "unexpected state") {
 		tfError = customError{
 			TypeOfError:   UnexpectedStateError,
 			ErrorCodeName: "Unexpected LifeCycle state",
-			Message:       err.Error(),
+			Message:       errorMessage,
+			Service:       getServiceName(sync),
+			ResourceOCID:  getResourceOCID(sync),
+		}
+	} else if strings.Contains(errorMessage, "work request") {
+		tfError = customError{
+			TypeOfError:   WorkRequestError,
+			ErrorCodeName: "Work Request error",
+			Message:       errorMessage,
 			Service:       getServiceName(sync),
 			ResourceOCID:  getResourceOCID(sync),
 		}
@@ -94,6 +103,14 @@ func (tfE customError) Error() error {
 			"Suggestion: %s\n",
 			tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.Suggestion)
 	case UnexpectedStateError:
+		return fmt.Errorf("%s \n"+
+			"%s \n"+
+			"Service: %s \n"+
+			"Error Message: %s \n"+
+			"Resource OCID: %s \n"+
+			"Suggestion: %s\n",
+			tfE.ErrorCodeName, tfE.VersionError, tfE.Service, tfE.Message, tfE.ResourceOCID, tfE.Suggestion)
+	case WorkRequestError:
 		return fmt.Errorf("%s \n"+
 			"%s \n"+
 			"Service: %s \n"+

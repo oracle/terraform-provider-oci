@@ -86,7 +86,13 @@ type DatabaseSummary struct {
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
+	// True if the database is a container database.
+	IsCdb *bool `mandatory:"false" json:"isCdb"`
+
 	DatabaseManagementConfig *CloudDatabaseManagementConfig `mandatory:"false" json:"databaseManagementConfig"`
+
+	// Specifies a prefix for the `Oracle SID` of the database to be created.
+	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 }
 
 func (m DatabaseSummary) String() string {
@@ -103,6 +109,7 @@ const (
 	DatabaseSummaryLifecycleStateUpdating         DatabaseSummaryLifecycleStateEnum = "UPDATING"
 	DatabaseSummaryLifecycleStateBackupInProgress DatabaseSummaryLifecycleStateEnum = "BACKUP_IN_PROGRESS"
 	DatabaseSummaryLifecycleStateUpgrading        DatabaseSummaryLifecycleStateEnum = "UPGRADING"
+	DatabaseSummaryLifecycleStateConverting       DatabaseSummaryLifecycleStateEnum = "CONVERTING"
 	DatabaseSummaryLifecycleStateTerminating      DatabaseSummaryLifecycleStateEnum = "TERMINATING"
 	DatabaseSummaryLifecycleStateTerminated       DatabaseSummaryLifecycleStateEnum = "TERMINATED"
 	DatabaseSummaryLifecycleStateRestoreFailed    DatabaseSummaryLifecycleStateEnum = "RESTORE_FAILED"
@@ -115,6 +122,7 @@ var mappingDatabaseSummaryLifecycleState = map[string]DatabaseSummaryLifecycleSt
 	"UPDATING":           DatabaseSummaryLifecycleStateUpdating,
 	"BACKUP_IN_PROGRESS": DatabaseSummaryLifecycleStateBackupInProgress,
 	"UPGRADING":          DatabaseSummaryLifecycleStateUpgrading,
+	"CONVERTING":         DatabaseSummaryLifecycleStateConverting,
 	"TERMINATING":        DatabaseSummaryLifecycleStateTerminating,
 	"TERMINATED":         DatabaseSummaryLifecycleStateTerminated,
 	"RESTORE_FAILED":     DatabaseSummaryLifecycleStateRestoreFailed,

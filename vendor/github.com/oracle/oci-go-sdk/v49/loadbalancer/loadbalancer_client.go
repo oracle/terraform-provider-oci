@@ -51,6 +51,9 @@ func NewLoadBalancerClientWithOboToken(configProvider common.ConfigurationProvid
 }
 
 func newLoadBalancerClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client LoadBalancerClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = LoadBalancerClient{BaseClient: baseClient}
 	client.BasePath = "20170115"
 	err = client.setConfigurationProvider(configProvider)

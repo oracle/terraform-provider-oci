@@ -270,7 +270,7 @@ func waitForStateRefreshForHybridPolling(workRequestClient *oci_work_requests.Wo
 			retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
 			retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
 			e = getWorkRequestErrors(workRequestClient, workRequestIds, retryPolicy, entityType, action)
-			return handleError(sync, e)
+			return e
 		}
 
 		if _, ok := e.(*resource.TimeoutError); ok {
@@ -527,7 +527,7 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 			} else {
 				e = fmt.Errorf("During %s, service reported unexpected state: %s.", operationName, sync.State())
 			}
-			return handleError(sync, e)
+			return e
 		}
 
 		if _, ok := e.(*resource.TimeoutError); ok {

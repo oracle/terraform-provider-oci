@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-const zipFile = "../examples/log_analytics/files/TFSource1.zip"
+const zipFile = "../examples/log_analytics/import_custom_content/files/TFSource1.zip"
 
 var (
 	LogAnalyticsImportCustomContentRequiredOnlyResource = LogAnalyticsImportCustomContentResourceDependencies +
@@ -22,6 +22,7 @@ var (
 		"import_custom_content_file": Representation{RepType: Required, Create: zipFile},
 		"namespace":                  Representation{RepType: Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"is_overwrite":               Representation{RepType: Optional, Create: `true`},
+		"expect":                     Representation{RepType: Optional, Create: `100-Continue`},
 	}
 
 	LogAnalyticsImportCustomContentResourceDependencies = "" +
@@ -67,6 +68,7 @@ func TestLogAnalyticsLogAnalyticsImportCustomContentResource_basic(t *testing.T)
 				resource.TestCheckResourceAttr(resourceName, "import_custom_content_file", zipFile),
 				resource.TestCheckResourceAttr(resourceName, "is_overwrite", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "expect", "100-Continue"),
 			),
 		},
 	})

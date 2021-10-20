@@ -51,6 +51,9 @@ func NewNotificationDataPlaneClientWithOboToken(configProvider common.Configurat
 }
 
 func newNotificationDataPlaneClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client NotificationDataPlaneClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = NotificationDataPlaneClient{BaseClient: baseClient}
 	client.BasePath = "20181201"
 	err = client.setConfigurationProvider(configProvider)

@@ -50,6 +50,9 @@ func NewBdsClientWithOboToken(configProvider common.ConfigurationProvider, oboTo
 }
 
 func newBdsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client BdsClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = BdsClient{BaseClient: baseClient}
 	client.BasePath = "20190531"
 	err = client.setConfigurationProvider(configProvider)

@@ -93,6 +93,9 @@ type TestParserPayloadDetails struct {
 
 	// The parser type.  Default value is REGEX.
 	Type TestParserPayloadDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
+
+	// A flag indicating whether the XML parser should consider the namespace(s) while processing the log data.
+	IsNamespaceAware *bool `mandatory:"false" json:"isNamespaceAware"`
 }
 
 func (m TestParserPayloadDetails) String() string {

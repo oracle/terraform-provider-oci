@@ -52,6 +52,9 @@ func NewObjectStorageClientWithOboToken(configProvider common.ConfigurationProvi
 }
 
 func newObjectStorageClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ObjectStorageClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ObjectStorageClient{BaseClient: baseClient}
 	err = client.setConfigurationProvider(configProvider)
 	return

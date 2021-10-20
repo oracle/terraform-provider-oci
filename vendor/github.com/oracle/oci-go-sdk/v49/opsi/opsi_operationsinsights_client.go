@@ -52,6 +52,9 @@ func NewOperationsInsightsClientWithOboToken(configProvider common.Configuration
 }
 
 func newOperationsInsightsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OperationsInsightsClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = OperationsInsightsClient{BaseClient: baseClient}
 	client.BasePath = "20200630"
 	err = client.setConfigurationProvider(configProvider)

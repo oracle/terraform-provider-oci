@@ -52,6 +52,9 @@ func NewHealthChecksClientWithOboToken(configProvider common.ConfigurationProvid
 }
 
 func newHealthChecksClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client HealthChecksClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = HealthChecksClient{BaseClient: baseClient}
 	client.BasePath = "20180501"
 	err = client.setConfigurationProvider(configProvider)

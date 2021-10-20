@@ -54,6 +54,9 @@ func NewVirtualNetworkClientWithOboToken(configProvider common.ConfigurationProv
 }
 
 func newVirtualNetworkClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client VirtualNetworkClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = VirtualNetworkClient{BaseClient: baseClient}
 	client.BasePath = "20160918"
 	err = client.setConfigurationProvider(configProvider)

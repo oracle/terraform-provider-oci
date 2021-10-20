@@ -53,6 +53,9 @@ func NewResourceManagerClientWithOboToken(configProvider common.ConfigurationPro
 }
 
 func newResourceManagerClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ResourceManagerClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = ResourceManagerClient{BaseClient: baseClient}
 	client.BasePath = "20180917"
 	err = client.setConfigurationProvider(configProvider)

@@ -51,6 +51,9 @@ func NewDnsClientWithOboToken(configProvider common.ConfigurationProvider, oboTo
 }
 
 func newDnsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DnsClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = DnsClient{BaseClient: baseClient}
 	client.BasePath = "20180115"
 	err = client.setConfigurationProvider(configProvider)

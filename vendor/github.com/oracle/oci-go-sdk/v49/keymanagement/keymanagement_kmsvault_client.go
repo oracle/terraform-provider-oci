@@ -51,6 +51,9 @@ func NewKmsVaultClientWithOboToken(configProvider common.ConfigurationProvider, 
 }
 
 func newKmsVaultClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client KmsVaultClient, err error) {
+	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
+	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
+
 	client = KmsVaultClient{BaseClient: baseClient}
 	client.BasePath = ""
 	err = client.setConfigurationProvider(configProvider)
