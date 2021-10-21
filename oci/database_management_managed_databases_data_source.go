@@ -128,6 +128,10 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"workload_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -267,6 +271,8 @@ func ManagedDatabaseSummaryToMap(obj oci_database_management.ManagedDatabaseSumm
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
 	}
+
+	result["workload_type"] = string(obj.WorkloadType)
 
 	return result
 }
