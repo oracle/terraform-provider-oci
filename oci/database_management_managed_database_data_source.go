@@ -93,6 +93,10 @@ func DatabaseManagementManagedDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"workload_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -178,6 +182,8 @@ func (s *DatabaseManagementManagedDatabaseDataSourceCrud) SetData() error {
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
+
+	s.D.Set("workload_type", s.Res.WorkloadType)
 
 	return nil
 }

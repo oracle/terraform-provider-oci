@@ -89,6 +89,10 @@ func DatabaseManagementManagedDatabaseGroupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"workload_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -493,6 +497,8 @@ func ChildDatabaseToMap(obj oci_database_management.ChildDatabase) map[string]in
 	if obj.TimeAdded != nil {
 		result["time_added"] = obj.TimeAdded.String()
 	}
+
+	result["workload_type"] = string(obj.WorkloadType)
 
 	return result
 }
