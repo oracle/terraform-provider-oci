@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v49/common"
 )
 
-// CreateTaskFromRestTask The information about the Generic REST task.
+// CreateTaskFromRestTask The information about the Generic REST task. The endpoint and cancelEndpoint  properties are deprecated, use the properties executeRestCallConfig, cancelRestCallConfig and pollRestCallConfig for execute, cancel and polling of the calls.
 type CreateTaskFromRestTask struct {
 
 	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
@@ -56,18 +56,21 @@ type CreateTaskFromRestTask struct {
 
 	Endpoint *Expression `mandatory:"false" json:"endpoint"`
 
-	// The headers for the REST call.
 	Headers *interface{} `mandatory:"false" json:"headers"`
 
-	// JSON data for payload body.
+	// JSON data for payload body. This property is deprecated, use ExecuteRestCallConfig's payload config param instead.
 	JsonData *string `mandatory:"false" json:"jsonData"`
 
 	CancelEndpoint *Expression `mandatory:"false" json:"cancelEndpoint"`
 
-	// The REST method to use.
+	ExecuteRestCallConfig *ExecuteRestCallConfig `mandatory:"false" json:"executeRestCallConfig"`
+
+	CancelRestCallConfig *CancelRestCallConfig `mandatory:"false" json:"cancelRestCallConfig"`
+
+	// The REST method to use. This property is deprecated, use ExecuteRestCallConfig's methodType property instead.
 	MethodType CreateTaskFromRestTaskMethodTypeEnum `mandatory:"false" json:"methodType,omitempty"`
 
-	// The invocation type to be used for Generic REST invocation.
+	// The REST invocation pattern to use. ASYNC_OCI_WORKREQUEST is being deprecated as well as cancelEndpoint/MethodType.
 	ApiCallMode CreateTaskFromRestTaskApiCallModeEnum `mandatory:"false" json:"apiCallMode,omitempty"`
 
 	// The REST method to use for canceling the original request.
@@ -193,11 +196,13 @@ type CreateTaskFromRestTaskApiCallModeEnum string
 const (
 	CreateTaskFromRestTaskApiCallModeSynchronous         CreateTaskFromRestTaskApiCallModeEnum = "SYNCHRONOUS"
 	CreateTaskFromRestTaskApiCallModeAsyncOciWorkrequest CreateTaskFromRestTaskApiCallModeEnum = "ASYNC_OCI_WORKREQUEST"
+	CreateTaskFromRestTaskApiCallModeAsyncGeneric        CreateTaskFromRestTaskApiCallModeEnum = "ASYNC_GENERIC"
 )
 
 var mappingCreateTaskFromRestTaskApiCallMode = map[string]CreateTaskFromRestTaskApiCallModeEnum{
 	"SYNCHRONOUS":           CreateTaskFromRestTaskApiCallModeSynchronous,
 	"ASYNC_OCI_WORKREQUEST": CreateTaskFromRestTaskApiCallModeAsyncOciWorkrequest,
+	"ASYNC_GENERIC":         CreateTaskFromRestTaskApiCallModeAsyncGeneric,
 }
 
 // GetCreateTaskFromRestTaskApiCallModeEnumValues Enumerates the set of values for CreateTaskFromRestTaskApiCallModeEnum

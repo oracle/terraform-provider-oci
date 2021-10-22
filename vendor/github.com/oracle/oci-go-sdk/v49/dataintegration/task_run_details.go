@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -62,6 +62,15 @@ type TaskRunDetails struct {
 
 	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
+
+	// Reference Task Run Id to be used for re-run
+	RefTaskRunId *string `mandatory:"false" json:"refTaskRunId"`
+
+	// Supported re-run types
+	ReRunType TaskRunDetailsReRunTypeEnum `mandatory:"false" json:"reRunType,omitempty"`
+
+	// Step Id for running from a certain step.
+	StepId *string `mandatory:"false" json:"stepId"`
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 }
@@ -129,6 +138,31 @@ var mappingTaskRunDetailsTaskType = map[string]TaskRunDetailsTaskTypeEnum{
 func GetTaskRunDetailsTaskTypeEnumValues() []TaskRunDetailsTaskTypeEnum {
 	values := make([]TaskRunDetailsTaskTypeEnum, 0)
 	for _, v := range mappingTaskRunDetailsTaskType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// TaskRunDetailsReRunTypeEnum Enum with underlying type: string
+type TaskRunDetailsReRunTypeEnum string
+
+// Set of constants representing the allowable values for TaskRunDetailsReRunTypeEnum
+const (
+	TaskRunDetailsReRunTypeBeginning TaskRunDetailsReRunTypeEnum = "BEGINNING"
+	TaskRunDetailsReRunTypeFailed    TaskRunDetailsReRunTypeEnum = "FAILED"
+	TaskRunDetailsReRunTypeStep      TaskRunDetailsReRunTypeEnum = "STEP"
+)
+
+var mappingTaskRunDetailsReRunType = map[string]TaskRunDetailsReRunTypeEnum{
+	"BEGINNING": TaskRunDetailsReRunTypeBeginning,
+	"FAILED":    TaskRunDetailsReRunTypeFailed,
+	"STEP":      TaskRunDetailsReRunTypeStep,
+}
+
+// GetTaskRunDetailsReRunTypeEnumValues Enumerates the set of values for TaskRunDetailsReRunTypeEnum
+func GetTaskRunDetailsReRunTypeEnumValues() []TaskRunDetailsReRunTypeEnum {
+	values := make([]TaskRunDetailsReRunTypeEnum, 0)
+	for _, v := range mappingTaskRunDetailsReRunType {
 		values = append(values, v)
 	}
 	return values

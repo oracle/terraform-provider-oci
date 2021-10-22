@@ -37,6 +37,9 @@ type EmManagedExternalDatabaseConfigurationSummary struct {
 	// The version of the database.
 	DatabaseVersion *string `mandatory:"true" json:"databaseVersion"`
 
+	// Name of the CDB.Only applies to PDB.
+	CdbName *string `mandatory:"true" json:"cdbName"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
@@ -53,6 +56,8 @@ type EmManagedExternalDatabaseConfigurationSummary struct {
 
 	// Array of hostname and instance name.
 	Instances []HostInstanceMap `mandatory:"true" json:"instances"`
+
+	ExadataDetails *ExadataDetails `mandatory:"true" json:"exadataDetails"`
 
 	// Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 	ProcessorCount *int `mandatory:"false" json:"processorCount"`
@@ -86,6 +91,11 @@ func (m EmManagedExternalDatabaseConfigurationSummary) GetDatabaseType() *string
 //GetDatabaseVersion returns DatabaseVersion
 func (m EmManagedExternalDatabaseConfigurationSummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
+}
+
+//GetCdbName returns CdbName
+func (m EmManagedExternalDatabaseConfigurationSummary) GetCdbName() *string {
+	return m.CdbName
 }
 
 //GetDefinedTags returns DefinedTags

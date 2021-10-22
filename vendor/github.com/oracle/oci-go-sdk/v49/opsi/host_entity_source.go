@@ -17,10 +17,12 @@ type HostEntitySourceEnum string
 // Set of constants representing the allowable values for HostEntitySourceEnum
 const (
 	HostEntitySourceMacsManagedExternalHost HostEntitySourceEnum = "MACS_MANAGED_EXTERNAL_HOST"
+	HostEntitySourceEmManagedExternalHost   HostEntitySourceEnum = "EM_MANAGED_EXTERNAL_HOST"
 )
 
 var mappingHostEntitySource = map[string]HostEntitySourceEnum{
 	"MACS_MANAGED_EXTERNAL_HOST": HostEntitySourceMacsManagedExternalHost,
+	"EM_MANAGED_EXTERNAL_HOST":   HostEntitySourceEmManagedExternalHost,
 }
 
 // GetHostEntitySourceEnumValues Enumerates the set of values for HostEntitySourceEnum

@@ -19,6 +19,7 @@ const (
 	UsageUnitCores   UsageUnitEnum = "CORES"
 	UsageUnitGb      UsageUnitEnum = "GB"
 	UsageUnitMbps    UsageUnitEnum = "MBPS"
+	UsageUnitIops    UsageUnitEnum = "IOPS"
 	UsageUnitPercent UsageUnitEnum = "PERCENT"
 )
 
@@ -26,6 +27,7 @@ var mappingUsageUnit = map[string]UsageUnitEnum{
 	"CORES":   UsageUnitCores,
 	"GB":      UsageUnitGb,
 	"MBPS":    UsageUnitMbps,
+	"IOPS":    UsageUnitIops,
 	"PERCENT": UsageUnitPercent,
 }
 

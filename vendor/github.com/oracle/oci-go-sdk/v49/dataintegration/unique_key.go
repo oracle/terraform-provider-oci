@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -79,6 +79,10 @@ func (m *uniquekey) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	switch m.ModelType {
 	case "PRIMARY_KEY":
 		mm := PrimaryKey{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "UNIQUE_KEY":
+		mm := UniqueDataKey{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

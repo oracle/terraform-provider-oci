@@ -16,9 +16,6 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
 type ListWorkRequestsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -34,6 +31,27 @@ type ListWorkRequestsRequest struct {
 	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// The ID of the asynchronous work request.
+	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
+
+	// A filter to return only resources their lifecycleState matches the given OperationStatus.
+	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
+
+	// The ID of the resource affected by the work request.
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
+	// The ID of the related resource for the resource affected by the work request, e.g. the related Exadata Insight OCID of the Database Insight work request
+	RelatedResourceId *string `mandatory:"false" contributesTo:"query" name:"relatedResourceId"`
+
+	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// The field to sort by. Only one sort order may be provided. Default order for timeAccepted is descending.
+	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -88,4 +106,81 @@ func (response ListWorkRequestsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListWorkRequestsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListWorkRequestsStatusEnum Enum with underlying type: string
+type ListWorkRequestsStatusEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsStatusEnum
+const (
+	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
+	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
+	ListWorkRequestsStatusWaiting    ListWorkRequestsStatusEnum = "WAITING"
+	ListWorkRequestsStatusFailed     ListWorkRequestsStatusEnum = "FAILED"
+	ListWorkRequestsStatusSucceeded  ListWorkRequestsStatusEnum = "SUCCEEDED"
+	ListWorkRequestsStatusCanceling  ListWorkRequestsStatusEnum = "CANCELING"
+	ListWorkRequestsStatusCanceled   ListWorkRequestsStatusEnum = "CANCELED"
+)
+
+var mappingListWorkRequestsStatus = map[string]ListWorkRequestsStatusEnum{
+	"ACCEPTED":    ListWorkRequestsStatusAccepted,
+	"IN_PROGRESS": ListWorkRequestsStatusInProgress,
+	"WAITING":     ListWorkRequestsStatusWaiting,
+	"FAILED":      ListWorkRequestsStatusFailed,
+	"SUCCEEDED":   ListWorkRequestsStatusSucceeded,
+	"CANCELING":   ListWorkRequestsStatusCanceling,
+	"CANCELED":    ListWorkRequestsStatusCanceled,
+}
+
+// GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
+func GetListWorkRequestsStatusEnumValues() []ListWorkRequestsStatusEnum {
+	values := make([]ListWorkRequestsStatusEnum, 0)
+	for _, v := range mappingListWorkRequestsStatus {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListWorkRequestsSortOrderEnum Enum with underlying type: string
+type ListWorkRequestsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsSortOrderEnum
+const (
+	ListWorkRequestsSortOrderAsc  ListWorkRequestsSortOrderEnum = "ASC"
+	ListWorkRequestsSortOrderDesc ListWorkRequestsSortOrderEnum = "DESC"
+)
+
+var mappingListWorkRequestsSortOrder = map[string]ListWorkRequestsSortOrderEnum{
+	"ASC":  ListWorkRequestsSortOrderAsc,
+	"DESC": ListWorkRequestsSortOrderDesc,
+}
+
+// GetListWorkRequestsSortOrderEnumValues Enumerates the set of values for ListWorkRequestsSortOrderEnum
+func GetListWorkRequestsSortOrderEnumValues() []ListWorkRequestsSortOrderEnum {
+	values := make([]ListWorkRequestsSortOrderEnum, 0)
+	for _, v := range mappingListWorkRequestsSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListWorkRequestsSortByEnum Enum with underlying type: string
+type ListWorkRequestsSortByEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsSortByEnum
+const (
+	ListWorkRequestsSortByTimeaccepted ListWorkRequestsSortByEnum = "timeAccepted"
+)
+
+var mappingListWorkRequestsSortBy = map[string]ListWorkRequestsSortByEnum{
+	"timeAccepted": ListWorkRequestsSortByTimeaccepted,
+}
+
+// GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
+func GetListWorkRequestsSortByEnumValues() []ListWorkRequestsSortByEnum {
+	values := make([]ListWorkRequestsSortByEnum, 0)
+	for _, v := range mappingListWorkRequestsSortBy {
+		values = append(values, v)
+	}
+	return values
 }

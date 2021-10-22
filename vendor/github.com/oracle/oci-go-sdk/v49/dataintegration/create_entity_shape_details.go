@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -48,6 +48,10 @@ func (m *createentityshapedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.ModelType {
+	case "SQL_ENTITY":
+		mm := CreateEntityShapeFromSql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FILE_ENTITY":
 		mm := CreateEntityShapeFromFile{}
 		err = json.Unmarshal(data, &mm)
@@ -67,10 +71,12 @@ type CreateEntityShapeDetailsModelTypeEnum string
 // Set of constants representing the allowable values for CreateEntityShapeDetailsModelTypeEnum
 const (
 	CreateEntityShapeDetailsModelTypeFileEntity CreateEntityShapeDetailsModelTypeEnum = "FILE_ENTITY"
+	CreateEntityShapeDetailsModelTypeSqlEntity  CreateEntityShapeDetailsModelTypeEnum = "SQL_ENTITY"
 )
 
 var mappingCreateEntityShapeDetailsModelType = map[string]CreateEntityShapeDetailsModelTypeEnum{
 	"FILE_ENTITY": CreateEntityShapeDetailsModelTypeFileEntity,
+	"SQL_ENTITY":  CreateEntityShapeDetailsModelTypeSqlEntity,
 }
 
 // GetCreateEntityShapeDetailsModelTypeEnumValues Enumerates the set of values for CreateEntityShapeDetailsModelTypeEnum

@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -63,6 +63,10 @@ func (m *dataentity) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := DataEntityFromView{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SQL_ENTITY":
+		mm := DataEntityFromSql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FILE_ENTITY":
 		mm := DataEntityFromFile{}
 		err = json.Unmarshal(data, &mm)
@@ -89,6 +93,7 @@ const (
 	DataEntityModelTypeViewEntity      DataEntityModelTypeEnum = "VIEW_ENTITY"
 	DataEntityModelTypeTableEntity     DataEntityModelTypeEnum = "TABLE_ENTITY"
 	DataEntityModelTypeFileEntity      DataEntityModelTypeEnum = "FILE_ENTITY"
+	DataEntityModelTypeSqlEntity       DataEntityModelTypeEnum = "SQL_ENTITY"
 	DataEntityModelTypeDataStoreEntity DataEntityModelTypeEnum = "DATA_STORE_ENTITY"
 )
 
@@ -96,6 +101,7 @@ var mappingDataEntityModelType = map[string]DataEntityModelTypeEnum{
 	"VIEW_ENTITY":       DataEntityModelTypeViewEntity,
 	"TABLE_ENTITY":      DataEntityModelTypeTableEntity,
 	"FILE_ENTITY":       DataEntityModelTypeFileEntity,
+	"SQL_ENTITY":        DataEntityModelTypeSqlEntity,
 	"DATA_STORE_ENTITY": DataEntityModelTypeDataStoreEntity,
 }
 

@@ -37,6 +37,9 @@ type DatabaseConfigurationSummary interface {
 	// The version of the database.
 	GetDatabaseVersion() *string
 
+	// Name of the CDB.Only applies to PDB.
+	GetCdbName() *string
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
@@ -57,6 +60,7 @@ type databaseconfigurationsummary struct {
 	DatabaseDisplayName *string                           `mandatory:"true" json:"databaseDisplayName"`
 	DatabaseType        *string                           `mandatory:"true" json:"databaseType"`
 	DatabaseVersion     *string                           `mandatory:"true" json:"databaseVersion"`
+	CdbName             *string                           `mandatory:"true" json:"cdbName"`
 	DefinedTags         map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	FreeformTags        map[string]string                 `mandatory:"true" json:"freeformTags"`
 	ProcessorCount      *int                              `mandatory:"false" json:"processorCount"`
@@ -80,6 +84,7 @@ func (m *databaseconfigurationsummary) UnmarshalJSON(data []byte) error {
 	m.DatabaseDisplayName = s.Model.DatabaseDisplayName
 	m.DatabaseType = s.Model.DatabaseType
 	m.DatabaseVersion = s.Model.DatabaseVersion
+	m.CdbName = s.Model.CdbName
 	m.DefinedTags = s.Model.DefinedTags
 	m.FreeformTags = s.Model.FreeformTags
 	m.ProcessorCount = s.Model.ProcessorCount
@@ -142,6 +147,11 @@ func (m databaseconfigurationsummary) GetDatabaseType() *string {
 //GetDatabaseVersion returns DatabaseVersion
 func (m databaseconfigurationsummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
+}
+
+//GetCdbName returns CdbName
+func (m databaseconfigurationsummary) GetCdbName() *string {
+	return m.CdbName
 }
 
 //GetDefinedTags returns DefinedTags

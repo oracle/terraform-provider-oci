@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -32,23 +32,27 @@ type CountStatisticSummaryObjectTypeEnum string
 
 // Set of constants representing the allowable values for CountStatisticSummaryObjectTypeEnum
 const (
-	CountStatisticSummaryObjectTypeProject     CountStatisticSummaryObjectTypeEnum = "PROJECT"
-	CountStatisticSummaryObjectTypeFolder      CountStatisticSummaryObjectTypeEnum = "FOLDER"
-	CountStatisticSummaryObjectTypeDataFlow    CountStatisticSummaryObjectTypeEnum = "DATA_FLOW"
-	CountStatisticSummaryObjectTypeDataAsset   CountStatisticSummaryObjectTypeEnum = "DATA_ASSET"
-	CountStatisticSummaryObjectTypeConnection  CountStatisticSummaryObjectTypeEnum = "CONNECTION"
-	CountStatisticSummaryObjectTypeTask        CountStatisticSummaryObjectTypeEnum = "TASK"
-	CountStatisticSummaryObjectTypeApplication CountStatisticSummaryObjectTypeEnum = "APPLICATION"
+	CountStatisticSummaryObjectTypeProject             CountStatisticSummaryObjectTypeEnum = "PROJECT"
+	CountStatisticSummaryObjectTypeFolder              CountStatisticSummaryObjectTypeEnum = "FOLDER"
+	CountStatisticSummaryObjectTypeDataFlow            CountStatisticSummaryObjectTypeEnum = "DATA_FLOW"
+	CountStatisticSummaryObjectTypeDataAsset           CountStatisticSummaryObjectTypeEnum = "DATA_ASSET"
+	CountStatisticSummaryObjectTypeConnection          CountStatisticSummaryObjectTypeEnum = "CONNECTION"
+	CountStatisticSummaryObjectTypeTask                CountStatisticSummaryObjectTypeEnum = "TASK"
+	CountStatisticSummaryObjectTypeApplication         CountStatisticSummaryObjectTypeEnum = "APPLICATION"
+	CountStatisticSummaryObjectTypeFunctionLibrary     CountStatisticSummaryObjectTypeEnum = "FUNCTION_LIBRARY"
+	CountStatisticSummaryObjectTypeUserDefinedFunction CountStatisticSummaryObjectTypeEnum = "USER_DEFINED_FUNCTION"
 )
 
 var mappingCountStatisticSummaryObjectType = map[string]CountStatisticSummaryObjectTypeEnum{
-	"PROJECT":     CountStatisticSummaryObjectTypeProject,
-	"FOLDER":      CountStatisticSummaryObjectTypeFolder,
-	"DATA_FLOW":   CountStatisticSummaryObjectTypeDataFlow,
-	"DATA_ASSET":  CountStatisticSummaryObjectTypeDataAsset,
-	"CONNECTION":  CountStatisticSummaryObjectTypeConnection,
-	"TASK":        CountStatisticSummaryObjectTypeTask,
-	"APPLICATION": CountStatisticSummaryObjectTypeApplication,
+	"PROJECT":               CountStatisticSummaryObjectTypeProject,
+	"FOLDER":                CountStatisticSummaryObjectTypeFolder,
+	"DATA_FLOW":             CountStatisticSummaryObjectTypeDataFlow,
+	"DATA_ASSET":            CountStatisticSummaryObjectTypeDataAsset,
+	"CONNECTION":            CountStatisticSummaryObjectTypeConnection,
+	"TASK":                  CountStatisticSummaryObjectTypeTask,
+	"APPLICATION":           CountStatisticSummaryObjectTypeApplication,
+	"FUNCTION_LIBRARY":      CountStatisticSummaryObjectTypeFunctionLibrary,
+	"USER_DEFINED_FUNCTION": CountStatisticSummaryObjectTypeUserDefinedFunction,
 }
 
 // GetCountStatisticSummaryObjectTypeEnumValues Enumerates the set of values for CountStatisticSummaryObjectTypeEnum

@@ -52,6 +52,9 @@ type SummarizeDatabaseInsightResourceUtilizationInsightRequest struct {
 	// Optional list of database insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
+	// Optional list of exadata insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ExadataInsightId []string `contributesTo:"query" name:"exadataInsightId" collectionFormat:"multi"`
+
 	// Number of days used for utilization forecast analysis.
 	ForecastDays *int `mandatory:"false" contributesTo:"query" name:"forecastDays"`
 

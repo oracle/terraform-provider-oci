@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -52,6 +52,12 @@ type ConnectionSummaryFromAdwc struct {
 
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
+
+	// The Autonomous Data Warehouse instance service name.
+	TnsAlias *string `mandatory:"false" json:"tnsAlias"`
+
+	// Array of service names that are available for selection in the tnsAlias property.
+	TnsNames []string `mandatory:"false" json:"tnsNames"`
 
 	// The user name for the connection.
 	Username *string `mandatory:"false" json:"username"`

@@ -38,6 +38,11 @@ type CreateEsxiHostDetails struct {
 	// ListSupportedSkus.
 	NextSku SkuEnum `mandatory:"false" json:"nextSku,omitempty"`
 
+	// The availability domain to create the ESXi host in.
+	// If keep empty, for AD-specific SDDC, new ESXi host will be created in the same availability domain;
+	// for multi-AD SDDC, new ESXi host will be auto assigned to the next availability domain following evenly distribution strategy.
+	ComputeAvailabilityDomain *string `mandatory:"false" json:"computeAvailabilityDomain"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

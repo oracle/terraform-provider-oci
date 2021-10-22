@@ -37,6 +37,9 @@ type EsxiHostSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	BillingContractEndDate *common.SDKTime `mandatory:"true" json:"billingContractEndDate"`
 
+	// The availability domain of the ESXi host.
+	ComputeAvailabilityDomain *string `mandatory:"true" json:"computeAvailabilityDomain"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

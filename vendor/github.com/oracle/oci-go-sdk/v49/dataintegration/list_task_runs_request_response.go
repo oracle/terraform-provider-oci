@@ -57,6 +57,9 @@ type ListTaskRunsRequest struct {
 	// This filter parameter can be used to filter by model specific queryable fields of the object <br><br><B>Examples:-</B><br> <ul> <li><B>?filter=status eq Failed</B> returns all objects that have a status field with value Failed</li> </ul>
 	Filter []string `contributesTo:"query" name:"filter" collectionFormat:"multi"`
 
+	// This parameter can be used to filter objects by the names starting with the given value.
+	NameStartsWith *string `mandatory:"false" contributesTo:"query" name:"nameStartsWith"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

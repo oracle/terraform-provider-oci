@@ -16,7 +16,7 @@ import (
 // CreateSddcDetails Details of the SDDC.
 type CreateSddcDetails struct {
 
-	// The availability domain to create the SDDC's ESXi hosts in.
+	// The availability domain to create the SDDC's ESXi hosts in. For multi-AD SDDC deployment, set to `multi-AD`.
 	ComputeAvailabilityDomain *string `mandatory:"true" json:"computeAvailabilityDomain"`
 
 	// The VMware software bundle to install on the ESXi hosts in the SDDC. To get a

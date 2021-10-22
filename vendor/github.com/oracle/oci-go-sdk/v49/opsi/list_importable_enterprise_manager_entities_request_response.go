@@ -31,6 +31,15 @@ type ListImportableEnterpriseManagerEntitiesRequest struct {
 	// see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// Filter by one or more Enterprise Manager entity types. Currently, the supported types are "oracle_pdb", "oracle_database", "host", "oracle_dbmachine", "oracle_exa_cloud_service", and "oracle_oci_exadata_cloud_service". If this parameter is not specified, targets of all supported entity types are returned by default.
+	EnterpriseManagerEntityType []string `contributesTo:"query" name:"enterpriseManagerEntityType" collectionFormat:"multi"`
+
+	// Used in combination with enterpriseManagerParentEntityIdentifier to return the members of a particular Enterprise Manager parent entity. Both enterpriseManagerIdentifier and enterpriseManagerParentEntityIdentifier must be specified to identify a particular Enterprise Manager parent entity.
+	EnterpriseManagerIdentifier *string `mandatory:"false" contributesTo:"query" name:"enterpriseManagerIdentifier"`
+
+	// Used in combination with enterpriseManagerIdentifier to return the members of a particular Enterprise Manager parent entity. Both enterpriseManagerIdentifier and enterpriseManagerParentEntityIdentifier must be specified to identify a particular  Enterprise Manager parent entity.
+	EnterpriseManagerParentEntityIdentifier *string `mandatory:"false" contributesTo:"query" name:"enterpriseManagerParentEntityIdentifier"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

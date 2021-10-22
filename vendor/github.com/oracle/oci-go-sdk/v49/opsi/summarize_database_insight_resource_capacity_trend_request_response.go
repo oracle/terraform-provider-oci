@@ -52,6 +52,12 @@ type SummarizeDatabaseInsightResourceCapacityTrendRequest struct {
 	// Optional list of database insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
+	// Optional list of exadata insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ExadataInsightId []string `contributesTo:"query" name:"exadataInsightId" collectionFormat:"multi"`
+
+	// Filter by one or more cdb name.
+	CdbName []string `contributesTo:"query" name:"cdbName" collectionFormat:"multi"`
+
 	// Filter by utilization level by the following buckets:
 	//   - HIGH_UTILIZATION: DBs with utilization greater or equal than 75.
 	//   - LOW_UTILIZATION: DBs with utilization lower than 25.

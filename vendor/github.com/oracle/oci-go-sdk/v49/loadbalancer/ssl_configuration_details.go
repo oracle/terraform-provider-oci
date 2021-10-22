@@ -26,6 +26,14 @@ type SslConfigurationDetails struct {
 	// Example: `true`
 	VerifyPeerCertificate *bool `mandatory:"false" json:"verifyPeerCertificate"`
 
+	// Ids for OCI certificates service CA or CA bundles for the load balancer to trust.
+	// Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]`
+	TrustedCertificateAuthorityIds []string `mandatory:"false" json:"trustedCertificateAuthorityIds"`
+
+	// Ids for OCI certificates service certificates. Currently only a single Id may be passed.
+	// Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]`
+	CertificateIds []string `mandatory:"false" json:"certificateIds"`
+
 	// A friendly name for the certificate bundle. It must be unique and it cannot be changed.
 	// Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
 	// Certificate bundle names cannot contain spaces. Avoid entering confidential information.

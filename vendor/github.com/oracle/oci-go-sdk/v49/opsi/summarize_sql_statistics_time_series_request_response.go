@@ -29,6 +29,12 @@ type SummarizeSqlStatisticsTimeSeriesRequest struct {
 	// Optional list of database OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
+	// Optional list of exadata insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ExadataInsightId []string `contributesTo:"query" name:"exadataInsightId" collectionFormat:"multi"`
+
+	// Filter by one or more cdb name.
+	CdbName []string `contributesTo:"query" name:"cdbName" collectionFormat:"multi"`
+
 	// Filter by one or more hostname.
 	HostName []string `contributesTo:"query" name:"hostName" collectionFormat:"multi"`
 

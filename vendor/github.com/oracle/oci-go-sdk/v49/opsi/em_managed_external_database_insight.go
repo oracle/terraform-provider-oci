@@ -73,6 +73,9 @@ type EmManagedExternalDatabaseInsight struct {
 	// Enterprise Manager Entity Display Name
 	EnterpriseManagerEntityDisplayName *string `mandatory:"false" json:"enterpriseManagerEntityDisplayName"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
+	ExadataInsightId *string `mandatory:"false" json:"exadataInsightId"`
+
 	// Indicates the status of a database insight in Operations Insights
 	Status ResourceStatusEnum `mandatory:"true" json:"status"`
 
