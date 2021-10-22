@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v49/common"
 )
 
-// CreateConnectionFromBicc The details to create an Oracle Database data asset connection.
+// CreateConnectionFromBicc The connection summary details for a FUSION_APP BICC connection.
 type CreateConnectionFromBicc struct {
 
 	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.

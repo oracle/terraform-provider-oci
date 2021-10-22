@@ -32,6 +32,14 @@ const (
 	OperationTypeCreateHostInsight             OperationTypeEnum = "CREATE_HOST_INSIGHT"
 	OperationTypeMoveHostInsight               OperationTypeEnum = "MOVE_HOST_INSIGHT"
 	OperationTypeDeleteHostInsight             OperationTypeEnum = "DELETE_HOST_INSIGHT"
+	OperationTypeCreateExadataInsight          OperationTypeEnum = "CREATE_EXADATA_INSIGHT"
+	OperationTypeEnableExadataInsight          OperationTypeEnum = "ENABLE_EXADATA_INSIGHT"
+	OperationTypeDisableExadataInsight         OperationTypeEnum = "DISABLE_EXADATA_INSIGHT"
+	OperationTypeUpdateExadataInsight          OperationTypeEnum = "UPDATE_EXADATA_INSIGHT"
+	OperationTypeMoveExadataInsight            OperationTypeEnum = "MOVE_EXADATA_INSIGHT"
+	OperationTypeDeleteExadataInsight          OperationTypeEnum = "DELETE_EXADATA_INSIGHT"
+	OperationTypeAddExadataInsightMembers      OperationTypeEnum = "ADD_EXADATA_INSIGHT_MEMBERS"
+	OperationTypeExadataAutoSync               OperationTypeEnum = "EXADATA_AUTO_SYNC"
 )
 
 var mappingOperationType = map[string]OperationTypeEnum{
@@ -51,6 +59,14 @@ var mappingOperationType = map[string]OperationTypeEnum{
 	"CREATE_HOST_INSIGHT":              OperationTypeCreateHostInsight,
 	"MOVE_HOST_INSIGHT":                OperationTypeMoveHostInsight,
 	"DELETE_HOST_INSIGHT":              OperationTypeDeleteHostInsight,
+	"CREATE_EXADATA_INSIGHT":           OperationTypeCreateExadataInsight,
+	"ENABLE_EXADATA_INSIGHT":           OperationTypeEnableExadataInsight,
+	"DISABLE_EXADATA_INSIGHT":          OperationTypeDisableExadataInsight,
+	"UPDATE_EXADATA_INSIGHT":           OperationTypeUpdateExadataInsight,
+	"MOVE_EXADATA_INSIGHT":             OperationTypeMoveExadataInsight,
+	"DELETE_EXADATA_INSIGHT":           OperationTypeDeleteExadataInsight,
+	"ADD_EXADATA_INSIGHT_MEMBERS":      OperationTypeAddExadataInsightMembers,
+	"EXADATA_AUTO_SYNC":                OperationTypeExadataAutoSync,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum

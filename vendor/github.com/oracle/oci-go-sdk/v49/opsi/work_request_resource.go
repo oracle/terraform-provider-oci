@@ -32,6 +32,9 @@ type WorkRequestResource struct {
 
 	// The URI path that the user can do a GET on to access the resource
 	EntityUri *string `mandatory:"false" json:"entityUri"`
+
+	// Additional information that helps to explain the resource.
+	Metadata map[string]string `mandatory:"false" json:"metadata"`
 }
 
 func (m WorkRequestResource) String() string {

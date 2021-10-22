@@ -82,44 +82,20 @@ func (m *deploystageexecutionprogress) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.DeployStageType {
-	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT":
-		mm := ComputeInstanceGroupBlueGreenTrafficShiftDeployStageExecutionProgress{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "COMPUTE_INSTANCE_GROUP_CANARY_DEPLOYMENT":
-		mm := ComputeInstanceGroupCanaryDeployStageExecutionProgress{}
+	case "MANUAL_APPROVAL":
+		mm := ManualApprovalDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "COMPUTE_INSTANCE_GROUP_ROLLING_DEPLOYMENT":
 		mm := ComputeInstanceGroupDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LOAD_BALANCER_TRAFFIC_SHIFT":
-		mm := LoadBalancerTrafficShiftDeployStageExecutionProgress{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "WAIT":
-		mm := WaitDeployStageExecutionProgress{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "COMPUTE_INSTANCE_GROUP_CANARY_TRAFFIC_SHIFT":
-		mm := ComputeInstanceGroupCanaryTrafficShiftDeployStageExecutionProgress{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "RUN_VALIDATION_TEST_ON_COMPUTE_INSTANCE":
-		mm := RunValidationTestOnComputeInstanceDeployStageExecutionProgress{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MANUAL_APPROVAL":
-		mm := ManualApprovalDeployStageExecutionProgress{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "RUN_DEPLOYMENT_PIPELINE":
-		mm := RunPipelineDeployStageExecutionProgress{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "OKE_DEPLOYMENT":
 		mm := OkeDeployStageExecutionProgress{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOAD_BALANCER_TRAFFIC_SHIFT":
+		mm := LoadBalancerTrafficShiftDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DEPLOY_FUNCTION":
@@ -130,12 +106,8 @@ func (m *deploystageexecutionprogress) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := InvokeFunctionDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "COMPUTE_INSTANCE_GROUP_CANARY_APPROVAL":
-		mm := ComputeInstanceGroupCanaryApprovalDeployStageExecutionProgress{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "COMPUTE_INSTANCE_GROUP_BLUE_GREEN_DEPLOYMENT":
-		mm := ComputeInstanceGroupBlueGreenDeployStageExecutionProgress{}
+	case "WAIT":
+		mm := WaitDeployStageExecutionProgress{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

@@ -35,6 +35,9 @@ type ResourceStatistics struct {
 
 	// Indicates if auto scaling feature is enabled or disabled on a database. It will be false for all metrics other than CPU.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
+
+	// Array of instance metrics
+	InstanceMetrics []InstanceMetrics `mandatory:"false" json:"instanceMetrics"`
 }
 
 func (m ResourceStatistics) String() string {

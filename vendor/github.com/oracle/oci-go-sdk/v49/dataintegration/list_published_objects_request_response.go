@@ -28,6 +28,12 @@ type ListPublishedObjectsRequest struct {
 	// Used to filter by the name of the object.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
+	// This parameter can be used to filter objects by the names starting with the given value.
+	NameStartsWith *string `mandatory:"false" contributesTo:"query" name:"nameStartsWith"`
+
+	// This parameter can be used to filter objects by the names that match partially or fully with the given value.
+	NameContains *string `mandatory:"false" contributesTo:"query" name:"nameContains"`
+
 	// Used to filter by the identifier of the published object.
 	Identifier []string `contributesTo:"query" name:"identifier" collectionFormat:"multi"`
 

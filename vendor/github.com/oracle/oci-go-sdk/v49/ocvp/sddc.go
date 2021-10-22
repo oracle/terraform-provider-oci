@@ -26,8 +26,8 @@ type Sddc struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The availability domain the ESXi hosts are running in.
-	// Example: `Uocm:PHX-AD-1`
+	// The availability domain the ESXi hosts are running in. For Multi-AD SDDC, it is `multi-AD`.
+	// Example: `Uocm:PHX-AD-1`, `multi-AD`
 	ComputeAvailabilityDomain *string `mandatory:"true" json:"computeAvailabilityDomain"`
 
 	// A descriptive name for the SDDC. It must be unique, start with a letter, and contain only letters, digits,

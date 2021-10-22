@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -57,8 +57,20 @@ func (m *abstractfrequencydetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := MonthlyFrequencyDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CUSTOM":
+		mm := CustomFrequencyDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DAILY":
 		mm := DailyFrequencyDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "WEEKLY":
+		mm := WeeklyFrequencyDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MONTHLY_RULE":
+		mm := MonthlyRuleFrequencyDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "HOURLY":
@@ -87,12 +99,16 @@ const (
 	AbstractFrequencyDetailsFrequencyHourly  AbstractFrequencyDetailsFrequencyEnum = "HOURLY"
 	AbstractFrequencyDetailsFrequencyDaily   AbstractFrequencyDetailsFrequencyEnum = "DAILY"
 	AbstractFrequencyDetailsFrequencyMonthly AbstractFrequencyDetailsFrequencyEnum = "MONTHLY"
+	AbstractFrequencyDetailsFrequencyWeekly  AbstractFrequencyDetailsFrequencyEnum = "WEEKLY"
+	AbstractFrequencyDetailsFrequencyCustom  AbstractFrequencyDetailsFrequencyEnum = "CUSTOM"
 )
 
 var mappingAbstractFrequencyDetailsFrequency = map[string]AbstractFrequencyDetailsFrequencyEnum{
 	"HOURLY":  AbstractFrequencyDetailsFrequencyHourly,
 	"DAILY":   AbstractFrequencyDetailsFrequencyDaily,
 	"MONTHLY": AbstractFrequencyDetailsFrequencyMonthly,
+	"WEEKLY":  AbstractFrequencyDetailsFrequencyWeekly,
+	"CUSTOM":  AbstractFrequencyDetailsFrequencyCustom,
 }
 
 // GetAbstractFrequencyDetailsFrequencyEnumValues Enumerates the set of values for AbstractFrequencyDetailsFrequencyEnum
@@ -109,15 +125,21 @@ type AbstractFrequencyDetailsModelTypeEnum string
 
 // Set of constants representing the allowable values for AbstractFrequencyDetailsModelTypeEnum
 const (
-	AbstractFrequencyDetailsModelTypeHourly  AbstractFrequencyDetailsModelTypeEnum = "HOURLY"
-	AbstractFrequencyDetailsModelTypeDaily   AbstractFrequencyDetailsModelTypeEnum = "DAILY"
-	AbstractFrequencyDetailsModelTypeMonthly AbstractFrequencyDetailsModelTypeEnum = "MONTHLY"
+	AbstractFrequencyDetailsModelTypeHourly      AbstractFrequencyDetailsModelTypeEnum = "HOURLY"
+	AbstractFrequencyDetailsModelTypeDaily       AbstractFrequencyDetailsModelTypeEnum = "DAILY"
+	AbstractFrequencyDetailsModelTypeMonthly     AbstractFrequencyDetailsModelTypeEnum = "MONTHLY"
+	AbstractFrequencyDetailsModelTypeWeekly      AbstractFrequencyDetailsModelTypeEnum = "WEEKLY"
+	AbstractFrequencyDetailsModelTypeMonthlyRule AbstractFrequencyDetailsModelTypeEnum = "MONTHLY_RULE"
+	AbstractFrequencyDetailsModelTypeCustom      AbstractFrequencyDetailsModelTypeEnum = "CUSTOM"
 )
 
 var mappingAbstractFrequencyDetailsModelType = map[string]AbstractFrequencyDetailsModelTypeEnum{
-	"HOURLY":  AbstractFrequencyDetailsModelTypeHourly,
-	"DAILY":   AbstractFrequencyDetailsModelTypeDaily,
-	"MONTHLY": AbstractFrequencyDetailsModelTypeMonthly,
+	"HOURLY":       AbstractFrequencyDetailsModelTypeHourly,
+	"DAILY":        AbstractFrequencyDetailsModelTypeDaily,
+	"MONTHLY":      AbstractFrequencyDetailsModelTypeMonthly,
+	"WEEKLY":       AbstractFrequencyDetailsModelTypeWeekly,
+	"MONTHLY_RULE": AbstractFrequencyDetailsModelTypeMonthlyRule,
+	"CUSTOM":       AbstractFrequencyDetailsModelTypeCustom,
 }
 
 // GetAbstractFrequencyDetailsModelTypeEnumValues Enumerates the set of values for AbstractFrequencyDetailsModelTypeEnum

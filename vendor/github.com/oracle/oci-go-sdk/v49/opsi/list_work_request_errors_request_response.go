@@ -35,6 +35,12 @@ type ListWorkRequestErrorsRequest struct {
 	// Example: `50`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// The field to sort by. Only one sort order may be provided. Default order for timeAccepted is descending.
+	SortBy ListWorkRequestErrorsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+	SortOrder ListWorkRequestErrorsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -88,4 +94,48 @@ func (response ListWorkRequestErrorsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListWorkRequestErrorsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListWorkRequestErrorsSortByEnum Enum with underlying type: string
+type ListWorkRequestErrorsSortByEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestErrorsSortByEnum
+const (
+	ListWorkRequestErrorsSortByTimeaccepted ListWorkRequestErrorsSortByEnum = "timeAccepted"
+)
+
+var mappingListWorkRequestErrorsSortBy = map[string]ListWorkRequestErrorsSortByEnum{
+	"timeAccepted": ListWorkRequestErrorsSortByTimeaccepted,
+}
+
+// GetListWorkRequestErrorsSortByEnumValues Enumerates the set of values for ListWorkRequestErrorsSortByEnum
+func GetListWorkRequestErrorsSortByEnumValues() []ListWorkRequestErrorsSortByEnum {
+	values := make([]ListWorkRequestErrorsSortByEnum, 0)
+	for _, v := range mappingListWorkRequestErrorsSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListWorkRequestErrorsSortOrderEnum Enum with underlying type: string
+type ListWorkRequestErrorsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestErrorsSortOrderEnum
+const (
+	ListWorkRequestErrorsSortOrderAsc  ListWorkRequestErrorsSortOrderEnum = "ASC"
+	ListWorkRequestErrorsSortOrderDesc ListWorkRequestErrorsSortOrderEnum = "DESC"
+)
+
+var mappingListWorkRequestErrorsSortOrder = map[string]ListWorkRequestErrorsSortOrderEnum{
+	"ASC":  ListWorkRequestErrorsSortOrderAsc,
+	"DESC": ListWorkRequestErrorsSortOrderDesc,
+}
+
+// GetListWorkRequestErrorsSortOrderEnumValues Enumerates the set of values for ListWorkRequestErrorsSortOrderEnum
+func GetListWorkRequestErrorsSortOrderEnumValues() []ListWorkRequestErrorsSortOrderEnum {
+	values := make([]ListWorkRequestErrorsSortOrderEnum, 0)
+	for _, v := range mappingListWorkRequestErrorsSortOrder {
+		values = append(values, v)
+	}
+	return values
 }

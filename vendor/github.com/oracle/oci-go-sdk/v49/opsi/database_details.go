@@ -38,6 +38,9 @@ type DatabaseDetails struct {
 
 	// Array of hostname and instance name.
 	Instances []HostInstanceMap `mandatory:"false" json:"instances"`
+
+	// Name of the CDB.Only applies to PDB.
+	CdbName *string `mandatory:"false" json:"cdbName"`
 }
 
 func (m DatabaseDetails) String() string {

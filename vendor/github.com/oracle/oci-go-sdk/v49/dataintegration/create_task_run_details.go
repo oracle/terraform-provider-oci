@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -39,9 +39,43 @@ type CreateTaskRunDetails struct {
 	// Optional task schedule key reference.
 	TaskScheduleKey *string `mandatory:"false" json:"taskScheduleKey"`
 
+	// Reference Task Run Id to be used for re-run
+	RefTaskRunId *string `mandatory:"false" json:"refTaskRunId"`
+
+	// Supported re-run types
+	ReRunType CreateTaskRunDetailsReRunTypeEnum `mandatory:"false" json:"reRunType,omitempty"`
+
+	// Step Id for running from a certain step.
+	StepId *string `mandatory:"false" json:"stepId"`
+
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 }
 
 func (m CreateTaskRunDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateTaskRunDetailsReRunTypeEnum Enum with underlying type: string
+type CreateTaskRunDetailsReRunTypeEnum string
+
+// Set of constants representing the allowable values for CreateTaskRunDetailsReRunTypeEnum
+const (
+	CreateTaskRunDetailsReRunTypeBeginning CreateTaskRunDetailsReRunTypeEnum = "BEGINNING"
+	CreateTaskRunDetailsReRunTypeFailed    CreateTaskRunDetailsReRunTypeEnum = "FAILED"
+	CreateTaskRunDetailsReRunTypeStep      CreateTaskRunDetailsReRunTypeEnum = "STEP"
+)
+
+var mappingCreateTaskRunDetailsReRunType = map[string]CreateTaskRunDetailsReRunTypeEnum{
+	"BEGINNING": CreateTaskRunDetailsReRunTypeBeginning,
+	"FAILED":    CreateTaskRunDetailsReRunTypeFailed,
+	"STEP":      CreateTaskRunDetailsReRunTypeStep,
+}
+
+// GetCreateTaskRunDetailsReRunTypeEnumValues Enumerates the set of values for CreateTaskRunDetailsReRunTypeEnum
+func GetCreateTaskRunDetailsReRunTypeEnumValues() []CreateTaskRunDetailsReRunTypeEnum {
+	values := make([]CreateTaskRunDetailsReRunTypeEnum, 0)
+	for _, v := range mappingCreateTaskRunDetailsReRunType {
+		values = append(values, v)
+	}
+	return values
 }

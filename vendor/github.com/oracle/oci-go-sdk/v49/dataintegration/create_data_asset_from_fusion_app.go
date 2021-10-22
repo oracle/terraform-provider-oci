@@ -4,7 +4,7 @@
 
 // Data Integration API
 //
-// Use the Data Integration Service APIs to perform common extract, load, and transform (ETL) tasks.
+// Use the Data Integration API to organize your data integration projects, create data flows, pipelines and tasks, and then publish, schedule, and run tasks that extract, transform, and load data. For more information, see Data Integration (https://docs.oracle.com/iaas/data-integration/home.htm).
 //
 
 package dataintegration
@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v49/common"
 )
 
-// CreateDataAssetFromFusionApp Details for the MYSQL data asset type.
+// CreateDataAssetFromFusionApp Details for the FUSION_APP data asset type.
 type CreateDataAssetFromFusionApp struct {
 
 	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
@@ -43,7 +43,7 @@ type CreateDataAssetFromFusionApp struct {
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 
-	// The service url of the Bi Server.
+	// The generic JDBC host name.
 	ServiceUrl *string `mandatory:"false" json:"serviceUrl"`
 
 	DefaultConnection *CreateConnectionFromBicc `mandatory:"false" json:"defaultConnection"`

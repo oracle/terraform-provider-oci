@@ -127,6 +127,10 @@ func (m *hostinsightsummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := MacsManagedExternalHostInsightSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "EM_MANAGED_EXTERNAL_HOST":
+		mm := EmManagedExternalHostInsightSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
