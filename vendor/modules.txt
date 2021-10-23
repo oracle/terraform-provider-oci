@@ -270,6 +270,7 @@ github.com/oracle/oci-go-sdk/v49/bastion
 github.com/oracle/oci-go-sdk/v49/bds
 github.com/oracle/oci-go-sdk/v49/blockchain
 github.com/oracle/oci-go-sdk/v49/budget
+github.com/oracle/oci-go-sdk/v49/certificatesmanagement
 github.com/oracle/oci-go-sdk/v49/cloudguard
 github.com/oracle/oci-go-sdk/v49/common
 github.com/oracle/oci-go-sdk/v49/common/auth
