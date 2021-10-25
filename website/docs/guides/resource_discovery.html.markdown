@@ -560,6 +560,7 @@ identity
 * oci\_identity\_tag\_namespace
 * oci\_identity\_tag
 * oci\_identity\_network\_source
+* oci\_identity\_domain
 
 integration
     

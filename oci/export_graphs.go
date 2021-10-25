@@ -667,6 +667,7 @@ var identityResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportIdentityPolicyHints},
 		{TerraformResourceHints: exportIdentityUserHints},
 		{TerraformResourceHints: exportIdentityNetworkSourceHints},
+		{TerraformResourceHints: exportIdentityDomainHints},
 	},
 	"oci_identity_compartment": {
 		{

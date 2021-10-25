@@ -1936,6 +1936,16 @@ var exportIdentityTagHints = &TerraformResourceHints{
 	},
 }
 
+var exportIdentityDomainHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_domain",
+	datasourceClass:      "oci_identity_domains",
+	datasourceItemsAttr:  "domains",
+	resourceAbbreviation: "domain",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.DomainLifecycleStateActive),
+	},
+}
+
 var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_integration_integration_instance",
 	datasourceClass:        "oci_integration_integration_instances",
