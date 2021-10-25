@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_apm_data_keys
 This data source provides the list of Data Keys in Oracle Cloud Infrastructure Apm service.
 
-Lists all Data Keys for the specified APM Domain. The caller may filter the list by specifying the 'dataKeyType'
+Lists all Data Keys for the specified APM domain. The caller may filter the list by specifying the 'dataKeyType'
 query parameter.
 
 
@@ -30,7 +30,7 @@ data "oci_apm_data_keys" "test_data_keys" {
 
 The following arguments are supported:
 
-* `apm_domain_id` - (Required) OCID of the APM Domain
+* `apm_domain_id` - (Required) The OCID of the APM domain
 * `data_key_type` - (Optional) Data key type.
 
 

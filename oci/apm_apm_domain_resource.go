@@ -151,7 +151,9 @@ func (s *ApmApmDomainResourceCrud) DeletedPending() []string {
 }
 
 func (s *ApmApmDomainResourceCrud) DeletedTarget() []string {
-	return []string{}
+	return []string{
+		string(oci_apm.LifecycleStatesDeleted),
+	}
 }
 
 func (s *ApmApmDomainResourceCrud) Create() error {
