@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -244,10 +245,18 @@ func testAccCheckApmApmDomainDestroy(s *terraform.State) error {
 
 			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "apm")
 
-			_, err := client.GetApmDomain(context.Background(), request)
+			response, err := client.GetApmDomain(context.Background(), request)
 
 			if err == nil {
-				return fmt.Errorf("resource still exists")
+				deletedLifecycleStates := map[string]bool{
+					string(oci_apm.LifecycleStatesDeleted): true,
+				}
+				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
+					//resource lifecycle state is not in expected deleted lifecycle states.
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
+				}
+				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
+				continue
 			}
 
 			//Verify that exception is for '404 not found'.
@@ -294,6 +303,8 @@ func sweepApmApmDomainResource(compartment string) error {
 				fmt.Printf("Error deleting ApmDomain %s %s, It is possible that the resource is already deleted. Please verify manually \n", apmDomainId, error)
 				continue
 			}
+			WaitTillCondition(testAccProvider, &apmDomainId, apmDomainSweepWaitCondition, time.Duration(3*time.Minute),
+				apmDomainSweepResponseFetchOperation, "apm", true)
 		}
 	}
 	return nil
@@ -310,6 +321,7 @@ func getApmDomainIds(compartment string) ([]string, error) {
 
 	listApmDomainsRequest := oci_apm.ListApmDomainsRequest{}
 	listApmDomainsRequest.CompartmentId = &compartmentId
+	listApmDomainsRequest.LifecycleState = oci_apm.ListApmDomainsLifecycleStateActive
 	listApmDomainsResponse, err := apmDomainClient.ListApmDomains(context.Background(), listApmDomainsRequest)
 
 	if err != nil {
@@ -321,4 +333,22 @@ func getApmDomainIds(compartment string) ([]string, error) {
 		AddResourceIdToSweeperResourceIdMap(compartmentId, "ApmDomainId", id)
 	}
 	return resourceIds, nil
+}
+
+func apmDomainSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if apmDomainResponse, ok := response.Response.(oci_apm.GetApmDomainResponse); ok {
+		return apmDomainResponse.LifecycleState != oci_apm.LifecycleStatesDeleted
+	}
+	return false
+}
+
+func apmDomainSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.apmDomainClient().GetApmDomain(context.Background(), oci_apm.GetApmDomainRequest{
+		ApmDomainId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }
