@@ -6,9 +6,10 @@ package oci
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"strconv"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
