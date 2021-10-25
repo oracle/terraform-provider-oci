@@ -10,6 +10,8 @@ description: |-
 # Data Source: oci_identity_identity_providers
 This data source provides the list of Identity Providers in Oracle Cloud Infrastructure Identity service.
 
+**Deprecated.** For more information, see [Deprecated IAM Service APIs](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/deprecatediamapis.htm).
+
 Lists all the identity providers in your tenancy. You must specify the identity provider type (e.g., `SAML2` for
 identity providers using the SAML2.0 protocol). You must specify your tenancy's OCID as the value for the
 compartment ID (remember that the tenancy is simply the root compartment).
