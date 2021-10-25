@@ -8,10 +8,12 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
+
+	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
 )
 
 func init() {
-	RegisterDatasource("oci_analytics_analytics_instance_private_access_channel", AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
+	tf_common.RegisterDatasource("oci_analytics_analytics_instance_private_access_channel", AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
 }
 
 func AnalyticsAnalyticsInstancePrivateAccessChannelDataSource() *schema.Resource {
@@ -24,15 +26,15 @@ func AnalyticsAnalyticsInstancePrivateAccessChannelDataSource() *schema.Resource
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return GetSingularDataSourceItemSchema(AnalyticsAnalyticsInstancePrivateAccessChannelResource(), fieldMap, readSingularAnalyticsAnalyticsInstancePrivateAccessChannel)
+	return tf_common.GetSingularDataSourceItemSchema(AnalyticsAnalyticsInstancePrivateAccessChannelResource(), fieldMap, readSingularAnalyticsAnalyticsInstancePrivateAccessChannel)
 }
 
 func readSingularAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 
-	return ReadResource(sync)
+	return tf_common.ReadResource(sync)
 }
 
 type AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud struct {
@@ -58,7 +60,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) Get() err
 		request.PrivateAccessChannelKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(false, "analytics")
 
 	response, err := s.Client.GetPrivateAccessChannel(context.Background(), request)
 	if err != nil {
@@ -74,7 +76,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud) SetData()
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("AnalyticsAnalyticsInstancePrivateAccessChannelDataSource-", AnalyticsAnalyticsInstancePrivateAccessChannelDataSource(), s.D))
+	s.D.SetId(tf_common.GenerateDataSourceHashID("AnalyticsAnalyticsInstancePrivateAccessChannelDataSource-", AnalyticsAnalyticsInstancePrivateAccessChannelDataSource(), s.D))
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)

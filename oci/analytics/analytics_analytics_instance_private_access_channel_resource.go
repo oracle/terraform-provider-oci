@@ -17,10 +17,12 @@ import (
 
 	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
 	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+
+	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
 )
 
 func init() {
-	RegisterResource("oci_analytics_analytics_instance_private_access_channel", AnalyticsAnalyticsInstancePrivateAccessChannelResource())
+	tf_common.RegisterResource("oci_analytics_analytics_instance_private_access_channel", AnalyticsAnalyticsInstancePrivateAccessChannelResource())
 }
 
 func AnalyticsAnalyticsInstancePrivateAccessChannelResource() *schema.Resource {
@@ -29,9 +31,9 @@ func AnalyticsAnalyticsInstancePrivateAccessChannelResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: GetTimeoutDuration("2h0m"),
-			Update: GetTimeoutDuration("2h0m"),
-			Delete: GetTimeoutDuration("2h0m"),
+			Create: tf_common.GetTimeoutDuration("2h0m"),
+			Update: tf_common.GetTimeoutDuration("2h0m"),
+			Delete: tf_common.GetTimeoutDuration("2h0m"),
 		},
 		Create: createAnalyticsAnalyticsInstancePrivateAccessChannel,
 		Read:   readAnalyticsAnalyticsInstancePrivateAccessChannel,
@@ -104,38 +106,38 @@ func AnalyticsAnalyticsInstancePrivateAccessChannelResource() *schema.Resource {
 func createAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 
-	return CreateResource(d, sync)
+	return tf_common.CreateResource(d, sync)
 }
 
 func readAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 
-	return ReadResource(sync)
+	return tf_common.ReadResource(sync)
 }
 
 func updateAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 
-	return UpdateResource(d, sync)
+	return tf_common.UpdateResource(d, sync)
 }
 
 func deleteAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 	sync.DisableNotFoundRetries = true
 
-	return DeleteResource(d, sync)
+	return tf_common.DeleteResource(d, sync)
 }
 
 type AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud struct {
-	BaseCrud
+	tf_common.BaseCrud
 	Client                 *oci_analytics.AnalyticsClient
 	Res                    *oci_analytics.PrivateAccessChannel
 	WorkRequest            *oci_analytics.WorkRequest
@@ -193,7 +195,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Create() er
 		request.VcnId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.CreatePrivateAccessChannel(context.Background(), request)
 	if err != nil {
@@ -201,10 +203,10 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Create() er
 	}
 
 	workId := response.OpcWorkRequestId
-	returnError := s.getAnalyticsInstancePrivateAccessChannelFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultPrivateAccessChannelCreated, s.D.Timeout(schema.TimeoutCreate))
+	returnError := s.getAnalyticsInstancePrivateAccessChannelFromWorkRequest(workId, tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultPrivateAccessChannelCreated, s.D.Timeout(schema.TimeoutCreate))
 	getWorkRequestRequest := oci_analytics.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workId
-	getWorkRequestRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 	workRequestResponse, _ := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 	s.WorkRequest = &workRequestResponse.WorkRequest
 	return returnError
@@ -236,7 +238,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) getAnalytic
 	request := oci_analytics.GetAnalyticsInstanceRequest{}
 	request.AnalyticsInstanceId = analyticsInstanceId
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -270,7 +272,7 @@ func analyticsInstancePrivateAccessChannelWorkRequestShouldRetryFunc(timeout tim
 		}
 
 		// Make sure we stop on default rules
-		if shouldRetry(response, false, "analytics", startTime) {
+		if tf_common.ShouldRetry(response, false, "analytics", startTime) {
 			return true
 		}
 
@@ -284,7 +286,7 @@ func analyticsInstancePrivateAccessChannelWorkRequestShouldRetryFunc(timeout tim
 
 func analyticsInstancePrivateAccessChannelWaitForWorkRequest(wId *string, entityType string, action oci_analytics.WorkRequestActionResultEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_analytics.AnalyticsClient) (*string, error) {
-	retryPolicy := GetRetryPolicy(disableFoundRetries, "analytics")
+	retryPolicy := tf_common.GetRetryPolicy(disableFoundRetries, "analytics")
 	retryPolicy.ShouldRetryOperation = analyticsInstancePrivateAccessChannelWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_analytics.GetWorkRequestResponse{}
@@ -369,7 +371,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Get() error
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.GetPrivateAccessChannel(context.Background(), request)
 	if err != nil {
@@ -398,7 +400,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Update() er
 	getRequest := oci_analytics.GetPrivateAccessChannelRequest{}
 	getRequest.AnalyticsInstanceId = request.AnalyticsInstanceId
 	getRequest.PrivateAccessChannelKey = request.PrivateAccessChannelKey
-	getRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	getRequest.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	getResponse, err := s.Client.GetPrivateAccessChannel(context.Background(), getRequest)
 	if err != nil {
@@ -445,7 +447,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Update() er
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.UpdatePrivateAccessChannel(context.Background(), request)
 	if err != nil {
@@ -453,7 +455,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Update() er
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstancePrivateAccessChannelFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultPrivateAccessChannelUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAnalyticsInstancePrivateAccessChannelFromWorkRequest(workId, tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultPrivateAccessChannelUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Delete() error {
@@ -469,7 +471,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) Delete() er
 		request.PrivateAccessChannelKey = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.DeletePrivateAccessChannel(context.Background(), request)
 	if err != nil {

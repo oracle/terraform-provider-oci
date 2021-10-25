@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"strconv"
 	"testing"
 
@@ -120,7 +121,7 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 
 func testAccCheckAnalyticsAnalyticsInstancePrivateAccessChannelDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).analyticsClient()
+	client := GetTestClients(&schema.ResourceData{}).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_analytics_analytics_instance_private_access_channel" {
 			noResourceFound = false

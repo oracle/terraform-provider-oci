@@ -179,7 +179,7 @@ func TestAnalyticsAnalyticsInstanceVanityUrlResource_basic(t *testing.T) {
 
 func testAccCheckAnalyticsAnalyticsInstanceVanityUrlDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).analyticsClient()
+	client := testAccProvider.Meta().(*OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_analytics_analytics_instance_vanity_url" {
 			noResourceFound = false

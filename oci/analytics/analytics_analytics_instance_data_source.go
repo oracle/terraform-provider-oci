@@ -8,10 +8,12 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
+
+	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
 )
 
 func init() {
-	RegisterDatasource("oci_analytics_analytics_instance", AnalyticsAnalyticsInstanceDataSource())
+	tf_common.RegisterDatasource("oci_analytics_analytics_instance", AnalyticsAnalyticsInstanceDataSource())
 }
 
 func AnalyticsAnalyticsInstanceDataSource() *schema.Resource {
@@ -20,15 +22,15 @@ func AnalyticsAnalyticsInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return GetSingularDataSourceItemSchema(AnalyticsAnalyticsInstanceResource(), fieldMap, readSingularAnalyticsAnalyticsInstance)
+	return tf_common.GetSingularDataSourceItemSchema(AnalyticsAnalyticsInstanceResource(), fieldMap, readSingularAnalyticsAnalyticsInstance)
 }
 
 func readSingularAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 
-	return ReadResource(sync)
+	return tf_common.ReadResource(sync)
 }
 
 type AnalyticsAnalyticsInstanceDataSourceCrud struct {
@@ -49,7 +51,7 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) Get() error {
 		request.AnalyticsInstanceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(false, "analytics")
 
 	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -78,7 +80,7 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tf_common.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.Description != nil {

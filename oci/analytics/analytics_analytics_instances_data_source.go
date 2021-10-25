@@ -8,17 +8,19 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
+
+	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
 )
 
 func init() {
-	RegisterDatasource("oci_analytics_analytics_instances", AnalyticsAnalyticsInstancesDataSource())
+	tf_common.RegisterDatasource("oci_analytics_analytics_instances", AnalyticsAnalyticsInstancesDataSource())
 }
 
 func AnalyticsAnalyticsInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAnalyticsAnalyticsInstances,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tf_common.DataSourceFiltersSchema(),
 			"capacity_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -42,7 +44,7 @@ func AnalyticsAnalyticsInstancesDataSource() *schema.Resource {
 			"analytics_instances": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(AnalyticsAnalyticsInstanceResource()),
+				Elem:     tf_common.GetDataSourceItemSchema(AnalyticsAnalyticsInstanceResource()),
 			},
 		},
 	}
@@ -51,9 +53,9 @@ func AnalyticsAnalyticsInstancesDataSource() *schema.Resource {
 func readAnalyticsAnalyticsInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 
-	return ReadResource(sync)
+	return tf_common.ReadResource(sync)
 }
 
 type AnalyticsAnalyticsInstancesDataSourceCrud struct {
@@ -91,7 +93,7 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_analytics.ListAnalyticsInstancesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(false, "analytics")
 
 	response, err := s.Client.ListAnalyticsInstances(context.Background(), request)
 	if err != nil {
@@ -119,7 +121,7 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("AnalyticsAnalyticsInstancesDataSource-", AnalyticsAnalyticsInstancesDataSource(), s.D))
+	s.D.SetId(tf_common.GenerateDataSourceHashID("AnalyticsAnalyticsInstancesDataSource-", AnalyticsAnalyticsInstancesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -181,7 +183,7 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AnalyticsAnalyticsInstancesDataSource().Schema["analytics_instances"].Elem.(*schema.Resource).Schema)
+		resources = tf_common.ApplyFilters(f.(*schema.Set), resources, AnalyticsAnalyticsInstancesDataSource().Schema["analytics_instances"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("analytics_instances", resources); err != nil {

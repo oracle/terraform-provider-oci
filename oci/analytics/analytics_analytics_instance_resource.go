@@ -16,10 +16,12 @@ import (
 
 	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
 	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+
+	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
 )
 
 func init() {
-	RegisterResource("oci_analytics_analytics_instance", AnalyticsAnalyticsInstanceResource())
+	tf_common.RegisterResource("oci_analytics_analytics_instance", AnalyticsAnalyticsInstanceResource())
 }
 
 func AnalyticsAnalyticsInstanceResource() *schema.Resource {
@@ -28,9 +30,9 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: GetTimeoutDuration("1h"),
-			Update: GetTimeoutDuration("1h"),
-			Delete: GetTimeoutDuration("1h"),
+			Create: tf_common.GetTimeoutDuration("1h"),
+			Update: tf_common.GetTimeoutDuration("1h"),
+			Delete: tf_common.GetTimeoutDuration("1h"),
 		},
 		Create: createAnalyticsAnalyticsInstance,
 		Read:   readAnalyticsAnalyticsInstance,
@@ -75,7 +77,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
-				StateFunc: GetMd5Hash,
+				StateFunc: tf_common.GetMd5Hash,
 			},
 			"license_type": {
 				Type:     schema.TypeString,
@@ -92,7 +94,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Type:             schema.TypeMap,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				DiffSuppressFunc: tf_common.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
 			"description": {
@@ -125,7 +127,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 							Type:             schema.TypeString,
 							Required:         true,
 							ForceNew:         true,
-							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							DiffSuppressFunc: tf_common.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"PRIVATE",
 								"PUBLIC",
@@ -193,7 +195,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: tf_common.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					string(oci_analytics.AnalyticsInstanceLifecycleStateInactive),
 					string(oci_analytics.AnalyticsInstanceLifecycleStateActive),
@@ -230,7 +232,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
 		wantedPowerState := oci_analytics.AnalyticsInstanceLifecycleStateEnum(strings.ToUpper(powerState.(string)))
@@ -239,7 +241,7 @@ func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
-	if e := CreateResource(d, sync); e != nil {
+	if e := tf_common.CreateResource(d, sync); e != nil {
 		return e
 	}
 
@@ -256,15 +258,15 @@ func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 func readAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 
-	return ReadResource(sync)
+	return tf_common.ReadResource(sync)
 }
 
 func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 
 	powerOn, powerOff := false, false
 
@@ -284,7 +286,7 @@ func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 		sync.D.Set("state", oci_analytics.AnalyticsInstanceLifecycleStateActive)
 	}
 
-	if err := UpdateResource(d, sync); err != nil {
+	if err := tf_common.UpdateResource(d, sync); err != nil {
 		return err
 	}
 
@@ -301,14 +303,14 @@ func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 func deleteAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).analyticsClient()
+	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
 	sync.DisableNotFoundRetries = true
 
-	return DeleteResource(d, sync)
+	return tf_common.DeleteResource(d, sync)
 }
 
 type AnalyticsAnalyticsInstanceResourceCrud struct {
-	BaseCrud
+	tf_common.BaseCrud
 	Client                 *oci_analytics.AnalyticsClient
 	Res                    *oci_analytics.AnalyticsInstance
 	DisableNotFoundRetries bool
@@ -362,7 +364,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tf_common.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -384,7 +386,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tf_common.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if idcsAccessToken, ok := s.D.GetOkExists("idcs_access_token"); ok {
@@ -412,7 +414,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.CreateAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -420,7 +422,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAnalyticsInstanceFromWorkRequest(workId, tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *AnalyticsAnalyticsInstanceResourceCrud) getAnalyticsInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -466,7 +468,7 @@ func analyticsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 		}
 
 		// Make sure we stop on default rules
-		if shouldRetry(response, false, "analytics", startTime) {
+		if tf_common.ShouldRetry(response, false, "analytics", startTime) {
 			return true
 		}
 
@@ -480,7 +482,7 @@ func analyticsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 
 func analyticsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_analytics.WorkRequestActionResultEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_analytics.AnalyticsClient) (*string, error) {
-	retryPolicy := GetRetryPolicy(disableFoundRetries, "analytics")
+	retryPolicy := tf_common.GetRetryPolicy(disableFoundRetries, "analytics")
 	retryPolicy.ShouldRetryOperation = analyticsInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_analytics.GetWorkRequestResponse{}
@@ -561,7 +563,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.AnalyticsInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -588,7 +590,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 	request.AnalyticsInstanceId = &tmp
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tf_common.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -606,14 +608,14 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = tf_common.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseType, ok := s.D.GetOkExists("license_type"); ok {
 		request.LicenseType = oci_analytics.LicenseTypeEnum(licenseType.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.UpdateAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -637,7 +639,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 			scaleRequest.AnalyticsInstanceId = &id
 			scaleRequest.Capacity = &tmp
 
-			scaleRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+			scaleRequest.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 			scaleResponse, err := s.Client.ScaleAnalyticsInstance(context.Background(), scaleRequest)
 
 			if err != nil {
@@ -645,7 +647,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 			}
 
 			workId := scaleResponse.OpcWorkRequestId
-			return s.getAnalyticsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultScaled, s.D.Timeout(schema.TimeoutUpdate))
+			return s.getAnalyticsInstanceFromWorkRequest(workId, tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultScaled, s.D.Timeout(schema.TimeoutUpdate))
 		}
 	}
 
@@ -658,7 +660,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.AnalyticsInstanceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.DeleteAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -684,7 +686,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 	}
 
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tf_common.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.Description != nil {
@@ -742,7 +744,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StartAnalyticsInstance() error 
 	idTmp := s.D.Id()
 	request.AnalyticsInstanceId = &idTmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	_, err := s.Client.StartAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -750,7 +752,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StartAnalyticsInstance() error 
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_analytics.AnalyticsInstanceLifecycleStateActive }
-	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tf_common.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AnalyticsAnalyticsInstanceResourceCrud) StopAnalyticsInstance() error {
@@ -759,7 +761,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StopAnalyticsInstance() error {
 	idTmp := s.D.Id()
 	request.AnalyticsInstanceId = &idTmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	request.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	_, err := s.Client.StopAnalyticsInstance(context.Background(), request)
 	if err != nil {
@@ -767,7 +769,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StopAnalyticsInstance() error {
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_analytics.AnalyticsInstanceLifecycleStateInactive }
-	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tf_common.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToCapacity(fieldKeyFormat string) (oci_analytics.Capacity, error) {
@@ -946,7 +948,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) updateCompartment(compartment i
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.ChangeAnalyticsInstanceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
@@ -954,5 +956,5 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) updateCompartment(compartment i
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceFromWorkRequest(workId, GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCompartmentChanged, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAnalyticsInstanceFromWorkRequest(workId, tf_common.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCompartmentChanged, s.D.Timeout(schema.TimeoutUpdate))
 }

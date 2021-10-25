@@ -31,7 +31,7 @@ type OracleClientRegistrations struct {
 }
 
 type ServiceClientOverrides struct {
-	hostUrlOverride string
+	HostUrlOverride string
 }
 
 type OracleClient struct {
