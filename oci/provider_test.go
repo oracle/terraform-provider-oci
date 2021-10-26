@@ -13,9 +13,9 @@ import (
 	"strings"
 	"testing"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v50/identity"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v49/budget"
+	oci_budget "github.com/oracle/oci-go-sdk/v50/budget"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -28,7 +28,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/meta"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_common "github.com/oracle/oci-go-sdk/v50/common"
 	"github.com/stretchr/testify/assert"
 )
 

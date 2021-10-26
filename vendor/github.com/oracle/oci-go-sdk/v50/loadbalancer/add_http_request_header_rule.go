@@ -1,0 +1,55 @@
+// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Load Balancing API
+//
+// API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
+// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+//
+
+package loadbalancer
+
+import (
+	"encoding/json"
+	"github.com/oracle/oci-go-sdk/v50/common"
+)
+
+// AddHttpRequestHeaderRule An object that represents the action of adding a header to a request.
+// This rule applies only to HTTP listeners.
+// **NOTES:**
+// *  If a matching header already exists in the request, the system removes all of its occurrences, and then adds the
+//    new header.
+// *  The system does not distinquish between underscore and dash characters in headers. That is, it treats
+//   `example_header_name` and `example-header-name` as identical. Oracle recommends that you do not rely on underscore
+//   or dash characters to uniquely distinguish header names.
+type AddHttpRequestHeaderRule struct {
+
+	// A header name that conforms to RFC 7230.
+	// Example: `example_header_name`
+	Header *string `mandatory:"true" json:"header"`
+
+	// A header value that conforms to RFC 7230. With the following exceptions:
+	// *  value cannot contain `$`
+	// *  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
+	// Example: `example_value`
+	Value *string `mandatory:"true" json:"value"`
+}
+
+func (m AddHttpRequestHeaderRule) String() string {
+	return common.PointerString(m)
+}
+
+// MarshalJSON marshals to json representation
+func (m AddHttpRequestHeaderRule) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeAddHttpRequestHeaderRule AddHttpRequestHeaderRule
+	s := struct {
+		DiscriminatorParam string `json:"action"`
+		MarshalTypeAddHttpRequestHeaderRule
+	}{
+		"ADD_HTTP_REQUEST_HEADER",
+		(MarshalTypeAddHttpRequestHeaderRule)(m),
+	}
+
+	return json.Marshal(&s)
+}
