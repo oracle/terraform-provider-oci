@@ -33,9 +33,9 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: GetTimeoutDuration("20m"),
-			Update: GetTimeoutDuration("20m"),
-			Delete: GetTimeoutDuration("20m"),
+			Create: GetTimeoutDuration("50m"),
+			Update: GetTimeoutDuration("50m"),
+			Delete: GetTimeoutDuration("50m"),
 		},
 		Create: createContainerengineNodePool,
 		Read:   readContainerengineNodePool,
