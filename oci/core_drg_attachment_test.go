@@ -42,7 +42,7 @@ var (
 		"drg_id":             Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
 		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":       Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
-		"drg_route_table_id": Representation{RepType: Optional, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`},
+		"drg_route_table_id": Representation{RepType: Optional, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`, Update: `${oci_core_drg_route_table.test_drg_route_table_2.id}`},
 		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_details":    RepresentationGroup{Required, drgAttachmentNetworkDetailsRepresentation},
 		"lifecycle":          RepresentationGroup{Required, ignoreChangesLBRepresentation},
@@ -50,7 +50,7 @@ var (
 	drgAttachmentNetworkDetailsRepresentation = map[string]interface{}{
 		"id":             Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"type":           Representation{RepType: Required, Create: `VCN`},
-		"route_table_id": Representation{RepType: Required, Create: `${oci_core_route_table.test_route_table.id}`},
+		"route_table_id": Representation{RepType: Required, Create: `${oci_core_route_table.test_route_table.id}`, Update: `${oci_core_route_table.test_route_table_2.id}`},
 	}
 
 	drgAttachmentRepresentationNoRouteTable = map[string]interface{}{
@@ -84,9 +84,11 @@ var (
 	}
 
 	DrgAttachmentResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Required, Create, drgRouteTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table_2", Required, Create, drgRouteTableRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table_2", Required, Create, routeTableRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
 		DefinedTagsDependencies
 )
@@ -418,4 +420,85 @@ func drgAttachmentSweepResponseFetchOperation(client *OracleClients, resourceId 
 		},
 	})
 	return err
+}
+
+// Adding a test case for testing the Update request. Updating both drg_route_table_id from and route_table_id simultaneously.
+func TestCoreDrgAttachmentUpdateRequest_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreDrgAttachmentResource_basic")
+	defer httpreplay.SaveScenario()
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_drg_attachment.test_drg_attachment"
+
+	var resId, resId2 string
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	SaveConfigContent(config+compartmentIdVariableStr+DrgAttachmentResourceDependencies+
+		GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation), "core", "drgAttachment", t)
+
+	ResourceTest(t, testAccCheckCoreDrgAttachmentDestroy, []resource.TestStep{
+		//verify create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.route_table_id"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.type", "VCN"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				func(s *terraform.State) (err error) {
+					resId, err = FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		//verify, updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.route_table_id"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.type", "VCN"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		//delete, before next create
+		{
+			Config: config + compartmentIdVariableStr + DrgAttachmentResourceDependencies +
+				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
+		},
+	})
 }
