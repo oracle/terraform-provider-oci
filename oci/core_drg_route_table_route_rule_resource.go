@@ -293,16 +293,16 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Update() error {
 	updateDrgRouteTableDetails := oci_core.UpdateDrgRouteRuleDetails{}
 	updateDrgRouteTableDetails.Id = &drgRouteRuleId
 
-	if destination, ok := s.D.GetOkExists("destination"); ok {
+	if destination, ok := s.D.GetOkExists("destination"); ok && s.D.HasChange("destination") {
 		tmp := destination.(string)
 		updateDrgRouteTableDetails.Destination = &tmp
 	}
 
-	if destinationType, ok := s.D.GetOkExists("destination_type"); ok {
+	if destinationType, ok := s.D.GetOkExists("destination_type"); ok && s.D.HasChange("destination_type") {
 		updateDrgRouteTableDetails.DestinationType = oci_core.UpdateDrgRouteRuleDetailsDestinationTypeEnum(destinationType.(string))
 	}
 
-	if nextHopDrgAttachmentId, ok := s.D.GetOkExists("next_hop_drg_attachment_id"); ok {
+	if nextHopDrgAttachmentId, ok := s.D.GetOkExists("next_hop_drg_attachment_id"); ok && s.D.HasChange("next_hop_drg_attachment_id") {
 		tmp := nextHopDrgAttachmentId.(string)
 		updateDrgRouteTableDetails.NextHopDrgAttachmentId = &tmp
 	}
