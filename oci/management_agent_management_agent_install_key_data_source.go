@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v49/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v50/managementagent"
 )
 
 func init() {

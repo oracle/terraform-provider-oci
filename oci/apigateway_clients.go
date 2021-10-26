@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_apigateway "github.com/oracle/oci-go-sdk/v49/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v50/apigateway"
 
-	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_common "github.com/oracle/oci-go-sdk/v50/common"
 )
 
 func init() {

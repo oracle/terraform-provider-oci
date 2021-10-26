@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database_management "github.com/oracle/oci-go-sdk/v49/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v50/databasemanagement"
 )
 
 func init() {

@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v49/certificatesmanagement"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v50/certificatesmanagement"
 )
 
 func init() {
