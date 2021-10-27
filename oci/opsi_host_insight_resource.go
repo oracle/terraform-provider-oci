@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v49/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
+	oci_common "github.com/oracle/oci-go-sdk/v50/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v50/opsi"
 )
 
 func init() {
@@ -43,13 +43,9 @@ func OpsiHostInsightResource() *schema.Resource {
 				Required:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"EM_MANAGED_EXTERNAL_HOST",
 					"MACS_MANAGED_EXTERNAL_HOST",
 				}, true),
-			},
-			"management_agent_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
 			},
 
 			// Optional
@@ -71,8 +67,50 @@ func OpsiHostInsightResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"management_agent_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"enterprise_manager_bridge_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"enterprise_manager_entity_identifier": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"enterprise_manager_identifier": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"exadata_insight_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
+			"enterprise_manager_entity_display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"enterprise_manager_entity_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"enterprise_manager_entity_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"host_display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -519,6 +557,106 @@ func (s *OpsiHostInsightResourceCrud) Delete() error {
 
 func (s *OpsiHostInsightResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
+	case oci_opsi.EmManagedExternalHostInsight:
+		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_HOST")
+
+		if v.EnterpriseManagerBridgeId != nil {
+			s.D.Set("enterprise_manager_bridge_id", *v.EnterpriseManagerBridgeId)
+		}
+
+		if v.EnterpriseManagerEntityDisplayName != nil {
+			s.D.Set("enterprise_manager_entity_display_name", *v.EnterpriseManagerEntityDisplayName)
+		}
+
+		if v.EnterpriseManagerEntityIdentifier != nil {
+			s.D.Set("enterprise_manager_entity_identifier", *v.EnterpriseManagerEntityIdentifier)
+		}
+
+		if v.EnterpriseManagerEntityName != nil {
+			s.D.Set("enterprise_manager_entity_name", *v.EnterpriseManagerEntityName)
+		}
+
+		if v.EnterpriseManagerEntityType != nil {
+			s.D.Set("enterprise_manager_entity_type", *v.EnterpriseManagerEntityType)
+		}
+
+		if v.EnterpriseManagerIdentifier != nil {
+			s.D.Set("enterprise_manager_identifier", *v.EnterpriseManagerIdentifier)
+		}
+
+		if v.ExadataInsightId != nil {
+			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
+		}
+
+		if v.PlatformName != nil {
+			s.D.Set("platform_name", *v.PlatformName)
+		}
+
+		s.D.Set("platform_type", v.PlatformType)
+
+		if v.PlatformVersion != nil {
+			s.D.Set("platform_version", *v.PlatformVersion)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", definedTagsToMap(v.DefinedTags))
+		}
+
+		if v.EnterpriseManagerBridgeId != nil {
+			s.D.Set("enterprise_manager_bridge_id", *v.EnterpriseManagerBridgeId)
+		}
+
+		if v.ExadataInsightId != nil {
+			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.HostDisplayName != nil {
+			s.D.Set("host_display_name", *v.HostDisplayName)
+		}
+
+		if v.HostName != nil {
+			s.D.Set("host_name", *v.HostName)
+		}
+
+		if v.HostType != nil {
+			s.D.Set("host_type", *v.HostType)
+		}
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("platform_type", v.PlatformType)
+
+		if v.ProcessorCount != nil {
+			s.D.Set("processor_count", *v.ProcessorCount)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", systemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_opsi.MacsManagedExternalHostInsight:
 		s.D.Set("entity_source", "MACS_MANAGED_EXTERNAL_HOST")
 
@@ -595,6 +733,85 @@ func (s *OpsiHostInsightResourceCrud) SetData() error {
 func HostInsightSummaryToMap(obj oci_opsi.HostInsightSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_opsi.EmManagedExternalHostInsightSummary:
+		result["entity_source"] = "EM_MANAGED_EXTERNAL_HOST"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			result["defined_tags"] = definedTagsToMap(v.DefinedTags)
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.HostDisplayName != nil {
+			result["host_display_name"] = string(*v.HostDisplayName)
+		}
+
+		if v.HostName != nil {
+			result["host_name"] = string(*v.HostName)
+		}
+
+		if v.HostType != nil {
+			result["host_type"] = string(*v.HostType)
+		}
+
+		if v.EnterpriseManagerBridgeId != nil {
+			result["enterprise_manager_bridge_id"] = string(*v.EnterpriseManagerBridgeId)
+		}
+
+		if v.EnterpriseManagerEntityDisplayName != nil {
+			result["enterprise_manager_entity_display_name"] = string(*v.EnterpriseManagerEntityDisplayName)
+		}
+
+		if v.EnterpriseManagerEntityIdentifier != nil {
+			result["enterprise_manager_entity_identifier"] = string(*v.EnterpriseManagerEntityIdentifier)
+		}
+
+		if v.EnterpriseManagerEntityName != nil {
+			result["enterprise_manager_entity_name"] = string(*v.EnterpriseManagerEntityName)
+		}
+
+		if v.EnterpriseManagerEntityType != nil {
+			result["enterprise_manager_entity_type"] = string(*v.EnterpriseManagerEntityType)
+		}
+
+		if v.EnterpriseManagerIdentifier != nil {
+			result["enterprise_manager_identifier"] = string(*v.EnterpriseManagerIdentifier)
+		}
+
+		if v.ExadataInsightId != nil {
+			result["exadata_insight_id"] = string(*v.ExadataInsightId)
+		}
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = string(*v.LifecycleDetails)
+		}
+
+		result["platform_type"] = string(v.PlatformType)
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+
+		if v.ProcessorCount != nil {
+			result["processor_count"] = fmt.Sprint(*v.ProcessorCount)
+		}
+
+		result["state"] = string(v.LifecycleState)
+
+		result["status"] = string(v.Status)
+
 	case oci_opsi.MacsManagedExternalHostInsightSummary:
 		result["entity_source"] = "MACS_MANAGED_EXTERNAL_HOST"
 
@@ -670,6 +887,35 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicCreateHostInsig
 		entitySource = "" // default value
 	}
 	switch strings.ToLower(entitySource) {
+	case strings.ToLower("EM_MANAGED_EXTERNAL_HOST"):
+		details := oci_opsi.CreateEmManagedExternalHostInsightDetails{}
+		if enterpriseManagerBridgeId, ok := s.D.GetOkExists("enterprise_manager_bridge_id"); ok {
+			tmp := enterpriseManagerBridgeId.(string)
+			details.EnterpriseManagerBridgeId = &tmp
+		}
+		if enterpriseManagerEntityIdentifier, ok := s.D.GetOkExists("enterprise_manager_entity_identifier"); ok {
+			tmp := enterpriseManagerEntityIdentifier.(string)
+			details.EnterpriseManagerEntityIdentifier = &tmp
+		}
+		if enterpriseManagerIdentifier, ok := s.D.GetOkExists("enterprise_manager_identifier"); ok {
+			tmp := enterpriseManagerIdentifier.(string)
+			details.EnterpriseManagerIdentifier = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateHostInsightDetails = details
 	case strings.ToLower("MACS_MANAGED_EXTERNAL_HOST"):
 		details := oci_opsi.CreateMacsManagedExternalHostInsightDetails{}
 		if managementAgentId, ok := s.D.GetOkExists("management_agent_id"); ok {
@@ -707,6 +953,21 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicUpdateHostInsig
 		entitySource = "" // default value
 	}
 	switch strings.ToLower(entitySource) {
+	case strings.ToLower("EM_MANAGED_EXTERNAL_HOST"):
+		details := oci_opsi.UpdateEmManagedExternalHostInsightDetails{}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		tmp := s.D.Id()
+		request.HostInsightId = &tmp
+		request.UpdateHostInsightDetails = details
 	case strings.ToLower("MACS_MANAGED_EXTERNAL_HOST"):
 		details := oci_opsi.UpdateMacsManagedExternalHostInsightDetails{}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -738,6 +999,9 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicEnableHostInsig
 		entitySource = "" // default value
 	}
 	switch strings.ToLower(entitySource) {
+	case strings.ToLower("EM_MANAGED_EXTERNAL_HOST"):
+		details := oci_opsi.EnableEmManagedExternalHostInsightDetails{}
+		request.EnableHostInsightDetails = details
 	case strings.ToLower("MACS_MANAGED_EXTERNAL_HOST"):
 		details := oci_opsi.EnableMacsManagedExternalHostInsightDetails{}
 		request.EnableHostInsightDetails = details

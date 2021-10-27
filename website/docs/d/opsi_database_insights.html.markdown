@@ -12,6 +12,7 @@ This data source provides the list of Database Insights in Oracle Cloud Infrastr
 
 Gets a list of database insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
 
+
 ## Example Usage
 
 ```hcl
@@ -22,6 +23,7 @@ data "oci_opsi_database_insights" "test_database_insights" {
 	database_id = oci_database_database.test_database.id
 	database_type = var.database_insight_database_type
 	enterprise_manager_bridge_id = oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id
+	exadata_insight_id = oci_opsi_exadata_insight.test_exadata_insight.id
 	fields = var.database_insight_fields
 	id = var.database_insight_id
 	state = var.database_insight_state
@@ -37,8 +39,9 @@ The following arguments are supported:
 * `database_id` - (Applicable when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) Optional list of database [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity. 
 * `database_type` - (Optional) Filter by one or more database type. Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB. 
 * `enterprise_manager_bridge_id` - (Optional) Unique Enterprise Manager bridge identifier
-* `fields` - (Optional) Specifies the fields to return in a database summary response. By default all fields are returned if omitted. 
-* `id` - (Optional) Optional database insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource. 
+* `exadata_insight_id` - (Optional) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource. 
+* `fields` - (Optional) Specifies the fields to return in a database summary response. By default all fields are returned if omitted.
+* `id` - (Optional) Optional database insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database insight resource.
 * `state` - (Optional) Lifecycle states
 * `status` - (Optional) Resource Status
 
@@ -64,6 +67,7 @@ The following attributes are exported:
 * `enterprise_manager_entity_type` - Enterprise Manager Entity Type
 * `enterprise_manager_identifier` - Enterprise Manager Unqiue Identifier
 * `entity_source` - Source of the database entity.
+* `exadata_insight_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Database insight identifier
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

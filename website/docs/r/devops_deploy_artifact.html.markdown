@@ -28,7 +28,7 @@ resource "oci_devops_deploy_artifact" "test_deploy_artifact" {
 		deploy_artifact_version = var.deploy_artifact_deploy_artifact_source_deploy_artifact_version
 		image_digest = var.deploy_artifact_deploy_artifact_source_image_digest
 		image_uri = var.deploy_artifact_deploy_artifact_source_image_uri
-		repository_id = oci_artifacts_repository.test_repository.id
+		repository_id = oci_devops_repository.test_repository.id
 	}
 	deploy_artifact_type = var.deploy_artifact_deploy_artifact_type
 	project_id = oci_devops_project.test_project.id

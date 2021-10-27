@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v49/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
+	oci_common "github.com/oracle/oci-go-sdk/v50/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v50/opsi"
 )
 
 func init() {
@@ -80,6 +80,12 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 				Optional: true,
+			},
+			"exadata_insight_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -595,6 +601,10 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 			s.D.Set("processor_count", *v.ProcessorCount)
 		}
 
+		if v.ExadataInsightId != nil {
+			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		s.D.Set("status", v.Status)
@@ -726,6 +736,10 @@ func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string
 
 		if v.DatabaseVersion != nil {
 			result["database_version"] = string(*v.DatabaseVersion)
+		}
+
+		if v.ExadataInsightId != nil {
+			result["exadata_insight_id"] = string(*v.ExadataInsightId)
 		}
 
 		if v.LifecycleDetails != nil {

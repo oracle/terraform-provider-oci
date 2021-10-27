@@ -26,6 +26,7 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
+	exadata_insight_id = oci_opsi_exadata_insight.test_exadata_insight.id
 	freeform_tags = {"bar-key"= "value"}
 }
 ```
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `enterprise_manager_entity_identifier` - (Required) Enterprise Manager Entity Unique Identifier
 * `enterprise_manager_identifier` - (Required) Enterprise Manager Unqiue Identifier
 * `entity_source` - (Required) (Updatable) Source of the database entity. The supported type is "EM_MANAGED_EXTERNAL_DATABASE"
+* `exadata_insight_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `status` - (Optional) (Updatable) Status of the resource. Example: "ENABLED", "DISABLED". Resource can be either enabled or disabled by updating the value of status field to either "ENABLED" or "DISABLED"
 
@@ -65,6 +67,7 @@ The following attributes are exported:
 * `enterprise_manager_entity_type` - Enterprise Manager Entity Type
 * `enterprise_manager_identifier` - Enterprise Manager Unqiue Identifier
 * `entity_source` - Source of the database entity.
+* `exadata_insight_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Database insight identifier
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

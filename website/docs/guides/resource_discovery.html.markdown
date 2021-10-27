@@ -127,6 +127,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `bds` - Discovers big data service resources within the specified compartment
     * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
+    * `certificates_management` - Discovers certificates_management resources within the specified compartment
     * `cloud_guard` - Discovers cloud guard resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
@@ -333,6 +334,12 @@ budget
 * oci\_budget\_budget
 * oci\_budget\_alert\_rule
 
+certificates_management
+    
+* oci\_certificates\_management\_ca\_bundle
+* oci\_certificates\_management\_certificate\_authority
+* oci\_certificates\_management\_certificate
+
 cloud_guard
     
 * oci\_cloud\_guard\_target
@@ -474,6 +481,14 @@ devops
 * oci\_devops\_deploy\_pipeline
 * oci\_devops\_deploy\_stage
 * oci\_devops\_deployment
+* oci\_devops\_repository
+* oci\_devops\_repository\_ref
+* oci\_devops\_build\_pipeline
+* oci\_devops\_build\_run
+* oci\_devops\_connection
+* oci\_devops\_build\_pipeline\_stage
+* oci\_devops\_trigger
+* oci\_devops\_repository\_mirror
 
 dns
     
@@ -653,6 +668,7 @@ opsi
 * oci\_opsi\_enterprise\_manager\_bridge
 * oci\_opsi\_database\_insight
 * oci\_opsi\_host\_insight
+* oci\_opsi\_exadata\_insight
 
 optimizer
     

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v49/ocvp"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v50/ocvp"
 )
 
 func init() {
@@ -73,6 +73,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ComputeAvailabilityDomain != nil {
+		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
 	}
 
 	if s.Res.ComputeInstanceId != nil {

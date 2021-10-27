@@ -19,8 +19,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	oci_common "github.com/oracle/oci-go-sdk/v49/common"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v49/containerengine"
+	oci_common "github.com/oracle/oci-go-sdk/v50/common"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v50/containerengine"
 )
 
 func init() {
@@ -33,9 +33,9 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: GetTimeoutDuration("20m"),
-			Update: GetTimeoutDuration("20m"),
-			Delete: GetTimeoutDuration("20m"),
+			Create: GetTimeoutDuration("50m"),
+			Update: GetTimeoutDuration("50m"),
+			Delete: GetTimeoutDuration("50m"),
 		},
 		Create: createContainerengineNodePool,
 		Read:   readContainerengineNodePool,

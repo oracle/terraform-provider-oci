@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
+	oci_devops "github.com/oracle/oci-go-sdk/v50/devops"
 )
 
 func init() {
@@ -786,24 +786,6 @@ func (s *DevopsDeploymentResourceCrud) mapToDeployArtifactOverrideArgument(field
 	return result, nil
 }
 
-func DeployArtifactOverrideArgumentToMap(obj oci_devops.DeployArtifactOverrideArgument) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DeployArtifactId != nil {
-		result["deploy_artifact_id"] = string(*obj.DeployArtifactId)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.Value != nil {
-		result["value"] = string(*obj.Value)
-	}
-
-	return result
-}
-
 func (s *DevopsDeploymentResourceCrud) mapToDeployArtifactOverrideArgumentCollection(fieldKeyFormat string) (oci_devops.DeployArtifactOverrideArgumentCollection, error) {
 	result := oci_devops.DeployArtifactOverrideArgumentCollection{}
 
@@ -825,18 +807,6 @@ func (s *DevopsDeploymentResourceCrud) mapToDeployArtifactOverrideArgumentCollec
 	}
 
 	return result, nil
-}
-
-func DeployArtifactOverrideArgumentCollectionToMap(obj *oci_devops.DeployArtifactOverrideArgumentCollection) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	items := []interface{}{}
-	for _, item := range obj.Items {
-		items = append(items, DeployArtifactOverrideArgumentToMap(item))
-	}
-	result["items"] = items
-
-	return result
 }
 
 func DeployStageExecutionProgressDetailsToMap(obj oci_devops.DeployStageExecutionProgressDetails) map[string]interface{} {
