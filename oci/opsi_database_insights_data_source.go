@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v50/opsi"
 )
 
 func init() {
@@ -49,6 +49,10 @@ func OpsiDatabaseInsightsDataSource() *schema.Resource {
 				},
 			},
 			"id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"exadata_insight_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -139,6 +143,11 @@ func (s *OpsiDatabaseInsightsDataSourceCrud) Get() error {
 	if enterpriseManagerBridgeId, ok := s.D.GetOkExists("enterprise_manager_bridge_id"); ok {
 		tmp := enterpriseManagerBridgeId.(string)
 		request.EnterpriseManagerBridgeId = &tmp
+	}
+
+	if exadataInsightId, ok := s.D.GetOkExists("exadata_insight_id"); ok {
+		tmp := exadataInsightId.(string)
+		request.ExadataInsightId = &tmp
 	}
 
 	if fields, ok := s.D.GetOkExists("fields"); ok {

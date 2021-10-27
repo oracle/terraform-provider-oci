@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v49/datasafe"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v50/datasafe"
 )
 
 func init() {

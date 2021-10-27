@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v49/common"
-	oci_devops "github.com/oracle/oci-go-sdk/v49/devops"
+	oci_common "github.com/oracle/oci-go-sdk/v50/common"
+	oci_devops "github.com/oracle/oci-go-sdk/v50/devops"
 )
 
 func init() {
@@ -1862,23 +1862,6 @@ func (s *DevopsDeployStageResourceCrud) mapToWaitCriteria(fieldKeyFormat string)
 		return nil, fmt.Errorf("unknown wait_type '%v' was specified", waitType)
 	}
 	return baseObject, nil
-}
-
-func WaitCriteriaToMap(obj *oci_devops.WaitCriteria) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
-	case oci_devops.AbsoluteWaitCriteria:
-		result["wait_type"] = "ABSOLUTE_WAIT"
-
-		if v.WaitDuration != nil {
-			result["wait_duration"] = string(*v.WaitDuration)
-		}
-	default:
-		log.Printf("[WARN] Received 'wait_type' of unknown type %v", *obj)
-		return nil
-	}
-
-	return result
 }
 
 func (s *DevopsDeployStageResourceCrud) mapToWaitCriteriaSummary(fieldKeyFormat string) (oci_devops.WaitCriteriaSummary, error) {

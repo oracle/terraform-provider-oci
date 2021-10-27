@@ -8,7 +8,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_opsi "github.com/oracle/oci-go-sdk/v49/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v50/opsi"
 )
 
 func init() {
@@ -66,6 +66,8 @@ func (s *OpsiHostInsightDataSourceCrud) SetData() error {
 		return nil
 	}
 
+	s.D.SetId(GenerateDataSourceHashID("OpsiHostInsightsSingularDataSource-", OpsiHostInsightsDataSource(), s.D))
+
 	switch v := (*s.Res).(type) {
 	case oci_opsi.MacsManagedExternalHostInsight:
 		s.D.Set("entity_source", "MACS_MANAGED_EXTERNAL_HOST")
@@ -96,6 +98,95 @@ func (s *OpsiHostInsightDataSourceCrud) SetData() error {
 
 		if v.GetLifecycleDetails() != nil {
 			s.D.Set("lifecycle_details", *v.GetLifecycleDetails())
+		}
+
+		if v.GetProcessorCount() != nil {
+			s.D.Set("processor_count", *v.GetProcessorCount())
+		}
+
+		s.D.Set("state", v.GetLifecycleState())
+
+		s.D.Set("status", v.GetStatus())
+
+		if v.GetSystemTags() != nil {
+			s.D.Set("system_tags", systemTagsToMap(v.GetSystemTags()))
+		}
+
+		if v.GetTimeCreated() != nil {
+			s.D.Set("time_created", v.GetTimeCreated().String())
+		}
+
+		if v.GetTimeUpdated() != nil {
+			s.D.Set("time_updated", v.GetTimeUpdated().String())
+		}
+
+	case oci_opsi.EmManagedExternalHostInsight:
+		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_HOST")
+
+		s.D.SetId(*v.GetId())
+
+		if v.GetCompartmentId() != nil {
+			s.D.Set("compartment_id", *v.GetCompartmentId())
+		}
+
+		if v.GetDefinedTags() != nil {
+			s.D.Set("defined_tags", definedTagsToMap(v.GetDefinedTags()))
+		}
+
+		s.D.Set("freeform_tags", v.GetFreeformTags())
+
+		if v.GetHostDisplayName() != nil {
+			s.D.Set("host_display_name", *v.GetHostDisplayName())
+		}
+
+		if v.GetHostName() != nil {
+			s.D.Set("host_name", *v.GetHostName())
+		}
+
+		if v.GetHostType() != nil {
+			s.D.Set("host_type", *v.GetHostType())
+		}
+
+		if v.EnterpriseManagerBridgeId != nil {
+			s.D.Set("enterprise_manager_bridge_id", *v.EnterpriseManagerBridgeId)
+		}
+
+		if v.EnterpriseManagerEntityDisplayName != nil {
+			s.D.Set("enterprise_manager_entity_display_name", *v.EnterpriseManagerEntityDisplayName)
+		}
+
+		if v.EnterpriseManagerEntityIdentifier != nil {
+			s.D.Set("enterprise_manager_entity_identifier", *v.EnterpriseManagerEntityIdentifier)
+		}
+
+		if v.EnterpriseManagerEntityName != nil {
+			s.D.Set("enterprise_manager_entity_name", *v.EnterpriseManagerEntityName)
+		}
+
+		if v.EnterpriseManagerEntityType != nil {
+			s.D.Set("enterprise_manager_entity_type", *v.EnterpriseManagerEntityType)
+		}
+
+		if v.EnterpriseManagerIdentifier != nil {
+			s.D.Set("enterprise_manager_identifier", *v.EnterpriseManagerIdentifier)
+		}
+
+		if v.ExadataInsightId != nil {
+			s.D.Set("exadata_insight_id", *v.ExadataInsightId)
+		}
+
+		if v.GetLifecycleDetails() != nil {
+			s.D.Set("lifecycle_details", *v.GetLifecycleDetails())
+		}
+
+		if v.PlatformName != nil {
+			s.D.Set("platform_name", *v.PlatformName)
+		}
+
+		s.D.Set("platform_type", v.PlatformType)
+
+		if v.PlatformVersion != nil {
+			s.D.Set("platform_name", *v.PlatformVersion)
 		}
 
 		if v.GetProcessorCount() != nil {

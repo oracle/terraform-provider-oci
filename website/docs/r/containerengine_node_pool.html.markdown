@@ -160,9 +160,9 @@ The following attributes are exported:
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
-	* `create` - (Defaults to 20 minutes), when creating the Node Pool
-	* `update` - (Defaults to 20 minutes), when updating the Node Pool
-	* `delete` - (Defaults to 20 minutes), when destroying the Node Pool
+	* `create` - (Defaults to 50 minutes), when creating the Node Pool
+	* `update` - (Defaults to 50 minutes), when updating the Node Pool
+	* `delete` - (Defaults to 50 minutes), when destroying the Node Pool
 
 
 ## Import

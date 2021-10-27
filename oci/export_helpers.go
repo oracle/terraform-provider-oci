@@ -26,6 +26,7 @@ func init() {
 	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
 	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
 	exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
+	exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
 	exportDnsRrsetHints.getIdFn = getDnsRrsetId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
@@ -224,6 +225,16 @@ func getDatascienceModelProvenanceId(resource *OCIResource) (string, error) {
 
 	modelId := resource.parent.id
 	return getModelProvenanceCompositeId(modelId), nil
+}
+
+func getDevopsRepositoryRefId(resource *OCIResource) (string, error) {
+
+	refName, ok := resource.sourceAttributes["ref_name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find refName for Devops RepositoryRef")
+	}
+	repositoryId := resource.parent.id
+	return getRepositoryRefCompositeId(refName, repositoryId), nil
 }
 
 func getDnsRrsetId(resource *OCIResource) (string, error) {

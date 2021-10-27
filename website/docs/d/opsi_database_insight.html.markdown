@@ -43,6 +43,7 @@ The following attributes are exported:
 * `enterprise_manager_entity_type` - Enterprise Manager Entity Type
 * `enterprise_manager_identifier` - Enterprise Manager Unqiue Identifier
 * `entity_source` - Source of the database entity.
+* `exadata_insight_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Database insight identifier
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

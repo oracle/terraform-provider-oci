@@ -10,7 +10,7 @@ import (
 
 	"fmt"
 
-	oci_core "github.com/oracle/oci-go-sdk/v49/core"
+	oci_core "github.com/oracle/oci-go-sdk/v50/core"
 )
 
 func init() {

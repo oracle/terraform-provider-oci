@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v49/loganalytics"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v50/loganalytics"
 )
 
 func init() {

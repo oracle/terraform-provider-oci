@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v49/cloudguard"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v50/cloudguard"
 
-	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	oci_common "github.com/oracle/oci-go-sdk/v50/common"
 )
 
 func init() {

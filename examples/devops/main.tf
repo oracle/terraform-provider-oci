@@ -19,6 +19,12 @@ variable "compartment_ocid" {
 variable "region" {
 }
 
+variable "github_access_token_vault_id" {
+}
+
+variable "gitlab_access_token_vault_id" {
+}
+
 provider "oci" {
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
@@ -167,7 +173,6 @@ resource "oci_devops_deploy_stage" "test_deploy_stage" {
     policy_type = "COMPUTE_INSTANCE_GROUP_LINEAR_ROLLOUT_POLICY_BY_COUNT"
   }
 }
-
 
 resource "oci_devops_deployment" "test_deployment" {
   #Required
