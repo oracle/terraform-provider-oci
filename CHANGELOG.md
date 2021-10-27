@@ -3,7 +3,6 @@
 ### Added
 - Support for devops build and repository
 - Support for Multi AD deployments for oci_ocvp_esxi_host
-- Support for OCI Certificates
 - Support for OPSI Exadata Insights add EM Managed external host support
 – Support for OCI Certificates Integration with Load Balancer
 
