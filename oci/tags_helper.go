@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
+// TODO:  Code Partitioning - Keep only one DefinedTagsToMap() function and remove the other one after all services are partitioned
 func DefinedTagsToMap(definedTags map[string]map[string]interface{}) map[string]interface{} {
 	var tags = make(map[string]interface{})
 	if len(definedTags) > 0 {
@@ -35,6 +36,7 @@ func definedTagsToMap(definedTags map[string]map[string]interface{}) map[string]
 	return tags
 }
 
+// TODO:  Code Partitioning - Keep only one MapToDefinedTags() function and remove the other one after all services are partitioned
 func MapToDefinedTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {
 	definedTags := make(map[string]map[string]interface{})
 	if len(rawMap) > 0 {
@@ -71,6 +73,7 @@ func mapToDefinedTags(rawMap map[string]interface{}) (map[string]map[string]inte
 	return definedTags, nil
 }
 
+// TODO:  Code Partitioning - Keep only one DefinedTagsDiffSuppressFunction() function and remove the other one after all services are partitioned
 func DefinedTagsDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
 	if old != "" && new != "" {
 		return false

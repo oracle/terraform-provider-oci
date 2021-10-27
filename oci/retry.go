@@ -328,6 +328,7 @@ func getLogAnalyticsExpectedRetryDuration(response oci_common.OCIOperationRespon
 	return defaultRetryTime
 }
 
+// TODO:  Code Partitioning - Keep only one ShouldRetry() function and remove the other one after all services are partitioned
 func ShouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...interface{}) bool {
 	return getElapsedRetryDuration(startTime) < getExpectedRetryDuration(response, disableNotFoundRetries, service, optionals...)
 }
