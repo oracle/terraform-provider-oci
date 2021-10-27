@@ -1,4 +1,4 @@
-## 4.50.0 (Unreleased)
+## 4.50.0 (October 27, 2021)
 
 ### Added
 - Support for devops build and repository
