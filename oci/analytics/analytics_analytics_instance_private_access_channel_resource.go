@@ -31,9 +31,9 @@ func AnalyticsAnalyticsInstancePrivateAccessChannelResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tf_common.GetTimeoutDuration("2h0m"),
-			Update: tf_common.GetTimeoutDuration("2h0m"),
-			Delete: tf_common.GetTimeoutDuration("2h0m"),
+			Create: tf_common.GetTimeoutDuration("2h"),
+			Update: tf_common.GetTimeoutDuration("2h"),
+			Delete: tf_common.GetTimeoutDuration("2h"),
 		},
 		Create: createAnalyticsAnalyticsInstancePrivateAccessChannel,
 		Read:   readAnalyticsAnalyticsInstancePrivateAccessChannel,
