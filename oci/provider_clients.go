@@ -114,7 +114,7 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 			serviceClientOverrides := ServiceClientOverrides{}
 			// apply client host override
 			if host, ok := clientHostOverrides[serviceName]; ok {
-				serviceClientOverrides.hostUrlOverride = host
+				serviceClientOverrides.HostUrlOverride = host
 			}
 
 			clients.sdkClientMap[serviceName], err = clientRegistration.InitClientFn(configProvider, configureClient, serviceClientOverrides)

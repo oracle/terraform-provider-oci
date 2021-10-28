@@ -24,7 +24,7 @@ func initArtifactsArtifactsClient(configProvider oci_common.ConfigurationProvide
 	}
 
 	if serviceClientOverrides.HostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }

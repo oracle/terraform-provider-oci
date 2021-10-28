@@ -447,7 +447,8 @@ func (s *IdentityTagResourceCrud) Delete() error {
 func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
 	retryPolicy := GetRetryPolicy(disableFoundRetries, "identity")
-	retryPolicy.ShouldRetryOperation = analyticsInstanceWorkRequestShouldRetryFunc(timeout)
+	// TODO:  Code Partitioning - will be fixed when merged from master. TOP-5681
+	//retryPolicy.ShouldRetryOperation = analyticsInstanceWorkRequestShouldRetryFunc(timeout)
 	response := oci_identity.GetTaggingWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{

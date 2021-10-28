@@ -24,7 +24,7 @@ func initIdentityIdentityClient(configProvider oci_common.ConfigurationProvider,
 	}
 
 	if serviceClientOverrides.HostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }
