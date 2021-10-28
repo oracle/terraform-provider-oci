@@ -101,7 +101,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	SaveConfigContent(config+compartmentIdVariableStr+TagResourceDependencies+
 		GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation), "identity", "tag", t)
 
-	ResourceTest(t, testAccCheckIdentityTagDestroy, []resource.TestStep{
+	ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TagResourceDependencies +
