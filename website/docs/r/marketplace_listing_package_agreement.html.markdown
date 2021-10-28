@@ -22,6 +22,9 @@ resource "oci_marketplace_listing_package_agreement" "test_listing_package_agree
 	agreement_id = oci_marketplace_agreement.test_agreement.id
 	listing_id = oci_marketplace_listing.test_listing.id
 	package_version = var.listing_package_agreement_package_version
+
+	#Optional
+	compartment_id = var.compartment_id
 }
 ```
 
@@ -32,7 +35,7 @@ The following arguments are supported:
 * `agreement_id` - (Required) The unique identifier for the agreement.
 * `listing_id` - (Required) The unique identifier for the listing.
 * `package_version` - (Required) The version of the package. Package versions are unique within a listing.
-
+* `compartment_id` - (Optional) The unique identifier for the compartment, required in gov regions.
 
 ## Attributes Reference
 
