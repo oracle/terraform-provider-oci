@@ -24,8 +24,8 @@ func initOnsNotificationControlPlaneClient(configProvider oci_common.Configurati
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }
@@ -44,7 +44,7 @@ func initOnsNotificationDataPlaneClient(configProvider oci_common.ConfigurationP
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
+	if serviceClientOverrides.HostUrlOverride != "" {
 		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil

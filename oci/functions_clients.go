@@ -24,8 +24,8 @@ func initFunctionsFunctionsInvokeClient(configProvider oci_common.ConfigurationP
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }
@@ -44,8 +44,8 @@ func initFunctionsFunctionsManagementClient(configProvider oci_common.Configurat
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }

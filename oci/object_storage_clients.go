@@ -23,8 +23,8 @@ func initObjectstorageObjectStorageClient(configProvider oci_common.Configuratio
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }

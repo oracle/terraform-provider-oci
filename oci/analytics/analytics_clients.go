@@ -9,8 +9,6 @@ import (
 	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
 
 	oci_common "github.com/oracle/oci-go-sdk/v49/common"
-
-	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
 )
 
 func init() {
@@ -36,7 +34,3 @@ func initAnalyticsAnalyticsClient(configProvider oci_common.ConfigurationProvide
 	}
 	return &client, nil
 }
-
-//func (m *OracleAnalyticsClients) analyticsClient() *oci_analytics.AnalyticsClient {
-//	return m.GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
-//}

@@ -23,8 +23,8 @@ func initContainerengineContainerEngineClient(configProvider oci_common.Configur
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }

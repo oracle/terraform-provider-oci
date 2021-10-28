@@ -26,8 +26,8 @@ func initCoreBlockstorageClient(configProvider oci_common.ConfigurationProvider,
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }
@@ -46,8 +46,8 @@ func initCoreComputeClient(configProvider oci_common.ConfigurationProvider, conf
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }
@@ -66,8 +66,8 @@ func initCoreComputeManagementClient(configProvider oci_common.ConfigurationProv
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }
@@ -86,8 +86,8 @@ func initCoreVirtualNetworkClient(configProvider oci_common.ConfigurationProvide
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }

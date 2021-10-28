@@ -23,7 +23,7 @@ func initApmconfigConfigClient(configProvider oci_common.ConfigurationProvider, 
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
+	if serviceClientOverrides.HostUrlOverride != "" {
 		client.Host = serviceClientOverrides.hostUrlOverride
 	}
 	return &client, nil
