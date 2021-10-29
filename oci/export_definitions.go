@@ -51,6 +51,7 @@ import (
 	oci_oda "github.com/oracle/oci-go-sdk/v50/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/v50/ons"
 	oci_opsi "github.com/oracle/oci-go-sdk/v50/opsi"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v50/operatoraccesscontrol"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v50/optimizer"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/v50/osmanagement"
 	oci_sch "github.com/oracle/oci-go-sdk/v50/sch"
@@ -2449,6 +2450,31 @@ var exportOnsSubscriptionHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_ons.SubscriptionLifecycleStatePending),
 		string(oci_ons.SubscriptionLifecycleStateActive),
+	},
+}
+
+var exportOperatorAccessControlOperatorControlHints = &TerraformResourceHints{
+	resourceClass:          "oci_operator_access_control_operator_control",
+	datasourceClass:        "oci_operator_access_control_operator_controls",
+	datasourceItemsAttr:    "operator_control_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operator_control",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_operator_access_control.OperatorControlLifecycleStatesCreated),
+		string(oci_operator_access_control.OperatorControlLifecycleStatesAssigned),
+	},
+}
+
+var exportOperatorAccessControlOperatorControlAssignmentHints = &TerraformResourceHints{
+	resourceClass:          "oci_operator_access_control_operator_control_assignment",
+	datasourceClass:        "oci_operator_access_control_operator_control_assignments",
+	datasourceItemsAttr:    "operator_control_assignment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operator_control_assignment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesCreated),
 	},
 }
 
