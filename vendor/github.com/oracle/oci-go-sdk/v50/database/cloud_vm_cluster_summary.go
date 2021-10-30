@@ -146,6 +146,12 @@ type CloudVmClusterSummary struct {
 
 	// The OCID of the zone the cloud VM cluster is associated with.
 	ZoneId *string `mandatory:"false" json:"zoneId"`
+
+	// The TCP Single Client Access Name (SCAN) port. The default port is 1521.
+	ScanListenerPortTcp *int `mandatory:"false" json:"scanListenerPortTcp"`
+
+	// The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
+	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 }
 
 func (m CloudVmClusterSummary) String() string {

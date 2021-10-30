@@ -79,6 +79,12 @@ type CreateCloudVmClusterDetails struct {
 	// The time zone to use for the cloud VM cluster. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
+	// The TCP Single Client Access Name (SCAN) port. The default port is 1521.
+	ScanListenerPortTcp *int `mandatory:"false" json:"scanListenerPortTcp"`
+
+	// The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
+	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
+
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
 	// - Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty.

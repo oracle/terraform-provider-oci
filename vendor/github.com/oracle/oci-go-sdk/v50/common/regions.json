@@ -196,5 +196,17 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "il-jerusalem-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "mrs", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "eu-marseille-1", 
+        "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "sin", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "ap-singapore-1", 
+        "realmKey": "oc1"
     }
 ]
