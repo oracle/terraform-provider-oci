@@ -136,6 +136,10 @@ func (s *IdentityUsersDataSourceCrud) SetData() error {
 			user["capabilities"] = nil
 		}
 
+		if r.DbUserName != nil {
+			user["db_user_name"] = *r.DbUserName
+		}
+
 		if r.DefinedTags != nil {
 			user["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
