@@ -155,6 +155,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "users.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "users.0.compartment_id", tenancyId),
+				//resource.TestCheckResourceAttrSet(datasourceName, "users.0.db_user_name"),
 				resource.TestCheckResourceAttr(datasourceName, "users.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "users.0.email", "email2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.0.email_verified"),
@@ -175,6 +176,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "db_user_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "email", "email2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "email_verified"),

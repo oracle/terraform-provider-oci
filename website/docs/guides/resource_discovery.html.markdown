@@ -562,6 +562,7 @@ identity
 * oci\_identity\_tag
 * oci\_identity\_network\_source
 * oci\_identity\_domain
+* oci\_identity\_db\_credential
 
 integration
     

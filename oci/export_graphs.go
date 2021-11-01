@@ -716,6 +716,12 @@ var identityResourceGraph = TerraformResourceGraph{
 			},
 		},
 		{
+			TerraformResourceHints: exportIdentityDbCredentialHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
 			TerraformResourceHints: exportIdentitySmtpCredentialHints,
 			datasourceQueryParams: map[string]string{
 				"user_id": "id",

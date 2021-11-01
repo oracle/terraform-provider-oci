@@ -78,6 +78,10 @@ func (s *IdentityUserDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DbUserName != nil {
+		s.D.Set("db_user_name", *s.Res.DbUserName)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
