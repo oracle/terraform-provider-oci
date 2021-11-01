@@ -35,6 +35,11 @@ func OptimizerCategoryDataSource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
+			"extended_metadata": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -153,6 +158,8 @@ func (s *OptimizerCategoryDataSourceCrud) SetData() error {
 		s.D.Set("estimated_cost_saving", *s.Res.EstimatedCostSaving)
 	}
 
+	s.D.Set("extended_metadata", s.Res.ExtendedMetadata)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -196,6 +203,8 @@ func CategorySummaryToMap(obj oci_optimizer.CategorySummary) map[string]interfac
 	if obj.EstimatedCostSaving != nil {
 		result["estimated_cost_saving"] = float32(*obj.EstimatedCostSaving)
 	}
+
+	result["extended_metadata"] = obj.ExtendedMetadata
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

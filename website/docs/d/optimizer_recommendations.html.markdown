@@ -57,6 +57,11 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the tenancy. The tenancy is the root compartment.
 * `description` - Text describing the recommendation.
 * `estimated_cost_saving` - The estimated cost savings, in dollars, for the recommendation.
+* `extended_metadata` - Additional metadata key/value pairs for the recommendation.
+
+	For example:
+
+	`{"EstimatedSaving": "200"}` 
 * `id` - The unique OCID associated with the recommendation.
 * `importance` - The level of importance assigned to the recommendation.
 * `name` - The name assigned to the recommendation.

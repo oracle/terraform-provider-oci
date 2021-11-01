@@ -67,6 +67,10 @@ func (s *OptimizerProfileDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AggregationIntervalInDays != nil {
+		s.D.Set("aggregation_interval_in_days", *s.Res.AggregationIntervalInDays)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

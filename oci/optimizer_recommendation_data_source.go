@@ -84,6 +84,8 @@ func (s *OptimizerRecommendationDataSourceCrud) SetData() error {
 		s.D.Set("estimated_cost_saving", *s.Res.EstimatedCostSaving)
 	}
 
+	s.D.Set("extended_metadata", s.Res.ExtendedMetadata)
+
 	s.D.Set("importance", s.Res.Importance)
 
 	if s.Res.Name != nil {
