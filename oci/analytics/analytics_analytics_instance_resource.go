@@ -232,7 +232,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 	var powerOff = false
 	if powerState, ok := sync.D.GetOkExists("state"); ok {
 		wantedPowerState := oci_analytics.AnalyticsInstanceLifecycleStateEnum(strings.ToUpper(powerState.(string)))
@@ -258,7 +258,7 @@ func createAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 func readAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 
 	return tf_common.ReadResource(sync)
 }
@@ -266,7 +266,7 @@ func readAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error
 func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 
 	powerOn, powerOff := false, false
 
@@ -303,7 +303,7 @@ func updateAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) err
 func deleteAnalyticsAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 	sync.DisableNotFoundRetries = true
 
 	return tf_common.DeleteResource(d, sync)

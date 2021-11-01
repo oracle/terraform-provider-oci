@@ -18,6 +18,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	tf_analytics "github.com/terraform-providers/terraform-provider-oci/oci/analytics"
 )
 
 var (
@@ -446,7 +447,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 
 func testAccCheckAnalyticsAnalyticsInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	client := testAccProvider.Meta().(*tf_analytics.OracleAnalyticsClients).AnalyticsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_analytics_analytics_instance" {
 			noResourceFound = false

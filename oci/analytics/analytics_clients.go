@@ -34,3 +34,7 @@ func initAnalyticsAnalyticsClient(configProvider oci_common.ConfigurationProvide
 	}
 	return &client, nil
 }
+
+func (m *OracleAnalyticsClients) AnalyticsClient() *oci_analytics.AnalyticsClient {
+	return m.GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+}

@@ -9,14 +9,13 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	oci_analytics "github.com/oracle/oci-go-sdk/v49/analytics"
 	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	tf_analytics "github.com/terraform-providers/terraform-provider-oci/oci/analytics"
 )
 
 var (
@@ -122,7 +121,7 @@ func TestAnalyticsAnalyticsInstancePrivateAccessChannelResource_basic(t *testing
 
 func testAccCheckAnalyticsAnalyticsInstancePrivateAccessChannelDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := GetTestClients(&schema.ResourceData{}).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	client := testAccProvider.Meta().(*tf_analytics.OracleAnalyticsClients).AnalyticsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_analytics_analytics_instance_private_access_channel" {
 			noResourceFound = false

@@ -106,7 +106,7 @@ func AnalyticsAnalyticsInstancePrivateAccessChannelResource() *schema.Resource {
 func createAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 
 	return tf_common.CreateResource(d, sync)
 }
@@ -114,7 +114,7 @@ func createAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData
 func readAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 
 	return tf_common.ReadResource(sync)
 }
@@ -122,7 +122,7 @@ func readAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, 
 func updateAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 
 	return tf_common.UpdateResource(d, sync)
 }
@@ -130,7 +130,7 @@ func updateAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData
 func deleteAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 	sync.DisableNotFoundRetries = true
 
 	return tf_common.DeleteResource(d, sync)

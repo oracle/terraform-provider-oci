@@ -85,7 +85,7 @@ func AnalyticsAnalyticsInstanceVanityUrlResource() *schema.Resource {
 func createAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceVanityUrlResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 
 	return tf_common.CreateResource(d, sync)
 }
@@ -93,7 +93,7 @@ func createAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interfa
 func readAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceVanityUrlResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 
 	return tf_common.ReadResource(sync)
 }
@@ -101,7 +101,7 @@ func readAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interface
 func updateAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceVanityUrlResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 
 	return tf_common.UpdateResource(d, sync)
 }
@@ -109,7 +109,7 @@ func updateAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interfa
 func deleteAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstanceVanityUrlResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 	sync.DisableNotFoundRetries = true
 
 	return tf_common.DeleteResource(d, sync)

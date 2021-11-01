@@ -32,7 +32,7 @@ func AnalyticsAnalyticsInstancePrivateAccessChannelDataSource() *schema.Resource
 func readSingularAnalyticsAnalyticsInstancePrivateAccessChannel(d *schema.ResourceData, m interface{}) error {
 	sync := &AnalyticsAnalyticsInstancePrivateAccessChannelDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*tf_common.OracleClients).GetClient("oci_analytics.AnalyticsClient").(*oci_analytics.AnalyticsClient)
+	sync.Client = m.(*OracleAnalyticsClients).AnalyticsClient()
 
 	return tf_common.ReadResource(sync)
 }
