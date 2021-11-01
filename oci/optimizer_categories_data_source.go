@@ -62,6 +62,11 @@ func OptimizerCategoriesDataSource() *schema.Resource {
 										Type:     schema.TypeFloat,
 										Computed: true,
 									},
+									"extended_metadata": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,

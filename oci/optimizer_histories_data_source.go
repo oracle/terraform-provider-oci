@@ -316,7 +316,7 @@ func HistorySummaryToMap(obj oci_optimizer.HistorySummary) map[string]interface{
 		result["estimated_cost_saving"] = float32(*obj.EstimatedCostSaving)
 	}
 
-	result["extended_metadata"] = obj.ExtendedMetadata
+	result["extended_metadata"] = GenericMapToJsonMap(obj.ExtendedMetadata)
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

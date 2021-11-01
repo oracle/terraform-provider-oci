@@ -82,6 +82,11 @@ func OptimizerProfileResource() *schema.Resource {
 			},
 
 			// Optional
+			"aggregation_interval_in_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -258,6 +263,11 @@ func (s *OptimizerProfileResourceCrud) DeletedTarget() []string {
 func (s *OptimizerProfileResourceCrud) Create() error {
 	request := oci_optimizer.CreateProfileRequest{}
 
+	if aggregationIntervalInDays, ok := s.D.GetOkExists("aggregation_interval_in_days"); ok {
+		tmp := aggregationIntervalInDays.(int)
+		request.AggregationIntervalInDays = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -349,6 +359,11 @@ func (s *OptimizerProfileResourceCrud) Get() error {
 func (s *OptimizerProfileResourceCrud) Update() error {
 	request := oci_optimizer.UpdateProfileRequest{}
 
+	if aggregationIntervalInDays, ok := s.D.GetOkExists("aggregation_interval_in_days"); ok {
+		tmp := aggregationIntervalInDays.(int)
+		request.AggregationIntervalInDays = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -431,6 +446,10 @@ func (s *OptimizerProfileResourceCrud) Delete() error {
 }
 
 func (s *OptimizerProfileResourceCrud) SetData() error {
+	if s.Res.AggregationIntervalInDays != nil {
+		s.D.Set("aggregation_interval_in_days", *s.Res.AggregationIntervalInDays)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -547,6 +566,10 @@ func LevelsConfigurationToMap(obj *oci_optimizer.LevelsConfiguration) map[string
 
 func ProfileSummaryToMap(obj oci_optimizer.ProfileSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AggregationIntervalInDays != nil {
+		result["aggregation_interval_in_days"] = int(*obj.AggregationIntervalInDays)
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
