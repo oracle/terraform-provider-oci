@@ -13,7 +13,11 @@ variable "database_registration_alias_name" {
 }
 
 variable "database_registration_connection_string" {
-  default = "username@password:1521/orcl.us.oracle.com"
+  default = "fqdndb.ggs.com:1521/orcl.us.oracle.com"
+}
+
+variable "database_registration_session_mode" {
+  default = "DIRECT"
 }
 
 variable "database_registration_defined_tags_value" {
@@ -37,7 +41,7 @@ variable "database_registration_freeform_tags" {
 }
 
 variable "database_registration_ip_address" {
-  default = "10.102.10.20"
+  default = "10.0.0.10"
 }
 
 
@@ -90,11 +94,12 @@ resource "oci_golden_gate_database_registration" "test_database_registration" {
 
   #Optional
   connection_string     = var.database_registration_connection_string
+  session_mode          = var.database_registration_session_mode
   database_id           = data.oci_database_databases.t.databases.0.id
   #defined_tags          = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.database_registration_defined_tags_value)
   description           = var.database_registration_description
   freeform_tags         = var.database_registration_freeform_tags
-  #ip_address            = data.oci_core_vnic.t.0.private_ip_address //vnic_id is null because of using FAKEHOSTSERIAL header as per db_system_resource_allvm_test.go
+  ip_address            = var.database_registration_ip_address
   key_id                = var.kms_key_ocid
   secret_compartment_id = var.compartment_ocid
   subnet_id             = oci_core_subnet.test_subnet.id
@@ -125,12 +130,12 @@ data "oci_database_databases" "t" {
 	db_home_id = data.oci_database_db_homes.t.db_homes.0.id	
 }
 
-data "oci_database_db_nodes" "t" {
-    #Required
-    compartment_id = var.compartment_ocid
-    #Optional
-    db_system_id = data.oci_database_db_systems.t.db_systems.0.id
-}
+#data "oci_database_db_nodes" "t" {
+#    #Required
+#    compartment_id = var.compartment_ocid
+#    #Optional
+#    db_system_id = data.oci_database_db_systems.t.db_systems.0.id
+#}
 
 #data "oci_core_vnic" "t" {
     #Required

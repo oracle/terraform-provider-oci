@@ -125,6 +125,8 @@ func (s *GoldenGateDatabaseRegistrationDataSourceCrud) SetData() error {
 		s.D.Set("secret_id", *s.Res.SecretId)
 	}
 
+	s.D.Set("session_mode", s.Res.SessionMode)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
