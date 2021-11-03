@@ -135,6 +135,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `data_safe` - Discovers data_safe resources within the specified compartment
     * `database` - Discovers database resources within the specified compartment
     * `database_migration` - Discovers database_migration resources within the specified compartment
+    * `database_tools` - Discovers database_tools resources within the specified compartment
     * `datacatalog` - Discovers datacatalog resources within the specified compartment
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
@@ -172,6 +173,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
+    * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
     * `vulnerability_scanning` - Discovers vulnerability_scanning resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
     * `waf` - Discovers waf resources within the specified compartment
@@ -443,8 +445,13 @@ database
 
 database_migration
     
-* oci\_database\_migration\_migration
 * oci\_database\_migration\_connection
+* oci\_database\_migration\_migration
+
+database_tools
+    
+* oci\_database\_tools\_database\_tools\_private\_endpoint
+* oci\_database\_tools\_database\_tools\_connection
 
 datacatalog
     
@@ -553,6 +560,7 @@ identity
 * oci\_identity\_tag\_namespace
 * oci\_identity\_tag
 * oci\_identity\_network\_source
+* oci\_identity\_domain
 
 integration
     
@@ -689,6 +697,10 @@ streaming
 * oci\_streaming\_connect\_harness
 * oci\_streaming\_stream\_pool
 * oci\_streaming\_stream
+
+usage_proxy
+    
+* oci\_usage\_proxy\_subscription\_redeemable\_user
 
 vulnerability_scanning
     

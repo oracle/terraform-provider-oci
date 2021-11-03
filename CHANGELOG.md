@@ -1,3 +1,12 @@
+## 4.51.0 (Unreleased)
+
+### Added
+- Support for Identity domains
+- Support for Oracle support reward service
+- Database Migration data sources added
+- Support for ExaCS Scan listener port customization
+- Support for Database tool project
+
 ## 4.50.0 (October 27, 2021)
 
 ### Added

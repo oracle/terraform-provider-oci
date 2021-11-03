@@ -447,7 +447,7 @@ func (s *IdentityTagResourceCrud) Delete() error {
 func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
 	retryPolicy := GetRetryPolicy(disableFoundRetries, "identity")
-	retryPolicy.ShouldRetryOperation = analyticsInstanceWorkRequestShouldRetryFunc(timeout)
+	retryPolicy.ShouldRetryOperation = identityTagWorkRequestShouldRetryFunc(timeout)
 	response := oci_identity.GetTaggingWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
@@ -634,4 +634,27 @@ func parseTagCompositeId(compositeId string) (tagName string, tagNamespaceId str
 func getIdentityTagCompositeId(tagName string, tagNamespaceId string) string {
 	compositeId := "tagNamespaces/" + tagNamespaceId + "/tags/" + tagName
 	return compositeId
+}
+
+func identityTagWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if shouldRetry(response, false, "identity", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_identity.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
 }

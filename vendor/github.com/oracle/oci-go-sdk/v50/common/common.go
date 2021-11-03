@@ -28,6 +28,9 @@ const (
 	// Region Metadata Environment Variable
 	regionMetadataEnvVarName = "OCI_REGION_METADATA"
 
+	// Default Realm Environment Variable
+	defaultRealmEnvVarName = "OCI_DEFAULT_REALM"
+
 	// Region Metadata
 	regionIdentifierPropertyName     = "regionIdentifier"     // e.g. "ap-sydney-1"
 	realmKeyPropertyName             = "realmKey"             // e.g. "oc1"
@@ -70,7 +73,9 @@ func (region Region) secondLevelDomain() string {
 			return secondLevelDomain
 		}
 	}
-
+	if value, ok := os.LookupEnv(defaultRealmEnvVarName); ok {
+		return value
+	}
 	Debugf("cannot find realm for region : %s, return default realm value.", region)
 	return realm["oc1"]
 }

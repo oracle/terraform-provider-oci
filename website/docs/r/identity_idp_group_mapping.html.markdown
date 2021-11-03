@@ -10,6 +10,8 @@ description: |-
 # oci_identity_idp_group_mapping
 This resource provides the Idp Group Mapping resource in Oracle Cloud Infrastructure Identity service.
 
+**Deprecated.** For more information, see [Deprecated IAM Service APIs](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/deprecatediamapis.htm).
+
 Creates a single mapping between an IdP group and an IAM Service
 [group](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/Group/).
 

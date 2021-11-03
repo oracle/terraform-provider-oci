@@ -10,6 +10,8 @@ description: |-
 # Data Source: oci_identity_idp_group_mappings
 This data source provides the list of Idp Group Mappings in Oracle Cloud Infrastructure Identity service.
 
+**Deprecated.** For more information, see [Deprecated IAM Service APIs](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/deprecatediamapis.htm).
+
 Lists the group mappings for the specified identity provider.
 
 
