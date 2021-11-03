@@ -68,7 +68,7 @@ The following attributes are exported:
 	* `time_zone` - Time zone, by default UTC.
 	* `type` - Schedule type discriminator.
 * `state` - The current state of the scheduled task.
-* `task_status` - Status of the scheduled task.
+* `task_status` - Status of the scheduled task. - PURGE_RESOURCE_NOT_FOUND
 * `task_type` - Task type.
 * `time_created` - The date and time the scheduled task was created, in the format defined by RFC3339. 
 * `time_updated` - The date and time the scheduled task was last updated, in the format defined by RFC3339. 
