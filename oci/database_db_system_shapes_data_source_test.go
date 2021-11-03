@@ -22,8 +22,8 @@ type DatabaseDBSystemShapeTestSuite struct {
 }
 
 func (s *DatabaseDBSystemShapeTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"

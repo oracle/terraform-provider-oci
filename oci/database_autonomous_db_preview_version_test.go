@@ -25,9 +25,9 @@ func TestDatabaseAutonomousDbPreviewVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDbPreviewVersionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_database_autonomous_db_preview_versions.test_autonomous_db_preview_versions"

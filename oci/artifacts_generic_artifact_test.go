@@ -58,9 +58,9 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsGenericArtifactResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_artifacts_generic_artifact.test_generic_artifact"
@@ -81,7 +81,7 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -159,7 +159,7 @@ func TestArtifactsGenericArtifactResource_basic(t *testing.T) {
 
 func testAccCheckArtifactsGenericArtifactDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).artifactsClient()
+	client := TestAccProvider.Meta().(*OracleClients).artifactsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_artifacts_generic_artifact" {
 			noResourceFound = false
@@ -200,7 +200,7 @@ func testAccCheckArtifactsGenericArtifactDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ArtifactsGenericArtifact") {
 		resource.AddTestSweepers("ArtifactsGenericArtifact", &resource.Sweeper{
@@ -227,7 +227,7 @@ func sweepArtifactsGenericArtifactResource(compartment string) error {
 				fmt.Printf("Error deleting GenericArtifact %s %s, It is possible that the resource is already deleted. Please verify manually \n", genericArtifactId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &genericArtifactId, genericArtifactSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &genericArtifactId, genericArtifactSweepWaitCondition, time.Duration(3*time.Minute),
 				genericArtifactSweepResponseFetchOperation, "artifacts", true)
 		}
 	}

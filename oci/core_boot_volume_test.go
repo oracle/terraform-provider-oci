@@ -66,8 +66,8 @@ var (
 		"display_name":        Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 	}
 
-	BootVolumeResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	BootVolumeResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		VolumeBackupPolicyDependency +
@@ -83,12 +83,12 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreBootVolumeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_boot_volume.test_boot_volume"
@@ -149,7 +149,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -196,7 +196,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
 				bootVolumeResponseFetchOperation, "core", false),
 			Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
@@ -229,7 +229,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
 				bootVolumeResponseFetchOperation, "core", false),
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_core_boot_volumes", "test_boot_volumes", Optional, Update, bootVolumeDataSourceRepresentation) +
@@ -304,7 +304,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 
 func testAccCheckCoreBootVolumeDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).blockstorageClient()
+	client := TestAccProvider.Meta().(*OracleClients).blockstorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_boot_volume" {
 			noResourceFound = false
@@ -362,7 +362,7 @@ func bootVolumeWaitCondition(response oci_common.OCIOperationResponse) bool {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreBootVolume") {
 		resource.AddTestSweepers("CoreBootVolume", &resource.Sweeper{
@@ -391,7 +391,7 @@ func sweepCoreBootVolumeResource(compartment string) error {
 				fmt.Printf("Error deleting BootVolume %s %s, It is possible that the resource is already deleted. Please verify manually \n", bootVolumeId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &bootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &bootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
 				bootVolumeSweepResponseFetchOperation, "core", true)
 		}
 	}

@@ -25,8 +25,8 @@ type ResourceIdentitySwiftPasswordTestSuite struct {
 
 func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 	_, tokenFn := TokenizeWithHttpReplay("swiff_pass_resource")
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"

@@ -21,8 +21,8 @@ type ResourceCoreBootVolumeTestSuite struct {
 }
 
 func (s *ResourceCoreBootVolumeTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "test_availability_domains" {
 		compartment_id = "${var.tenancy_ocid}"

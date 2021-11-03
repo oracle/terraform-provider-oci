@@ -20,10 +20,10 @@ var (
 		"cidr_block":        Representation{RepType: Required, Create: `${var.public_ip_pool_cidr_block}`},
 	}
 
-	publicIpPoolCidrBlock            = getEnvSettingWithBlankDefault("public_ip_pool_cidr_block")
+	publicIpPoolCidrBlock            = GetEnvSettingWithBlankDefault("public_ip_pool_cidr_block")
 	publicIpPoolCidrBlockVariableStr = fmt.Sprintf("variable \"public_ip_pool_cidr_block\" { default = \"%s\" }\n", publicIpPoolCidrBlock)
 
-	byoipRangeId            = getEnvSettingWithBlankDefault("byoip_range_ocid")
+	byoipRangeId            = GetEnvSettingWithBlankDefault("byoip_range_ocid")
 	byoipRangeIdVariableStr = fmt.Sprintf("variable \"byoip_range_id\" { default = \"%s\" }\n", byoipRangeId)
 
 	PublicIpPoolAddCapacityResourceDependencies = publicIpPoolCidrBlockVariableStr + byoipRangeIdVariableStr + GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation)
@@ -34,9 +34,9 @@ func TestResourceCorePublicIpPoolCapacity_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCorePublicIpPoolCapacityResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_public_ip_pool_capacity.test_public_ip_pool_capacity"

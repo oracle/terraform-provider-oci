@@ -61,9 +61,9 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationCustomTableResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_metering_computation_custom_table.test_custom_table"
@@ -88,7 +88,7 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -176,7 +176,7 @@ func TestMeteringComputationCustomTableResource_basic(t *testing.T) {
 
 func testAccCheckMeteringComputationCustomTableDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).usageapiClient()
+	client := TestAccProvider.Meta().(*OracleClients).usageapiClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_metering_computation_custom_table" {
 			noResourceFound = false
@@ -208,7 +208,7 @@ func testAccCheckMeteringComputationCustomTableDestroy(s *terraform.State) error
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MeteringComputationCustomTable") {
 		resource.AddTestSweepers("MeteringComputationCustomTable", &resource.Sweeper{

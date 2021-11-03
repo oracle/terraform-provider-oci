@@ -34,9 +34,9 @@ func TestMarketplacePublicationPackageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplacePublicationPackageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_marketplace_publication_packages.test_publication_packages"

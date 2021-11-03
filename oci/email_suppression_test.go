@@ -50,11 +50,11 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestEmailSuppressionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_email_suppression.test_suppression"
 	datasourceName := "data.oci_email_suppressions.test_suppressions"
@@ -77,7 +77,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -141,7 +141,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 
 func testAccCheckEmailSuppressionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).emailClient()
+	client := TestAccProvider.Meta().(*OracleClients).emailClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_email_suppression" {
 			noResourceFound = false
@@ -173,7 +173,7 @@ func testAccCheckEmailSuppressionDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("EmailSuppression") {
 		resource.AddTestSweepers("EmailSuppression", &resource.Sweeper{
@@ -187,7 +187,7 @@ func init() {
 func sweepEmailSuppressionResource(compartment string) error {
 	emailClient := GetTestClients(&schema.ResourceData{}).emailClient()
 	// EmailSuppressionResource can only run on root compartment
-	compartment = getEnvSettingWithBlankDefault("tenancy_ocid")
+	compartment = GetEnvSettingWithBlankDefault("tenancy_ocid")
 	suppressionIds, err := getSuppressionIds(compartment)
 	if err != nil {
 		return err

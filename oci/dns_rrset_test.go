@@ -34,7 +34,7 @@ var (
 		"view_id":         Representation{RepType: Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 
-	dnsDomainName       = RandomString(5, charsetWithoutDigits) + ".token.oci-record-test"
+	dnsDomainName       = RandomString(5, CharsetWithoutDigits) + ".token.oci-record-test"
 	rrsetRepresentation = map[string]interface{}{
 		"domain":          Representation{RepType: Required, Create: dnsDomainName},
 		"rtype":           Representation{RepType: Required, Create: `A`},
@@ -64,9 +64,9 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRrsetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_rrset.test_rrset"
@@ -122,7 +122,7 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
 					// Resource discovery is not supported for Rrset resources created using scope field
-					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 					//	if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 					//		return errExport
 					//	}
@@ -220,7 +220,7 @@ func getRrSetImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckDnsRrsetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dnsClient()
+	client := TestAccProvider.Meta().(*OracleClients).dnsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dns_rrset" {
 			noResourceFound = false

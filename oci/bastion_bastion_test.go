@@ -54,8 +54,8 @@ var (
 		"name":                         Representation{RepType: Required, Create: bastionName},
 	}
 
-	BastionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	BastionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -64,12 +64,12 @@ func TestBastionBastionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBastionBastionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_bastion_bastion.test_bastion"
@@ -121,7 +121,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -252,7 +252,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 
 func testAccCheckBastionBastionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).bastionClient()
+	client := TestAccProvider.Meta().(*OracleClients).bastionClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_bastion_bastion" {
 			noResourceFound = false
@@ -292,7 +292,7 @@ func testAccCheckBastionBastionDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("BastionBastion") {
 		resource.AddTestSweepers("BastionBastion", &resource.Sweeper{
@@ -321,7 +321,7 @@ func sweepBastionBastionResource(compartment string) error {
 				fmt.Printf("Error deleting Bastion %s %s, It is possible that the resource is already deleted. Please verify manually \n", bastionId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &bastionId, bastionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &bastionId, bastionSweepWaitCondition, time.Duration(3*time.Minute),
 				bastionSweepResponseFetchOperation, "bastion", true)
 		}
 	}

@@ -22,13 +22,13 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseDBSystemExaData")
 	defer httpreplay.SaveScenario()
 
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_Exadata") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_Exadata") {
 		t.Skip("Skipping suppressed DBSystem_Exadata")
 	}
 
-	provider := testAccProvider
+	provider := TestAccProvider
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

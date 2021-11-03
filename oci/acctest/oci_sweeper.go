@@ -1,19 +1,15 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package acctest
 
 import (
-	"context"
-	"fmt"
 	"log"
 	"strings"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
+	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
 
 /* This map holds the list of ocids for a given resourceType by compartment
@@ -71,7 +67,7 @@ func GetResourceIdsToSweep(compartmentId string, resourceName string) []string {
 	}
 	return nil
 }
-
+/*
 func GetAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	availabilityDomains := make(map[string]string)
 	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
@@ -86,9 +82,9 @@ func GetAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	}
 	return availabilityDomains, nil
 }
-
+*/
 func InSweeperExcludeList(sweeperName string) bool {
-	excludeListSweeper := strings.Split(getEnvSettingWithBlankDefault("sweep_exclude_list"), ",")
+	excludeListSweeper := strings.Split(tf_utils.GetEnvSettingWithBlankDefault("sweep_exclude_list"), ",")
 
 	for _, sweeper := range excludeListSweeper {
 		if strings.EqualFold(strings.Trim(sweeper, " "), sweeperName) {

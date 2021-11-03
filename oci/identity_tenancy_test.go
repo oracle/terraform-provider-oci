@@ -24,7 +24,7 @@ func TestIdentityTenancyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTenancyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
 	singularDatasourceName := "data.oci_identity_tenancy.test_tenancy"
 

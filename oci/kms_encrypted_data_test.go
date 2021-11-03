@@ -39,9 +39,9 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsEncryptedDataResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_kms_encrypted_data.test_encrypted_data"

@@ -98,9 +98,9 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlChannelResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_mysql_channel.test_channel"
@@ -163,7 +163,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -249,7 +249,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 
 func testAccCheckMysqlChannelDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).channelsClient()
+	client := TestAccProvider.Meta().(*OracleClients).channelsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_mysql_channel" {
 			noResourceFound = false
@@ -289,7 +289,7 @@ func testAccCheckMysqlChannelDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MysqlChannel") {
 		resource.AddTestSweepers("MysqlChannel", &resource.Sweeper{
@@ -318,7 +318,7 @@ func sweepMysqlChannelResource(compartment string) error {
 				fmt.Printf("Error deleting Channel %s %s, It is possible that the resource is already deleted. Please verify manually \n", channelId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &channelId, channelSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &channelId, channelSweepWaitCondition, time.Duration(3*time.Minute),
 				channelSweepResponseFetchOperation, "mysql", true)
 		}
 	}

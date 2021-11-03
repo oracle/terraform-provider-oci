@@ -27,9 +27,9 @@ func TestComputeinstanceagentInstanceAvailablePluginResource_basic(t *testing.T)
 	httpreplay.SetScenario("TestComputeinstanceagentInstanceAvailablePluginResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_computeinstanceagent_instance_available_plugins.test_instance_available_plugins"

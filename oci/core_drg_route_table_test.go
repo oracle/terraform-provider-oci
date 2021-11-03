@@ -67,9 +67,9 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgRouteTableResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_drg_route_table.test_drg_route_table"
@@ -117,7 +117,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -240,7 +240,7 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 
 func testAccCheckCoreDrgRouteTableDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
+	client := TestAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_drg_route_table" {
 			noResourceFound = false
@@ -280,7 +280,7 @@ func testAccCheckCoreDrgRouteTableDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreDrgRouteTable") {
 		resource.AddTestSweepers("CoreDrgRouteTable", &resource.Sweeper{
@@ -309,7 +309,7 @@ func sweepCoreDrgRouteTableResource(compartment string) error {
 				fmt.Printf("Error deleting DrgRouteTable %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgRouteTableId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &drgRouteTableId, drgRouteTableSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &drgRouteTableId, drgRouteTableSweepWaitCondition, time.Duration(3*time.Minute),
 				drgRouteTableSweepResponseFetchOperation, "core", true)
 		}
 	}

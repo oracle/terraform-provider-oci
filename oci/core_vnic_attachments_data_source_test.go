@@ -22,8 +22,8 @@ type DatasourceCoreVnicAttachmentTestSuite struct {
 }
 
 func (s *DatasourceCoreVnicAttachmentTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + instanceConfig + `
     data "oci_core_vnic_attachments" "s" {
 		compartment_id = "${var.compartment_id}"

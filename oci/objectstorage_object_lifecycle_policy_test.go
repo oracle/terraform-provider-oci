@@ -24,9 +24,9 @@ var (
 	ObjectLifecyclePolicyResourceConfig = ObjectLifecyclePolicyResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Update, objectLifecyclePolicyRepresentation)
 
-	bucketName  = RandomStringOrHttpReplayValue(32, charset, "bucket1")
-	bucketName2 = RandomStringOrHttpReplayValue(32, charset, "bucket2")
-	bucketName3 = RandomStringOrHttpReplayValue(32, charset, "bucket3")
+	bucketName  = RandomStringOrHttpReplayValue(32, Charset, "bucket1")
+	bucketName2 = RandomStringOrHttpReplayValue(32, Charset, "bucket2")
+	bucketName3 = RandomStringOrHttpReplayValue(32, Charset, "bucket3")
 
 	objectLifecyclePolicySingularDataSourceRepresentation = map[string]interface{}{
 		"bucket":    Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
@@ -62,9 +62,9 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_objectstorage_object_lifecycle_policy.test_object_lifecycle_policy"
@@ -121,7 +121,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -208,7 +208,7 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 
 func testAccCheckObjectStorageObjectLifecyclePolicyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
+	client := TestAccProvider.Meta().(*OracleClients).objectStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_objectstorage_object_lifecycle_policy" {
 			noResourceFound = false

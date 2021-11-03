@@ -26,9 +26,9 @@ func TestApigatewayApiValidationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayApiValidationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_apigateway_api_validation.test_api_validation"

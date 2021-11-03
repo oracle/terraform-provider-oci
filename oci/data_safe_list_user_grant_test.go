@@ -33,9 +33,9 @@ func TestDataSafeListUserGrantResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeListUserGrantResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_data_safe_list_user_grants.test_list_user_grants"

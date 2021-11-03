@@ -96,12 +96,12 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsNamespaceScheduledTaskResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_log_analytics_namespace_scheduled_task.test_namespace_scheduled_task"
@@ -110,7 +110,7 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -216,7 +216,7 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
@@ -331,7 +331,7 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 
 func testAccCheckLogAnalyticsNamespaceScheduledTaskDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).logAnalyticsClient()
+	client := TestAccProvider.Meta().(*OracleClients).logAnalyticsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_log_analytics_namespace_scheduled_task" {
 			noResourceFound = false
@@ -376,7 +376,7 @@ func testAccCheckLogAnalyticsNamespaceScheduledTaskDestroy(s *terraform.State) e
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LogAnalyticsNamespaceScheduledTask") {
 		resource.AddTestSweepers("LogAnalyticsNamespaceScheduledTask", &resource.Sweeper{
@@ -403,7 +403,7 @@ func sweepLogAnalyticsNamespaceScheduledTaskResource(compartment string) error {
 				fmt.Printf("Error deleting NamespaceScheduledTask %s %s, It is possible that the resource is already deleted. Please verify manually \n", namespaceScheduledTaskId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &namespaceScheduledTaskId, namespaceScheduledTaskSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &namespaceScheduledTaskId, namespaceScheduledTaskSweepWaitCondition, time.Duration(3*time.Minute),
 				namespaceScheduledTaskSweepResponseFetchOperation, "log_analytics", true)
 		}
 	}

@@ -23,8 +23,8 @@ type DatasourceIdentityUserGroupMembershipsTestSuite struct {
 
 func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	_, tokenFn := TokenizeWithHttpReplay("identity_user_group_data_source")
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"

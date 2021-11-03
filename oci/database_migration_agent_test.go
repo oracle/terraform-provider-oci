@@ -68,12 +68,12 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationAgentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_migration_agent.test_agent"
@@ -121,7 +121,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "agent_id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -228,7 +228,7 @@ func TestDatabaseMigrationAgentResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseMigrationAgentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseMigrationClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseMigrationClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_migration_agent" {
 			noResourceFound = false
@@ -268,7 +268,7 @@ func testAccCheckDatabaseMigrationAgentDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseMigrationAgent") {
 		resource.AddTestSweepers("DatabaseMigrationAgent", &resource.Sweeper{
@@ -297,7 +297,7 @@ func sweepDatabaseMigrationAgentResource(compartment string) error {
 				fmt.Printf("Error deleting Agent %s %s, It is possible that the resource is already deleted. Please verify manually \n", agentId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &agentId, agentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &agentId, agentSweepWaitCondition, time.Duration(3*time.Minute),
 				agentSweepResponseFetchOperation, "database_migration", true)
 		}
 	}

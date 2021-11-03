@@ -38,10 +38,10 @@ func TestDatabaseManagementJobExecutionsStatusResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseManagementJobExecutionsStatusResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	endTime := time.Now().UTC()
@@ -55,7 +55,7 @@ func TestDatabaseManagementJobExecutionsStatusResource_basic(t *testing.T) {
 	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

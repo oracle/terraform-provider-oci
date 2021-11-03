@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package utils
 
 import (
 	"fmt"
@@ -79,7 +79,7 @@ func newTFProviderLogger() (defaultTFProviderLogger, error) {
 	logger.infoLogger = log.New(logOutput, "INFO ", log.Ldate|log.Lmicroseconds)
 	logger.nullLogger = log.New(ioutil.Discard, "", log.Ldate|log.Lmicroseconds)
 
-	logLevel := getEnvSettingWithDefault("TF_LOG", "i")
+	logLevel := GetEnvSettingWithDefault("TF_LOG", "i")
 
 	switch strings.ToLower(logLevel) {
 	case "null":

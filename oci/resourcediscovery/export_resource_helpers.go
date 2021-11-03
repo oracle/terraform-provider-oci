@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package resourcediscovery
 
 import (
 	"context"
@@ -239,7 +239,7 @@ func createResourceDiscoveryContext(clients *OracleClients, args *ExportCommandA
 		resourceHintsLookup:     createResourceHintsLookupMap(),
 	}
 	// Use user provided terraform-provider-oci executable
-	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
+	if pluginDir := GetEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
 		result.terraformProviderBinaryPath = pluginDir
 		Logf("[INFO] terraform provider binary path (pluginDir) set using `provider_bin_path`: '%s'", result.terraformProviderBinaryPath)
 	}

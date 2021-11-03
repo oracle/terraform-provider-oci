@@ -27,9 +27,9 @@ func TestDatabaseAutonomousContainerPatchResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerPatchResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_database_autonomous_container_patches.test_autonomous_container_patches"

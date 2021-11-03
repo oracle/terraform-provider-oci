@@ -28,8 +28,8 @@ type ResourceIdentityPolicyTestSuite struct {
 
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 	s.Token, s.TokenFn = TokenizeWithHttpReplay("identity_policy")
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"

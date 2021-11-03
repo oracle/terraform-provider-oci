@@ -20,7 +20,7 @@ var (
 	}
 
 	AlarmStatusResourceConfig = DefinedTagsDependencies + AvailabilityDomainConfig +
-		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarmstatus")) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, CharsetWithoutDigits, "talarmstatus")) +
 		GenerateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation)
 )
 
@@ -29,9 +29,9 @@ func TestMonitoringAlarmStatusResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringAlarmStatusResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_monitoring_alarm_statuses.test_alarm_statuses"

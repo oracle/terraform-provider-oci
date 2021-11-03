@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package acctest
 
 import (
 	"bytes"
@@ -9,7 +9,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/hashicorp/go-multierror"
 	"log"
+	"net/http"
 	"os"
 	"reflect"
 	"sort"
@@ -26,7 +28,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
+	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
+	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	tf_resource_discovery "github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
+	tf_provider "github.com/terraform-providers/terraform-provider-oci/oci/provider"
 )
 
 var tmpl template.Template = *template.New("tmpl")
@@ -140,15 +148,15 @@ func TestCheckAttributeBase64Encoded(name, key string, expectBase64Encoded bool)
 type ShouldWaitFunc func(response oci_common.OCIOperationResponse) bool
 
 // Function to be implemented by resources that wish to wait on a certain condition and this function is responsible for fetching the latest state using the resourceId
-type FetchOperationFunc func(client *OracleClients, resourceId *string, retryPolicy *oci_common.RetryPolicy) error
+type FetchOperationFunc func(client *tf_client.OracleClients, resourceId *string, retryPolicy *oci_common.RetryPolicy) error
 
 // This function waits for the given time and retries the ShouldWaitFunc and periodically invokes the FetchOperationFunc to fetch the latest response
 func WaitTillCondition(testAccProvider *schema.Provider, resourceId *string, shouldWait ShouldWaitFunc, timeout time.Duration,
 	fetchOperationFunc FetchOperationFunc, service string, disableNotFoundRetries bool) func() {
 	return func() {
-		client := testAccProvider.Meta().(*OracleClients)
+		client := testAccProvider.Meta().(*tf_client.OracleClients)
 		log.Printf("[INFO] start of WaitTillCondition for resource %s ", *resourceId)
-		retryPolicy := GetRetryPolicy(disableNotFoundRetries, service)
+		retryPolicy := tf_resource.GetRetryPolicy(disableNotFoundRetries, service)
 		retryPolicy.ShouldRetryOperation = ConditionShouldRetry(timeout, shouldWait, service, disableNotFoundRetries)
 
 		err := fetchOperationFunc(client, resourceId, retryPolicy)
@@ -172,7 +180,7 @@ func ConditionShouldRetry(timeout time.Duration, shouldWait ShouldWaitFunc, serv
 		}
 
 		//Make sure we stop on default rules
-		if shouldRetry(response, disableNotFoundRetries, service, startTime, optionals...) {
+		if tf_resource.ShouldRetry(response, disableNotFoundRetries, service, startTime, optionals...) {
 			return true
 		}
 
@@ -406,7 +414,7 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 		log.Println()
 	}()
 
-	var exportCommandArgs ExportCommandArgs
+	var exportCommandArgs tf_resource_discovery.ExportCommandArgs
 	if strings.Contains(resourceName, ".") {
 		resourceName = strings.Split(resourceName, ".")[0]
 	}
@@ -446,10 +454,10 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 	return nil
 }
 
-func testExportCompartment(compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
+func testExportCompartment(compartmentId *string, exportCommandArgs *tf_resource_discovery.ExportCommandArgs) error {
 	// checking for provider_bin_path here because parent func will also be
 	// called for resources that do not support RD
-	if providerBinPath := getEnvSettingWithBlankDefault("provider_bin_path"); providerBinPath == "" {
+	if providerBinPath := tf_utils.GetEnvSettingWithBlankDefault("provider_bin_path"); providerBinPath == "" {
 		goPath := os.Getenv("GOPATH")
 		if goPath == "" {
 			return fmt.Errorf("not able to set 'provider_bin_path', either specificy 'provider_bin_path' env variable or set GOPATH to use default provider bin path ($GOPATH/bin)")
@@ -478,29 +486,29 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	exportCommandArgs.Services = append(exportCommandArgs.Services, "availability_domain")
 	exportCommandArgs.CompartmentId = compartmentId
 	exportCommandArgs.OutputDir = &outputDir
-	var tfVersion TfHclVersion = &TfHclVersion12{Value: TfVersion12}
+	var tfVersion tf_common.TfHclVersion = &tf_common.TfHclVersion12{Value: tf_common.TfVersion12}
 	exportCommandArgs.TFVersion = &tfVersion
 
 	var parseErr error
-	if exportCommandArgs.Parallelism, parseErr = strconv.Atoi(getEnvSettingWithDefault("export_parallelism", "10")); parseErr != nil {
+	if exportCommandArgs.Parallelism, parseErr = strconv.Atoi(tf_utils.GetEnvSettingWithDefault("export_parallelism", "10")); parseErr != nil {
 		return fmt.Errorf("[ERROR] invalid value for resource discovery parallelism: %s", parseErr.Error())
 	}
 	log.Printf("[INFO] exportCommandArgs.Parallelism: %d", exportCommandArgs.Parallelism)
 
-	if errExport, status := RunExportCommand(exportCommandArgs); errExport != nil || status == StatusPartialSuccess {
+	if errExport, status := tf_resource_discovery.RunExportCommand(exportCommandArgs); errExport != nil || status == tf_resource_discovery.StatusPartialSuccess {
 		if errExport != nil {
 			return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport.Error())
 		}
 		// For generated tests, RD will only return this error if one of the `ids` was not found
 		// (which in case of tests is the id for the resource RD is looking for)
-		if status == StatusPartialSuccess {
+		if status == tf_resource_discovery.StatusPartialSuccess {
 			return fmt.Errorf("[ERROR] expected resource was not found")
 		}
 	}
 
 	// run init command
 
-	terraformBinPath := getEnvSettingWithBlankDefault(terraformBinPathName)
+	terraformBinPath := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.TerraformBinPathName)
 	if terraformBinPath == "" {
 		var err error
 		terraformBinPath, err = tfinstall.Find(context.Background(), tfinstall.LookPath())
@@ -515,7 +523,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *ExportComma
 	backgroundCtx := context.Background()
 
 	var initArgs []tfexec.InitOption
-	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
+	if pluginDir := tf_utils.GetEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
 		log.Printf("[INFO] plugin dir: '%s'", pluginDir)
 		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
 	}
@@ -591,7 +599,7 @@ func isResourceSupportImport(resourceName string) (support bool, err error) {
 	if strings.Contains(resourceName, ".") {
 		resourceName = strings.Split(resourceName, ".")[0]
 	}
-	resource := ResourcesMap()[resourceName]
+	resource := tf_provider.ResourcesMap()[resourceName]
 	if resource == nil {
 		return false, fmt.Errorf("[ERROR]: resouce %v is not found in resource Map", resourceName)
 	}
@@ -599,7 +607,7 @@ func isResourceSupportImport(resourceName string) (support bool, err error) {
 }
 
 func SaveConfigContent(content string, service string, resource string, t *testing.T) {
-	if strings.ToLower(getEnvSettingWithBlankDefault("save_configs")) == "true" {
+	if strings.ToLower(tf_utils.GetEnvSettingWithBlankDefault("save_configs")) == "true" {
 		if len(content) > 0 {
 			if err := WriteToFile(content, service, resource); err != nil {
 				log.Printf("Failed to write TF content to file with error: %q", err)
@@ -636,5 +644,210 @@ func GenericTestStepPreConfiguration(stepNumber int) func() {
 		log.Println()
 		log.Printf("====================== Executing Test Step %d ===================", stepNumber)
 		log.Println()
+	}
+}
+
+
+/*
+	This struct extends the HashiCorp plugin framework testing.T
+	It adds a slice to store all error messages encountered during test execution
+*/
+type OciTestT struct {
+	T             *testing.T
+	ErrorMessages []string
+}
+
+func (t *OciTestT) Error(args ...interface{}) {
+	t.T.Error(args...)
+	str := fmt.Sprintf("%v", args)
+	t.ErrorMessages = append(t.ErrorMessages, str)
+}
+
+func (t *OciTestT) Fatal(args ...interface{}) {
+	t.T.Fatal(args...)
+	str := fmt.Sprintf("%v", args)
+	t.ErrorMessages = append(t.ErrorMessages, str)
+}
+
+func (t *OciTestT) Skip(args ...interface{}) {
+	t.T.Skip(args...)
+}
+
+func (t *OciTestT) Name() string {
+	return t.T.Name()
+}
+
+func (t *OciTestT) Parallel() {
+	t.T.Parallel()
+}
+
+// Method to execute tests
+func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps []resource.TestStep) {
+	// set Generic preconfiguration method if not explicitly set
+	for index, _ := range steps {
+		if steps[index].PreConfig == nil {
+			steps[index].PreConfig = GenericTestStepPreConfiguration(index)
+		}
+	}
+
+	ociTest := OciTestT{t, make([]string, 0)}
+	resource.Test(&ociTest, resource.TestCase{
+		PreCheck: func() { PreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": TestAccProvider,
+		},
+		CheckDestroy: checkDestroyFunc,
+		Steps:        steps,
+	})
+
+	// check if any error was logged
+	if len(ociTest.ErrorMessages) <= 0 {
+		return
+	}
+
+	fmt.Println("================ Error Summary ================")
+	// print out the errors in an error summary
+	for _, error := range ociTest.ErrorMessages {
+		fmt.Println(error)
+	}
+}
+
+func PreCheck(t *testing.T) {
+	envVarChecklist := []string{}
+	copy(envVarChecklist, requiredTestEnvVars)
+	if tf_utils.GetEnvSettingWithDefault("use_obo_token", "false") != "false" {
+		envVarChecklist = append(envVarChecklist, requiredOboTokenAuthEnvVars...)
+	} else {
+		envVarChecklist = append(envVarChecklist, requiredKeyAuthEnvVars...)
+	}
+
+	for _, envVar := range envVarChecklist {
+		if v := tf_utils.GetEnvSettingWithBlankDefault(envVar); v == "" {
+			t.Fatal("TF_VAR_" + envVar + " must be set for acceptance tests")
+		}
+	}
+
+}
+
+var requiredTestEnvVars = []string{"compartment_ocid", "compartment_id_for_create", "compartment_id_for_update", "tags_import_if_exists"}
+var requiredKeyAuthEnvVars = []string{"tenancy_ocid", "user_ocid", "fingerprint"}
+var requiredOboTokenAuthEnvVars = []string{"tenancy_ocid", "obo_token"}
+var TestAccProvider *schema.Provider
+var TestAccProviders map[string]terraform.ResourceProvider
+const (
+	requestQueryOpcTimeMaintenanceRebootDue = "opc-time-maintenance-reboot-due"
+)
+
+// Provider is the adapter for terraform, that gives access to all the resources
+func ProviderTestCopy(configfn schema.ConfigureFunc) terraform.ResourceProvider {
+	result := &schema.Provider{
+		DataSourcesMap: tf_provider.DataSourcesMap(),
+		Schema:         tf_provider.SchemaMap(),
+		ResourcesMap:   tf_provider.ResourcesMap(),
+		ConfigureFunc:  configfn,
+	}
+
+	// Additions for test parameters
+	result.Schema["test_time_maintenance_reboot_due"] = &schema.Schema{Type: schema.TypeString, Optional: true}
+
+	return result
+}
+
+func ProviderTestConfig() string {
+	return `
+	# Need to have this block even though it's empty; for import testing
+	provider "oci" {
+	}
+	` + CommonTestVariables()
+}
+
+func CommonTestVariables() string {
+	return `
+	variable "tenancy_ocid" {
+		default = "` + tf_utils.GetEnvSettingWithBlankDefault("tenancy_ocid") + `"
+	}
+
+	variable "ssh_public_key" {
+		default = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
+	}
+
+	variable "region" {
+		default = "` + tf_utils.GetEnvSettingWithBlankDefault("region") + `"
+	}
+
+	`
+}
+
+func GetTestClients(data *schema.ResourceData) *tf_client.OracleClients {
+	r := &schema.Resource{
+		Schema: tf_provider.SchemaMap(),
+	}
+	d := r.Data(nil)
+	d.SetId(tf_utils.GetEnvSettingWithBlankDefault("tenancy_ocid"))
+	d.Set("tenancy_ocid", tf_utils.GetEnvSettingWithBlankDefault("tenancy_ocid"))
+	d.Set("region", tf_utils.GetEnvSettingWithDefault("region", "us-phoenix-1"))
+
+	if auth := tf_utils.GetEnvSettingWithDefault("auth", tf_resource.AuthAPIKeySetting); auth == tf_resource.AuthAPIKeySetting {
+		d.Set("auth", tf_utils.GetEnvSettingWithDefault("auth", tf_resource.AuthAPIKeySetting))
+		d.Set("user_ocid", tf_utils.GetEnvSettingWithBlankDefault("user_ocid"))
+		d.Set("fingerprint", tf_utils.GetEnvSettingWithBlankDefault("fingerprint"))
+		d.Set("private_key_path", tf_utils.GetEnvSettingWithBlankDefault("private_key_path"))
+		d.Set("private_key_password", tf_utils.GetEnvSettingWithBlankDefault("private_key_password"))
+		d.Set("private_key", tf_utils.GetEnvSettingWithBlankDefault("private_key"))
+	} else {
+		d.Set("auth", tf_utils.GetEnvSettingWithDefault("auth", auth))
+	}
+
+	tf_provider.TerraformCLIVersion = tf_resource.TestTerraformCLIVersion
+	client, err := tf_provider.ProviderConfig(d)
+	if err != nil {
+		panic(err)
+	}
+
+	// This is a test hook to support creating instances that have a maintenance reboot time set
+	// The test hook allows 'time_maintenance_reboot_due' field to be tested for instance datasources/resources
+	// This is controlled by a provider option rather than environment variable: so that the tests can run in parallel
+	// without affecting one another and also allow individual test steps to alter this
+	//
+	// If we have additional test hooks that need to be supported in this manner, then the following logic should be
+	// compartmentalized and registered with the test provider in a scalable manner.
+	maintenanceRebootTime, ok := data.GetOkExists("test_time_maintenance_reboot_due")
+	if ok {
+		computeClient := client.(*tf_client.OracleClients).computeClient()
+		baseInterceptor := computeClient.Interceptor
+		computeClient.Interceptor = func(r *http.Request) error {
+			if err := baseInterceptor(r); err != nil {
+				return err
+			}
+
+			if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/instances")) {
+				query := r.URL.Query()
+				query.Set(requestQueryOpcTimeMaintenanceRebootDue, maintenanceRebootTime.(string))
+				r.URL.RawQuery = query.Encode()
+			}
+			return nil
+		}
+	}
+
+	return client.(*tf_client.OracleClients)
+}
+
+// wrapper over resource.ComposeAggregateTestCheckFunc to use customErrorFormat for multierror
+func ComposeAggregateTestCheckFuncWrapper(fs ...resource.TestCheckFunc) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		var result *multierror.Error
+
+		for i, f := range fs {
+			if err := f(s); err != nil {
+				result = multierror.Append(result, fmt.Errorf("Check %d/%d error: %s", i+1, len(fs), err))
+			}
+		}
+
+		err := result.ErrorOrNil()
+		if err != nil {
+			result.ErrorFormat = tf_utils.CustomErrorFormat
+		}
+
+		return err
 	}
 }

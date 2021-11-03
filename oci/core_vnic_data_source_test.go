@@ -22,8 +22,8 @@ type DatasourceCoreVnicTestSuite struct {
 }
 
 func (s *DatasourceCoreVnicTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + instanceDnsConfig
 	s.ResourceName = "data.oci_core_vnic.t"
 }

@@ -100,19 +100,19 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIntegrationIntegrationInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestIntegrationIntegrationInstanceResource_basic") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestIntegrationIntegrationInstanceResource_basic") {
 		t.Skip("Skipping suppressed TestIntegrationIntegrationInstanceResource_basic")
 	}
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	vaultSecretId := getEnvSettingWithBlankDefault("oci_vault_secret_id")
+	vaultSecretId := GetEnvSettingWithBlankDefault("oci_vault_secret_id")
 	vaultSecretIdStr := fmt.Sprintf("variable \"oci_vault_secret_id\" { default = \"%s\" }\n", vaultSecretId)
 
 	resourceName := "oci_integration_integration_instance.test_integration_instance"
@@ -188,7 +188,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
 				CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					"id": GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
@@ -197,7 +197,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -249,7 +249,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
 				CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					"id": GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
@@ -295,7 +295,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
 				CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					"id": GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
@@ -348,7 +348,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
 				CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					"id": GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
@@ -389,11 +389,11 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
 				CheckResourceSetContainsElementWithProperties(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": getEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+					"id": GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.0.id",
-					getEnvSettingWithBlankDefault("allow_listed_http_vcn")),
+					GetEnvSettingWithBlankDefault("allow_listed_http_vcn")),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -420,7 +420,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 func testAccCheckIntegrationIntegrationInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).integrationInstanceClient()
+	client := TestAccProvider.Meta().(*OracleClients).integrationInstanceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_integration_integration_instance" {
 			noResourceFound = false
@@ -460,7 +460,7 @@ func testAccCheckIntegrationIntegrationInstanceDestroy(s *terraform.State) error
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("IntegrationIntegrationInstance") {
 		resource.AddTestSweepers("IntegrationIntegrationInstance", &resource.Sweeper{
@@ -489,7 +489,7 @@ func sweepIntegrationIntegrationInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting IntegrationInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", integrationInstanceId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &integrationInstanceId, integrationInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &integrationInstanceId, integrationInstanceSweepWaitCondition, time.Duration(3*time.Minute),
 				integrationInstanceSweepResponseFetchOperation, "integration", true)
 		}
 	}
@@ -545,14 +545,14 @@ func idcsAccessTokenVariableStr() string {
 
 func tagVariablesStr() string {
 	vars := []string{
-		fmt.Sprintf("variable \"oci_identity_tag_namespace\" { default = \"%s\" }\n", getEnvSettingWithBlankDefault("oci_identity_tag_namespace")),
-		fmt.Sprintf("variable \"oci_identity_tag\" { default = \"%s\" }\n", getEnvSettingWithBlankDefault("oci_identity_tag")),
-		fmt.Sprintf("variable \"allow_listed_http_vcn\" { default = \"%s\" }\n", getEnvSettingWithBlankDefault("allow_listed_http_vcn")),
+		fmt.Sprintf("variable \"oci_identity_tag_namespace\" { default = \"%s\" }\n", GetEnvSettingWithBlankDefault("oci_identity_tag_namespace")),
+		fmt.Sprintf("variable \"oci_identity_tag\" { default = \"%s\" }\n", GetEnvSettingWithBlankDefault("oci_identity_tag")),
+		fmt.Sprintf("variable \"allow_listed_http_vcn\" { default = \"%s\" }\n", GetEnvSettingWithBlankDefault("allow_listed_http_vcn")),
 	}
 
 	return strings.Join(vars[:], "\n")
 }
 
 func readIdcsAccessToken() string {
-	return getEnvSettingWithBlankDefault("idcs_access_token")
+	return GetEnvSettingWithBlankDefault("idcs_access_token")
 }

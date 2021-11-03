@@ -60,8 +60,8 @@ var (
 		"value": Representation{RepType: Required, Create: `value`},
 	}
 
-	InvokeRunResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	InvokeRunResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", Optional, Create, privateEndpointRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, dataFlowApplicationRepresentation) +
@@ -73,22 +73,22 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataflowInvokeRunResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
-	fileUri := getEnvSettingWithBlankDefault("dataflow_file_uri")
+	fileUri := GetEnvSettingWithBlankDefault("dataflow_file_uri")
 	fileUriVariableStr := fmt.Sprintf("variable \"dataflow_file_uri\" { default = \"%s\" }\n", fileUri)
-	archiveUri := getEnvSettingWithBlankDefault("dataflow_archive_uri")
+	archiveUri := GetEnvSettingWithBlankDefault("dataflow_archive_uri")
 	archiveUriVariableStr := fmt.Sprintf("variable \"dataflow_archive_uri\" { default = \"%s\" }\n", archiveUri)
-	logsBucketUri := getEnvSettingWithBlankDefault("dataflow_logs_bucket_uri")
+	logsBucketUri := GetEnvSettingWithBlankDefault("dataflow_logs_bucket_uri")
 	logsBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_logs_bucket_uri\" { default = \"%s\" }\n", logsBucketUri)
-	warehouseBucketUri := getEnvSettingWithBlankDefault("dataflow_warehouse_bucket_uri")
+	warehouseBucketUri := GetEnvSettingWithBlankDefault("dataflow_warehouse_bucket_uri")
 	warehouseBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_warehouse_bucket_uri\" { default = \"%s\" }\n", warehouseBucketUri)
-	metastoreId := getEnvSettingWithBlankDefault("metastore_id")
+	metastoreId := GetEnvSettingWithBlankDefault("metastore_id")
 	metastoreIdVariableStr := fmt.Sprintf("variable \"metastore_id\" { default = \"%s\" }\n", metastoreId)
 
 	resourceName := "oci_dataflow_invoke_run.test_invoke_run"
@@ -152,7 +152,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -164,7 +164,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(20*time.Minute),
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(20*time.Minute),
 				dataFlowInvokeRunFetchOperation, "dataflow", false),
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InvokeRunResourceDependencies + warehouseBucketUriVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + metastoreIdVariableStr +
 				GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Create,
@@ -319,7 +319,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 func testAccCheckDataflowInvokeRunDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataFlowClient()
+	client := TestAccProvider.Meta().(*OracleClients).dataFlowClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dataflow_invoke_run" {
 			noResourceFound = false
@@ -351,7 +351,7 @@ func testAccCheckDataflowInvokeRunDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DataflowInvokeRun") {
 		resource.AddTestSweepers("DataflowInvokeRun", &resource.Sweeper{

@@ -25,8 +25,8 @@ type ResourceLoadBalancerBackendSetTestSuite struct {
 }
 
 func (s *ResourceLoadBalancerBackendSetTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + caCertificateVariableStr + privateKeyVariableStr + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"

@@ -29,9 +29,9 @@ func TestDatabaseExternalNonContainerDatabaseManagementResource_basic(t *testing
 	httpreplay.SetScenario("TestDatabaseExternalNonContainerDatabaseManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_external_non_container_database_management.test_external_non_container_database_management"

@@ -15,7 +15,7 @@ import (
 func TestAccDatasourceLoadBalancerShapes_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAccDatasourceLoadBalancerShapes_basic")
 	defer httpreplay.SaveScenario()
-	providers := testAccProviders
+	providers := TestAccProviders
 	config := legacyTestProviderConfig() + `
 	data "oci_load_balancer_shapes" "t" {
 		compartment_id = "${var.compartment_id}"
@@ -28,7 +28,7 @@ func TestAccDatasourceLoadBalancerShapes_basic(t *testing.T) {
 	resourceName := "data.oci_load_balancer_shapes.t"
 
 	resource.Test(t, resource.TestCase{
-		PreCheck:                  func() { testAccPreCheck(t) },
+		PreCheck:                  func() { PreCheck() },
 		PreventPostDestroyRefresh: true,
 		Providers:                 providers,
 		Steps: []resource.TestStep{

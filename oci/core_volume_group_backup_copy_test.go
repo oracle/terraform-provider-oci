@@ -40,15 +40,15 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreVolumeGroupBackup_copy")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceNameCopy := "oci_core_volume_group_backup.test_volume_group_backup_copy"
 	datasourceName := "data.oci_core_volume_group_backups.test_volume_group_backups"
 
-	if getEnvSettingWithBlankDefault("source_region") == "" {
+	if GetEnvSettingWithBlankDefault("source_region") == "" {
 		t.Skip("Skipping TestResourceCoreVolumeGroupBackup_copy test because there is no source region specified")
 	}
 
@@ -59,8 +59,8 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 
 	volumeGroupBackupSourceDetailsRepresentation = map[string]interface{}{
 		"volume_group_backup_id": Representation{RepType: Required, Create: volumeGroupBackupId},
-		"region":                 Representation{RepType: Required, Create: getEnvSettingWithBlankDefault("source_region")},
-		"kms_key_id":             Representation{RepType: Optional, Create: getEnvSettingWithBlankDefault("kms_key_ocid")},
+		"region":                 Representation{RepType: Required, Create: GetEnvSettingWithBlankDefault("source_region")},
+		"kms_key_id":             Representation{RepType: Optional, Create: GetEnvSettingWithBlankDefault("kms_key_ocid")},
 	}
 
 	volumeGroupBackupWithSourceDetailsRepresentation = GetUpdatedRepresentationCopy("source_details", RepresentationGroup{Required, volumeGroupBackupSourceDetailsRepresentation}, volumeGroupBackupWithSourceDetailsRepresentation)
@@ -167,7 +167,7 @@ func TestResourceCoreVolumeGroupBackup_copy(t *testing.T) {
 }
 
 func createSourceVolumeGroupBackupToCopy() error {
-	sourceRegion := getEnvSettingWithBlankDefault("source_region")
+	sourceRegion := GetEnvSettingWithBlankDefault("source_region")
 
 	var err error
 	volumeId, err = createVolumeInRegion(GetTestClients(&schema.ResourceData{}), sourceRegion)
@@ -192,7 +192,7 @@ func createSourceVolumeGroupBackupToCopy() error {
 }
 
 func deleteSourceVolumeGroupBackupToCopy() {
-	sourceRegion := getEnvSettingWithBlankDefault("source_region")
+	sourceRegion := GetEnvSettingWithBlankDefault("source_region")
 
 	var err error
 	err = deleteVolumeGroupBackupInRegion(GetTestClients(&schema.ResourceData{}), sourceRegion, volumeGroupBackupId)

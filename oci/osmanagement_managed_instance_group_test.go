@@ -30,8 +30,8 @@ var (
 		"managed_instance_group_id": Representation{RepType: Required, Create: `${oci_osmanagement_managed_instance_group.test_managed_instance_group.id}`},
 	}
 
-	managedGroupDisplayName                      = RandomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName")
-	managedGroupUpdateDisplayName                = RandomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName2")
+	managedGroupDisplayName                      = RandomStringOrHttpReplayValue(10, CharsetWithoutDigits, "displayName")
+	managedGroupUpdateDisplayName                = RandomStringOrHttpReplayValue(10, CharsetWithoutDigits, "displayName2")
 	managedInstanceGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"display_name":   Representation{RepType: Optional, Create: managedGroupDisplayName, Update: managedGroupUpdateDisplayName},
@@ -60,12 +60,12 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOsmanagementManagedInstanceGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_osmanagement_managed_instance_group.test_managed_instance_group"
@@ -111,7 +111,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -224,7 +224,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 
 func testAccCheckOsmanagementManagedInstanceGroupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).osManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).osManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_osmanagement_managed_instance_group" {
 			noResourceFound = false
@@ -264,7 +264,7 @@ func testAccCheckOsmanagementManagedInstanceGroupDestroy(s *terraform.State) err
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("OsmanagementManagedInstanceGroup") {
 		resource.AddTestSweepers("OsmanagementManagedInstanceGroup", &resource.Sweeper{
@@ -293,7 +293,7 @@ func sweepOsmanagementManagedInstanceGroupResource(compartment string) error {
 				fmt.Printf("Error deleting ManagedInstanceGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", managedInstanceGroupId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &managedInstanceGroupId, managedInstanceGroupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &managedInstanceGroupId, managedInstanceGroupSweepWaitCondition, time.Duration(3*time.Minute),
 				managedInstanceGroupSweepResponseFetchOperation, "osmanagement", true)
 		}
 	}

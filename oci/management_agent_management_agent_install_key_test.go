@@ -59,9 +59,9 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestManagementAgentManagementAgentInstallKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_management_agent_management_agent_install_key.test_management_agent_install_key"
@@ -106,7 +106,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -199,7 +199,7 @@ func TestManagementAgentManagementAgentInstallKeyResource_basic(t *testing.T) {
 
 func testAccCheckManagementAgentManagementAgentInstallKeyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).managementAgentClient()
+	client := TestAccProvider.Meta().(*OracleClients).managementAgentClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_management_agent_management_agent_install_key" {
 			noResourceFound = false
@@ -239,7 +239,7 @@ func testAccCheckManagementAgentManagementAgentInstallKeyDestroy(s *terraform.St
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ManagementAgentManagementAgentInstallKey") {
 		resource.AddTestSweepers("ManagementAgentManagementAgentInstallKey", &resource.Sweeper{
@@ -268,7 +268,7 @@ func sweepManagementAgentManagementAgentInstallKeyResource(compartment string) e
 				fmt.Printf("Error deleting ManagementAgentInstallKey %s %s, It is possible that the resource is already deleted. Please verify manually \n", managementAgentInstallKeyId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &managementAgentInstallKeyId, managementAgentInstallKeySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &managementAgentInstallKeyId, managementAgentInstallKeySweepWaitCondition, time.Duration(3*time.Minute),
 				managementAgentInstallKeySweepResponseFetchOperation, "management_agent", true)
 		}
 	}

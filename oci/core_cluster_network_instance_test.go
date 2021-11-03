@@ -26,12 +26,12 @@ var (
 func TestCoreClusterNetworkInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreClusterNetworkInstanceResource_basic")
 	defer httpreplay.SaveScenario()
-	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "ClusterNetwork") {
+	if !strings.Contains(GetEnvSettingWithBlankDefault("enabled_tests"), "ClusterNetwork") {
 		t.Skip("ClusterNetwork test not supported due to limited host capacity")
 	}
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_core_cluster_network_instances.test_cluster_network_instances"

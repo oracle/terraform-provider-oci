@@ -89,9 +89,9 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationQueryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 	tenancyIdVariableStr := fmt.Sprintf("variable \"tenancy_id\" { default = \"%s\" }\n", tenancyId)
 
 	resourceName := "oci_metering_computation_query.test_query"
@@ -117,7 +117,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -231,7 +231,7 @@ func TestMeteringComputationQueryResource_basic(t *testing.T) {
 
 func testAccCheckMeteringComputationQueryDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).usageapiClient()
+	client := TestAccProvider.Meta().(*OracleClients).usageapiClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_metering_computation_query" {
 			noResourceFound = false
@@ -263,7 +263,7 @@ func testAccCheckMeteringComputationQueryDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MeteringComputationQuery") {
 		resource.AddTestSweepers("MeteringComputationQuery", &resource.Sweeper{

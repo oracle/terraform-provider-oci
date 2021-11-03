@@ -35,13 +35,13 @@ func TestResourceOpsiHostInsight(t *testing.T) {
 	httpreplay.SetScenario("TestResourceOpsiHostInsight")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	managementAgentId := getEnvSettingWithBlankDefault("managed_agent_id")
+	managementAgentId := GetEnvSettingWithBlankDefault("managed_agent_id")
 	if managementAgentId == "" {
 		t.Skip("Manual install agent and set managed_agent_id to run this test")
 	}
@@ -54,7 +54,7 @@ func TestResourceOpsiHostInsight(t *testing.T) {
 		GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Required, Create, hostInsightRequiredRepresentation), "opsi", "hostInsight", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

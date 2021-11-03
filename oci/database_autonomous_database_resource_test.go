@@ -20,20 +20,20 @@ import (
 )
 
 var (
-	adbDedicatedName                   = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbDedicatedUpdateName             = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbDedicatedCloneName              = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adDedicatedName                    = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adDedicatedUpdateName              = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbExaccName                       = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbBackupSourceName                = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbBackupIdName                    = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbBackupTimestampName             = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbPreviewDbName                   = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbDataSafeName                    = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbDbVersionName                   = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbDbRefreshableCloneName          = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
-	adbDbRefreshableCloneSourceADBName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
+	adbDedicatedName                   = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbDedicatedUpdateName             = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbDedicatedCloneName              = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adDedicatedName                    = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adDedicatedUpdateName              = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbExaccName                       = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbBackupSourceName                = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbBackupIdName                    = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbBackupTimestampName             = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbPreviewDbName                   = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbDataSafeName                    = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbDbVersionName                   = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbDbRefreshableCloneName          = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
+	adbDbRefreshableCloneSourceADBName = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
 
 	AutonomousDatabaseDedicatedRequiredOnlyResource = AutonomousDatabaseDedicatedResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseDedicatedRepresentation)
@@ -147,8 +147,8 @@ var (
 				"subnet_id":              Representation{RepType: Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 			}), []string{"whitelisted_ips", "scheduled_operations"})
 
-	AutonomousDatabasePrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	AutonomousDatabasePrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, networkSecurityGroupRepresentation) +
 		AutonomousDatabaseResourceDependencies
@@ -210,9 +210,9 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseDedicated")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database"
@@ -487,9 +487,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_preview")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database"
@@ -872,12 +872,12 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database"
@@ -1040,9 +1040,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupFromId")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database_from_backupid"
@@ -1112,9 +1112,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database_from_backuptimestamp"
@@ -1184,12 +1184,12 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_privateEndPoint")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database"
@@ -1567,9 +1567,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dbVersion")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database"
@@ -1610,7 +1610,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -1693,9 +1693,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataGuard")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	const standbyDbWaitConditionDuration = time.Duration(60 * time.Minute)
 
@@ -1730,7 +1730,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -1776,7 +1776,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 		},
 		// verify updates disable dataGuard
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, ListAutonomousDatabasesWaitCondition, standbyDbWaitConditionDuration,
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, ListAutonomousDatabasesWaitCondition, standbyDbWaitConditionDuration,
 				listListAutonomousDatabasesFetchOperation, "database", true),
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
@@ -1819,9 +1819,9 @@ func TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard(t *testing.T)
 	httpreplay.SetScenario("TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	const standbyDbWaitConditionDuration = time.Duration(60 * time.Minute)
 
@@ -1855,7 +1855,7 @@ func TestResourceDatabaseExaccAutonomousDatabaseResource_dataGuard(t *testing.T)
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -1922,9 +1922,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_switchover")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	const standbyDbWaitConditionDuration = time.Duration(60 * time.Minute)
 
@@ -1960,7 +1960,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -2006,7 +2006,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 		},
 		// verify no-op when switchover is PRIMARY for first time
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, ListAutonomousDatabasesWaitCondition, standbyDbWaitConditionDuration,
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, ListAutonomousDatabasesWaitCondition, standbyDbWaitConditionDuration,
 				listListAutonomousDatabasesFetchOperation, "database", true),
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
@@ -2178,12 +2178,12 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_refreshableClone")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	var resId, resId2 string
@@ -2515,9 +2515,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_AJD(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_AJD")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database"
@@ -2809,9 +2809,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_APEX(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_APEX")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database_apex"
@@ -3104,9 +3104,9 @@ func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database.test_autonomous_database"
@@ -3185,7 +3185,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

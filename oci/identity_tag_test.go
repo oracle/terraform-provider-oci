@@ -20,28 +20,6 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-const (
-	DefinedTagsDependencies = `
-variable defined_tag_namespace_name { default = "" }
-resource "oci_identity_tag_namespace" "tag-namespace1" {
-  		#Required
-		compartment_id = "${var.tenancy_ocid}"
-  		description = "example tag namespace"
-  		name = "${var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"}"
-
-		is_retired = false
-}
-
-resource "oci_identity_tag" "tag1" {
-  		#Required
-  		description = "example tag"
-  		name = "example-tag"
-        tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
-
-		is_retired = false
-}
-`
-)
 
 var (
 	TagRequiredOnlyResource = TagResourceDependencies +
@@ -86,9 +64,9 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_tag.test_tag"
@@ -141,7 +119,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -242,7 +220,7 @@ func getTagCompositeId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentityTagDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient()
+	client := TestAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_tag" {
 			noResourceFound = false
@@ -287,7 +265,7 @@ func testAccCheckIdentityTagDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("IdentityTag") {
 		resource.AddTestSweepers("IdentityTag", &resource.Sweeper{
@@ -300,7 +278,7 @@ func init() {
 
 func sweepIdentityTagResource(compartment string) error {
 	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
-	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		return nil
 	}
@@ -320,7 +298,7 @@ func sweepIdentityTagResource(compartment string) error {
 				fmt.Printf("Error deleting Tag %s %s, It is possible that the resource is already deleted. Please verify manually \n", tagId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &tagId, tagSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &tagId, tagSweepWaitCondition, time.Duration(3*time.Minute),
 				tagSweepResponseFetchOperation, "identity", true)
 		}
 	}

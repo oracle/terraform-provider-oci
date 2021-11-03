@@ -50,8 +50,8 @@ var (
 		"lifecycle":      RepresentationGroup{Required, ignoreDefinedTagsChangesRep},
 	}
 
-	AiPrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
+	AiPrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, VcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -60,12 +60,12 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAiAnomalyDetectionAiPrivateEndpointResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_ai_anomaly_detection_ai_private_endpoint.test_ai_private_endpoint"
@@ -113,7 +113,7 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -219,7 +219,7 @@ func TestAiAnomalyDetectionAiPrivateEndpointResource_basic(t *testing.T) {
 
 func testAccCheckAiAnomalyDetectionAiPrivateEndpointDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).anomalyDetectionClient()
+	client := TestAccProvider.Meta().(*OracleClients).anomalyDetectionClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_ai_anomaly_detection_ai_private_endpoint" {
 			noResourceFound = false
@@ -259,7 +259,7 @@ func testAccCheckAiAnomalyDetectionAiPrivateEndpointDestroy(s *terraform.State) 
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("AiAnomalyDetectionAiPrivateEndpoint") {
 		resource.AddTestSweepers("AiAnomalyDetectionAiPrivateEndpoint", &resource.Sweeper{
@@ -288,7 +288,7 @@ func sweepAiAnomalyDetectionAiPrivateEndpointResource(compartment string) error 
 				fmt.Printf("Error deleting AiPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", aiPrivateEndpointId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &aiPrivateEndpointId, aiPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &aiPrivateEndpointId, aiPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
 				aiPrivateEndpointSweepResponseFetchOperation, "ai_anomaly_detection", true)
 		}
 	}

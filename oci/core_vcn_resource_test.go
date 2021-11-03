@@ -24,8 +24,8 @@ type ResourceCoreVirtualNetworkTestSuite struct {
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig()
 	s.ResourceName = "oci_core_virtual_network.t"
 }

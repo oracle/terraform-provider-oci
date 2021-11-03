@@ -50,9 +50,9 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_sourceBackup")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
@@ -246,9 +246,9 @@ func TestMysqlMysqlDbSystemResource_HA(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_HA")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"

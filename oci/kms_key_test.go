@@ -59,15 +59,15 @@ var (
 		"length":    Representation{RepType: Required, Create: `16`},
 	}
 
-	kmsVaultId                = getEnvSettingWithBlankDefault("kms_vault_ocid")
+	kmsVaultId                = GetEnvSettingWithBlankDefault("kms_vault_ocid")
 	KmsVaultIdVariableStr     = fmt.Sprintf("variable \"kms_vault_id\" { default = \"%s\" }\n", kmsVaultId)
-	kmsKeyIdForCreate         = getEnvSettingWithBlankDefault("key_ocid_for_create")
+	kmsKeyIdForCreate         = GetEnvSettingWithBlankDefault("key_ocid_for_create")
 	kmsKeyIdCreateVariableStr = fmt.Sprintf("variable \"kms_key_id_for_create\" { default = \"%s\" }\n", kmsKeyIdForCreate)
 
-	kmsKeyIdForUpdate         = getEnvSettingWithBlankDefault("key_ocid_for_update")
+	kmsKeyIdForUpdate         = GetEnvSettingWithBlankDefault("key_ocid_for_update")
 	kmsKeyIdUpdateVariableStr = fmt.Sprintf("variable \"kms_key_id_for_update\" { default = \"%s\" }\n", kmsKeyIdForUpdate)
 
-	kmsKeyCompartmentId            = getEnvSettingWithBlankDefault("compartment_ocid")
+	kmsKeyCompartmentId            = GetEnvSettingWithBlankDefault("compartment_ocid")
 	kmsKeyCompartmentIdVariableStr = fmt.Sprintf("variable \"kms_key_compartment_id\" { default = \"%s\" }\n", kmsKeyCompartmentId)
 
 	// Should deprecate use of tenancy level resources
@@ -133,12 +133,12 @@ func TestKmsKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_kms_key.test_key"
@@ -344,7 +344,7 @@ func testAccCheckKMSKeyDestroy(s *terraform.State) error {
 	noResourceFound := true
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_kms_key" {
-			client, err := testAccProvider.Meta().(*OracleClients).KmsManagementClient(rs.Primary.Attributes["management_endpoint"])
+			client, err := TestAccProvider.Meta().(*OracleClients).KmsManagementClient(rs.Primary.Attributes["management_endpoint"])
 			if err != nil {
 				return err
 			}

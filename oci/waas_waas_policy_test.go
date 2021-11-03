@@ -23,7 +23,7 @@ import (
 var (
 	waasPolicyDomainSuffix = ".oracle.com"
 
-	waasPolicyDomainName = RandomStringOrHttpReplayValue(4, strings.ToLower(charsetWithoutDigits), "snww")
+	waasPolicyDomainName = RandomStringOrHttpReplayValue(4, strings.ToLower(CharsetWithoutDigits), "snww")
 
 	waasPolicyDomain = waasPolicyDomainName + waasPolicyDomainSuffix
 
@@ -336,12 +336,12 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWaasWaasPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_waas_waas_policy.test_waas_policy"
@@ -564,7 +564,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -1208,7 +1208,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 
 func testAccCheckWaasWaasPolicyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).waasClient()
+	client := TestAccProvider.Meta().(*OracleClients).waasClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_waas_waas_policy" {
 			noResourceFound = false
@@ -1248,7 +1248,7 @@ func testAccCheckWaasWaasPolicyDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("WaasWaasPolicy") {
 		resource.AddTestSweepers("WaasWaasPolicy", &resource.Sweeper{
@@ -1277,7 +1277,7 @@ func sweepWaasWaasPolicyResource(compartment string) error {
 				fmt.Printf("Error deleting WaasPolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", waasPolicyId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &waasPolicyId, waasPolicySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &waasPolicyId, waasPolicySweepWaitCondition, time.Duration(3*time.Minute),
 				waasPolicySweepResponseFetchOperation, "waas", true)
 		}
 	}

@@ -24,8 +24,8 @@ type ResourceLoadBalancerListenerTestSuite struct {
 }
 
 func (s *ResourceLoadBalancerListenerTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + caCertificateVariableStr + privateKeyVariableStr + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"

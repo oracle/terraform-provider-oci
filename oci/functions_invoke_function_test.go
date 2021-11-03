@@ -32,7 +32,7 @@ var (
 		"fn_invoke_type":       Representation{RepType: Optional, Create: `sync`},
 	}
 
-	invokeApplicationDisplayName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
+	invokeApplicationDisplayName = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
 
 	InvokeFunctionResourceDependencies = GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create,
 		GetUpdatedRepresentationCopy("display_name", Representation{RepType: Required, Create: invokeApplicationDisplayName}, applicationRepresentation)) +
@@ -41,7 +41,7 @@ var (
 		DhcpOptionsRequiredOnlyResource +
 		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, VcnRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig +
 		`
@@ -108,15 +108,15 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsInvokeFunctionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	image := getEnvSettingWithBlankDefault("image")
+	image := GetEnvSettingWithBlankDefault("image")
 	imageVariableStr := fmt.Sprintf("variable \"image\" { default = \"%s\" }\n", image)
 
-	imageDigest := getEnvSettingWithBlankDefault("image_digest")
+	imageDigest := GetEnvSettingWithBlankDefault("image_digest")
 	imageDigestVariableStr := fmt.Sprintf("variable \"image_digest\" { default = \"%s\" }\n", imageDigest)
 
 	resourceName := "oci_functions_invoke_function.test_invoke_function"
@@ -155,7 +155,7 @@ func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "content", "{\"message\":\"Hello v3 Bob\"}\n"),
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

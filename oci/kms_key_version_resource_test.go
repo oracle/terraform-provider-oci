@@ -30,11 +30,11 @@ func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyVersionResource_ResourceDiscovery")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 	os.Setenv("disable_kms_version_delete", "true")
 
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
-	kmsKeyId := getEnvSettingWithBlankDefault("kms_key_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
+	kmsKeyId := GetEnvSettingWithBlankDefault("kms_key_ocid")
 	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
 
 	resourceName := "oci_kms_key_version.test_key_version"
@@ -59,7 +59,7 @@ func TestKmsKeyVersionResource_ResourceDiscovery(t *testing.T) {
 
 					compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + kmsKeyId + "/keyVersions/" + keyVersionId
 
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}

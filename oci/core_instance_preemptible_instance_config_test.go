@@ -54,9 +54,9 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 		provider oci {
 			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
 		}
-	` + commonTestVariables()
+	` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_instance.test_instance"
@@ -65,7 +65,7 @@ func TestResourceCoreInstancePreemptibleInstanceConfig_basic(t *testing.T) {
 	ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
+			Config: ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV +
 				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPreemptibleInstanceConfigRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),

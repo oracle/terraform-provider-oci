@@ -32,9 +32,9 @@ func TestHealthChecksHttpProbeResultResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksHttpProbeResultResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_health_checks_http_probe_results.test_http_probe_results"

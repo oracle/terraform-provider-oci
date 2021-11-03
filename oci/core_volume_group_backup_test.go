@@ -53,12 +53,12 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeGroupBackupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_volume_group_backup.test_volume_group_backup"
@@ -105,7 +105,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -209,7 +209,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 
 func testAccCheckCoreVolumeGroupBackupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).blockstorageClient()
+	client := TestAccProvider.Meta().(*OracleClients).blockstorageClient()
 
 	if volumeGroupBackupId != "" || volumeGroupId != "" {
 		deleteSourceVolumeGroupBackupToCopy()
@@ -254,7 +254,7 @@ func testAccCheckCoreVolumeGroupBackupDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreVolumeGroupBackup") {
 		resource.AddTestSweepers("CoreVolumeGroupBackup", &resource.Sweeper{
@@ -283,7 +283,7 @@ func sweepCoreVolumeGroupBackupResource(compartment string) error {
 				fmt.Printf("Error deleting VolumeGroupBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeGroupBackupId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &volumeGroupBackupId, volumeGroupBackupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &volumeGroupBackupId, volumeGroupBackupSweepWaitCondition, time.Duration(3*time.Minute),
 				volumeGroupBackupSweepResponseFetchOperation, "core", true)
 		}
 	}

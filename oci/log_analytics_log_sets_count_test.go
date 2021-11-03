@@ -25,7 +25,7 @@ func TestLogAnalyticsLogSetsCountResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsLogSetsCountResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
 	singularDatasourceName := "data.oci_log_analytics_log_sets_count.test_log_sets_count"
 

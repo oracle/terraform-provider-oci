@@ -33,11 +33,11 @@ var (
 	}
 
 	VnicAttachmentResourceDependenciesVlan = GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create,
 			GetUpdatedRepresentationCopy("cidr_block", Representation{RepType: Required, Create: `10.0.1.0/30`}, vlanRepresentation)) +
 		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create,
-			RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}})) +
+			RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}})) +
 		AvailabilityDomainConfig
 )
 
@@ -52,8 +52,8 @@ type ResourceCoreVnicAttachmentTestSuite struct {
 }
 
 func (s *ResourceCoreVnicAttachmentTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + instanceDnsConfig
 	s.ResourceName = "oci_core_vnic_attachment.va"
 	s.VnicResourceName = "data.oci_core_vnic.v"

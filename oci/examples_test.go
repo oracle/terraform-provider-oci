@@ -64,7 +64,7 @@ func TestExamplesPlan(t *testing.T) {
 		t.Skip("Skipping TestExamplesPlan")
 	}
 
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestExamplesPlan") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestExamplesPlan") {
 		t.Skip("Skipping TestExamplesPlan")
 	}
 	RunExamples(t, true)
@@ -75,7 +75,7 @@ func TestExamplesApply(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestExamplesApply")
 	}
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestExamplesApply") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestExamplesApply") {
 		t.Skip("Skipping TestExamplesApply")
 	}
 	RunExamples(t, false)
@@ -86,7 +86,7 @@ func TestTerraformVersions(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestTerraformVersions")
 	}
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestTerraformVersions") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestTerraformVersions") {
 		t.Skip("Skipping TestTerraformVersions")
 	}
 	if RunConfigOnAllTerraformVersions(t, vcnExamplePath, false) {
@@ -104,7 +104,7 @@ func TestTerraformImport(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skipping TestTerraformImport")
 	}
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestTerraformImport") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestTerraformImport") {
 		t.Skip("Skipping TestTerraformImport")
 	}
 	if RunConfigAndImport(t) {
@@ -113,7 +113,7 @@ func TestTerraformImport(t *testing.T) {
 }
 
 func RunExamples(t *testing.T, planOnly bool) {
-	rootPath := getEnvSettingWithDefault("examples_root", "../examples")
+	rootPath := GetEnvSettingWithDefault("examples_root", "../examples")
 	log.Printf("Testing examples under %v", rootPath)
 
 	pathList, err := GetConfigPaths(t, rootPath)

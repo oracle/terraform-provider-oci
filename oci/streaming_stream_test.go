@@ -58,12 +58,12 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestStreamingStreamResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_streaming_stream.test_stream"
@@ -131,7 +131,7 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -252,7 +252,7 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 
 func testAccCheckStreamingStreamDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).streamAdminClient()
+	client := TestAccProvider.Meta().(*OracleClients).streamAdminClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_streaming_stream" {
 			noResourceFound = false
@@ -292,7 +292,7 @@ func testAccCheckStreamingStreamDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("StreamingStream") {
 		resource.AddTestSweepers("StreamingStream", &resource.Sweeper{
@@ -321,7 +321,7 @@ func sweepStreamingStreamResource(compartment string) error {
 				fmt.Printf("Error deleting Stream %s %s, It is possible that the resource is already deleted. Please verify manually \n", streamId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &streamId, streamSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &streamId, streamSweepWaitCondition, time.Duration(3*time.Minute),
 				streamSweepResponseFetchOperation, "streaming", true)
 		}
 	}

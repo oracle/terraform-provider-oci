@@ -28,9 +28,9 @@ func TestLogAnalyticsLogAnalyticsUnprocessedDataBucketResource_basic(t *testing.
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsUnprocessedDataBucketResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_log_analytics_log_analytics_unprocessed_data_bucket_management.test_log_analytics_unprocessed_data_bucket_management"

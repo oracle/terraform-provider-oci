@@ -27,9 +27,9 @@ func TestKmsReplicationStatusResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestKmsReplicationStatusResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_kms_replication_status.test_replication_status"

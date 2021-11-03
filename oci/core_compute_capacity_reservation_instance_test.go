@@ -34,9 +34,9 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreComputeCapacityReservationInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_core_compute_capacity_reservation_instances.test_compute_capacity_reservation_instances"
@@ -49,8 +49,8 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 			Config: config +
 				OciImageIdsVariable +
 				ComputeCapacityReservationResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
 				GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation) +
 				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, capacityReservationInstanceRepresentation) +
 				GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", Required, Create, computeCapacityReservationInstanceDataSourceRepresentation) +
@@ -71,8 +71,8 @@ func TestCoreComputeCapacityReservationInstanceResource_basic(t *testing.T) {
 			Config: config +
 				OciImageIdsVariable +
 				ComputeCapacityReservationResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
 				GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation) +
 				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, capacityReservationInstanceRepresentation) +
 				GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_reservation_instances", "test_compute_capacity_reservation_instances", Optional, Create, computeCapacityReservationInstanceDataSourceRepresentation) +

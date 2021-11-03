@@ -68,9 +68,9 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExadataInfrastructureStorageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_exadata_infrastructure.test_exadata_infrastructure"
@@ -254,7 +254,7 @@ func TestDatabaseExadataInfrastructureStorageResource_basic(t *testing.T) {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseExadataInfrastructureStorage") {
 		resource.AddTestSweepers("DatabaseExadataInfrastructureStorage", &resource.Sweeper{

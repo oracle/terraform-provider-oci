@@ -1,4 +1,4 @@
-package oci
+package resourcediscovery
 
 import (
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"

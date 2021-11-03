@@ -44,10 +44,10 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsNamespaceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_log_analytics_namespace.test_namespace"

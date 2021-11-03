@@ -26,7 +26,7 @@ var (
 	}
 
 	//Has to be a valid reporting region where the tenant is subscribed to
-	reportingRegion                       = getEnvSettingWithDefault("region", "us-phoenix-1")
+	reportingRegion                       = GetEnvSettingWithDefault("region", "us-phoenix-1")
 	cloudGuardConfigurationRepresentation = map[string]interface{}{
 		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"reporting_region": Representation{RepType: Required, Create: reportingRegion, Update: reportingRegion},
@@ -43,10 +43,10 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardCloudGuardConfigurationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
 	//Enable/Disable CG is a tenant-level operation
-	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_cloud_guard_cloud_guard_configuration.test_cloud_guard_configuration"
@@ -91,7 +91,7 @@ func TestCloudGuardCloudGuardConfigurationResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

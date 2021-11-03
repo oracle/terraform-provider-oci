@@ -24,8 +24,8 @@ var (
 	// Ticket to track adding the creation endpoint https://jira.oci.oraclecorp.com/browse/OCIR-2136.
 	// Therefore, we need to set the env var of the pre-canned container image for testing, i.e. TF_VAR_container_image_ocid
 
-	imageId       = getEnvSettingWithBlankDefault("container_image_ocid")
-	compartmentId = getEnvSettingWithBlankDefault("tenancy_ocid")
+	imageId       = GetEnvSettingWithBlankDefault("container_image_ocid")
+	compartmentId = GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	containerImageSingularDataSourceRepresentation = map[string]interface{}{
 		"image_id": Representation{RepType: Required, Create: imageId},
@@ -47,7 +47,7 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerImageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
 	datasourceName := "data.oci_artifacts_container_images.test_container_images"
 	singularDatasourceName := "data.oci_artifacts_container_image.test_container_image"
@@ -101,7 +101,7 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ArtifactsContainerImage") {
 		resource.AddTestSweepers("ArtifactsContainerImage", &resource.Sweeper{
@@ -128,7 +128,7 @@ func sweepArtifactsContainerImageResource(compartment string) error {
 				fmt.Printf("Error deleting ContainerImage %s %s, It is possible that the resource is already deleted. Please verify manually \n", containerImageId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &containerImageId, containerImageSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &containerImageId, containerImageSweepWaitCondition, time.Duration(3*time.Minute),
 				containerImageSweepResponseFetchOperation, "artifacts", true)
 		}
 	}

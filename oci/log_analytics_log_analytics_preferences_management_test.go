@@ -31,9 +31,9 @@ func TestLogAnalyticsLogAnalyticsPreferencesManagementResource_basic(t *testing.
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsPreferencesManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_log_analytics_log_analytics_preferences_management.test_log_analytics_preferences_management"

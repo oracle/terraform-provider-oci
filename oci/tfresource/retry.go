@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package tfresource
 
 import (
 	"fmt"
@@ -48,9 +48,9 @@ var serviceRetryPolicyFnMap = map[string]getRetryPolicyFunc{
 	kmsService: kmsGetRetryPolicy,
 }
 
-var shortRetryTime = 2 * time.Minute
-var longRetryTime = 10 * time.Minute
-var configuredRetryDuration *time.Duration
+var ShortRetryTime = 2 * time.Minute
+var LongRetryTime = 10 * time.Minute
+var ConfiguredRetryDuration *time.Duration
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
@@ -113,7 +113,7 @@ func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableN
 }
 
 func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool) time.Duration {
-	defaultRetryTime := shortRetryTime
+	defaultRetryTime := ShortRetryTime
 
 	if oci_common.IsNetworkError(response.Error) {
 		log.Printf("[DEBUG] Retrying for network error...")
@@ -142,7 +142,7 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 	case 404:
 		return 0
 	case 409:
-		if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+		if isDisable409Retry, _ := strconv.ParseBool(GetEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
 			log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
 			return 0
 		}
@@ -153,16 +153,16 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 	case 412:
 		return 0
 	case 429:
-		if configuredRetryDuration != nil {
-			return *configuredRetryDuration
+		if ConfiguredRetryDuration != nil {
+			return *ConfiguredRetryDuration
 		}
-		defaultRetryTime = longRetryTime
+		defaultRetryTime = LongRetryTime
 	case 500:
 		if e != nil && (strings.Contains(e.Error(), "Out of host capacity")) {
 			return 0
 		}
-		if configuredRetryDuration != nil {
-			return *configuredRetryDuration
+		if ConfiguredRetryDuration != nil {
+			return *ConfiguredRetryDuration
 		}
 	}
 
@@ -231,10 +231,10 @@ func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 				strings.Contains(e.Error(), "InvalidatedRetryToken") {
 				defaultRetryTime = 0
 			} else if strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") {
-				defaultRetryTime = longRetryTime
+				defaultRetryTime = LongRetryTime
 			}
 		}
-		if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+		if isDisable409Retry, _ := strconv.ParseBool(GetEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
 			log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
 			return 0
 		}
@@ -259,7 +259,7 @@ func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 	e := response.Error
 	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 	case 409:
-		if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+		if isDisable409Retry, _ := strconv.ParseBool(GetEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
 			log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
 			return 0
 		}
@@ -267,7 +267,7 @@ func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 			if strings.Contains(e.Error(), "InvalidatedRetryToken") {
 				defaultRetryTime = 0
 			} else {
-				defaultRetryTime = longRetryTime
+				defaultRetryTime = LongRetryTime
 			}
 		}
 	}
@@ -295,18 +295,18 @@ func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperati
 	case 409:
 		if e := response.Error; e != nil {
 			if strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") {
-				defaultRetryTime = longRetryTime
+				defaultRetryTime = LongRetryTime
 			}
 		}
-		if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+		if isDisable409Retry, _ := strconv.ParseBool(GetEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
 			log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
 			return 0
 		}
 	case 500:
-		if configuredRetryDuration != nil {
-			defaultRetryTime = *configuredRetryDuration
+		if ConfiguredRetryDuration != nil {
+			defaultRetryTime = *ConfiguredRetryDuration
 		} else {
-			defaultRetryTime = longRetryTime
+			defaultRetryTime = LongRetryTime
 		}
 	}
 

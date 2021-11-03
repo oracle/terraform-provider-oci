@@ -74,9 +74,9 @@ var (
 		"source_id":   Representation{RepType: Required, Create: `${var.OsManagedImageOCID[var.region]}`},
 	}
 
-	parentSourceDisplayName = RandomString(10, charsetWithoutDigits)
-	childSourceDisplayName  = RandomString(10, charsetWithoutDigits)
-	groupDisplayName        = RandomString(10, charsetWithoutDigits)
+	parentSourceDisplayName = RandomString(10, CharsetWithoutDigits)
+	childSourceDisplayName  = RandomString(10, CharsetWithoutDigits)
+	groupDisplayName        = RandomString(10, CharsetWithoutDigits)
 
 	osmanagementSoftwareSourceRepresentation = GenerateResourceFromRepresentationMap("oci_osmanagement_software_source", "test_parent_software_source", Required, Create, GetMultipleUpdatedRepresenationCopy([]string{"arch_type", "display_name"},
 		[]interface{}{
@@ -98,13 +98,13 @@ var (
 		"agent_config":        RepresentationGroup{Required, osmsInstanceAgentConfigRepresentation},
 		"image":               Representation{RepType: Required, Create: `${var.OsManagedImageOCID[var.region]}`},
 	})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label":  Representation{RepType: Required, Create: `testvcn`},
 			"cidr_block": Representation{RepType: Required, Create: `10.1.0.0/16`},
 		})) +
 		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_default_route_table", "default_route_table", Required, Create, routeTablesRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{RepType: Required, Create: `10.1.20.0/24`}, "dns_label": Representation{RepType: Required, Create: `testsubnet`}, "route_table_id": Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`}})) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{RepType: Required, Create: `10.1.20.0/24`}, "dns_label": Representation{RepType: Required, Create: `testsubnet`}, "route_table_id": Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`}})) +
 		AvailabilityDomainConfig + OsManagedImageIdsVariable
 )
 
@@ -113,9 +113,9 @@ func TestOsmanagementManagedInstanceManagementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOsmanagementManagedInstanceGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_osmanagement_managed_instance_management.test_managed_instance_management"

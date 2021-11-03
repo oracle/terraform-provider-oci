@@ -41,12 +41,12 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreBootVolumeBackup_copy")
 	defer httpreplay.SaveScenario()
 
-	if getEnvSettingWithBlankDefault("source_region") == "" {
+	if GetEnvSettingWithBlankDefault("source_region") == "" {
 		t.Skip("Skipping TestCoreBootVolumeBackupResource_copy test because there is no source region specified")
 	}
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceNameCopy := "oci_core_boot_volume_backup.test_boot_volume_backup_copy"
@@ -59,7 +59,7 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 
 	bootVolumeBackupSourceDetailsRepresentation = map[string]interface{}{
 		"boot_volume_backup_id": Representation{RepType: Required, Create: bootVolumeBackupId},
-		"region":                Representation{RepType: Required, Create: getEnvSettingWithBlankDefault("source_region")},
+		"region":                Representation{RepType: Required, Create: GetEnvSettingWithBlankDefault("source_region")},
 		"kms_key_id":            Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 
@@ -171,7 +171,7 @@ func TestResourceCoreBootVolumeBackup_copy(t *testing.T) {
 }
 
 func createSourceBootVolumeBackupToCopy() error {
-	sourceRegion := getEnvSettingWithBlankDefault("source_region")
+	sourceRegion := GetEnvSettingWithBlankDefault("source_region")
 
 	var err error
 	instanceId, bootVolumeId, err = createBootVolumeInRegion(GetTestClients(&schema.ResourceData{}), sourceRegion)
@@ -190,7 +190,7 @@ func createSourceBootVolumeBackupToCopy() error {
 }
 
 func deleteSourceBootVolumeBackupToCopy() {
-	sourceRegion := getEnvSettingWithBlankDefault("source_region")
+	sourceRegion := GetEnvSettingWithBlankDefault("source_region")
 
 	var err error
 	err = deleteBootVolumeBackupInRegion(GetTestClients(&schema.ResourceData{}), sourceRegion, bootVolumeBackupId)

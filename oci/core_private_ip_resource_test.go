@@ -25,8 +25,8 @@ type ResourcePrivateIPTestSuite struct {
 }
 
 func (s *ResourcePrivateIPTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + testADs() + testVCN1() + testSubnet1() + testImage1() + testInstance1() + DefinedTagsDependencies + `
 	data "oci_core_vnic_attachments" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
@@ -35,7 +35,7 @@ func (s *ResourcePrivateIPTestSuite) SetupTest() {
 	}`
 	s.VlanConfig = legacyTestProviderConfig() +
 		GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create, vlanRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		AvailabilityDomainConfig + DefinedTagsDependencies
 
 	s.ResourceName = "oci_core_private_ip.t"

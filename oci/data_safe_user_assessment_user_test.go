@@ -37,9 +37,9 @@ func TestDataSafeUserAssessmentUserResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeUserAssessmentUserResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_data_safe_user_assessment_users.test_user_assessment_users"

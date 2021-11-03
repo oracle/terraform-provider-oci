@@ -22,8 +22,8 @@ type ResourceIdentityUserCapabilitiesManagementTestSuite struct {
 }
 
 func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig()
 
 	s.ResourceName = "oci_identity_user_capabilities_management.t"

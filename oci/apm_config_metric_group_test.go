@@ -63,10 +63,10 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApmConfigMetricGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	spanFilterResourceName := "oci_apm_config_config.test_span_filter"
@@ -80,7 +80,7 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 		GenerateResourceFromRepresentationMap("oci_apm_config_config", "test_metric_group", Optional, Create, configMetricGroupRepresentation), "apmconfig", "config", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -144,7 +144,7 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, metricGroupResourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, metricGroupResourceName); errExport != nil {
 								return errExport
 							}
@@ -214,7 +214,7 @@ func TestApmConfigMetricGroupResource_basic(t *testing.T) {
 
 func testAccCheckApmConfigMetricGroupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).configClient()
+	client := TestAccProvider.Meta().(*OracleClients).configClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_apm_config_config" {
 			noResourceFound = false
@@ -250,7 +250,7 @@ func testAccCheckApmConfigMetricGroupDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ApmConfigMetricGroup") {
 		resource.AddTestSweepers("ApmConfigMetricGroup", &resource.Sweeper{

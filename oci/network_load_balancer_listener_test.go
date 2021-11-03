@@ -39,8 +39,8 @@ var (
 		"protocol":                 Representation{RepType: Required, Create: `UDP`, Update: `TCP`},
 	}
 
-	NlbListenerResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	NlbListenerResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", Required, Create, nlbBackendSetRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", Required, Create, networkLoadBalancerRepresentation)
 )
@@ -50,9 +50,9 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkLoadBalancerListenerResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_network_load_balancer_listener.test_listener"
@@ -75,7 +75,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -148,7 +148,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 
 func testAccCheckNetworkLoadBalancerListenerDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).networkLoadBalancerClient()
+	client := TestAccProvider.Meta().(*OracleClients).networkLoadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_network_load_balancer_listener" {
 			noResourceFound = false
@@ -185,7 +185,7 @@ func testAccCheckNetworkLoadBalancerListenerDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("NetworkLoadBalancerListener") {
 		resource.AddTestSweepers("NetworkLoadBalancerListener", &resource.Sweeper{

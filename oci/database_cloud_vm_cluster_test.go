@@ -188,12 +188,12 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseCloudVmClusterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
@@ -261,7 +261,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -446,7 +446,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseCloudVmClusterDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_cloud_vm_cluster" {
 			noResourceFound = false
@@ -486,7 +486,7 @@ func testAccCheckDatabaseCloudVmClusterDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseCloudVmCluster") {
 		resource.AddTestSweepers("DatabaseCloudVmCluster", &resource.Sweeper{
@@ -515,7 +515,7 @@ func sweepDatabaseCloudVmClusterResource(compartment string) error {
 				fmt.Printf("Error deleting CloudVmCluster %s %s, It is possible that the resource is already deleted. Please verify manually \n", cloudVmClusterId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &cloudVmClusterId, cloudVmClusterSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &cloudVmClusterId, cloudVmClusterSweepWaitCondition, time.Duration(3*time.Minute),
 				cloudVmClusterSweepResponseFetchOperation, "database", true)
 		}
 	}

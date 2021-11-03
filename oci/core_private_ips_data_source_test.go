@@ -23,8 +23,8 @@ type DatasourcePrivateIPTestSuite struct {
 }
 
 func (s *DatasourcePrivateIPTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + testADs() + testVCN1() + testSubnet1() + testImage1() + testInstance1() + DefinedTagsDependencies + `
 	data "oci_core_vnic_attachments" "t" {
 		compartment_id = "${var.compartment_id}"

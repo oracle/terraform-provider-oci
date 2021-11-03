@@ -18,10 +18,10 @@ func TestResourceNamespaceMetadata_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageNamespaceMetadataResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := GetRequiredEnvSetting("compartment_ocid")
 
 	resourceName := "oci_objectstorage_namespace_metadata.test_namespace_metadata"
 	datasourceName := "data.oci_objectstorage_namespace_metadata.test_namespace_metadata"
@@ -29,7 +29,7 @@ func TestResourceNamespaceMetadata_basic(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

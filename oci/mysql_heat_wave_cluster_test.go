@@ -60,8 +60,8 @@ var (
 	}
 
 	HeatWaveClusterResourceDependencies = MysqlConfigurationResourceConfig +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		AvailabilityDomainConfig +
 		GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Required, Create, mysqlShapeDataSourceRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemHeatWaveRepresentation)
@@ -72,9 +72,9 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlHeatWaveClusterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_mysql_heat_wave_cluster.test_heat_wave_cluster"
@@ -118,7 +118,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -185,7 +185,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 
 func testAccCheckMysqlHeatWaveClusterDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dbSystemClient()
+	client := TestAccProvider.Meta().(*OracleClients).dbSystemClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_mysql_heat_wave_cluster" {
 			noResourceFound = false
@@ -226,7 +226,7 @@ func testAccCheckMysqlHeatWaveClusterDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MysqlHeatWaveCluster") {
 		resource.AddTestSweepers("MysqlHeatWaveCluster", &resource.Sweeper{
@@ -254,7 +254,7 @@ func sweepMysqlHeatWaveClusterResource(compartment string) error {
 				fmt.Printf("Error deleting HeatWaveCluster of DbSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlDbSystemId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &mysqlDbSystemId, heatWaveClusterSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &mysqlDbSystemId, heatWaveClusterSweepWaitCondition, time.Duration(3*time.Minute),
 				heatWaveClusterSweepResponseFetchOperation, "mysql", true)
 		}
 	}

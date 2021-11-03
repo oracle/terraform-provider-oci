@@ -66,9 +66,9 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseVmClusterNetwork_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_vm_cluster_network.test_vm_cluster_network"
@@ -201,7 +201,7 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseValidatedVmClusterNetwork") {
 		resource.AddTestSweepers("DatabaseValidatedVmClusterNetwork", &resource.Sweeper{
@@ -230,7 +230,7 @@ func sweepDatabaseValidatedVmClusterNetworkResource(compartment string) error {
 				fmt.Printf("Error deleting VmClusterNetwork %s %s, It is possible that the resource is already deleted. Please verify manually \n", vmClusterNetworkId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &vmClusterNetworkId, vmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &vmClusterNetworkId, vmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
 				vmClusterNetworkSweepResponseFetchOperation, "database", true)
 		}
 	}

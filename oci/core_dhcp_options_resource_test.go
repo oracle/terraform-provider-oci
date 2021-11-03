@@ -55,10 +55,10 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 
 	var resDefaultId, resOpt4Id, resId2 string
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	config := legacyTestProviderConfig() + `
@@ -110,7 +110,7 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 	}`
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -359,10 +359,10 @@ func TestResourceCoreDHCPOptions_avoidServiceDefault(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreDHCPOptions_avoidServiceDefault")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -405,10 +405,10 @@ func TestResourceCoreDHCPOptions_changeOptionsServerType(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreDHCPOptions_changeOptionsServerType")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -476,10 +476,10 @@ func TestResourceCoreDHCPOptions_changeOptionsOrder(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreDHCPOptions_changeOptionsOrder")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

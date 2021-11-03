@@ -40,9 +40,9 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentitySmtpCredentialResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_smtp_credential.test_smtp_credential"
@@ -69,7 +69,7 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 					userId, _ := FromInstanceState(s, resourceName, "user_id")
 					compositeId = "users/" + userId + "/smtpCredentials/" + resId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -140,7 +140,7 @@ func getSmtpCredentialImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentitySmtpCredentialDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient()
+	client := TestAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_smtp_credential" {
 			noResourceFound = false

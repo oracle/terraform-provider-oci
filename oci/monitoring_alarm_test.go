@@ -68,8 +68,8 @@ var (
 	}
 
 	AlarmResourceDependencies = DefinedTagsDependencies +
-		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm1")) +
-		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm2"))
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, CharsetWithoutDigits, "talarm1")) +
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, CharsetWithoutDigits, "talarm2"))
 )
 
 // issue-routing-tag: monitoring/default
@@ -77,12 +77,12 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringAlarmResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_monitoring_alarm.test_alarm"
@@ -152,7 +152,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -325,7 +325,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 func testAccCheckMonitoringAlarmDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).monitoringClient()
+	client := TestAccProvider.Meta().(*OracleClients).monitoringClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_monitoring_alarm" {
 			noResourceFound = false
@@ -365,7 +365,7 @@ func testAccCheckMonitoringAlarmDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MonitoringAlarm") {
 		resource.AddTestSweepers("MonitoringAlarm", &resource.Sweeper{
@@ -394,7 +394,7 @@ func sweepMonitoringAlarmResource(compartment string) error {
 				fmt.Printf("Error deleting Alarm %s %s, It is possible that the resource is already deleted. Please verify manually \n", alarmId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &alarmId, alarmSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &alarmId, alarmSweepWaitCondition, time.Duration(3*time.Minute),
 				alarmSweepResponseFetchOperation, "monitoring", true)
 		}
 	}

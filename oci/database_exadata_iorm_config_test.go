@@ -127,16 +127,16 @@ var (
 
 // issue-routing-tag: database/default
 func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_Exadata") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_Exadata") {
 		t.Skip("Skipping suppressed DBSystem_Exadata")
 	}
 
 	httpreplay.SetScenario("TestDatabaseExadataIormConfigResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_exadata_iorm_config.test_exadata_iorm_config"
@@ -177,7 +177,7 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

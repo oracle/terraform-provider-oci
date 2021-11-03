@@ -74,9 +74,9 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNosqlIndexResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_nosql_index.test_index"
@@ -126,7 +126,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 					tableName, _ := FromInstanceState(s, resourceName, "table_name_or_id")
 					compositeId = "tables/" + tableName + "/indexes/" + indexName
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -176,7 +176,7 @@ func TestNosqlIndexResource_basic(t *testing.T) {
 
 func testAccCheckNosqlIndexDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).nosqlClient()
+	client := TestAccProvider.Meta().(*OracleClients).nosqlClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_nosql_index" {
 			noResourceFound = false
@@ -225,7 +225,7 @@ func testAccCheckNosqlIndexDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("NosqlIndex") {
 		resource.AddTestSweepers("NosqlIndex", &resource.Sweeper{
@@ -252,7 +252,7 @@ func sweepNosqlIndexResource(compartment string) error {
 				fmt.Printf("Error deleting Index %s %s, It is possible that the resource is already deleted. Please verify manually \n", indexId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &indexId, indexSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &indexId, indexSweepWaitCondition, time.Duration(3*time.Minute),
 				indexSweepResponseFetchOperation, "nosql", true)
 		}
 	}

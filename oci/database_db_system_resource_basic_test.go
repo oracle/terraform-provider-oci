@@ -19,9 +19,9 @@ import (
 )
 
 var (
-	DbSystemResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+	DbSystemResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 		"route_table_id": Representation{RepType: Optional, Create: `${oci_core_route_table.test_route_table.id}`}})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation)
 
@@ -129,7 +129,7 @@ var (
 
 // issue-routing-tag: database/default
 func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
 		t.Skip("Skipping suppressed DBSystem_basic")
 	}
 
@@ -194,7 +194,7 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 		},
 		// wait for backup and Create new db from it
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, dbWaitConditionDuration,
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, dbBackupAvailableWaitCondition, dbWaitConditionDuration,
 				listBackupsFetchOperation, "core", false),
 			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
 				data "oci_database_databases" "t" {
@@ -259,7 +259,7 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 
 // issue-routing-tag: database/default
 func TestAccResourceDatabaseDBSystemWithPointInTimeRecovery(t *testing.T) {
-	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "timeStampForPointInTimeRecovery") {
+	if !strings.Contains(GetEnvSettingWithBlankDefault("enabled_tests"), "timeStampForPointInTimeRecovery") {
 		t.Skip("This test requires a source DB with automatic backups enabled. " +
 			"There should be at least two automatic backups available." +
 			"time_stamp_for_point_in_time_recovery time should be anytime after the start time of the 1st automatic backup and before the start time of the last automatic backup.")
@@ -326,7 +326,7 @@ func TestAccResourceDatabaseDBSystemWithPointInTimeRecovery(t *testing.T) {
 		},
 		// wait for backup and Create new db from it
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
 				listBackupsFetchOperation, "database", false),
 			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem +
 				`
@@ -416,7 +416,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	// This test is a subset of TestAccResourceDatabaseDBSystem_allXX. It tests omitting optional params.
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
 		t.Skip("Skipping suppressed DBSystem_basic")
 	}
 
@@ -774,7 +774,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	resource.AddTestSweepers("DatabaseDbSystem", &resource.Sweeper{
 		Name:         "DatabaseDbSystem",

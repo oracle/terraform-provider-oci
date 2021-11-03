@@ -22,7 +22,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancersPolicyResource_basic(t *testing.
 	httpreplay.SetScenario("TestNetworkLoadBalancerNetworkLoadBalancersPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
 	datasourceName := "data.oci_network_load_balancer_network_load_balancers_policies.test_network_load_balancers_policies"
 

@@ -29,9 +29,9 @@ func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMonitoringAlarmHistoryCollectionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_monitoring_alarm_history_collection.test_alarm_history_collection"

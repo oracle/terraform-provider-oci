@@ -15,31 +15,18 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-var (
-	availabilityDomainSingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
-		"ad_number":      Representation{RepType: Optional, Create: `2`},
-	}
 
-	availabilityDomainDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
-	}
-
-	AvailabilityDomainResourceConfig = ""
-
-	AvailabilityDomainConfig = GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation)
-)
 
 // issue-routing-tag: identity/default
 func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityAvailabilityDomainResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	datasourceName := "data.oci_identity_availability_domains.test_availability_domains"
 	singularDatasourceName := "data.oci_identity_availability_domain.test_availability_domain"

@@ -41,7 +41,7 @@ var (
 		"values": Representation{RepType: Required, Create: []string{`${oci_oce_oce_instance.test_oce_instance.id}`}},
 	}
 
-	instanceName              = RandomString(15, charsetWithoutDigits)
+	instanceName              = RandomString(15, CharsetWithoutDigits)
 	oceInstanceRepresentation = map[string]interface{}{
 		"admin_email":              Representation{RepType: Required, Create: `${var.admin_email}`},
 		"compartment_id":           Representation{RepType: Required, Create: `${var.compartment_id}`},
@@ -69,22 +69,22 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOceOceInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestOceOceInstanceResource_basic") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestOceOceInstanceResource_basic") {
 		t.Skip("Skipping suppressed TestOceOceInstanceResource_basic")
 	}
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	adminEmail := getEnvSettingWithBlankDefault("admin_email")
+	adminEmail := GetEnvSettingWithBlankDefault("admin_email")
 	adminEmailVariableStr := fmt.Sprintf("variable \"admin_email\" { default = \"%s\" }\n", adminEmail)
 
-	idcsAccessToken := getEnvSettingWithBlankDefault("idcs_access_token")
+	idcsAccessToken := GetEnvSettingWithBlankDefault("idcs_access_token")
 	idcsAccessTokenVariableStr := fmt.Sprintf("variable \"idcs_access_token\" { default = \"%s\" }\n", idcsAccessToken)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_oce_oce_instance.test_oce_instance"
@@ -145,7 +145,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -300,7 +300,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 
 func testAccCheckOceOceInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).oceInstanceClient()
+	client := TestAccProvider.Meta().(*OracleClients).oceInstanceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_oce_oce_instance" {
 			noResourceFound = false
@@ -340,7 +340,7 @@ func testAccCheckOceOceInstanceDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("OceOceInstance") {
 		resource.AddTestSweepers("OceOceInstance", &resource.Sweeper{
@@ -369,7 +369,7 @@ func sweepOceOceInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting OceInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", oceInstanceId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &oceInstanceId, oceInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &oceInstanceId, oceInstanceSweepWaitCondition, time.Duration(3*time.Minute),
 				oceInstanceSweepResponseFetchOperation, "oce", true)
 		}
 	}

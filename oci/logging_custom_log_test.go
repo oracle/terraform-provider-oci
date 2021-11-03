@@ -51,10 +51,10 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoggingLogResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_logging_log.test_log"
@@ -65,7 +65,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -107,7 +107,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							logGroupId, _ := FromInstanceState(s, resourceName, "log_group_id")
 							compositeId = getLogCompositeId(logGroupId, resId)
 							if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
@@ -209,7 +209,7 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 
 func testAccCheckLoggingCustomLogDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loggingManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).loggingManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_logging_log" {
 			noResourceFound = false
@@ -245,7 +245,7 @@ func testAccCheckLoggingCustomLogDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CustomLoggingLog") {
 		resource.AddTestSweepers("CustomLoggingLog", &resource.Sweeper{

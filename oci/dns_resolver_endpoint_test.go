@@ -55,7 +55,7 @@ var (
 	resolverEndpointRepresentationWithoutNsgId = RepresentationCopyWithRemovedProperties(resolverEndpointRepresentation, []string{"nsg_ids"})
 
 	ResolverEndpointResourceDependencies = ResolverResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation)
 )
 
@@ -64,9 +64,9 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsResolverEndpointResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_resolver_endpoint.test_resolver_endpoint"
@@ -136,7 +136,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
 					// Resource discovery is disabled for Resolver Endpoints
-					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 					//	if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 					//		return errExport
 					//	}

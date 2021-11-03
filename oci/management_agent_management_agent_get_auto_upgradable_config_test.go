@@ -25,9 +25,9 @@ func TestManagementAgentManagementAgentGetAutoUpgradableConfigResource_basic(t *
 	httpreplay.SetScenario("TestManagementAgentManagementAgentGetAutoUpgradableConfigResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_management_agent_management_agent_get_auto_upgradable_config.test_management_agent_get_auto_upgradable_config"

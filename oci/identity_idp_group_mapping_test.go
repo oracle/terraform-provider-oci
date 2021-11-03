@@ -40,7 +40,7 @@ var (
 
 // issue-routing-tag: identity/default
 func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
-	metadataFile := getEnvSettingWithBlankDefault("identity_provider_metadata_file")
+	metadataFile := GetEnvSettingWithBlankDefault("identity_provider_metadata_file")
 	if metadataFile == "" {
 		t.Skip("Skipping generated test for now as it has a dependency on federation metadata file")
 	}
@@ -48,9 +48,9 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityIdpGroupMappingResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_idp_group_mapping.test_idp_group_mapping"
@@ -81,7 +81,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 					identityProviderId, _ := FromInstanceState(s, resourceName, "identity_provider_id")
 					compositeId = "identityProviders/" + identityProviderId + "/groupMappings/" + resId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -156,7 +156,7 @@ func getIdpGroupMappingImportId(resourceName string) resource.ImportStateIdFunc 
 
 func testAccCheckIdentityIdpGroupMappingDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient()
+	client := TestAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_idp_group_mapping" {
 			noResourceFound = false

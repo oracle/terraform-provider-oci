@@ -196,16 +196,16 @@ var (
 	}
 
 	ConnectionResourceDependenciesTarget = GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
 		AutonomousDatabaseResourceDependenciesCON +
 		KmsKeyIdVariableStr +
 		KmsVaultIdVariableStr
 
 	ConnectionResourceDependenciesTargetCommon = GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		SubnetData +
 		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
 		AutonomousDatabaseResourceDependenciesCON //+
@@ -223,12 +223,12 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationConnectionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithBlankDefault("compartment_id_for_update")
+	compartmentIdU := GetEnvSettingWithBlankDefault("compartment_id_for_update")
 
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
@@ -288,7 +288,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -411,7 +411,7 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseMigrationConnectionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseMigrationClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseMigrationClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_migration_connection" {
 			noResourceFound = false
@@ -451,7 +451,7 @@ func testAccCheckDatabaseMigrationConnectionDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseMigrationConnection") {
 		resource.AddTestSweepers("DatabaseMigrationConnection", &resource.Sweeper{
@@ -480,7 +480,7 @@ func sweepDatabaseMigrationConnectionResource(compartment string) error {
 				fmt.Printf("Error deleting Connection %s %s, It is possible that the resource is already deleted. Please verify manually \n", connectionId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &connectionId, connectionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &connectionId, connectionSweepWaitCondition, time.Duration(3*time.Minute),
 				connectionSweepResponseFetchOperation, "database_migration", true)
 		}
 	}

@@ -38,8 +38,8 @@ var (
 	}
 
 	AnalyticsClusterResourceDependencies = MysqlConfigurationResourceConfig +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		AvailabilityDomainConfig +
 		GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", Required, Create, mysqlShapeDataSourceRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", Required, Create, mysqlDbSystemRepresentation)
@@ -50,9 +50,9 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlAnalyticsClusterResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_mysql_analytics_cluster.test_analytics_cluster"
@@ -99,7 +99,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -166,7 +166,7 @@ func TestMysqlAnalyticsClusterResource_basic(t *testing.T) {
 
 func testAccCheckMysqlAnalyticsClusterDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dbSystemClient()
+	client := TestAccProvider.Meta().(*OracleClients).dbSystemClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_mysql_analytics_cluster" {
 			noResourceFound = false
@@ -207,7 +207,7 @@ func testAccCheckMysqlAnalyticsClusterDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MysqlAnalyticsCluster") {
 		resource.AddTestSweepers("MysqlAnalyticsCluster", &resource.Sweeper{
@@ -235,7 +235,7 @@ func sweepMysqlAnalyticsClusterResource(compartment string) error {
 				fmt.Printf("Error deleting AnalyticsCluster of DbSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlDbSystemId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &mysqlDbSystemId, analyticsClusterSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &mysqlDbSystemId, analyticsClusterSweepWaitCondition, time.Duration(3*time.Minute),
 				analyticsClusterSweepResponseFetchOperation, "mysql", true)
 		}
 	}

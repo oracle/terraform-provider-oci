@@ -112,9 +112,9 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterNetworkResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_vm_cluster_network.test_vm_cluster_network"
@@ -202,7 +202,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 					resId, err = FromInstanceState(s, resourceName, "id")
 					exadataInfrastructureId, _ := FromInstanceState(s, resourceName, "exadata_infrastructure_id")
 					compositeId = "exadataInfrastructures/" + exadataInfrastructureId + "/vmClusterNetworks/" + resId
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -354,7 +354,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseVmClusterNetworkDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_vm_cluster_network" {
 			noResourceFound = false
@@ -398,7 +398,7 @@ func testAccCheckDatabaseVmClusterNetworkDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseVmClusterNetwork") {
 		resource.AddTestSweepers("DatabaseVmClusterNetwork", &resource.Sweeper{
@@ -427,7 +427,7 @@ func sweepDatabaseVmClusterNetworkResource(compartment string) error {
 				fmt.Printf("Error deleting VmClusterNetwork %s %s, It is possible that the resource is already deleted. Please verify manually \n", vmClusterNetworkId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &vmClusterNetworkId, vmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &vmClusterNetworkId, vmClusterNetworkSweepWaitCondition, time.Duration(3*time.Minute),
 				vmClusterNetworkSweepResponseFetchOperation, "database", true)
 		}
 	}
