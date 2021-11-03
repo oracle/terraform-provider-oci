@@ -24,8 +24,8 @@ var (
 		"db_management_private_endpoint_id": Representation{RepType: Required, Create: `${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`},
 	}
 
-	DbManagementPrivateEndpointAssociatedDatabaseResourceConfig = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	DbManagementPrivateEndpointAssociatedDatabaseResourceConfig = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Required, Create, dbManagementPrivateEndpointRepresentation)
 )
 
@@ -35,10 +35,10 @@ func TestDatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseResource
 	httpreplay.SetScenario("TestDatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_database_management_db_management_private_endpoint_associated_databases.test_db_management_private_endpoint_associated_databases"
@@ -47,7 +47,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointAssociatedDatabaseResource
 	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

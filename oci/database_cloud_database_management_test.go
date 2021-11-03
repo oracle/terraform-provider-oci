@@ -105,23 +105,23 @@ func TestDatabaseCloudDatabaseManagementResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseCloudDatabaseManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	domainName := getEnvSettingWithBlankDefault("domain_name")
+	domainName := GetEnvSettingWithBlankDefault("domain_name")
 	domainNameVariableStr := fmt.Sprintf("variable \"domain_name\" { default = \"%s\" }\n", domainName)
 
-	subnetId := getEnvSettingWithBlankDefault("subnet_id")
+	subnetId := GetEnvSettingWithBlankDefault("subnet_id")
 	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
 
-	availabilityDomain := getEnvSettingWithBlankDefault("availability_domain")
+	availabilityDomain := GetEnvSettingWithBlankDefault("availability_domain")
 	availabilityDomainVariableStr := fmt.Sprintf("variable \"availability_domain\" { default = \"%s\" }\n", availabilityDomain)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

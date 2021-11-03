@@ -25,9 +25,9 @@ func TestCoreIpSecConnectionDeviceConfigResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreIpSecConnectionDeviceConfigResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_core_ipsec_config.test_ip_sec_connection_device_config"

@@ -46,15 +46,15 @@ var (
 		"archive_uri":          Representation{RepType: Optional, Create: `${var.dataflow_archive_uri}`, Update: `${var.dataflow_archive_uri}`},
 		"defined_tags":         Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":          Representation{RepType: Optional, Create: `description`, Update: `description2`},
-		"execute":              Representation{RepType: Required, Create: `--conf spark.shuffle.io.maxRetries=10 ` + getEnvSettingWithBlankDefault("dataflow_file_uri") + ` arguments`, Update: `--conf spark.shuffle.io.maxRetries=10 ` + getEnvSettingWithBlankDefault("dataflow_file_uri") + ` arguments2`},
+		"execute":              Representation{RepType: Required, Create: `--conf spark.shuffle.io.maxRetries=10 ` + GetEnvSettingWithBlankDefault("dataflow_file_uri") + ` arguments`, Update: `--conf spark.shuffle.io.maxRetries=10 ` + GetEnvSettingWithBlankDefault("dataflow_file_uri") + ` arguments2`},
 		"freeform_tags":        Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"logs_bucket_uri":      Representation{RepType: Optional, Create: `${var.dataflow_logs_bucket_uri}`},
 		"warehouse_bucket_uri": Representation{RepType: Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
 		"metastore_id":         Representation{RepType: Optional, Create: `${var.metastore_id}`},
 	}
 
-	dataFlowApplicationSubmitResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	dataFlowApplicationSubmitResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -63,23 +63,23 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 	httpreplay.SetScenario("TestDataflowApplicationResource_SparkSubmit")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
-	fileUri := getEnvSettingWithBlankDefault("dataflow_file_uri")
-	fileUriUpdated := getEnvSettingWithBlankDefault("dataflow_file_uri_updated")
+	fileUri := GetEnvSettingWithBlankDefault("dataflow_file_uri")
+	fileUriUpdated := GetEnvSettingWithBlankDefault("dataflow_file_uri_updated")
 	fileUriVariableStr := fmt.Sprintf("variable \"dataflow_file_uri\" { default = \"%s\" }\n", fileUri)
 	fileUriVariableStrUpdated := fmt.Sprintf("variable \"dataflow_file_uri_updated\" { default = \"%s\" }\n", fileUriUpdated)
-	archiveUri := getEnvSettingWithBlankDefault("dataflow_archive_uri")
+	archiveUri := GetEnvSettingWithBlankDefault("dataflow_archive_uri")
 	archiveUriVariableStr := fmt.Sprintf("variable \"dataflow_archive_uri\" { default = \"%s\" }\n", archiveUri)
 
-	logsBucketUri := getEnvSettingWithBlankDefault("dataflow_logs_bucket_uri")
+	logsBucketUri := GetEnvSettingWithBlankDefault("dataflow_logs_bucket_uri")
 	logsBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_logs_bucket_uri\" { default = \"%s\" }\n", logsBucketUri)
-	warehouseBucketUri := getEnvSettingWithBlankDefault("dataflow_warehouse_bucket_uri")
+	warehouseBucketUri := GetEnvSettingWithBlankDefault("dataflow_warehouse_bucket_uri")
 	warehouseBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_warehouse_bucket_uri\" { default = \"%s\" }\n", warehouseBucketUri)
 	classNameUpdated := ""
 	classNameStrUpdated := fmt.Sprintf("variable \"dataflow_class_name_updated\" { default = \"%s\" }\n", classNameUpdated)
@@ -87,7 +87,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 	datasourceName := "data.oci_dataflow_applications.test_applications_submit"
 	singularDatasourceName := "data.oci_dataflow_application.test_application_submit"
 
-	metastoreId := getEnvSettingWithBlankDefault("metastore_id")
+	metastoreId := GetEnvSettingWithBlankDefault("metastore_id")
 	metastoreIdVariableStr := fmt.Sprintf("variable \"metastore_id\" { default = \"%s\" }\n", metastoreId)
 
 	var resId, resId2 string
@@ -150,7 +150,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -316,7 +316,7 @@ func TestDataflowApplicationResource_SparkSubmit(t *testing.T) {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DataflowApplicationSubmit") {
 		resource.AddTestSweepers("DataflowApplicationSubmit", &resource.Sweeper{

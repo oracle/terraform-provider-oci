@@ -23,9 +23,9 @@ func TestDatabaseMigrationAgentImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationAgentImageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_database_migration_agent_images.test_agent_images"

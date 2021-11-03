@@ -40,10 +40,10 @@ var (
 		"public_certificate": Representation{RepType: Optional, Create: `${var.ca_certificate_value}`},
 	}
 
-	caCertificate            = getEnvSettingWithBlankDefault("ca_certificate")
+	caCertificate            = GetEnvSettingWithBlankDefault("ca_certificate")
 	caCertificateVariableStr = fmt.Sprintf("variable \"ca_certificate_value\" { default = \"%s\" }\n", caCertificate)
 
-	privateKeyData        = getEnvSettingWithBlankDefault("private_key_data")
+	privateKeyData        = GetEnvSettingWithBlankDefault("private_key_data")
 	privateKeyVariableStr = fmt.Sprintf("variable \"private_key_value\" { default = \"%s\" }\n", privateKeyData)
 
 	CertificateResourceDependencies = GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
@@ -55,9 +55,9 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerCertificateResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_load_balancer_certificate.test_certificate"
@@ -97,7 +97,7 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -139,7 +139,7 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 
 func testAccCheckLoadBalancerCertificateDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient()
+	client := TestAccProvider.Meta().(*OracleClients).loadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_certificate" {
 			noResourceFound = false
@@ -178,7 +178,7 @@ func testAccCheckLoadBalancerCertificateDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LoadBalancerCertificate") {
 		resource.AddTestSweepers("LoadBalancerCertificate", &resource.Sweeper{

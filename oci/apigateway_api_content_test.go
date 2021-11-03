@@ -26,9 +26,9 @@ func TestApigatewayApiContentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayApiContentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_apigateway_api_content.test_api_content"

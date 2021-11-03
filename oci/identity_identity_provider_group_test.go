@@ -25,7 +25,7 @@ var (
 
 // issue-routing-tag: identity/default
 func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
-	metadataFile := getEnvSettingWithBlankDefault("identity_provider_metadata_file")
+	metadataFile := GetEnvSettingWithBlankDefault("identity_provider_metadata_file")
 	if metadataFile == "" {
 		t.Skip("Skipping generated test for now as it has a dependency on federation metadata file")
 	}
@@ -33,9 +33,9 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityIdentityProviderGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_identity_identity_provider_groups.test_identity_provider_groups"

@@ -28,16 +28,16 @@ func TestApmSyntheticsResultResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsResultResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	//This is a manual test. It requires apm_domain_id, monitor_id
 	//and execution_time as environment variables.
-	apmDomainId := getEnvSettingWithBlankDefault("apm_domain_id")
-	monitorId := getEnvSettingWithBlankDefault("monitor_id")
-	executionTime := getEnvSettingWithBlankDefault("execution_time")
+	apmDomainId := GetEnvSettingWithBlankDefault("apm_domain_id")
+	monitorId := GetEnvSettingWithBlankDefault("monitor_id")
+	executionTime := GetEnvSettingWithBlankDefault("execution_time")
 
 	if apmDomainId == "" || monitorId == "" || executionTime == "" {
 		t.Skip("Set apm_domain_id, monitor_id and execution_time to run this test")

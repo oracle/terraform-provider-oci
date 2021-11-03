@@ -80,12 +80,12 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_volume.test_volume"
@@ -143,7 +143,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -299,16 +299,16 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 func TestCoreVolumeResource_expectError(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeResource_expectError")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_volume.test_volume"
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -391,17 +391,17 @@ variable "volume_state" { default = "AVAILABLE" }
 func TestCoreVolumeResource_int64_interpolation(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeResource_int64_interpolation")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_volume.test_volume"
 	resourceName2 := "oci_core_volume.test_volume2"
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -449,16 +449,16 @@ resource "oci_core_volume" "test_volume2" {
 func TestCoreVolumeResource_validations(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVolumeResource_validations")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_volume.test_volume"
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -603,7 +603,7 @@ variable "volume_state" { default = "AVAILABLE" }
 
 func testAccCheckCoreVolumeDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).blockstorageClient()
+	client := TestAccProvider.Meta().(*OracleClients).blockstorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_volume" {
 			noResourceFound = false
@@ -643,7 +643,7 @@ func testAccCheckCoreVolumeDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreVolume") {
 		resource.AddTestSweepers("CoreVolume", &resource.Sweeper{
@@ -672,7 +672,7 @@ func sweepCoreVolumeResource(compartment string) error {
 				fmt.Printf("Error deleting Volume %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &volumeId, volumeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &volumeId, volumeSweepWaitCondition, time.Duration(3*time.Minute),
 				volumeSweepResponseFetchOperation, "core", true)
 		}
 	}

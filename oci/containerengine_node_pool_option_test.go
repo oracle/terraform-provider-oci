@@ -27,9 +27,9 @@ func TestContainerengineNodePoolOptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineNodePoolOptionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_containerengine_node_pool_option.test_node_pool_option"

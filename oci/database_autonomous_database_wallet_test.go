@@ -19,7 +19,7 @@ var (
 	AutonomousDatabaseWalletResourceConfig = AutonomousDatabaseWalletResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Update, autonomousDatabaseWalletRepresentation)
 
-	adbWalletDbName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
+	adbWalletDbName = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
 
 	autonomousDatabaseWalletSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_database_id": Representation{RepType: Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
@@ -44,9 +44,9 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseWalletResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database_wallet.test_autonomous_database_wallet"

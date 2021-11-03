@@ -88,7 +88,7 @@ var (
 
 	ClusterNetworkResourceRequiredOnlyDependencies = AvailabilityDomainClusterNetworkConfig + DefinedTagsDependencies + VcnResourceConfig + DhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
 		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, GetUpdatedRepresentationCopy("cidr_block", Representation{RepType: Required, Create: `10.0.2.0/24`}, subnetRepresentation)) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, GetUpdatedRepresentationCopy("cidr_block", Representation{RepType: Required, Create: `10.0.2.0/24`}, SubnetRepresentation)) +
 		OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation)
 
@@ -106,18 +106,18 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreClusterNetworkResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	logicalAd := getEnvSettingWithBlankDefault("logical_ad")
+	logicalAd := GetEnvSettingWithBlankDefault("logical_ad")
 	logicalAdVariableStr := fmt.Sprintf("variable \"logical_ad\" { default = \"%s\" }\n", logicalAd)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	imageId := getEnvSettingWithBlankDefault("image_id")
+	imageId := GetEnvSettingWithBlankDefault("image_id")
 	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
 
 	resourceName := "oci_core_cluster_network.test_cluster_network"
@@ -188,7 +188,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -366,7 +366,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 func testAccCheckCoreClusterNetworkDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).computeManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_cluster_network" {
 			noResourceFound = false
@@ -406,7 +406,7 @@ func testAccCheckCoreClusterNetworkDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreClusterNetwork") {
 		resource.AddTestSweepers("CoreClusterNetwork", &resource.Sweeper{
@@ -435,7 +435,7 @@ func sweepCoreClusterNetworkResource(compartment string) error {
 				fmt.Printf("Error deleting ClusterNetwork %s %s, It is possible that the resource is already deleted. Please verify manually \n", clusterNetworkId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &clusterNetworkId, clusterNetworkSweepWaitCondition,
+			WaitTillCondition(TestAccProvider, &clusterNetworkId, clusterNetworkSweepWaitCondition,
 				time.Duration(7*time.Minute),
 				clusterNetworkSweepResponseFetchOperation, "core", true)
 		}

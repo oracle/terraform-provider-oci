@@ -17,7 +17,7 @@ var (
 	govSubnetResourceDependencies = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource + VcnResourceDependencies + ObjectStorageCoreService +
 		GenerateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 		}))
 )
@@ -27,9 +27,9 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGovSpecificCoreSubnetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_subnet.test_subnet"
@@ -45,7 +45,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + govSubnetResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, SubnetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
@@ -73,7 +73,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + govSubnetResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 					"ipv6cidr_block": Representation{RepType: Optional, Update: subnetCidrBlock},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -109,7 +109,7 @@ func TestGovSpecificCoreSubnetResource_basic(t *testing.T) {
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_core_subnets", "test_subnets", Optional, Update, subnetDataSourceRepresentation) +
 				compartmentIdVariableStr + govSubnetResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation),
+				GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, SubnetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

@@ -97,12 +97,12 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoggingUnifiedAgentConfigurationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_logging_unified_agent_configuration.test_unified_agent_configuration"
@@ -161,7 +161,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -305,7 +305,7 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 
 func testAccCheckLoggingUnifiedAgentConfigurationDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loggingManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).loggingManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_logging_unified_agent_configuration" {
 			noResourceFound = false
@@ -337,7 +337,7 @@ func testAccCheckLoggingUnifiedAgentConfigurationDestroy(s *terraform.State) err
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LoggingUnifiedAgentConfiguration") {
 		resource.AddTestSweepers("LoggingUnifiedAgentConfiguration", &resource.Sweeper{

@@ -1,11 +1,11 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package acctest
 
 var DependencyGraph map[string][]string
 
-func initDependencyGraph() {
+func InitDependencyGraph() {
 	DependencyGraph = make(map[string][]string)
 
 	DependencyGraph["agreement"] = append(DependencyGraph["agreement"], "MarketplaceAcceptedAgreement")

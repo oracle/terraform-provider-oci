@@ -26,7 +26,7 @@ var (
 		GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation)
 
 	// Based on Bucket name specifications used in Object Storage Lifecycle policy
-	testBucketName  = RandomStringOrHttpReplayValue(32, charset, "bucket")
+	testBucketName  = RandomStringOrHttpReplayValue(32, Charset, "bucket")
 	testBucketName2 = testBucketName + "2"
 
 	bucketSingularDataSourceRepresentation = map[string]interface{}{
@@ -68,12 +68,12 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageBucketResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentId2 := getEnvSettingWithBlankDefault("compartment_id_for_update")
+	compartmentId2 := GetEnvSettingWithBlankDefault("compartment_id_for_update")
 	compartmentId2VariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_objectstorage_bucket.test_bucket"
@@ -130,7 +130,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -279,7 +279,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 
 func testAccCheckObjectStorageBucketDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
+	client := TestAccProvider.Meta().(*OracleClients).objectStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_objectstorage_bucket" {
 			noResourceFound = false
@@ -316,7 +316,7 @@ func testAccCheckObjectStorageBucketDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ObjectStorageBucket") {
 		resource.AddTestSweepers("ObjectStorageBucket", &resource.Sweeper{

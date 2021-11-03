@@ -66,7 +66,7 @@ var (
 		"id": Representation{RepType: Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
 
-	LoadBalancerSubnetDependencies = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+	LoadBalancerSubnetDependencies = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 		"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 	})) +
 		`
@@ -133,12 +133,12 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerLoadBalancerResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_load_balancer_load_balancer.test_load_balancer"
@@ -192,7 +192,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -304,7 +304,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 func testAccCheckLoadBalancerLoadBalancerDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient()
+	client := TestAccProvider.Meta().(*OracleClients).loadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_load_balancer" {
 			noResourceFound = false
@@ -344,7 +344,7 @@ func testAccCheckLoadBalancerLoadBalancerDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LoadBalancerLoadBalancer") {
 		resource.AddTestSweepers("LoadBalancerLoadBalancer", &resource.Sweeper{
@@ -373,7 +373,7 @@ func sweepLoadBalancerLoadBalancerResource(compartment string) error {
 				fmt.Printf("Error deleting LoadBalancer %s %s, It is possible that the resource is already deleted. Please verify manually \n", loadBalancerId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &loadBalancerId, loadBalancerSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &loadBalancerId, loadBalancerSweepWaitCondition, time.Duration(3*time.Minute),
 				loadBalancerSweepResponseFetchOperation, "load_balancer", true)
 		}
 	}

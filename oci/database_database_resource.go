@@ -1224,7 +1224,7 @@ func getdatabaseRetryDurationFunction(retryTimeout time.Duration) expectedRetryD
 		e := response.Error
 		switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
 		case 409:
-			if isDisable409Retry, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+			if isDisable409Retry, _ := strconv.ParseBool(GetEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
 				log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
 				return 0
 			}

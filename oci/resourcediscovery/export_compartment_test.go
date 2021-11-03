@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package resourcediscovery
 
 import (
 	"archive/zip"
@@ -1524,15 +1524,15 @@ DO NOT RUN THIS TEST LOCALLY AS IT WILL DESTROY INFRASTRUCTURE
 // issue-routing-tag: terraform/default
 func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 	// env var check so as to prevent local run of this test.
-	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_create_destroy_rd_resources", "false")); !reCreateResourceDiscoveryResources {
+	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_create_destroy_rd_resources", "false")); !reCreateResourceDiscoveryResources {
 		t.Skip("This run is used to apply/destroy resource for RD")
 	}
 	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
-	stackId := getEnvSettingWithBlankDefault("stack_id")
+	stackId := GetEnvSettingWithBlankDefault("stack_id")
 	if stackId == "" {
 		t.Skip("Dependency stack_id not defined for test")
 	}
-	jobOperation := getEnvSettingWithBlankDefault("job_operation")
+	jobOperation := GetEnvSettingWithBlankDefault("job_operation")
 	operation := oci_resourcemanager.JobOperationEnum(jobOperation)
 	// Create resources using stack Create job
 	isAutoApproved := true
@@ -1549,7 +1549,7 @@ func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 			RetryPolicy: GetRetryPolicy(false, "resourcemanager"),
 		},
 	}
-	job_timeout_in_minutes, err := strconv.Atoi(getEnvSettingWithDefault("job_timeout_in_minutes", "120"))
+	job_timeout_in_minutes, err := strconv.Atoi(GetEnvSettingWithDefault("job_timeout_in_minutes", "120"))
 	assert.NoError(t, err)
 	timeout := time.Duration(job_timeout_in_minutes) * time.Minute
 	// Many resources require long time to Create/destroy
@@ -1581,11 +1581,11 @@ func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 
 // issue-routing-tag: terraform/default
 func TestResourceDiscoveryUpdateStack(t *testing.T) {
-	stackId := getEnvSettingWithBlankDefault("stack_id")
+	stackId := GetEnvSettingWithBlankDefault("stack_id")
 	if stackId == "" {
 		t.Skip("Dependency stack_id not defined for test")
 	}
-	resourceType := getEnvSettingWithBlankDefault("resource_type")
+	resourceType := GetEnvSettingWithBlankDefault("resource_type")
 	if resourceType == "" {
 		t.Skip("Dependency resource_type not defined for test")
 	}
@@ -1623,7 +1623,7 @@ func TestResourceDiscoveryUpdateStack(t *testing.T) {
 	}
 
 	encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
-	terraformVersion := getEnvSettingWithDefault("terraform_version", "0.11.x")
+	terraformVersion := GetEnvSettingWithDefault("terraform_version", "0.11.x")
 
 	updateStackRequest := oci_resourcemanager.UpdateStackRequest{
 		StackId: &stackId,
@@ -1655,7 +1655,7 @@ func TestResourceDiscoveryOnCompartment(t *testing.T) {
 	for serviceName, _ := range compartmentResourceGraphs {
 		exportCommandArgs.Services = append(exportCommandArgs.Services, serviceName)
 	}
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	exportCommandArgs.GenerateState = true
 	err := testExportCompartment(&compartmentId, &exportCommandArgs)
 	assert.NoError(t, err)

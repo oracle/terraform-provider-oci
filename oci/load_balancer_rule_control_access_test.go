@@ -51,10 +51,10 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 	httpreplay.SetScenario("TestResourceLoadBalancerRuleSetResource_controlAccess_test")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_load_balancer_rule_set.test_control_access_rule_set"
@@ -64,7 +64,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 	singularDatasourceName := "data.oci_load_balancer_rule_set.test_control_access_rule_set"
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

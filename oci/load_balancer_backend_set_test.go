@@ -498,9 +498,9 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoadBalancerBackendSetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_load_balancer_backend_set.test_backend_set"
@@ -742,7 +742,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -865,7 +865,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 
 func testAccCheckLoadBalancerBackendSetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient()
+	client := TestAccProvider.Meta().(*OracleClients).loadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_backend_set" {
 			noResourceFound = false
@@ -902,7 +902,7 @@ func testAccCheckLoadBalancerBackendSetDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LoadBalancerBackendSet") {
 		resource.AddTestSweepers("LoadBalancerBackendSet", &resource.Sweeper{

@@ -76,8 +76,8 @@ var (
 		"function_id": Representation{RepType: Optional, Create: `${oci_functions_function.test_function.id}`},
 	}
 
-	RuleResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	RuleResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
 		DefinedTagsDependencies +
@@ -90,15 +90,15 @@ func TestEventsRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestEventsRuleResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	image := getEnvSettingWithBlankDefault("image")
+	image := GetEnvSettingWithBlankDefault("image")
 	imageVariableStr := fmt.Sprintf("variable \"image\" { default = \"%s\" }\n", image)
 
 	resourceName := "oci_events_rule.test_rule"
@@ -140,7 +140,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -308,7 +308,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 
 func testAccCheckEventsRuleDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).eventsClient()
+	client := TestAccProvider.Meta().(*OracleClients).eventsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_events_rule" {
 			noResourceFound = false
@@ -348,7 +348,7 @@ func testAccCheckEventsRuleDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("EventsRule") {
 		resource.AddTestSweepers("EventsRule", &resource.Sweeper{
@@ -377,7 +377,7 @@ func sweepEventsRuleResource(compartment string) error {
 				fmt.Printf("Error deleting Rule %s %s, It is possible that the resource is already deleted. Please verify manually \n", ruleId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &ruleId, ruleSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &ruleId, ruleSweepWaitCondition, time.Duration(3*time.Minute),
 				ruleSweepResponseFetchOperation, "events", true)
 		}
 	}

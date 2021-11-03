@@ -1,33 +1,36 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package client
 
 import (
 	"fmt"
 	"strings"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
-	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v54/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v53/workrequests"
+	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
+	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 )
 
-var oracleClientRegistrations *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region
+var OracleClientRegistrationsVar *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region
 
 func RegisterOracleClient(name string, client *OracleClient) {
-	if oracleClientRegistrations == nil {
-		oracleClientRegistrations = &OracleClientRegistrations{
-			registeredClients: make(map[string]*OracleClient),
+	if OracleClientRegistrationsVar == nil {
+		OracleClientRegistrationsVar = &OracleClientRegistrations{
+			RegisteredClients: make(map[string]*OracleClient),
 		}
 	}
-	oracleClientRegistrations.registeredClients[name] = client
+	OracleClientRegistrationsVar.RegisteredClients[name] = client
 }
+type ConfigureClient func(client *oci_common.BaseClient) error
+
+var ConfigureClientVar ConfigureClient // global fn ref used to configure all clients initially and others later on
 
 type InitSdkClientFn func(oci_common.ConfigurationProvider, ConfigureClient, ServiceClientOverrides) (interface{}, error)
 
 type OracleClientRegistrations struct {
-	registeredClients map[string]*OracleClient
+	RegisteredClients map[string]*OracleClient
 }
 
 type ServiceClientOverrides struct {
@@ -39,19 +42,19 @@ type OracleClient struct {
 }
 
 type OracleClients struct {
-	configuration     map[string]string
-	sdkClientMap      map[string]interface{}
-	workRequestClient *oci_work_requests.WorkRequestClient
+	Configuration     map[string]string
+	SdkClientMap      map[string]interface{}
+	WorkRequestClient *oci_work_requests.WorkRequestClient
 }
 
 func (m *OracleClients) GetClient(name string) interface{} {
-	return m.sdkClientMap[name]
+	return m.SdkClientMap[name]
 }
 
 // The following clients require special endpoint information that is only known at Terraform apply time; so they
-// Create duplicate clients reusing the same configuration provider as the initialized client and adding the endpoint
+// Create duplicate clients reusing the same Configuration provider as the initialized client and adding the endpoint
 // here.
-func (m *OracleClients) FunctionsInvokeClient(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
+/*func (m *OracleClients) FunctionsInvokeClient(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
 	if client, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(*m.functionsInvokeClient().ConfigurationProvider(), endpoint); err == nil {
 		if err = configureClient(&client.BaseClient); err != nil {
 			return nil, err
@@ -82,19 +85,19 @@ func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManage
 	} else {
 		return nil, err
 	}
-}
+}*/
 
 func getClientHostOverrides() map[string]string {
 	// Get the host URL override for clients
 	clientHostOverrides := make(map[string]string)
-	clientHostOverridesString := getEnvSettingWithBlankDefault(clientHostOverridesEnv)
+	clientHostOverridesString := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.ClientHostOverridesEnv)
 	if clientHostOverridesString == "" {
 		return clientHostOverrides
 	}
 
-	clientHostFlags := strings.Split(clientHostOverridesString, colonDelimiter)
+	clientHostFlags := strings.Split(clientHostOverridesString, tf_resource.ColonDelimiter)
 	for _, item := range clientHostFlags {
-		clientNameHost := strings.Split(item, equalToOperatorDelimiter)
+		clientNameHost := strings.Split(item, tf_resource.EqualToOperatorDelimiter)
 		if clientNameHost == nil || len(clientNameHost) != 2 {
 			continue
 		}
@@ -103,13 +106,13 @@ func getClientHostOverrides() map[string]string {
 	return clientHostOverrides
 }
 
-func createSDKClients(clients *OracleClients, configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (err error) {
-	if oracleClientRegistrations == nil || len(oracleClientRegistrations.registeredClients) == 0 {
+func CreateSDKClients(clients *OracleClients, configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (err error) {
+	if OracleClientRegistrationsVar == nil || len(OracleClientRegistrationsVar.RegisteredClients) == 0 {
 		return fmt.Errorf("there are no clients to Create")
 	}
 
 	clientHostOverrides := getClientHostOverrides()
-	for serviceName, clientRegistration := range oracleClientRegistrations.registeredClients {
+	for serviceName, clientRegistration := range OracleClientRegistrationsVar.RegisteredClients {
 		if clientRegistration.InitClientFn != nil {
 			serviceClientOverrides := ServiceClientOverrides{}
 			// apply client host override
@@ -117,7 +120,7 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 				serviceClientOverrides.hostUrlOverride = host
 			}
 
-			clients.sdkClientMap[serviceName], err = clientRegistration.InitClientFn(configProvider, configureClient, serviceClientOverrides)
+			clients.SdkClientMap[serviceName], err = clientRegistration.InitClientFn(configProvider, configureClient, serviceClientOverrides)
 			if err != nil {
 				return err
 			}
@@ -134,7 +137,7 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	if err != nil {
 		return
 	}
-	clients.workRequestClient = &workRequestClient
+	clients.WorkRequestClient = &workRequestClient
 
 	return
 }

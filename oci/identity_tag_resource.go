@@ -151,7 +151,7 @@ func updateIdentityTag(d *schema.ResourceData, m interface{}) error {
 
 func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
 	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
-	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		return nil
 	}
@@ -261,7 +261,7 @@ func (s *IdentityTagResourceCrud) Create() error {
 	// basically importing that pre-existing namespace into this plan if tags_import_if_exists
 	// flag is set to 'true'. This is ONLY for TESTING and should not be used elsewhere.
 	// Use 'terraform import' for existing tag definitions
-	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists && strings.Contains(err.Error(), "TagDefinitionAlreadyExists") {
 		// List all tag definitions using the datasource to find that tag definition which matches
 		s.D.Set("tag_namespace_id", request.TagNamespaceId)
@@ -386,7 +386,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 	} else {
 		// For testing only- When Update() is called from Create() and there is no validator in config (Required Create)
 		// remove the validator for an imported tag as Step 0 of test expects tag without validator
-		importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+		importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 		if importIfExists {
 			var baseObject oci_identity.BaseTagDefinitionValidator
 			details := oci_identity.DefaultTagDefinitionValidator{}

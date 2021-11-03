@@ -58,10 +58,10 @@ func TestDatabaseVmClusterRemoveVirtualMachineResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterRemoveVirtualMachineResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_vm_cluster_remove_virtual_machine.test_vm_cluster_remove_virtual_machine"
@@ -71,7 +71,7 @@ func TestDatabaseVmClusterRemoveVirtualMachineResource_basic(t *testing.T) {
 		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_remove_virtual_machine", "test_vm_cluster_remove_virtual_machine", Required, Create, vmClusterRemoveVirtualMachineRepresentation), "database", "vmClusterRemoveVirtualMachine", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package tfresource
 
 import (
 	"fmt"
@@ -90,9 +90,9 @@ func TestNetTimeoutError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 	r := retryTestInput{
 		serviceName:              "core",
 		httpResponseStatusCode:   404,
@@ -114,9 +114,9 @@ func TestNetTemporaryError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 	r := retryTestInput{
 		serviceName:              "core",
 		httpResponseStatusCode:   404,
@@ -134,9 +134,9 @@ func TestUnitRetryLoop_basic(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 	r := retryTestInput{
 		serviceName:              "core",
 		httpResponseStatusCode:   404,
@@ -154,10 +154,10 @@ func TestUnitRetryLoop_configuredRetry(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 15 * time.Second
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 15 * time.Second
 	tmp := time.Duration(30 * time.Second)
-	configuredRetryDuration = &tmp
+	ConfiguredRetryDuration = &tmp
 	r := retryTestInput{
 		serviceName:              "core",
 		httpResponseStatusCode:   429,
@@ -174,10 +174,10 @@ func TestUnitRetryLoop_outOfCapacity(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 15 * time.Second
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 15 * time.Second
 	tmp := time.Duration(30 * time.Second)
-	configuredRetryDuration = &tmp
+	ConfiguredRetryDuration = &tmp
 	r := retryTestInput{
 		serviceName:              "core",
 		httpResponseStatusCode:   500,
@@ -195,10 +195,10 @@ func TestUnitRetryLoop_configuredRetryWith404(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 15 * time.Second
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 15 * time.Second
 	tmp := time.Duration(60 * time.Second)
-	configuredRetryDuration = &tmp
+	ConfiguredRetryDuration = &tmp
 	r := retryTestInput{
 		serviceName:              "core",
 		httpResponseStatusCode:   404,
@@ -216,10 +216,10 @@ func TestUnitRetryLoop_concurrent(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 15 * time.Second
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 15 * time.Second
 	tmp := time.Duration(30 * time.Second)
-	configuredRetryDuration = &tmp
+	ConfiguredRetryDuration = &tmp
 	r := retryTestInput{
 		serviceName:              "core",
 		httpResponseStatusCode:   500,
@@ -248,9 +248,9 @@ func TestUnitRetryKMSThrottling(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 15 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 15 * time.Second
+	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
 		serviceName:            "kms",
@@ -270,9 +270,9 @@ func TestUnitRetrySubnet409Conflict(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 
 	var subnetOptionals []interface{} = make([]interface{}, 2)
 	subnetOptionals[0] = subnetService
@@ -295,9 +295,9 @@ func TestUnitRetrySubnet409OtherErrorMessage(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 
 	var subnetOptionals []interface{} = make([]interface{}, 2)
 	subnetOptionals[0] = subnetService
@@ -320,9 +320,9 @@ func TestUnitRetryDatabase(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
 		serviceName:              databaseService,
@@ -340,9 +340,9 @@ func TestUnitRetryIdentity409ErrorInvalidatedRetryToken(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
 		serviceName:              identityService,
@@ -360,9 +360,9 @@ func TestUnitRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testin
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
 		serviceName:              identityService,
@@ -380,9 +380,9 @@ func TestUnitRetryObjectStorage(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
 		serviceName:              objectstorageService,
@@ -400,9 +400,9 @@ func TestUnitRetryDbHomeWith404Error(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
 		serviceName:              databaseService,
@@ -421,9 +421,9 @@ func TestUnitRetryDbHomeWithConflictingStateError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
 		serviceName:              databaseService,
@@ -442,9 +442,9 @@ func TestUnitRetryDbHomeWithInvalidatedRetryTokenError(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
-	shortRetryTime = 15 * time.Second
-	longRetryTime = 30 * time.Second
-	configuredRetryDuration = nil
+	ShortRetryTime = 15 * time.Second
+	LongRetryTime = 30 * time.Second
+	ConfiguredRetryDuration = nil
 
 	r := retryTestInput{
 		serviceName:              databaseService,

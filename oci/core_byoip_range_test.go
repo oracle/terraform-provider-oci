@@ -37,9 +37,9 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreByoipRangeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_core_byoip_ranges.test_byoip_ranges"
@@ -80,7 +80,7 @@ func TestCoreByoipRangeResource_basic(t *testing.T) {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreByoipRange") {
 		resource.AddTestSweepers("CoreByoipRange", &resource.Sweeper{
@@ -109,7 +109,7 @@ func sweepCoreByoipRangeResource(compartment string) error {
 				fmt.Printf("Error deleting ByoipRange %s %s, It is possible that the resource is already deleted. Please verify manually \n", byoipRangeId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &byoipRangeId, byoipRangeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &byoipRangeId, byoipRangeSweepWaitCondition, time.Duration(3*time.Minute),
 				byoipRangeSweepResponseFetchOperation, "core", true)
 		}
 	}

@@ -19,7 +19,7 @@ import (
 )
 
 var (
-	message             = getEnvSettingWithBlankDefault("container_image_signing_signature")
+	message             = GetEnvSettingWithBlankDefault("container_image_signing_signature")
 	signingAlgorithm    = "SHA_224_RSA_PKCS_PSS"
 	signingAlgorithmStr = fmt.Sprintf("variable \"signingAlgorithm\" { default = \"%s\" }\n", signingAlgorithm)
 	description         = "Image built by TC"
@@ -79,7 +79,7 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerImageSignatureResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
 	resourceName := "oci_artifacts_container_image_signature.test_container_image_signature"
 	datasourceName := "data.oci_artifacts_container_image_signatures.test_container_image_signatures"
@@ -108,7 +108,7 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -183,7 +183,7 @@ func TestArtifactsContainerImageSignatureResource_basic(t *testing.T) {
 
 func testAccCheckArtifactsContainerImageSignatureDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).artifactsClient()
+	client := TestAccProvider.Meta().(*OracleClients).artifactsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_artifacts_container_image_signature" {
 			noResourceFound = false
@@ -216,7 +216,7 @@ func testAccCheckArtifactsContainerImageSignatureDestroy(s *terraform.State) err
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ArtifactsContainerImageSignature") {
 		resource.AddTestSweepers("ArtifactsContainerImageSignature", &resource.Sweeper{

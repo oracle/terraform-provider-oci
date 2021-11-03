@@ -28,19 +28,19 @@ var (
 
 // issue-routing-tag: resourcemanager/default
 func TestResourcemanagerStackTfStateResource_basic(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestResourcemanagerStackTfStateResource_basic") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestResourcemanagerStackTfStateResource_basic") {
 		t.Skip("Skipping suppressed TestResourcemanagerStackTfStateResource_basic")
 	}
 
 	httpreplay.SetScenario("TestResourcemanagerStackTfStateResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
 	client := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceManagerStackId, err := createResourceManagerStack(*client, "TestResourcemanagerStackTfStateResource_basic", compartmentId)
@@ -53,7 +53,7 @@ func TestResourcemanagerStackTfStateResource_basic(t *testing.T) {
 	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		CheckDestroy: func(s *terraform.State) error {
 			os.Remove("test.tfstate")
 			return destroyResourceManagerStack(*client, resourceManagerStackId)

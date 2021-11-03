@@ -37,7 +37,7 @@ var (
 `
 
 	govLoadBalancerResourceDependencies = VcnRequiredOnlyResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"ipv6cidr_block": Representation{RepType: Optional, Create: `fd00:aaaa:0123::/48`},
 			"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 		})) +
@@ -47,16 +47,16 @@ var (
 
 // issue-routing-tag: load_balancer/default
 func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
-	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
+	if !strings.Contains(GetEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
 		t.Skip("DoDIPv6 test not supported in this realm")
 	}
 	httpreplay.SetScenario("TestGovSpecificLoadBalancerLoadBalancerResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_load_balancer_load_balancer.test_load_balancer"
@@ -65,7 +65,7 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

@@ -24,8 +24,8 @@ type ResourceCoreImageTestSuite struct {
 }
 
 func (s *ResourceCoreImageTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + instanceConfig + DefinedTagsDependencies
 	s.OperatingSystem = "Oracle Linux"
 }
@@ -37,7 +37,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
 	 * object_name: test-fixtures-image-export
 	 * as well as an image PAR url supplied via env var image_par
 	 */
-	imagePar := getEnvSettingWithBlankDefault("image_par")
+	imagePar := GetEnvSettingWithBlankDefault("image_par")
 	if imagePar == "" {
 		s.T().Skip("Dependency image_par not defined for test")
 	}

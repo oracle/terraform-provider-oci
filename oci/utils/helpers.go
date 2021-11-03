@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package utils
 
 import (
 	"crypto/md5"
@@ -12,14 +12,14 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"os/user"
+	"path"
+	"path/filepath"
 	"reflect"
+	"regexp"
 	"sort"
 	"strings"
 	"time"
-
-	multierror "github.com/hashicorp/go-multierror"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
 	"strconv"
 
@@ -32,9 +32,9 @@ import (
 )
 
 const (
-	charset                       = charsetWithoutDigits + "0123456789"
-	charsetWithoutDigits          = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	charsetLowerCaseWithoutDigits = "abcdefghijklmnopqrstuvwxyz"
+	Charset                       = CharsetWithoutDigits + "0123456789"
+	CharsetWithoutDigits          = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	CharsetLowerCaseWithoutDigits = "abcdefghijklmnopqrstuvwxyz"
 
 	OciImageIdsVariable = `
 variable "InstanceImageOCID" {
@@ -131,6 +131,8 @@ data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
 	  }
 	}
 	`
+	TfEnvPrefix              = "TF_VAR_"
+	OciEnvPrefix             = "OCI_"
 )
 
 func LiteralTypeHashCodeForSets(m interface{}) int {
@@ -353,34 +355,14 @@ func IsHex(content string) bool {
 }
 
 // Get obo token from file
-func getTokenFromFile(path string) (string, error) {
+func GetTokenFromFile(path string) (string, error) {
 	token, err := ioutil.ReadFile(path)
 	return string(token), err
 }
 
-// wrapper over resource.ComposeAggregateTestCheckFunc to use customErrorFormat for multierror
-func ComposeAggregateTestCheckFuncWrapper(fs ...resource.TestCheckFunc) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		var result *multierror.Error
-
-		for i, f := range fs {
-			if err := f(s); err != nil {
-				result = multierror.Append(result, fmt.Errorf("Check %d/%d error: %s", i+1, len(fs), err))
-			}
-		}
-
-		err := result.ErrorOrNil()
-		if err != nil {
-			result.ErrorFormat = customErrorFormat
-		}
-
-		return err
-	}
-}
-
 // multierror with \t does not show up on Team City logs,
 // replacing \t with 4 blank spaces
-func customErrorFormat(es []error) string {
+func CustomErrorFormat(es []error) string {
 	if len(es) == 1 {
 		return fmt.Sprintf("1 error occurred:\n    * %s\n\n", es[0])
 	}
@@ -391,4 +373,115 @@ func customErrorFormat(es []error) string {
 	}
 
 	return fmt.Sprintf("%d errors occurred:\n    %s\n\n", len(es), strings.Join(points, "\n    "))
+}
+
+// Added for resource discovery AUTH
+func GetProviderEnvSettingWithDefault(s string, dv string) string {
+	v := os.Getenv(TfEnvPrefix + s)
+	if v != "" {
+		return v
+	}
+	v = os.Getenv(OciEnvPrefix + strings.ToUpper(s))
+	if v != "" {
+		return v
+	}
+	v = os.Getenv(s)
+	if v != "" {
+		return v
+	}
+	return dv
+}
+
+func GetEnvSettingWithBlankDefault(s string) string {
+	return GetEnvSettingWithDefault(s, "")
+}
+
+func GetEnvSettingWithDefault(s string, dv string) string {
+	v := os.Getenv(TfEnvPrefix + s)
+	if v != "" {
+		return v
+	}
+	v = os.Getenv(OciEnvPrefix + s)
+	if v != "" {
+		return v
+	}
+	v = os.Getenv(s)
+	if v != "" {
+		return v
+	}
+	return dv
+}
+
+// Deprecated: There should be only no need to panic individually
+func GetRequiredEnvSetting(s string) string {
+	v := GetEnvSettingWithBlankDefault(s)
+	if v == "" {
+		panic(fmt.Sprintf("Required env setting %s is missing", s))
+	}
+	return v
+}
+
+func GetHomeFolder() string {
+	if os.Getenv("TF_HOME_OVERRIDE") != "" {
+		return os.Getenv("TF_HOME_OVERRIDE")
+	}
+	current, e := user.Current()
+	if e != nil {
+		//Give up and try to return something sensible
+		home := os.Getenv("HOME")
+		if home == "" {
+			home = os.Getenv("USERPROFILE")
+		}
+		return home
+	}
+	return current.HomeDir
+}
+
+// cleans and expands the path if it contains a tilde , returns the expanded path or the input path as is if not expansion
+// was performed
+func ExpandPath(filepath string) string {
+	if strings.HasPrefix(filepath, fmt.Sprintf("~%c", os.PathSeparator)) {
+		filepath = path.Join(GetHomeFolder(), filepath[2:])
+	}
+	return path.Clean(filepath)
+}
+
+func CheckProfile(profile string, path string) (err error) {
+	var profileRegex = regexp.MustCompile(`^\[(.*)\]`)
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	content := string(data)
+	splitContent := strings.Split(content, "\n")
+	for _, line := range splitContent {
+		if match := profileRegex.FindStringSubmatch(line); match != nil && len(match) > 1 && match[1] == profile {
+			return nil
+		}
+	}
+
+	return fmt.Errorf("configuration file did not contain profile: %s", profile)
+}
+
+func CheckIncompatibleAttrsForApiKeyAuth(d *schema.ResourceData, apiKeyConfigAttributes [5]string) ([]string, bool) {
+	var apiKeyConfigAttributesToUnset []string
+	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
+		apiKeyConfigAttributeValue, hasConfigVariable := d.GetOkExists(apiKeyConfigAttribute)
+		if (hasConfigVariable && apiKeyConfigAttributeValue != "") || GetEnvSettingWithBlankDefault(apiKeyConfigAttribute) != "" {
+			apiKeyConfigAttributesToUnset = append(apiKeyConfigAttributesToUnset, apiKeyConfigAttribute)
+		}
+	}
+	return apiKeyConfigAttributesToUnset, len(apiKeyConfigAttributesToUnset) == 0
+}
+
+func GetCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err error) {
+	absFile, err := filepath.Abs(certificateFileFullPath)
+	if err != nil {
+		return nil, fmt.Errorf("can't form absolute path of %s: %v", certificateFileFullPath, err)
+	}
+
+	if pemRaw, err = ioutil.ReadFile(absFile); err != nil {
+		return nil, fmt.Errorf("can't read %s: %v", certificateFileFullPath, err)
+	}
+	return
 }

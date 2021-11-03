@@ -27,9 +27,9 @@ func TestContainerengineClusterOptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineClusterOptionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_containerengine_cluster_option.test_cluster_option"

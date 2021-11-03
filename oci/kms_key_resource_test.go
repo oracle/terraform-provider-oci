@@ -20,13 +20,13 @@ func TestKmsKeyResource_ResourceDiscovery(t *testing.T) {
 	httpreplay.SetScenario("TestKmsKeyResource_ResourceDiscovery")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
-	kmsKeyId := getEnvSettingWithBlankDefault("kms_key_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
+	kmsKeyId := GetEnvSettingWithBlankDefault("kms_key_ocid")
 
 	resourceName := "oci_kms_key.test_key"
 
@@ -45,7 +45,7 @@ func TestKmsKeyResource_ResourceDiscovery(t *testing.T) {
 
 					compositeId := "managementEndpoint/" + managementEndpoint + "/keys/" + kmsKeyId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}

@@ -33,12 +33,12 @@ var (
 func TestDatabaseVmClusterUpdateHistoryEntryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseVmClusterUpdateHistoryEntryResource_basic")
 	defer httpreplay.SaveScenario()
-	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "TestDatabaseVmClusterUpdateHistoryEntryResource_basic") {
+	if !strings.Contains(GetEnvSettingWithBlankDefault("enabled_tests"), "TestDatabaseVmClusterUpdateHistoryEntryResource_basic") {
 		t.Skip("test not supported due to GI Update not supported in terraform which is pre-requisite for this test")
 	}
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_database_vm_cluster_update_history_entries.test_vm_cluster_update_history_entries"

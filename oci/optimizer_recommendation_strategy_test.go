@@ -35,9 +35,9 @@ func TestOptimizerRecommendationStrategyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerRecommendationStrategyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_optimizer_recommendation_strategies.test_recommendation_strategies"

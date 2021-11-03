@@ -66,9 +66,9 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatacatalogDataAssetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_datacatalog_data_asset.test_data_asset"
@@ -121,7 +121,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 					catalogId, _ := FromInstanceState(s, resourceName, "catalog_id")
 					compositeId = getDataAssetCompositeId(catalogId, resId)
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -219,7 +219,7 @@ func getDataAssetImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckDatacatalogDataAssetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataCatalogClient()
+	client := TestAccProvider.Meta().(*OracleClients).dataCatalogClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_datacatalog_data_asset" {
 			noResourceFound = false

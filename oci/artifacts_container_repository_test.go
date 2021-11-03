@@ -44,7 +44,7 @@ var (
 
 	containerRepositoryRepresentation = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
-		"display_name":   Representation{RepType: Required, Create: RandomString(15, charsetLowerCaseWithoutDigits)},
+		"display_name":   Representation{RepType: Required, Create: RandomString(15, CharsetLowerCaseWithoutDigits)},
 		"is_immutable":   Representation{RepType: Optional, Create: `false`, Update: `false`},
 		"is_public":      Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"readme":         RepresentationGroup{Optional, containerRepositoryReadmeRepresentation},
@@ -62,12 +62,12 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestArtifactsContainerRepositoryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_artifacts_container_repository.test_container_repository"
@@ -122,7 +122,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -259,7 +259,7 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 
 func testAccCheckArtifactsContainerRepositoryDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).artifactsClient()
+	client := TestAccProvider.Meta().(*OracleClients).artifactsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_artifacts_container_repository" {
 			noResourceFound = false
@@ -300,7 +300,7 @@ func testAccCheckArtifactsContainerRepositoryDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ArtifactsContainerRepository") {
 		resource.AddTestSweepers("ArtifactsContainerRepository", &resource.Sweeper{
@@ -327,7 +327,7 @@ func sweepArtifactsContainerRepositoryResource(compartment string) error {
 				fmt.Printf("Error deleting ContainerRepository %s %s, It is possible that the resource is already deleted. Please verify manually \n", containerRepositoryId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &containerRepositoryId, containerRepositorySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &containerRepositoryId, containerRepositorySweepWaitCondition, time.Duration(3*time.Minute),
 				containerRepositorySweepResponseFetchOperation, "artifacts", true)
 		}
 	}

@@ -384,12 +384,12 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOcvpSddcResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_ocvp_sddc.test_sddc"
@@ -506,7 +506,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -705,7 +705,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 func testAccCheckOcvpSddcDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).sddcClient()
+	client := TestAccProvider.Meta().(*OracleClients).sddcClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_ocvp_sddc" {
 			noResourceFound = false
@@ -745,7 +745,7 @@ func testAccCheckOcvpSddcDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("OcvpSddc") {
 		resource.AddTestSweepers("OcvpSddc", &resource.Sweeper{
@@ -774,7 +774,7 @@ func sweepOcvpSddcResource(compartment string) error {
 				fmt.Printf("Error deleting Sddc %s %s, It is possible that the resource is already deleted. Please verify manually \n", sddcId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &sddcId, sddcSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &sddcId, sddcSweepWaitCondition, time.Duration(3*time.Minute),
 				sddcSweepResponseFetchOperation, "ocvp", true)
 		}
 	}

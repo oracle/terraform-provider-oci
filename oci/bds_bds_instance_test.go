@@ -96,7 +96,7 @@ var (
 		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, GetMultipleUpdatedRepresenationCopy(
 			[]string{"cidr_block", "dns_label"},
 			[]interface{}{Representation{RepType: Required, Create: `111.111.0.0/16`}, Representation{RepType: Required, Create: `bdsvcn`}},
-			vcnRepresentation)) +
+			VcnRepresentation)) +
 		DefinedTagsDependencies
 )
 
@@ -105,12 +105,12 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBdsBdsInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_bds_bds_instance.test_bds_instance"
@@ -182,7 +182,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -368,7 +368,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 
 func testAccCheckBdsBdsInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).bdsClient()
+	client := TestAccProvider.Meta().(*OracleClients).bdsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_bds_bds_instance" {
 			noResourceFound = false
@@ -408,7 +408,7 @@ func testAccCheckBdsBdsInstanceDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("BdsBdsInstance") {
 		resource.AddTestSweepers("BdsBdsInstance", &resource.Sweeper{
@@ -437,7 +437,7 @@ func sweepBdsBdsInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting BdsInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", bdsInstanceId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &bdsInstanceId, bdsInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &bdsInstanceId, bdsInstanceSweepWaitCondition, time.Duration(3*time.Minute),
 				bdsInstanceSweepResponseFetchOperation, "bds", true)
 		}
 	}

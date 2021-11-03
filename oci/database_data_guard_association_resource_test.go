@@ -161,11 +161,11 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_Exadata")
 	defer httpreplay.SaveScenario()
 
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DataGuardAssociation_Exadata") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DataGuardAssociation_Exadata") {
 		t.Skip("Skipping suppressed DataGuardAssociation_Exadata")
 	}
 
-	config := testProviderConfig() + ExadataBaseDependencies + `
+	config := ProviderTestConfig() + ExadataBaseDependencies + `
 	data "oci_database_databases" "exadb" {
        compartment_id = "${var.compartment_id}"
        db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
@@ -236,7 +236,7 @@ func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 
 `
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_data_guard_association.test_exadata_data_guard_association"
@@ -308,7 +308,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig() + ExadataBaseDependenciesForDataGuardWithExistingVMCluster + `
+	config := ProviderTestConfig() + ExadataBaseDependenciesForDataGuardWithExistingVMCluster + `
 	data "oci_database_databases" "exadb" {
 		compartment_id = "${var.compartment_id}"
 		db_home_id = "${oci_database_db_home.test_db_home_vm_cluster.id}"
@@ -336,7 +336,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingVMCluster(t *testin
 	}
 `
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_data_guard_association.test_exadata_data_guard_association"
@@ -408,7 +408,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig() + `
+	config := ProviderTestConfig() + `
 
 	data "oci_identity_availability_domain" "ad" {
 		compartment_id 		= "${var.compartment_id}"
@@ -751,7 +751,7 @@ func TestResourceDatabaseDataGuardAssociation_ExadataExistingDBHome(t *testing.T
 	}
 `
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_data_guard_association.test_exadata_data_guard_association"

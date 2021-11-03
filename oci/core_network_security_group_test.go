@@ -62,7 +62,7 @@ var (
 
 	vlanNsgRepresentation = RepresentationCopyWithRemovedProperties(vlanRepresentation, []string{"route_table_id"})
 
-	NetworkSecurityGroupResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	NetworkSecurityGroupResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Optional, Create, vlanNsgRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
@@ -73,12 +73,12 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreNetworkSecurityGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_network_security_group.test_network_security_group"
@@ -125,7 +125,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -258,7 +258,7 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 
 func testAccCheckCoreNetworkSecurityGroupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
+	client := TestAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_network_security_group" {
 			noResourceFound = false
@@ -298,7 +298,7 @@ func testAccCheckCoreNetworkSecurityGroupDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreNetworkSecurityGroup") {
 		resource.AddTestSweepers("CoreNetworkSecurityGroup", &resource.Sweeper{
@@ -327,7 +327,7 @@ func sweepCoreNetworkSecurityGroupResource(compartment string) error {
 				fmt.Printf("Error deleting NetworkSecurityGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", networkSecurityGroupId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &networkSecurityGroupId, networkSecurityGroupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &networkSecurityGroupId, networkSecurityGroupSweepWaitCondition, time.Duration(3*time.Minute),
 				networkSecurityGroupSweepResponseFetchOperation, "core", true)
 		}
 	}

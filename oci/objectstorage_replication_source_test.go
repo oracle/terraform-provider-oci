@@ -27,9 +27,9 @@ func TestObjectStorageReplicationSourceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageReplicationSourceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_objectstorage_replication_sources.test_replication_sources"

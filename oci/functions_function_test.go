@@ -57,10 +57,10 @@ var (
 		"is_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 
-	functionApplicationDisplayName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
+	functionApplicationDisplayName = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
 
-	FunctionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	FunctionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
@@ -71,21 +71,21 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsFunctionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	image := getEnvSettingWithBlankDefault("image")
+	image := GetEnvSettingWithBlankDefault("image")
 	imageVariableStr := fmt.Sprintf("variable \"image\" { default = \"%s\" }\n", image)
 
-	imageDigest := getEnvSettingWithBlankDefault("image_digest")
+	imageDigest := GetEnvSettingWithBlankDefault("image_digest")
 	imageDigestVariableStr := fmt.Sprintf("variable \"image_digest\" { default = \"%s\" }\n", imageDigest)
 
-	imageU := getEnvSettingWithBlankDefault("image_for_update")
+	imageU := GetEnvSettingWithBlankDefault("image_for_update")
 	imageUVariableStr := fmt.Sprintf("variable \"image_for_update\" { default = \"%s\" }\n", imageU)
 
-	imageDigestU := getEnvSettingWithBlankDefault("image_digest_for_update")
+	imageDigestU := GetEnvSettingWithBlankDefault("image_digest_for_update")
 	imageDigestUVariableStr := fmt.Sprintf("variable \"image_digest_for_update\" { default = \"%s\" }\n", imageDigestU)
 
 	resourceName := "oci_functions_function.test_function"
@@ -138,7 +138,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -246,7 +246,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 
 func testAccCheckFunctionsFunctionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).functionsManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).functionsManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_functions_function" {
 			noResourceFound = false
@@ -286,7 +286,7 @@ func testAccCheckFunctionsFunctionDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("FunctionsFunction") {
 		resource.AddTestSweepers("FunctionsFunction", &resource.Sweeper{
@@ -315,7 +315,7 @@ func sweepFunctionsFunctionResource(compartment string) error {
 				fmt.Printf("Error deleting Function %s %s, It is possible that the resource is already deleted. Please verify manually \n", functionId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &functionId, functionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &functionId, functionSweepWaitCondition, time.Duration(3*time.Minute),
 				functionSweepResponseFetchOperation, "functions", true)
 		}
 	}

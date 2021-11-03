@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	testVersioningBucketName = RandomStringOrHttpReplayValue(32, charset, "bucketVersioning")
+	testVersioningBucketName = RandomStringOrHttpReplayValue(32, Charset, "bucketVersioning")
 
 	objectVersionDataSourceRepresentation = map[string]interface{}{
 		"bucket":      Representation{RepType: Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
@@ -35,9 +35,9 @@ func TestObjectStorageObjectVersionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectVersionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_objectstorage_object_versions.test_object_versions"

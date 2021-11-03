@@ -49,8 +49,8 @@ var (
 		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	CatalogPrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	CatalogPrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -59,12 +59,12 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatacatalogCatalogPrivateEndpointResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint"
@@ -111,7 +111,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -225,7 +225,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 
 func testAccCheckDatacatalogCatalogPrivateEndpointDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataCatalogClient()
+	client := TestAccProvider.Meta().(*OracleClients).dataCatalogClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_datacatalog_catalog_private_endpoint" {
 			noResourceFound = false
@@ -265,7 +265,7 @@ func testAccCheckDatacatalogCatalogPrivateEndpointDestroy(s *terraform.State) er
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatacatalogCatalogPrivateEndpoint") {
 		resource.AddTestSweepers("DatacatalogCatalogPrivateEndpoint", &resource.Sweeper{
@@ -294,7 +294,7 @@ func sweepDatacatalogCatalogPrivateEndpointResource(compartment string) error {
 				fmt.Printf("Error deleting CatalogPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", catalogPrivateEndpointId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &catalogPrivateEndpointId, catalogPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &catalogPrivateEndpointId, catalogPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
 				catalogPrivateEndpointSweepResponseFetchOperation, "datacatalog", true)
 		}
 	}

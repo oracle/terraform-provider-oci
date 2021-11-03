@@ -77,12 +77,12 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOptimizerProfileResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_optimizer_profile.test_profile"
@@ -149,7 +149,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -251,7 +251,7 @@ func TestOptimizerProfileResource_basic(t *testing.T) {
 
 func testAccCheckOptimizerProfileDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).optimizerClient()
+	client := TestAccProvider.Meta().(*OracleClients).optimizerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_optimizer_profile" {
 			noResourceFound = false
@@ -291,7 +291,7 @@ func testAccCheckOptimizerProfileDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("OptimizerProfile") {
 		resource.AddTestSweepers("OptimizerProfile", &resource.Sweeper{
@@ -320,7 +320,7 @@ func sweepOptimizerProfileResource(compartment string) error {
 				fmt.Printf("Error deleting Profile %s %s, It is possible that the resource is already deleted. Please verify manually \n", profileId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &profileId, profileSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &profileId, profileSweepWaitCondition, time.Duration(3*time.Minute),
 				profileSweepResponseFetchOperation, "optimizer", true)
 		}
 	}

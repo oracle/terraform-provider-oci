@@ -87,11 +87,11 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBudgetBudgetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_budget_budget.test_budget"
 	datasourceName := "data.oci_budget_budgets.test_budgets"
@@ -297,7 +297,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -416,7 +416,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 
 func testAccCheckBudgetBudgetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).budgetClient()
+	client := TestAccProvider.Meta().(*OracleClients).budgetClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_budget_budget" {
 			noResourceFound = false
@@ -448,7 +448,7 @@ func testAccCheckBudgetBudgetDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("BudgetBudget") {
 		resource.AddTestSweepers("BudgetBudget", &resource.Sweeper{
@@ -462,7 +462,7 @@ func init() {
 func sweepBudgetBudgetResource(compartment string) error {
 	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient()
 	// BudgetBudgetResource can only run on root compartment
-	compartment = getEnvSettingWithBlankDefault("tenancy_ocid")
+	compartment = GetEnvSettingWithBlankDefault("tenancy_ocid")
 	budgetIds, err := getBudgetIds(compartment)
 	if err != nil {
 		return err

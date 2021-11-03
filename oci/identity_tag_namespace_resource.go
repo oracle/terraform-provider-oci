@@ -106,7 +106,7 @@ func updateIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	// Only empty tag namespaces can be deleted, to execute our tests we don't want to delete namespaces as we Create
 	// namespaces with tags and deleting a tag is a sequential and time consuming operation allowed one per tenancy
-	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		return nil
 	}
@@ -199,7 +199,7 @@ func (s *IdentityTagNamespaceResourceCrud) Create() error {
 	// by basically importing that pre-existing namespace into this plan if tags_import_if_exists
 	// flag is set to 'true'. This is ONLY for TESTING and should not be used elsewhere.
 	// Use 'terraform import' for existing namespaces
-	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists && strings.Contains(err.Error(), "TagNamespaceAlreadyExists") {
 		// List all namespaces using the datasource to find that namespace with the matching name.
 		s.D.Set("compartment_id", request.CompartmentId)

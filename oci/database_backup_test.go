@@ -45,9 +45,9 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseBackupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_backup.test_backup"
@@ -69,7 +69,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -121,7 +121,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseBackupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_backup" {
 			noResourceFound = false
@@ -161,7 +161,7 @@ func testAccCheckDatabaseBackupDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseBackup") {
 		resource.AddTestSweepers("DatabaseBackup", &resource.Sweeper{
@@ -190,7 +190,7 @@ func sweepDatabaseBackupResource(compartment string) error {
 				fmt.Printf("Error deleting Backup %s %s, It is possible that the resource is already deleted. Please verify manually \n", backupId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &backupId, backupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &backupId, backupSweepWaitCondition, time.Duration(3*time.Minute),
 				backupSweepResponseFetchOperation, "database", true)
 		}
 	}

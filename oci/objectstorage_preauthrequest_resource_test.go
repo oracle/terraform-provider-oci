@@ -30,8 +30,8 @@ type ResourceObjectstoragePARTestSuite struct {
 
 func (s *ResourceObjectstoragePARTestSuite) SetupTest() {
 	s.Token, s.TokenFn = TokenizeWithHttpReplay("object_storage_resource")
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	data "oci_objectstorage_namespace" "t" {
 		compartment_id = "${var.compartment_id}"
@@ -153,10 +153,10 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 	httpreplay.SetScenario("TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_objectstorage_preauthrequest.test_preauthenticated_request"
@@ -180,7 +180,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 		GenerateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Create, updatedRepresentation), "objectstorage", "preauthenticatedRequest", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -221,7 +221,7 @@ func TestObjectStoragePreauthenticatedRequestResource_newObjectNameParam(t *test
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}

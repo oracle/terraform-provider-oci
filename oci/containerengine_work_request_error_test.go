@@ -27,9 +27,9 @@ func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineWorkRequestErrorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_containerengine_work_request_errors.test_work_request_errors"

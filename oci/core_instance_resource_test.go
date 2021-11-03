@@ -147,10 +147,10 @@ var (
 
 	ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan = DefinedShieldedImageOCIDs +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
@@ -166,8 +166,8 @@ type ResourceCoreInstanceTestSuite struct {
 }
 
 func (s *ResourceCoreInstanceTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
@@ -1099,7 +1099,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 		// this should result in an error from service.
 		{
 			PreConfig: func() {
-				WaitTillCondition(testAccProvider, &preservedBootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
+				WaitTillCondition(TestAccProvider, &preservedBootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
 					bootVolumeSweepResponseFetchOperation, "core", true)
 			},
 			Config: s.Config + `
@@ -1592,19 +1592,19 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Milan_instance_resource") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Milan_instance_resource") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_BM_Milan_instance_resource")
 	}
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	config := `
         provider oci {
             test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
         }
-    ` + commonTestVariables()
+    ` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_instance.test_instance"
@@ -1699,19 +1699,19 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 }
 
 func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource")
 	}
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	config := `
         provider oci {
             test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
         }
-    ` + commonTestVariables()
+    ` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_instance.test_instance"
@@ -1807,19 +1807,19 @@ func TestAccResourceCoreInstance_BM_Rome_shielded_instance_resource(t *testing.T
 }
 
 func TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource")
 	}
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	config := `
         provider oci {
             test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
         }
-    ` + commonTestVariables()
+    ` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_instance.test_instance"
@@ -1915,19 +1915,19 @@ func TestAccResourceCoreInstance_BM_Skylake_shielded_instance_resource(t *testin
 }
 
 func TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource")
 	}
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	config := `
         provider oci {
             test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
         }
-    ` + commonTestVariables()
+    ` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_instance.test_instance"
@@ -2023,19 +2023,19 @@ func TestAccResourceCoreInstance_VM_Intel_shielded_instance_resource(t *testing.
 }
 
 func TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource") {
 		t.Skip("Skipping suppressed TestAccResourceCoreInstance_VM_Amd_shielded_instance_resource")
 	}
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	config := `
         provider oci {
             test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
         }
-    ` + commonTestVariables()
+    ` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resource.Test(t, resource.TestCase{
@@ -2068,9 +2068,9 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 		provider oci {
 			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
 		}
-	` + commonTestVariables()
+	` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_instance.test_instance"
@@ -2306,15 +2306,15 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_launchOption
 func TestAccResourceCoreInstance_FlexibleMemory(t *testing.T) {
 	httpreplay.SetScenario("TestAccResourceCoreInstance_FlexibleMemory")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	config := `
       provider oci {
          test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
       }
-   ` + commonTestVariables()
+   ` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_instance.test_instance"

@@ -24,8 +24,8 @@ type ResourceCoreSecurityListTestSuite struct {
 }
 
 func (s *ResourceCoreSecurityListTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + `
 		resource "oci_core_virtual_network" "t" {
 			cidr_block = "10.0.0.0/16"
@@ -568,8 +568,8 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 				}
 			}
 		}`
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,

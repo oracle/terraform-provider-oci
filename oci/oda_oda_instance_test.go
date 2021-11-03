@@ -62,12 +62,12 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOdaOdaInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_oda_oda_instance.test_oda_instance"
@@ -137,7 +137,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -191,7 +191,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -260,7 +260,7 @@ func TestOdaOdaInstanceResource_basic(t *testing.T) {
 
 func testAccCheckOdaOdaInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).odaClient()
+	client := TestAccProvider.Meta().(*OracleClients).odaClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_oda_oda_instance" {
 			noResourceFound = false
@@ -300,7 +300,7 @@ func testAccCheckOdaOdaInstanceDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("OdaOdaInstance") {
 		resource.AddTestSweepers("OdaOdaInstance", &resource.Sweeper{
@@ -329,7 +329,7 @@ func sweepOdaOdaInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting OdaInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", odaInstanceId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &odaInstanceId, odaInstanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &odaInstanceId, odaInstanceSweepWaitCondition, time.Duration(3*time.Minute),
 				odaInstanceSweepResponseFetchOperation, "oda", true)
 		}
 	}

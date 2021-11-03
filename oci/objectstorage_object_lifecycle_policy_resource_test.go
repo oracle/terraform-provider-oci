@@ -26,9 +26,9 @@ var (
 func TestResourceObjectLifecyclePolicy_validations(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_validations")
 	defer httpreplay.SaveScenario()
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_objectstorage_object_lifecycle_policy.test_object_lifecycle_policy"
@@ -160,9 +160,9 @@ func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_MultiPartUploadsRule")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_objectstorage_object_lifecycle_policy.test_object_lifecycle_policy"
@@ -196,7 +196,7 @@ func TestResourceObjectLifecyclePolicy_MultiPartUploadsRule(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

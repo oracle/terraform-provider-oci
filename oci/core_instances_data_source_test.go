@@ -26,8 +26,8 @@ type DatasourceCoreInstanceTestSuite struct {
 
 func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
 	s.Token, s.TokenFn = TokenizeWithHttpReplay("instance_data_source")
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"

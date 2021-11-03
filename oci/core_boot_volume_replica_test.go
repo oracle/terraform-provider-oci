@@ -45,9 +45,9 @@ func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreBootVolumeReplicaResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_boot_volume.test_boot_volume"

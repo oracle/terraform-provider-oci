@@ -79,8 +79,8 @@ var (
 	}
 
 	MysqlDbSystemResourceDependencies = MysqlConfigurationResourceConfig +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		AvailabilityDomainConfig +
 		MysqlVersionResourceConfig +
 		DefinedTagsDependencies
@@ -91,9 +91,9 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
@@ -169,7 +169,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -327,7 +327,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 
 func testAccCheckMysqlMysqlDbSystemDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dbSystemClient()
+	client := TestAccProvider.Meta().(*OracleClients).dbSystemClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_mysql_mysql_db_system" {
 			noResourceFound = false
@@ -367,7 +367,7 @@ func testAccCheckMysqlMysqlDbSystemDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MysqlMysqlDbSystem") {
 		resource.AddTestSweepers("MysqlMysqlDbSystem", &resource.Sweeper{
@@ -395,7 +395,7 @@ func sweepMysqlMysqlDbSystemResource(compartment string) error {
 				fmt.Printf("Error deleting MysqlDbSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlDbSystemId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &mysqlDbSystemId, mysqlDbSystemSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &mysqlDbSystemId, mysqlDbSystemSweepWaitCondition, time.Duration(3*time.Minute),
 				mysqlDbSystemSweepResponseFetchOperation, "mysql", true)
 		}
 	}

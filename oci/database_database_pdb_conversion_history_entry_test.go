@@ -14,12 +14,12 @@ import (
 
 var (
 	databasePdbConversionHistoryEntrySingularDataSourceRepresentation = map[string]interface{}{
-		"database_id":                     Representation{RepType: Required, Create: getEnvSettingWithBlankDefault("converted_to_pdb_db_id")},
-		"pdb_conversion_history_entry_id": Representation{RepType: Required, Create: getEnvSettingWithBlankDefault("pdb_conversion_history_entry_id")},
+		"database_id":                     Representation{RepType: Required, Create: GetEnvSettingWithBlankDefault("converted_to_pdb_db_id")},
+		"pdb_conversion_history_entry_id": Representation{RepType: Required, Create: GetEnvSettingWithBlankDefault("pdb_conversion_history_entry_id")},
 	}
 
 	databasePdbConversionHistoryEntryDataSourceRepresentation = map[string]interface{}{
-		"database_id": Representation{RepType: Required, Create: getEnvSettingWithBlankDefault("converted_to_pdb_db_id")},
+		"database_id": Representation{RepType: Required, Create: GetEnvSettingWithBlankDefault("converted_to_pdb_db_id")},
 	}
 )
 
@@ -28,9 +28,9 @@ func TestDatabaseDatabasePdbConversionHistoryEntryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDatabasePdbConversionHistoryEntryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_database_database_pdb_conversion_history_entries.test_database_pdb_conversion_history_entries"

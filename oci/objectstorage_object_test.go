@@ -75,7 +75,7 @@ var (
 		"content_md5":                Representation{RepType: Optional, Create: `${md5("content")}`, Update: Md5Base64Encoded2},
 		"content_type":               Representation{RepType: Optional, Create: `text/plain`, Update: `text/xml`},
 		"storage_tier":               Representation{RepType: Optional, Create: `Standard`, Update: `InfrequentAccess`},
-		"opc_sse_kms_key_id":         Representation{RepType: Optional, Create: getEnvSettingWithBlankDefault("kms_key_ocid")},
+		"opc_sse_kms_key_id":         Representation{RepType: Optional, Create: GetEnvSettingWithBlankDefault("kms_key_ocid")},
 		"delete_all_object_versions": Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"metadata":                   Representation{RepType: Optional, Create: map[string]string{"content-type": "text/plain"}, Update: map[string]string{"content-type": "text/xml"}},
 	}
@@ -105,9 +105,9 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_objectstorage_object.test_object"
@@ -203,11 +203,11 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 				resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
-				resource.TestCheckResourceAttr(resourceName, "opc_sse_kms_key_id", getEnvSettingWithBlankDefault("kms_key_ocid")),
+				resource.TestCheckResourceAttr(resourceName, "opc_sse_kms_key_id", GetEnvSettingWithBlankDefault("kms_key_ocid")),
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -423,17 +423,17 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_failContentLengthLimit")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	var resourceName = "oci_objectstorage_object.test_object"
 	var failObjectName, failBucketName, failNamespaceName string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -469,7 +469,7 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 
 	//destroy test will be skipped since there is no state after the error in Get
 	if failObjectName != "" && failBucketName != "" && failNamespaceName != "" {
-		client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
+		client := TestAccProvider.Meta().(*OracleClients).objectStorageClient()
 		_, objectErr := client.DeleteObject(context.Background(), oci_object_storage.DeleteObjectRequest{
 			NamespaceName: &failNamespaceName,
 			BucketName:    &failBucketName,
@@ -494,10 +494,10 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 func TestObjectStorageObjectResource_metadata(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_metadata")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := GetRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resource.Test(t, resource.TestCase{
@@ -519,7 +519,7 @@ func TestObjectStorageObjectResource_metadata(t *testing.T) {
 
 func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).objectStorageClient()
+	client := TestAccProvider.Meta().(*OracleClients).objectStorageClient()
 
 	if singlePartFile != nil {
 		if _, err := os.Stat(singlePartFile.Name()); err == nil {
@@ -576,7 +576,7 @@ func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ObjectStorageObject") {
 		resource.AddTestSweepers("ObjectStorageObject", &resource.Sweeper{
@@ -706,10 +706,10 @@ func createTmpFiles() (string, string, error) {
 func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_multipartUpload")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_objectstorage_object.test_object"
@@ -723,7 +723,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 	}
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -967,10 +967,10 @@ func createTmpObjectInOtherRegion() (string, error) {
 func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 	httpreplay.SetScenario("TestObjectStorageObjectResource_crossRegionCopy")
 	defer httpreplay.SaveScenario()
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singlePartFilePath, err := createTmpObjectInOtherRegion()
@@ -985,7 +985,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 	md5sum := hex.EncodeToString(hexSum[:])
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

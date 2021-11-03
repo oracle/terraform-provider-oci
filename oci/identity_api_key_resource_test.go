@@ -29,8 +29,8 @@ type ResourceIdentityAPIKeyTestSuite struct {
 
 func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 	_, tokenFn := TokenizeWithHttpReplay("api_key")
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"

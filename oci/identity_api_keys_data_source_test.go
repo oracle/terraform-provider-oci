@@ -25,8 +25,8 @@ type DatasourceIdentityAPIKeysTestSuite struct {
 
 func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	_, tokenFn := TokenizeWithHttpReplay("api_data_source")
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + publicKeyVariableStr + publicKeyUpdateVariableStr + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.userName}}"

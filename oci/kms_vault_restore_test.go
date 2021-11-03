@@ -60,9 +60,9 @@ func TestResourceKmsVaultRestore_default(t *testing.T) {
 	httpreplay.SetScenario("TestResourceKmsVaultRestore_virtual")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_kms_vault.private-vault-kms"

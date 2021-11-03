@@ -20,7 +20,7 @@ var (
 		"vcn_id": Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	VcnDnsResolverAssociationResourceConfig = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+	VcnDnsResolverAssociationResourceConfig = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation)
 )
 
 // issue-routing-tag: core/default
@@ -28,9 +28,9 @@ func TestCoreVcnDnsResolverAssociationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVcnDnsResolverAssociationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association"
