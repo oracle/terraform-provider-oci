@@ -69,9 +69,9 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageFileSystemResource_removeKMSKey")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_file_storage_file_system.test_file_system"
@@ -164,9 +164,9 @@ func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageFileSystemResource_cloneFromSnapshot")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_file_storage_snapshot.test_snapshot"
@@ -188,7 +188,7 @@ func TestFileStorageFileSystemResource_cloneFromSnapshot(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

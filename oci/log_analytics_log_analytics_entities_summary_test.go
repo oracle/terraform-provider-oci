@@ -28,9 +28,9 @@ func TestLogAnalyticsLogAnalyticsEntitiesSummaryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsEntitiesSummaryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_log_analytics_log_analytics_entities_summary.test_log_analytics_entities_summary"

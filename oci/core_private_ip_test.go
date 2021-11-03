@@ -48,10 +48,10 @@ var (
 
 	PrivateIpResourceDependencies = OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
@@ -70,9 +70,9 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCorePrivateIpResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_private_ip.test_private_ip"
@@ -117,7 +117,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -210,7 +210,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 
 func testAccCheckCorePrivateIpDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
+	client := TestAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_private_ip" {
 			noResourceFound = false
@@ -242,7 +242,7 @@ func testAccCheckCorePrivateIpDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CorePrivateIp") {
 		resource.AddTestSweepers("CorePrivateIp", &resource.Sweeper{

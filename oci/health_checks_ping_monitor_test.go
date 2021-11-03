@@ -61,12 +61,12 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestHealthChecksPingMonitorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_health_checks_ping_monitor.test_ping_monitor"
@@ -120,7 +120,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -253,7 +253,7 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 
 func testAccCheckHealthChecksPingMonitorDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).healthChecksClient()
+	client := TestAccProvider.Meta().(*OracleClients).healthChecksClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_health_checks_ping_monitor" {
 			noResourceFound = false
@@ -285,7 +285,7 @@ func testAccCheckHealthChecksPingMonitorDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("HealthChecksPingMonitor") {
 		resource.AddTestSweepers("HealthChecksPingMonitor", &resource.Sweeper{

@@ -30,7 +30,7 @@ func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityRegionSubscriptionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
 	datasourceName := "data.oci_identity_region_subscriptions.test_region_subscriptions"
 
@@ -46,7 +46,7 @@ func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.is_home_region", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "region_subscriptions.0.region_key"),
-				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.region_name", getRequiredEnvSetting("region")),
+				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.region_name", GetRequiredEnvSetting("region")),
 				resource.TestCheckResourceAttrSet(datasourceName, "region_subscriptions.0.state"),
 			),
 		},

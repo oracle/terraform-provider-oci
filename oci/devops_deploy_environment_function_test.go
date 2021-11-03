@@ -49,10 +49,10 @@ func TestDevopsDeployEnvironmentResource_function(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsDeployEnvironmentResource_function")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_devops_deploy_environment.test_deploy_environment"
@@ -65,7 +65,7 @@ func TestDevopsDeployEnvironmentResource_function(t *testing.T) {
 		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_environment", Optional, Create, deployFunctionEnvironmentRepresentation), "devops", "deployEnvironment", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -108,7 +108,7 @@ func TestDevopsDeployEnvironmentResource_function(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}

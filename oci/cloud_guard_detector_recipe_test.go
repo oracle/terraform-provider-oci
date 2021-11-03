@@ -84,7 +84,7 @@ var (
 	}
 	//Make a representation for plural datasource
 	detectorRecipeDataSourceRepresentationPluralDataSource = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: getEnvSettingWithBlankDefault("tenancy_ocid")},
+		"compartment_id": Representation{RepType: Required, Create: GetEnvSettingWithBlankDefault("tenancy_ocid")},
 		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
@@ -98,12 +98,12 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardDetectorRecipeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_cloud_guard_detector_recipe.test_detector_recipe"
@@ -173,7 +173,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -359,7 +359,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 
 func testAccCheckCloudGuardDetectorRecipeDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).cloudGuardClient()
+	client := TestAccProvider.Meta().(*OracleClients).cloudGuardClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_cloud_guard_detector_recipe" {
 			noResourceFound = false
@@ -399,7 +399,7 @@ func testAccCheckCloudGuardDetectorRecipeDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CloudGuardDetectorRecipe") {
 		resource.AddTestSweepers("CloudGuardDetectorRecipe", &resource.Sweeper{
@@ -428,7 +428,7 @@ func sweepCloudGuardDetectorRecipeResource(compartment string) error {
 				fmt.Printf("Error deleting DetectorRecipe %s %s, It is possible that the resource is already deleted. Please verify manually \n", detectorRecipeId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &detectorRecipeId, detectorRecipeSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &detectorRecipeId, detectorRecipeSweepWaitCondition, time.Duration(3*time.Minute),
 				detectorRecipeSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}

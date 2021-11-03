@@ -25,10 +25,10 @@ var (
 	})
 
 	InstanceMeasuredBootReportResourceConfig = DefinedShieldedImageOCIDs +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceWithPlatformConfigVMIntelRepresentation) +
@@ -40,10 +40,10 @@ func TestCoreInstanceMeasuredBootReportResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceMeasuredBootReportResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_core_instance_measured_boot_report.test_instance_measured_boot_report"
@@ -51,7 +51,7 @@ func TestCoreInstanceMeasuredBootReportResource_basic(t *testing.T) {
 	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

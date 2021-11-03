@@ -35,10 +35,10 @@ var (
 
 	ApiKeyResourceDependencies = GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation) + publicKeyVariableStr
 
-	publicKey            = getEnvSettingWithBlankDefault("public_key")
+	publicKey            = GetEnvSettingWithBlankDefault("public_key")
 	publicKeyVariableStr = fmt.Sprintf("variable \"api_key_value\" { default = \"%s\" }\n", publicKey)
 
-	publicKeyUpdate            = getEnvSettingWithBlankDefault("public_key_update")
+	publicKeyUpdate            = GetEnvSettingWithBlankDefault("public_key_update")
 	publicKeyUpdateVariableStr = fmt.Sprintf("variable \"api_key_update_value\" { default = \"%s\" }\n", publicKeyUpdate)
 )
 
@@ -47,9 +47,9 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityApiKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_api_key.test_api_key"
@@ -88,7 +88,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 					userId, _ := FromInstanceState(s, resourceName, "user_id")
 					compositeId = "oci_identity_api_key:users/" + userId + "/apiKeys/" + fingerprint
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -140,7 +140,7 @@ func getApiKeyImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentityApiKeyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient()
+	client := TestAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_api_key" {
 			noResourceFound = false

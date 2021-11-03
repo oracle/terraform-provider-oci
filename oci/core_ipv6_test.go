@@ -48,11 +48,11 @@ var (
 
 	Ipv6ResourceDependencies = OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 			"dns_label":      Representation{RepType: Required, Create: `dnslabel`},
 			"ipv6cidr_block": Representation{RepType: Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
 		})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label":      Representation{RepType: Required, Create: `dnslabel`},
 			"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 		})) +
@@ -72,9 +72,9 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreIpv6Resource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_ipv6.test_ipv6"
@@ -123,7 +123,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -211,7 +211,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 
 func testAccCheckCoreIpv6Destroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
+	client := TestAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_ipv6" {
 			noResourceFound = false
@@ -251,7 +251,7 @@ func testAccCheckCoreIpv6Destroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreIpv6") {
 		resource.AddTestSweepers("CoreIpv6", &resource.Sweeper{
@@ -280,7 +280,7 @@ func sweepCoreIpv6Resource(compartment string) error {
 				fmt.Printf("Error deleting Ipv6 %s %s, It is possible that the resource is already deleted. Please verify manually \n", ipv6Id, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &ipv6Id, ipv6SweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &ipv6Id, ipv6SweepWaitCondition, time.Duration(3*time.Minute),
 				ipv6SweepResponseFetchOperation, "core", true)
 		}
 	}

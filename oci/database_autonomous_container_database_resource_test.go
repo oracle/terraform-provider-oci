@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	acbDBName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
+	acbDBName = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
 
 	ACDatabaseResourceConfig = ACDatabaseResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, ACDatabaseRepresentation)
@@ -69,7 +69,7 @@ var (
 			RepresentationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{RepType: Required, Create: "true"}})) +
 		GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation) + KmsVaultIdVariableStr + OkvSecretVariableStr
 
-	dgDbUniqueName = RandomString(10, charsetWithoutDigits)
+	dgDbUniqueName = RandomString(10, CharsetWithoutDigits)
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -77,9 +77,9 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabase_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
@@ -124,7 +124,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -273,9 +273,9 @@ func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabase_rotateDatabase")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
@@ -316,7 +316,7 @@ func TestDatabaseAutonomousContainerDatabase_rotateDatabase(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

@@ -16,10 +16,10 @@ import (
 var (
 	CoreInstanceResourceConfig = OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
@@ -61,10 +61,10 @@ func TestResourceCoreApplyFiltersIntegration_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApplyFiltersIntegration_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getRequiredEnvSetting("compartment_ocid")
+	compartmentId := GetRequiredEnvSetting("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resource.Test(t, resource.TestCase{

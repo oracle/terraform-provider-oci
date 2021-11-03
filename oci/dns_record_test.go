@@ -65,9 +65,9 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	resourceName := "oci_dns_record.test_record"
 
@@ -87,7 +87,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -162,9 +162,9 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 func TestDnsRecordsResource_datasources(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_datasources")
 	defer httpreplay.SaveScenario()
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	_, tokenFn := TokenizeWithHttpReplay("dns_data_source")
@@ -209,9 +209,9 @@ data "oci_dns_records" "test_records" {
 func TestDnsRecordsResource_diffSuppression(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_diffSuppression")
 	defer httpreplay.SaveScenario()
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	_, tokenFn := TokenizeWithHttpReplay("dns_diff")
@@ -321,9 +321,9 @@ resource "oci_dns_record" "test_record" {
 func TestDnsRecordsResource_badUpdate(t *testing.T) {
 	httpreplay.SetScenario("TestDnsRecordsResource_badUpdate")
 	defer httpreplay.SaveScenario()
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	_, tokenFn := TokenizeWithHttpReplay("dns_bad_update")
@@ -364,7 +364,7 @@ resource "oci_dns_record" "test_record" {
 
 func testAccCheckDnsRecordDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dnsClient()
+	client := TestAccProvider.Meta().(*OracleClients).dnsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dns_record" {
 			noResourceFound = false

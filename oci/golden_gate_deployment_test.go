@@ -70,8 +70,8 @@ var (
 	}
 
 	GoldenGateDeploymentResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation)
 )
 
 // issue-routing-tag: golden_gate/default
@@ -79,15 +79,15 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGoldenGateDeploymentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	goldenGateDeploymentOggKey := getEnvSettingWithBlankDefault("golden_gate_deployment_ogg_key")
+	goldenGateDeploymentOggKey := GetEnvSettingWithBlankDefault("golden_gate_deployment_ogg_key")
 	goldenGateDeploymentOggKeyVariableStr := fmt.Sprintf("variable \"golden_gate_deployment_ogg_key\" { default = \"%s\" }\n", goldenGateDeploymentOggKey)
 
 	resourceName := "oci_golden_gate_deployment.depl_test_ggs_deployment"
@@ -150,7 +150,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -287,7 +287,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 func testAccCheckGoldenGateDeploymentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).goldenGateClient()
+	client := TestAccProvider.Meta().(*OracleClients).goldenGateClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_golden_gate_deployment" {
 			noResourceFound = false
@@ -327,7 +327,7 @@ func testAccCheckGoldenGateDeploymentDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("GoldenGateDeployment") {
 		resource.AddTestSweepers("GoldenGateDeployment", &resource.Sweeper{
@@ -356,7 +356,7 @@ func sweepGoldenGateDeploymentResource(compartment string) error {
 				fmt.Printf("Error deleting Deployment %s %s, It is possible that the resource is already deleted. Please verify manually \n", deploymentId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &deploymentId, goldenGateDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &deploymentId, goldenGateDeploymentSweepWaitCondition, time.Duration(3*time.Minute),
 				goldenGateDeploymentSweepResponseFetchOperation, "golden_gate", true)
 		}
 	}

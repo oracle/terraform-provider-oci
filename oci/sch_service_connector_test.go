@@ -24,8 +24,8 @@ var (
 	ServiceConnectorResourceDependencies = GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Required, Create, logRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_logging_log", "test_update_log", Required, Update, GetUpdatedRepresentationCopy("configuration.source.category", Representation{RepType: Required, Create: `read`}, logRepresentation)) +
 		LogResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation) +
@@ -123,18 +123,18 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestSchServiceConnectorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	image := getEnvSettingWithBlankDefault("image")
+	image := GetEnvSettingWithBlankDefault("image")
 	imageVariableStr := fmt.Sprintf("variable \"image\" { default = \"%s\" }\n", image)
 
-	logAnLogGroupId := getEnvSettingWithBlankDefault("logAn_log_group_ocid")
+	logAnLogGroupId := GetEnvSettingWithBlankDefault("logAn_log_group_ocid")
 	logAnLogGroupIdVariableStr := fmt.Sprintf("variable \"logAn_log_group_ocid\" { default = \"%s\" }\n", logAnLogGroupId)
 
 	resourceName := "oci_sch_service_connector.test_service_connector"
@@ -255,7 +255,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -299,7 +299,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -541,7 +541,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 
 func testAccCheckSchServiceConnectorDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).serviceConnectorClient()
+	client := TestAccProvider.Meta().(*OracleClients).serviceConnectorClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_sch_service_connector" {
 			noResourceFound = false
@@ -581,7 +581,7 @@ func testAccCheckSchServiceConnectorDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("SchServiceConnector") {
 		resource.AddTestSweepers("SchServiceConnector", &resource.Sweeper{
@@ -610,7 +610,7 @@ func sweepSchServiceConnectorResource(compartment string) error {
 				fmt.Printf("Error deleting ServiceConnector %s %s, It is possible that the resource is already deleted. Please verify manually \n", serviceConnectorId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &serviceConnectorId, serviceConnectorSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &serviceConnectorId, serviceConnectorSweepWaitCondition, time.Duration(3*time.Minute),
 				serviceConnectorSweepResponseFetchOperation, "sch", true)
 		}
 	}

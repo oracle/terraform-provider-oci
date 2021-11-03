@@ -54,8 +54,8 @@ var (
 		"create": Representation{RepType: Required, Create: `30m`},
 	}
 
-	ImageResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	ImageResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		AvailabilityDomainConfig +
@@ -67,12 +67,12 @@ func TestCoreImageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreImageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_image.test_image"
@@ -124,7 +124,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -268,7 +268,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 func testAccCheckCoreImageDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient()
+	client := TestAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_image" {
 			noResourceFound = false
@@ -308,7 +308,7 @@ func testAccCheckCoreImageDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreImage") {
 		resource.AddTestSweepers("CoreImage", &resource.Sweeper{
@@ -337,7 +337,7 @@ func sweepCoreImageResource(compartment string) error {
 				fmt.Printf("Error deleting Image %s %s, It is possible that the resource is already deleted. Please verify manually \n", imageId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &imageId, imageSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &imageId, imageSweepWaitCondition, time.Duration(3*time.Minute),
 				imageSweepResponseFetchOperation, "core", true)
 		}
 	}

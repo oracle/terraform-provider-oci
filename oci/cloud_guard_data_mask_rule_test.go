@@ -72,11 +72,11 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardDataMaskRuleResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_cloud_guard_data_mask_rule.test_data_mask_rule"
 	datasourceName := "data.oci_cloud_guard_data_mask_rules.test_data_mask_rules"
@@ -132,7 +132,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -229,7 +229,7 @@ func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 
 func testAccCheckCloudGuardDataMaskRuleDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).cloudGuardClient()
+	client := TestAccProvider.Meta().(*OracleClients).cloudGuardClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_cloud_guard_data_mask_rule" {
 			noResourceFound = false
@@ -269,7 +269,7 @@ func testAccCheckCloudGuardDataMaskRuleDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CloudGuardDataMaskRule") {
 		resource.AddTestSweepers("CloudGuardDataMaskRule", &resource.Sweeper{
@@ -298,7 +298,7 @@ func sweepCloudGuardDataMaskRuleResource(compartment string) error {
 				fmt.Printf("Error deleting DataMaskRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", dataMaskRuleId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &dataMaskRuleId, dataMaskRuleSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &dataMaskRuleId, dataMaskRuleSweepWaitCondition, time.Duration(3*time.Minute),
 				dataMaskRuleSweepResponseFetchOperation, "cloud_guard", true)
 		}
 	}

@@ -68,15 +68,15 @@ var (
 
 // issue-routing-tag: core/default
 func TestGovSpecificCoreVirtualCircuitResource_basic(t *testing.T) {
-	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
+	if !strings.Contains(GetEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
 		t.Skip("DoDIPv6 test not supported in this realm")
 	}
 	httpreplay.SetScenario("TestCoreVirtualCircuitResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_virtual_circuit.test_virtual_circuit"

@@ -20,8 +20,8 @@ import (
 )
 
 var (
-	topicNameRequiredOnly                 = `t` + RandomString(10, charset)
-	topicName                             = `t` + RandomString(10, charset)
+	topicNameRequiredOnly                 = `t` + RandomString(10, Charset)
+	topicName                             = `t` + RandomString(10, Charset)
 	NotificationTopicRequiredOnlyResource = NotificationTopicResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, RepresentationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
 			"name": Representation{RepType: Required, Create: topicNameRequiredOnly},
@@ -67,12 +67,12 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOnsNotificationTopicResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_ons_notification_topic.test_notification_topic"
@@ -120,7 +120,7 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -241,7 +241,7 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 
 func testAccCheckOnsNotificationTopicDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).notificationControlPlaneClient()
+	client := TestAccProvider.Meta().(*OracleClients).notificationControlPlaneClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_ons_notification_topic" {
 			noResourceFound = false
@@ -278,7 +278,7 @@ func testAccCheckOnsNotificationTopicDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("OnsNotificationTopic") {
 		resource.AddTestSweepers("OnsNotificationTopic", &resource.Sweeper{
@@ -305,7 +305,7 @@ func sweepOnsNotificationTopicResource(compartment string) error {
 				fmt.Printf("Error deleting NotificationTopic %s %s, It is possible that the resource is already deleted. Please verify manually \n", notificationTopicId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &notificationTopicId, topicSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &notificationTopicId, topicSweepWaitCondition, time.Duration(3*time.Minute),
 				topicSweepResponseFetchOperation, "ons", true)
 		}
 	}

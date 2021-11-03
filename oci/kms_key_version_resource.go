@@ -159,7 +159,7 @@ func readKmsKeyVersion(d *schema.ResourceData, m interface{}) error {
 
 func deleteKmsKeyVersion(d *schema.ResourceData, m interface{}) error {
 	// prevent kms version deletion as part of testing as version deletion is only applicable when the version is not the current version of the key
-	disableKmsVersionDeletion, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_kms_version_delete", "false"))
+	disableKmsVersionDeletion, _ := strconv.ParseBool(GetEnvSettingWithDefault("disable_kms_version_delete", "false"))
 	if disableKmsVersionDeletion {
 		return nil
 	}

@@ -40,8 +40,8 @@ var (
 		"freeform_tags": Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ConsoleHistoryResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	ConsoleHistoryResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		AvailabilityDomainConfig +
@@ -53,9 +53,9 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreConsoleHistoryResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_console_history.test_console_history"
@@ -102,7 +102,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -173,7 +173,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 
 func testAccCheckCoreConsoleHistoryDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient()
+	client := TestAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_console_history" {
 			noResourceFound = false
@@ -205,7 +205,7 @@ func testAccCheckCoreConsoleHistoryDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreConsoleHistory") {
 		resource.AddTestSweepers("CoreConsoleHistory", &resource.Sweeper{

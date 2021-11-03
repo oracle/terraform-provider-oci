@@ -50,8 +50,8 @@ var (
 		"vcn_id":                     Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	WorkspaceResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}})) +
+	WorkspaceResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}})) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{"dns_label": Representation{RepType: Required, Create: `dnslabel`}})) +
 		DefinedTagsDependencies
 )
 
@@ -60,12 +60,12 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataintegrationWorkspaceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_dataintegration_workspace.test_workspace"
@@ -113,7 +113,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -233,7 +233,7 @@ func TestDataintegrationWorkspaceResource_basic(t *testing.T) {
 
 func testAccCheckDataintegrationWorkspaceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataIntegrationClient()
+	client := TestAccProvider.Meta().(*OracleClients).dataIntegrationClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dataintegration_workspace" {
 			noResourceFound = false
@@ -273,7 +273,7 @@ func testAccCheckDataintegrationWorkspaceDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DataintegrationWorkspace") {
 		resource.AddTestSweepers("DataintegrationWorkspace", &resource.Sweeper{
@@ -302,7 +302,7 @@ func sweepDataintegrationWorkspaceResource(compartment string) error {
 				fmt.Printf("Error deleting Workspace %s %s, It is possible that the resource is already deleted. Please verify manually \n", workspaceId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &workspaceId, workspaceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &workspaceId, workspaceSweepWaitCondition, time.Duration(3*time.Minute),
 				workspaceSweepResponseFetchOperation, "dataintegration", true)
 		}
 	}

@@ -57,7 +57,7 @@ var (
 		})) +
 		GenerateResourceFromRepresentationMap("oci_core_public_ip_pool_capacity", "test_public_ip_pool_capacity", Required, Create, publicIpPoolCapacityRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_public_ip_pool", "test_public_ip_pool", Required, Create, publicIpPoolRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		DefinedTagsDependencies + byoipRangeIdVariableStr + publicIpPoolCidrBlockVariableStr
 )
 
@@ -66,12 +66,12 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreNatGatewayResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_nat_gateway.test_nat_gateway"
@@ -122,7 +122,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -250,7 +250,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 func testAccCheckCoreNatGatewayDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
+	client := TestAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_nat_gateway" {
 			noResourceFound = false
@@ -290,7 +290,7 @@ func testAccCheckCoreNatGatewayDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreNatGateway") {
 		resource.AddTestSweepers("CoreNatGateway", &resource.Sweeper{
@@ -319,7 +319,7 @@ func sweepCoreNatGatewayResource(compartment string) error {
 				fmt.Printf("Error deleting NatGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", natGatewayId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &natGatewayId, natGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &natGatewayId, natGatewaySweepWaitCondition, time.Duration(3*time.Minute),
 				natGatewaySweepResponseFetchOperation, "core", true)
 		}
 	}

@@ -112,11 +112,11 @@ var (
 		"pdb_name":       Representation{RepType: Required, Create: `pdbName`},
 	}
 
-	kmsKeyId            = getEnvSettingWithBlankDefault("kms_key_ocid")
+	kmsKeyId            = GetEnvSettingWithBlankDefault("kms_key_ocid")
 	KmsKeyIdVariableStr = fmt.Sprintf("\nvariable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
 
-	DatabaseRegistrationResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	DatabaseRegistrationResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_db_system", "t", Optional, Create, goldenGateDbSystemRepresentation) +
 		DatabaseData +
 		DatabaseHomeConfig +
@@ -131,12 +131,12 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGoldenGateDatabaseRegistrationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_golden_gate_database_registration.test_database_registration"
@@ -197,7 +197,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -336,7 +336,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 
 func testAccCheckGoldenGateDatabaseRegistrationDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).goldenGateClient()
+	client := TestAccProvider.Meta().(*OracleClients).goldenGateClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_golden_gate_database_registration" {
 			noResourceFound = false
@@ -376,7 +376,7 @@ func testAccCheckGoldenGateDatabaseRegistrationDestroy(s *terraform.State) error
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("GoldenGateDatabaseRegistration") {
 		resource.AddTestSweepers("GoldenGateDatabaseRegistration", &resource.Sweeper{
@@ -405,7 +405,7 @@ func sweepGoldenGateDatabaseRegistrationResource(compartment string) error {
 				fmt.Printf("Error deleting DatabaseRegistration %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseRegistrationId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &databaseRegistrationId, databaseRegistrationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &databaseRegistrationId, databaseRegistrationSweepWaitCondition, time.Duration(3*time.Minute),
 				databaseRegistrationSweepResponseFetchOperation, "golden_gate", true)
 		}
 	}

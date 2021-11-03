@@ -15,15 +15,15 @@ import (
 
 // issue-routing-tag: core/virtualNetwork
 func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
-	//if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
+	//if !strings.Contains(GetEnvSettingWithBlankDefault("enabled_tests"), "IPv6") {
 	//	t.Skip("DoDIPv6 test not supported in this realm")
 	//}
 	httpreplay.SetScenario("TestGovSpecificCoreVcnResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_vcn.test_vcn"
@@ -36,7 +36,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 		// verify Create with optionals which includes IPV6 parameters
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": Representation{RepType: Optional, Create: `false`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -60,7 +60,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": Representation{RepType: Optional, Update: `true`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -89,7 +89,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", Optional, Update, vcnDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": Representation{RepType: Optional, Update: `true`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -119,7 +119,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -144,7 +144,7 @@ func TestGovSpecificCoreVcnResource_basic(t *testing.T) {
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+				GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 					"is_ipv6enabled": Representation{RepType: Optional, Create: `true`},
 				})),
 		},

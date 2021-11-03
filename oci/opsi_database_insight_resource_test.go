@@ -36,18 +36,18 @@ func TestOpsiResourceDatabaseInsight(t *testing.T) {
 	httpreplay.SetScenario("TestOpsiResourceDatabaseInsight")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	emBridgeId := getEnvSettingWithBlankDefault("enterprise_manager_bridge_ocid")
+	emBridgeId := GetEnvSettingWithBlankDefault("enterprise_manager_bridge_ocid")
 	emBridgeIdVariableStr := fmt.Sprintf("variable \"enterprise_manager_bridge_id\" { default = \"%s\" }\n", emBridgeId)
 
-	enterpriseManagerId := getEnvSettingWithBlankDefault("enterprise_manager_id")
+	enterpriseManagerId := GetEnvSettingWithBlankDefault("enterprise_manager_id")
 	enterpriseManagerIdVariableStr := fmt.Sprintf("variable \"enterprise_manager_id\" { default = \"%s\" }\n", enterpriseManagerId)
 
-	enterpriseManagerEntityId := getEnvSettingWithBlankDefault("enterprise_manager_entity_id")
+	enterpriseManagerEntityId := GetEnvSettingWithBlankDefault("enterprise_manager_entity_id")
 	enterpriseManagerEntityIdVariableStr := fmt.Sprintf("variable \"enterprise_manager_entity_id\" { default = \"%s\" }\n", enterpriseManagerEntityId)
 
 	resourceName := "oci_opsi_database_insight.test_database_insight"

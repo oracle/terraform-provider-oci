@@ -24,8 +24,8 @@ type ResourceCoreInternetGatewayTestSuite struct {
 }
 
 func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		compartment_id = "${var.compartment_id}"

@@ -34,10 +34,10 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbServerResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_database_db_servers.test_db_servers"
@@ -46,7 +46,7 @@ func TestDatabaseDbServerResource_basic(t *testing.T) {
 	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

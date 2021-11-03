@@ -58,10 +58,10 @@ var (
 	VnicAttachmentResourceDependencies = OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
@@ -73,9 +73,9 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreVnicAttachmentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_vnic_attachment.test_vnic_attachment"
@@ -129,7 +129,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -178,7 +178,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 
 func testAccCheckCoreVnicAttachmentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient()
+	client := TestAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_vnic_attachment" {
 			noResourceFound = false
@@ -218,7 +218,7 @@ func testAccCheckCoreVnicAttachmentDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreVnicAttachment") {
 		resource.AddTestSweepers("CoreVnicAttachment", &resource.Sweeper{
@@ -247,7 +247,7 @@ func sweepCoreVnicAttachmentResource(compartment string) error {
 				fmt.Printf("Error deleting VnicAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", vnicAttachmentId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &vnicAttachmentId, vnicAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &vnicAttachmentId, vnicAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
 				vnicAttachmentSweepResponseFetchOperation, "core", true)
 		}
 	}

@@ -70,21 +70,21 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOpsiDatabaseInsightResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	emBridgeId := getEnvSettingWithBlankDefault("enterprise_manager_bridge_ocid")
+	emBridgeId := GetEnvSettingWithBlankDefault("enterprise_manager_bridge_ocid")
 	emBridgeIdVariableStr := fmt.Sprintf("variable \"enterprise_manager_bridge_id\" { default = \"%s\" }\n", emBridgeId)
 
-	enterpriseManagerId := getEnvSettingWithBlankDefault("enterprise_manager_id")
+	enterpriseManagerId := GetEnvSettingWithBlankDefault("enterprise_manager_id")
 	enterpriseManagerIdVariableStr := fmt.Sprintf("variable \"enterprise_manager_id\" { default = \"%s\" }\n", enterpriseManagerId)
 
-	enterpriseManagerEntityId := getEnvSettingWithBlankDefault("enterprise_manager_entity_id")
+	enterpriseManagerEntityId := GetEnvSettingWithBlankDefault("enterprise_manager_entity_id")
 	enterpriseManagerEntityIdVariableStr := fmt.Sprintf("variable \"enterprise_manager_entity_id\" { default = \"%s\" }\n", enterpriseManagerEntityId)
 
 	resourceName := "oci_opsi_database_insight.test_database_insight"
@@ -121,7 +121,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -287,7 +287,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 
 func testAccCheckOpsiDatabaseInsightDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).operationsInsightsClient()
+	client := TestAccProvider.Meta().(*OracleClients).operationsInsightsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_opsi_database_insight" {
 			noResourceFound = false
@@ -327,7 +327,7 @@ func testAccCheckOpsiDatabaseInsightDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("OpsiDatabaseInsight") {
 		resource.AddTestSweepers("OpsiDatabaseInsight", &resource.Sweeper{
@@ -356,7 +356,7 @@ func sweepOpsiDatabaseInsightResource(compartment string) error {
 				fmt.Printf("Error deleting DatabaseInsight %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseInsightId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &databaseInsightId, databaseInsightSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &databaseInsightId, databaseInsightSweepWaitCondition, time.Duration(3*time.Minute),
 				databaseInsightSweepResponseFetchOperation, "opsi", true)
 		}
 	}

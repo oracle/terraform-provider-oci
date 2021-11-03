@@ -127,8 +127,8 @@ var (
 	InstancePoolResourceDependencies = OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, GetUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, instanceConfigurationPoolRepresentation)) +
 		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
@@ -144,12 +144,12 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstancePoolResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_instance_pool.test_instance_pool"
@@ -217,7 +217,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -506,7 +506,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 
 func testAccCheckCoreInstancePoolDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).computeManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_instance_pool" {
 			noResourceFound = false
@@ -546,7 +546,7 @@ func testAccCheckCoreInstancePoolDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreInstancePool") {
 		resource.AddTestSweepers("CoreInstancePool", &resource.Sweeper{
@@ -575,7 +575,7 @@ func sweepCoreInstancePoolResource(compartment string) error {
 				fmt.Printf("Error deleting InstancePool %s %s, It is possible that the resource is already deleted. Please verify manually \n", instancePoolId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &instancePoolId, instancePoolSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &instancePoolId, instancePoolSweepWaitCondition, time.Duration(3*time.Minute),
 				instancePoolSweepResponseFetchOperation, "core", true)
 		}
 	}

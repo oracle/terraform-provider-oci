@@ -46,9 +46,9 @@ func TestDatabaseExternalPluggableDatabaseManagementResource_basic(t *testing.T)
 	httpreplay.SetScenario("TestDatabaseExternalPluggableDatabaseManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_external_pluggable_database_management.test_external_pluggable_database_management"

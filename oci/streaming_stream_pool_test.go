@@ -65,8 +65,8 @@ var (
 	}
 
 	StreamPoolResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		DefinedTagsDependencies +
@@ -78,12 +78,12 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestStreamingStreamPoolResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_streaming_stream_pool.test_stream_pool"
@@ -139,7 +139,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -283,7 +283,7 @@ func TestStreamingStreamPoolResource_basic(t *testing.T) {
 
 func testAccCheckStreamingStreamPoolDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).streamAdminClient()
+	client := TestAccProvider.Meta().(*OracleClients).streamAdminClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_streaming_stream_pool" {
 			noResourceFound = false
@@ -323,7 +323,7 @@ func testAccCheckStreamingStreamPoolDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("StreamingStreamPool") {
 		resource.AddTestSweepers("StreamingStreamPool", &resource.Sweeper{
@@ -352,7 +352,7 @@ func sweepStreamingStreamPoolResource(compartment string) error {
 				fmt.Printf("Error deleting StreamPool %s %s, It is possible that the resource is already deleted. Please verify manually \n", streamPoolId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &streamPoolId, streamPoolSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &streamPoolId, streamPoolSweepWaitCondition, time.Duration(3*time.Minute),
 				streamPoolSweepResponseFetchOperation, "streaming", true)
 		}
 	}

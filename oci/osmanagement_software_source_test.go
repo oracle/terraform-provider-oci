@@ -30,8 +30,8 @@ var (
 		"software_source_id": Representation{RepType: Required, Create: `${oci_osmanagement_software_source.test_software_source.id}`},
 	}
 
-	softwareSourceDisplayName       = RandomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName")
-	softwareSourceUpdateDisplayName = RandomStringOrHttpReplayValue(10, charsetWithoutDigits, "displayName2")
+	softwareSourceDisplayName       = RandomStringOrHttpReplayValue(10, CharsetWithoutDigits, "displayName")
+	softwareSourceUpdateDisplayName = RandomStringOrHttpReplayValue(10, CharsetWithoutDigits, "displayName2")
 
 	softwareSourceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
@@ -64,12 +64,12 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOsmanagementSoftwareSourceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_osmanagement_software_source.test_software_source"
@@ -122,7 +122,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -256,7 +256,7 @@ func TestOsmanagementSoftwareSourceResource_basic(t *testing.T) {
 
 func testAccCheckOsmanagementSoftwareSourceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).osManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).osManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_osmanagement_software_source" {
 			noResourceFound = false
@@ -296,7 +296,7 @@ func testAccCheckOsmanagementSoftwareSourceDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("OsmanagementSoftwareSource") {
 		resource.AddTestSweepers("OsmanagementSoftwareSource", &resource.Sweeper{
@@ -325,7 +325,7 @@ func sweepOsmanagementSoftwareSourceResource(compartment string) error {
 				fmt.Printf("Error deleting SoftwareSource %s %s, It is possible that the resource is already deleted. Please verify manually \n", softwareSourceId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &softwareSourceId, softwareSourceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &softwareSourceId, softwareSourceSweepWaitCondition, time.Duration(3*time.Minute),
 				softwareSourceSweepResponseFetchOperation, "osmanagement", true)
 		}
 	}

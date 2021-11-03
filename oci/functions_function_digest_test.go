@@ -22,20 +22,20 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsFunctionResource_digest")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	imageA1 := getEnvSettingWithBlankDefault("image")
-	imageA1Digest := getEnvSettingWithBlankDefault("image_digest")
+	imageA1 := GetEnvSettingWithBlankDefault("image")
+	imageA1Digest := GetEnvSettingWithBlankDefault("image_digest")
 
-	imageB := getEnvSettingWithBlankDefault("image_for_update")
-	imageBDigest := getEnvSettingWithBlankDefault("image_digest_for_update")
+	imageB := GetEnvSettingWithBlankDefault("image_for_update")
+	imageBDigest := GetEnvSettingWithBlankDefault("image_digest_for_update")
 
-	imageA2 := getEnvSettingWithBlankDefault("image_same_repo")
-	imageA2Digest := getEnvSettingWithBlankDefault("image_digest_same_repo")
+	imageA2 := GetEnvSettingWithBlankDefault("image_same_repo")
+	imageA2Digest := GetEnvSettingWithBlankDefault("image_digest_same_repo")
 
 	resourceName := "oci_functions_function.test_function"
 
@@ -157,7 +157,7 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 	}
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -187,7 +187,7 @@ func functionBaseRepresentation(image string, digest *string) map[string]interfa
 
 // testAccCheckFunctionsFunctionNoneRemaining should not find any resources - the test case cleans them up
 func testAccCheckFunctionsFunctionNoneRemaining(s *terraform.State) error {
-	client := testAccProvider.Meta().(*OracleClients).functionsManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).functionsManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_functions_function" {
 			request := oci_functions.GetFunctionRequest{}
@@ -222,7 +222,7 @@ func testAccCheckFunctionsFunctionNoneRemaining(s *terraform.State) error {
 }
 
 func retrieveFunctionResourceFromControlPlane(id string) (oci_functions.GetFunctionResponse, error) {
-	client := testAccProvider.Meta().(*OracleClients).functionsManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).functionsManagementClient()
 	request := oci_functions.GetFunctionRequest{}
 	request.FunctionId = &id
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "functions")
@@ -234,14 +234,14 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsFunctionResource_digest_create")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	imageA1 := getEnvSettingWithBlankDefault("image")
-	imageA1Digest := getEnvSettingWithBlankDefault("image_digest")
+	imageA1 := GetEnvSettingWithBlankDefault("image")
+	imageA1Digest := GetEnvSettingWithBlankDefault("image_digest")
 
 	resourceName := "oci_functions_function.test_function"
 
@@ -303,7 +303,7 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 	}
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

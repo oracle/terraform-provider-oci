@@ -45,9 +45,9 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseBackupDestinationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_backup_destination.test_backup_destination"

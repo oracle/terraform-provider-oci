@@ -54,8 +54,8 @@ var (
 		"retention_in_days": Representation{RepType: Optional, Create: `10`, Update: `11`},
 	}
 
-	MysqlBackupResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	MysqlBackupResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		MysqlConfigurationResourceConfig +
 		GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", Required, Create, mysqlDbSystemRepresentation) +
 		AvailabilityDomainConfig +
@@ -67,12 +67,12 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlBackupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_mysql_mysql_backup.test_mysql_backup"
@@ -125,7 +125,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -271,7 +271,7 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 
 func testAccCheckMysqlMysqlBackupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dbBackupsClient()
+	client := TestAccProvider.Meta().(*OracleClients).dbBackupsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_mysql_mysql_backup" {
 			noResourceFound = false
@@ -311,7 +311,7 @@ func testAccCheckMysqlMysqlBackupDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MysqlMysqlBackup") {
 		resource.AddTestSweepers("MysqlMysqlBackup", &resource.Sweeper{
@@ -339,7 +339,7 @@ func sweepMysqlMysqlBackupResource(compartment string) error {
 				fmt.Printf("Error deleting MysqlBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlBackupId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &mysqlBackupId, mysqlBackupSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &mysqlBackupId, mysqlBackupSweepWaitCondition, time.Duration(3*time.Minute),
 				mysqlBackupSweepResponseFetchOperation, "mysql", true)
 		}
 	}

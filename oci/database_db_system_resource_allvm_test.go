@@ -19,15 +19,15 @@ import (
 // TestAccResourceDatabaseDBSystem_allVM tests DBsystems using Virtual Machines.
 // issue-routing-tag: database/default
 func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_allVM") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_allVM") {
 		t.Skip("Skipping suppressed DBSystem_allVM")
 	}
 
 	httpreplay.SetScenario("TestResourceDatabaseDBSystemAllVM")
 	defer httpreplay.SaveScenario()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	var resId, resId2 string
@@ -298,7 +298,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_db_node.t", "software_storage_size_in_gb", "200"),
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, "oci_database_db_system.t", "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, ResourceDatabaseResourceName); errExport != nil {
 							return errExport
 						}

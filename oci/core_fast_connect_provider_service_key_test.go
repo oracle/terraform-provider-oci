@@ -30,9 +30,9 @@ func TestCoreFastConnectProviderServiceKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreFastConnectProviderServiceKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	singularDatasourceName := "data.oci_core_fast_connect_provider_service_key.test_fast_connect_provider_service_key"

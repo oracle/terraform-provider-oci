@@ -37,19 +37,19 @@ var (
 
 // issue-routing-tag: resourcemanager/default
 func TestResourcemanagerStackResource_basic(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestResourcemanagerStackResource_basic") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestResourcemanagerStackResource_basic") {
 		t.Skip("Skipping suppressed TestResourcemanagerStackResource_basic")
 	}
 
 	httpreplay.SetScenario("TestResourcemanagerStackResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
 	client := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceManagerStackId, err := createResourceManagerStack(*client, "TestResourcemanagerStackResource_basic", compartmentId)
@@ -63,7 +63,7 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 	SaveConfigContent("", "", "", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		CheckDestroy: func(s *terraform.State) error {
 			return destroyResourceManagerStack(*client, resourceManagerStackId)
 		},
@@ -125,7 +125,7 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ResourcemanagerStack") {
 		resource.AddTestSweepers("ResourcemanagerStack", &resource.Sweeper{
@@ -154,7 +154,7 @@ func sweepResourcemanagerStackResource(compartment string) error {
 				fmt.Printf("Error deleting Stack %s %s, It is possible that the resource is already deleted. Please verify manually \n", stackId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &stackId, stackSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &stackId, stackSweepWaitCondition, time.Duration(3*time.Minute),
 				stackSweepResponseFetchOperation, "resourcemanager", true)
 		}
 	}

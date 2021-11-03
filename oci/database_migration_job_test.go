@@ -52,8 +52,8 @@ var (
 
 	JobResourceDependencies = GenerateResourceFromRepresentationMap("oci_apigateway_deployment", "test_deployment", Required, Create, deploymentRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewayRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", Required, Create, connectionRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", Required, Create, jobRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", Required, Create, migrationRepresentation) +
@@ -72,9 +72,9 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationJobResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_migration_job.test_job"
@@ -118,7 +118,7 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "job_id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -192,7 +192,7 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseMigrationJobDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseMigrationClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseMigrationClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_migration_job" {
 			noResourceFound = false
@@ -232,7 +232,7 @@ func testAccCheckDatabaseMigrationJobDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseMigrationJob") {
 		resource.AddTestSweepers("DatabaseMigrationJob", &resource.Sweeper{
@@ -261,7 +261,7 @@ func sweepDatabaseMigrationJobResource(compartment string) error {
 				fmt.Printf("Error deleting Job %s %s, It is possible that the resource is already deleted. Please verify manually \n", jobId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &jobId, jobSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &jobId, jobSweepWaitCondition, time.Duration(3*time.Minute),
 				jobSweepResponseFetchOperation, "database_migration", true)
 		}
 	}

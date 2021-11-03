@@ -22,8 +22,8 @@ type DatasourceCoreDrgAttachmentTestSuite struct {
 }
 
 func (s *DatasourceCoreDrgAttachmentTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"

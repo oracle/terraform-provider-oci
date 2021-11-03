@@ -71,8 +71,8 @@ var (
 	}
 
 	TargetDatabaseResourceDependencies = OciImageIdsVariable +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", Required, Create, dataSafePrivateEndpointRepresentation) +
 		DefinedTagsDependencies
@@ -83,12 +83,12 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeTargetDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_data_safe_target_database.test_target_database"
@@ -145,7 +145,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -285,7 +285,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 
 func testAccCheckDataSafeTargetDatabaseDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataSafeClient()
+	client := TestAccProvider.Meta().(*OracleClients).dataSafeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_data_safe_target_database" {
 			noResourceFound = false
@@ -325,7 +325,7 @@ func testAccCheckDataSafeTargetDatabaseDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DataSafeTargetDatabase") {
 		resource.AddTestSweepers("DataSafeTargetDatabase", &resource.Sweeper{
@@ -354,7 +354,7 @@ func sweepDataSafeTargetDatabaseResource(compartment string) error {
 				fmt.Printf("Error deleting TargetDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", targetDatabaseId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &targetDatabaseId, targetDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &targetDatabaseId, targetDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
 				targetDatabaseSweepResponseFetchOperation, "data_safe", true)
 		}
 	}

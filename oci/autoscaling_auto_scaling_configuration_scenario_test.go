@@ -86,8 +86,8 @@ type ResourceAutoScalingConfigurationTestSuite struct {
 }
 
 func (s *ResourceAutoScalingConfigurationTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + OciImageIdsVariable + `
 		data "oci_identity_availability_domains" "ADs" {
 			compartment_id = "${var.tenancy_ocid}"
@@ -274,7 +274,7 @@ func (s *ResourceAutoScalingConfigurationTestSuite) TestAccResourceAutoScalingCo
 				),
 			},
 			{
-				PreConfig: WaitTillCondition(testAccProvider, &instancePoolId, instancePoolRunningWaitCondition, time.Duration(10*time.Minute),
+				PreConfig: WaitTillCondition(TestAccProvider, &instancePoolId, instancePoolRunningWaitCondition, time.Duration(10*time.Minute),
 					instancePoolSweepResponseFetchOperation, "auto_scaling", true),
 				Config: s.Config + tokenFn(TFInstancePool, values),
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -302,12 +302,12 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_scheduledExecution")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration"
@@ -350,7 +350,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution(t *testi
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -523,12 +523,12 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_ResourceAction")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration"
@@ -570,7 +570,7 @@ func TestAutoScalingAutoScalingConfigurationResource_scheduledExecution_Resource
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

@@ -30,7 +30,7 @@ var (
 		"tsig_key_id": Representation{RepType: Required, Create: `${oci_dns_tsig_key.test_tsig_key.id}`},
 	}
 
-	tsigKeyName                     = RandomString(7, charsetWithoutDigits) + "." + RandomString(8, charsetWithoutDigits)
+	tsigKeyName                     = RandomString(7, CharsetWithoutDigits) + "." + RandomString(8, CharsetWithoutDigits)
 	tsigKeyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"id":             Representation{RepType: Optional, Create: `${oci_dns_tsig_key.test_tsig_key.id}`},
@@ -59,12 +59,12 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsTsigKeyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_dns_tsig_key.test_tsig_key"
@@ -112,7 +112,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -230,7 +230,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 
 func testAccCheckDnsTsigKeyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dnsClient()
+	client := TestAccProvider.Meta().(*OracleClients).dnsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dns_tsig_key" {
 			noResourceFound = false
@@ -270,7 +270,7 @@ func testAccCheckDnsTsigKeyDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DnsTsigKey") {
 		resource.AddTestSweepers("DnsTsigKey", &resource.Sweeper{
@@ -299,7 +299,7 @@ func sweepDnsTsigKeyResource(compartment string) error {
 				fmt.Printf("Error deleting TsigKey %s %s, It is possible that the resource is already deleted. Please verify manually \n", tsigKeyId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &tsigKeyId, tsigKeySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &tsigKeyId, tsigKeySweepWaitCondition, time.Duration(3*time.Minute),
 				tsigKeySweepResponseFetchOperation, "dns", true)
 		}
 	}

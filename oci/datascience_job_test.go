@@ -96,8 +96,8 @@ var (
 	}
 
 	mlJobResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
 		DefinedTagsDependencies +
 		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation)
@@ -109,13 +109,13 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceJobResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_datascience_job.test_job"
@@ -128,7 +128,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 		GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Optional, Create, mlJobRepresentation), "datascience", "job", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -192,7 +192,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
@@ -363,7 +363,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 
 func testAccCheckDatascienceJobDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataScienceClient()
+	client := TestAccProvider.Meta().(*OracleClients).dataScienceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_datascience_job" {
 			noResourceFound = false
@@ -403,7 +403,7 @@ func testAccCheckDatascienceJobDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatascienceJob") {
 		resource.AddTestSweepers("DatascienceJob", &resource.Sweeper{
@@ -432,7 +432,7 @@ func sweepDatascienceJobResource(compartment string) error {
 				fmt.Printf("Error deleting Job %s %s, It is possible that the resource is already deleted. Please verify manually \n", jobId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &jobId, mlJobSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &jobId, mlJobSweepWaitCondition, time.Duration(3*time.Minute),
 				mlJobSweepResponseFetchOperation, "datascience", true)
 		}
 	}

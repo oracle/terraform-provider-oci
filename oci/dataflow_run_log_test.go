@@ -33,12 +33,12 @@ func TestDataflowRunLogResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataflowRunLogResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	fileUri := getEnvSettingWithBlankDefault("dataflow_file_uri")
+	fileUri := GetEnvSettingWithBlankDefault("dataflow_file_uri")
 	fileUriVariableStr := fmt.Sprintf("variable \"dataflow_file_uri\" { default = \"%s\" }\n", fileUri)
 
 	datasourceName := "data.oci_dataflow_run_logs.test_run_logs"

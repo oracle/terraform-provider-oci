@@ -15,7 +15,7 @@ import (
 func TestAccDatasourceLoadBalancerBackendsets_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAccDatasourceLoadBalancerBackendsets_basic")
 	defer httpreplay.SaveScenario()
-	providers := testAccProviders
+	providers := TestAccProviders
 	config := legacyTestProviderConfig() + caCertificateVariableStr + privateKeyVariableStr + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
@@ -85,7 +85,7 @@ func TestAccDatasourceLoadBalancerBackendsets_basic(t *testing.T) {
 	resourceName := "data.oci_load_balancer_backendsets.t"
 
 	resource.Test(t, resource.TestCase{
-		PreCheck:                  func() { testAccPreCheck(t) },
+		PreCheck:                  func() { PreCheck() },
 		PreventPostDestroyRefresh: true,
 		Providers:                 providers,
 		Steps: []resource.TestStep{

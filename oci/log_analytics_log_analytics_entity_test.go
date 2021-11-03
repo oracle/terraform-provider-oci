@@ -74,15 +74,15 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsEntityResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	managementAgentId := getEnvSettingWithBlankDefault("managed_agent_id")
+	managementAgentId := GetEnvSettingWithBlankDefault("managed_agent_id")
 	if managementAgentId == "" {
 		t.Skip("Manual install agent and set managed_agent_id to run this test")
 	}
@@ -145,7 +145,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -297,7 +297,7 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 
 func testAccCheckLogAnalyticsLogAnalyticsEntityDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).logAnalyticsClient()
+	client := TestAccProvider.Meta().(*OracleClients).logAnalyticsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_log_analytics_log_analytics_entity" {
 			noResourceFound = false
@@ -341,7 +341,7 @@ func testAccCheckLogAnalyticsLogAnalyticsEntityDestroy(s *terraform.State) error
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LogAnalyticsLogAnalyticsEntity") {
 		resource.AddTestSweepers("LogAnalyticsLogAnalyticsEntity", &resource.Sweeper{
@@ -370,7 +370,7 @@ func sweepLogAnalyticsLogAnalyticsEntityResource(compartment string) error {
 				fmt.Printf("Error deleting LogAnalyticsEntity %s %s, It is possible that the resource is already deleted. Please verify manually \n", logAnalyticsEntityId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &logAnalyticsEntityId, logAnalyticsEntitySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &logAnalyticsEntityId, logAnalyticsEntitySweepWaitCondition, time.Duration(3*time.Minute),
 				logAnalyticsEntitySweepResponseFetchOperation, "log_analytics", true)
 		}
 	}

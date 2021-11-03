@@ -81,12 +81,12 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMarketplacePublicationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_marketplace_publication.test_publication"
@@ -168,7 +168,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -347,7 +347,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 
 func testAccCheckMarketplacePublicationDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).marketplaceClient()
+	client := TestAccProvider.Meta().(*OracleClients).marketplaceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_marketplace_publication" {
 			noResourceFound = false
@@ -387,7 +387,7 @@ func testAccCheckMarketplacePublicationDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MarketplacePublication") {
 		resource.AddTestSweepers("MarketplacePublication", &resource.Sweeper{
@@ -416,7 +416,7 @@ func sweepMarketplacePublicationResource(compartment string) error {
 				fmt.Printf("Error deleting Publication %s %s, It is possible that the resource is already deleted. Please verify manually \n", publicationId, error)
 				continue
 			}
-			//WaitTillCondition(testAccProvider, &publicationId, publicationSweepWaitCondition, time.Duration(3*time.Minute),
+			//WaitTillCondition(TestAccProvider, &publicationId, publicationSweepWaitCondition, time.Duration(3*time.Minute),
 			//	publicationSweepResponseFetchOperation, "marketplace", true)
 		}
 	}

@@ -50,7 +50,7 @@ var (
 	}
 
 	SubscriptionResourceDependencies = DefinedTagsDependencies +
-		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "tsubscription"))
+		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, CharsetWithoutDigits, "tsubscription"))
 )
 
 // issue-routing-tag: ons/default
@@ -58,12 +58,12 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOnsSubscriptionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_ons_subscription.test_subscription"
@@ -113,7 +113,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -233,7 +233,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 func testAccCheckOnsSubscriptionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).notificationDataPlaneClient()
+	client := TestAccProvider.Meta().(*OracleClients).notificationDataPlaneClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_ons_subscription" {
 			noResourceFound = false
@@ -273,7 +273,7 @@ func testAccCheckOnsSubscriptionDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("OnsSubscription") {
 		resource.AddTestSweepers("OnsSubscription", &resource.Sweeper{
@@ -302,7 +302,7 @@ func sweepOnsSubscriptionResource(compartment string) error {
 				fmt.Printf("Error deleting Subscription %s %s, It is possible that the resource is already deleted. Please verify manually \n", subscriptionId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &subscriptionId, subscriptionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &subscriptionId, subscriptionSweepWaitCondition, time.Duration(3*time.Minute),
 				subscriptionSweepResponseFetchOperation, "ons", true)
 		}
 	}

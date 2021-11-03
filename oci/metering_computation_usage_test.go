@@ -101,11 +101,11 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMeteringComputationUsageResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 	tenancyIdVariableStr := fmt.Sprintf("variable \"tenancy_id\" { default = \"%s\" }\n", tenancyId)
 	usgaeEndTimeStr, usageStartTimeStr := generateUsageRepresentationWithCurrentTimeInputs()
 	usgaeEndTimeVariableStr := fmt.Sprintf("variable \"time_usage_ended\" { default = \"%s\" }\n", usgaeEndTimeStr)
@@ -158,7 +158,7 @@ func TestMeteringComputationUsageResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

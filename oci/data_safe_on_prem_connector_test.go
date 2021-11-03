@@ -64,12 +64,12 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDataSafeOnPremConnectorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_data_safe_on_prem_connector.test_on_prem_connector"
@@ -164,7 +164,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -236,7 +236,7 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 
 func testAccCheckDataSafeOnPremConnectorDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataSafeClient()
+	client := TestAccProvider.Meta().(*OracleClients).dataSafeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_data_safe_on_prem_connector" {
 			noResourceFound = false
@@ -276,7 +276,7 @@ func testAccCheckDataSafeOnPremConnectorDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DataSafeOnPremConnector") {
 		resource.AddTestSweepers("DataSafeOnPremConnector", &resource.Sweeper{
@@ -305,7 +305,7 @@ func sweepDataSafeOnPremConnectorResource(compartment string) error {
 				fmt.Printf("Error deleting OnPremConnector %s %s, It is possible that the resource is already deleted. Please verify manually \n", onPremConnectorId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &onPremConnectorId, onPremConnectorSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &onPremConnectorId, onPremConnectorSweepWaitCondition, time.Duration(3*time.Minute),
 				onPremConnectorSweepResponseFetchOperation, "data_safe", true)
 		}
 	}

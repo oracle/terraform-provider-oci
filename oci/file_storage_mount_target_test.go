@@ -49,11 +49,11 @@ var (
 	}
 
 	MountTargetResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 			"availability_domain": Representation{RepType: Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
 			"dns_label":           Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		AvailabilityDomainConfig +
@@ -65,12 +65,12 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageMountTargetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_file_storage_mount_target.test_mount_target"
@@ -126,7 +126,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -235,9 +235,9 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 	httpreplay.SetScenario("TestFileStorageMountTargetResource_failedWorkRequest")
 	defer httpreplay.SaveScenario()
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_file_storage_mount_target.test_mount_target2"
@@ -258,7 +258,7 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 
 func testAccCheckFileStorageMountTargetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).fileStorageClient()
+	client := TestAccProvider.Meta().(*OracleClients).fileStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_file_storage_mount_target" {
 			noResourceFound = false
@@ -298,7 +298,7 @@ func testAccCheckFileStorageMountTargetDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("FileStorageMountTarget") {
 		resource.AddTestSweepers("FileStorageMountTarget", &resource.Sweeper{
@@ -327,7 +327,7 @@ func sweepFileStorageMountTargetResource(compartment string) error {
 				fmt.Printf("Error deleting MountTarget %s %s, It is possible that the resource is already deleted. Please verify manually \n", mountTargetId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &mountTargetId, mountTargetSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &mountTargetId, mountTargetSweepWaitCondition, time.Duration(3*time.Minute),
 				mountTargetSweepResponseFetchOperation, "file_storage", true)
 		}
 	}

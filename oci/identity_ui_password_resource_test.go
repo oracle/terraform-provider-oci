@@ -24,8 +24,8 @@ type ResourceIdentityUIPasswordTestSuite struct {
 
 func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 	_, tokenFn := TokenizeWithHttpReplay("ui_pass_resource")
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "-tf-user"

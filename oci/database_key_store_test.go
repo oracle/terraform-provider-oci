@@ -53,7 +53,7 @@ var (
 		"vault_id":       Representation{RepType: Required, Create: `${var.kms_vault_id}`},
 	}
 
-	okvSecret            = getEnvSettingWithBlankDefault("okv_secret")
+	okvSecret            = GetEnvSettingWithBlankDefault("okv_secret")
 	OkvSecretVariableStr = fmt.Sprintf("variable \"okv_secret\" { default = \"%s\" }\n", okvSecret)
 
 	KeyStoreResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + OkvSecretVariableStr
@@ -64,12 +64,12 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseKeyStoreResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_key_store.test_key_store"
@@ -125,7 +125,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -254,7 +254,7 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseKeyStoreDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_key_store" {
 			noResourceFound = false
@@ -294,7 +294,7 @@ func testAccCheckDatabaseKeyStoreDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseKeyStore") {
 		resource.AddTestSweepers("DatabaseKeyStore", &resource.Sweeper{
@@ -323,7 +323,7 @@ func sweepDatabaseKeyStoreResource(compartment string) error {
 				fmt.Printf("Error deleting KeyStore %s %s, It is possible that the resource is already deleted. Please verify manually \n", keyStoreId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &keyStoreId, keyStoreSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &keyStoreId, keyStoreSweepWaitCondition, time.Duration(3*time.Minute),
 				keyStoreSweepResponseFetchOperation, "database", true)
 		}
 	}

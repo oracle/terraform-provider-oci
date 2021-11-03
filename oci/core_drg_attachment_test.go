@@ -87,7 +87,7 @@ var (
 		GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -96,9 +96,9 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgAttachmentResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_drg_attachment.test_drg_attachment"
@@ -150,7 +150,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -304,7 +304,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 
 func testAccCheckCoreDrgAttachmentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
+	client := TestAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_drg_attachment" {
 			noResourceFound = false
@@ -344,7 +344,7 @@ func testAccCheckCoreDrgAttachmentDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreDrgAttachment") {
 		resource.AddTestSweepers("CoreDrgAttachment", &resource.Sweeper{
@@ -373,7 +373,7 @@ func sweepCoreDrgAttachmentResource(compartment string) error {
 				fmt.Printf("Error deleting DrgAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgAttachmentId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &drgAttachmentId, drgAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &drgAttachmentId, drgAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
 				drgAttachmentSweepResponseFetchOperation, "core", true)
 		}
 	}

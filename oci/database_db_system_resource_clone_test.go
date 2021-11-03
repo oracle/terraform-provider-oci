@@ -16,23 +16,23 @@ import (
 // TestAccResourceDatabaseDBSystem_clone tests DBsystems using Virtual Machines.
 // issue-routing-tag: database/default
 func TestResourceDatabaseDBSystemClone(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_clone") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_clone") {
 		t.Skip("Skipping suppressed DBSystem_clone")
 	}
 
 	httpreplay.SetScenario("TestResourceDatabaseDBSystemClone")
 	defer httpreplay.SaveScenario()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	cloneDatabaseDbSystemResourceName := "oci_database_db_system.clone"
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

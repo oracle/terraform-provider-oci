@@ -76,9 +76,9 @@ func TestLoggingLogResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLoggingLogResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_logging_log.test_log"
@@ -137,7 +137,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						logGroupId, _ := FromInstanceState(s, resourceName, "log_group_id")
 						compositeId = getLogCompositeId(logGroupId, resId)
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
@@ -274,7 +274,7 @@ func GetLogResourceCompositeId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckLoggingLogDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loggingManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).loggingManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_logging_log" {
 			noResourceFound = false
@@ -310,7 +310,7 @@ func testAccCheckLoggingLogDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LoggingLog") {
 		resource.AddTestSweepers("LoggingLog", &resource.Sweeper{

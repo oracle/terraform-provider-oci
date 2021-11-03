@@ -37,9 +37,9 @@ func TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic(t *testing
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseDataguardAssociationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_database_autonomous_database_dataguard_associations.test_autonomous_database_dataguard_associations"

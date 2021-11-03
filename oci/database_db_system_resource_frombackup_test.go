@@ -19,7 +19,7 @@ import (
 
 // issue-routing-tag: database/default
 func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
 		t.Skip("Skipping suppressed DBSystem_basic")
 	}
 
@@ -91,7 +91,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 		},
 		// wait for backup and Create new db from it
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, DBWaitConditionDuration,
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, dbBackupAvailableWaitCondition, DBWaitConditionDuration,
 				listBackupsFetchOperation, "core", false),
 			Config: ResourceDatabaseBaseConfig + DbSystemResourceDependencies + DataBaseSystemWithBackup + AvailabilityDomainConfig + `
 				data "oci_database_databases" "t" {

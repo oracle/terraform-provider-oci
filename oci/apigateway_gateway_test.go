@@ -71,8 +71,8 @@ var (
 	GatewayResourceDependencies = GenerateResourceFromRepresentationMap("oci_apigateway_certificate", "test_certificate", Required, Create, apiGatewaycertificateRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		DefinedTagsDependencies +
 		apiCertificateVariableStr + apiPrivateKeyVariableStr
 )
@@ -82,15 +82,15 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayGatewayResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	vaultSecretId := getEnvSettingWithBlankDefault("oci_vault_secret_id")
+	vaultSecretId := GetEnvSettingWithBlankDefault("oci_vault_secret_id")
 	vaultSecretIdStr := fmt.Sprintf("variable \"oci_vault_secret_id\" { default = \"%s\" }\n", vaultSecretId)
 
 	resourceName := "oci_apigateway_gateway.test_gateway"
@@ -157,7 +157,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -310,7 +310,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 func testAccCheckApigatewayGatewayDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).gatewayClient()
+	client := TestAccProvider.Meta().(*OracleClients).gatewayClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_apigateway_gateway" {
 			noResourceFound = false
@@ -350,7 +350,7 @@ func testAccCheckApigatewayGatewayDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ApigatewayGateway") {
 		resource.AddTestSweepers("ApigatewayGateway", &resource.Sweeper{
@@ -379,7 +379,7 @@ func sweepApigatewayGatewayResource(compartment string) error {
 				fmt.Printf("Error deleting Gateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", gatewayId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &gatewayId, gatewaySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &gatewayId, gatewaySweepWaitCondition, time.Duration(3*time.Minute),
 				gatewaySweepResponseFetchOperation, "apigateway", true)
 		}
 	}

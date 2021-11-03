@@ -132,10 +132,10 @@ resource "oci_core_instance" "test_instance" {
 `
 	InstanceResourceDependenciesWithoutDHV = OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", Required, Create,
@@ -243,10 +243,10 @@ resource "oci_core_instance" "test_instance" {
 
 	instanceWithCapacityReservationResourceDependencies = OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, RepresentationCopyWithNewProperties(SubnetRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, RepresentationCopyWithNewProperties(VcnRepresentation, map[string]interface{}{
 			"dns_label": Representation{RepType: Required, Create: `dnslabel`},
 		})) +
 		GenerateResourceFromRepresentationMap("oci_core_compute_capacity_reservation", "test_compute_capacity_reservation", Required, Create, computeCapacityReservationRepresentation) +
@@ -270,12 +270,12 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 		provider oci {
 			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
 		}
-	` + commonTestVariables()
+	` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_instance.test_instance"
@@ -290,7 +290,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 	ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependencies +
+			Config: ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -309,7 +309,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 
 		// verify Update to shape within the same family is not force new. Resizing can only be done to intances not using dedicated_vm_host_id
 		{
-			Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependencies +
+			Config: ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, GetUpdatedRepresentationCopy("shape", Representation{RepType: Required, Create: `VM.Standard2.2`}, instanceRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -417,7 +417,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -807,17 +807,17 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceResource_capacityReservation")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
+	provider := TestAccProvider
 	config := `
 		provider oci {
 			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
 		}
-	` + commonTestVariables()
+	` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_instance.test_instance"
@@ -827,7 +827,7 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -896,7 +896,7 @@ func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
@@ -1185,12 +1185,12 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 	httpreplay.SetScenario("TestCoreFlexInstanceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
+	provider := TestAccProvider
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_instance.test_instance"
@@ -1200,7 +1200,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -1208,7 +1208,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 		Steps: []resource.TestStep{
 			// step 0 verify Create
 			{
-				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+				Config: ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentationForFlexShape),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -1231,12 +1231,12 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 
 			// step 1 delete before next Create
 			{
-				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable,
+				Config: ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable,
 			},
 
 			// step 2 verify Create with is_pv_encryption_in_transit_enabled = true
 			{
-				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable + InstanceWithPVEncryptionInTransitEnabledForFlexShape,
+				Config: ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable + InstanceWithPVEncryptionInTransitEnabledForFlexShape,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -1261,12 +1261,12 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 
 			// step 3 delete before next Create
 			{
-				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable,
+				Config: ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable,
 			},
 
 			// step 4 verify Create with optionals
 			{
-				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+				Config: ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentationForFlexShape),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
@@ -1326,7 +1326,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
@@ -1338,7 +1338,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 
 			//step 5: verify Update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: testProviderConfig() + compartmentIdVariableStr + compartmentIdUVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+				Config: ProviderTestConfig() + compartmentIdVariableStr + compartmentIdUVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create,
 						RepresentationCopyWithNewProperties(instanceRepresentationForFlexShape, map[string]interface{}{
 							"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
@@ -1410,7 +1410,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 
 			// step 6: verify updates to updatable parameters
 			{
-				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
+				Config: ProviderTestConfig() + compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationForFlexShape),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
@@ -1480,7 +1480,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 
 			// step 7: verify datasource
 			{
-				Config: testProviderConfig() +
+				Config: ProviderTestConfig() +
 					GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", Optional, Update, instanceDataSourceRepresentationForFlexShape) +
 					compartmentIdVariableStr + InstanceResourceDependenciesWithoutDHV + FlexVmImageIdsVariable +
 					GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentationForFlexShape),
@@ -1542,7 +1542,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 
 			// step 8: verify singular datasource
 			{
-				Config: testProviderConfig() + FlexVmImageIdsVariable +
+				Config: ProviderTestConfig() + FlexVmImageIdsVariable +
 					GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + InstanceResourceConfigForFlexShape,
 				Check: ComposeAggregateTestCheckFuncWrapper(
@@ -1607,7 +1607,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 
 func testAccCheckCoreInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient()
+	client := TestAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_instance" {
 			noResourceFound = false
@@ -1647,7 +1647,7 @@ func testAccCheckCoreInstanceDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreInstance") {
 		resource.AddTestSweepers("CoreInstance", &resource.Sweeper{
@@ -1676,7 +1676,7 @@ func sweepCoreInstanceResource(compartment string) error {
 				fmt.Printf("Error deleting Instance %s %s, It is possible that the resource is already deleted. Please verify manually \n", instanceId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &instanceId, instanceSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &instanceId, instanceSweepWaitCondition, time.Duration(3*time.Minute),
 				instanceSweepResponseFetchOperation, "core", true)
 		}
 	}

@@ -31,7 +31,7 @@ func sweepDatabaseDbSystemResource(compartment string) error {
 				fmt.Printf("Error deleting DbSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", dbSystemId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &dbSystemId, dbSystemSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &dbSystemId, dbSystemSweepWaitCondition, time.Duration(3*time.Minute),
 				dbSystemSweepResponseFetchOperation, "database", true)
 		}
 	}

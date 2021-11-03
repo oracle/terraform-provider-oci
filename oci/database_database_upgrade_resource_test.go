@@ -16,7 +16,7 @@ var (
 	DatabaseUpgradeResourceRep  = GenerateResourceFromRepresentationMap("oci_database_database_upgrade", "test_database_upgrade", Optional, Update, databaseUpgradeRep)
 
 	//Database Software Image with Database version - 19.8.0.0 and Shape Family - Virtual Machine and Bare Metal Shapes needs to be pre-created on the tenancy
-	databaseSoftwareImageId = getEnvSettingWithBlankDefault("database_software_image_id")
+	databaseSoftwareImageId = GetEnvSettingWithBlankDefault("database_software_image_id")
 
 	databasePrecheckRep = map[string]interface{}{
 		"action":                          Representation{RepType: Required, Create: `PRECHECK`},
@@ -46,7 +46,7 @@ var (
 // TestDatabaseDatabaseUpgradeResource_basic tests Database using Virtual Machines.
 // issue-routing-tag: database/default
 func TestDatabaseDatabaseUpgradeResource_DbSoftwareImage(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "Database_upgrade") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "Database_upgrade") {
 		t.Skip("Skipping suppressed upgrade_tests")
 	}
 

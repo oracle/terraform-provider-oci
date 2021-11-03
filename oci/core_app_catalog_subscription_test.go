@@ -49,9 +49,9 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreAppCatalogSubscriptionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_app_catalog_subscription.test_app_catalog_subscription"
@@ -78,7 +78,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -125,7 +125,7 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 
 func testAccCheckCoreAppCatalogSubscriptionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient()
+	client := TestAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_app_catalog_subscription" {
 			noResourceFound = false
@@ -181,7 +181,7 @@ func testAccCheckCoreAppCatalogSubscriptionDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreAppCatalogSubscription") {
 		resource.AddTestSweepers("CoreAppCatalogSubscription", &resource.Sweeper{

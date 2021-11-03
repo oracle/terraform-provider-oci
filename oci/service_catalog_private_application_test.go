@@ -61,12 +61,12 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestServiceCatalogPrivateApplicationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_service_catalog_private_application.test_private_application"
@@ -126,7 +126,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -257,7 +257,7 @@ func TestServiceCatalogPrivateApplicationResource_basic(t *testing.T) {
 
 func testAccCheckServiceCatalogPrivateApplicationDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).serviceCatalogClient()
+	client := TestAccProvider.Meta().(*OracleClients).serviceCatalogClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_service_catalog_private_application" {
 			noResourceFound = false
@@ -297,7 +297,7 @@ func testAccCheckServiceCatalogPrivateApplicationDestroy(s *terraform.State) err
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ServiceCatalogPrivateApplication") {
 		resource.AddTestSweepers("ServiceCatalogPrivateApplication", &resource.Sweeper{
@@ -326,7 +326,7 @@ func sweepServiceCatalogPrivateApplicationResource(compartment string) error {
 				fmt.Printf("Error deleting PrivateApplication %s %s, It is possible that the resource is already deleted. Please verify manually \n", privateApplicationId, err)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &privateApplicationId, privateApplicationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &privateApplicationId, privateApplicationSweepWaitCondition, time.Duration(3*time.Minute),
 				privateApplicationSweepResponseFetchOperation, "service_catalog", true)
 		}
 	}

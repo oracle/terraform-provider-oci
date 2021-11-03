@@ -58,12 +58,12 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayApiResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_apigateway_api.test_api"
@@ -107,7 +107,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -213,7 +213,7 @@ func TestApigatewayApiResource_basic(t *testing.T) {
 
 func testAccCheckApigatewayApiDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).apiGatewayClient()
+	client := TestAccProvider.Meta().(*OracleClients).apiGatewayClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_apigateway_api" {
 			noResourceFound = false
@@ -253,7 +253,7 @@ func testAccCheckApigatewayApiDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ApigatewayApi") {
 		resource.AddTestSweepers("ApigatewayApi", &resource.Sweeper{
@@ -282,7 +282,7 @@ func sweepApigatewayApiResource(compartment string) error {
 				fmt.Printf("Error deleting Api %s %s, It is possible that the resource is already deleted. Please verify manually \n", apiId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &apiId, apiSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &apiId, apiSweepWaitCondition, time.Duration(3*time.Minute),
 				apiSweepResponseFetchOperation, "apigateway", true)
 		}
 	}

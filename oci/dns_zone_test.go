@@ -85,12 +85,12 @@ func TestDnsZoneResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDnsZoneResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_dns_zone.test_zone"
@@ -149,7 +149,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
 					// Resource discovery is not supported for Zone resources created using scope field
-					//if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 					//	if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 					//		return errExport
 					//	}
@@ -341,7 +341,7 @@ func getZoneImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckDnsZoneDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dnsClient()
+	client := TestAccProvider.Meta().(*OracleClients).dnsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dns_zone" {
 			noResourceFound = false
@@ -385,7 +385,7 @@ func testAccCheckDnsZoneDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DnsZone") {
 		resource.AddTestSweepers("DnsZone", &resource.Sweeper{
@@ -414,7 +414,7 @@ func sweepDnsZoneResource(compartment string) error {
 				fmt.Printf("Error deleting Zone %s %s, It is possible that the resource is already deleted. Please verify manually \n", zoneId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &zoneId, zoneSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &zoneId, zoneSweepWaitCondition, time.Duration(3*time.Minute),
 				zoneSweepResponseFetchOperation, "dns", true)
 		}
 	}

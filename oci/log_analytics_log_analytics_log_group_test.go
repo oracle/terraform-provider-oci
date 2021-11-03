@@ -58,12 +58,12 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsLogGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_log_analytics_log_analytics_log_group.test_log_analytics_log_group"
@@ -110,7 +110,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -218,7 +218,7 @@ func TestLogAnalyticsLogAnalyticsLogGroupResource_basic(t *testing.T) {
 
 func testAccCheckLogAnalyticsLogAnalyticsLogGroupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).logAnalyticsClient()
+	client := TestAccProvider.Meta().(*OracleClients).logAnalyticsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_log_analytics_log_analytics_log_group" {
 			noResourceFound = false
@@ -254,7 +254,7 @@ func testAccCheckLogAnalyticsLogAnalyticsLogGroupDestroy(s *terraform.State) err
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LogAnalyticsLogAnalyticsLogGroup") {
 		resource.AddTestSweepers("LogAnalyticsLogAnalyticsLogGroup", &resource.Sweeper{

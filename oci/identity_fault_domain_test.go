@@ -27,9 +27,9 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityFaultDomainResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_identity_fault_domains.test_fault_domains"

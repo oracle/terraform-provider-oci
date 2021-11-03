@@ -19,54 +19,17 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-var (
-	DhcpOptionsRequiredOnlyResource = GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation)
-
-	dhcpOptionsDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
-		"display_name":   Representation{RepType: Optional, Create: `MyDhcpOptions`, Update: `displayName2`},
-		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
-		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         RepresentationGroup{Required, dhcpOptionsDataSourceFilterRepresentation}}
-	dhcpOptionsDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{RepType: Required, Create: `id`},
-		"values": Representation{RepType: Required, Create: []string{`${oci_core_dhcp_options.test_dhcp_options.id}`}},
-	}
-
-	dhcpOptionsRepresentation = map[string]interface{}{
-		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
-		"options":          []RepresentationGroup{{Required, optionsRepresentation1}, {Required, optionsRepresentation2}},
-		"vcn_id":           Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"defined_tags":     Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":     Representation{RepType: Optional, Create: `MyDhcpOptions`, Update: `displayName2`},
-		"domain_name_type": Representation{RepType: Optional, Create: `CUSTOM_DOMAIN`, Update: `VCN_DOMAIN`},
-		"freeform_tags":    Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-	}
-	optionsRepresentation1 = map[string]interface{}{
-		"type":        Representation{RepType: Required, Create: `DomainNameServer`},
-		"server_type": Representation{RepType: Required, Create: `VcnLocalPlusInternet`},
-	}
-
-	optionsRepresentation2 = map[string]interface{}{
-		"type":                Representation{RepType: Required, Create: `SearchDomain`},
-		"search_domain_names": Representation{RepType: Required, Create: []string{"test.com"}},
-	}
-
-	DhcpOptionsResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		DefinedTagsDependencies
-)
-
 // issue-routing-tag: core/virtualNetwork
 func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDhcpOptionsResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_dhcp_options.test_dhcp_options"
@@ -136,7 +99,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -258,7 +221,7 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 
 func testAccCheckCoreDhcpOptionsDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
+	client := TestAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_dhcp_options" {
 			noResourceFound = false
@@ -298,7 +261,7 @@ func testAccCheckCoreDhcpOptionsDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreDhcpOptions") {
 		resource.AddTestSweepers("CoreDhcpOptions", &resource.Sweeper{
@@ -327,7 +290,7 @@ func sweepCoreDhcpOptionsResource(compartment string) error {
 				fmt.Printf("Error deleting DhcpOptions %s %s, It is possible that the resource is already deleted. Please verify manually \n", dhcpOptionsId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &dhcpOptionsId, dhcpOptionsSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &dhcpOptionsId, dhcpOptionsSweepWaitCondition, time.Duration(3*time.Minute),
 				dhcpOptionsSweepResponseFetchOperation, "core", true)
 		}
 	}

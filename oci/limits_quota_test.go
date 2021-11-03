@@ -56,11 +56,11 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestLimitsQuotaResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_limits_quota.test_quota"
 	datasourceName := "data.oci_limits_quotas.test_quotas"
@@ -109,7 +109,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -200,7 +200,7 @@ func TestLimitsQuotaResource_basic(t *testing.T) {
 
 func testAccCheckLimitsQuotaDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).quotasClient()
+	client := TestAccProvider.Meta().(*OracleClients).quotasClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_limits_quota" {
 			noResourceFound = false
@@ -232,7 +232,7 @@ func testAccCheckLimitsQuotaDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LimitsQuota") {
 		resource.AddTestSweepers("LimitsQuota", &resource.Sweeper{
@@ -246,7 +246,7 @@ func init() {
 func sweepLimitsQuotaResource(compartment string) error {
 	quotasClient := GetTestClients(&schema.ResourceData{}).quotasClient()
 	// LimitsQuotaResource can only run on root compartment
-	compartment = getEnvSettingWithBlankDefault("tenancy_ocid")
+	compartment = GetEnvSettingWithBlankDefault("tenancy_ocid")
 	quotaIds, err := getQuotaIds(compartment)
 	if err != nil {
 		return err

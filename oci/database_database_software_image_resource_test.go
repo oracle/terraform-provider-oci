@@ -99,13 +99,13 @@ func TestDatabaseDatabaseSoftwareImageResourceForExaccShape(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDatabaseSoftwareImageResourceForExaccShape")
 	defer httpreplay.SaveScenario()
 
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DatabaseSoftwareImageResourceForExaccShape") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DatabaseSoftwareImageResourceForExaccShape") {
 		t.Skip("Skipping suppressed TestDatabaseDatabaseSoftwareImageResourceForExaccShape")
 	}
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	resourceName := "oci_database_database_software_image.test_database_software_image"
 	datasourceName := "data.oci_database_database_software_images.test_database_software_images"
@@ -203,7 +203,7 @@ func TestDatabaseDatabaseSoftwareImageResourceForExaccShape(t *testing.T) {
 
 func testAccCheckDatabaseDatabaseSoftwareImageDestroyForExaccShape(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_database_software_image" {
 			noResourceFound = false
@@ -243,7 +243,7 @@ func testAccCheckDatabaseDatabaseSoftwareImageDestroyForExaccShape(s *terraform.
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseDatabaseSoftwareImageForExaccShape") {
 		resource.AddTestSweepers("DatabaseDatabaseSoftwareImageForExaccShape", &resource.Sweeper{
@@ -272,7 +272,7 @@ func sweepDatabaseDatabaseSoftwareImageResourceForExaccShape(compartment string)
 				fmt.Printf("Error deleting DatabaseSoftwareImage %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseSoftwareImageId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &databaseSoftwareImageId, databaseSoftwareImageSweepWaitConditionForExacc, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &databaseSoftwareImageId, databaseSoftwareImageSweepWaitConditionForExacc, time.Duration(3*time.Minute),
 				databaseSoftwareImageSweepResponseFetchOperationForExacc, "database", true)
 		}
 	}
@@ -330,16 +330,16 @@ func TestDatabaseDatabaseSoftwareImageResourceExadata_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDatabaseSoftwareImageResourceExadata_basic")
 	defer httpreplay.SaveScenario()
 
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DatabaseSoftwareImageResourceExadata_basic") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "DatabaseSoftwareImageResourceExadata_basic") {
 		t.Skip("Skipping suppressed TestDatabaseDatabaseSoftwareImageResourceExadata_basic")
 	}
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_database_software_image.test_database_software_image"
@@ -392,7 +392,7 @@ func TestDatabaseDatabaseSoftwareImageResourceExadata_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -425,7 +425,7 @@ func TestDatabaseDatabaseSoftwareImageResourceExadata_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -493,7 +493,7 @@ func TestDatabaseDatabaseSoftwareImageResourceExadata_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, databaseSoftwareImageWaitTillAvailableConditionExa, time.Duration(20*time.Minute),
 				databaseSoftwareImageSweepResponseFetchOperationExa, "database", true),
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_database_database_software_images", "test_database_software_images", Optional, Update, databaseSoftwareImageDataSourceRepresentationForExadataShape) +
@@ -561,7 +561,7 @@ func TestDatabaseDatabaseSoftwareImageResourceExadata_basic(t *testing.T) {
 
 func testAccCheckDatabaseDatabaseSoftwareImageDestroyExa(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_database_software_image" {
 			noResourceFound = false
@@ -601,7 +601,7 @@ func testAccCheckDatabaseDatabaseSoftwareImageDestroyExa(s *terraform.State) err
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseDatabaseSoftwareImageExa") {
 		resource.AddTestSweepers("DatabaseDatabaseSoftwareImageExa", &resource.Sweeper{
@@ -630,7 +630,7 @@ func sweepDatabaseDatabaseSoftwareImageResourceExa(compartment string) error {
 				fmt.Printf("Error deleting DatabaseSoftwareImage %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseSoftwareImageId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &databaseSoftwareImageId, databaseSoftwareImageSweepWaitConditionExa, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &databaseSoftwareImageId, databaseSoftwareImageSweepWaitConditionExa, time.Duration(3*time.Minute),
 				databaseSoftwareImageSweepResponseFetchOperationExa, "database", true)
 		}
 	}

@@ -26,8 +26,8 @@ type DatasourceIdentityGroupsTestSuite struct {
 
 func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
 	s.Token, s.TokenFn = TokenizeWithHttpReplay("identity_group_data_source")
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
+	s.Providers = TestAccProviders
+	PreCheck()
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"

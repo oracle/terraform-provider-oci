@@ -58,12 +58,12 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExternalPluggableDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_external_pluggable_database.test_external_pluggable_database"
@@ -113,7 +113,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -237,7 +237,7 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseExternalPluggableDatabaseDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient()
+	client := TestAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_external_pluggable_database" {
 			noResourceFound = false
@@ -277,7 +277,7 @@ func testAccCheckDatabaseExternalPluggableDatabaseDestroy(s *terraform.State) er
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseExternalPluggableDatabase") {
 		resource.AddTestSweepers("DatabaseExternalPluggableDatabase", &resource.Sweeper{
@@ -306,7 +306,7 @@ func sweepDatabaseExternalPluggableDatabaseResource(compartment string) error {
 				fmt.Printf("Error deleting ExternalPluggableDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", externalPluggableDatabaseId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &externalPluggableDatabaseId, externalPluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &externalPluggableDatabaseId, externalPluggableDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
 				externalPluggableDatabaseSweepResponseFetchOperation, "database", true)
 		}
 	}

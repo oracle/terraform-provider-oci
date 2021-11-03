@@ -90,9 +90,9 @@ func TestResourceCoreRouteTable_deprecatedCidrBlock(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreRouteTable_deprecatedCidrBlock")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_route_table.test_route_table"
@@ -276,11 +276,11 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreRouteTable_defaultResource")
 	defer httpreplay.SaveScenario()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	provider := testAccProvider
-	config := testProviderConfig() + compartmentIdVariableStr + `
+	provider := TestAccProvider
+	config := ProviderTestConfig() + compartmentIdVariableStr + `
 		resource "oci_core_virtual_network" "t" {
 			compartment_id = "${var.compartment_id}"
 			cidr_block = "10.0.0.0/16"
@@ -293,7 +293,7 @@ func TestResourceCoreRouteTable_defaultResource(t *testing.T) {
 			display_name = "-tf-internet-gateway"
 		}`
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 	resourceName := "oci_core_route_table.t"
 	defaultResourceName := "oci_core_default_route_table.default"

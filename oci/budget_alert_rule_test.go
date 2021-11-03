@@ -63,11 +63,11 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBudgetAlertRuleResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_budget_alert_rule.test_alert_rule"
 	datasourceName := "data.oci_budget_alert_rules.test_alert_rules"
@@ -127,7 +127,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 					budgetId, _ := FromInstanceState(s, resourceName, "budget_id")
 					compositeId = "budgets/" + budgetId + "/alertRules/" + resId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -248,7 +248,7 @@ func getAlertRuleImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckBudgetAlertRuleDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).budgetClient()
+	client := TestAccProvider.Meta().(*OracleClients).budgetClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_budget_alert_rule" {
 			noResourceFound = false
@@ -284,7 +284,7 @@ func testAccCheckBudgetAlertRuleDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("BudgetAlertRule") {
 		resource.AddTestSweepers("BudgetAlertRule", &resource.Sweeper{

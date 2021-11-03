@@ -58,9 +58,9 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreDrgRouteDistributionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_drg_route_distribution.test_drg_route_distribution"
@@ -109,7 +109,7 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -201,7 +201,7 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 
 func testAccCheckCoreDrgRouteDistributionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
+	client := TestAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_drg_route_distribution" {
 			noResourceFound = false
@@ -241,7 +241,7 @@ func testAccCheckCoreDrgRouteDistributionDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreDrgRouteDistribution") {
 		resource.AddTestSweepers("CoreDrgRouteDistribution", &resource.Sweeper{
@@ -270,7 +270,7 @@ func sweepCoreDrgRouteDistributionResource(compartment string) error {
 				fmt.Printf("Error deleting DrgRouteDistribution %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgRouteDistributionId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &drgRouteDistributionId, drgRouteDistributionSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &drgRouteDistributionId, drgRouteDistributionSweepWaitCondition, time.Duration(3*time.Minute),
 				drgRouteDistributionSweepResponseFetchOperation, "core", true)
 		}
 	}

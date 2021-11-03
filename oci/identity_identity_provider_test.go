@@ -61,7 +61,7 @@ var (
 
 // issue-routing-tag: identity/default
 func TestIdentityIdentityProviderResource_basic(t *testing.T) {
-	metadataFile := getEnvSettingWithBlankDefault("identity_provider_metadata_file")
+	metadataFile := GetEnvSettingWithBlankDefault("identity_provider_metadata_file")
 	if metadataFile == "" {
 		t.Skip("Skipping generated test for now as it has a dependency on federation metadata file")
 	}
@@ -69,11 +69,11 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityIdentityProviderResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_identity_identity_provider.test_identity_provider"
 	datasourceName := "data.oci_identity_identity_providers.test_identity_providers"
@@ -140,7 +140,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -221,7 +221,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 
 func testAccCheckIdentityIdentityProviderDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient()
+	client := TestAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_identity_provider" {
 			noResourceFound = false

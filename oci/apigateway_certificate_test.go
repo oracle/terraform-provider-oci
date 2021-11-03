@@ -51,13 +51,13 @@ var (
 		"intermediate_certificates": Representation{RepType: Optional, Create: "${var.api_intermediate_certificate_value}"},
 	}
 
-	apiCertificate            = getEnvSettingWithBlankDefault("api_certificate")
+	apiCertificate            = GetEnvSettingWithBlankDefault("api_certificate")
 	apiCertificateVariableStr = fmt.Sprintf("variable \"api_certificate_value\" { default = \"%s\" }\n", apiCertificate)
 
-	apiPrivateKey            = getEnvSettingWithBlankDefault("api_private_key")
+	apiPrivateKey            = GetEnvSettingWithBlankDefault("api_private_key")
 	apiPrivateKeyVariableStr = fmt.Sprintf("variable \"api_private_key_value\" { default = \"%s\" }\n", apiPrivateKey)
 
-	apiIntermediateCertificate            = getEnvSettingWithBlankDefault("api_intermediate_certificate")
+	apiIntermediateCertificate            = GetEnvSettingWithBlankDefault("api_intermediate_certificate")
 	apiIntermediateCertificateVariableStr = fmt.Sprintf("variable \"api_intermediate_certificate_value\" { default = \"%s\" }\n", apiIntermediateCertificate)
 
 	ApiGatewayCertificateResourceDependencies = DefinedTagsDependencies + apiCertificateVariableStr + apiPrivateKeyVariableStr + apiIntermediateCertificateVariableStr
@@ -68,12 +68,12 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayCertificateResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_apigateway_certificate.test_certificate"
@@ -125,7 +125,7 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -247,7 +247,7 @@ func TestApigatewayCertificateResource_basic(t *testing.T) {
 
 func testAccCheckApigatewayCertificateDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).apiGatewayClient()
+	client := TestAccProvider.Meta().(*OracleClients).apiGatewayClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_apigateway_certificate" {
 			noResourceFound = false
@@ -287,7 +287,7 @@ func testAccCheckApigatewayCertificateDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("ApigatewayCertificate") {
 		resource.AddTestSweepers("ApigatewayCertificate", &resource.Sweeper{
@@ -316,7 +316,7 @@ func sweepApigatewayCertificateResource(compartment string) error {
 				fmt.Printf("Error deleting Certificate %s %s, It is possible that the resource is already deleted. Please verify manually \n", certificateId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &certificateId, apiGatewayCertificateSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &certificateId, apiGatewayCertificateSweepWaitCondition, time.Duration(3*time.Minute),
 				apiGatewayCertificateSweepResponseFetchOperation, "apigateway", true)
 		}
 	}

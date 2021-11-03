@@ -57,12 +57,12 @@ func TestJmsFleetResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestJmsFleetResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_jms_fleet.test_fleet"
@@ -114,7 +114,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -237,7 +237,7 @@ func TestJmsFleetResource_basic(t *testing.T) {
 
 func testAccCheckJmsFleetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).javaManagementServiceClient()
+	client := TestAccProvider.Meta().(*OracleClients).javaManagementServiceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_jms_fleet" {
 			noResourceFound = false
@@ -277,7 +277,7 @@ func testAccCheckJmsFleetDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("JmsFleet") {
 		resource.AddTestSweepers("JmsFleet", &resource.Sweeper{
@@ -306,7 +306,7 @@ func sweepJmsFleetResource(compartment string) error {
 				fmt.Printf("Error deleting Fleet %s %s, It is possible that the resource is already deleted. Please verify manually \n", fleetId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &fleetId, fleetSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &fleetId, fleetSweepWaitCondition, time.Duration(3*time.Minute),
 				fleetSweepResponseFetchOperation, "jms", true)
 		}
 	}

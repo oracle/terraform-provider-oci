@@ -41,7 +41,7 @@ var (
 		"values": Representation{RepType: Required, Create: []string{`${oci_functions_application.test_application.id}`}},
 	}
 
-	applicationDisplayName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
+	applicationDisplayName = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
 
 	applicationRepresentation = map[string]interface{}{
 		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
@@ -69,8 +69,8 @@ var (
 
 	ApplicationResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", Required, Create, apmDomainRepresentation) +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig
@@ -81,12 +81,12 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsApplicationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_functions_application.test_application"
@@ -142,7 +142,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -290,7 +290,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 
 func testAccCheckFunctionsApplicationDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).functionsManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).functionsManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_functions_application" {
 			noResourceFound = false
@@ -330,7 +330,7 @@ func testAccCheckFunctionsApplicationDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("FunctionsApplication") {
 		resource.AddTestSweepers("FunctionsApplication", &resource.Sweeper{
@@ -359,7 +359,7 @@ func sweepFunctionsApplicationResource(compartment string) error {
 				fmt.Printf("Error deleting Application %s %s, It is possible that the resource is already deleted. Please verify manually \n", applicationId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &applicationId, applicationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &applicationId, applicationSweepWaitCondition, time.Duration(3*time.Minute),
 				applicationSweepResponseFetchOperation, "functions", true)
 		}
 	}

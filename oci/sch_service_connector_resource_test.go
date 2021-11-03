@@ -77,12 +77,12 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 	httpreplay.SetScenario("TestSchServiceConnectorResource_streamingAnalytics")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	image := getEnvSettingWithBlankDefault("image")
+	image := GetEnvSettingWithBlankDefault("image")
 	imageVariableStr := fmt.Sprintf("variable \"image\" { default = \"%s\" }\n", image)
 
 	resourceName := "oci_sch_service_connector.test_service_connector"

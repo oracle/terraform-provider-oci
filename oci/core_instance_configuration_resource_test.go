@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	InstanceConfigurationWithPlatformConfigDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+	InstanceConfigurationWithPlatformConfigDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		OciImageIdsVariable +
 		GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
@@ -39,7 +39,7 @@ var (
 
 // issue-routing-tag: core/computeImaging
 func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
-	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestAccCoreInstanceConfigurationResource_platformConfig") {
+	if strings.Contains(GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccCoreInstanceConfigurationResource_platformConfig") {
 		t.Skip("Skipping suppressed TestAccCoreInstanceConfigurationResource_platformConfig")
 	}
 
@@ -47,9 +47,9 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
         provider oci {
             test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
         }
-    ` + commonTestVariables()
+    ` + CommonTestVariables()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_instance_configuration.test_instance_configuration"

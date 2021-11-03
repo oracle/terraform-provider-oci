@@ -80,8 +80,8 @@ resource "oci_core_image" "custom_image" {
     compartment_id   = "${var.tenancy_ocid}"
     instance_id = "${oci_core_instance.t.id}"
 }` +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -91,12 +91,12 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreComputeImageCapabilitySchemaResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_compute_image_capability_schema.test_compute_image_capability_schema"
@@ -148,7 +148,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -271,7 +271,7 @@ func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
 
 func testAccCheckCoreComputeImageCapabilitySchemaDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient()
+	client := TestAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_compute_image_capability_schema" {
 			noResourceFound = false
@@ -311,7 +311,7 @@ func testAccCheckCoreComputeImageCapabilitySchemaDestroy(s *terraform.State) err
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreComputeImageCapabilitySchema") {
 		resource.AddTestSweepers("CoreComputeImageCapabilitySchema", &resource.Sweeper{

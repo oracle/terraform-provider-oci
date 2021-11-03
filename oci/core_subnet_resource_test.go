@@ -19,7 +19,7 @@ import (
 func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 	httpreplay.SetScenario("TestAccResourceCoreSubnetCreate_basic")
 	defer httpreplay.SaveScenario()
-	testAccPreCheck(t)
+	PreCheck()
 	config := legacyTestProviderConfig() + `
 		data "oci_identity_availability_domains" "ADs" {
 			compartment_id = "${var.compartment_id}"

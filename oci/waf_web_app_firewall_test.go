@@ -62,12 +62,12 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestWafWebAppFirewallResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_waf_web_app_firewall.test_web_app_firewall"
@@ -120,7 +120,7 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -241,7 +241,7 @@ func TestWafWebAppFirewallResource_basic(t *testing.T) {
 
 func testAccCheckWafWebAppFirewallDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).wafClient()
+	client := TestAccProvider.Meta().(*OracleClients).wafClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_waf_web_app_firewall" {
 			noResourceFound = false
@@ -281,7 +281,7 @@ func testAccCheckWafWebAppFirewallDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("WafWebAppFirewall") {
 		resource.AddTestSweepers("WafWebAppFirewall", &resource.Sweeper{
@@ -310,7 +310,7 @@ func sweepWafWebAppFirewallResource(compartment string) error {
 				fmt.Printf("Error deleting WebAppFirewall %s %s, It is possible that the resource is already deleted. Please verify manually \n", webAppFirewallId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &webAppFirewallId, webAppFirewallSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &webAppFirewallId, webAppFirewallSweepWaitCondition, time.Duration(3*time.Minute),
 				webAppFirewallSweepResponseFetchOperation, "waf", true)
 		}
 	}

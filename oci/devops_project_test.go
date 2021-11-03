@@ -30,7 +30,7 @@ var (
 		"project_id": Representation{RepType: Required, Create: `${oci_devops_project.test_project.id}`},
 	}
 
-	devopsProjectName = RandomString(10, charsetWithoutDigits)
+	devopsProjectName = RandomString(10, CharsetWithoutDigits)
 
 	devopsProjectDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
@@ -71,12 +71,12 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDevopsProjectResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_devops_project.test_project"
@@ -126,7 +126,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -239,7 +239,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 
 func testAccCheckDevopsProjectDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).devopsClient()
+	client := TestAccProvider.Meta().(*OracleClients).devopsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_devops_project" {
 			noResourceFound = false
@@ -279,7 +279,7 @@ func testAccCheckDevopsProjectDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DevopsProject") {
 		resource.AddTestSweepers("DevopsProject", &resource.Sweeper{
@@ -308,7 +308,7 @@ func sweepDevopsProjectResource(compartment string) error {
 				fmt.Printf("Error deleting Project %s %s, It is possible that the resource is already deleted. Please verify manually \n", projectId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &projectId, devopsProjectSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &projectId, devopsProjectSweepWaitCondition, time.Duration(3*time.Minute),
 				devopsProjectSweepResponseFetchOperation, "devops", true)
 		}
 	}

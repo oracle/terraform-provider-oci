@@ -79,15 +79,15 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 	httpreplay.SetScenario("TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	managementAgentId := getEnvSettingWithBlankDefault("managed_agent_id")
+	managementAgentId := GetEnvSettingWithBlankDefault("managed_agent_id")
 	if managementAgentId == "" {
 		t.Skip("Manual install agent and set managed_agent_id to run this test")
 	}
@@ -157,7 +157,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -310,7 +310,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 
 func testAccCheckLogAnalyticsLogAnalyticsObjectCollectionRuleDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).logAnalyticsClient()
+	client := TestAccProvider.Meta().(*OracleClients).logAnalyticsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_log_analytics_log_analytics_object_collection_rule" {
 			noResourceFound = false
@@ -354,7 +354,7 @@ func testAccCheckLogAnalyticsLogAnalyticsObjectCollectionRuleDestroy(s *terrafor
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("LogAnalyticsLogAnalyticsObjectCollectionRule") {
 		resource.AddTestSweepers("LogAnalyticsLogAnalyticsObjectCollectionRule", &resource.Sweeper{
@@ -383,7 +383,7 @@ func sweepLogAnalyticsLogAnalyticsObjectCollectionRuleResource(compartment strin
 				fmt.Printf("Error deleting LogAnalyticsObjectCollectionRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", logAnalyticsObjectCollectionRuleId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &logAnalyticsObjectCollectionRuleId, logAnalyticsObjectCollectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &logAnalyticsObjectCollectionRuleId, logAnalyticsObjectCollectionRuleSweepWaitCondition, time.Duration(3*time.Minute),
 				logAnalyticsObjectCollectionRuleSweepResponseFetchOperation, "log_analytics", true)
 		}
 	}

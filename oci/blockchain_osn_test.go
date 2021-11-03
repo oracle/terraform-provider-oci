@@ -56,12 +56,12 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBlockchainOsnResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	idcsAccessToken := getEnvSettingWithBlankDefault("idcs_access_token")
+	idcsAccessToken := GetEnvSettingWithBlankDefault("idcs_access_token")
 	idcsAccessTokenVariableStr := fmt.Sprintf("variable \"idcs_access_token\" { default = \"%s\" }\n", idcsAccessToken)
 
 	resourceName := "oci_blockchain_osn.test_osn"
@@ -109,7 +109,7 @@ func TestBlockchainOsnResource_basic(t *testing.T) {
 					resId, err = FromInstanceState(s, resourceName, "id")
 					blockchainPlatformId, _ := FromInstanceState(s, resourceName, "blockchain_platform_id")
 					compositeId = "blockchainPlatforms/" + blockchainPlatformId + "/osns/" + resId
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -197,7 +197,7 @@ func getBlockchainOsnCompositeId(resourceName string) resource.ImportStateIdFunc
 
 func testAccCheckBlockchainOsnDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).blockchainPlatformClient()
+	client := TestAccProvider.Meta().(*OracleClients).blockchainPlatformClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_blockchain_osn" {
 			noResourceFound = false
@@ -233,7 +233,7 @@ func testAccCheckBlockchainOsnDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("BlockchainOsn") {
 		resource.AddTestSweepers("BlockchainOsn", &resource.Sweeper{

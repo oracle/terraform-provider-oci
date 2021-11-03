@@ -28,7 +28,7 @@ var imageIdMap = map[string]string{
 }
 
 func createVolumeInRegion(clients *OracleClients, region string) (string, error) {
-	compartment := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartment := GetEnvSettingWithBlankDefault("compartment_ocid")
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
@@ -88,7 +88,7 @@ func createVolumeInRegion(clients *OracleClients, region string) (string, error)
 }
 
 func createVolumeGroupInRegion(clients *OracleClients, region string, volumeId *string) (string, error) {
-	compartment := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartment := GetEnvSettingWithBlankDefault("compartment_ocid")
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
@@ -363,7 +363,7 @@ func volumeGroupBackupAvailableWaitCondition(response oci_common.OCIOperationRes
 }
 
 func createBootVolumeInRegion(clients *OracleClients, region string) (string, string, error) {
-	compartment := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartment := GetEnvSettingWithBlankDefault("compartment_ocid")
 
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {

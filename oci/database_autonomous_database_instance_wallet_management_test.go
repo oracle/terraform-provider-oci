@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	adbWalletMgmtDbName = RandomString(1, charsetWithoutDigits) + RandomString(13, charset)
+	adbWalletMgmtDbName = RandomString(1, CharsetWithoutDigits) + RandomString(13, Charset)
 
 	AutonomousDatabaseInstanceWalletManagementResourceConfig = AutonomousDatabaseInstanceWalletManagementResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Optional, Update, autonomousDatabaseInstanceWalletManagementRepresentation)
@@ -38,9 +38,9 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_database_instance_wallet_management.test_autonomous_database_instance_wallet_management"
@@ -63,7 +63,7 @@ func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *tes
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

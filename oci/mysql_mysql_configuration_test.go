@@ -40,9 +40,9 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlConfigurationResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_mysql_mysql_configurations.test_mysql_configurations"
@@ -142,7 +142,7 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("MysqlMysqlConfiguration") {
 		resource.AddTestSweepers("MysqlMysqlConfiguration", &resource.Sweeper{
@@ -170,7 +170,7 @@ func sweepMysqlMysqlConfigurationResource(compartment string) error {
 				fmt.Printf("Error deleting MysqlConfiguration %s %s, It is possible that the resource is already deleted. Please verify manually \n", mysqlConfigurationId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &mysqlConfigurationId, mysqlConfigurationSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &mysqlConfigurationId, mysqlConfigurationSweepWaitCondition, time.Duration(3*time.Minute),
 				mysqlConfigurationSweepResponseFetchOperation, "mysql", true)
 		}
 	}

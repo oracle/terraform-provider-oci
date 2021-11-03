@@ -19,45 +19,17 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-var (
-	InternetGatewayRequiredOnlyResource = InternetGatewayResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation)
-
-	internetGatewayDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
-		"display_name":   Representation{RepType: Optional, Create: `MyInternetGateway`, Update: `displayName2`},
-		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
-		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         RepresentationGroup{Required, internetGatewayDataSourceFilterRepresentation}}
-	internetGatewayDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{RepType: Required, Create: `id`},
-		"values": Representation{RepType: Required, Create: []string{`${oci_core_internet_gateway.test_internet_gateway.id}`}},
-	}
-
-	internetGatewayRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
-		"vcn_id":         Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{RepType: Optional, Create: `MyInternetGateway`, Update: `displayName2`},
-		"enabled":        Representation{RepType: Optional, Create: `false`, Update: `true`},
-		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-	}
-
-	InternetGatewayResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
-		DefinedTagsDependencies
-)
-
 // issue-routing-tag: core/virtualNetwork
 func TestCoreInternetGatewayResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInternetGatewayResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_internet_gateway.test_internet_gateway"
@@ -104,7 +76,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -201,7 +173,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 
 func testAccCheckCoreInternetGatewayDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
+	client := TestAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_internet_gateway" {
 			noResourceFound = false
@@ -241,7 +213,7 @@ func testAccCheckCoreInternetGatewayDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("CoreInternetGateway") {
 		resource.AddTestSweepers("CoreInternetGateway", &resource.Sweeper{
@@ -270,7 +242,7 @@ func sweepCoreInternetGatewayResource(compartment string) error {
 				fmt.Printf("Error deleting InternetGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", internetGatewayId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &internetGatewayId, internetGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &internetGatewayId, internetGatewaySweepWaitCondition, time.Duration(3*time.Minute),
 				internetGatewaySweepResponseFetchOperation, "core", true)
 		}
 	}

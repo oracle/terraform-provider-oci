@@ -50,8 +50,8 @@ var (
 	}
 
 	DbManagementPrivateEndpointResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation)
 )
 
 // issue-routing-tag: database_management/default
@@ -59,13 +59,13 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 	httpreplay.SetScenario("TestDatabaseManagementDbManagementPrivateEndpointResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint"
@@ -78,7 +78,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 		GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", Optional, Create, dbManagementPrivateEndpointRepresentation), "databasemanagement", "dbManagementPrivateEndpoint", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -120,7 +120,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
@@ -230,7 +230,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 
 func testAccCheckDatabaseManagementDbManagementPrivateEndpointDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dbManagementClient()
+	client := TestAccProvider.Meta().(*OracleClients).dbManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_management_db_management_private_endpoint" {
 			noResourceFound = false
@@ -270,7 +270,7 @@ func testAccCheckDatabaseManagementDbManagementPrivateEndpointDestroy(s *terrafo
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatabaseManagementDbManagementPrivateEndpoint") {
 		resource.AddTestSweepers("DatabaseManagementDbManagementPrivateEndpoint", &resource.Sweeper{
@@ -299,7 +299,7 @@ func sweepDatabaseManagementDbManagementPrivateEndpointResource(compartment stri
 				fmt.Printf("Error deleting DbManagementPrivateEndpoint %s %s, It is possible that the resource is already deleted. Please verify manually \n", dbManagementPrivateEndpointId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &dbManagementPrivateEndpointId, dbManagementPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &dbManagementPrivateEndpointId, dbManagementPrivateEndpointSweepWaitCondition, time.Duration(3*time.Minute),
 				dbManagementPrivateEndpointSweepResponseFetchOperation, "database_management", true)
 		}
 	}

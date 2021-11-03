@@ -17,7 +17,7 @@ import (
 
 // issue-routing-tag: database/default
 func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
-	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "timeStampForPointInTimeRecovery") {
+	if !strings.Contains(GetEnvSettingWithBlankDefault("enabled_tests"), "timeStampForPointInTimeRecovery") {
 		t.Skip("This test requires a source DB with automatic backups enabled. " +
 			"There should be at least two automatic backups available." +
 			"time_stamp_for_point_in_time_recovery time should be anytime after the start time of the 1st automatic backup and before the start time of the last automatic backup.")
@@ -84,7 +84,7 @@ func TestAccResourceDatabaseDBHomeWithPointInTimeRecovery(t *testing.T) {
 		},
 		// wait for backup and Create new db from it
 		{
-			PreConfig: WaitTillCondition(testAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
+			PreConfig: WaitTillCondition(TestAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
 				listBackupsFetchOperation, "database", false),
 			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem +
 				`
@@ -130,9 +130,9 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDbHomeResource_createFromCloudVmCluster")
 	defer httpreplay.SaveScenario()
 
-	config := testProviderConfig()
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_db_home.test_db_home"
@@ -154,7 +154,7 @@ func TestDatabaseDbHomeResource_createFromCloudVmCluster(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}

@@ -43,10 +43,10 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 	httpreplay.SetScenario("TestResourceCoreCrossConnectResourceWithinGroup")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_cross_connect.test_cross_connect"
@@ -56,7 +56,7 @@ func TestResourceCoreCrossConnectResourceWithinGroup(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

@@ -68,8 +68,8 @@ var (
 	}
 
 	JobRunResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
-		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, SubnetRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, VcnRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", Required, Create, mlJobWithArtifactNoLogging) +
 		GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", Required, Create, projectRepresentation) +
 		DefinedTagsDependencies
@@ -81,10 +81,10 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceJobRunResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := testAccProvider
-	config := testProviderConfig()
+	provider := TestAccProvider
+	config := ProviderTestConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_datascience_job_run.test_job_run"
@@ -97,7 +97,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 		GenerateResourceFromRepresentationMap("oci_datascience_job_run", "test_job_run", Optional, Create, jobRunRepresentation), "datascience", "jobRun", t)
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck: func() { PreCheck() },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -148,7 +148,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
@@ -263,7 +263,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 
 func testAccCheckDatascienceJobRunDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataScienceClient()
+	client := TestAccProvider.Meta().(*OracleClients).dataScienceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_datascience_job_run" {
 			noResourceFound = false
@@ -303,7 +303,7 @@ func testAccCheckDatascienceJobRunDestroy(s *terraform.State) error {
 
 func init() {
 	if DependencyGraph == nil {
-		initDependencyGraph()
+		InitDependencyGraph()
 	}
 	if !InSweeperExcludeList("DatascienceJobRun") {
 		resource.AddTestSweepers("DatascienceJobRun", &resource.Sweeper{
@@ -332,7 +332,7 @@ func sweepDatascienceJobRunResource(compartment string) error {
 				fmt.Printf("Error deleting JobRun %s %s, It is possible that the resource is already deleted. Please verify manually \n", jobRunId, error)
 				continue
 			}
-			WaitTillCondition(testAccProvider, &jobRunId, jobRunSweepWaitCondition, time.Duration(3*time.Minute),
+			WaitTillCondition(TestAccProvider, &jobRunId, jobRunSweepWaitCondition, time.Duration(3*time.Minute),
 				jobRunSweepResponseFetchOperation, "datascience", true)
 		}
 	}
