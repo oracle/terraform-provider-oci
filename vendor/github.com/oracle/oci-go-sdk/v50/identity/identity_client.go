@@ -62,7 +62,7 @@ func newIdentityClientFromBaseClient(baseClient common.BaseClient, configProvide
 
 // SetRegion overrides the region of this client.
 func (client *IdentityClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("identity")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("identity", "https://identity.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -81,6 +81,81 @@ func (client *IdentityClient) setConfigurationProvider(configProvider common.Con
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *IdentityClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// ActivateDomain If the domain's {@code lifecycleState} is INACTIVE,
+// 1. Set the {@code lifecycleDetails} to ACTIVATING and asynchronously starts enabling
+//    the domain and return 202 ACCEPTED.
+//     1.1 Sets the domain status to ENABLED and set specified domain's
+//         {@code lifecycleState} to ACTIVE and set the {@code lifecycleDetails} to null.
+// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
+// the async operation's status. Deactivate a domain can be done using HTTP POST
+// /domains/{domainId}/actions/deactivate.
+// - If the domain's {@code lifecycleState} is ACTIVE, returns 202 ACCEPTED with no action
+//   taken on service side.
+// - If domain is of {@code type} DEFAULT or DEFAULT_LIGHTWEIGHT or domain's {@code lifecycleState} is not INACTIVE,
+//   returns 400 BAD REQUEST.
+// - If the domain doesn't exists, returns 404 NOT FOUND.
+// - If the authenticated user is part of the domain to be activated, returns 400 BAD REQUEST
+// - If error occurs while activating domain, returns 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ActivateDomain.go.html to see an example of how to use ActivateDomain API.
+func (client IdentityClient) ActivateDomain(ctx context.Context, request ActivateDomainRequest) (response ActivateDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.activateDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ActivateDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ActivateDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ActivateDomainResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ActivateDomainResponse")
+	}
+	return
+}
+
+// activateDomain implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) activateDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/domains/{domainId}/actions/activate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ActivateDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // ActivateMfaTotpDevice Activates the specified MFA TOTP device for the user. Activation requires manual interaction with the Console.
@@ -615,6 +690,150 @@ func (client IdentityClient) cascadeDeleteTagNamespace(ctx context.Context, requ
 	return response, err
 }
 
+// ChangeDomainCompartment Change the containing compartment for a domain.
+// This is an asynchronous call where the Domain's compartment is changed and is updated with the new compartment information.
+// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
+// the async operation's status.
+// The compartment change is complete when accessed via domain URL and
+// also returns new compartment OCID.
+// - If the domain doesn't exists, returns 404 NOT FOUND.
+// - If Domain {@code type} is DEFAULT or DEFAULT_LIGHTWEIGHT, return 400 BAD Request
+// - If Domain is not active or being updated, returns 400 BAD REQUEST.
+// - If error occurs while changing compartment for domain, return 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ChangeDomainCompartment.go.html to see an example of how to use ChangeDomainCompartment API.
+func (client IdentityClient) ChangeDomainCompartment(ctx context.Context, request ChangeDomainCompartmentRequest) (response ChangeDomainCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDomainCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDomainCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDomainCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDomainCompartmentResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDomainCompartmentResponse")
+	}
+	return
+}
+
+// changeDomainCompartment implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) changeDomainCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/domains/{domainId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDomainCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeDomainLicenseType If the domain's {@code lifecycleState} is ACTIVE, validates the requested {@code licenseType} update
+// is allowed and
+// 1. Set the {@code lifecycleDetails} to UPDATING
+// 2. Asynchronously starts updating the domain and return 202 ACCEPTED.
+//     2.1 Successfully updates specified domain's {@code licenseType}.
+// 3. On completion set the {@code lifecycleDetails} to null.
+// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
+// the async operation's status.
+// - If license type update is successful, return 202 ACCEPTED
+// - If requested {@code licenseType} validation fails, returns 400 Bad request.
+// - If Domain is not active or being updated, returns 400 BAD REQUEST.
+// - If Domain {@code type} is DEFAULT or DEFAULT_LIGHTWEIGHT, return 400 BAD Request
+// - If the domain doesn't exists, returns 404 NOT FOUND
+// - If any internal error occurs, returns 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ChangeDomainLicenseType.go.html to see an example of how to use ChangeDomainLicenseType API.
+func (client IdentityClient) ChangeDomainLicenseType(ctx context.Context, request ChangeDomainLicenseTypeRequest) (response ChangeDomainLicenseTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDomainLicenseType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDomainLicenseTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDomainLicenseTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDomainLicenseTypeResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDomainLicenseTypeResponse")
+	}
+	return
+}
+
+// changeDomainLicenseType implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) changeDomainLicenseType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/domains/{domainId}/actions/changeLicenseType", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDomainLicenseTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeTagNamespaceCompartment Moves the specified tag namespace to the specified compartment within the same tenancy.
 // To move the tag namespace, you must have the manage tag-namespaces permission on both compartments.
 // For more information about IAM policies, see Details for IAM (https://docs.cloud.oracle.com/Content/Identity/Reference/iampolicyreference.htm).
@@ -890,6 +1109,80 @@ func (client IdentityClient) createCustomerSecretKey(ctx context.Context, reques
 	return response, err
 }
 
+// CreateDomain Creates a new domain in the tenancy with domain home in {@code homeRegion}. This is an asynchronous call - where, at start,
+// {@code lifecycleState} of this domain is set to CREATING and {@code lifecycleDetails} to UPDATING. On domain creation completion
+// this Domain's {@code lifecycleState} will be set to ACTIVE and {@code lifecycleDetails} to null.
+// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
+// the async operation's status.
+// After creating a `Domain`, make sure its `lifecycleState` changes from CREATING to ACTIVE
+// before using it.
+// If the domain's {@code displayName} already exists, returns 400 BAD REQUEST.
+// If any one of admin related fields are provided and one of the following 3 fields
+// - {@code adminEmail}, {@code adminLastName} and {@code adminUserName} - is not provided,
+// returns 400 BAD REQUEST.
+// - If {@code isNotificationBypassed} is NOT provided when admin information is provided,
+// returns 400 BAD REQUEST.
+// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/CreateDomain.go.html to see an example of how to use CreateDomain API.
+func (client IdentityClient) CreateDomain(ctx context.Context, request CreateDomainRequest) (response CreateDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDomainResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDomainResponse")
+	}
+	return
+}
+
+// createDomain implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) createDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/domains", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateDynamicGroup Creates a new dynamic group in your tenancy.
 // You must specify your tenancy's OCID as the compartment ID in the request object (remember that the tenancy
 // is simply the root compartment). Notice that IAM resources (users, groups, compartments, and some policies)
@@ -1040,7 +1333,8 @@ func (client IdentityClient) createGroup(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// CreateIdentityProvider Creates a new identity provider in your tenancy. For more information, see
+// CreateIdentityProvider **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Creates a new identity provider in your tenancy. For more information, see
 // Identity Providers and Federation (https://docs.cloud.oracle.com/Content/Identity/Concepts/federation.htm).
 // You must specify your tenancy's OCID as the compartment ID in the request object.
 // Remember that the tenancy is simply the root compartment. For information about
@@ -1114,7 +1408,8 @@ func (client IdentityClient) createIdentityProvider(ctx context.Context, request
 	return response, err
 }
 
-// CreateIdpGroupMapping Creates a single mapping between an IdP group and an IAM Service
+// CreateIdpGroupMapping **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Creates a single mapping between an IdP group and an IAM Service
 // Group.
 //
 // See also
@@ -2012,6 +2307,82 @@ func (client IdentityClient) createUser(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// DeactivateDomain If the domain's {@code lifecycleState} is ACTIVE and no active Apps are present in domain,
+// 1. Set the {@code lifecycleDetails} to DEACTIVATING and asynchronously starts disabling
+//    the domain and return 202 ACCEPTED.
+//     1.1 Sets the domain status to DISABLED and set specified domain's
+//         {@code lifecycleState} to INACTIVE and set the {@code lifecycleDetails} to null.
+// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
+// the async operation's status. Activate a domain can be done using HTTP POST
+// /domains/{domainId}/actions/activate.
+// - If the domain's {@code lifecycleState} is INACTIVE, returns 202 ACCEPTED with no action
+//   taken on service side.
+// - If domain is of {@code type} DEFAULT or DEFAULT_LIGHTWEIGHT or domain's {@code lifecycleState}
+//   is not ACTIVE, returns 400 BAD REQUEST.
+// - If the domain doesn't exists, returns 404 NOT FOUND.
+// - If any active Apps in domain, returns 400 BAD REQUEST.
+// - If the authenticated user is part of the domain to be activated, returns 400 BAD REQUEST
+// - If error occurs while deactivating domain, returns 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeactivateDomain.go.html to see an example of how to use DeactivateDomain API.
+func (client IdentityClient) DeactivateDomain(ctx context.Context, request DeactivateDomainRequest) (response DeactivateDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deactivateDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeactivateDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeactivateDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeactivateDomainResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeactivateDomainResponse")
+	}
+	return
+}
+
+// deactivateDomain implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deactivateDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/domains/{domainId}/actions/deactivate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeactivateDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteApiKey Deletes the specified API signing key for the specified user.
 // Every user has permission to use this operation to delete a key for *their own user ID*. An
 // administrator in your organization does not need to write a policy to give users this ability.
@@ -2236,6 +2607,75 @@ func (client IdentityClient) deleteCustomerSecretKey(ctx context.Context, reques
 	return response, err
 }
 
+// DeleteDomain Soft Deletes a domain.
+// This is an asynchronous API, where, if the domain's {@code lifecycleState} is INACTIVE and
+// no active Apps are present in underlying stripe,
+//   1. Sets the specified domain's {@code lifecycleState} to DELETING.
+//   2. Domains marked as DELETING will be cleaned up by a periodic task unless customer request it to be undo via ticket.
+//   3. Work request is created and returned as opc-work-request-id along with 202 ACCEPTED.
+// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
+// the async operation's status.
+// - If the domain's {@code lifecycleState} is DELETING, returns 202 Accepted as a deletion
+//   is already in progress for this domain.
+// - If the domain doesn't exists, returns 404 NOT FOUND.
+// - If domain is of {@code type} DEFAULT or DEFAULT_LIGHTWEIGHT, returns 400 BAD REQUEST.
+// - If any active Apps in domain, returns 400 BAD REQUEST.
+// - If the authenticated user is part of the domain to be deleted, returns 400 BAD REQUEST.
+// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteDomain.go.html to see an example of how to use DeleteDomain API.
+func (client IdentityClient) DeleteDomain(ctx context.Context, request DeleteDomainRequest) (response DeleteDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDomainResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDomainResponse")
+	}
+	return
+}
+
+// deleteDomain implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/domains/{domainId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteDynamicGroup Deletes the specified dynamic group.
 //
 // See also
@@ -2346,7 +2786,8 @@ func (client IdentityClient) deleteGroup(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// DeleteIdentityProvider Deletes the specified identity provider. The identity provider must not have
+// DeleteIdentityProvider **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Deletes the specified identity provider. The identity provider must not have
 // any group mappings (see IdpGroupMapping).
 //
 // See also
@@ -2402,7 +2843,8 @@ func (client IdentityClient) deleteIdentityProvider(ctx context.Context, request
 	return response, err
 }
 
-// DeleteIdpGroupMapping Deletes the specified group mapping.
+// DeleteIdpGroupMapping **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Deletes the specified group mapping.
 //
 // See also
 //
@@ -3027,6 +3469,77 @@ func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// EnableReplicationToRegion Replicate domain to a new region. This is an asynchronous call - where, at start,
+// {@code state} of this domain in replica region is set to ENABLING_REPLICATION.
+// On domain replication completion the {@code state} will be set to REPLICATION_ENABLED.
+// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
+// the async operation's status.
+// If the replica region's {@code state} is already ENABLING_REPLICATION or REPLICATION_ENABLED,
+// returns 409 CONFLICT.
+// - If the domain doesn't exists, returns 404 NOT FOUND.
+// - If home region is same as replication region, return 400 BAD REQUEST.
+// - If Domain is not active or being updated, returns 400 BAD REQUEST.
+// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/EnableReplicationToRegion.go.html to see an example of how to use EnableReplicationToRegion API.
+func (client IdentityClient) EnableReplicationToRegion(ctx context.Context, request EnableReplicationToRegionRequest) (response EnableReplicationToRegionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableReplicationToRegion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableReplicationToRegionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableReplicationToRegionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableReplicationToRegionResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableReplicationToRegionResponse")
+	}
+	return
+}
+
+// enableReplicationToRegion implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) enableReplicationToRegion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/domains/{domainId}/actions/enableReplicationToRegion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableReplicationToRegionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GenerateTotpSeed Generate seed for the MFA TOTP device.
 //
 // See also
@@ -3200,6 +3713,63 @@ func (client IdentityClient) getCompartment(ctx context.Context, request common.
 	return response, err
 }
 
+// GetDomain Get the specified domain's information.
+// - If the domain doesn't exists, returns 404 NOT FOUND.
+// - If any internal error occurs, returns 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetDomain.go.html to see an example of how to use GetDomain API.
+func (client IdentityClient) GetDomain(ctx context.Context, request GetDomainRequest) (response GetDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDomainResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDomainResponse")
+	}
+	return
+}
+
+// getDomain implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) getDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/domains/{domainId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDynamicGroup Gets the specified dynamic group's information.
 //
 // See also
@@ -3313,7 +3883,66 @@ func (client IdentityClient) getGroup(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// GetIdentityProvider Gets the specified identity provider's information.
+// GetIamWorkRequest Gets details on a specified IAM work request. For asynchronous operations in Identity and Access Management service, opc-work-request-id header values contains
+// iam work request id that can be provided in this API to track the current status of the operation.
+// - If workrequest exists, returns 202 ACCEPTED
+// - If workrequest does not exist, returns 404 NOT FOUND
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetIamWorkRequest.go.html to see an example of how to use GetIamWorkRequest API.
+func (client IdentityClient) GetIamWorkRequest(ctx context.Context, request GetIamWorkRequestRequest) (response GetIamWorkRequestResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getIamWorkRequest, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIamWorkRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIamWorkRequestResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetIamWorkRequestResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetIamWorkRequestResponse")
+	}
+	return
+}
+
+// getIamWorkRequest implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) getIamWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/iamWorkRequests/{iamWorkRequestId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetIamWorkRequestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetIdentityProvider **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Gets the specified identity provider's information.
 //
 // See also
 //
@@ -3368,7 +3997,8 @@ func (client IdentityClient) getIdentityProvider(ctx context.Context, request co
 	return response, err
 }
 
-// GetIdpGroupMapping Gets the specified group mapping.
+// GetIdpGroupMapping **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Gets the specified group mapping.
 //
 // See also
 //
@@ -3754,7 +4384,7 @@ func (client IdentityClient) getTagNamespace(ctx context.Context, request common
 }
 
 // GetTaggingWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-workrequest-id header
-// for any asynchronous operation in the Identity and Access Management service.
+// for any asynchronous operation in tagging service.
 //
 // See also
 //
@@ -4031,7 +4661,7 @@ func (client IdentityClient) getUserUIPasswordInformation(ctx context.Context, r
 }
 
 // GetWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-workrequest-id header
-// for any asynchronous operation in the Identity and Access Management service.
+// for any asynchronous operation in the compartment service.
 //
 // See also
 //
@@ -4074,6 +4704,66 @@ func (client IdentityClient) getWorkRequest(ctx context.Context, request common.
 	}
 
 	var response GetWorkRequestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAllowedDomainLicenseTypes List the allowed domain license types supported by OCI
+// If {@code currentLicenseTypeName} provided, returns allowed license types a domain with the specified license type name can migrate to.
+// If {@code name} is provided, it filters and returns resources that match the given license type name.
+// Otherwise, returns all valid license types that are currently supported.
+// - If license type details are retrieved sucessfully, return 202 ACCEPTED.
+// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListAllowedDomainLicenseTypes.go.html to see an example of how to use ListAllowedDomainLicenseTypes API.
+func (client IdentityClient) ListAllowedDomainLicenseTypes(ctx context.Context, request ListAllowedDomainLicenseTypesRequest) (response ListAllowedDomainLicenseTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAllowedDomainLicenseTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAllowedDomainLicenseTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAllowedDomainLicenseTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAllowedDomainLicenseTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAllowedDomainLicenseTypesResponse")
+	}
+	return
+}
+
+// listAllowedDomainLicenseTypes implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listAllowedDomainLicenseTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/allowedDomainLicenseTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAllowedDomainLicenseTypesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -4554,6 +5244,62 @@ func (client IdentityClient) listCustomerSecretKeys(ctx context.Context, request
 	return response, err
 }
 
+// ListDomains List all domains that are homed or have a replica region in current region.
+// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListDomains.go.html to see an example of how to use ListDomains API.
+func (client IdentityClient) ListDomains(ctx context.Context, request ListDomainsRequest) (response ListDomainsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDomains, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDomainsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDomainsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDomainsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDomainsResponse")
+	}
+	return
+}
+
+// listDomains implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listDomains(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/domains", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDomainsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDynamicGroups Lists the dynamic groups in your tenancy. You must specify your tenancy's OCID as the value for
 // the compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
@@ -4725,7 +5471,181 @@ func (client IdentityClient) listGroups(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// ListIdentityProviderGroups Lists the identity provider groups.
+// ListIamWorkRequestErrors Gets error details for a specified IAM work request. For asynchronous operations in Identity and Access Management service, opc-work-request-id header values contains
+// iam work request id that can be provided in this API to track the current status of the operation.
+// - If workrequest exists, returns 202 ACCEPTED
+// - If workrequest does not exist, returns 404 NOT FOUND
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListIamWorkRequestErrors.go.html to see an example of how to use ListIamWorkRequestErrors API.
+func (client IdentityClient) ListIamWorkRequestErrors(ctx context.Context, request ListIamWorkRequestErrorsRequest) (response ListIamWorkRequestErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIamWorkRequestErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIamWorkRequestErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIamWorkRequestErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIamWorkRequestErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIamWorkRequestErrorsResponse")
+	}
+	return
+}
+
+// listIamWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listIamWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/iamWorkRequests/{iamWorkRequestId}/errors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIamWorkRequestErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListIamWorkRequestLogs Gets logs for a specified IAM work request. For asynchronous operations in Identity and Access Management service, opc-work-request-id header values contains
+// iam work request id that can be provided in this API to track the current status of the operation.
+// - If workrequest exists, returns 202 ACCEPTED
+// - If workrequest does not exist, returns 404 NOT FOUND
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListIamWorkRequestLogs.go.html to see an example of how to use ListIamWorkRequestLogs API.
+func (client IdentityClient) ListIamWorkRequestLogs(ctx context.Context, request ListIamWorkRequestLogsRequest) (response ListIamWorkRequestLogsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIamWorkRequestLogs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIamWorkRequestLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIamWorkRequestLogsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIamWorkRequestLogsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIamWorkRequestLogsResponse")
+	}
+	return
+}
+
+// listIamWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listIamWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/iamWorkRequests/{iamWorkRequestId}/logs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIamWorkRequestLogsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListIamWorkRequests List the IAM work requests in compartment
+// - If IAM workrequest  details are retrieved sucessfully, return 202 ACCEPTED.
+// - If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListIamWorkRequests.go.html to see an example of how to use ListIamWorkRequests API.
+func (client IdentityClient) ListIamWorkRequests(ctx context.Context, request ListIamWorkRequestsRequest) (response ListIamWorkRequestsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIamWorkRequests, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIamWorkRequestsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIamWorkRequestsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIamWorkRequestsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIamWorkRequestsResponse")
+	}
+	return
+}
+
+// listIamWorkRequests implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listIamWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/iamWorkRequests", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIamWorkRequestsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListIdentityProviderGroups **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Lists the identity provider groups.
 //
 // See also
 //
@@ -4796,7 +5716,8 @@ func (m *listidentityprovider) UnmarshalPolymorphicJSON(data []byte) (interface{
 	return res, nil
 }
 
-// ListIdentityProviders Lists all the identity providers in your tenancy. You must specify the identity provider type (e.g., `SAML2` for
+// ListIdentityProviders **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Lists all the identity providers in your tenancy. You must specify the identity provider type (e.g., `SAML2` for
 // identity providers using the SAML2.0 protocol). You must specify your tenancy's OCID as the value for the
 // compartment ID (remember that the tenancy is simply the root compartment).
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five).
@@ -4854,7 +5775,8 @@ func (client IdentityClient) listIdentityProviders(ctx context.Context, request 
 	return response, err
 }
 
-// ListIdpGroupMappings Lists the group mappings for the specified identity provider.
+// ListIdpGroupMappings **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Lists the group mappings for the specified identity provider.
 //
 // See also
 //
@@ -6311,6 +7233,71 @@ func (client IdentityClient) updateCustomerSecretKey(ctx context.Context, reques
 	return response, err
 }
 
+// UpdateDomain Updates domain information and associated stripe. This is an asynchronous call where
+// the associated stripe and domain are updated.
+// To track progress, HTTP GET on /iamWorkRequests/{iamWorkRequestsId} endpoint will provide
+// the async operation's status.
+// - If the {@code displayName} is not unique within the tenancy, returns 400 BAD REQUEST.
+// - If any field other than {@code description} is requested to be updated for DEFAULT domain,
+// returns 400 BAD REQUEST.
+// - If Domain is not active or being updated, returns 400 BAD REQUEST.
+// - If Domain {@code type} is DEFAULT or DEFAULT_LIGHTWEIGHT, return 400 BAD Request
+// - If the domain doesn't exists, returns 404 NOT FOUND.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/UpdateDomain.go.html to see an example of how to use UpdateDomain API.
+func (client IdentityClient) UpdateDomain(ctx context.Context, request UpdateDomainRequest) (response UpdateDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDomainResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDomainResponse")
+	}
+	return
+}
+
+// updateDomain implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) updateDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/domains/{domainId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateDynamicGroup Updates the specified dynamic group.
 //
 // See also
@@ -6423,7 +7410,8 @@ func (client IdentityClient) updateGroup(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// UpdateIdentityProvider Updates the specified identity provider.
+// UpdateIdentityProvider **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Updates the specified identity provider.
 //
 // See also
 //
@@ -6479,7 +7467,8 @@ func (client IdentityClient) updateIdentityProvider(ctx context.Context, request
 	return response, err
 }
 
-// UpdateIdpGroupMapping Updates the specified group mapping.
+// UpdateIdpGroupMapping **Deprecated.** For more information, see Deprecated IAM Service APIs (https://docs.cloud.oracle.com/Content/Identity/Reference/deprecatediamapis.htm).
+// Updates the specified group mapping.
 //
 // See also
 //

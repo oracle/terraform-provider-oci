@@ -56,6 +56,7 @@ func init() {
 	exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
 	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
 	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
+	exportUsageProxySubscriptionRedeemableUserHints.getIdFn = getUsageProxySubscriptionRedeemableUserId
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 }
 
@@ -601,6 +602,16 @@ func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) 
 		return "", fmt.Errorf("[ERROR] unable to find replicationId for ObjectStorage ReplicationPolicy")
 	}
 	return getReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
+}
+
+func getUsageProxySubscriptionRedeemableUserId(resource *OCIResource) (string, error) {
+
+	subscriptionId := resource.parent.id
+	tenancyId, ok := resource.parent.sourceAttributes["tenancy_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for ObjectStorage ReplicationPolicy")
+	}
+	return getSubscriptionRedeemableUserCompositeId(subscriptionId, tenancyId), nil
 }
 
 func getOnsNotificationTopicId(resource *OCIResource) (string, error) {

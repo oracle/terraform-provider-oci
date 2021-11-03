@@ -39,6 +39,8 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
 	is_sparse_diskgroup_enabled = var.cloud_vm_cluster_is_sparse_diskgroup_enabled
 	license_model = var.cloud_vm_cluster_license_model
 	nsg_ids = var.cloud_vm_cluster_nsg_ids
+	scan_listener_port_tcp = var.cloud_vm_cluster_scan_listener_port_tcp
+	scan_listener_port_tcp_ssl = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
 	time_zone = var.cloud_vm_cluster_time_zone
 }
 ```
@@ -76,6 +78,8 @@ The following arguments are supported:
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the cloud VM cluster. The default is BRING_YOUR_OWN_LICENSE. 
 * `nsg_ids` - (Optional) (Updatable) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this resource belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
+* `scan_listener_port_tcp` - (Optional) The TCP Single Client Access Name (SCAN) port. The default port is 1521.
+* `scan_listener_port_tcp_ssl` - (Optional) The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the cloud VM cluster. 
 * `time_zone` - (Optional) The time zone to use for the cloud VM cluster. For details, see [Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
@@ -128,6 +132,8 @@ The following attributes are exported:
 * `scan_ip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IP addresses associated with the cloud VM cluster. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
 
 	**Note:** For a single-node DB system, this list is empty. 
+* `scan_listener_port_tcp` - The TCP Single Client Access Name (SCAN) port. The default port is 1521.
+* `scan_listener_port_tcp_ssl` - The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
 * `shape` - The model name of the Exadata hardware running the cloud VM cluster. 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
 * `state` - The current state of the cloud VM cluster.

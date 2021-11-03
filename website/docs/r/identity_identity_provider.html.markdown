@@ -10,6 +10,8 @@ description: |-
 # oci_identity_identity_provider
 This resource provides the Identity Provider resource in Oracle Cloud Infrastructure Identity service.
 
+**Deprecated.** For more information, see [Deprecated IAM Service APIs](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/deprecatediamapis.htm).
+
 Creates a new identity provider in your tenancy. For more information, see
 [Identity Providers and Federation](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/federation.htm).
 

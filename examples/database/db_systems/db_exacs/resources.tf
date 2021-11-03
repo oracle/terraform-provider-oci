@@ -24,6 +24,10 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   hostname                        = var.cloud_vm_cluster_hostname
   ssh_public_keys                 = [var.ssh_public_key]
   subnet_id                       = oci_core_subnet.subnet.id
+
+  #Optional
+  scan_listener_port_tcp             = var.cloud_vm_cluster_scan_listener_port_tcp
+  scan_listener_port_tcp_ssl          = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
 }
 
 resource "oci_database_db_home" "test_db_home_vm_cluster" {
@@ -51,7 +55,7 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
 }
 
 resource "oci_database_backup" "test_backup" {
-  depends_on   = ["oci_database_db_home.test_db_home_vm_cluster"]
+  depends_on   = [oci_database_db_home.test_db_home_vm_cluster]
   database_id  = oci_database_db_home.test_db_home_vm_cluster.database.0.id
   display_name = "FirstBackup"
 }

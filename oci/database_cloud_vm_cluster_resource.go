@@ -151,6 +151,18 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"scan_listener_port_tcp": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"scan_listener_port_tcp_ssl": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"time_zone": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -482,6 +494,16 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		}
 	}
 
+	if scanListenerPortTcp, ok := s.D.GetOkExists("scan_listener_port_tcp"); ok {
+		tmp := scanListenerPortTcp.(int)
+		request.ScanListenerPortTcp = &tmp
+	}
+
+	if scanListenerPortTcpSsl, ok := s.D.GetOkExists("scan_listener_port_tcp_ssl"); ok {
+		tmp := scanListenerPortTcpSsl.(int)
+		request.ScanListenerPortTcpSsl = &tmp
+	}
+
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 		interfaces := sshPublicKeys.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -762,6 +784,14 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
+
+	if s.Res.ScanListenerPortTcp != nil {
+		s.D.Set("scan_listener_port_tcp", *s.Res.ScanListenerPortTcp)
+	}
+
+	if s.Res.ScanListenerPortTcpSsl != nil {
+		s.D.Set("scan_listener_port_tcp_ssl", *s.Res.ScanListenerPortTcpSsl)
+	}
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)

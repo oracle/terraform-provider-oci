@@ -1936,6 +1936,16 @@ var exportIdentityTagHints = &TerraformResourceHints{
 	},
 }
 
+var exportIdentityDomainHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_domain",
+	datasourceClass:      "oci_identity_domains",
+	datasourceItemsAttr:  "domains",
+	resourceAbbreviation: "domain",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.DomainLifecycleStateActive),
+	},
+}
+
 var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_integration_integration_instance",
 	datasourceClass:        "oci_integration_integration_instances",
@@ -2574,6 +2584,14 @@ var exportStreamingStreamHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_streaming.StreamLifecycleStateActive),
 	},
+}
+
+var exportUsageProxySubscriptionRedeemableUserHints = &TerraformResourceHints{
+	resourceClass:          "oci_usage_proxy_subscription_redeemable_user",
+	datasourceClass:        "oci_usage_proxy_subscription_redeemable_users",
+	datasourceItemsAttr:    "redeemable_user_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "subscription_redeemable_user",
 }
 
 var exportVulnerabilityScanningHostScanRecipeHints = &TerraformResourceHints{

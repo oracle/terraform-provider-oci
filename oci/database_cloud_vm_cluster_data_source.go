@@ -166,6 +166,14 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
 
+	if s.Res.ScanListenerPortTcp != nil {
+		s.D.Set("scan_listener_port_tcp", *s.Res.ScanListenerPortTcp)
+	}
+
+	if s.Res.ScanListenerPortTcpSsl != nil {
+		s.D.Set("scan_listener_port_tcp_ssl", *s.Res.ScanListenerPortTcpSsl)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
