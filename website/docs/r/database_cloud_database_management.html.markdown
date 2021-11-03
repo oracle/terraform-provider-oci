@@ -2,9 +2,9 @@
 subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_cloud_database_management"
-sidebar_current: "docs-oci-resource-database-cloud-database_management"
+sidebar_current: "docs-oci-resource-database-cloud_database_management"
 description: |-
-Provides the Database Management resource in Oracle Cloud Infrastructure Database service
+  Provides the Database Management resource in Oracle Cloud Infrastructure Database service
 ---
 
 # oci_database_cloud_database_management
