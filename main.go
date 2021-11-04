@@ -5,6 +5,7 @@ package main
 
 import (
 	"flag"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"log"
 	"os"
 	"strings"
@@ -52,11 +53,11 @@ func main() {
 		switch *command {
 		case "export":
 
-			var terraformVersion provider.TfHclVersion
-			if provider.TfVersionEnum(*tfVersion) == provider.TfVersion11 {
-				terraformVersion = &provider.TfHclVersion11{Value: provider.TfVersionEnum(*tfVersion)}
-			} else if *tfVersion == "" || provider.TfVersionEnum(*tfVersion) == provider.TfVersion12 {
-				terraformVersion = &provider.TfHclVersion12{Value: provider.TfVersionEnum(*tfVersion)}
+			var terraformVersion tfresource.TfHclVersion
+			if tfresource.TfVersionEnum(*tfVersion) == tfresource.TfVersion11 {
+				terraformVersion = &tfresource.TfHclVersion11{Value: tfresource.TfVersionEnum(*tfVersion)}
+			} else if *tfVersion == "" || tfresource.TfVersionEnum(*tfVersion) == tfresource.TfVersion12 {
+				terraformVersion = &tfresource.TfHclVersion12{Value: tfresource.TfVersionEnum(*tfVersion)}
 			} else {
 				color.Red("[ERROR]: Invalid tf_version '%s', supported values: 0.11, 0.12\n", *tfVersion)
 				os.Exit(1)
