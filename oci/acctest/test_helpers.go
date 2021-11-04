@@ -28,13 +28,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v53/common"
-	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
-	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
-	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
-	tf_resource_discovery "github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
 	tf_provider "github.com/terraform-providers/terraform-provider-oci/oci/provider"
+	tf_resource_discovery "github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
+	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
 
 var tmpl template.Template = *template.New("tmpl")
@@ -486,7 +485,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *tf_resource
 	exportCommandArgs.Services = append(exportCommandArgs.Services, "availability_domain")
 	exportCommandArgs.CompartmentId = compartmentId
 	exportCommandArgs.OutputDir = &outputDir
-	var tfVersion tf_common.TfHclVersion = &tf_common.TfHclVersion12{Value: tf_common.TfVersion12}
+	var tfVersion tf_resource.TfHclVersion = &tf_resource.TfHclVersion12{Value: tf_resource.TfVersion12}
 	exportCommandArgs.TFVersion = &tfVersion
 
 	var parseErr error
