@@ -6,21 +6,19 @@ package oci
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"sort"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
 
-func init() {
-	RegisterDatasource("oci_identity_availability_domains", IdentityAvailabilityDomainsDataSource())
-}
-
 func IdentityAvailabilityDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityAvailabilityDomains,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -57,9 +55,9 @@ func IdentityAvailabilityDomainsDataSource() *schema.Resource {
 func readIdentityAvailabilityDomains(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAvailabilityDomainsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityAvailabilityDomainsDataSourceCrud struct {
@@ -80,7 +78,7 @@ func (s *IdentityAvailabilityDomainsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListAvailabilityDomains(context.Background(), request)
 	if err != nil {
@@ -96,7 +94,7 @@ func (s *IdentityAvailabilityDomainsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityAvailabilityDomainsDataSource-", IdentityAvailabilityDomainsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityAvailabilityDomainsDataSource-", IdentityAvailabilityDomainsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	items := s.Res.Items
@@ -123,7 +121,7 @@ func (s *IdentityAvailabilityDomainsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityAvailabilityDomainsDataSource().Schema["availability_domains"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityAvailabilityDomainsDataSource().Schema["availability_domains"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("availability_domains", resources); err != nil {

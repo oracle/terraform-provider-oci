@@ -5,23 +5,20 @@ package oci
 
 import (
 	"context"
-	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"log"
 	"strconv"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
 
-func init() {
-	RegisterDatasource("oci_identity_identity_providers", IdentityIdentityProvidersDataSource())
-}
-
 func IdentityIdentityProvidersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityIdentityProviders,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -41,7 +38,7 @@ func IdentityIdentityProvidersDataSource() *schema.Resource {
 			"identity_providers": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityIdentityProviderResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityIdentityProviderResource()),
 			},
 		},
 	}
@@ -50,9 +47,9 @@ func IdentityIdentityProvidersDataSource() *schema.Resource {
 func readIdentityIdentityProviders(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdentityProvidersDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityIdentityProvidersDataSourceCrud struct {
@@ -86,7 +83,7 @@ func (s *IdentityIdentityProvidersDataSourceCrud) Get() error {
 		request.LifecycleState = oci_identity.IdentityProviderLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListIdentityProviders(context.Background(), request)
 	if err != nil {
@@ -114,7 +111,7 @@ func (s *IdentityIdentityProvidersDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityIdentityProvidersDataSource-", IdentityIdentityProvidersDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityIdentityProvidersDataSource-", IdentityIdentityProvidersDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -146,7 +143,7 @@ func (s *IdentityIdentityProvidersDataSourceCrud) SetData() error {
 			}
 
 			if v.DefinedTags != nil {
-				result["defined_tags"] = tfresource.definedTagsToMap(v.DefinedTags)
+				result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
 			}
 
 			if v.Description != nil {
@@ -185,7 +182,7 @@ func (s *IdentityIdentityProvidersDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityIdentityProvidersDataSource().Schema["identity_providers"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityIdentityProvidersDataSource().Schema["identity_providers"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("identity_providers", resources); err != nil {

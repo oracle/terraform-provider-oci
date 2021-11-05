@@ -6,19 +6,17 @@ package oci
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_identity_provider_groups", IdentityIdentityProviderGroupsDataSource())
-}
 
 func IdentityIdentityProviderGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityIdentityProviderGroups,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"identity_provider_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -79,9 +77,9 @@ func IdentityIdentityProviderGroupsDataSource() *schema.Resource {
 func readIdentityIdentityProviderGroups(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdentityProviderGroupsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityIdentityProviderGroupsDataSourceCrud struct {
@@ -111,7 +109,7 @@ func (s *IdentityIdentityProviderGroupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_identity.IdentityProviderLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListIdentityProviderGroups(context.Background(), request)
 	if err != nil {
@@ -139,7 +137,7 @@ func (s *IdentityIdentityProviderGroupsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityIdentityProviderGroupsDataSource-", IdentityIdentityProviderGroupsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityIdentityProviderGroupsDataSource-", IdentityIdentityProviderGroupsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -175,7 +173,7 @@ func (s *IdentityIdentityProviderGroupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityIdentityProviderGroupsDataSource().Schema["identity_provider_groups"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityIdentityProviderGroupsDataSource().Schema["identity_provider_groups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("identity_provider_groups", resources); err != nil {

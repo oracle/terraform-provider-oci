@@ -131,8 +131,8 @@ data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
 	  }
 	}
 	`
-	TfEnvPrefix              = "TF_VAR_"
-	OciEnvPrefix             = "OCI_"
+	TfEnvPrefix  = "TF_VAR_"
+	OciEnvPrefix = "OCI_"
 )
 
 func LiteralTypeHashCodeForSets(m interface{}) int {

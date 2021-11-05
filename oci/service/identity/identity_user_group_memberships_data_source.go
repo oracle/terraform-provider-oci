@@ -7,19 +7,17 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_user_group_memberships", IdentityUserGroupMembershipsDataSource())
-}
 
 func IdentityUserGroupMembershipsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityUserGroupMemberships,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -35,7 +33,7 @@ func IdentityUserGroupMembershipsDataSource() *schema.Resource {
 			"memberships": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityUserGroupMembershipResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityUserGroupMembershipResource()),
 			},
 		},
 	}
@@ -44,9 +42,9 @@ func IdentityUserGroupMembershipsDataSource() *schema.Resource {
 func readIdentityUserGroupMemberships(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityUserGroupMembershipsDataSourceCrud struct {
@@ -77,7 +75,7 @@ func (s *IdentityUserGroupMembershipsDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListUserGroupMemberships(context.Background(), request)
 	if err != nil {
@@ -105,7 +103,7 @@ func (s *IdentityUserGroupMembershipsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityUserGroupMembershipsDataSource-", IdentityUserGroupMembershipsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityUserGroupMembershipsDataSource-", IdentityUserGroupMembershipsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -139,7 +137,7 @@ func (s *IdentityUserGroupMembershipsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityUserGroupMembershipsDataSource().Schema["memberships"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityUserGroupMembershipsDataSource().Schema["memberships"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("memberships", resources); err != nil {

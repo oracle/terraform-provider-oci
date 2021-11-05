@@ -6,19 +6,17 @@ package oci
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_region_subscriptions", IdentityRegionSubscriptionsDataSource())
-}
 
 func IdentityRegionSubscriptionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityRegionSubscriptions,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"tenancy_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -63,9 +61,9 @@ func IdentityRegionSubscriptionsDataSource() *schema.Resource {
 func readIdentityRegionSubscriptions(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityRegionSubscriptionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityRegionSubscriptionsDataSourceCrud struct {
@@ -86,7 +84,7 @@ func (s *IdentityRegionSubscriptionsDataSourceCrud) Get() error {
 		request.TenancyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListRegionSubscriptions(context.Background(), request)
 	if err != nil {
@@ -102,7 +100,7 @@ func (s *IdentityRegionSubscriptionsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityRegionSubscriptionsDataSource-", IdentityRegionSubscriptionsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityRegionSubscriptionsDataSource-", IdentityRegionSubscriptionsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -126,7 +124,7 @@ func (s *IdentityRegionSubscriptionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityRegionSubscriptionsDataSource().Schema["region_subscriptions"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityRegionSubscriptionsDataSource().Schema["region_subscriptions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("region_subscriptions", resources); err != nil {

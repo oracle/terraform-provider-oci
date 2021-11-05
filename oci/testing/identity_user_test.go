@@ -9,6 +9,9 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v54/common"
@@ -108,7 +111,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -214,7 +217,7 @@ func testAccCheckIdentityUserDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.UserId = &tmp
 
-			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 
 			response, err := client.GetUser(context.Background(), request)
 

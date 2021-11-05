@@ -9,7 +9,8 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
+	utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
 
 /* This map holds the list of ocids for a given resourceType by compartment
@@ -67,6 +68,7 @@ func GetResourceIdsToSweep(compartmentId string, resourceName string) []string {
 	}
 	return nil
 }
+
 /*
 func GetAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	availabilityDomains := make(map[string]string)
@@ -84,7 +86,7 @@ func GetAvalabilityDomains(compartmentId string) (map[string]string, error) {
 }
 */
 func InSweeperExcludeList(sweeperName string) bool {
-	excludeListSweeper := strings.Split(tf_utils.GetEnvSettingWithBlankDefault("sweep_exclude_list"), ",")
+	excludeListSweeper := strings.Split(utils.GetEnvSettingWithBlankDefault("sweep_exclude_list"), ",")
 
 	for _, sweeper := range excludeListSweeper {
 		if strings.EqualFold(strings.Trim(sweeper, " "), sweeperName) {

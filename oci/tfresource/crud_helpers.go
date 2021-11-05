@@ -478,7 +478,7 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 
 // Helper function to wait for Update to reach terminal state before doing another Update
 // Useful in situations where more than one Update is needed and prior Update needs to complete
-func waitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
+func WaitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
 		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
 			return e

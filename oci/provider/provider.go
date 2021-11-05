@@ -17,6 +17,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/meta"
@@ -34,14 +36,14 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
-	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
+	utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
 
 var descriptions map[string]string
-var apiKeyConfigAttributes = [...]string{tf_resource.UserOcidAttrName, tf_resource.FingerprintAttrName, tf_resource.PrivateKeyAttrName, tf_resource.PrivateKeyPathAttrName, tf_resource.PrivateKeyPasswordAttrName}
+var apiKeyConfigAttributes = [...]string{globalvar.UserOcidAttrName, globalvar.FingerprintAttrName, globalvar.PrivateKeyAttrName, globalvar.PrivateKeyPathAttrName, globalvar.PrivateKeyPasswordAttrName}
 var ociProvider *schema.Provider
 
-var TerraformCLIVersion = tf_resource.UnknownTerraformCLIVersion
+var TerraformCLIVersion = globalvar.UnknownTerraformCLIVersion
 var avoidWaitingForDeleteTarget bool
 
 var OciResources map[string]*schema.Resource
@@ -65,41 +67,41 @@ type oboTokenProviderFromEnv struct{}
 
 func (p oboTokenProviderFromEnv) OboToken() (string, error) {
 	// priority token from path than token from environment
-	if path := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.OboTokenPath); path != "" {
-		token, err := tf_utils.GetTokenFromFile(path)
+	if path := utils.GetEnvSettingWithBlankDefault(globalvar.OboTokenPath); path != "" {
+		token, err := utils.GetTokenFromFile(path)
 		if err != nil {
 			return "", err
 		}
 		return token, nil
 	}
-	return tf_utils.GetEnvSettingWithBlankDefault(tf_resource.OboTokenAttrName), nil
+	return utils.GetEnvSettingWithBlankDefault(globalvar.OboTokenAttrName), nil
 }
 
 func tfVarName(attrName string) string {
-	return tf_utils.TfEnvPrefix + attrName
+	return utils.TfEnvPrefix + attrName
 }
 
 func ociVarName(attrName string) string {
-	return tf_utils.OciEnvPrefix + strings.ToUpper(attrName)
+	return utils.OciEnvPrefix + strings.ToUpper(attrName)
 }
 
 func init() {
 	descriptions = map[string]string{
-		tf_resource.AuthAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s', '%s' and '%s'. By default, '%s' will be used.", tf_resource.AuthAPIKeySetting, tf_resource.AuthSecurityToken, tf_resource.AuthInstancePrincipalSetting, tf_resource.AuthAPIKeySetting),
-		tf_resource.TenancyOcidAttrName: fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", tf_resource.AuthAPIKeySetting),
-		tf_resource.UserOcidAttrName:    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", tf_resource.AuthAPIKeySetting),
-		tf_resource.FingerprintAttrName: fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.",tf_resource.AuthAPIKeySetting),
-		tf_resource.RegionAttrName:      "(Required) The region for API connections (e.g. us-ashburn-1).",
-		tf_resource.PrivateKeyAttrName: "(Optional) A PEM formatted RSA private key for the user.\n" +
-			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", tf_resource.AuthAPIKeySetting),
-		tf_resource.PrivateKeyPathAttrName: "(Optional) The path to the user's PEM formatted private key.\n" +
-			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", tf_resource.AuthAPIKeySetting),
-		tf_resource.PrivateKeyPasswordAttrName: "(Optional) The password used to secure the private key.",
-		tf_resource.DisableAutoRetriesAttrName: "(Optional) Disable automatic retries for retriable errors.\n" +
+		globalvar.AuthAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s', '%s' and '%s'. By default, '%s' will be used.", globalvar.AuthAPIKeySetting, globalvar.AuthSecurityToken, globalvar.AuthInstancePrincipalSetting, globalvar.AuthAPIKeySetting),
+		globalvar.TenancyOcidAttrName: fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
+		globalvar.UserOcidAttrName:    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
+		globalvar.FingerprintAttrName: fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
+		globalvar.RegionAttrName:      "(Required) The region for API connections (e.g. us-ashburn-1).",
+		globalvar.PrivateKeyAttrName: "(Optional) A PEM formatted RSA private key for the user.\n" +
+			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
+		globalvar.PrivateKeyPathAttrName: "(Optional) The path to the user's PEM formatted private key.\n" +
+			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
+		globalvar.PrivateKeyPasswordAttrName: "(Optional) The password used to secure the private key.",
+		globalvar.DisableAutoRetriesAttrName: "(Optional) Disable automatic retries for retriable errors.\n" +
 			"Automatic retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
-		tf_resource.RetryDurationSecondsAttrName: "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
+		globalvar.RetryDurationSecondsAttrName: "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
 			"The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.",
-		tf_resource.ConfigFileProfileAttrName: "(Optional) The profile name to be used from config file, if not set it will be DEFAULT.",
+		globalvar.ConfigFileProfileAttrName: "(Optional) The profile name to be used from config file, if not set it will be DEFAULT.",
 	}
 }
 
@@ -115,78 +117,78 @@ func Provider() terraform.ResourceProvider {
 
 func SchemaMap() map[string]*schema.Schema {
 	return map[string]*schema.Schema{
-		tf_resource.AuthAttrName: {
+		globalvar.AuthAttrName: {
 			Type:         schema.TypeString,
 			Optional:     true,
-			Description:  descriptions[tf_resource.AuthAttrName],
-			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.AuthAttrName), ociVarName(tf_resource.AuthAttrName)}, tf_resource.AuthAPIKeySetting),
-			ValidateFunc: validation.StringInSlice([]string{tf_resource.AuthAPIKeySetting, tf_resource.AuthInstancePrincipalSetting, tf_resource.AuthInstancePrincipalWithCertsSetting, tf_resource.AuthSecurityToken}, true),
+			Description:  descriptions[globalvar.AuthAttrName],
+			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.AuthAttrName), ociVarName(globalvar.AuthAttrName)}, globalvar.AuthAPIKeySetting),
+			ValidateFunc: validation.StringInSlice([]string{globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken}, true),
 		},
-		tf_resource.TenancyOcidAttrName: {
+		globalvar.TenancyOcidAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions[tf_resource.TenancyOcidAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.TenancyOcidAttrName), ociVarName(tf_resource.TenancyOcidAttrName)}, nil),
+			Description: descriptions[globalvar.TenancyOcidAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TenancyOcidAttrName), ociVarName(globalvar.TenancyOcidAttrName)}, nil),
 		},
-		tf_resource.UserOcidAttrName: {
+		globalvar.UserOcidAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions[tf_resource.UserOcidAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.UserOcidAttrName), ociVarName(tf_resource.UserOcidAttrName)}, nil),
+			Description: descriptions[globalvar.UserOcidAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.UserOcidAttrName), ociVarName(globalvar.UserOcidAttrName)}, nil),
 		},
-		tf_resource.FingerprintAttrName: {
+		globalvar.FingerprintAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions[tf_resource.FingerprintAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.FingerprintAttrName), ociVarName(tf_resource.FingerprintAttrName)}, nil),
+			Description: descriptions[globalvar.FingerprintAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.FingerprintAttrName), ociVarName(globalvar.FingerprintAttrName)}, nil),
 		},
 		// Mostly used for testing. Don't put keys in your .tf files
-		tf_resource.PrivateKeyAttrName: {
+		globalvar.PrivateKeyAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Default:     "",
 			Sensitive:   true,
-			Description: descriptions[tf_resource.PrivateKeyAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.PrivateKeyAttrName), ociVarName(tf_resource.PrivateKeyAttrName)}, nil),
+			Description: descriptions[globalvar.PrivateKeyAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyAttrName), ociVarName(globalvar.PrivateKeyAttrName)}, nil),
 		},
-		tf_resource.PrivateKeyPathAttrName: {
+		globalvar.PrivateKeyPathAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions[tf_resource.PrivateKeyPathAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.PrivateKeyPathAttrName), ociVarName(tf_resource.PrivateKeyPathAttrName)}, nil),
+			Description: descriptions[globalvar.PrivateKeyPathAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPathAttrName), ociVarName(globalvar.PrivateKeyPathAttrName)}, nil),
 		},
-		tf_resource.PrivateKeyPasswordAttrName: {
+		globalvar.PrivateKeyPasswordAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Sensitive:   true,
 			Default:     "",
-			Description: descriptions[tf_resource.PrivateKeyPasswordAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.PrivateKeyPasswordAttrName), ociVarName(tf_resource.PrivateKeyPasswordAttrName)}, nil),
+			Description: descriptions[globalvar.PrivateKeyPasswordAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.PrivateKeyPasswordAttrName), ociVarName(globalvar.PrivateKeyPasswordAttrName)}, nil),
 		},
-		tf_resource.RegionAttrName: {
+		globalvar.RegionAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions[tf_resource.RegionAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.RegionAttrName), ociVarName(tf_resource.RegionAttrName)}, nil),
+			Description: descriptions[globalvar.RegionAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.RegionAttrName), ociVarName(globalvar.RegionAttrName)}, nil),
 		},
-		tf_resource.DisableAutoRetriesAttrName: {
+		globalvar.DisableAutoRetriesAttrName: {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Default:     false,
-			Description: descriptions[tf_resource.DisableAutoRetriesAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.DisableAutoRetriesAttrName), ociVarName(tf_resource.DisableAutoRetriesAttrName)}, nil),
+			Description: descriptions[globalvar.DisableAutoRetriesAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.DisableAutoRetriesAttrName), ociVarName(globalvar.DisableAutoRetriesAttrName)}, nil),
 		},
-		tf_resource.RetryDurationSecondsAttrName: {
+		globalvar.RetryDurationSecondsAttrName: {
 			Type:        schema.TypeInt,
 			Optional:    true,
-			Description: descriptions[tf_resource.RetryDurationSecondsAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.RetryDurationSecondsAttrName), ociVarName(tf_resource.RetryDurationSecondsAttrName)}, nil),
+			Description: descriptions[globalvar.RetryDurationSecondsAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.RetryDurationSecondsAttrName), ociVarName(globalvar.RetryDurationSecondsAttrName)}, nil),
 		},
-		tf_resource.ConfigFileProfileAttrName: {
+		globalvar.ConfigFileProfileAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions[tf_resource.ConfigFileProfileAttrName],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tf_resource.ConfigFileProfileAttrName), ociVarName(tf_resource.ConfigFileProfileAttrName)}, nil),
+			Description: descriptions[globalvar.ConfigFileProfileAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.ConfigFileProfileAttrName), ociVarName(globalvar.ConfigFileProfileAttrName)}, nil),
 		},
 	}
 }
@@ -234,10 +236,10 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 		Configuration: make(map[string]string),
 	}
 
-	if d.Get(tf_resource.DisableAutoRetriesAttrName).(bool) {
+	if d.Get(globalvar.DisableAutoRetriesAttrName).(bool) {
 		tf_resource.ShortRetryTime = 0
 		tf_resource.LongRetryTime = 0
-	} else if retryDurationSeconds, exists := d.GetOkExists(tf_resource.RetryDurationSecondsAttrName); exists {
+	} else if retryDurationSeconds, exists := d.GetOkExists(globalvar.RetryDurationSecondsAttrName); exists {
 		val := time.Duration(retryDurationSeconds.(int)) * time.Second
 		if retryDurationSeconds.(int) < 0 {
 			// Retry for maximum amount of time, if a negative value was specified
@@ -264,16 +266,16 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 		return nil, err
 	}
 
-	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(tf_utils.GetEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
+	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(utils.GetEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
 
 	return clients, nil
 }
 
 func getSdkConfigProvider(d *schema.ResourceData, clients *tf_client.OracleClients) (oci_common.ConfigurationProvider, error) {
 
-	auth := strings.ToLower(d.Get(tf_resource.AuthAttrName).(string))
-	profile := d.Get(tf_resource.ConfigFileProfileAttrName).(string)
-	clients.Configuration[tf_resource.AuthAttrName] = auth
+	auth := strings.ToLower(d.Get(globalvar.AuthAttrName).(string))
+	profile := d.Get(globalvar.ConfigFileProfileAttrName).(string)
+	clients.Configuration[globalvar.AuthAttrName] = auth
 
 	configProviders, err := getConfigProviders(d, auth)
 	if err != nil {
@@ -292,8 +294,8 @@ func getSdkConfigProvider(d *schema.ResourceData, clients *tf_client.OracleClien
 	if profile == "" {
 		configProviders = append(configProviders, oci_common.DefaultConfigProvider())
 	} else {
-		defaultPath := path.Join(tf_utils.GetHomeFolder(), tf_resource.DefaultConfigDirName, tf_resource.DefaultConfigFileName)
-		err := tf_utils.CheckProfile(profile, defaultPath)
+		defaultPath := path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, globalvar.DefaultConfigFileName)
+		err := utils.CheckProfile(profile, defaultPath)
 		if err != nil {
 			return nil, err
 		}
@@ -311,23 +313,23 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 	var configProviders []oci_common.ConfigurationProvider
 
 	switch auth {
-	case strings.ToLower(tf_resource.AuthAPIKeySetting):
+	case strings.ToLower(globalvar.AuthAPIKeySetting):
 		// No additional config providers needed
-	case strings.ToLower(tf_resource.AuthInstancePrincipalSetting):
-		_, ok := tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d, apiKeyConfigAttributes)
+	case strings.ToLower(globalvar.AuthInstancePrincipalSetting):
+		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, apiKeyConfigAttributes)
 		if !ok {
 			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
 
-		region, ok := d.GetOk(tf_resource.RegionAttrName)
+		region, ok := d.GetOk(globalvar.RegionAttrName)
 		if !ok {
-			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", tf_resource.RegionAttrName)
+			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", globalvar.RegionAttrName)
 		}
 
 		// Used to modify InstancePrincipal auth clients so that `accept_local_certs` is honored for auth clients as well
-		// These clients are created implicitly by SDK, and are not modified by the buildConfigureClientFn that usually does this for the other SDK clients
+		// These clients are created implicitly by SDK, and are not modified by the utils.BuildConfigureClientFn that usually does this for the other SDK clients
 		instancePrincipalAuthClientModifier := func(client oci_common.HTTPRequestDispatcher) (oci_common.HTTPRequestDispatcher, error) {
-			if acceptLocalCerts := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.AcceptLocalCerts); acceptLocalCerts != "" {
+			if acceptLocalCerts := utils.GetEnvSettingWithBlankDefault(globalvar.AcceptLocalCerts); acceptLocalCerts != "" {
 				if bool, err := strconv.ParseBool(acceptLocalCerts); err == nil {
 					modifiedClient := buildHttpClient()
 					modifiedClient.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = bool
@@ -344,15 +346,15 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		log.Printf("[DEBUG] Configuration provided by: %s", cfg)
 
 		configProviders = append(configProviders, cfg)
-	case strings.ToLower(tf_resource.AuthInstancePrincipalWithCertsSetting):
-		_, ok := tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d, apiKeyConfigAttributes)
+	case strings.ToLower(globalvar.AuthInstancePrincipalWithCertsSetting):
+		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, apiKeyConfigAttributes)
 		if !ok {
 			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
 
-		region, ok := d.GetOkExists(tf_resource.RegionAttrName)
+		region, ok := d.GetOkExists(globalvar.RegionAttrName)
 		if !ok {
-			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipalWithCerts)", tf_resource.RegionAttrName)
+			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipalWithCerts)", globalvar.RegionAttrName)
 		}
 
 		defaultCertsDir, err := os.Getwd()
@@ -360,26 +362,26 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 			return nil, fmt.Errorf("can not get working directory for current os platform")
 		}
 
-		certsDir := filepath.Clean(tf_utils.GetEnvSettingWithDefault("test_certificates_location", defaultCertsDir))
-		leafCertificateBytes, err := tf_utils.GetCertificateFileBytes(filepath.Join(certsDir, "ip_cert.pem"))
+		certsDir := filepath.Clean(utils.GetEnvSettingWithDefault("test_certificates_location", defaultCertsDir))
+		leafCertificateBytes, err := utils.GetCertificateFileBytes(filepath.Join(certsDir, "ip_cert.pem"))
 		if err != nil {
 			return nil, fmt.Errorf("can not read leaf certificate from %s", filepath.Join(certsDir, "ip_cert.pem"))
 		}
 
-		leafPrivateKeyBytes, err := tf_utils.GetCertificateFileBytes(filepath.Join(certsDir, "ip_key.pem"))
+		leafPrivateKeyBytes, err := utils.GetCertificateFileBytes(filepath.Join(certsDir, "ip_key.pem"))
 		if err != nil {
 			return nil, fmt.Errorf("can not read leaf private key from %s", filepath.Join(certsDir, "ip_key.pem"))
 		}
 
 		leafPassphraseBytes := []byte{}
 		if _, err := os.Stat(certsDir + "/leaf_passphrase"); !os.IsNotExist(err) {
-			leafPassphraseBytes, err = tf_utils.GetCertificateFileBytes(filepath.Join(certsDir + "leaf_passphrase"))
+			leafPassphraseBytes, err = utils.GetCertificateFileBytes(filepath.Join(certsDir + "leaf_passphrase"))
 			if err != nil {
 				return nil, fmt.Errorf("can not read leafPassphraseBytes from %s", filepath.Join(certsDir+"leaf_passphrase"))
 			}
 		}
 
-		intermediateCertificateBytes, err := tf_utils.GetCertificateFileBytes(filepath.Join(certsDir, "intermediate.pem"))
+		intermediateCertificateBytes, err := utils.GetCertificateFileBytes(filepath.Join(certsDir, "intermediate.pem"))
 		if err != nil {
 			return nil, fmt.Errorf("can not read intermediate certificate from %s", filepath.Join(certsDir, "intermediate.pem"))
 		}
@@ -396,18 +398,18 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 
 		configProviders = append(configProviders, cfg)
 
-	case strings.ToLower(tf_resource.AuthSecurityToken):
-		_, ok := tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d, apiKeyConfigAttributes)
+	case strings.ToLower(globalvar.AuthSecurityToken):
+		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, apiKeyConfigAttributes)
 		if !ok {
 			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
-		profile, ok := d.GetOk(tf_resource.ConfigFileProfileAttrName)
+		profile, ok := d.GetOk(globalvar.ConfigFileProfileAttrName)
 		if !ok {
-			return nil, fmt.Errorf("missing profile in provider block %v", tf_resource.ConfigFileProfileAttrName)
+			return nil, fmt.Errorf("missing profile in provider block %v", globalvar.ConfigFileProfileAttrName)
 		}
 		profileString := profile.(string)
-		defaultPath := path.Join(tf_utils.GetHomeFolder(), tf_resource.DefaultConfigDirName, tf_resource.DefaultConfigFileName)
-		if err := tf_utils.CheckProfile(profileString, defaultPath); err != nil {
+		defaultPath := path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, globalvar.DefaultConfigFileName)
+		if err := utils.CheckProfile(profileString, defaultPath); err != nil {
 			return nil, err
 		}
 		securityTokenBasedAuthConfigProvider := oci_common.CustomProfileConfigProvider(defaultPath, profileString)
@@ -418,126 +420,10 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		}
 		configProviders = append(configProviders, securityTokenBasedAuthConfigProvider)
 	default:
-		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s' or '%s'", tf_resource.AuthAPIKeySetting, tf_resource.AuthInstancePrincipalSetting, tf_resource.AuthInstancePrincipalWithCertsSetting, tf_resource.AuthSecurityToken)
+		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s' or '%s'", globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken)
 	}
 
 	return configProviders, nil
-}
-
-func buildHttpClient() (httpClient *http.Client) {
-	httpClient = &http.Client{
-		Timeout: tf_resource.DefaultRequestTimeout,
-		Transport: &http.Transport{
-			DialContext: (&net.Dialer{
-				Timeout: tf_resource.DefaultConnectionTimeout,
-			}).DialContext,
-			TLSHandshakeTimeout: tf_resource.DefaultTLSHandshakeTimeout,
-			TLSClientConfig:     &tls.Config{MinVersion: tls.VersionTLS12},
-			Proxy:               http.ProxyFromEnvironment,
-		},
-	}
-	return
-}
-
-func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, httpClient *http.Client) (tf_client.ConfigureClient, error) {
-
-	if ociProvider != nil && len(ociProvider.TerraformVersion) > 0 {
-		TerraformCLIVersion = ociProvider.TerraformVersion
-	}
-	userAgentProviderName := tf_utils.GetEnvSettingWithDefault(tf_resource.UserAgentProviderNameEnv, tf_resource.DefaultUserAgentProviderName)
-	userAgent := fmt.Sprintf(tf_resource.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), TerraformCLIVersion, userAgentProviderName, tf_resource.Version)
-
-	useOboToken, err := strconv.ParseBool(tf_utils.GetEnvSettingWithDefault("use_obo_token", "false"))
-	if err != nil {
-		return nil, err
-	}
-
-	simulateDb, _ := strconv.ParseBool(tf_utils.GetEnvSettingWithDefault("simulate_db", "false"))
-
-	requestSigner := oci_common.DefaultRequestSigner(configProvider)
-	var oboTokenProvider OboTokenProvider
-	oboTokenProvider = emptyOboTokenProvider{}
-	if useOboToken {
-		// Add Obo token to the default list and Update the signer
-		httpHeadersToSign := append(oci_common.DefaultGenericHeaders(), tf_resource.RequestHeaderOpcOboToken)
-		requestSigner = oci_common.RequestSigner(configProvider, httpHeadersToSign, oci_common.DefaultBodyHeaders())
-		oboTokenProvider = oboTokenProviderFromEnv{}
-	}
-
-	configureClientFn := func(client *oci_common.BaseClient) error {
-		client.HTTPClient = httpClient
-		client.UserAgent = userAgent
-		client.Signer = requestSigner
-		client.Interceptor = func(r *http.Request) error {
-			if oboToken, err := oboTokenProvider.OboToken(); err == nil && oboToken != "" {
-				r.Header.Set(tf_resource.RequestHeaderOpcOboToken, oboToken)
-			}
-
-			if simulateDb {
-				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") ||
-					strings.Contains(r.URL.Path, "/autonomousData") ||
-					strings.Contains(r.URL.Path, "/dataGuardAssociations") ||
-					strings.Contains(r.URL.Path, "/autonomousExadata") ||
-					strings.Contains(r.URL.Path, "/autonomousContainer") ||
-					strings.Contains(r.URL.Path, "/backupDestinations") ||
-					strings.Contains(r.URL.Path, "/exadataInfrastructures") ||
-					strings.Contains(r.URL.Path, "/vmClusters") ||
-					strings.Contains(r.URL.Path, "/cloudExadataInfrastructures") ||
-					strings.Contains(r.URL.Path, "/cloudVmClusters") ||
-					strings.Contains(r.URL.Path, "/autonomousVmClusters") ||
-					strings.Contains(r.URL.Path, "/externalnoncontainerdatabases") ||
-					strings.Contains(r.URL.Path, "/externalcontainerdatabases") ||
-					strings.Contains(r.URL.Path, "/externalpluggabledatabases") ||
-					strings.Contains(r.URL.Path, "/externaldatabaseconnectors")) {
-					r.Header.Set(tf_resource.RequestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
-				}
-			}
-			return nil
-		}
-
-		domainNameOverride := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.DomainNameOverrideEnv)
-
-		if domainNameOverride != "" {
-			hasCorrectDomainName := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.HasCorrectDomainNameEnv)
-			re := regexp.MustCompile(`(.*?)[-\w]+\.\w+$`) // (capture: preamble) match: d0main-name . tld end-of-string
-			if hasCorrectDomainName == "" || !strings.HasSuffix(client.Host, hasCorrectDomainName) {
-				client.Host = re.ReplaceAllString(client.Host, "${1}"+domainNameOverride) // non-match conveniently returns original string
-			}
-		}
-
-		customCertLoc := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.CustomCertLocationEnv)
-
-		if customCertLoc != "" {
-			cert, err := ioutil.ReadFile(customCertLoc)
-			if err != nil {
-				return err
-			}
-			pool := x509.NewCertPool()
-			if ok := pool.AppendCertsFromPEM(cert); !ok {
-				return fmt.Errorf("failed to append custom cert to the pool")
-			}
-			// install the certificates in the client
-			httpClient.Transport.(*http.Transport).TLSClientConfig.RootCAs = pool
-		}
-
-		if acceptLocalCerts := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.AcceptLocalCerts); acceptLocalCerts != "" {
-			if bool, err := strconv.ParseBool(acceptLocalCerts); err == nil {
-				httpClient.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = bool
-			}
-		}
-
-		// install the hook for HTTP replaying
-		if h, ok := client.HTTPClient.(*http.Client); ok {
-			_, err := httpreplay.InstallRecorder(h)
-			if err != nil {
-				return err
-			}
-		}
-
-		return nil
-	}
-
-	return configureClientFn, nil
 }
 
 type ResourceDataConfigProvider struct {
@@ -558,34 +444,34 @@ func (p ResourceDataConfigProvider) AuthType() (oci_common.AuthConfig, error) {
 }
 
 func (p ResourceDataConfigProvider) TenancyOCID() (string, error) {
-	if boatTenancyOCID := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.BoatTenancyOcidAttrName); boatTenancyOCID != "" {
+	if boatTenancyOCID := utils.GetEnvSettingWithBlankDefault(globalvar.BoatTenancyOcidAttrName); boatTenancyOCID != "" {
 		return boatTenancyOCID, nil
 	}
-	if tenancyOCID, ok := p.D.GetOkExists(tf_resource.TenancyOcidAttrName); ok {
+	if tenancyOCID, ok := p.D.GetOkExists(globalvar.TenancyOcidAttrName); ok {
 		return tenancyOCID.(string), nil
 	}
-	return "", fmt.Errorf("can not get %s from Terraform configuration", tf_resource.TenancyOcidAttrName)
+	return "", fmt.Errorf("can not get %s from Terraform configuration", globalvar.TenancyOcidAttrName)
 }
 
 func (p ResourceDataConfigProvider) UserOCID() (string, error) {
-	if userOCID, ok := p.D.GetOkExists(tf_resource.UserOcidAttrName); ok {
+	if userOCID, ok := p.D.GetOkExists(globalvar.UserOcidAttrName); ok {
 		return userOCID.(string), nil
 	}
-	return "", fmt.Errorf("can not get %s from Terraform configuration", tf_resource.UserOcidAttrName)
+	return "", fmt.Errorf("can not get %s from Terraform configuration", globalvar.UserOcidAttrName)
 }
 
 func (p ResourceDataConfigProvider) KeyFingerprint() (string, error) {
-	if fingerprint, ok := p.D.GetOkExists(tf_resource.FingerprintAttrName); ok {
+	if fingerprint, ok := p.D.GetOkExists(globalvar.FingerprintAttrName); ok {
 		return fingerprint.(string), nil
 	}
-	return "", fmt.Errorf("can not get %s from Terraform configuration", tf_resource.FingerprintAttrName)
+	return "", fmt.Errorf("can not get %s from Terraform configuration", globalvar.FingerprintAttrName)
 }
 
 func (p ResourceDataConfigProvider) Region() (string, error) {
-	if region, ok := p.D.GetOkExists(tf_resource.RegionAttrName); ok {
+	if region, ok := p.D.GetOkExists(globalvar.RegionAttrName); ok {
 		return region.(string), nil
 	}
-	return "", fmt.Errorf("can not get %s from Terraform configuration", tf_resource.RegionAttrName)
+	return "", fmt.Errorf("can not get %s from Terraform configuration", globalvar.RegionAttrName)
 }
 
 func (p ResourceDataConfigProvider) KeyID() (string, error) {
@@ -609,16 +495,16 @@ func (p ResourceDataConfigProvider) KeyID() (string, error) {
 
 func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err error) {
 	password := ""
-	if privateKeyPassword, hasPrivateKeyPassword := p.D.GetOkExists(tf_resource.PrivateKeyPasswordAttrName); hasPrivateKeyPassword {
+	if privateKeyPassword, hasPrivateKeyPassword := p.D.GetOkExists(globalvar.PrivateKeyPasswordAttrName); hasPrivateKeyPassword {
 		password = privateKeyPassword.(string)
 	}
 
-	if privateKey, hasPrivateKey := p.D.GetOkExists(tf_resource.PrivateKeyAttrName); hasPrivateKey {
+	if privateKey, hasPrivateKey := p.D.GetOkExists(globalvar.PrivateKeyAttrName); hasPrivateKey {
 		return oci_common.PrivateKeyFromBytes([]byte(privateKey.(string)), &password)
 	}
 
-	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists(tf_resource.PrivateKeyPathAttrName); hasPrivateKeyPath {
-		resolvedPath := tf_utils.ExpandPath(privateKeyPath.(string))
+	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists(globalvar.PrivateKeyPathAttrName); hasPrivateKeyPath {
+		resolvedPath := utils.ExpandPath(privateKeyPath.(string))
 		pemFileContent, readFileErr := ioutil.ReadFile(resolvedPath)
 		if readFileErr != nil {
 			return nil, fmt.Errorf("can not read private key from: '%s', Error: %q", privateKeyPath, readFileErr)
@@ -627,4 +513,119 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 	}
 
 	return nil, fmt.Errorf("can not get private_key or private_key_path from Terraform configuration")
+}
+func buildHttpClient() (httpClient *http.Client) {
+	httpClient = &http.Client{
+		Timeout: globalvar.DefaultRequestTimeout,
+		Transport: &http.Transport{
+			DialContext: (&net.Dialer{
+				Timeout: globalvar.DefaultConnectionTimeout,
+			}).DialContext,
+			TLSHandshakeTimeout: globalvar.DefaultTLSHandshakeTimeout,
+			TLSClientConfig:     &tls.Config{MinVersion: tls.VersionTLS12},
+			Proxy:               http.ProxyFromEnvironment,
+		},
+	}
+	return
+}
+
+func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, httpClient *http.Client) (tf_client.ConfigureClient, error) {
+
+	if ociProvider != nil && len(ociProvider.TerraformVersion) > 0 {
+		TerraformCLIVersion = ociProvider.TerraformVersion
+	}
+	userAgentProviderName := utils.GetEnvSettingWithDefault(globalvar.UserAgentProviderNameEnv, globalvar.DefaultUserAgentProviderName)
+	userAgent := fmt.Sprintf(globalvar.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), TerraformCLIVersion, userAgentProviderName, tf_resource.Version)
+
+	useOboToken, err := strconv.ParseBool(utils.GetEnvSettingWithDefault("use_obo_token", "false"))
+	if err != nil {
+		return nil, err
+	}
+
+	simulateDb, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("simulate_db", "false"))
+
+	requestSigner := oci_common.DefaultRequestSigner(configProvider)
+	var oboTokenProvider OboTokenProvider
+	oboTokenProvider = emptyOboTokenProvider{}
+	if useOboToken {
+		// Add Obo token to the default list and Update the signer
+		httpHeadersToSign := append(oci_common.DefaultGenericHeaders(), globalvar.RequestHeaderOpcOboToken)
+		requestSigner = oci_common.RequestSigner(configProvider, httpHeadersToSign, oci_common.DefaultBodyHeaders())
+		oboTokenProvider = oboTokenProviderFromEnv{}
+	}
+
+	configureClientFn := func(client *oci_common.BaseClient) error {
+		client.HTTPClient = httpClient
+		client.UserAgent = userAgent
+		client.Signer = requestSigner
+		client.Interceptor = func(r *http.Request) error {
+			if oboToken, err := oboTokenProvider.OboToken(); err == nil && oboToken != "" {
+				r.Header.Set(globalvar.RequestHeaderOpcOboToken, oboToken)
+			}
+
+			if simulateDb {
+				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") ||
+					strings.Contains(r.URL.Path, "/autonomousData") ||
+					strings.Contains(r.URL.Path, "/dataGuardAssociations") ||
+					strings.Contains(r.URL.Path, "/autonomousExadata") ||
+					strings.Contains(r.URL.Path, "/autonomousContainer") ||
+					strings.Contains(r.URL.Path, "/backupDestinations") ||
+					strings.Contains(r.URL.Path, "/exadataInfrastructures") ||
+					strings.Contains(r.URL.Path, "/vmClusters") ||
+					strings.Contains(r.URL.Path, "/cloudExadataInfrastructures") ||
+					strings.Contains(r.URL.Path, "/cloudVmClusters") ||
+					strings.Contains(r.URL.Path, "/autonomousVmClusters") ||
+					strings.Contains(r.URL.Path, "/externalnoncontainerdatabases") ||
+					strings.Contains(r.URL.Path, "/externalcontainerdatabases") ||
+					strings.Contains(r.URL.Path, "/externalpluggabledatabases") ||
+					strings.Contains(r.URL.Path, "/externaldatabaseconnectors")) {
+					r.Header.Set(globalvar.RequestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
+				}
+			}
+			return nil
+		}
+
+		domainNameOverride := utils.GetEnvSettingWithBlankDefault(globalvar.DomainNameOverrideEnv)
+
+		if domainNameOverride != "" {
+			hasCorrectDomainName := utils.GetEnvSettingWithBlankDefault(globalvar.HasCorrectDomainNameEnv)
+			re := regexp.MustCompile(`(.*?)[-\w]+\.\w+$`) // (capture: preamble) match: d0main-name . tld end-of-string
+			if hasCorrectDomainName == "" || !strings.HasSuffix(client.Host, hasCorrectDomainName) {
+				client.Host = re.ReplaceAllString(client.Host, "${1}"+domainNameOverride) // non-match conveniently returns original string
+			}
+		}
+
+		customCertLoc := utils.GetEnvSettingWithBlankDefault(globalvar.CustomCertLocationEnv)
+
+		if customCertLoc != "" {
+			cert, err := ioutil.ReadFile(customCertLoc)
+			if err != nil {
+				return err
+			}
+			pool := x509.NewCertPool()
+			if ok := pool.AppendCertsFromPEM(cert); !ok {
+				return fmt.Errorf("failed to append custom cert to the pool")
+			}
+			// install the certificates in the client
+			httpClient.Transport.(*http.Transport).TLSClientConfig.RootCAs = pool
+		}
+
+		if acceptLocalCerts := utils.GetEnvSettingWithBlankDefault(globalvar.AcceptLocalCerts); acceptLocalCerts != "" {
+			if bool, err := strconv.ParseBool(acceptLocalCerts); err == nil {
+				httpClient.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = bool
+			}
+		}
+
+		// install the hook for HTTP replaying
+		if h, ok := client.HTTPClient.(*http.Client); ok {
+			_, err := httpreplay.InstallRecorder(h)
+			if err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}
+
+	return configureClientFn, nil
 }
