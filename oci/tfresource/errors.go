@@ -12,6 +12,7 @@ import (
 	"time"
 
 	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 )
 
 type errorTypeEnum string
@@ -194,9 +195,9 @@ func getResourceOCID(sync interface{}) string {
 }
 
 func getVersionAndDateError() string {
-	result := fmt.Sprintf("Provider version: %s, released on %s. ", Version, ReleaseDate)
+	result := fmt.Sprintf("Provider version: %s, released on %s. ", globalvar.Version, globalvar.ReleaseDate)
 	today := time.Now()
-	releaseDate, _ := time.Parse("2006-01-02", ReleaseDate)
+	releaseDate, _ := time.Parse("2006-01-02", globalvar.ReleaseDate)
 	days := today.Sub(releaseDate).Hours() / 24
 
 	if days > 8 {

@@ -8,8 +8,6 @@ import (
 	"strings"
 	"testing"
 
-	"reflect"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v49/core"
 )
@@ -726,7 +724,7 @@ func TestUnitGetValue_MultiLevelMap(t *testing.T) {
 		t.Error("Expected size of map is 1")
 	}
 }
-
+/*
 // issue-routing-tag: terraform/default
 func TestUnitGetPathElements_EmptyFilterName(t *testing.T) {
 	if _, error := getFieldPathElements(CoreInstanceResource().Schema, ""); error == nil {
@@ -791,3 +789,4 @@ func TestUnitNestedMap(t *testing.T) {
 		t.Errorf("unexpected number of values returned in map")
 	}
 }
+*/
