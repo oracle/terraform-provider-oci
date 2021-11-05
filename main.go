@@ -5,17 +5,20 @@ package main
 
 import (
 	"flag"
-	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/fatih/color"
 
 	"github.com/hashicorp/terraform-plugin-sdk/plugin"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
-	provider "github.com/terraform-providers/terraform-provider-oci/oci"
+	"github.com/terraform-providers/terraform-provider-oci/oci/provider"
 )
 
 func main() {
@@ -35,7 +38,7 @@ func main() {
 	var parallelism = flag.Int("parallelism", 1, "The number of threads to use for resource discovery. By default the value is 1")
 
 	flag.Parse()
-	provider.PrintVersion()
+	tfresource.PrintVersion()
 
 	if help != nil && *help {
 		flag.PrintDefaults()
@@ -68,7 +71,7 @@ func main() {
 				os.Exit(1)
 			}
 
-			args := &provider.ExportCommandArgs{
+			args := &resourcediscovery.ExportCommandArgs{
 				CompartmentId:                compartmentId,
 				CompartmentName:              compartmentName,
 				OutputDir:                    outputPath,
@@ -90,19 +93,19 @@ func main() {
 			if ids != nil && *ids != "" {
 				args.IDs = strings.Split(*ids, ",")
 			}
-			err, status := provider.RunExportCommand(args)
+			err, status := resourcediscovery.RunExportCommand(args)
 			if err != nil {
 				color.Red("%v", err)
 			}
 			os.Exit(int(status))
 
 		case "list_export_resources":
-			if err := provider.RunListExportableResourcesCommand(); err != nil {
+			if err := resourcediscovery.RunListExportableResourcesCommand(); err != nil {
 				color.Red("%v", err)
 				os.Exit(1)
 			}
 		case "list_export_services":
-			if err := provider.RunListExportableServicesCommand(*listExportServicesPath); err != nil {
+			if err := resourcediscovery.RunListExportableServicesCommand(*listExportServicesPath); err != nil {
 				color.Red("%v", err)
 				os.Exit(1)
 			}

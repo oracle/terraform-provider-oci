@@ -15,8 +15,6 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-
-
 // issue-routing-tag: identity/default
 func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityAvailabilityDomainResource_basic")

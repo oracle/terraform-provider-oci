@@ -7,19 +7,17 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_customer_secret_keys", IdentityCustomerSecretKeysDataSource())
-}
 
 func IdentityCustomerSecretKeysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityCustomerSecretKeys,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"user_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -27,7 +25,7 @@ func IdentityCustomerSecretKeysDataSource() *schema.Resource {
 			"customer_secret_keys": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityCustomerSecretKeyResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityCustomerSecretKeyResource()),
 			},
 		},
 	}
@@ -36,9 +34,9 @@ func IdentityCustomerSecretKeysDataSource() *schema.Resource {
 func readIdentityCustomerSecretKeys(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeysDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityCustomerSecretKeysDataSourceCrud struct {
@@ -59,7 +57,7 @@ func (s *IdentityCustomerSecretKeysDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListCustomerSecretKeys(context.Background(), request)
 	if err != nil {
@@ -75,7 +73,7 @@ func (s *IdentityCustomerSecretKeysDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityCustomerSecretKeysDataSource-", IdentityCustomerSecretKeysDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityCustomerSecretKeysDataSource-", IdentityCustomerSecretKeysDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -109,7 +107,7 @@ func (s *IdentityCustomerSecretKeysDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityCustomerSecretKeysDataSource().Schema["customer_secret_keys"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityCustomerSecretKeysDataSource().Schema["customer_secret_keys"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("customer_secret_keys", resources); err != nil {

@@ -9,7 +9,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/hashicorp/go-multierror"
 	"log"
 	"net/http"
 	"os"
@@ -21,6 +20,10 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
+
+	"github.com/hashicorp/go-multierror"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
@@ -29,11 +32,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+
 	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 	tf_provider "github.com/terraform-providers/terraform-provider-oci/oci/provider"
 	tf_resource_discovery "github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
 	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
-	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
+	utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
 
 var tmpl template.Template = *template.New("tmpl")
@@ -456,7 +460,7 @@ func TestExportCompartmentWithResourceName(id *string, compartmentId *string, re
 func testExportCompartment(compartmentId *string, exportCommandArgs *tf_resource_discovery.ExportCommandArgs) error {
 	// checking for provider_bin_path here because parent func will also be
 	// called for resources that do not support RD
-	if providerBinPath := tf_utils.GetEnvSettingWithBlankDefault("provider_bin_path"); providerBinPath == "" {
+	if providerBinPath := utils.GetEnvSettingWithBlankDefault("provider_bin_path"); providerBinPath == "" {
 		goPath := os.Getenv("GOPATH")
 		if goPath == "" {
 			return fmt.Errorf("not able to set 'provider_bin_path', either specificy 'provider_bin_path' env variable or set GOPATH to use default provider bin path ($GOPATH/bin)")
@@ -489,7 +493,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *tf_resource
 	exportCommandArgs.TFVersion = &tfVersion
 
 	var parseErr error
-	if exportCommandArgs.Parallelism, parseErr = strconv.Atoi(tf_utils.GetEnvSettingWithDefault("export_parallelism", "10")); parseErr != nil {
+	if exportCommandArgs.Parallelism, parseErr = strconv.Atoi(utils.GetEnvSettingWithDefault("export_parallelism", "10")); parseErr != nil {
 		return fmt.Errorf("[ERROR] invalid value for resource discovery parallelism: %s", parseErr.Error())
 	}
 	log.Printf("[INFO] exportCommandArgs.Parallelism: %d", exportCommandArgs.Parallelism)
@@ -507,7 +511,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *tf_resource
 
 	// run init command
 
-	terraformBinPath := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.TerraformBinPathName)
+	terraformBinPath := utils.GetEnvSettingWithBlankDefault(globalvar.TerraformBinPathName)
 	if terraformBinPath == "" {
 		var err error
 		terraformBinPath, err = tfinstall.Find(context.Background(), tfinstall.LookPath())
@@ -522,7 +526,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *tf_resource
 	backgroundCtx := context.Background()
 
 	var initArgs []tfexec.InitOption
-	if pluginDir := tf_utils.GetEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
+	if pluginDir := utils.GetEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
 		log.Printf("[INFO] plugin dir: '%s'", pluginDir)
 		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
 	}
@@ -606,7 +610,7 @@ func isResourceSupportImport(resourceName string) (support bool, err error) {
 }
 
 func SaveConfigContent(content string, service string, resource string, t *testing.T) {
-	if strings.ToLower(tf_utils.GetEnvSettingWithBlankDefault("save_configs")) == "true" {
+	if strings.ToLower(utils.GetEnvSettingWithBlankDefault("save_configs")) == "true" {
 		if len(content) > 0 {
 			if err := WriteToFile(content, service, resource); err != nil {
 				log.Printf("Failed to write TF content to file with error: %q", err)
@@ -645,7 +649,6 @@ func GenericTestStepPreConfiguration(stepNumber int) func() {
 		log.Println()
 	}
 }
-
 
 /*
 	This struct extends the HashiCorp plugin framework testing.T
@@ -714,14 +717,14 @@ func ResourceTest(t *testing.T, checkDestroyFunc resource.TestCheckFunc, steps [
 func PreCheck(t *testing.T) {
 	envVarChecklist := []string{}
 	copy(envVarChecklist, requiredTestEnvVars)
-	if tf_utils.GetEnvSettingWithDefault("use_obo_token", "false") != "false" {
+	if utils.GetEnvSettingWithDefault("use_obo_token", "false") != "false" {
 		envVarChecklist = append(envVarChecklist, requiredOboTokenAuthEnvVars...)
 	} else {
 		envVarChecklist = append(envVarChecklist, requiredKeyAuthEnvVars...)
 	}
 
 	for _, envVar := range envVarChecklist {
-		if v := tf_utils.GetEnvSettingWithBlankDefault(envVar); v == "" {
+		if v := utils.GetEnvSettingWithBlankDefault(envVar); v == "" {
 			t.Fatal("TF_VAR_" + envVar + " must be set for acceptance tests")
 		}
 	}
@@ -733,6 +736,7 @@ var requiredKeyAuthEnvVars = []string{"tenancy_ocid", "user_ocid", "fingerprint"
 var requiredOboTokenAuthEnvVars = []string{"tenancy_ocid", "obo_token"}
 var TestAccProvider *schema.Provider
 var TestAccProviders map[string]terraform.ResourceProvider
+
 const (
 	requestQueryOpcTimeMaintenanceRebootDue = "opc-time-maintenance-reboot-due"
 )
@@ -763,7 +767,7 @@ func ProviderTestConfig() string {
 func CommonTestVariables() string {
 	return `
 	variable "tenancy_ocid" {
-		default = "` + tf_utils.GetEnvSettingWithBlankDefault("tenancy_ocid") + `"
+		default = "` + utils.GetEnvSettingWithBlankDefault("tenancy_ocid") + `"
 	}
 
 	variable "ssh_public_key" {
@@ -771,7 +775,7 @@ func CommonTestVariables() string {
 	}
 
 	variable "region" {
-		default = "` + tf_utils.GetEnvSettingWithBlankDefault("region") + `"
+		default = "` + utils.GetEnvSettingWithBlankDefault("region") + `"
 	}
 
 	`
@@ -782,22 +786,22 @@ func GetTestClients(data *schema.ResourceData) *tf_client.OracleClients {
 		Schema: tf_provider.SchemaMap(),
 	}
 	d := r.Data(nil)
-	d.SetId(tf_utils.GetEnvSettingWithBlankDefault("tenancy_ocid"))
-	d.Set("tenancy_ocid", tf_utils.GetEnvSettingWithBlankDefault("tenancy_ocid"))
-	d.Set("region", tf_utils.GetEnvSettingWithDefault("region", "us-phoenix-1"))
+	d.SetId(utils.GetEnvSettingWithBlankDefault("tenancy_ocid"))
+	d.Set("tenancy_ocid", utils.GetEnvSettingWithBlankDefault("tenancy_ocid"))
+	d.Set("region", utils.GetEnvSettingWithDefault("region", "us-phoenix-1"))
 
-	if auth := tf_utils.GetEnvSettingWithDefault("auth", tf_resource.AuthAPIKeySetting); auth == tf_resource.AuthAPIKeySetting {
-		d.Set("auth", tf_utils.GetEnvSettingWithDefault("auth", tf_resource.AuthAPIKeySetting))
-		d.Set("user_ocid", tf_utils.GetEnvSettingWithBlankDefault("user_ocid"))
-		d.Set("fingerprint", tf_utils.GetEnvSettingWithBlankDefault("fingerprint"))
-		d.Set("private_key_path", tf_utils.GetEnvSettingWithBlankDefault("private_key_path"))
-		d.Set("private_key_password", tf_utils.GetEnvSettingWithBlankDefault("private_key_password"))
-		d.Set("private_key", tf_utils.GetEnvSettingWithBlankDefault("private_key"))
+	if auth := utils.GetEnvSettingWithDefault("auth", globalvar.AuthAPIKeySetting); auth == globalvar.AuthAPIKeySetting {
+		d.Set("auth", utils.GetEnvSettingWithDefault("auth", globalvar.AuthAPIKeySetting))
+		d.Set("user_ocid", utils.GetEnvSettingWithBlankDefault("user_ocid"))
+		d.Set("fingerprint", utils.GetEnvSettingWithBlankDefault("fingerprint"))
+		d.Set("private_key_path", utils.GetEnvSettingWithBlankDefault("private_key_path"))
+		d.Set("private_key_password", utils.GetEnvSettingWithBlankDefault("private_key_password"))
+		d.Set("private_key", utils.GetEnvSettingWithBlankDefault("private_key"))
 	} else {
-		d.Set("auth", tf_utils.GetEnvSettingWithDefault("auth", auth))
+		d.Set("auth", utils.GetEnvSettingWithDefault("auth", auth))
 	}
 
-	tf_provider.TerraformCLIVersion = tf_resource.TestTerraformCLIVersion
+	tf_provider.TerraformCLIVersion = globalvar.TestTerraformCLIVersion
 	client, err := tf_provider.ProviderConfig(d)
 	if err != nil {
 		panic(err)
@@ -844,7 +848,7 @@ func ComposeAggregateTestCheckFuncWrapper(fs ...resource.TestCheckFunc) resource
 
 		err := result.ErrorOrNil()
 		if err != nil {
-			result.ErrorFormat = tf_utils.CustomErrorFormat
+			result.ErrorFormat = utils.CustomErrorFormat
 		}
 
 		return err

@@ -6,19 +6,17 @@ package oci
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_tag_defaults", IdentityTagDefaultsDataSource())
-}
 
 func IdentityTagDefaultsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityTagDefaults,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -38,7 +36,7 @@ func IdentityTagDefaultsDataSource() *schema.Resource {
 			"tag_defaults": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityTagDefaultResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityTagDefaultResource()),
 			},
 		},
 	}
@@ -47,9 +45,9 @@ func IdentityTagDefaultsDataSource() *schema.Resource {
 func readIdentityTagDefaults(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagDefaultsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityTagDefaultsDataSourceCrud struct {
@@ -84,7 +82,7 @@ func (s *IdentityTagDefaultsDataSourceCrud) Get() error {
 		request.TagDefinitionId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListTagDefaults(context.Background(), request)
 	if err != nil {
@@ -112,7 +110,7 @@ func (s *IdentityTagDefaultsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityTagDefaultsDataSource-", IdentityTagDefaultsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityTagDefaultsDataSource-", IdentityTagDefaultsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -156,7 +154,7 @@ func (s *IdentityTagDefaultsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityTagDefaultsDataSource().Schema["tag_defaults"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityTagDefaultsDataSource().Schema["tag_defaults"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("tag_defaults", resources); err != nil {

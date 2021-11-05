@@ -7,18 +7,16 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
 
-func init() {
-	RegisterResource("oci_identity_ui_password", IdentityUiPasswordResource())
-}
-
 func IdentityUiPasswordResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: DefaultTimeout,
+		Timeouts: tfresource.DefaultTimeout,
 		Create:   createIdentityUiPassword,
 		Read:     readIdentityUiPassword,
 		Delete:   deleteIdentityUiPassword,
@@ -56,9 +54,9 @@ func IdentityUiPasswordResource() *schema.Resource {
 func createIdentityUiPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUiPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return CreateResource(d, sync)
+	return tfresource.CreateResource(d, sync)
 }
 
 func readIdentityUiPassword(d *schema.ResourceData, m interface{}) error {
@@ -70,7 +68,7 @@ func deleteIdentityUiPassword(d *schema.ResourceData, m interface{}) error {
 }
 
 type IdentityUiPasswordResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.UiPassword
 	DisableNotFoundRetries bool
@@ -112,7 +110,7 @@ func (s *IdentityUiPasswordResourceCrud) Create() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateOrResetUIPassword(context.Background(), request)
 	if err != nil {

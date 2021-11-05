@@ -6,26 +6,27 @@ package oci
 import (
 	"context"
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
+
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
 
-func init() {
-	RegisterResource("oci_identity_group", IdentityGroupResource())
-}
-
 func IdentityGroupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
+		Timeouts: tfresource.DefaultTimeout,
 		Create:   createIdentityGroup,
 		Read:     readIdentityGroup,
 		Update:   updateIdentityGroup,
@@ -56,7 +57,7 @@ func IdentityGroupResource() *schema.Resource {
 				Type:             schema.TypeMap,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: tfresource.definedTagsDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
 			"freeform_tags": {
@@ -86,39 +87,39 @@ func IdentityGroupResource() *schema.Resource {
 func createIdentityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
-	sync.Configuration = m.(*OracleClients).configuration
+	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Configuration = m.(*tf_client.OracleClients).Configuration
 
-	return CreateResource(d, sync)
+	return tfresource.CreateResource(d, sync)
 }
 
 func readIdentityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 func updateIdentityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return UpdateResource(d, sync)
+	return tfresource.UpdateResource(d, sync)
 }
 
 func deleteIdentityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
-	return DeleteResource(d, sync)
+	return tfresource.DeleteResource(d, sync)
 }
 
 type IdentityGroupResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Configuration          map[string]string
 	Res                    *oci_identity.Group
@@ -161,7 +162,7 @@ func (s *IdentityGroupResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	} else { // @next-break: remove
 		// Prevent potentially inferring wrong TenancyOCID from InstancePrincipal
-		if auth := s.Configuration["auth"]; strings.ToLower(auth) == strings.ToLower(authInstancePrincipalSetting) {
+		if auth := s.Configuration["auth"]; strings.ToLower(auth) == strings.ToLower(globalvar.AuthInstancePrincipalSetting) {
 			return fmt.Errorf("compartment_id must be specified for this resource")
 		}
 		// Maintain legacy contract of compartment_id defaulting to tenancy ocid if not specified
@@ -177,7 +178,7 @@ func (s *IdentityGroupResourceCrud) Create() error {
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -190,7 +191,7 @@ func (s *IdentityGroupResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -198,7 +199,7 @@ func (s *IdentityGroupResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateGroup(context.Background(), request)
 	if err != nil {
@@ -215,7 +216,7 @@ func (s *IdentityGroupResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.GroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetGroup(context.Background(), request)
 	if err != nil {
@@ -230,7 +231,7 @@ func (s *IdentityGroupResourceCrud) Update() error {
 	request := oci_identity.UpdateGroupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -243,13 +244,13 @@ func (s *IdentityGroupResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
 	request.GroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateGroup(context.Background(), request)
 	if err != nil {
@@ -266,7 +267,7 @@ func (s *IdentityGroupResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.GroupId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteGroup(context.Background(), request)
 	return err
@@ -278,7 +279,7 @@ func (s *IdentityGroupResourceCrud) SetData() error {
 	}
 
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.Description != nil {

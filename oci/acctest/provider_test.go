@@ -13,9 +13,11 @@ import (
 	"strings"
 	"testing"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 
-	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
+	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
+
+	oci_budget "github.com/oracle/oci-go-sdk/v53/budget"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -28,14 +30,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	sdkMeta "github.com/hashicorp/terraform-plugin-sdk/meta"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_common "github.com/oracle/oci-go-sdk/v53/common"
 	"github.com/stretchr/testify/assert"
-	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
-	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
-	tf_provider "github.com/terraform-providers/terraform-provider-oci/oci/provider"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
-	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
+	tf_common "github.com/terraform-providers/terraform-provider-oci/oci"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
+	tf_provider "github.com/terraform-providers/terraform-provider-oci/oci/provider"
+	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
 
 type ConfigFunc func(d *schema.ResourceData) (interface{}, error)
@@ -51,15 +53,15 @@ func init() {
 }
 
 func assertEnvAvailable(envVar string, t *testing.T) {
-	if v := tf_utils.GetEnvSettingWithBlankDefault(envVar); v == "" {
+	if v := utils.GetEnvSettingWithBlankDefault(envVar); v == "" {
 		t.Fatal("TF_VAR_" + envVar + " must be set for acceptance tests")
 	}
 }
 
 func getCompartmentIDForLegacyTests() string {
 	var compartmentId string
-	if compartmentId = tf_utils.GetEnvSettingWithDefault("compartment_ocid", "compartment_ocid"); compartmentId == "compartment_ocid" {
-		compartmentId = tf_utils.GetRequiredEnvSetting("compartment_id_for_create")
+	if compartmentId = utils.GetEnvSettingWithDefault("compartment_ocid", "compartment_ocid"); compartmentId == "compartment_ocid" {
+		compartmentId = utils.GetRequiredEnvSetting("compartment_id_for_create")
 	}
 	return compartmentId
 }
@@ -300,12 +302,12 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 
 	// Use config func for export (resource discovery)
 	configureProviderFn := configFunc
-	userAgent := fmt.Sprintf(tf_resource.ExportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, tf_resource.Version)
+	userAgent := fmt.Sprintf(globalvar.ExportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, tf_resource.Version)
 
 	// If no ConfigFunc use ProviderConfig
 	if configureProviderFn == nil {
 		configureProviderFn = tf_provider.ProviderConfig
-		userAgent = fmt.Sprintf(tf_resource.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), tf_resource.TerraformCLIVersion, tf_resource.DefaultUserAgentProviderName, tf_resource.Version)
+		userAgent = fmt.Sprintf(globalvar.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), tf_resource.TerraformCLIVersion, globalvar.DefaultUserAgentProviderName, tf_resource.Version)
 
 	}
 	client, err := configureProviderFn(d)
@@ -319,13 +321,13 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 		return
 	}
 	switch auth {
-	case tf_resource.AuthAPIKeySetting, "":
+	case globalvar.AuthAPIKeySetting, "":
 		if skipRequiredField {
 			assert.Equal(t, err, nil)
 			return
 		}
 	default:
-		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", tf_resource.AuthAPIKeySetting, tf_resource.AuthInstancePrincipalSetting, tf_resource.AuthInstancePrincipalWithCertsSetting))
+		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting))
 		return
 	}
 	assert.Nil(t, err)
@@ -400,20 +402,20 @@ func TestUnitProviderConfig(t *testing.T) {
 	if os.Getenv("TF_HOME_OVERRIDE") == "" {
 		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
 	}
-	providerConfigTest(t, true, true, tf_resource.AuthAPIKeySetting, "", nil)              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, tf_resource.AuthAPIKeySetting, "", nil)             // ApiKey without required fields
-	providerConfigTest(t, false, false, tf_resource.AuthInstancePrincipalSetting, "", nil) // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "", nil)        // Invalid auth + disable auto-retries
+	providerConfigTest(t, true, true, globalvar.AuthAPIKeySetting, "", nil)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, globalvar.AuthAPIKeySetting, "", nil)             // ApiKey without required fields
+	providerConfigTest(t, false, false, globalvar.AuthInstancePrincipalSetting, "", nil) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "", nil)                  // Invalid auth + disable auto-retries
 	configFile, keyFile, err := writeConfigFile()
 	assert.Nil(t, err)
-	providerConfigTest(t, true, true, tf_resource.AuthAPIKeySetting, "DEFAULT", nil)              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, tf_resource.AuthAPIKeySetting, "DEFAULT", nil)             // ApiKey without required fields
-	providerConfigTest(t, false, false, tf_resource.AuthInstancePrincipalSetting, "DEFAULT", nil) // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", nil)        // Invalid auth + disable auto-retries
-	providerConfigTest(t, false, false, tf_resource.AuthAPIKeySetting, "PROFILE1", nil)           // correct profileName
-	providerConfigTest(t, false, false, tf_resource.AuthAPIKeySetting, "wrongProfile", nil)       // Invalid profileName
+	providerConfigTest(t, true, true, globalvar.AuthAPIKeySetting, "DEFAULT", nil)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, globalvar.AuthAPIKeySetting, "DEFAULT", nil)             // ApiKey without required fields
+	providerConfigTest(t, false, false, globalvar.AuthInstancePrincipalSetting, "DEFAULT", nil) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", nil)                  // Invalid auth + disable auto-retries
+	providerConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE1", nil)           // correct profileName
+	providerConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "wrongProfile", nil)       // Invalid profileName
 	//providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", nil)           // correct profileName with mix and match
-	providerConfigTest(t, false, false, tf_resource.AuthAPIKeySetting, "PROFILE3", nil) // correct profileName with mix and match & env
+	providerConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE3", nil) // correct profileName with mix and match & env
 	defer removeFile(configFile)
 	defer removeFile(keyFile)
 	os.RemoveAll(path.Join(getHomeFolder(), defaultConfigDirName))
@@ -422,7 +424,7 @@ func TestUnitProviderConfig(t *testing.T) {
 // ensure the http client is configured with the expected settings
 // issue-routing-tag: terraform/default
 func TestUnitBuildHttpClient(t *testing.T) {
-	client := buildHttpClient()
+	client := utils.BuildHttpClient()
 	assert.Equal(t, time.Duration(defaultRequestTimeout), client.Timeout)
 
 	tr := client.Transport.(*http.Transport)
@@ -435,8 +437,8 @@ func TestUnitBuildHttpClient(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitBuildClientConfigureFn(t *testing.T) {
 	configProvider := oci_common.DefaultConfigProvider()
-	httpClient := buildHttpClient()
-	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	httpClient := utils.BuildHttpClient()
+	configureClientFn, err := utils.BuildConfigureClientFn(configProvider, httpClient)
 	assert.NoError(t, err)
 
 	baseClient := &oci_common.BaseClient{}
@@ -476,8 +478,8 @@ func TestUnitBuildClientConfigureFn_withCustomCert(t *testing.T) {
 	os.Setenv(customCertLocationEnv, tempCert.Name())
 	assert.Equal(t, tempCert.Name(), GetEnvSettingWithBlankDefault(customCertLocationEnv))
 	configProvider := oci_common.DefaultConfigProvider()
-	httpClient := buildHttpClient()
-	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	httpClient := utils.BuildHttpClient()
+	configureClientFn, err := utils.BuildConfigureClientFn(configProvider, httpClient)
 	assert.NoError(t, err)
 
 	baseClient := &oci_common.BaseClient{}
@@ -505,8 +507,8 @@ func TestUnitBuildClientConfigureFn_acceptLocalCerts(t *testing.T) {
 	os.Unsetenv(acceptLocalCerts)
 	assert.Empty(t, GetEnvSettingWithBlankDefault(acceptLocalCerts))
 	configProvider := oci_common.DefaultConfigProvider()
-	httpClient := buildHttpClient()
-	configureClientFn, _ := buildConfigureClientFn(configProvider, httpClient)
+	httpClient := utils.BuildHttpClient()
+	configureClientFn, _ := utils.BuildConfigureClientFn(configProvider, httpClient)
 	configureClientFn(&oci_common.BaseClient{})
 
 	tr := httpClient.Transport.(*http.Transport)
@@ -517,8 +519,8 @@ func TestUnitBuildClientConfigureFn_acceptLocalCerts(t *testing.T) {
 	// ensure disabled by default - env var with empty string
 	os.Setenv(acceptLocalCerts, "")
 	configProvider = oci_common.DefaultConfigProvider()
-	httpClient = buildHttpClient()
-	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	httpClient = utils.BuildHttpClient()
+	configureClientFn, _ = utils.BuildConfigureClientFn(configProvider, httpClient)
 	configureClientFn(&oci_common.BaseClient{})
 
 	tr = httpClient.Transport.(*http.Transport)
@@ -527,8 +529,8 @@ func TestUnitBuildClientConfigureFn_acceptLocalCerts(t *testing.T) {
 	// ensure disabled by default - not parsable boolean string
 	os.Setenv(acceptLocalCerts, "ftarlusee")
 	configProvider = oci_common.DefaultConfigProvider()
-	httpClient = buildHttpClient()
-	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	httpClient = utils.BuildHttpClient()
+	configureClientFn, _ = utils.BuildConfigureClientFn(configProvider, httpClient)
 	configureClientFn(&oci_common.BaseClient{})
 
 	tr = httpClient.Transport.(*http.Transport)
@@ -537,8 +539,8 @@ func TestUnitBuildClientConfigureFn_acceptLocalCerts(t *testing.T) {
 	// ensure explicitly disabled - env var set to false
 	os.Setenv(acceptLocalCerts, "false")
 	configProvider = oci_common.DefaultConfigProvider()
-	httpClient = buildHttpClient()
-	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	httpClient = utils.BuildHttpClient()
+	configureClientFn, _ = utils.BuildConfigureClientFn(configProvider, httpClient)
 	configureClientFn(&oci_common.BaseClient{})
 
 	tr = httpClient.Transport.(*http.Transport)
@@ -547,8 +549,8 @@ func TestUnitBuildClientConfigureFn_acceptLocalCerts(t *testing.T) {
 	// ensure explicitly enabled - env var set to true
 	os.Setenv(acceptLocalCerts, "true")
 	configProvider = oci_common.DefaultConfigProvider()
-	httpClient = buildHttpClient()
-	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	httpClient = utils.BuildHttpClient()
+	configureClientFn, _ = utils.BuildConfigureClientFn(configProvider, httpClient)
 	configureClientFn(&oci_common.BaseClient{})
 
 	tr = httpClient.Transport.(*http.Transport)
@@ -557,8 +559,8 @@ func TestUnitBuildClientConfigureFn_acceptLocalCerts(t *testing.T) {
 	// verify assumption that "1" will also coerce to true
 	os.Setenv(acceptLocalCerts, "1")
 	configProvider = oci_common.DefaultConfigProvider()
-	httpClient = buildHttpClient()
-	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	httpClient = utils.BuildHttpClient()
+	configureClientFn, _ = utils.BuildConfigureClientFn(configProvider, httpClient)
 	configureClientFn(&oci_common.BaseClient{})
 
 	tr = httpClient.Transport.(*http.Transport)
@@ -585,8 +587,8 @@ func TestUnitBuildClientConfigureFn_withDomainNameOverride(t *testing.T) {
 	os.Setenv(domainNameOverrideEnv, "0r4-c10ud.com")
 	assert.Equal(t, "0r4-c10ud.com", GetEnvSettingWithBlankDefault(domainNameOverrideEnv))
 	configProvider := oci_common.DefaultConfigProvider()
-	httpClient := buildHttpClient()
-	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	httpClient := utils.BuildHttpClient()
+	configureClientFn, err := utils.BuildConfigureClientFn(configProvider, httpClient)
 	assert.NoError(t, err)
 
 	baseClient := &oci_common.BaseClient{}
@@ -641,8 +643,8 @@ func TestUnitBuildClientConfigureFn_withDomainNameOverrideAndCorrectDomainName(t
 	assert.Equal(t, "oc.0r4-c10ud.com", GetEnvSettingWithBlankDefault(domainNameOverrideEnv))
 	assert.Equal(t, "oc.0r4-c10ud.com", GetEnvSettingWithBlankDefault(hasCorrectDomainNameEnv))
 	configProvider := oci_common.DefaultConfigProvider()
-	httpClient := buildHttpClient()
-	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	httpClient := utils.BuildHttpClient()
+	configureClientFn, err := utils.BuildConfigureClientFn(configProvider, httpClient)
 	assert.NoError(t, err)
 
 	baseClient := &oci_common.BaseClient{}
@@ -691,8 +693,8 @@ func TestUnitBuildClientConfigureFn_interceptor(t *testing.T) {
 	defer os.Unsetenv(oboTokenAttrName)
 	assert.Equal(t, "true", GetEnvSettingWithBlankDefault("use_obo_token"))
 	configProvider := oci_common.DefaultConfigProvider()
-	httpClient := buildHttpClient()
-	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	httpClient := utils.BuildHttpClient()
+	configureClientFn, err := utils.BuildConfigureClientFn(configProvider, httpClient)
 	assert.NoError(t, err)
 
 	baseClient := &oci_common.BaseClient{}
@@ -853,7 +855,7 @@ func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	httpreplay.SetScenario("TestVerifyConfigForAPIKeyAuthIsNotSet_basic")
 	defer httpreplay.SaveScenario()
 	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
-		apiKeyConfigAttributeEnvValue := tf_utils.GetEnvSettingWithBlankDefault(apiKeyConfigAttribute)
+		apiKeyConfigAttributeEnvValue := utils.GetEnvSettingWithBlankDefault(apiKeyConfigAttribute)
 		if apiKeyConfigAttributeEnvValue != "" {
 			t.Skip("apiKeyConfigAttributes are set through environment variables, skip the test")
 		}
@@ -867,37 +869,37 @@ func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	d.Set("auth", "InstancePrincipal")
 	d.Set("region", "us-phoenix-1")
 
-	apiKeyConfigVariablesToUnset, ok := tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d)
+	apiKeyConfigVariablesToUnset, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d)
 	assert.True(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("tenancy_ocid", testTenancyOCID)
-	apiKeyConfigVariablesToUnset, ok = tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d)
+	apiKeyConfigVariablesToUnset, ok = utils.CheckIncompatibleAttrsForApiKeyAuth(d)
 	assert.True(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("user_ocid", testUserOCID)
-	apiKeyConfigVariablesToUnset, ok = tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d)
+	apiKeyConfigVariablesToUnset, ok = utils.CheckIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 1, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("fingerprint", testKeyFingerPrint)
-	apiKeyConfigVariablesToUnset, ok = tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d)
+	apiKeyConfigVariablesToUnset, ok = utils.CheckIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 2, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("private_key", testPrivateKey)
-	apiKeyConfigVariablesToUnset, ok = tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d)
+	apiKeyConfigVariablesToUnset, ok = utils.CheckIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 3, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("private_key_path", "path")
-	apiKeyConfigVariablesToUnset, ok = tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d)
+	apiKeyConfigVariablesToUnset, ok = utils.CheckIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 4, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("private_key_password", "password")
-	apiKeyConfigVariablesToUnset, ok = tf_utils.CheckIncompatibleAttrsForApiKeyAuth(d)
+	apiKeyConfigVariablesToUnset, ok = utils.CheckIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 }

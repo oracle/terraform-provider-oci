@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
-func definedTagsToMap(definedTags map[string]map[string]interface{}) map[string]interface{} {
+func DefinedTagsToMap(definedTags map[string]map[string]interface{}) map[string]interface{} {
 	var tags = make(map[string]interface{})
 	if len(definedTags) > 0 {
 		for namespace, keys := range definedTags {
@@ -23,7 +23,7 @@ func definedTagsToMap(definedTags map[string]map[string]interface{}) map[string]
 	return tags
 }
 
-func mapToDefinedTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {
+func MapToDefinedTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {
 	definedTags := make(map[string]map[string]interface{})
 	if len(rawMap) > 0 {
 		for key, value := range rawMap {
@@ -41,7 +41,7 @@ func mapToDefinedTags(rawMap map[string]interface{}) (map[string]map[string]inte
 	return definedTags, nil
 }
 
-func definedTagsDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+func DefinedTagsDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
 	if old != "" && new != "" {
 		return false
 	}
@@ -87,7 +87,7 @@ func toLowerCaseKeyMap(original map[string]interface{}) map[string]interface{} {
 }
 
 func systemTagsToMap(systemTags map[string]map[string]interface{}) map[string]interface{} {
-	return definedTagsToMap(systemTags)
+	return DefinedTagsToMap(systemTags)
 }
 
 func mapToSystemTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {

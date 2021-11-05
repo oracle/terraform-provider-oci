@@ -5,15 +5,12 @@ package oci
 
 import (
 	"context"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_tenancy", IdentityTenancyDataSource())
-}
 
 func IdentityTenancyDataSource() *schema.Resource {
 	return &schema.Resource{
@@ -57,9 +54,9 @@ func IdentityTenancyDataSource() *schema.Resource {
 func readSingularIdentityTenancy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTenancyDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityTenancyDataSourceCrud struct {
@@ -80,7 +77,7 @@ func (s *IdentityTenancyDataSourceCrud) Get() error {
 		request.TenancyId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetTenancy(context.Background(), request)
 	if err != nil {
@@ -99,7 +96,7 @@ func (s *IdentityTenancyDataSourceCrud) SetData() error {
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.Description != nil {

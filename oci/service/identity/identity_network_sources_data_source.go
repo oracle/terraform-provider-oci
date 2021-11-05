@@ -5,21 +5,18 @@ package oci
 
 import (
 	"context"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
 
-func init() {
-	RegisterDatasource("oci_identity_network_sources", IdentityNetworkSourcesDataSource())
-}
-
 func IdentityNetworkSourcesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityNetworkSources,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -35,7 +32,7 @@ func IdentityNetworkSourcesDataSource() *schema.Resource {
 			"network_sources": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityNetworkSourceResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityNetworkSourceResource()),
 			},
 		},
 	}
@@ -44,9 +41,9 @@ func IdentityNetworkSourcesDataSource() *schema.Resource {
 func readIdentityNetworkSources(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourcesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityNetworkSourcesDataSourceCrud struct {
@@ -76,7 +73,7 @@ func (s *IdentityNetworkSourcesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_identity.NetworkSourcesLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListNetworkSources(context.Background(), request)
 	if err != nil {
@@ -104,7 +101,7 @@ func (s *IdentityNetworkSourcesDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityNetworkSourcesDataSource-", IdentityNetworkSourcesDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityNetworkSourcesDataSource-", IdentityNetworkSourcesDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -113,7 +110,7 @@ func (s *IdentityNetworkSourcesDataSourceCrud) SetData() error {
 		}
 
 		if r.DefinedTags != nil {
-			networkSource["defined_tags"] = tfresource.definedTagsToMap(r.DefinedTags)
+			networkSource["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
 		if r.Description != nil {
@@ -148,7 +145,7 @@ func (s *IdentityNetworkSourcesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityNetworkSourcesDataSource().Schema["network_sources"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityNetworkSourcesDataSource().Schema["network_sources"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("network_sources", resources); err != nil {
