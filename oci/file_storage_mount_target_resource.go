@@ -256,6 +256,10 @@ func (s *FileStorageMountTargetResourceCrud) Create() error {
 	}
 
 	s.Res = &response.MountTarget
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
