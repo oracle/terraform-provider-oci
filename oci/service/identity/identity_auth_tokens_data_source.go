@@ -7,19 +7,17 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_auth_tokens", IdentityAuthTokensDataSource())
-}
 
 func IdentityAuthTokensDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityAuthTokens,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"user_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -27,7 +25,7 @@ func IdentityAuthTokensDataSource() *schema.Resource {
 			"tokens": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityAuthTokenResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityAuthTokenResource()),
 			},
 		},
 	}
@@ -36,9 +34,9 @@ func IdentityAuthTokensDataSource() *schema.Resource {
 func readIdentityAuthTokens(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokensDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityAuthTokensDataSourceCrud struct {
@@ -59,7 +57,7 @@ func (s *IdentityAuthTokensDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListAuthTokens(context.Background(), request)
 	if err != nil {
@@ -75,7 +73,7 @@ func (s *IdentityAuthTokensDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityAuthTokensDataSource-", IdentityAuthTokensDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityAuthTokensDataSource-", IdentityAuthTokensDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -113,7 +111,7 @@ func (s *IdentityAuthTokensDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityAuthTokensDataSource().Schema["tokens"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityAuthTokensDataSource().Schema["tokens"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("tokens", resources); err != nil {

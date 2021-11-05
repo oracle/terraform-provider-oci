@@ -11,21 +11,19 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterResource("oci_identity_authentication_policy", IdentityAuthenticationPolicyResource())
-}
 
 func IdentityAuthenticationPolicyResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
+		Timeouts: tfresource.DefaultTimeout,
 		Create:   createIdentityAuthenticationPolicy,
 		Read:     readIdentityAuthenticationPolicy,
 		Update:   updateIdentityAuthenticationPolicy,
@@ -118,25 +116,25 @@ func IdentityAuthenticationPolicyResource() *schema.Resource {
 func createIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return CreateResource(d, sync)
+	return tfresource.CreateResource(d, sync)
 }
 
 func readIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 func updateIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return UpdateResource(d, sync)
+	return tfresource.UpdateResource(d, sync)
 }
 
 func deleteIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
@@ -144,7 +142,7 @@ func deleteIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) e
 }
 
 type IdentityAuthenticationPolicyResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.AuthenticationPolicy
 	DisableNotFoundRetries bool
@@ -184,7 +182,7 @@ func (s *IdentityAuthenticationPolicyResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateAuthenticationPolicy(context.Background(), request)
 	if err != nil {
@@ -210,7 +208,7 @@ func (s *IdentityAuthenticationPolicyResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetAuthenticationPolicy(context.Background(), request)
 	if err != nil {
@@ -251,7 +249,7 @@ func (s *IdentityAuthenticationPolicyResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateAuthenticationPolicy(context.Background(), request)
 	if err != nil {

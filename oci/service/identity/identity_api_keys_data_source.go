@@ -7,19 +7,17 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_api_keys", IdentityApiKeysDataSource())
-}
 
 func IdentityApiKeysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityApiKeys,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"user_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -27,7 +25,7 @@ func IdentityApiKeysDataSource() *schema.Resource {
 			"api_keys": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityApiKeyResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityApiKeyResource()),
 			},
 		},
 	}
@@ -36,9 +34,9 @@ func IdentityApiKeysDataSource() *schema.Resource {
 func readIdentityApiKeys(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityApiKeysDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityApiKeysDataSourceCrud struct {
@@ -59,7 +57,7 @@ func (s *IdentityApiKeysDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListApiKeys(context.Background(), request)
 	if err != nil {
@@ -75,7 +73,7 @@ func (s *IdentityApiKeysDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityApiKeysDataSource-", IdentityApiKeysDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityApiKeysDataSource-", IdentityApiKeysDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -109,7 +107,7 @@ func (s *IdentityApiKeysDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityApiKeysDataSource().Schema["api_keys"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityApiKeysDataSource().Schema["api_keys"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("api_keys", resources); err != nil {

@@ -11,21 +11,20 @@ import (
 	"regexp"
 	"strings"
 
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterResource("oci_identity_user_capabilities_management", IdentityUserCapabilitiesManagementResource())
-}
 
 func IdentityUserCapabilitiesManagementResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
+		Timeouts: tfresource.DefaultTimeout,
 		Create:   createUserCapabilitiesManagement,
 		Read:     readUserCapabilitiesManagement,
 		Update:   updateUserCapabilitiesManagement,
@@ -72,37 +71,37 @@ func IdentityUserCapabilitiesManagementResource() *schema.Resource {
 func createUserCapabilitiesManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &UserCapabilitiesManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
-	sync.Configuration = m.(*OracleClients).configuration
+	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Configuration = m.(*tf_client.OracleClients).Configuration
 
-	return CreateResource(d, sync)
+	return tfresource.CreateResource(d, sync)
 }
 
 func readUserCapabilitiesManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &UserCapabilitiesManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
-	return ReadResource(sync)
+	sync.Client = m.(*OracleIdentityClients).identityClient()
+	return tfresource.ReadResource(sync)
 }
 
 func updateUserCapabilitiesManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &UserCapabilitiesManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
-	return UpdateResource(d, sync)
+	sync.Client = m.(*OracleIdentityClients).identityClient()
+	return tfresource.UpdateResource(d, sync)
 }
 
 func deleteUserCapabilitiesManagement(d *schema.ResourceData, m interface{}) error {
 	sync := &UserCapabilitiesManagementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
-	return DeleteResource(d, sync)
+	return tfresource.DeleteResource(d, sync)
 }
 
 type UserCapabilitiesManagementResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Configuration          map[string]string
 	Res                    *oci_identity.User
@@ -181,7 +180,7 @@ func (s *UserCapabilitiesManagementResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s with err %v", s.D.Id(), err)
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetUser(context.Background(), request)
 	if err != nil {

@@ -5,7 +5,9 @@ package oci
 
 import (
 	"context"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
@@ -16,16 +18,12 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
-func init() {
-	RegisterResource("oci_identity_tag_namespace", IdentityTagNamespaceResource())
-}
-
 func IdentityTagNamespaceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
+		Timeouts: tfresource.DefaultTimeout,
 		Create:   createIdentityTagNamespace,
 		Read:     readIdentityTagNamespace,
 		Update:   updateIdentityTagNamespace,
@@ -44,7 +42,7 @@ func IdentityTagNamespaceResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 
 			// Optional
@@ -52,7 +50,7 @@ func IdentityTagNamespaceResource() *schema.Resource {
 				Type:             schema.TypeMap,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: tfresource.definedTagsDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
 			"freeform_tags": {
@@ -83,45 +81,45 @@ func IdentityTagNamespaceResource() *schema.Resource {
 func createIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return CreateResource(d, sync)
+	return tfresource.CreateResource(d, sync)
 }
 
 func readIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 func updateIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return UpdateResource(d, sync)
+	return tfresource.UpdateResource(d, sync)
 }
 
 func deleteIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	// Only empty tag namespaces can be deleted, to execute our tests we don't want to delete namespaces as we Create
 	// namespaces with tags and deleting a tag is a sequential and time consuming operation allowed one per tenancy
-	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		return nil
 	}
 
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
-	return DeleteResource(d, sync)
+	return tfresource.DeleteResource(d, sync)
 }
 
 type IdentityTagNamespaceResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.TagNamespace
 	DisableNotFoundRetries bool
@@ -162,7 +160,7 @@ func (s *IdentityTagNamespaceResourceCrud) Create() error {
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -175,7 +173,7 @@ func (s *IdentityTagNamespaceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -183,7 +181,7 @@ func (s *IdentityTagNamespaceResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	contextToUse := context.Background()
 	response, err := s.Client.CreateTagNamespace(contextToUse, request)
@@ -200,7 +198,7 @@ func (s *IdentityTagNamespaceResourceCrud) Create() error {
 	// by basically importing that pre-existing namespace into this plan if tags_import_if_exists
 	// flag is set to 'true'. This is ONLY for TESTING and should not be used elsewhere.
 	// Use 'terraform import' for existing namespaces
-	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists && strings.Contains(err.Error(), "TagNamespaceAlreadyExists") {
 		// List all namespaces using the datasource to find that namespace with the matching name.
 		s.D.Set("compartment_id", request.CompartmentId)
@@ -235,7 +233,7 @@ func (s *IdentityTagNamespaceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.TagNamespaceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetTagNamespace(context.Background(), request)
 	if err != nil {
@@ -259,7 +257,7 @@ func (s *IdentityTagNamespaceResourceCrud) Update() error {
 	request := oci_identity.UpdateTagNamespaceRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -272,7 +270,7 @@ func (s *IdentityTagNamespaceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isRetired, ok := s.D.GetOkExists("is_retired"); ok {
@@ -283,7 +281,7 @@ func (s *IdentityTagNamespaceResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.TagNamespaceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateTagNamespace(context.Background(), request)
 	if err != nil {
@@ -300,7 +298,7 @@ func (s *IdentityTagNamespaceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.TagNamespaceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteTagNamespace(context.Background(), request)
 	return err
@@ -312,7 +310,7 @@ func (s *IdentityTagNamespaceResourceCrud) SetData() error {
 	}
 
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.Description != nil {
@@ -347,14 +345,14 @@ func (s *IdentityTagNamespaceResourceCrud) updateCompartment(compartment interfa
 	idTmp := s.D.Id()
 	changeCompartmentRequest.TagNamespaceId = &idTmp
 
-	changeCompartmentRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.ChangeTagNamespaceCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 

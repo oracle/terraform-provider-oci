@@ -6,13 +6,11 @@ package oci
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_authentication_policy", IdentityAuthenticationPolicyDataSource())
-}
 
 func IdentityAuthenticationPolicyDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
@@ -20,15 +18,15 @@ func IdentityAuthenticationPolicyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return GetSingularDataSourceItemSchema(IdentityAuthenticationPolicyResource(), fieldMap, readSingularIdentityAuthenticationPolicy)
+	return tfresource.GetSingularDataSourceItemSchema(IdentityAuthenticationPolicyResource(), fieldMap, readSingularIdentityAuthenticationPolicy)
 }
 
 func readSingularIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityAuthenticationPolicyDataSourceCrud struct {
@@ -49,7 +47,7 @@ func (s *IdentityAuthenticationPolicyDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetAuthenticationPolicy(context.Background(), request)
 	if err != nil {
@@ -65,7 +63,7 @@ func (s *IdentityAuthenticationPolicyDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityAuthenticationPolicyDataSource-", IdentityAuthenticationPolicyDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityAuthenticationPolicyDataSource-", IdentityAuthenticationPolicyDataSource(), s.D))
 
 	if s.Res.NetworkPolicy != nil {
 		s.D.Set("network_policy", []interface{}{NetworkPolicyToMap(s.Res.NetworkPolicy)})

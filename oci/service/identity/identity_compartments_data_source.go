@@ -5,22 +5,19 @@ package oci
 
 import (
 	"context"
-	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"strconv"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
-func init() {
-	RegisterDatasource("oci_identity_compartments", IdentityCompartmentsDataSource())
-}
-
 func IdentityCompartmentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityCompartments,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -44,7 +41,7 @@ func IdentityCompartmentsDataSource() *schema.Resource {
 			"compartments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityCompartmentResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityCompartmentResource()),
 			},
 		},
 	}
@@ -53,9 +50,9 @@ func IdentityCompartmentsDataSource() *schema.Resource {
 func readIdentityCompartments(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCompartmentsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityCompartmentsDataSourceCrud struct {
@@ -94,7 +91,7 @@ func (s *IdentityCompartmentsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_identity.CompartmentLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListCompartments(context.Background(), request)
 	if err != nil {
@@ -122,7 +119,7 @@ func (s *IdentityCompartmentsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityCompartmentsDataSource-", IdentityCompartmentsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityCompartmentsDataSource-", IdentityCompartmentsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -131,7 +128,7 @@ func (s *IdentityCompartmentsDataSourceCrud) SetData() error {
 		}
 
 		if r.DefinedTags != nil {
-			compartment["defined_tags"] = tfresource.definedTagsToMap(r.DefinedTags)
+			compartment["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
 		if r.Description != nil {
@@ -166,7 +163,7 @@ func (s *IdentityCompartmentsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityCompartmentsDataSource().Schema["compartments"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityCompartmentsDataSource().Schema["compartments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("compartments", resources); err != nil {

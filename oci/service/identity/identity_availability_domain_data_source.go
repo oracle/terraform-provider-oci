@@ -6,6 +6,8 @@ package oci
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"sort"
 
 	"fmt"
@@ -15,10 +17,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_availability_domain", IdentityAvailabilityDomainDataSource())
-}
 
 func IdentityAvailabilityDomainDataSource() *schema.Resource {
 	return &schema.Resource{
@@ -50,9 +48,9 @@ func IdentityAvailabilityDomainDataSource() *schema.Resource {
 func readAvailabilityDomain(d *schema.ResourceData, m interface{}) error {
 	sync := &AvailabilityDomainDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type AvailabilityDomainDataSourceCrud struct {
@@ -73,7 +71,7 @@ func (s *AvailabilityDomainDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListAvailabilityDomains(context.Background(), request)
 	if err != nil {

@@ -12,6 +12,8 @@ import (
 	"sync"
 	"syscall"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
+
 	"github.com/fatih/color"
 )
 
@@ -70,7 +72,7 @@ func newTFProviderLogger() (defaultTFProviderLogger, error) {
 	logger := defaultTFProviderLogger{}
 
 	logOutput := os.Stderr
-	if logPath := os.Getenv(EnvOCITFLogFile); logPath != "" {
+	if logPath := os.Getenv(globalvar.EnvOCITFLogFile); logPath != "" {
 		logOutput, _ = os.OpenFile(logPath, syscall.O_CREAT|syscall.O_RDWR|syscall.O_APPEND, 0666)
 	}
 

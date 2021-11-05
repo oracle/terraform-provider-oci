@@ -7,21 +7,19 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterResource("oci_identity_user_group_membership", IdentityUserGroupMembershipResource())
-}
 
 func IdentityUserGroupMembershipResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
+		Timeouts: tfresource.DefaultTimeout,
 		Create:   createIdentityUserGroupMembership,
 		Read:     readIdentityUserGroupMembership,
 		Delete:   deleteIdentityUserGroupMembership,
@@ -67,30 +65,30 @@ func IdentityUserGroupMembershipResource() *schema.Resource {
 func createIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return CreateResource(d, sync)
+	return tfresource.CreateResource(d, sync)
 }
 
 func readIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 func deleteIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
-	return DeleteResource(d, sync)
+	return tfresource.DeleteResource(d, sync)
 }
 
 type IdentityUserGroupMembershipResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.UserGroupMembership
 	DisableNotFoundRetries bool
@@ -137,7 +135,7 @@ func (s *IdentityUserGroupMembershipResourceCrud) Create() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.AddUserToGroup(context.Background(), request)
 	if err != nil {
@@ -154,7 +152,7 @@ func (s *IdentityUserGroupMembershipResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.UserGroupMembershipId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetUserGroupMembership(context.Background(), request)
 	if err != nil {
@@ -171,7 +169,7 @@ func (s *IdentityUserGroupMembershipResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.UserGroupMembershipId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.RemoveUserFromGroup(context.Background(), request)
 	return err

@@ -24,18 +24,6 @@ func DefinedTagsToMap(definedTags map[string]map[string]interface{}) map[string]
 	return tags
 }
 
-func definedTagsToMap(definedTags map[string]map[string]interface{}) map[string]interface{} {
-	var tags = make(map[string]interface{})
-	if len(definedTags) > 0 {
-		for namespace, keys := range definedTags {
-			for key, value := range keys {
-				tags[namespace+"."+key] = value
-			}
-		}
-	}
-	return tags
-}
-
 // TODO:  Code Partitioning - Keep only one MapToDefinedTags() function and remove the other one after all services are partitioned
 func MapToDefinedTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {
 	definedTags := make(map[string]map[string]interface{})
@@ -157,7 +145,7 @@ func toLowerCaseKeyMap(original map[string]interface{}) map[string]interface{} {
 }
 
 func systemTagsToMap(systemTags map[string]map[string]interface{}) map[string]interface{} {
-	return definedTagsToMap(systemTags)
+	return DefinedTagsToMap(systemTags)
 }
 
 func mapToSystemTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {

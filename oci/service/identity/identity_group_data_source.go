@@ -5,16 +5,13 @@ package oci
 
 import (
 	"context"
-	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"strconv"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_group", IdentityGroupDataSource())
-}
 
 func IdentityGroupDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
@@ -22,15 +19,15 @@ func IdentityGroupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return GetSingularDataSourceItemSchema(IdentityGroupResource(), fieldMap, readSingularIdentityGroup)
+	return tfresource.GetSingularDataSourceItemSchema(IdentityGroupResource(), fieldMap, readSingularIdentityGroup)
 }
 
 func readSingularIdentityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityGroupDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityGroupDataSourceCrud struct {
@@ -51,7 +48,7 @@ func (s *IdentityGroupDataSourceCrud) Get() error {
 		request.GroupId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetGroup(context.Background(), request)
 	if err != nil {
@@ -74,7 +71,7 @@ func (s *IdentityGroupDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.Description != nil {

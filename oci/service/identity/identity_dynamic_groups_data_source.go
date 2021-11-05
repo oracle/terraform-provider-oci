@@ -5,22 +5,19 @@ package oci
 
 import (
 	"context"
-	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"strconv"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
-func init() {
-	RegisterDatasource("oci_identity_dynamic_groups", IdentityDynamicGroupsDataSource())
-}
-
 func IdentityDynamicGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityDynamicGroups,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -36,7 +33,7 @@ func IdentityDynamicGroupsDataSource() *schema.Resource {
 			"dynamic_groups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityDynamicGroupResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityDynamicGroupResource()),
 			},
 		},
 	}
@@ -45,9 +42,9 @@ func IdentityDynamicGroupsDataSource() *schema.Resource {
 func readIdentityDynamicGroups(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityDynamicGroupsDataSourceCrud struct {
@@ -77,7 +74,7 @@ func (s *IdentityDynamicGroupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_identity.DynamicGroupLifecycleStateEnum(state.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListDynamicGroups(context.Background(), request)
 	if err != nil {
@@ -105,7 +102,7 @@ func (s *IdentityDynamicGroupsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityDynamicGroupsDataSource-", IdentityDynamicGroupsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityDynamicGroupsDataSource-", IdentityDynamicGroupsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -114,7 +111,7 @@ func (s *IdentityDynamicGroupsDataSourceCrud) SetData() error {
 		}
 
 		if r.DefinedTags != nil {
-			dynamicGroup["defined_tags"] = tfresource.definedTagsToMap(r.DefinedTags)
+			dynamicGroup["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
 		if r.Description != nil {
@@ -149,7 +146,7 @@ func (s *IdentityDynamicGroupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityDynamicGroupsDataSource().Schema["dynamic_groups"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityDynamicGroupsDataSource().Schema["dynamic_groups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("dynamic_groups", resources); err != nil {

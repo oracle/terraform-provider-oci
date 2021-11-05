@@ -7,13 +7,19 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 
 	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 )
 
 func init() {
-	RegisterOracleClient("oci_identity.IdentityClient", &OracleClient{InitClientFn: initIdentityIdentityClient})
+	tf_client.RegisterOracleClient("oci_identity.IdentityClient", &tf_client.OracleClient{InitClientFn: initIdentityIdentityClient})
 }
 
-func initIdentityIdentityClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+type OracleIdentityClients struct {
+	*tf_client.OracleClients
+}
+
+func initIdentityIdentityClient(configProvider oci_common.ConfigurationProvider, configureClient tf_client.ConfigureClient, serviceClientOverrides tf_client.ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_identity.NewIdentityClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
@@ -29,6 +35,6 @@ func initIdentityIdentityClient(configProvider oci_common.ConfigurationProvider,
 	return &client, nil
 }
 
-func (m *OracleClients) identityClient() *oci_identity.IdentityClient {
+func (m *OracleIdentityClients) identityClient() *oci_identity.IdentityClient {
 	return m.GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 }

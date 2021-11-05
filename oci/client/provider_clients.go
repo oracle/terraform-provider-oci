@@ -7,10 +7,12 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
+
 	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v49/workrequests"
-	tf_utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
-	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
+	utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
 
 var OracleClientRegistrationsVar *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region
@@ -23,6 +25,7 @@ func RegisterOracleClient(name string, client *OracleClient) {
 	}
 	OracleClientRegistrationsVar.RegisteredClients[name] = client
 }
+
 type ConfigureClient func(client *oci_common.BaseClient) error
 
 var ConfigureClientVar ConfigureClient // global fn ref used to configure all clients initially and others later on
@@ -90,14 +93,14 @@ func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManage
 func getClientHostOverrides() map[string]string {
 	// Get the host URL override for clients
 	clientHostOverrides := make(map[string]string)
-	clientHostOverridesString := tf_utils.GetEnvSettingWithBlankDefault(tf_resource.ClientHostOverridesEnv)
+	clientHostOverridesString := utils.GetEnvSettingWithBlankDefault(globalvar.ClientHostOverridesEnv)
 	if clientHostOverridesString == "" {
 		return clientHostOverrides
 	}
 
-	clientHostFlags := strings.Split(clientHostOverridesString, tf_resource.ColonDelimiter)
+	clientHostFlags := strings.Split(clientHostOverridesString, globalvar.ColonDelimiter)
 	for _, item := range clientHostFlags {
-		clientNameHost := strings.Split(item, tf_resource.EqualToOperatorDelimiter)
+		clientNameHost := strings.Split(item, globalvar.EqualToOperatorDelimiter)
 		if clientNameHost == nil || len(clientNameHost) != 2 {
 			continue
 		}

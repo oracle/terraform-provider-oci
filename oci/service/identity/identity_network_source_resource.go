@@ -6,24 +6,22 @@ package oci
 import (
 	"context"
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"strconv"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
-func init() {
-	RegisterResource("oci_identity_network_source", IdentityNetworkSourceResource())
-}
-
 func IdentityNetworkSourceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
+		Timeouts: tfresource.DefaultTimeout,
 		Create:   createIdentityNetworkSource,
 		Read:     readIdentityNetworkSource,
 		Update:   updateIdentityNetworkSource,
@@ -50,7 +48,7 @@ func IdentityNetworkSourceResource() *schema.Resource {
 				Type:             schema.TypeMap,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: tfresource.definedTagsDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
 			"freeform_tags": {
@@ -118,38 +116,38 @@ func IdentityNetworkSourceResource() *schema.Resource {
 func createIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return CreateResource(d, sync)
+	return tfresource.CreateResource(d, sync)
 }
 
 func readIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 func updateIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return UpdateResource(d, sync)
+	return tfresource.UpdateResource(d, sync)
 }
 
 func deleteIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
-	return DeleteResource(d, sync)
+	return tfresource.DeleteResource(d, sync)
 }
 
 type IdentityNetworkSourceResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.NetworkSources
 	DisableNotFoundRetries bool
@@ -192,7 +190,7 @@ func (s *IdentityNetworkSourceResourceCrud) Create() error {
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -205,7 +203,7 @@ func (s *IdentityNetworkSourceResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -256,7 +254,7 @@ func (s *IdentityNetworkSourceResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateNetworkSource(context.Background(), request)
 	if err != nil {
@@ -273,7 +271,7 @@ func (s *IdentityNetworkSourceResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.NetworkSourceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetNetworkSource(context.Background(), request)
 	if err != nil {
@@ -288,7 +286,7 @@ func (s *IdentityNetworkSourceResourceCrud) Update() error {
 	request := oci_identity.UpdateNetworkSourceRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -301,7 +299,7 @@ func (s *IdentityNetworkSourceResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -350,7 +348,7 @@ func (s *IdentityNetworkSourceResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateNetworkSource(context.Background(), request)
 	if err != nil {
@@ -367,7 +365,7 @@ func (s *IdentityNetworkSourceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.NetworkSourceId = &tmp
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteNetworkSource(context.Background(), request)
 	return err
@@ -379,7 +377,7 @@ func (s *IdentityNetworkSourceResourceCrud) SetData() error {
 	}
 
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.Description != nil {

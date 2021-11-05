@@ -1,4 +1,4 @@
-package tfresource
+package globalvar
 
 import "time"
 
@@ -11,17 +11,17 @@ const (
 	RequestHeaderOpcHostSerial            = "opc-host-serial"
 	DefaultRequestTimeout                 = 0
 	DefaultConnectionTimeout              = 10 * time.Second
-	DefaultTLSHandshakeTimeout   = 10 * time.Second
-	DefaultUserAgentProviderName = "Oracle-TerraformProvider"
-	UnknownTerraformCLIVersion   = "unknown"
-	TestTerraformCLIVersion      = "test"
-	UserAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
-	UserAgentProviderNameEnv     = "USER_AGENT_PROVIDER_NAME"
-	DomainNameOverrideEnv        = "domain_name_override"
-	HasCorrectDomainNameEnv      = "has_correct_domain_name"
-	ClientHostOverridesEnv       = "CLIENT_HOST_OVERRIDES"
-	CustomCertLocationEnv        = "custom_cert_location"
-	AcceptLocalCerts             = "accept_local_certs"
+	DefaultTLSHandshakeTimeout            = 10 * time.Second
+	DefaultUserAgentProviderName          = "Oracle-TerraformProvider"
+	UnknownTerraformCLIVersion            = "unknown"
+	TestTerraformCLIVersion               = "test"
+	UserAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
+	UserAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
+	DomainNameOverrideEnv                 = "domain_name_override"
+	HasCorrectDomainNameEnv               = "has_correct_domain_name"
+	ClientHostOverridesEnv                = "CLIENT_HOST_OVERRIDES"
+	CustomCertLocationEnv                 = "custom_cert_location"
+	AcceptLocalCerts                      = "accept_local_certs"
 
 	AuthAttrName                 = "auth"
 	TenancyOcidAttrName          = "tenancy_ocid"

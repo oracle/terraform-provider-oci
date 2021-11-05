@@ -7,19 +7,17 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_idp_group_mappings", IdentityIdpGroupMappingsDataSource())
-}
 
 func IdentityIdpGroupMappingsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityIdpGroupMappings,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"identity_provider_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -27,7 +25,7 @@ func IdentityIdpGroupMappingsDataSource() *schema.Resource {
 			"idp_group_mappings": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityIdpGroupMappingResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityIdpGroupMappingResource()),
 			},
 		},
 	}
@@ -36,9 +34,9 @@ func IdentityIdpGroupMappingsDataSource() *schema.Resource {
 func readIdentityIdpGroupMappings(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityIdpGroupMappingsDataSourceCrud struct {
@@ -59,7 +57,7 @@ func (s *IdentityIdpGroupMappingsDataSourceCrud) Get() error {
 		request.IdentityProviderId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListIdpGroupMappings(context.Background(), request)
 	if err != nil {
@@ -87,7 +85,7 @@ func (s *IdentityIdpGroupMappingsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityIdpGroupMappingsDataSource-", IdentityIdpGroupMappingsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityIdpGroupMappingsDataSource-", IdentityIdpGroupMappingsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -125,7 +123,7 @@ func (s *IdentityIdpGroupMappingsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityIdpGroupMappingsDataSource().Schema["idp_group_mappings"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityIdpGroupMappingsDataSource().Schema["idp_group_mappings"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("idp_group_mappings", resources); err != nil {

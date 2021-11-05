@@ -20,7 +20,6 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-
 var (
 	TagRequiredOnlyResource = TagResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation)

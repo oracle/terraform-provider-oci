@@ -5,21 +5,18 @@ package oci
 
 import (
 	"context"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
-func init() {
-	RegisterDatasource("oci_identity_tags", IdentityTagsDataSource())
-}
-
 func IdentityTagsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityTags,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -31,7 +28,7 @@ func IdentityTagsDataSource() *schema.Resource {
 			"tags": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityTagResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(IdentityTagResource()),
 			},
 		},
 	}
@@ -40,9 +37,9 @@ func IdentityTagsDataSource() *schema.Resource {
 func readIdentityTags(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityTagsDataSourceCrud struct {
@@ -67,7 +64,7 @@ func (s *IdentityTagsDataSourceCrud) Get() error {
 		request.TagNamespaceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListTags(context.Background(), request)
 	if err != nil {
@@ -95,14 +92,14 @@ func (s *IdentityTagsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityTagsDataSource-", IdentityTagsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityTagsDataSource-", IdentityTagsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
 		tag := map[string]interface{}{}
 
 		if r.DefinedTags != nil {
-			tag["defined_tags"] = tfresource.definedTagsToMap(r.DefinedTags)
+			tag["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
 		if r.Description != nil {
@@ -137,7 +134,7 @@ func (s *IdentityTagsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityTagsDataSource().Schema["tags"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityTagsDataSource().Schema["tags"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("tags", resources); err != nil {

@@ -6,19 +6,17 @@ package oci
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_regions", IdentityRegionsDataSource())
-}
 
 func IdentityRegionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityRegions,
 		Schema: map[string]*schema.Schema{
-			"filter": DataSourceFiltersSchema(),
+			"filter": tfresource.DataSourceFiltersSchema(),
 			"regions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -47,9 +45,9 @@ func IdentityRegionsDataSource() *schema.Resource {
 func readIdentityRegions(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityRegionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityRegionsDataSourceCrud struct {
@@ -65,7 +63,7 @@ func (s *IdentityRegionsDataSourceCrud) VoidState() {
 func (s *IdentityRegionsDataSourceCrud) Get() error {
 	request := oci_identity.ListRegionsRequest{}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.ListRegions(context.Background())
 	if err != nil {
@@ -81,7 +79,7 @@ func (s *IdentityRegionsDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityRegionsDataSource-", IdentityRegionsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityRegionsDataSource-", IdentityRegionsDataSource(), s.D))
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
@@ -99,7 +97,7 @@ func (s *IdentityRegionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityRegionsDataSource().Schema["regions"].Elem.(*schema.Resource).Schema)
+		resources = tfresource.ApplyFilters(f.(*schema.Set), resources, IdentityRegionsDataSource().Schema["regions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("regions", resources); err != nil {

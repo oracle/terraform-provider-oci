@@ -13,21 +13,19 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterResource("oci_identity_auth_token", IdentityAuthTokenResource())
-}
 
 func IdentityAuthTokenResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
+		Timeouts: tfresource.DefaultTimeout,
 		Create:   createIdentityAuthToken,
 		Read:     readIdentityAuthToken,
 		Update:   updateIdentityAuthToken,
@@ -74,38 +72,38 @@ func IdentityAuthTokenResource() *schema.Resource {
 func createIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return CreateResource(d, sync)
+	return tfresource.CreateResource(d, sync)
 }
 
 func readIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 func updateIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return UpdateResource(d, sync)
+	return tfresource.UpdateResource(d, sync)
 }
 
 func deleteIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
-	return DeleteResource(d, sync)
+	return tfresource.DeleteResource(d, sync)
 }
 
 type IdentityAuthTokenResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.AuthToken
 	DisableNotFoundRetries bool
@@ -156,7 +154,7 @@ func (s *IdentityAuthTokenResourceCrud) Create() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateAuthToken(context.Background(), request)
 	if err != nil {
@@ -183,7 +181,7 @@ func (s *IdentityAuthTokenResourceCrud) Get() error {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.ListAuthTokens(context.Background(), request)
 	if err != nil {
@@ -217,7 +215,7 @@ func (s *IdentityAuthTokenResourceCrud) Update() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateAuthToken(context.Background(), request)
 	if err != nil {
@@ -239,7 +237,7 @@ func (s *IdentityAuthTokenResourceCrud) Delete() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	_, err := s.Client.DeleteAuthToken(context.Background(), request)
 	return err

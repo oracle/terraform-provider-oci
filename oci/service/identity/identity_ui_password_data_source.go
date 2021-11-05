@@ -6,13 +6,11 @@ package oci
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
-
-func init() {
-	RegisterDatasource("oci_identity_ui_password", IdentityUiPasswordDataSource())
-}
 
 func IdentityUiPasswordDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
@@ -20,15 +18,15 @@ func IdentityUiPasswordDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return GetSingularDataSourceItemSchema(IdentityUiPasswordResource(), fieldMap, readSingularIdentityUiPassword)
+	return tfresource.GetSingularDataSourceItemSchema(IdentityUiPasswordResource(), fieldMap, readSingularIdentityUiPassword)
 }
 
 func readSingularIdentityUiPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUiPasswordDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type IdentityUiPasswordDataSourceCrud struct {
@@ -49,7 +47,7 @@ func (s *IdentityUiPasswordDataSourceCrud) Get() error {
 		request.UserId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
 	response, err := s.Client.GetUserUIPasswordInformation(context.Background(), request)
 	if err != nil {
@@ -65,7 +63,7 @@ func (s *IdentityUiPasswordDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GenerateDataSourceHashID("IdentityUiPasswordDataSource-", IdentityUiPasswordDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("IdentityUiPasswordDataSource-", IdentityUiPasswordDataSource(), s.D))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

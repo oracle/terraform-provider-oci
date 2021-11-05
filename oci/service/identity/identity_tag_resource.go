@@ -6,12 +6,14 @@ package oci
 import (
 	"context"
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"log"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -23,19 +25,15 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
-func init() {
-	RegisterResource("oci_identity_tag", IdentityTagResource())
-}
-
 func IdentityTagResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: GetTimeoutDuration("15m"),
-			Update: GetTimeoutDuration("15m"),
-			Delete: GetTimeoutDuration("12h"),
+			Create: tfresource.GetTimeoutDuration("15m"),
+			Update: tfresource.GetTimeoutDuration("15m"),
+			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
 		Create: createIdentityTag,
 		Read:   readIdentityTag,
@@ -51,7 +49,7 @@ func IdentityTagResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"tag_namespace_id": {
 				Type:     schema.TypeString,
@@ -64,7 +62,7 @@ func IdentityTagResource() *schema.Resource {
 				Type:             schema.TypeMap,
 				Optional:         true,
 				Computed:         true,
-				DiffSuppressFunc: tfresource.definedTagsDiffSuppressFunction,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
 			"freeform_tags": {
@@ -94,7 +92,7 @@ func IdentityTagResource() *schema.Resource {
 						"validator_type": {
 							Type:             schema.TypeString,
 							Required:         true,
-							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"ENUM",
 							}, true),
@@ -129,44 +127,44 @@ func IdentityTagResource() *schema.Resource {
 func createIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return CreateResource(d, sync)
+	return tfresource.CreateResource(d, sync)
 }
 
 func readIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 func updateIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 
-	return UpdateResource(d, sync)
+	return tfresource.UpdateResource(d, sync)
 }
 
 func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
 	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
-	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		return nil
 	}
 
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient()
+	sync.Client = m.(*OracleIdentityClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
-	return DeleteResource(d, sync)
+	return tfresource.DeleteResource(d, sync)
 }
 
 type IdentityTagResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.Tag
 	DisableNotFoundRetries bool
@@ -202,7 +200,7 @@ func (s *IdentityTagResourceCrud) Create() error {
 	request := oci_identity.CreateTagRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -215,7 +213,7 @@ func (s *IdentityTagResourceCrud) Create() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isCostTracking, ok := s.D.GetOkExists("is_cost_tracking"); ok {
@@ -244,7 +242,7 @@ func (s *IdentityTagResourceCrud) Create() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	contextToUse := context.Background()
 	response, err := s.Client.CreateTag(contextToUse, request)
@@ -262,7 +260,7 @@ func (s *IdentityTagResourceCrud) Create() error {
 	// basically importing that pre-existing namespace into this plan if tags_import_if_exists
 	// flag is set to 'true'. This is ONLY for TESTING and should not be used elsewhere.
 	// Use 'terraform import' for existing tag definitions
-	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists && strings.Contains(err.Error(), "TagDefinitionAlreadyExists") {
 		// List all tag definitions using the datasource to find that tag definition which matches
 		s.D.Set("tag_namespace_id", request.TagNamespaceId)
@@ -310,7 +308,7 @@ func (s *IdentityTagResourceCrud) Get() error {
 		request.TagNamespaceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.GetTag(context.Background(), request)
 	if err != nil {
@@ -333,7 +331,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 	request := oci_identity.UpdateTagRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.mapToDefinedTags(definedTags.(map[string]interface{}))
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
 		}
@@ -346,7 +344,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isCostTracking, ok := s.D.GetOkExists("is_cost_tracking"); ok {
@@ -387,7 +385,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 	} else {
 		// For testing only- When Update() is called from Create() and there is no validator in config (Required Create)
 		// remove the validator for an imported tag as Step 0 of test expects tag without validator
-		importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
+		importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 		if importIfExists {
 			var baseObject oci_identity.BaseTagDefinitionValidator
 			details := oci_identity.DefaultTagDefinitionValidator{}
@@ -396,7 +394,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 		}
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateTag(context.Background(), request)
 	if err != nil {
@@ -431,7 +429,7 @@ func (s *IdentityTagResourceCrud) Delete() error {
 		request.TagNamespaceId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "identity")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 	response, err := s.Client.DeleteTag(context.Background(), request)
 
 	if err != nil {
@@ -447,7 +445,7 @@ func (s *IdentityTagResourceCrud) Delete() error {
 
 func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
-	retryPolicy := GetRetryPolicy(disableFoundRetries, "identity")
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "identity")
 	// TODO:  Code Partitioning - will be fixed when merged from master. TOP-5681
 	//retryPolicy.ShouldRetryOperation = analyticsInstanceWorkRequestShouldRetryFunc(timeout)
 	response := oci_identity.GetTaggingWorkRequestResponse{}
@@ -525,7 +523,7 @@ func getIdentityTaggingWorkRequestErrors(client *oci_identity.IdentityClient, wo
 
 func (s *IdentityTagResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.definedTagsToMap(s.Res.DefinedTags))
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
 	if s.Res.Description != nil {
