@@ -10,7 +10,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"reflect"
 	"sort"
@@ -37,7 +36,7 @@ import (
 	tf_provider "github.com/terraform-providers/terraform-provider-oci/oci/provider"
 	tf_resource_discovery "github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
 	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
-	utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
 
 var tmpl template.Template = *template.New("tmpl")
@@ -318,17 +317,17 @@ func updateNestedRepresentationRemoveProperty(currIndex int, propertyNames []str
 
 func GenerateDataSourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
-	buffer.WriteString(fmt.Sprintf(`%sdata "%s" "%s" %s`, lineSeparator, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
+	buffer.WriteString(fmt.Sprintf(`%sdata "%s" "%s" %s`, lineSeparator, resourceType, resourceName, GenerateResourceFromMap(representationType, representationMode, representations)))
 	return buffer.String()
 }
 
 func GenerateResourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
-	buffer.WriteString(fmt.Sprintf(`%sresource "%s" "%s" %s`, lineSeparator, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
+	buffer.WriteString(fmt.Sprintf(`%sresource "%s" "%s" %s`, lineSeparator, resourceType, resourceName, GenerateResourceFromMap(representationType, representationMode, representations)))
 	return buffer.String()
 }
 
-func generateResourceFromMap(representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
+func GenerateResourceFromMap(representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
 	buffer.WriteString("{" + lineSeparator)
 
@@ -380,13 +379,13 @@ func generateResourceFromMap(representationType RepresentationType, representati
 		}
 		representationGroup, ok := representations[prop].(RepresentationGroup)
 		if ok && representationGroup.RepType <= representationType {
-			buffer.WriteString(fmt.Sprintf("%s %s", prop, generateResourceFromMap(representationType, representationMode, representationGroup.Group)))
+			buffer.WriteString(fmt.Sprintf("%s %s", prop, GenerateResourceFromMap(representationType, representationMode, representationGroup.Group)))
 		}
 		representationGroupArray, ok := representations[prop].([]RepresentationGroup)
 		if ok {
 			for _, representationGroupInArray := range representationGroupArray {
 				if representationGroupInArray.RepType <= representationType {
-					buffer.WriteString(fmt.Sprintf("%s %s", prop, generateResourceFromMap(representationType, representationMode, representationGroupInArray.Group)))
+					buffer.WriteString(fmt.Sprintf("%s %s", prop, GenerateResourceFromMap(representationType, representationMode, representationGroupInArray.Group)))
 				}
 			}
 		}
@@ -400,60 +399,6 @@ func setEnvSetting(s, v string) error {
 	if error != nil {
 		return fmt.Errorf("Failed to set env setting '%s', encountered error: %v", s, error)
 	}
-	return nil
-}
-
-func TestExportCompartmentWithResourceName(id *string, compartmentId *string, resourceName string) error {
-
-	// add logs for notifying execution
-	log.Println()
-	log.Printf("-------------------------------- Executing Resource Discovery Sub-Step --------------------------------")
-	log.Println()
-
-	defer func() {
-		// add logs for notifying execution
-		log.Println()
-		log.Printf("-------------------------------- Exiting Resource Discovery Sub-Step --------------------------------")
-		log.Println()
-	}()
-
-	var exportCommandArgs tf_resource_discovery.ExportCommandArgs
-	if strings.Contains(resourceName, ".") {
-		resourceName = strings.Split(resourceName, ".")[0]
-	}
-
-	var err error
-	exportCommandArgs.GenerateState, err = isResourceSupportImport(resourceName)
-	if err != nil {
-		return err
-	}
-
-	for serviceName, resourceGraph := range tenancyResourceGraphs {
-		for _, association := range resourceGraph {
-			for _, hint := range association {
-				if hint.resourceClass == resourceName {
-					exportCommandArgs.Services = []string{serviceName}
-					exportCommandArgs.IDs = []string{*id}
-					return testExportCompartment(compartmentId, &exportCommandArgs)
-				}
-			}
-		}
-	}
-
-	for serviceName, resourceGraph := range compartmentResourceGraphs {
-		for _, association := range resourceGraph {
-			for _, hint := range association {
-				if hint.resourceClass == resourceName {
-					exportCommandArgs.Services = []string{serviceName}
-					exportCommandArgs.IDs = []string{*id}
-					return testExportCompartment(compartmentId, &exportCommandArgs)
-				}
-			}
-		}
-	}
-
-	// compartment export not support yet
-	log.Printf("[INFO] ===> Compartment export doesn't support this resource %v yet", resourceName)
 	return nil
 }
 
@@ -814,7 +759,7 @@ func GetTestClients(data *schema.ResourceData) *tf_client.OracleClients {
 	//
 	// If we have additional test hooks that need to be supported in this manner, then the following logic should be
 	// compartmentalized and registered with the test provider in a scalable manner.
-	maintenanceRebootTime, ok := data.GetOkExists("test_time_maintenance_reboot_due")
+	/*maintenanceRebootTime, ok := data.GetOkExists("test_time_maintenance_reboot_due")
 	if ok {
 		computeClient := client.(*tf_client.OracleClients).computeClient()
 		baseInterceptor := computeClient.Interceptor
@@ -830,7 +775,7 @@ func GetTestClients(data *schema.ResourceData) *tf_client.OracleClients {
 			}
 			return nil
 		}
-	}
+	}*/
 
 	return client.(*tf_client.OracleClients)
 }

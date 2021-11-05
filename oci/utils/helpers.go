@@ -27,7 +27,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
@@ -484,4 +483,17 @@ func GetCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err
 		return nil, fmt.Errorf("can't read %s: %v", certificateFileFullPath, err)
 	}
 	return
+}
+
+func RemoveFile(file string) {
+	os.Remove(file)
+}
+
+
+func WriteTempFile(data string, originFileName string) (err error) {
+	f, err := os.OpenFile(originFileName, os.O_CREATE|os.O_WRONLY, 0666)
+	if err == nil {
+		f.WriteString(data)
+	}
+	return err
 }

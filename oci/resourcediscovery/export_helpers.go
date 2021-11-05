@@ -5,6 +5,8 @@ package resourcediscovery
 
 import (
 	"fmt"
+	"log"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
@@ -631,4 +633,58 @@ func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find topic id for ons notification topic")
 	}
 	return id, nil
+}
+
+func TestExportCompartmentWithResourceName(id *string, compartmentId *string, resourceName string) error {
+
+	// add logs for notifying execution
+	log.Println()
+	log.Printf("-------------------------------- Executing Resource Discovery Sub-Step --------------------------------")
+	log.Println()
+
+	defer func() {
+		// add logs for notifying execution
+		log.Println()
+		log.Printf("-------------------------------- Exiting Resource Discovery Sub-Step --------------------------------")
+		log.Println()
+	}()
+
+	var exportCommandArgs ExportCommandArgs
+	if strings.Contains(resourceName, ".") {
+		resourceName = strings.Split(resourceName, ".")[0]
+	}
+
+	var err error
+	exportCommandArgs.GenerateState, err = isResourceSupportImport(resourceName)
+	if err != nil {
+		return err
+	}
+
+	for serviceName, resourceGraph := range tenancyResourceGraphs {
+		for _, association := range resourceGraph {
+			for _, hint := range association {
+				if hint.resourceClass == resourceName {
+					exportCommandArgs.Services = []string{serviceName}
+					exportCommandArgs.IDs = []string{*id}
+					return testExportCompartment(compartmentId, &exportCommandArgs)
+				}
+			}
+		}
+	}
+
+	for serviceName, resourceGraph := range compartmentResourceGraphs {
+		for _, association := range resourceGraph {
+			for _, hint := range association {
+				if hint.resourceClass == resourceName {
+					exportCommandArgs.Services = []string{serviceName}
+					exportCommandArgs.IDs = []string{*id}
+					return testExportCompartment(compartmentId, &exportCommandArgs)
+				}
+			}
+		}
+	}
+
+	// compartment export not support yet
+	log.Printf("[INFO] ===> Compartment export doesn't support this resource %v yet", resourceName)
+	return nil
 }

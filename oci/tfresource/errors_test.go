@@ -4,6 +4,7 @@
 package tfresource
 
 import (
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,7 +14,7 @@ import (
 func TestUnitGetVersionAndDateError(t *testing.T) {
 	versionError := getVersionAndDateError()
 	assert.Contains(t, versionError, "Provider version: ")
-	assert.Contains(t, versionError, Version)
-	assert.Contains(t, versionError, ReleaseDate)
+	assert.Contains(t, versionError, globalvar.Version)
+	assert.Contains(t, versionError, globalvar.ReleaseDate)
 	assert.NotContains(t, versionError, "Update(s) behind to current")
 }
