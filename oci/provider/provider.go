@@ -36,11 +36,11 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
-	utils "github.com/terraform-providers/terraform-provider-oci/oci/utils"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
 
 var descriptions map[string]string
-var apiKeyConfigAttributes = [...]string{globalvar.UserOcidAttrName, globalvar.FingerprintAttrName, globalvar.PrivateKeyAttrName, globalvar.PrivateKeyPathAttrName, globalvar.PrivateKeyPasswordAttrName}
+var ApiKeyConfigAttributes = [...]string{globalvar.UserOcidAttrName, globalvar.FingerprintAttrName, globalvar.PrivateKeyAttrName, globalvar.PrivateKeyPathAttrName, globalvar.PrivateKeyPasswordAttrName}
 var ociProvider *schema.Provider
 
 var TerraformCLIVersion = globalvar.UnknownTerraformCLIVersion
@@ -248,15 +248,15 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 		tf_resource.ConfiguredRetryDuration = &val
 	}
 
-	sdkConfigProvider, err := getSdkConfigProvider(d, clients)
+	sdkConfigProvider, err := GetSdkConfigProvider(d, clients)
 	if err != nil {
 		return nil, err
 	}
 
-	httpClient := buildHttpClient()
+	httpClient := BuildHttpClient()
 
 	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
-	tf_client.ConfigureClientVar, err = buildConfigureClientFn(sdkConfigProvider, httpClient)
+	tf_client.ConfigureClientVar, err = BuildConfigureClientFn(sdkConfigProvider, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -271,7 +271,7 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 	return clients, nil
 }
 
-func getSdkConfigProvider(d *schema.ResourceData, clients *tf_client.OracleClients) (oci_common.ConfigurationProvider, error) {
+func GetSdkConfigProvider(d *schema.ResourceData, clients *tf_client.OracleClients) (oci_common.ConfigurationProvider, error) {
 
 	auth := strings.ToLower(d.Get(globalvar.AuthAttrName).(string))
 	profile := d.Get(globalvar.ConfigFileProfileAttrName).(string)
@@ -316,7 +316,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 	case strings.ToLower(globalvar.AuthAPIKeySetting):
 		// No additional config providers needed
 	case strings.ToLower(globalvar.AuthInstancePrincipalSetting):
-		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, apiKeyConfigAttributes)
+		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, ApiKeyConfigAttributes)
 		if !ok {
 			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
@@ -331,7 +331,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		instancePrincipalAuthClientModifier := func(client oci_common.HTTPRequestDispatcher) (oci_common.HTTPRequestDispatcher, error) {
 			if acceptLocalCerts := utils.GetEnvSettingWithBlankDefault(globalvar.AcceptLocalCerts); acceptLocalCerts != "" {
 				if bool, err := strconv.ParseBool(acceptLocalCerts); err == nil {
-					modifiedClient := buildHttpClient()
+					modifiedClient := BuildHttpClient()
 					modifiedClient.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = bool
 					return modifiedClient, nil
 				}
@@ -347,7 +347,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 
 		configProviders = append(configProviders, cfg)
 	case strings.ToLower(globalvar.AuthInstancePrincipalWithCertsSetting):
-		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, apiKeyConfigAttributes)
+		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, ApiKeyConfigAttributes)
 		if !ok {
 			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
@@ -399,7 +399,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		configProviders = append(configProviders, cfg)
 
 	case strings.ToLower(globalvar.AuthSecurityToken):
-		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, apiKeyConfigAttributes)
+		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, ApiKeyConfigAttributes)
 		if !ok {
 			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
 		}
@@ -514,7 +514,7 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 
 	return nil, fmt.Errorf("can not get private_key or private_key_path from Terraform configuration")
 }
-func buildHttpClient() (httpClient *http.Client) {
+func BuildHttpClient() (httpClient *http.Client) {
 	httpClient = &http.Client{
 		Timeout: globalvar.DefaultRequestTimeout,
 		Transport: &http.Transport{
@@ -529,13 +529,13 @@ func buildHttpClient() (httpClient *http.Client) {
 	return
 }
 
-func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, httpClient *http.Client) (tf_client.ConfigureClient, error) {
+func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, httpClient *http.Client) (tf_client.ConfigureClient, error) {
 
 	if ociProvider != nil && len(ociProvider.TerraformVersion) > 0 {
 		TerraformCLIVersion = ociProvider.TerraformVersion
 	}
 	userAgentProviderName := utils.GetEnvSettingWithDefault(globalvar.UserAgentProviderNameEnv, globalvar.DefaultUserAgentProviderName)
-	userAgent := fmt.Sprintf(globalvar.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), TerraformCLIVersion, userAgentProviderName, tf_resource.Version)
+	userAgent := fmt.Sprintf(globalvar.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), TerraformCLIVersion, userAgentProviderName, globalvar.Version)
 
 	useOboToken, err := strconv.ParseBool(utils.GetEnvSettingWithDefault("use_obo_token", "false"))
 	if err != nil {

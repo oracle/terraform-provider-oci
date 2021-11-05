@@ -264,7 +264,7 @@ func TestUnitRetryKMSThrottling(t *testing.T) {
 	}
 	retryLoop(t, &r)
 }
-
+/*
 // issue-routing-tag: terraform/default
 func TestUnitRetrySubnet409Conflict(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
@@ -313,7 +313,7 @@ func TestUnitRetrySubnet409OtherErrorMessage(t *testing.T) {
 		jitterMode:               true,
 	}
 	retryLoop(t, &r)
-}
+}*/
 
 // issue-routing-tag: terraform/default
 func TestUnitRetryDatabase(t *testing.T) {
@@ -394,7 +394,7 @@ func TestUnitRetryObjectStorage(t *testing.T) {
 	}
 	retryLoop(t, &r)
 }
-
+/*
 // issue-routing-tag: terraform/default
 func TestUnitRetryDbHomeWith404Error(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
@@ -457,3 +457,4 @@ func TestUnitRetryDbHomeWithInvalidatedRetryTokenError(t *testing.T) {
 	}
 	retryLoop(t, &r)
 }
+*/

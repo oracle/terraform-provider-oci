@@ -4,6 +4,7 @@
 package oci
 
 import (
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -28,10 +29,10 @@ type ResourceIdentityAPIKeyTestSuite struct {
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
-	_, tokenFn := TokenizeWithHttpReplay("api_key")
-	s.Providers = TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig() + tokenFn(`
+	_, tokenFn := acctest.TokenizeWithHttpReplay("api_key")
+	s.Providers = acctest.TestAccProviders
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "automated test user"
@@ -41,7 +42,7 @@ func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) TestAccResourceIdentityAPIKey_basic() {
-	_, tokenFn := TokenizeWithHttpReplay("api_key_2")
+	_, tokenFn := acctest.TokenizeWithHttpReplay("api_key_2")
 	tokenVars := map[string]string{
 		"user_id": "${oci_identity_user.t.id}",
 		"key_value": `<<EOF
@@ -66,7 +67,7 @@ EOF
 				  user_id = "{{.user_id}}"
 				  key_value = {{.key_value}}
 				}`, tokenVars),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "fingerprint"),
@@ -82,7 +83,7 @@ EOF
 				  user_id = "{{.user_id}}"
 				  key_value = {{.key_value}}
 				}`, altTokenVars),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "fingerprint"),
