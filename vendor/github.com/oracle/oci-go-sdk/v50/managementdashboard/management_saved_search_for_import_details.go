@@ -75,6 +75,9 @@ type ManagementSavedSearchForImportDetails struct {
 
 	// Defines parameters for the saved search.
 	ParametersConfig []interface{} `mandatory:"false" json:"parametersConfig"`
+
+	// Drill-down configuration to define the destination of a drill-down action.
+	DrilldownConfig []interface{} `mandatory:"false" json:"drilldownConfig"`
 }
 
 func (m ManagementSavedSearchForImportDetails) String() string {
