@@ -95,6 +95,9 @@ type ManagementDashboard struct {
 	// Defines parameters for the dashboard.
 	ParametersConfig []interface{} `mandatory:"false" json:"parametersConfig"`
 
+	// Drill-down configuration to define the destination of a drill-down action.
+	DrilldownConfig []interface{} `mandatory:"false" json:"drilldownConfig"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
