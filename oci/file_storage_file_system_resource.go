@@ -237,6 +237,10 @@ func (s *FileStorageFileSystemResourceCrud) Create() error {
 	}
 
 	s.Res = &response.FileSystem
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

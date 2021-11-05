@@ -179,6 +179,10 @@ func (s *FileStorageSnapshotResourceCrud) Create() error {
 	}
 
 	s.Res = &response.Snapshot
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
