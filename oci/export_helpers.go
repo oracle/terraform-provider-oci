@@ -15,6 +15,7 @@ func init() {
 	exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
 	exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
 	exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
+	exportBdsBdsInstanceApiKeyHints.getIdFn = getBdsBdsInstanceApiKeyId
 	exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
 	exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 	exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
@@ -127,6 +128,16 @@ func getArtifactsRepositoryId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find repositoryId for Artifacts Respository")
 	}
 	return repositoryId, nil
+}
+
+func getBdsBdsInstanceApiKeyId(resource *OCIResource) (string, error) {
+
+	apiKeyId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find apiKeyId for Bds BdsInstanceApiKey")
+	}
+	bdsInstanceId := resource.parent.id
+	return getBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId), nil
 }
 
 func getBlockchainPeerId(resource *OCIResource) (string, error) {

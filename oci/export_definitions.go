@@ -283,6 +283,17 @@ var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	},
 }
 
+var exportBdsBdsInstanceApiKeyHints = &TerraformResourceHints{
+	resourceClass:          "oci_bds_bds_instance_api_key",
+	datasourceClass:        "oci_bds_bds_instance_api_keys",
+	datasourceItemsAttr:    "bds_api_keys",
+	resourceAbbreviation:   "bds_instance_api_key",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_bds.BdsApiKeyLifecycleStateActive),
+	},
+}
+
 var exportBlockchainBlockchainPlatformHints = &TerraformResourceHints{
 	resourceClass:          "oci_blockchain_blockchain_platform",
 	datasourceClass:        "oci_blockchain_blockchain_platforms",

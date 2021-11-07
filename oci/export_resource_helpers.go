@@ -841,6 +841,7 @@ func init() {
 
 	exportCertificatesManagementCertificateAuthorityHints.processDiscoveredResourcesFn = processCertificateAuthorities
 	exportCertificatesManagementCertificateHints.processDiscoveredResourcesFn = processCertificates
+	exportBdsBdsInstanceApiKeyHints.processDiscoveredResourcesFn = processBdsInstanceApiKeys
 }
 
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
@@ -2160,6 +2161,15 @@ func processCertificates(ctx *resourceDiscoveryContext, resources []*OCIResource
 		resource.sourceAttributes["certificate_config"] = []interface{}{certificateConfigMap}
 	}
 
+	return resources, nil
+}
+
+func processBdsInstanceApiKeys(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		apiKeyId := resource.id
+		bdsInstanceId := resource.sourceAttributes["bds_instance_id"].(string)
+		resource.importId = getBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId)
+	}
 	return resources, nil
 }
 
