@@ -32,6 +32,7 @@ var (
 
 	databaseInsightDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree":    Representation{RepType: Optional, Create: `false`},
 		"database_type":                Representation{RepType: Optional, Create: []string{`EXTERNAL-NONCDB`}},
 		"enterprise_manager_bridge_id": Representation{RepType: Optional, Create: `${var.enterprise_manager_bridge_id}`},
 		"fields":                       Representation{RepType: Optional, Create: []string{`databaseName`, `databaseType`, `compartmentId`, `databaseDisplayName`, `freeformTags`, `definedTags`, `systemTags`}},
@@ -205,6 +206,7 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_database_insight", "test_database_insight", Optional, Update, databaseInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 				//resource.TestCheckResourceAttr(datasourceName, "database_id.#", "1"), // Won't be available for EM managed databases
 				resource.TestCheckResourceAttr(datasourceName, "database_type.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "enterprise_manager_bridge_id"),

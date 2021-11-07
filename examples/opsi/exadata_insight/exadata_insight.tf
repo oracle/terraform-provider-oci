@@ -75,11 +75,27 @@ variable "exadata_insight_status" {
   default = ["ENABLED"]
 }
 
+variable "compartment_id_in_subtree" {
+  default = true
+}
+
 // List EM managed external exadata insights
 data "oci_opsi_exadata_insights" "test_exadata_insights" {
 
   #Optional
   compartment_id               = var.compartment_ocid
+  exadata_type                 = var.exadata_insight_exadata_type
+  enterprise_manager_bridge_id = var.enterprise_manager_bridge_ocid
+  state                        = var.exadata_insight_state
+  status                       = var.exadata_insight_status
+}
+
+// List EM managed external exadata insights in current and subcompartments
+data "oci_opsi_exadata_insights" "test_exadata_insights2" {
+
+  #Optional
+  compartment_id               = var.compartment_ocid
+  compartment_id_in_subtree    = var.compartment_id_in_subtree
   exadata_type                 = var.exadata_insight_exadata_type
   enterprise_manager_bridge_id = var.enterprise_manager_bridge_ocid
   state                        = var.exadata_insight_state

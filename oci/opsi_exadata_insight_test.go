@@ -32,6 +32,7 @@ var (
 
 	exadataInsightDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":               Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree":    Representation{RepType: Optional, Create: `false`},
 		"enterprise_manager_bridge_id": Representation{RepType: Optional, Create: `${var.enterprise_manager_bridge_id}`},
 		"exadata_type":                 Representation{RepType: Optional, Create: []string{`DBMACHINE`}},
 		"id":                           Representation{RepType: Optional, Create: `${oci_opsi_exadata_insight.test_exadata_insight.id}`},
@@ -201,6 +202,7 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", Optional, Update, exadataInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_type.#", "1"),
 				//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"),
