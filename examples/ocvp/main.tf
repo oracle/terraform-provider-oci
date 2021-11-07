@@ -391,6 +391,7 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
   #display_name  = var.esxihost_display_name
   #freeform_tags = var.esxihost_freeform_tags
+  #failed_esxi_host_id = var.failed_esxi_host_ocid
 }
 
 data "oci_ocvp_sddcs" "test_sddcs" {

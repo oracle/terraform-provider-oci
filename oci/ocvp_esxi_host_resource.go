@@ -65,6 +65,12 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"failed_esxi_host_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -87,6 +93,14 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Computed: true,
 			},
 			"compute_instance_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"grace_period_end_date": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"replacement_esxi_host_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -201,6 +215,11 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if failedEsxiHostId, ok := s.D.GetOkExists("failed_esxi_host_id"); ok {
+		tmp := failedEsxiHostId.(string)
+		request.FailedEsxiHostId = &tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -444,9 +463,21 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.FailedEsxiHostId != nil {
+		s.D.Set("failed_esxi_host_id", *s.Res.FailedEsxiHostId)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.GracePeriodEndDate != nil {
+		s.D.Set("grace_period_end_date", s.Res.GracePeriodEndDate.String())
+	}
+
 	s.D.Set("next_sku", s.Res.NextSku)
+
+	if s.Res.ReplacementEsxiHostId != nil {
+		s.D.Set("replacement_esxi_host_id", *s.Res.ReplacementEsxiHostId)
+	}
 
 	if s.Res.SddcId != nil {
 		s.D.Set("sddc_id", *s.Res.SddcId)
@@ -494,13 +525,25 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
+	if obj.FailedEsxiHostId != nil {
+		result["failed_esxi_host_id"] = string(*obj.FailedEsxiHostId)
+	}
+
 	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.GracePeriodEndDate != nil {
+		result["grace_period_end_date"] = obj.GracePeriodEndDate.String()
+	}
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
 
 	result["next_sku"] = string(obj.NextSku)
+
+	if obj.ReplacementEsxiHostId != nil {
+		result["replacement_esxi_host_id"] = string(*obj.ReplacementEsxiHostId)
+	}
 
 	if obj.SddcId != nil {
 		result["sddc_id"] = string(*obj.SddcId)
