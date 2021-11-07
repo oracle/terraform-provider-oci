@@ -93,9 +93,21 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.FailedEsxiHostId != nil {
+		s.D.Set("failed_esxi_host_id", *s.Res.FailedEsxiHostId)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.GracePeriodEndDate != nil {
+		s.D.Set("grace_period_end_date", s.Res.GracePeriodEndDate.String())
+	}
+
 	s.D.Set("next_sku", s.Res.NextSku)
+
+	if s.Res.ReplacementEsxiHostId != nil {
+		s.D.Set("replacement_esxi_host_id", *s.Res.ReplacementEsxiHostId)
+	}
 
 	if s.Res.SddcId != nil {
 		s.D.Set("sddc_id", *s.Res.SddcId)
