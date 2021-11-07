@@ -176,7 +176,6 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -229,7 +228,9 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "object", "object"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ogg_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_bytes"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_backup_finished"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_backup"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
