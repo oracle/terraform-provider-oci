@@ -31,11 +31,12 @@ var (
 	}
 
 	enterpriseManagerBridgeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
-		"display_name":   Representation{RepType: Optional, Create: `displayName`},
-		"id":             Representation{RepType: Optional, Create: `${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`},
-		"state":          Representation{RepType: Optional, Create: []string{`ACTIVE`}},
-		"filter":         RepresentationGroup{Required, enterpriseManagerBridgeDataSourceFilterRepresentation}}
+		"compartment_id":            Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"display_name":              Representation{RepType: Optional, Create: `displayName`},
+		"id":                        Representation{RepType: Optional, Create: `${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`},
+		"state":                     Representation{RepType: Optional, Create: []string{`ACTIVE`}},
+		"filter":                    RepresentationGroup{Required, enterpriseManagerBridgeDataSourceFilterRepresentation}}
 	enterpriseManagerBridgeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
 		"values": Representation{RepType: Required, Create: []string{`${oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id}`}},
@@ -194,6 +195,7 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"), // This is hash generated value. so we cannot match exact value
 				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),

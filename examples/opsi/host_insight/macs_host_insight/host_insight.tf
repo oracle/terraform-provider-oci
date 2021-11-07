@@ -72,12 +72,25 @@ variable "host_insight_status" {
   default = ["ENABLED"]
 }
 
+variable "compartment_id_in_subtree" {
+  default = true
+}
+
 // List host insight
 data "oci_opsi_host_insights" "test_host_insights" {
   compartment_id = var.compartment_ocid
   host_type      = var.host_insight_host_type
   state          = var.host_insight_state
   status         = var.host_insight_status
+}
+
+// List host insights in current compartment and subcompartments
+data "oci_opsi_host_insights" "test_host_insights2" {
+  compartment_id            = var.compartment_ocid
+  compartment_id_in_subtree = var.compartment_id_in_subtree
+  host_type                 = var.host_insight_host_type
+  state                     = var.host_insight_state
+  status                    = var.host_insight_status
 }
 
 // Get an host insight

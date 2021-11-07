@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Host Insights in Oracle Cloud Infrastructure Opsi service.
 
 Gets a list of host insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
+When both compartmentId and compartmentIdInSubtree are specified, a list of host insights in that compartment and in all sub-compartments will be returned.
 
 
 ## Example Usage
@@ -20,6 +21,7 @@ data "oci_opsi_host_insights" "test_host_insights" {
 
 	#Optional
 	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.host_insight_compartment_id_in_subtree
 	enterprise_manager_bridge_id = oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id
 	exadata_insight_id = oci_opsi_exadata_insight.test_exadata_insight.id
 	host_type = var.host_insight_host_type
@@ -34,6 +36,7 @@ data "oci_opsi_host_insights" "test_host_insights" {
 The following arguments are supported:
 
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compartment_id_in_subtree` - (Optional) A flag to search all resources within a given compartment and all sub-compartments. 
 * `enterprise_manager_bridge_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_HOST) Unique Enterprise Manager bridge identifier
 * `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_HOST) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource. 
 * `host_type` - (Optional) Filter by one or more host types. Possible value is EXTERNAL-HOST.
