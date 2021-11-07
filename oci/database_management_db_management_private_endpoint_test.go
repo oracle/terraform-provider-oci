@@ -120,6 +120,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
