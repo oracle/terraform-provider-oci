@@ -164,6 +164,60 @@ func SchServiceConnectorResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"dimensions": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"dimension_value": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"kind": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"jmesPath",
+														"static",
+													}, true),
+												},
+
+												// Optional
+												"path": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"enable_formatted_messaging": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -813,6 +867,100 @@ func (s *SchServiceConnectorResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *SchServiceConnectorResourceCrud) mapToDimensionDetails(fieldKeyFormat string) (oci_sch.DimensionDetails, error) {
+	result := oci_sch.DimensionDetails{}
+
+	if dimensionValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dimension_value")); ok {
+		if tmpList := dimensionValue.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dimension_value"), 0)
+			tmp, err := s.mapToDimensionValueDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert dimension_value, encountered error: %v", err)
+			}
+			result.DimensionValue = tmp
+		}
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	return result, nil
+}
+
+func DimensionDetailsToMap(obj oci_sch.DimensionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DimensionValue != nil {
+		dimensionValueArray := []interface{}{}
+		if dimensionValueMap := DimensionValueDetailsToMap(&obj.DimensionValue); dimensionValueMap != nil {
+			dimensionValueArray = append(dimensionValueArray, dimensionValueMap)
+		}
+		result["dimension_value"] = dimensionValueArray
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func (s *SchServiceConnectorResourceCrud) mapToDimensionValueDetails(fieldKeyFormat string) (oci_sch.DimensionValueDetails, error) {
+	var baseObject oci_sch.DimensionValueDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("jmesPath"):
+		details := oci_sch.JmesPathDimensionValue{}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("static"):
+		details := oci_sch.StaticDimensionValue{}
+		if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+			tmp := value.(string)
+			details.Value = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func DimensionValueDetailsToMap(obj *oci_sch.DimensionValueDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_sch.JmesPathDimensionValue:
+		result["kind"] = "jmesPath"
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+	case oci_sch.StaticDimensionValue:
+		result["kind"] = "static"
+
+		if v.Value != nil {
+			result["value"] = string(*v.Value)
+		}
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *SchServiceConnectorResourceCrud) mapToLogSource(fieldKeyFormat string) (oci_sch.LogSource, error) {
 	result := oci_sch.LogSource{}
 
@@ -1053,6 +1201,22 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if dimensions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dimensions")); ok {
+			interfaces := dimensions.([]interface{})
+			tmp := make([]oci_sch.DimensionDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dimensions"), stateDataIndex)
+				converted, err := s.mapToDimensionDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "dimensions")) {
+				details.Dimensions = tmp
+			}
+		}
 		if metric, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric")); ok {
 			tmp := metric.(string)
 			details.Metric = &tmp
@@ -1130,6 +1294,12 @@ func TargetDetailsToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
 		if v.CompartmentId != nil {
 			result["compartment_id"] = string(*v.CompartmentId)
 		}
+
+		dimensions := []interface{}{}
+		for _, item := range v.Dimensions {
+			dimensions = append(dimensions, DimensionDetailsToMap(item))
+		}
+		result["dimensions"] = dimensions
 
 		if v.Metric != nil {
 			result["metric"] = string(*v.Metric)
