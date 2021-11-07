@@ -82,6 +82,44 @@ var (
 		"enable_formatted_messaging": Representation{RepType: Optional, Create: `true`},
 	}
 
+	monitoringTargetRepresentation = map[string]interface{}{
+		"kind":             Representation{RepType: Required, Create: `monitoring`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"metric":           Representation{RepType: Required, Create: `metric`, Update: `metric1`},
+		"metric_namespace": Representation{RepType: Required, Create: `metricnamespace`, Update: `metricnamespace_1`},
+		"dimensions":       RepresentationGroup{Optional, serviceConnectorTargetStaticDimensionsRepresentation_0},
+	}
+
+	//Making dimensions required though it is optional in the API spec
+	monitoringTargetStaticDimensionRepresentation = map[string]interface{}{
+		"kind":             Representation{RepType: Required, Create: `monitoring`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"metric":           Representation{RepType: Required, Create: `static_metric_0`, Update: `metric_update_1`},
+		"metric_namespace": Representation{RepType: Required, Create: `static_metricnamespace_0`, Update: `static_metricnamespace_1`},
+		"dimensions":       RepresentationGroup{Required, serviceConnectorTargetStaticDimensionsRepresentation_0},
+	}
+
+	monitoringTargetJmesPathDimensionRepresentation = map[string]interface{}{
+		"kind":             Representation{RepType: Required, Create: `monitoring`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"metric":           Representation{RepType: Required, Create: `jmespath_metric_0`, Update: `metric_update_1`},
+		"metric_namespace": Representation{RepType: Required, Create: `jmespath_metricnamespace_0`, Update: `jmespath_metricnamespace_1`},
+		"dimensions":       RepresentationGroup{Required, serviceConnectorTargetJmesPathDimensionsRepresentation_0},
+	}
+
+	monitoringTargetStaticAndJmesPathRepresentation = map[string]interface{}{
+		"kind":             Representation{RepType: Required, Create: `monitoring`},
+		"compartment_id":   Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"metric":           Representation{RepType: Required, Create: `metric`, Update: `metric_1`},
+		"metric_namespace": Representation{RepType: Required, Create: `metricnamespace`, Update: `metricnamespace_1`},
+		"dimensions": []RepresentationGroup{
+			{Required, serviceConnectorTargetJmesPathDimensionsRepresentation_0},
+			{Required, serviceConnectorTargetJmesPathDimensionsRepresentation_1},
+			{Required, serviceConnectorTargetStaticDimensionsRepresentation_0},
+			{Required, serviceConnectorTargetStaticDimensionsRepresentation_1},
+		},
+	}
+
 	// Create serviceConnector definitions
 	serviceConnectorRepresentationNoTarget = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
@@ -114,6 +152,44 @@ var (
 		"stream_id": Representation{RepType: Optional, Create: `${oci_streaming_stream.test_stream.id}`},
 	}
 
+	serviceConnectorTargetStaticDimensionsRepresentation_0 = map[string]interface{}{
+		"dimension_value": RepresentationGroup{Required, serviceConnectorTargetDimensionsStaticDimensionValueRepresentation_0},
+		"name":            Representation{RepType: Required, Create: `static_dimension_0`, Update: `static_dimension_update_1`},
+	}
+
+	serviceConnectorTargetStaticDimensionsRepresentation_1 = map[string]interface{}{
+		"dimension_value": RepresentationGroup{Required, serviceConnectorTargetDimensionsStaticDimensionValueRepresentation_1},
+		"name":            Representation{RepType: Required, Create: `static_dimension_1`, Update: `static_dimension_update_2`},
+	}
+
+	serviceConnectorTargetJmesPathDimensionsRepresentation_0 = map[string]interface{}{
+		"dimension_value": RepresentationGroup{Required, serviceConnectorTargetDimensionsJmesPathDimensionValueRepresentation_0},
+		"name":            Representation{RepType: Required, Create: `jmespath_dimension_0`, Update: `jmespath_dimension_update_1`},
+	}
+
+	serviceConnectorTargetJmesPathDimensionsRepresentation_1 = map[string]interface{}{
+		"dimension_value": RepresentationGroup{Required, serviceConnectorTargetDimensionsJmesPathDimensionValueRepresentation_1},
+		"name":            Representation{RepType: Required, Create: `jmespath_dimension_1`, Update: `jmespath_dimension_update_2`},
+	}
+
+	serviceConnectorTargetDimensionsStaticDimensionValueRepresentation_0 = map[string]interface{}{
+		"kind":  Representation{RepType: Required, Create: `static`, Update: `static`},
+		"value": Representation{RepType: Required, Create: `static_value_0`, Update: `static_value_update_1`},
+	}
+
+	serviceConnectorTargetDimensionsStaticDimensionValueRepresentation_1 = map[string]interface{}{
+		"kind":  Representation{RepType: Required, Create: `static`, Update: `static`},
+		"value": Representation{RepType: Required, Create: `static_value_1`, Update: `static_value_update_2`},
+	}
+
+	serviceConnectorTargetDimensionsJmesPathDimensionValueRepresentation_0 = map[string]interface{}{
+		"kind": Representation{RepType: Required, Create: `jmesPath`, Update: `jmesPath`},
+		"path": Representation{RepType: Required, Create: `logContent.data.compartmentId`, Update: `logContent.data.datacenterid`},
+	}
+	serviceConnectorTargetDimensionsJmesPathDimensionValueRepresentation_1 = map[string]interface{}{
+		"kind": Representation{RepType: Required, Create: `jmesPath`, Update: `jmesPath`},
+		"path": Representation{RepType: Required, Create: `logContent.data.namespace`, Update: `logContent.data.compartmentId`},
+	}
 	ServiceConnectorResourceConfig = ServiceConnectorResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Update, serviceConnectorFunctionTargetRepresentation)
 )
@@ -236,6 +312,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorOnsTargetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -275,6 +352,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", Optional, Create, serviceConnectorFunctionTargetRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -316,6 +394,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "My service connector description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -355,6 +434,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -395,6 +475,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -435,6 +516,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -497,6 +579,7 @@ func TestSchServiceConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_connector_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
