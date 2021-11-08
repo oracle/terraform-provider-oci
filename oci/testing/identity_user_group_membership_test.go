@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"context"
@@ -22,7 +22,7 @@ var (
 		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 		"group_id":       Representation{RepType: Optional, Create: `${oci_identity_group.test_group.id}`},
 		"user_id":        Representation{RepType: Optional, Create: `${oci_identity_user.test_user.id}`},
-		"filter":         RepresentationGroup{Required, userGroupMembershipDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{Required, userGroupMembershipDataSourceFilterRepresentation}}
 	userGroupMembershipDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
 		"values": Representation{RepType: Required, Create: []string{`${oci_identity_user_group_membership.test_user_group_membership.id}`}},
@@ -42,32 +42,32 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityUserGroupMembershipResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_identity_user_group_membership.test_user_group_membership"
 	datasourceName := "data.oci_identity_user_group_memberships.test_user_group_memberships"
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	SaveConfigContent(config+compartmentIdVariableStr+UserGroupMembershipResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+UserGroupMembershipResourceDependencies+
 		GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation), "identity", "userGroupMembership", t)
 
-	ResourceTest(t, testAccCheckIdentityUserGroupMembershipDestroy, []resource.TestStep{
+	acctest.ResourceTest(t, testAccCheckIdentityUserGroupMembershipDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Required, Create, userGroupMembershipRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -80,7 +80,7 @@ func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", Optional, Update, userGroupMembershipDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_user_group_memberships", "test_user_group_memberships", Optional, Update, userGroupMembershipDataSourceRepresentation) +
 				compartmentIdVariableStr + UserGroupMembershipResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_identity_user_group_membership", "test_user_group_membership", Optional, Update, userGroupMembershipRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(

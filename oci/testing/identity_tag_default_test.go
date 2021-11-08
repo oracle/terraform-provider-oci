@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"context"
@@ -19,10 +19,10 @@ import (
 
 var (
 	TagDefaultRequiredOnlyResource = TagDefaultResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultRepresentation)
 
 	TagDefaultResourceConfig = TagDefaultResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation)
 
 	tagDefaultSingularDataSourceRepresentation = map[string]interface{}{
 		"tag_default_id": Representation{RepType: Required, Create: `${oci_identity_tag_default.test_tag_default.id}`},
@@ -30,17 +30,17 @@ var (
 
 	tagDefaultDataSourceRepresentationWithCompartmentIdFilter = map[string]interface{}{
 		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
-		"filter":         RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
 	tagDefaultDataSourceRepresentationWithIdFilter = map[string]interface{}{
 		"id":     Representation{RepType: Optional, Create: `${oci_identity_tag_default.test_tag_default.id}`},
-		"filter": RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
+		"filter": acctest.RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
 	tagDefaultDataSourceRepresentationWithStateFilter = map[string]interface{}{
 		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
 		"state":          Representation{RepType: Optional, Create: `AVAILABLE`},
-		"filter":         RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
 	tagDefaultDataSourceRepresentationWithTagDefinitionIdFilter = map[string]interface{}{
 		"tag_definition_id": Representation{RepType: Optional, Create: `${oci_identity_tag.test_tag.id}`},
-		"filter":            RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
+		"filter":            acctest.RepresentationGroup{Required, tagDefaultDataSourceFilterRepresentation}}
 	tagDefaultDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
 		"values": Representation{RepType: Required, Create: []string{`${oci_identity_tag_default.test_tag_default.id}`}},
@@ -61,10 +61,10 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagDefaultResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentIdCreate := GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentId := GetEnvSettingWithDefault("compartment_id_for_update", compartmentIdCreate)
+	compartmentIdCreate := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_id_for_update", compartmentIdCreate)
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_tag_default.test_tag_default"
@@ -73,21 +73,21 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	SaveConfigContent(config+compartmentIdVariableStr+TagDefaultResourceDependencies+
-		GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Create, tagDefaultRepresentation), "identity", "tagDefault", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+TagDefaultResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Create, tagDefaultRepresentation), "identity", "tagDefault", t)
 
-	ResourceTest(t, testAccCheckIdentityTagDefaultDestroy, []resource.TestStep{
+	acctest.ResourceTest(t, testAccCheckIdentityTagDefaultDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
 				resource.TestCheckResourceAttr(resourceName, "value", "value1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -100,7 +100,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Create, tagDefaultRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Create, tagDefaultRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -112,8 +112,8 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "value", "value1"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -126,7 +126,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -138,7 +138,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "value", "value2"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -149,10 +149,10 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_compartment_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithCompartmentIdFilter) +
-				GenerateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithIdFilter) +
-				GenerateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_state_filter", Optional, Update, tagDefaultDataSourceRepresentationWithStateFilter) +
-				GenerateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_tag_definition_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithTagDefinitionIdFilter) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_compartment_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithCompartmentIdFilter) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithIdFilter) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_state_filter", Optional, Update, tagDefaultDataSourceRepresentationWithStateFilter) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_defaults", "test_tag_defaults_with_tag_definition_id_filter", Optional, Update, tagDefaultDataSourceRepresentationWithTagDefinitionIdFilter) +
 				compartmentIdVariableStr + TagDefaultResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -205,7 +205,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + TagDefaultResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_default_id"),

@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"fmt"
@@ -14,11 +14,11 @@ import (
 
 var (
 	regionDataSourceRepresentation = map[string]interface{}{
-		"filter": RepresentationGroup{Required, regionDataSourceFilterRepresentation}}
+		"filter": acctest.RepresentationGroup{acctest.Required, regionDataSourceFilterRepresentation}}
 
 	regionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{RepType: Required, Create: `name`},
-		"values": Representation{RepType: Required, Create: []string{`${var.region}`}},
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${var.region}`}},
 	}
 
 	RegionResourceConfig = ""
@@ -29,22 +29,22 @@ func TestIdentityRegionResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityRegionResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_identity_regions.test_regions"
 
-	SaveConfigContent("", "", "", t)
+	acctest.SaveConfigContent("", "", "", t)
 
-	ResourceTest(t, nil, []resource.TestStep{
+	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", Required, Create, regionDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", acctest.Required, Create, regionDataSourceRepresentation) +
 				compartmentIdVariableStr + RegionResourceConfig,
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttrSet(datasourceName, "regions.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "regions.0.key"),

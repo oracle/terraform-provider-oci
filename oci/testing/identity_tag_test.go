@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"context"
@@ -22,37 +22,37 @@ import (
 
 var (
 	TagRequiredOnlyResource = TagResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation)
 
 	TagResourceConfigWithoutValidator = TagResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, RepresentationCopyWithRemovedProperties(tagRepresentation, []string{"validator"}))
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, RepresentationCopyWithRemovedProperties(tagRepresentation, []string{"validator"}))
 
 	tagSingularDataSourceRepresentation = map[string]interface{}{
-		"tag_name":         Representation{RepType: Required, Create: `${oci_identity_tag.test_tag.name}`},
-		"tag_namespace_id": Representation{RepType: Required, Create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
+		"tag_name":         acctest.Representation{RepType: Required, Create: `${oci_identity_tag.test_tag.name}`},
+		"tag_namespace_id": acctest.Representation{RepType: Required, Create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
 	}
 
 	tagDataSourceRepresentation = map[string]interface{}{
-		"tag_namespace_id": Representation{RepType: Required, Create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
-		"state":            Representation{RepType: Optional, Create: `ACTIVE`},
-		"filter":           RepresentationGroup{Required, tagDataSourceFilterRepresentation}}
+		"tag_namespace_id": acctest.Representation{RepType: Required, Create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
+		"state":            acctest.Representation{RepType: Optional, Create: `ACTIVE`},
+		"filter":           acctest.RepresentationGroup{Required, tagDataSourceFilterRepresentation}}
 	tagDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{RepType: Required, Create: `name`},
-		"values": Representation{RepType: Required, Create: []string{`${oci_identity_tag.test_tag.name}`}},
+		"name":   acctest.Representation{RepType: Required, Create: `name`},
+		"values": acctest.Representation{RepType: Required, Create: []string{`${oci_identity_tag.test_tag.name}`}},
 	}
 
 	tagRepresentation = map[string]interface{}{
-		"description":      Representation{RepType: Required, Create: `This tag will show the cost center that will be used for billing of associated resources.`, Update: `description2`},
-		"name":             Representation{RepType: Required, Create: `TFTestTag`},
-		"tag_namespace_id": Representation{RepType: Required, Create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
-		"defined_tags":     Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":    Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_cost_tracking": Representation{RepType: Optional, Create: `false`, Update: `true`},
-		"validator":        RepresentationGroup{Optional, tagValidatorRepresentation},
+		"description":      acctest.Representation{RepType: Required, Create: `This tag will show the cost center that will be used for billing of associated resources.`, Update: `description2`},
+		"name":             acctest.Representation{RepType: Required, Create: `TFTestTag`},
+		"tag_namespace_id": acctest.Representation{RepType: Required, Create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
+		"defined_tags":     acctest.Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":    acctest.Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_cost_tracking": acctest.Representation{RepType: Optional, Create: `false`, Update: `true`},
+		"validator":        acctest.RepresentationGroup{Optional, tagValidatorRepresentation},
 	}
 	tagValidatorRepresentation = map[string]interface{}{
-		"validator_type": Representation{RepType: Required, Create: `ENUM`},
-		"values":         Representation{RepType: Required, Create: []string{`value1`, `value2`}},
+		"validator_type": acctest.Representation{RepType: Required, Create: `ENUM`},
+		"values":         acctest.Representation{RepType: Required, Create: []string{`value1`, `value2`}},
 	}
 
 	TagResourceDependencies = DefinedTagsDependencies
@@ -63,9 +63,9 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_tag.test_tag"
@@ -75,21 +75,21 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	SaveConfigContent(config+compartmentIdVariableStr+TagResourceDependencies+
-		GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation), "identity", "tag", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+TagResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation), "identity", "tag", t)
 
-	ResourceTest(t, testAccCheckIdentityTagDestroy, []resource.TestStep{
+	acctest.ResourceTest(t, testAccCheckIdentityTagDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TagResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 				resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
 				resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -102,8 +102,8 @@ func TestIdentityTagResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + TagResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -118,8 +118,8 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "validator.0.values.#", "2"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -132,8 +132,8 @@ func TestIdentityTagResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + TagResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, RepresentationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, RepresentationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -145,7 +145,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -156,9 +156,9 @@ func TestIdentityTagResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_tags", "test_tags", Optional, Update, tagDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tags", "test_tags", Optional, Update, tagDataSourceRepresentation) +
 				compartmentIdVariableStr + TagResourceConfigWithoutValidator,
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
@@ -177,9 +177,9 @@ func TestIdentityTagResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + TagResourceConfigWithoutValidator,
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
 
@@ -281,7 +281,7 @@ func init() {
 
 func sweepIdentityTagResource(compartment string) error {
 	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
-	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		return nil
 	}

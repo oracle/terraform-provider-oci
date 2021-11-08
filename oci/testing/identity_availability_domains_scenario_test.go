@@ -1,9 +1,10 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"regexp"
 	"testing"
 
@@ -24,9 +25,9 @@ type DatasourceIdentityAvailabilityDomainsTestSuite struct {
 }
 
 func (s *DatasourceIdentityAvailabilityDomainsTestSuite) SetupTest() {
-	s.Providers = TestAccProviders
-	PreCheck()
-	s.Config = ProviderTestConfig()
+	s.Providers = acctest.TestAccProviders
+	acctest.PreCheck(s.T())
+	s.Config = acctest.ProviderTestConfig()
 	s.ResourceName = "data.oci_identity_availability_domains.t"
 }
 
@@ -41,7 +42,7 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 				data "oci_identity_availability_domains" "t" {
 					compartment_id = "${var.tenancy_ocid}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.#", "3"),
 					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.0.name", regexp.MustCompile(`\w*-AD-1`)),
 					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.1.name", regexp.MustCompile(`\w*-AD-2`)),
@@ -59,7 +60,7 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 						regex = true
 					}
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "availability_domains.#", "1"),
 					resource.TestMatchResourceAttr(s.ResourceName, "availability_domains.0.name", regexp.MustCompile(".*AD-2")),
 				),
