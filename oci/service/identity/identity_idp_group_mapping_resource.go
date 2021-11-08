@@ -12,6 +12,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -71,7 +73,7 @@ func IdentityIdpGroupMappingResource() *schema.Resource {
 func createIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -79,7 +81,7 @@ func createIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error 
 func readIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -87,7 +89,7 @@ func readIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 func updateIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -95,7 +97,7 @@ func updateIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error 
 func deleteIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

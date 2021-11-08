@@ -4,12 +4,13 @@
 package testing
 
 import (
-	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 	"os"
 	"regexp"
 	"strings"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -31,8 +32,8 @@ type ResourceIdentityGroupTestSuite struct {
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 	s.Providers = acctest.TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig()
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig()
 	s.ResourceName = "oci_identity_group.t"
 }
 

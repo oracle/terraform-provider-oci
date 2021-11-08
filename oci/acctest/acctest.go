@@ -2,8 +2,10 @@ package acctest
 
 import (
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
@@ -85,7 +87,6 @@ KwX6p26xaVtCV8PbDpF3RHuEJV1NU6PDIhaIHhdL374BiX/KmcJ6yv7tbkczpK+V
 var testKeyFingerPrint = "b4:8a:7d:54:e6:81:04:b2:fa:ce:ba:55:34:dd:00:00"
 var testTenancyOCID = "ocid1.tenancy.oc1..faketenancy"
 var testUserOCID = "ocid1.user.oc1..fakeuser"
-
 
 func writeConfigFile() (string, string, error) {
 	dataTpl := `[DEFAULT]

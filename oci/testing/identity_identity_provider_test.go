@@ -6,8 +6,11 @@ package testing
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"io/ioutil"
 	"log"
@@ -16,6 +19,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
+
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -29,30 +34,30 @@ variable "identity_provider_metadata_file" { default = "{{.metadata_file}}" }
 
 var (
 	IdentityProviderRequiredOnlyResource = IdentityProviderResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Required, acctest.Create, identityProviderRepresentation)
 
 	identityProviderDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
-		"protocol":       Representation{RepType: Required, Create: `SAML2`},
-		"name":           Representation{RepType: Optional, Create: `test-idp-saml2-adfs`},
-		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{Required, identityProviderDataSourceFilterRepresentation}}
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"protocol":       acctest.Representation{RepType: acctest.Required, Create: `SAML2`},
+		"name":           acctest.Representation{RepType: acctest.Optional, Create: `test-idp-saml2-adfs`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":         acctest.RepresentationGroup{acctest.Required, identityProviderDataSourceFilterRepresentation}}
 	identityProviderDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{RepType: Required, Create: `id`},
-		"values": Representation{RepType: Required, Create: []string{`${oci_identity_identity_provider.test_identity_provider.id}`}},
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_identity_provider.test_identity_provider.id}`}},
 	}
 
 	identityProviderRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
-		"description":         Representation{RepType: Required, Create: `description`, Update: `description2`},
-		"metadata":            Representation{RepType: Required, Create: `${file("${var.identity_provider_metadata_file}")}`},
-		"metadata_url":        Representation{RepType: Required, Create: `metadataUrl`, Update: `metadataUrl2`},
-		"name":                Representation{RepType: Required, Create: `test-idp-saml2-adfs`},
-		"product_type":        Representation{RepType: Required, Create: `ADFS`},
-		"protocol":            Representation{RepType: Required, Create: `SAML2`},
-		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_attributes": Representation{RepType: Optional, Create: map[string]string{"clientId": "app_sf3kdjf3"}},
-		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"description":         acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
+		"metadata":            acctest.Representation{RepType: acctest.Required, Create: `${file("${var.identity_provider_metadata_file}")}`},
+		"metadata_url":        acctest.Representation{RepType: acctest.Required, Create: `metadataUrl`, Update: `metadataUrl2`},
+		"name":                acctest.Representation{RepType: acctest.Required, Create: `test-idp-saml2-adfs`},
+		"product_type":        acctest.Representation{RepType: acctest.Required, Create: `ADFS`},
+		"protocol":            acctest.Representation{RepType: acctest.Required, Create: `SAML2`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"clientId": "app_sf3kdjf3"}},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	IdentityProviderResourceDependencies = IdentityProviderPropertyVariables +
@@ -81,7 +86,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityProviderResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation), "identity", "identityProvider", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Optional, acctest.Create, identityProviderRepresentation), "identity", "identityProvider", t)
 
 	metadataContents, err := ioutil.ReadFile(metadataFile)
 	if err != nil {
@@ -96,7 +101,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Required, acctest.Create, identityProviderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -121,7 +126,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Optional, acctest.Create, identityProviderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -136,23 +141,23 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "redirect_url"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
+				/*
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
 						}
-					}
-					return err
-				},
+						return err
+					},*/
 			),
 		},
 
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Optional, acctest.Update, identityProviderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -180,9 +185,9 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", Optional, Update, identityProviderDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", acctest.Optional, acctest.Update, identityProviderDataSourceRepresentation) +
 				compartmentIdVariableStr + IdentityProviderResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Optional, acctest.Update, identityProviderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
@@ -218,7 +223,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 
 func testAccCheckIdentityIdentityProviderDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := TestAccProvider.Meta().(*OracleClients).identityClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_identity_provider" {
 			noResourceFound = false
@@ -227,7 +232,7 @@ func testAccCheckIdentityIdentityProviderDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.IdentityProviderId = &tmp
 
-			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 
 			response, err := client.GetIdentityProvider(context.Background(), request)
 

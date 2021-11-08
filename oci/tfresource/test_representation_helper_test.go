@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 )
 

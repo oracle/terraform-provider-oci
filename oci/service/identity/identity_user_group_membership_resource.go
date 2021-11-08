@@ -7,6 +7,8 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -65,7 +67,7 @@ func IdentityUserGroupMembershipResource() *schema.Resource {
 func createIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -73,7 +75,7 @@ func createIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) er
 func readIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -81,7 +83,7 @@ func readIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) erro
 func deleteIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

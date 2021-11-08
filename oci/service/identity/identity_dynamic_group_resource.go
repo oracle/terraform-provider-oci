@@ -7,6 +7,8 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
@@ -81,7 +83,7 @@ func IdentityDynamicGroupResource() *schema.Resource {
 func createIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -89,7 +91,7 @@ func createIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 func readIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -97,7 +99,7 @@ func readIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 func updateIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -105,7 +107,7 @@ func updateIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

@@ -13,6 +13,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -72,7 +74,7 @@ func IdentityCustomerSecretKeyResource() *schema.Resource {
 func createIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -80,7 +82,7 @@ func createIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) erro
 func readIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -88,7 +90,7 @@ func readIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error 
 func updateIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -96,7 +98,7 @@ func updateIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) erro
 func deleteIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

@@ -7,6 +7,8 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -34,7 +36,7 @@ func IdentitySmtpCredentialsDataSource() *schema.Resource {
 func readIdentitySmtpCredentials(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySmtpCredentialsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }

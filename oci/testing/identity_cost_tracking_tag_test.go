@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -14,7 +17,7 @@ import (
 
 var (
 	costTrackingTagDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
 	CostTrackingTagResourceConfig = ""
@@ -38,7 +41,7 @@ func TestIdentityCostTrackingTagResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_cost_tracking_tags", "test_cost_tracking_tags", Required, Create, costTrackingTagDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_cost_tracking_tags", "test_cost_tracking_tags", acctest.Required, acctest.Create, costTrackingTagDataSourceRepresentation) +
 				compartmentIdVariableStr + CostTrackingTagResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

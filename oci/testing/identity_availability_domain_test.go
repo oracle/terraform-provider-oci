@@ -5,9 +5,10 @@ package testing
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
-	"testing"
 
 	"regexp"
 
@@ -29,7 +30,7 @@ var (
 
 	AvailabilityDomainResourceConfig = ""
 
-	AvailabilityDomainConfig = acctest.acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, availabilityDomainDataSourceRepresentation)
+	AvailabilityDomainConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, availabilityDomainDataSourceRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -64,7 +65,7 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domain", "test_availability_domain", acctest.Optional, acctest.Create, availabilityDomainSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domain", "test_availability_domain", acctest.Optional, acctest.Create, availabilityDomainSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AvailabilityDomainResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),

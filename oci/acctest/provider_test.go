@@ -6,7 +6,6 @@ package acctest
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -16,6 +15,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -24,10 +25,12 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+
 	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 	"github.com/terraform-providers/terraform-provider-oci/oci/provider"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
+
 /*
 var subnetConfig = `
 data "oci_identity_availability_domains" "ADs" {
@@ -499,6 +502,7 @@ func TestUnitBuildClientConfigureFn_interceptor(t *testing.T) {
 	assert.NotEqual(t, "fake-token", r.Header.Get(globalvar.RequestHeaderOpcOboToken))
 	assert.Equal(t, "another-token", r.Header.Get(globalvar.RequestHeaderOpcOboToken))
 }
+
 /*
 // issue-routing-tag: terraform/default
 func TestUnitSupportChangeOboToken(t *testing.T) {
@@ -690,6 +694,7 @@ func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	assert.False(t, ok)
 	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 }
+
 /*
 // This test verifies that user can specify private key paths with "~/" and they should resolve to the home directory
 // issue-routing-tag: terraform/default
