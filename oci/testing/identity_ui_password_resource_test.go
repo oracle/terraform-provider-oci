@@ -4,8 +4,9 @@
 package testing
 
 import (
-	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
@@ -26,8 +27,8 @@ type ResourceIdentityUIPasswordTestSuite struct {
 func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 	_, tokenFn := acctest.TokenizeWithHttpReplay("ui_pass_resource")
 	s.Providers = acctest.TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig() + tokenFn(`
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "-tf-user"
 		description = "tf test user"
@@ -47,7 +48,7 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestAccIdentityUIPassword_basic() 
 				resource "oci_identity_ui_password" "t" {
 					user_id = "${oci_identity_user.t.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.UiPasswordLifecycleStateActive)),

@@ -6,39 +6,44 @@ package testing
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	PolicyRequiredOnlyResource = PolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Required, acctest.Create, policyRepresentation)
 
 	policyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
-		"name":           Representation{RepType: Optional, Create: `LaunchInstances`},
-		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{Required, policyDataSourceFilterRepresentation}}
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"name":           acctest.Representation{RepType: acctest.Optional, Create: `LaunchInstances`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":         acctest.RepresentationGroup{acctest.Required, policyDataSourceFilterRepresentation}}
 	policyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{RepType: Required, Create: `id`},
-		"values": Representation{RepType: Required, Create: []string{`${oci_identity_policy.test_policy.id}`}},
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_policy.test_policy.id}`}},
 	}
 
 	policyRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
-		"description":    Representation{RepType: Required, Create: `Policy for users who need to launch instances, attach volumes, manage images`, Update: `description2`},
-		"name":           Representation{RepType: Required, Create: `LaunchInstances`},
-		"statements":     Representation{RepType: Required, Create: []string{`Allow Group Administrators to read instances in tenancy`}},
-		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"version_date":   Representation{RepType: Optional, Create: ``, Update: `2018-01-01`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"description":    acctest.Representation{RepType: acctest.Required, Create: `Policy for users who need to launch instances, attach volumes, manage images`, Update: `description2`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `LaunchInstances`},
+		"statements":     acctest.Representation{RepType: acctest.Required, Create: []string{`Allow Group Administrators to read instances in tenancy`}},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"version_date":   acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `2018-01-01`},
 	}
 
 	PolicyResourceDependencies = DefinedTagsDependencies
@@ -61,13 +66,13 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+PolicyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation), "identity", "policy", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Create, policyRepresentation), "identity", "policy", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityPolicyDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Required, Create, policyRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Required, acctest.Create, policyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -88,7 +93,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Create, policyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
@@ -99,23 +104,23 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "statements.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckNoResourceAttr(resourceName, "version_date"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
+				/*
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
 						}
-					}
-					return err
-				},
+						return err
+					},*/
 			),
 		},
 
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + PolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Update, policyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -139,9 +144,9 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", Optional, Update, policyDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_policies", "test_policies", acctest.Optional, acctest.Update, policyDataSourceRepresentation) +
 				compartmentIdVariableStr + PolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", acctest.Optional, acctest.Update, policyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "LaunchInstances"),
@@ -180,7 +185,7 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 
 func testAccCheckIdentityPolicyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := TestAccProvider.Meta().(*OracleClients).identityClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_policy" {
 			noResourceFound = false
@@ -189,7 +194,7 @@ func testAccCheckIdentityPolicyDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PolicyId = &tmp
 
-			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 
 			response, err := client.GetPolicy(context.Background(), request)
 

@@ -6,11 +6,12 @@ package testing
 import (
 	"context"
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 	"regexp"
-	"strconv"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -18,6 +19,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 )
 
 var (
@@ -64,7 +66,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := utils.GetEnvSettingWithBlankDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_identity_compartment.test_compartment"
@@ -74,14 +76,14 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+CompartmentResourceDependencies+
-		GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create, compartmentRepresentation), "identity", "compartment", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", acctest.Optional, acctest.Create, compartmentRepresentation), "identity", "compartment", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityCompartmentDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", acctest.Required, acctest.Create, compartmentRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
 				resource.TestCheckResourceAttr(resourceName, "name", "Network"),
@@ -95,8 +97,8 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create, compartmentRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", acctest.Optional, acctest.Create, compartmentRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -105,7 +107,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-				func(s *terraform.State) (err error) {
+				/*func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
@@ -113,18 +115,18 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 						}
 					}
 					return err
-				},
+				},*/
 			),
 		},
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CompartmentResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create,
-					RepresentationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
-						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -146,8 +148,8 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", acctest.Optional, acctest.Update, compartmentRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -168,10 +170,10 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_compartments", "test_compartments", Optional, Update, compartmentDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_compartments", "test_compartments", acctest.Optional, acctest.Update, compartmentDataSourceRepresentation) +
 				compartmentIdVariableStr + CompartmentResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", acctest.Optional, acctest.Update, compartmentRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ANY"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
@@ -191,9 +193,9 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_compartment", "test_compartment", acctest.Required, acctest.Create, compartmentSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CompartmentResourceConfig,
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -222,18 +224,18 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		// restore name of compartment
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", acctest.Required, acctest.Create, compartmentRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "Network"),
 			),
 		},
 		// verify error on existing compartment name where automatic import fails due to enable_delete
 		{
 			Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation) +
-				GenerateResourceFromRepresentationMap("oci_identity_compartment", "name2", Required, Create,
-					RepresentationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
-						"enable_delete": Representation{RepType: Required, Create: `true`}})),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", acctest.Required, acctest.Create, compartmentRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_compartment", "name2", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
+						"enable_delete": acctest.Representation{RepType: acctest.Required, Create: `true`}})),
 			ExpectError: regexp.MustCompile("If you intended to manage an existing compartment, use terraform import instead."),
 		},
 	})
@@ -241,7 +243,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 
 func testAccCheckIdentityCompartmentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := TestAccProvider.Meta().(*OracleClients).identityClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_compartment" {
 			noResourceFound = false
@@ -250,7 +252,7 @@ func testAccCheckIdentityCompartmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CompartmentId = &tmp
 
-			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 
 			response, err := client.GetCompartment(context.Background(), request)
 

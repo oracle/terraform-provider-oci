@@ -6,6 +6,8 @@ package testing
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"fmt"
@@ -26,8 +28,8 @@ type ResourceIdentitySwiftPasswordTestSuite struct {
 func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 	_, tokenFn := acctest.TokenizeWithHttpReplay("swiff_pass_resource")
 	s.Providers = acctest.TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig() + tokenFn(`
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "tf test user"

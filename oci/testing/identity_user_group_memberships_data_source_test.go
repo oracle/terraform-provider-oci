@@ -6,6 +6,8 @@ package testing
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -24,8 +26,8 @@ type DatasourceIdentityUserGroupMembershipsTestSuite struct {
 func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	_, tokenFn := acctest.TokenizeWithHttpReplay("identity_user_group_data_source")
 	s.Providers = acctest.TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig() + tokenFn(`
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "tf test user"

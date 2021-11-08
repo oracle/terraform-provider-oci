@@ -4,6 +4,9 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 
@@ -15,9 +18,9 @@ var (
 	tagResourceNames      = [2]string{"oci_identity_tag.test-tag1", "oci_identity_tag.test-tag2"}
 	costTagResourceNames  = [2]string{"oci_identity_tag.test-cost-tag1", "oci_identity_tag.test-cost-tag2"}
 
-	namespaceResourceValue = RandomString(5, CharsetWithoutDigits) + "-delete-namespace"
-	tagResourceValues      = [2]string{RandomString(5, CharsetWithoutDigits) + "-tag-1", RandomString(5, CharsetWithoutDigits) + "-tag-2"}
-	costTagResourceValues  = [2]string{RandomString(5, CharsetWithoutDigits) + "-cost-tag-1", RandomString(5, CharsetWithoutDigits) + "-cost-tag-2"}
+	namespaceResourceValue = utils.RandomString(5, utils.CharsetWithoutDigits) + "-delete-namespace"
+	tagResourceValues      = [2]string{utils.RandomString(5, utils.CharsetWithoutDigits) + "-tag-1", utils.RandomString(5, utils.CharsetWithoutDigits) + "-tag-2"}
+	costTagResourceValues  = [2]string{utils.RandomString(5, utils.CharsetWithoutDigits) + "-cost-tag-1", utils.RandomString(5, utils.CharsetWithoutDigits) + "-cost-tag-2"}
 )
 
 // This test will be executed in a separate suite with 'tags_import_if_exists = false'
@@ -26,13 +29,13 @@ func TestResourceIdentityTagDeletion(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagDeletion")
 	defer httpreplay.SaveScenario()
 
-	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		t.Skip("[WARN] TestIdentityTagDeletion requires 'tags_import_if_exists' to be set to false ")
 	}
 
-	provider := TestAccProvider
-	config := legacyTestProviderConfig() + `
+	provider := acctest.TestAccProvider
+	config := acctest.LegacyTestProviderConfig() + `
 	resource "oci_identity_tag_namespace" "test-tag-namespace" {
 		compartment_id = "${var.compartment_id}"
 		description    = "test tag namespace"
@@ -44,7 +47,7 @@ func TestResourceIdentityTagDeletion(t *testing.T) {
 	}`
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { PreCheck() },
+		PreCheck: func() { acctest.PreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -105,10 +108,10 @@ func TestResourceIdentityDefaultTag_required(t *testing.T) {
 	httpreplay.SetScenario("TestResourceIdentityDefaultTag_required")
 	defer httpreplay.SaveScenario()
 
-	provider := TestAccProvider
+	provider := acctest.TestAccProvider
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 
-	config := legacyTestProviderConfig() + `
+	config := acctest.LegacyTestProviderConfig() + `
 	variable defined_tag_namespace_name { default = "" }
 	resource "oci_identity_tag_namespace" "tag-namespace1" {
   		#Required
@@ -130,7 +133,7 @@ func TestResourceIdentityDefaultTag_required(t *testing.T) {
 
 	resourceName := "oci_identity_tag_default.test_tag_default"
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { PreCheck() },
+		PreCheck: func() { acctest.PreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},

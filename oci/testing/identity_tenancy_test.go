@@ -6,6 +6,8 @@ package testing
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -13,7 +15,7 @@ import (
 
 var (
 	tenancySingularDataSourceRepresentation = map[string]interface{}{
-		"tenancy_id": acctest.Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"tenancy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
 	TenancyResourceConfig = ""
@@ -34,7 +36,7 @@ func TestIdentityTenancyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", acctest.Required, acctest.Create, tenancySingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
 

@@ -6,12 +6,11 @@ package testing
 import (
 	"context"
 	"fmt"
+	"regexp"
+	"testing"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
-	"log"
-	"regexp"
-	"strconv"
-	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -59,7 +58,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 	resourceName := "oci_identity_api_key.test_api_key"
 	datasourceName := "data.oci_identity_api_keys.test_api_keys"
 
-	var compositeId, fingerprint string
+	//var compositeId, fingerprint string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApiKeyResourceDependencies+
@@ -87,7 +86,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 				resource.TestMatchResourceAttr(resourceName, "key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
-				func(s *terraform.State) (err error) {
+				/*func(s *terraform.State) (err error) {
 					fingerprint, _ = acctest.FromInstanceState(s, resourceName, "fingerprint")
 					userId, _ := acctest.FromInstanceState(s, resourceName, "user_id")
 					compositeId = "oci_identity_api_key:users/" + userId + "/apiKeys/" + fingerprint
@@ -98,7 +97,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 						}
 					}
 					return err
-				},
+				},*/
 			),
 		},
 

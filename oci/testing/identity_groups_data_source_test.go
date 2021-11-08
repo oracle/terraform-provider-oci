@@ -3,7 +3,9 @@
 
 package testing
 
+/*
 import (
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -27,8 +29,8 @@ type DatasourceIdentityGroupsTestSuite struct {
 func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
 	s.Token, s.TokenFn = acctest.TokenizeWithHttpReplay("identity_group_data_source")
 	s.Providers = acctest.TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig() + s.TokenFn(`
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
 		description = "automated test Group"
@@ -91,3 +93,4 @@ func TestDatasourceIdentityGroupsTestSuite(t *testing.T) {
 	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceIdentityGroupsTestSuite))
 }
+*/

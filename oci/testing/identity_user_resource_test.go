@@ -9,6 +9,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -29,8 +32,8 @@ type ResourceIdentityUserTestSuite struct {
 
 func (s *ResourceIdentityUserTestSuite) SetupTest() {
 	s.Providers = acctest.TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig()
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig()
 
 	s.ResourceName = "oci_identity_user.t"
 }
@@ -65,7 +68,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 						}`,
 						map[string]string{"description": "automated test user"}),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", GetRequiredEnvSetting("tenancy_ocid")),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", utils.GetRequiredEnvSetting("tenancy_ocid")),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user"),
@@ -84,7 +87,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 						identityUserTestStepConfigFn("{{.token}}"),
 						map[string]string{"description": "automated test user"}),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", GetRequiredEnvSetting("tenancy_ocid")),
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", utils.GetRequiredEnvSetting("tenancy_ocid")),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user"),

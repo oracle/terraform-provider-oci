@@ -6,6 +6,8 @@ package identity
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -61,7 +63,7 @@ func IdentityFaultDomainsDataSource() *schema.Resource {
 func readIdentityFaultDomains(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityFaultDomainsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }

@@ -10,6 +10,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
@@ -117,7 +119,7 @@ func IdentityPolicyResource() *schema.Resource {
 func createIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -125,7 +127,7 @@ func createIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 func readIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -133,7 +135,7 @@ func readIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 func updateIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -141,7 +143,7 @@ func updateIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

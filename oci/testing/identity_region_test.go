@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -42,7 +45,7 @@ func TestIdentityRegionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", acctest.Required, Create, regionDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_regions", "test_regions", acctest.Required, acctest.Create, regionDataSourceRepresentation) +
 				compartmentIdVariableStr + RegionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 

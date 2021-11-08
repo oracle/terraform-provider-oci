@@ -4,8 +4,9 @@
 package testing
 
 import (
-	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
