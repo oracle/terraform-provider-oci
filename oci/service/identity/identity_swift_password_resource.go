@@ -74,7 +74,7 @@ func IdentitySwiftPasswordResource() *schema.Resource {
 func createIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -82,7 +82,7 @@ func createIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 func readIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -90,7 +90,7 @@ func readIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 func updateIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -98,7 +98,7 @@ func updateIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 func deleteIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

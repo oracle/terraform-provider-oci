@@ -118,7 +118,7 @@ func IdentityAuthenticationPolicyResource() *schema.Resource {
 func createIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -126,7 +126,7 @@ func createIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) e
 func readIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -134,7 +134,7 @@ func readIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) err
 func updateIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.UpdateResource(d, sync)
 }

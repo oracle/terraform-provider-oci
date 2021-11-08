@@ -1,17 +1,21 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package identity
+package client
 
 import (
-	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 
-	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_common "github.com/oracle/oci-go-sdk/v49/common"
 )
 
 func init() {
 	RegisterOracleClient("oci_identity.IdentityClient", &OracleClient{InitClientFn: initIdentityIdentityClient})
 }
+
+/*type OracleIdentityClients struct {
+	*tf_client.OracleClients
+}*/
 
 func initIdentityIdentityClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_identity.NewIdentityClientWithConfigurationProvider(configProvider)
@@ -23,12 +27,12 @@ func initIdentityIdentityClient(configProvider oci_common.ConfigurationProvider,
 		return nil, err
 	}
 
-	if serviceClientOverrides.hostUrlOverride != "" {
-		client.Host = serviceClientOverrides.hostUrlOverride
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
 	}
 	return &client, nil
 }
 
-func (m *OracleClients) identityClient() *oci_identity.IdentityClient {
+func (m *OracleClients) IdentityClient() *oci_identity.IdentityClient {
 	return m.GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 }

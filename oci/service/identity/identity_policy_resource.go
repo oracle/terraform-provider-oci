@@ -119,7 +119,7 @@ func IdentityPolicyResource() *schema.Resource {
 func createIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -127,7 +127,7 @@ func createIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 func readIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -135,7 +135,7 @@ func readIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 func updateIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -143,7 +143,7 @@ func updateIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

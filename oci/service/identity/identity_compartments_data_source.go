@@ -52,7 +52,7 @@ func IdentityCompartmentsDataSource() *schema.Resource {
 func readIdentityCompartments(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCompartmentsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
