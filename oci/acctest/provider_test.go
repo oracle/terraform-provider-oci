@@ -996,16 +996,16 @@ func ProviderConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	assert.Nil(t, err)
 	assert.NotNil(t, client)
 
-	/*oracleClient, ok := client.(*tf_client.OracleClients)
+	oracleClient, ok := client.(*tf_client.OracleClients)
 	assert.True(t, ok)
 
 	testClient := func(c *oci_common.BaseClient) {
 		assert.NotNil(t, c)
 		assert.NotNil(t, c.HTTPClient)
-		assert.Exactly(t, c.UserAgent, userAgent)
+		assert.Exactly(t, c.UserAgent, globalvar.UserAgentFormatter)
 		assert.NotNil(t, c.Interceptor)
 		assert.NotNil(t, c.Signer)
-	}*/
+	}
 
-	//testClient(&oracleClient.identityClient().BaseClient)
+	testClient(&oracleClient.IdentityClient().BaseClient)
 }
