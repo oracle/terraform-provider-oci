@@ -74,7 +74,7 @@ func IdentityCustomerSecretKeyResource() *schema.Resource {
 func createIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -82,7 +82,7 @@ func createIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) erro
 func readIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -90,7 +90,7 @@ func readIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error 
 func updateIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -98,7 +98,7 @@ func updateIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) erro
 func deleteIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

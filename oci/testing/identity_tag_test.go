@@ -226,7 +226,7 @@ func getTagCompositeId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentityTagDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).IdentityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_tag" {
 			noResourceFound = false
@@ -290,7 +290,7 @@ func sweepIdentityTagResource(compartment string) error {
 		return nil
 	}
 
-	identityClient := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	identityClient := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).IdentityClient()
 	tagIds, err := getTagIds(compartment)
 	if err != nil {
 		return err

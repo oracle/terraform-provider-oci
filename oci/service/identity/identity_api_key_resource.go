@@ -76,7 +76,7 @@ func IdentityApiKeyResource() *schema.Resource {
 func createIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityApiKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -84,7 +84,7 @@ func createIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 func readIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityApiKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -92,7 +92,7 @@ func readIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityApiKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)
