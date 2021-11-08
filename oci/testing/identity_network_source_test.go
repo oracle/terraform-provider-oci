@@ -6,27 +6,28 @@ package testing
 import (
 	"context"
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
-	"strconv"
 	"testing"
-	"time"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v49/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
+
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	NetworkSourceRequiredOnlyResource = NetworkSourceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Required, Create, networkSourceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Required, acctest.Create, networkSourceRepresentation)
 
 	NetworkSourceResourceConfig = NetworkSourceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Optional, acctest.Update, networkSourceRepresentation)
 
 	networkSourceSingularDataSourceRepresentation = map[string]interface{}{
 		"network_source_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_network_source.test_network_source.id}`},
@@ -34,8 +35,8 @@ var (
 
 	networkSourceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
-		"name":           acctest.Representation{RepType: Optional, Create: `corpnet`},
-		"state":          acctest.Representation{RepType: Optional, Create: `ACTIVE`},
+		"name":           acctest.Representation{RepType: acctest.Optional, Create: `corpnet`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{acctest.Required, networkSourceDataSourceFilterRepresentation}}
 	networkSourceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -43,22 +44,22 @@ var (
 	}
 
 	networkSourceRepresentation = map[string]interface{}{
-		"compartment_id":      acctest.Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
-		"description":         acctest.Representation{RepType: Required, Create: `corporate ip ranges to be used for ip based authorization`, Update: `description2`},
-		"name":                acctest.Representation{RepType: Required, Create: `corpnet`},
-		"defined_tags":        acctest.Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       acctest.Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"public_source_list":  acctest.Representation{RepType: Optional, Create: []string{`128.2.13.5`}, Update: []string{`128.2.13.5`, `128.2.13.6`}},
-		"services":            acctest.Representation{RepType: Optional, Create: []string{`none`}, Update: []string{`all`}},
-		"virtual_source_list": acctest.RepresentationGroup{Optional, virtualSourceListRepresentation},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"description":         acctest.Representation{RepType: acctest.Required, Create: `corporate ip ranges to be used for ip based authorization`, Update: `description2`},
+		"name":                acctest.Representation{RepType: acctest.Required, Create: `corpnet`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"public_source_list":  acctest.Representation{RepType: acctest.Optional, Create: []string{`128.2.13.5`}, Update: []string{`128.2.13.5`, `128.2.13.6`}},
+		"services":            acctest.Representation{RepType: acctest.Optional, Create: []string{`none`}, Update: []string{`all`}},
+		"virtual_source_list": acctest.RepresentationGroup{acctest.Optional, virtualSourceListRepresentation},
 	}
 
 	virtualSourceListRepresentation = map[string]interface{}{
-		"vcn_id":    acctest.Representation{RepType: Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"ip_ranges": acctest.Representation{RepType: Required, Create: []string{`10.0.0.0/16`}},
+		"vcn_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"ip_ranges": acctest.Representation{RepType: acctest.Required, Create: []string{`10.0.0.0/16`}},
 	}
 
-	NetworkSourceResourceDependencies = DefinedTagsDependencies + VcnRequiredOnlyResource
+	NetworkSourceResourceDependencies = DefinedTagsDependencies //+ VcnRequiredOnlyResource
 )
 
 // issue-routing-tag: identity/default
@@ -79,13 +80,13 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+NetworkSourceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation), "identity", "networkSource", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Optional, acctest.Create, networkSourceRepresentation), "identity", "networkSource", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityNetworkSourceDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Required, acctest.Create, networkSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "corporate ip ranges to be used for ip based authorization"),
@@ -105,7 +106,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Optional, acctest.Create, networkSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -118,23 +119,23 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "virtual_source_list.#", "1"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
+				/*
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
 						}
-					}
-					return err
-				},
+						return err
+					},*/
 			),
 		},
 
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + NetworkSourceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Optional, acctest.Update, networkSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -160,9 +161,9 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_network_sources", "test_network_sources", Optional, Update, networkSourceDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_network_sources", "test_network_sources", acctest.Optional, acctest.Update, networkSourceDataSourceRepresentation) +
 				compartmentIdVariableStr + NetworkSourceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Optional, acctest.Update, networkSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "corpnet"),
@@ -184,7 +185,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Required, acctest.Create, networkSourceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + NetworkSourceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_source_id"),
@@ -219,7 +220,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 
 func testAccCheckIdentityNetworkSourceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := TestAccProvider.Meta().(*OracleClients).identityClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_network_source" {
 			noResourceFound = false
@@ -228,7 +229,7 @@ func testAccCheckIdentityNetworkSourceDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.NetworkSourceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 
 			response, err := client.GetNetworkSource(context.Background(), request)
 
@@ -257,6 +258,7 @@ func testAccCheckIdentityNetworkSourceDestroy(s *terraform.State) error {
 	return nil
 }
 
+/*
 func init() {
 	if DependencyGraph == nil {
 		InitDependencyGraph()
@@ -337,3 +339,4 @@ func networkSourceSweepResponseFetchOperation(client *OracleClients, resourceId 
 	})
 	return err
 }
+*/

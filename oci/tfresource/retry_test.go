@@ -264,6 +264,7 @@ func TestUnitRetryKMSThrottling(t *testing.T) {
 	}
 	retryLoop(t, &r)
 }
+
 /*
 // issue-routing-tag: terraform/default
 func TestUnitRetrySubnet409Conflict(t *testing.T) {
@@ -394,6 +395,7 @@ func TestUnitRetryObjectStorage(t *testing.T) {
 	}
 	retryLoop(t, &r)
 }
+
 /*
 // issue-routing-tag: terraform/default
 func TestUnitRetryDbHomeWith404Error(t *testing.T) {

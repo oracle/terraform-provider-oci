@@ -4,8 +4,9 @@
 package tfresource
 
 import (
-	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 
 	"github.com/stretchr/testify/assert"
 )

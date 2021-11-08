@@ -40,7 +40,7 @@ import (
 )
 
 var descriptions map[string]string
-var ApiKeyConfigAttributes = [...]string{globalvar.UserOcidAttrName, globalvar.FingerprintAttrName, globalvar.PrivateKeyAttrName, globalvar.PrivateKeyPathAttrName, globalvar.PrivateKeyPasswordAttrName}
+var ApiKeyConfigAttributes = [5]string{globalvar.UserOcidAttrName, globalvar.FingerprintAttrName, globalvar.PrivateKeyAttrName, globalvar.PrivateKeyPathAttrName, globalvar.PrivateKeyPasswordAttrName}
 var ociProvider *schema.Provider
 
 var TerraformCLIVersion = globalvar.UnknownTerraformCLIVersion

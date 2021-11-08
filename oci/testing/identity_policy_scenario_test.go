@@ -8,6 +8,8 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -29,8 +31,8 @@ type ResourceIdentityPolicyTestSuite struct {
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 	s.Token, s.TokenFn = acctest.TokenizeWithHttpReplay("identity_policy")
 	s.Providers = acctest.TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig() + s.TokenFn(`
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
 		description = "automated test Group"

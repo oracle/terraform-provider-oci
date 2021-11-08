@@ -8,6 +8,9 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -15,8 +18,8 @@ import (
 
 var (
 	faultDomainDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      acctest.Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 	}
 
 	FaultDomainResourceConfig = AvailabilityDomainConfig
@@ -40,7 +43,7 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", Required, Create, faultDomainDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", acctest.Required, acctest.Create, faultDomainDataSourceRepresentation) +
 				compartmentIdVariableStr + FaultDomainResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(datasourceName, "availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),

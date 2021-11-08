@@ -13,6 +13,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -74,7 +76,7 @@ func IdentityApiKeyResource() *schema.Resource {
 func createIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityApiKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -82,7 +84,7 @@ func createIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 func readIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityApiKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -90,7 +92,7 @@ func readIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityApiKey(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityApiKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

@@ -6,6 +6,9 @@ package testing
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -13,13 +16,13 @@ import (
 
 var (
 	regionSubscriptionDataSourceRepresentation = map[string]interface{}{
-		"tenancy_id": acctest.Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
-		"filter":     acctest.RepresentationGroup{Required, regionSubscriptionDataSourceFilterRepresentation},
+		"tenancy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"filter":     acctest.RepresentationGroup{acctest.Required, regionSubscriptionDataSourceFilterRepresentation},
 	}
 
 	regionSubscriptionDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: Required, Create: `is_home_region`},
-		"values": acctest.Representation{RepType: Required, Create: []string{`true`}},
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `is_home_region`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`true`}},
 	}
 
 	RegionSubscriptionResourceConfig = ""
@@ -40,13 +43,13 @@ func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_region_subscriptions", "test_region_subscriptions", Required, Create, regionSubscriptionDataSourceRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_region_subscriptions", "test_region_subscriptions", acctest.Required, acctest.Create, regionSubscriptionDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
 				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.is_home_region", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "region_subscriptions.0.region_key"),
-				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.region_name", GetRequiredEnvSetting("region")),
+				resource.TestCheckResourceAttr(datasourceName, "region_subscriptions.0.region_name", utils.GetRequiredEnvSetting("region")),
 				resource.TestCheckResourceAttrSet(datasourceName, "region_subscriptions.0.state"),
 			),
 		},

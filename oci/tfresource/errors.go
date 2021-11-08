@@ -12,6 +12,7 @@ import (
 	"time"
 
 	oci_common "github.com/oracle/oci-go-sdk/v49/common"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 )
 

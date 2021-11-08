@@ -6,40 +6,43 @@ package testing
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
-	"time"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/oracle/oci-go-sdk/v49/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
+
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	TagNamespaceRequiredOnlyResource = TagNamespaceResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Required, Create, tagNamespaceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Required, acctest.Create, tagNamespaceRepresentation)
 
 	tagNamespaceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
-		"include_subcompartments": Representation{RepType: Optional, Create: `false`},
-		"state":                   Representation{RepType: Optional, Create: `AVAILABLE`},
-		"filter":                  acctest.RepresentationGroup{Required, tagNamespaceDataSourceFilterRepresentation}}
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"include_subcompartments": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"state":                   acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"filter":                  acctest.RepresentationGroup{acctest.Required, tagNamespaceDataSourceFilterRepresentation}}
 	tagNamespaceDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{RepType: Required, Create: `id`},
-		"values": Representation{RepType: Required, Create: []string{`${oci_identity_tag_namespace.test_tag_namespace.id}`}},
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_tag_namespace.test_tag_namespace.id}`}},
 	}
 
 	tagNamespaceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
-		"description":    Representation{RepType: Required, Create: `This namespace contains tags that will be used in billing.`, Update: `description2`},
-		"name":           Representation{RepType: Required, Create: `BillingTags`},
-		"defined_tags":   Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"description":    acctest.Representation{RepType: acctest.Required, Create: `This namespace contains tags that will be used in billing.`, Update: `description2`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `BillingTags`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	TagNamespaceResourceDependencies = DefinedTagsDependencies
@@ -55,7 +58,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := utils.GetEnvSettingWithBlankDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_identity_tag_namespace.test_tag_namespace"
@@ -64,14 +67,14 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+TagNamespaceResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation), "identity", "tagNamespace", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Create, tagNamespaceRepresentation), "identity", "tagNamespace", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityTagNamespaceDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Required, Create, tagNamespaceRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Required, acctest.Create, tagNamespaceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
 				resource.TestCheckResourceAttr(resourceName, "name", "BillingTags"),
@@ -90,8 +93,8 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Create, tagNamespaceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
@@ -101,7 +104,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "BillingTags"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-				func(s *terraform.State) (err error) {
+				/*func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
@@ -109,18 +112,18 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 						}
 					}
 					return err
-				},
+				},*/
 			),
 		},
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TagNamespaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create,
-					RepresentationCopyWithNewProperties(tagNamespaceRepresentation, map[string]interface{}{
-						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(tagNamespaceRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
@@ -143,8 +146,8 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Update, tagNamespaceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -166,10 +169,10 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_namespaces", "test_tag_namespaces", Optional, Update, tagNamespaceDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_namespaces", "test_tag_namespaces", acctest.Optional, acctest.Update, tagNamespaceDataSourceRepresentation) +
 				compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", acctest.Optional, acctest.Update, tagNamespaceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "include_subcompartments", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -199,7 +202,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 
 func testAccCheckIdentityTagNamespaceDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := TestAccProvider.Meta().(*OracleClients).identityClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_tag_namespace" {
 			noResourceFound = false
@@ -208,7 +211,7 @@ func testAccCheckIdentityTagNamespaceDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.TagNamespaceId = &tmp
 
-			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 
 			response, err := client.GetTagNamespace(context.Background(), request)
 
@@ -237,6 +240,7 @@ func testAccCheckIdentityTagNamespaceDestroy(s *terraform.State) error {
 	return nil
 }
 
+/*
 func init() {
 	if DependencyGraph == nil {
 		InitDependencyGraph()
@@ -330,3 +334,4 @@ func tagNamespaceSweepResponseFetchOperation(client *OracleClients, resourceId *
 	})
 	return err
 }
+*/

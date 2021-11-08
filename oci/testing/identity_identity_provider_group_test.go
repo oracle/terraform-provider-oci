@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -14,12 +17,12 @@ import (
 
 var (
 	identityProviderGroupDataSourceRepresentation = map[string]interface{}{
-		"identity_provider_id": Representation{RepType: Required, Create: `${oci_identity_identity_provider.test_identity_provider.id}`},
-		"name":                 Representation{RepType: Optional, Create: `test-idp-saml2-adfs`},
-		"state":                Representation{RepType: Optional, Create: `ACTIVE`},
+		"identity_provider_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_identity_provider.test_identity_provider.id}`},
+		"name":                 acctest.Representation{RepType: acctest.Optional, Create: `test-idp-saml2-adfs`},
+		"state":                acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
 
-	IdentityProviderGroupResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation) +
+	IdentityProviderGroupResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", acctest.Required, acctest.Create, identityProviderRepresentation) +
 		IdentityProviderPropertyVariables
 )
 
@@ -49,9 +52,9 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Optional, Create, identityProviderGroupDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", acctest.Optional, acctest.Create, identityProviderGroupDataSourceRepresentation) +
 				compartmentIdVariableStr + IdentityProviderGroupResourceConfig,
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),

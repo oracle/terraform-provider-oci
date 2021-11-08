@@ -724,6 +724,7 @@ func TestUnitGetValue_MultiLevelMap(t *testing.T) {
 		t.Error("Expected size of map is 1")
 	}
 }
+
 /*
 // issue-routing-tag: terraform/default
 func TestUnitGetPathElements_EmptyFilterName(t *testing.T) {

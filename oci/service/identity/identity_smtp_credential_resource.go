@@ -13,6 +13,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -76,7 +78,7 @@ func IdentitySmtpCredentialResource() *schema.Resource {
 func createIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -84,7 +86,7 @@ func createIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 func readIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -92,7 +94,7 @@ func readIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 func updateIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -100,7 +102,7 @@ func updateIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 func deleteIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

@@ -12,6 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
@@ -127,7 +129,7 @@ func IdentityTagResource() *schema.Resource {
 func createIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -135,7 +137,7 @@ func createIdentityTag(d *schema.ResourceData, m interface{}) error {
 func readIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -143,7 +145,7 @@ func readIdentityTag(d *schema.ResourceData, m interface{}) error {
 func updateIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -157,7 +159,7 @@ func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
 
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

@@ -12,7 +12,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
@@ -95,8 +95,8 @@ func IdentityCompartmentResource() *schema.Resource {
 func createIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
-	sync.Configuration = m.(*tf_client.OracleClients).Configuration
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Configuration = m.(*client.OracleClients).Configuration
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -104,7 +104,7 @@ func createIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 func readIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -112,7 +112,7 @@ func readIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 func updateIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -124,7 +124,7 @@ func deleteIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 
 	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

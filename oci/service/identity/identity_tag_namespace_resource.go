@@ -6,6 +6,8 @@ package identity
 import (
 	"context"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
@@ -81,7 +83,7 @@ func IdentityTagNamespaceResource() *schema.Resource {
 func createIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -89,7 +91,7 @@ func createIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 func readIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -97,7 +99,7 @@ func readIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 func updateIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -112,7 +114,7 @@ func deleteIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

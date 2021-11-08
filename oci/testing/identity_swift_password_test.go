@@ -6,33 +6,37 @@ package testing
 import (
 	"context"
 	"fmt"
-	"log"
-	"strconv"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v49/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	swiftPasswordDataSourceRepresentation = map[string]interface{}{
-		"user_id": acctest.Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
-		"filter":  acctest.RepresentationGroup{Required, swiftPasswordDataSourceFilterRepresentation}}
+		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
+		"filter":  acctest.RepresentationGroup{acctest.Required, swiftPasswordDataSourceFilterRepresentation}}
 	swiftPasswordDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: Required, Create: `id`},
-		"values": acctest.Representation{RepType: Required, Create: []string{`${oci_identity_swift_password.test_swift_password.id}`}},
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_swift_password.test_swift_password.id}`}},
 	}
 
 	swiftPasswordRepresentation = map[string]interface{}{
-		"description": acctest.Representation{RepType: Required, Create: `description`, Update: `description2`},
-		"user_id":     acctest.Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
+		"description": acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
+		"user_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	SwiftPasswordResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+	SwiftPasswordResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -49,40 +53,40 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_swift_passwords.test_swift_passwords"
 
 	var resId, resId2 string
-	var compositeId string
+	//var compositeId string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+SwiftPasswordResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Required, Create, swiftPasswordRepresentation), "identity", "swiftPassword", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Required, acctest.Create, swiftPasswordRepresentation), "identity", "swiftPassword", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentitySwiftPasswordDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SwiftPasswordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Required, Create, swiftPasswordRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Required, acctest.Create, swiftPasswordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					userId, _ := acctest.FromInstanceState(s, resourceName, "user_id")
-					compositeId = "users/" + userId + "/swiftPasswords/" + resId
-					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-							return errExport
+				/*
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						userId, _ := acctest.FromInstanceState(s, resourceName, "user_id")
+						compositeId = "users/" + userId + "/swiftPasswords/" + resId
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
 						}
-					}
-					return err
-				},
+						return err
+					},*/
 			),
 		},
 
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SwiftPasswordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Optional, Update, swiftPasswordRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Optional, acctest.Update, swiftPasswordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -99,9 +103,9 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_swift_passwords", "test_swift_passwords", Optional, Update, swiftPasswordDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_swift_passwords", "test_swift_passwords", acctest.Optional, acctest.Update, swiftPasswordDataSourceRepresentation) +
 				compartmentIdVariableStr + SwiftPasswordResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", Optional, Update, swiftPasswordRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_swift_password", "test_swift_password", acctest.Optional, acctest.Update, swiftPasswordRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
@@ -139,7 +143,7 @@ func getSwiftPasswordImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentitySwiftPasswordDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := TestAccProvider.Meta().(*OracleClients).identityClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_swift_password" {
 			noResourceFound = false
@@ -149,7 +153,7 @@ func testAccCheckIdentitySwiftPasswordDestroy(s *terraform.State) error {
 				request.UserId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 			response, err := client.ListSwiftPasswords(context.Background(), request)
 
 			if err == nil {

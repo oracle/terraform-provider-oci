@@ -6,11 +6,11 @@ package testing
 import (
 	"context"
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
-	"log"
-	"strconv"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -18,6 +18,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 )
 
 var (
@@ -34,7 +35,7 @@ var (
 		"user_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	AuthTokenResourceDependencies = acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
+	AuthTokenResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -51,22 +52,22 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_auth_tokens.test_auth_tokens"
 
 	var resId, resId2 string
-	var compositeId string
+	//var compositeId string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+AuthTokenResourceDependencies+
-		acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Required, acctest.Create, authTokenRepresentation), "identity", "authToken", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Required, acctest.Create, authTokenRepresentation), "identity", "authToken", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentityAuthTokenDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
-				acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", Required, Create, authTokenRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Required, acctest.Create, authTokenRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
-				func(s *terraform.State) (err error) {
+				/*func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					userId, _ := acctest.FromInstanceState(s, resourceName, "user_id")
 					compositeId = "users/" + userId + "/authTokens/" + resId
@@ -77,14 +78,14 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 						}
 					}
 					return err
-				},
+				},*/
 			),
 		},
 
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AuthTokenResourceDependencies +
-				acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Optional, acctest.Update, authTokenRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Optional, acctest.Update, authTokenRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -103,7 +104,7 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_auth_tokens", "test_auth_tokens", acctest.Optional, acctest.Update, authTokenDataSourceRepresentation) +
 				compartmentIdVariableStr + AuthTokenResourceDependencies +
-				acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Optional, acctest.Update, authTokenRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_auth_token", "test_auth_token", acctest.Optional, acctest.Update, authTokenRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
@@ -141,7 +142,7 @@ func getAuthTokenImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentityAuthTokenDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := TestAccProvider.Meta().(*OracleClients).identityClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_auth_token" {
 			noResourceFound = false
@@ -151,7 +152,7 @@ func testAccCheckIdentityAuthTokenDestroy(s *terraform.State) error {
 				request.UserId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 			response, err := client.ListAuthTokens(context.Background(), request)
 
 			if err == nil {

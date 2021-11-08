@@ -5,7 +5,6 @@ package acctest
 
 import (
 	"bytes"
-	"context"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -13,7 +12,6 @@ import (
 	"os"
 	"reflect"
 	"sort"
-	"strconv"
 	"strings"
 	"testing"
 	"text/template"
@@ -25,8 +23,6 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/hashicorp/terraform-exec/tfexec"
-	"github.com/hashicorp/terraform-exec/tfinstall"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -34,7 +30,8 @@ import (
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
 	tf_provider "github.com/terraform-providers/terraform-provider-oci/oci/provider"
-	tf_resource_discovery "github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
+
+	//tf_resource_discovery "github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
 	tf_resource "github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 )
@@ -402,6 +399,7 @@ func setEnvSetting(s, v string) error {
 	return nil
 }
 
+/*
 func testExportCompartment(compartmentId *string, exportCommandArgs *tf_resource_discovery.ExportCommandArgs) error {
 	// checking for provider_bin_path here because parent func will also be
 	// called for resources that do not support RD
@@ -507,7 +505,7 @@ func testExportCompartment(compartmentId *string, exportCommandArgs *tf_resource
 	}
 	return nil
 }
-
+*/
 func CheckJsonStringsEqual(expectedJsonString string, actualJsonString string) error {
 	if expectedJsonString == actualJsonString {
 		return nil

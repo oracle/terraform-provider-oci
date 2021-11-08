@@ -11,6 +11,8 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -116,7 +118,7 @@ func IdentityAuthenticationPolicyResource() *schema.Resource {
 func createIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -124,7 +126,7 @@ func createIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) e
 func readIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.ReadResource(sync)
 }
@@ -132,7 +134,7 @@ func readIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) err
 func updateIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthenticationPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleIdentityClients).identityClient()
+	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 
 	return tfresource.UpdateResource(d, sync)
 }

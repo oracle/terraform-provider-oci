@@ -6,6 +6,8 @@ package testing
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -23,8 +25,8 @@ type ResourceIdentityUserCapabilitiesManagementTestSuite struct {
 
 func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) SetupTest() {
 	s.Providers = acctest.TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig()
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig()
 
 	s.ResourceName = "oci_identity_user_capabilities_management.t"
 }

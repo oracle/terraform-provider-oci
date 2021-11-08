@@ -6,33 +6,37 @@ package testing
 import (
 	"context"
 	"fmt"
-	"log"
-	"strconv"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v49/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 
+	tf_client "github.com/terraform-providers/terraform-provider-oci/oci/client"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
 	smtpCredentialDataSourceRepresentation = map[string]interface{}{
-		"user_id": acctest.Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
-		"filter":  acctest.RepresentationGroup{Required, smtpCredentialDataSourceFilterRepresentation}}
+		"user_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
+		"filter":  acctest.RepresentationGroup{acctest.Required, smtpCredentialDataSourceFilterRepresentation}}
 	smtpCredentialDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: Required, Create: `id`},
-		"values": acctest.Representation{RepType: Required, Create: []string{`${oci_identity_smtp_credential.test_smtp_credential.id}`}},
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_smtp_credential.test_smtp_credential.id}`}},
 	}
 
 	smtpCredentialRepresentation = map[string]interface{}{
-		"description": acctest.Representation{RepType: Required, Create: `description`, Update: `description2`},
-		"user_id":     acctest.Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
+		"description": acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
+		"user_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	SmtpCredentialResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+	SmtpCredentialResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, userRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -49,40 +53,40 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_smtp_credentials.test_smtp_credentials"
 
 	var resId, resId2 string
-	var compositeId string
+	//var compositeId string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+SmtpCredentialResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Required, Create, smtpCredentialRepresentation), "identity", "smtpCredential", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Required, acctest.Create, smtpCredentialRepresentation), "identity", "smtpCredential", t)
 
 	acctest.ResourceTest(t, testAccCheckIdentitySmtpCredentialDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SmtpCredentialResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Required, Create, smtpCredentialRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Required, acctest.Create, smtpCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					userId, _ := acctest.FromInstanceState(s, resourceName, "user_id")
-					compositeId = "users/" + userId + "/smtpCredentials/" + resId
-					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
-							return errExport
+				/*
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						userId, _ := acctest.FromInstanceState(s, resourceName, "user_id")
+						compositeId = "users/" + userId + "/smtpCredentials/" + resId
+						log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
 						}
-					}
-					return err
-				},
+						return err
+					},*/
 			),
 		},
 
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + SmtpCredentialResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Optional, Update, smtpCredentialRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Optional, acctest.Update, smtpCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -99,9 +103,9 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_smtp_credentials", "test_smtp_credentials", Optional, Update, smtpCredentialDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_smtp_credentials", "test_smtp_credentials", acctest.Optional, acctest.Update, smtpCredentialDataSourceRepresentation) +
 				compartmentIdVariableStr + SmtpCredentialResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", Optional, Update, smtpCredentialRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_smtp_credential", "test_smtp_credential", acctest.Optional, acctest.Update, smtpCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
@@ -140,7 +144,7 @@ func getSmtpCredentialImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentitySmtpCredentialDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := TestAccProvider.Meta().(*OracleClients).identityClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_smtp_credential" {
 			noResourceFound = false
@@ -150,7 +154,7 @@ func testAccCheckIdentitySmtpCredentialDestroy(s *terraform.State) error {
 				request.UserId = &value
 			}
 
-			request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 			response, err := client.ListSmtpCredentials(context.Background(), request)
 
 			if err == nil {
