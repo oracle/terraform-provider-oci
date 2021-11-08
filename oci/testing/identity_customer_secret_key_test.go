@@ -147,7 +147,7 @@ func getCustomerKeyImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentityCustomerSecretKeyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).IdentityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_customer_secret_key" {
 			noResourceFound = false

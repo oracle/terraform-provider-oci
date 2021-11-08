@@ -44,7 +44,7 @@ func IdentityDynamicGroupsDataSource() *schema.Resource {
 func readIdentityDynamicGroups(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }

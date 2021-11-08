@@ -142,7 +142,7 @@ func getAuthTokenImportId(resourceName string) resource.ImportStateIdFunc {
 
 func testAccCheckIdentityAuthTokenDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).IdentityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_auth_token" {
 			noResourceFound = false

@@ -67,7 +67,7 @@ func IdentityUserGroupMembershipResource() *schema.Resource {
 func createIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -75,7 +75,7 @@ func createIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) er
 func readIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -83,7 +83,7 @@ func readIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) erro
 func deleteIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

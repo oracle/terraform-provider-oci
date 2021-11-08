@@ -118,7 +118,7 @@ func IdentityNetworkSourceResource() *schema.Resource {
 func createIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -126,7 +126,7 @@ func createIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 func readIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -134,7 +134,7 @@ func readIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 func updateIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -142,7 +142,7 @@ func updateIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityNetworkSource(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityNetworkSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

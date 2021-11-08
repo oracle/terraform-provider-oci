@@ -129,7 +129,7 @@ func IdentityTagResource() *schema.Resource {
 func createIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -137,7 +137,7 @@ func createIdentityTag(d *schema.ResourceData, m interface{}) error {
 func readIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -145,7 +145,7 @@ func readIdentityTag(d *schema.ResourceData, m interface{}) error {
 func updateIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -159,7 +159,7 @@ func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
 
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)

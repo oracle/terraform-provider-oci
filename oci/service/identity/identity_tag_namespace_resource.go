@@ -83,7 +83,7 @@ func IdentityTagNamespaceResource() *schema.Resource {
 func createIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -91,7 +91,7 @@ func createIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 func readIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.ReadResource(sync)
 }
@@ -99,7 +99,7 @@ func readIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 func updateIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -114,7 +114,7 @@ func deleteIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 
 	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GetClient("oci_identity.IdentityClient").(*oci_identity.IdentityClient)
+	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
 	return tfresource.DeleteResource(d, sync)
