@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"testing"
@@ -22,9 +22,9 @@ type DatasourceIdentitySwiftPasswordsTestSuite struct {
 }
 
 func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
-	_, tokenFn := TokenizeWithHttpReplay("swiff_pass_data_source")
+	_, tokenFn := acctest.TokenizeWithHttpReplay("swiff_pass_data_source")
 
-	s.Providers = TestAccProviders
+	s.Providers = acctest.TestAccProviders
 	PreCheck()
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
@@ -48,7 +48,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 				data "oci_identity_swift_passwords" "p" {
 					user_id = "${oci_identity_user.t.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.#"),
 				),
 			},
@@ -61,7 +61,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 						values = ["${oci_identity_swift_password.t.description}"]
 					}
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "passwords.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "passwords.0.user_id"),

@@ -1,10 +1,12 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"fmt"
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 	"strconv"
 	"testing"
 
@@ -16,17 +18,17 @@ import (
 
 var (
 	UiPasswordResourceConfig = UiPasswordResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Optional, Update, uiPasswordRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Optional, Update, uiPasswordRepresentation)
 
 	uiPasswordSingularDataSourceRepresentation = map[string]interface{}{
-		"user_id": Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
+		"user_id": acctest.Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
 	uiPasswordRepresentation = map[string]interface{}{
-		"user_id": Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
+		"user_id": acctest.Representation{RepType: Required, Create: `${oci_identity_user.test_user.id}`},
 	}
 
-	UiPasswordResourceDependencies = GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
+	UiPasswordResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -34,9 +36,9 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityUiPasswordResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_ui_password.test_ui_password"
@@ -45,20 +47,20 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
-	SaveConfigContent(config+compartmentIdVariableStr+UiPasswordResourceDependencies+
-		GenerateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation), "identity", "uiPassword", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+UiPasswordResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation), "identity", "uiPassword", t)
 
-	ResourceTest(t, nil, []resource.TestStep{
+	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + UiPasswordResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -71,9 +73,9 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + UiPasswordResourceConfig,
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

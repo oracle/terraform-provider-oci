@@ -1,10 +1,12 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"fmt"
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 	"testing"
 
 	"regexp"
@@ -15,29 +17,44 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
+var (
+	availabilityDomainSingularDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"ad_number":      acctest.Representation{RepType: acctest.Optional, Create: `2`},
+	}
+
+	availabilityDomainDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+	}
+
+	AvailabilityDomainResourceConfig = ""
+
+	AvailabilityDomainConfig = acctest.acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, availabilityDomainDataSourceRepresentation)
+)
+
 // issue-routing-tag: identity/default
 func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityAvailabilityDomainResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	datasourceName := "data.oci_identity_availability_domains.test_availability_domains"
 	singularDatasourceName := "data.oci_identity_availability_domain.test_availability_domain"
 
-	SaveConfigContent("", "", "", t)
+	acctest.SaveConfigContent("", "", "", t)
 
-	ResourceTest(t, nil, []resource.TestStep{
+	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", acctest.Required, acctest.Create, availabilityDomainDataSourceRepresentation) +
 				compartmentIdVariableStr + AvailabilityDomainResourceConfig,
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domains.#"),
@@ -47,15 +64,15 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_availability_domain", "test_availability_domain", Optional, Create, availabilityDomainSingularDataSourceRepresentation) +
+				acctest.acctest.GenerateDataSourceFromRepresentationMap("oci_identity_availability_domain", "test_availability_domain", acctest.Optional, acctest.Create, availabilityDomainSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AvailabilityDomainResourceConfig,
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ad_number", "2"),
 				resource.TestMatchResourceAttr(singularDatasourceName, "name", regexp.MustCompile(`\w+-AD-2`)),
 				func(s *terraform.State) (err error) {
-					adName, err := FromInstanceState(s, singularDatasourceName, "name")
+					adName, err := acctest.FromInstanceState(s, singularDatasourceName, "name")
 					if err != nil {
 						return err
 					}

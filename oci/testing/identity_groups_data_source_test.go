@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"testing"
@@ -25,8 +25,8 @@ type DatasourceIdentityGroupsTestSuite struct {
 }
 
 func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
-	s.Token, s.TokenFn = TokenizeWithHttpReplay("identity_group_data_source")
-	s.Providers = TestAccProviders
+	s.Token, s.TokenFn = acctest.TokenizeWithHttpReplay("identity_group_data_source")
+	s.Providers = acctest.TestAccProviders
 	PreCheck()
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_group" "t" {
@@ -50,7 +50,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 				data "oci_identity_groups" "t" {
 					compartment_id = "${var.tenancy_ocid}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.#"),
 				),
 			},
@@ -68,7 +68,7 @@ func (s *DatasourceIdentityGroupsTestSuite) TestAccDatasourceIdentityGroups_basi
 						values = ["automated test Group"]
 					}
 				}`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "groups.#", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "groups.0.compartment_id"),

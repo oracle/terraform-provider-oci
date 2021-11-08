@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"testing"
@@ -24,8 +24,8 @@ type ResourceIdentitySwiftPasswordTestSuite struct {
 }
 
 func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
-	_, tokenFn := TokenizeWithHttpReplay("swiff_pass_resource")
-	s.Providers = TestAccProviders
+	_, tokenFn := acctest.TokenizeWithHttpReplay("swiff_pass_resource")
+	s.Providers = acctest.TestAccProviders
 	PreCheck()
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
@@ -54,7 +54,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					user_id = "${oci_identity_user.t.id}"
 					description = "tf test swift password"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test swift password"),
@@ -62,7 +62,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.SwiftPasswordLifecycleStateActive)),
 					func(s *terraform.State) (err error) {
-						resId, err = FromInstanceState(s, "oci_identity_swift_password.t", "id")
+						resId, err = acctest.FromInstanceState(s, "oci_identity_swift_password.t", "id")
 						return err
 					},
 				),
@@ -74,7 +74,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					user_id = "${oci_identity_user.t.id}"
 					description = "tf test swift password (updated)"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test swift password (updated)"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
@@ -82,7 +82,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.SwiftPasswordLifecycleStateActive)),
 					func(s *terraform.State) (err error) {
-						resId2, err = FromInstanceState(s, "oci_identity_swift_password.t", "id")
+						resId2, err = acctest.FromInstanceState(s, "oci_identity_swift_password.t", "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource was recreated when it should not have been")
 						}
@@ -97,7 +97,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					user_id = "${oci_identity_user.t2.id}"
 					description = "tf test swift password (user_id updated)"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test swift password (user_id updated)"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "password"),
@@ -105,7 +105,7 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) TestAccResourceIdentitySwiftPas
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.SwiftPasswordLifecycleStateActive)),
 					func(s *terraform.State) (err error) {
-						resId2, err = FromInstanceState(s, "oci_identity_swift_password.t", "id")
+						resId2, err = acctest.FromInstanceState(s, "oci_identity_swift_password.t", "id")
 						if resId == resId2 {
 							return fmt.Errorf("resource was updated when it should have been ForceNew")
 						}

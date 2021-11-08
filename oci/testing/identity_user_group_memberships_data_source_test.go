@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"testing"
@@ -22,8 +22,8 @@ type DatasourceIdentityUserGroupMembershipsTestSuite struct {
 }
 
 func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
-	_, tokenFn := TokenizeWithHttpReplay("identity_user_group_data_source")
-	s.Providers = TestAccProviders
+	_, tokenFn := acctest.TokenizeWithHttpReplay("identity_user_group_data_source")
+	s.Providers = acctest.TestAccProviders
 	PreCheck()
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {
@@ -63,7 +63,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 					user_id = "${oci_identity_user.t.id}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.0.state", string(identity.UserGroupMembershipLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "memberships.0.compartment_id"),
@@ -82,7 +82,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 					compartment_id = "${var.tenancy_ocid}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
 				),
@@ -94,7 +94,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 					compartment_id = "${var.tenancy_ocid}"
 					user_id = "${oci_identity_user.t.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
 				),
 			},
@@ -109,7 +109,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 						values = ["${oci_identity_user.t.id}"]
 					}
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "memberships.#", "1"),
 				),
 			},

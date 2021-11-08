@@ -1,9 +1,10 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -23,8 +24,8 @@ type ResourceIdentityUIPasswordTestSuite struct {
 }
 
 func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
-	_, tokenFn := TokenizeWithHttpReplay("ui_pass_resource")
-	s.Providers = TestAccProviders
+	_, tokenFn := acctest.TokenizeWithHttpReplay("ui_pass_resource")
+	s.Providers = acctest.TestAccProviders
 	PreCheck()
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t" {

@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"fmt"
@@ -23,8 +23,8 @@ type ResourceIdentityUserGroupMembershipTestSuite struct {
 }
 
 func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
-	token, tokenFn := TokenizeWithHttpReplay("identity_user_group_resource")
-	s.Providers = TestAccProviders
+	token, tokenFn := acctest.TokenizeWithHttpReplay("identity_user_group_resource")
+	s.Providers = acctest.TestAccProviders
 	PreCheck()
 	s.Config = legacyTestProviderConfig() + tokenFn(`
 	resource "oci_identity_user" "t1" {
@@ -61,7 +61,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					user_id = "${oci_identity_user.t1.id}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
@@ -70,7 +70,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(st *terraform.State) (err error) {
-						resId, err = FromInstanceState(st, s.ResourceName, "id")
+						resId, err = acctest.FromInstanceState(st, s.ResourceName, "id")
 						return err
 					},
 				),
@@ -81,7 +81,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					user_id = "${oci_identity_user.t2.id}"
 					group_id = "${oci_identity_group.t.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
@@ -91,7 +91,7 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) TestAccResourceUserGroupM
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					// Verify that changing the user_id causes ForceNew
 					func(st *terraform.State) (err error) {
-						resId2, err = FromInstanceState(st, s.ResourceName, "id")
+						resId2, err = acctest.FromInstanceState(st, s.ResourceName, "id")
 						if resId == resId2 {
 							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
 						}

@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"testing"
@@ -22,7 +22,7 @@ type ResourceIdentityUserCapabilitiesManagementTestSuite struct {
 }
 
 func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) SetupTest() {
-	s.Providers = TestAccProviders
+	s.Providers = acctest.TestAccProviders
 	PreCheck()
 	s.Config = legacyTestProviderConfig()
 
@@ -30,7 +30,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIdentityUserCapabilitiesManagement_basic() {
-	_, tokenFn := TokenizeWithHttpReplay("identity_management_resource")
+	_, tokenFn := acctest.TokenizeWithHttpReplay("identity_management_resource")
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -53,7 +53,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 							can_use_smtp_credentials = false
 						}`,
 						map[string]string{"description": "automated test user"}),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_api_keys", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_auth_tokens", "false"),
@@ -81,7 +81,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 							can_use_smtp_credentials = true
 						}`,
 						map[string]string{"description": "automated test user"}),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_api_keys", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_auth_tokens", "true"),
@@ -109,7 +109,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 							can_use_smtp_credentials = false
 						}`,
 						map[string]string{"description": "automated test user"}),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_api_keys", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_auth_tokens", "false"),

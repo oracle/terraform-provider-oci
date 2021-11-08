@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"fmt"
@@ -27,8 +27,8 @@ type ResourceIdentityPolicyTestSuite struct {
 }
 
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
-	s.Token, s.TokenFn = TokenizeWithHttpReplay("identity_policy")
-	s.Providers = TestAccProviders
+	s.Token, s.TokenFn = acctest.TokenizeWithHttpReplay("identity_policy")
+	s.Providers = acctest.TestAccProviders
 	PreCheck()
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
 	resource "oci_identity_group" "t" {
@@ -55,7 +55,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					version_date = "2018-04-17"
 					statements = ["Allow Group ${oci_identity_group.t.name} to read instances in tenancy"]
 				}`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
@@ -69,7 +69,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "version_date", "2018-04-17"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
-						policyHash, err = FromInstanceState(s, "oci_identity_policy.p", "policyHash")
+						policyHash, err = acctest.FromInstanceState(s, "oci_identity_policy.p", "policyHash")
 						return err
 					},
 				),
@@ -87,13 +87,13 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 						"Allow Group ${oci_identity_group.t.name} to read instances in tenancy"
 					]
 				}`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test policy (updated)"),
 					resource.TestCheckResourceAttr(s.ResourceName, "version_date", "2018-04-18"),
 					resource.TestCheckResourceAttr(s.ResourceName, "statements.#", "2"),
 					func(s *terraform.State) (err error) {
-						newHash, err := FromInstanceState(s, "oci_identity_policy.p", "policyHash")
+						newHash, err := acctest.FromInstanceState(s, "oci_identity_policy.p", "policyHash")
 						if policyHash == newHash {
 							return fmt.Errorf("Expected new hash, got same")
 						}
@@ -121,7 +121,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 						values = ["Allow Group ${oci_identity_group.t.name} to inspect instances in tenancy"]
 					}
 				}`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.DataSourceName, "policies.#", "1"),
 					resource.TestCheckResourceAttrSet(s.DataSourceName, "policies.0.id"),
 					resource.TestCheckResourceAttr(s.DataSourceName, "policies.0.name", s.Token),
@@ -185,13 +185,13 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 					description = "automated test policy"
 					statements = ["Allow Group ${oci_identity_group.t.name} to read instances in >> tenancy"]
 				}`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					// policy statements may or may not have invalid characters stripped (">>" above), accommodate this uncertainty as specifically as possible
 					resource.TestMatchResourceAttr(s.ResourceName, "statements.0",
 						regexp.MustCompile(`Allow Group `+s.Token+` to read instances in (>> )?tenancy`)),
 					func(s *terraform.State) (err error) {
-						if policyHash, err = FromInstanceState(s, "oci_identity_policy.p", "policyHash"); err == nil {
-							lastUpdateETag, err = FromInstanceState(s, "oci_identity_policy.p", "lastUpdateETag")
+						if policyHash, err = acctest.FromInstanceState(s, "oci_identity_policy.p", "policyHash"); err == nil {
+							lastUpdateETag, err = acctest.FromInstanceState(s, "oci_identity_policy.p", "lastUpdateETag")
 						}
 						return err
 					},
@@ -206,7 +206,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 					description = "automated test policy"
 					statements = ["Allow Group ${oci_identity_group.t.name} to read instances in >> tenancy"]
 				}`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
 						resource.TestCheckResourceAttr("oci_identity_policy.p", "policyHash", policyHash)
 						resource.TestCheckResourceAttr("oci_identity_policy.p", "lastUpdateETag", lastUpdateETag)

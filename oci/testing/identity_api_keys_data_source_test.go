@@ -1,9 +1,10 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"regexp"
 	"testing"
 
@@ -24,10 +25,10 @@ type DatasourceIdentityAPIKeysTestSuite struct {
 }
 
 func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
-	_, tokenFn := TokenizeWithHttpReplay("api_data_source")
-	s.Providers = TestAccProviders
-	PreCheck()
-	s.Config = legacyTestProviderConfig() + publicKeyVariableStr + publicKeyUpdateVariableStr + tokenFn(`
+	_, tokenFn := acctest.TokenizeWithHttpReplay("api_data_source")
+	s.Providers = acctest.TestAccProviders
+	acctest.PreCheck(s.T())
+	s.Config = acctest.LegacyTestProviderConfig() + publicKeyVariableStr + publicKeyUpdateVariableStr + tokenFn(`
 	resource "oci_identity_user" "t" {
 		name = "{{.userName}}"
 		description = "automated test user"
@@ -42,7 +43,7 @@ func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	resource "oci_identity_api_key" "u" {
 		user_id = "${oci_identity_user.t.id}"
 		key_value = "${var.api_key_update_value}"
-	}`, map[string]string{"userName": "user_" + timestamp()})
+	}`, map[string]string{"userName": "user_" + acctest.Timestamp()})
 	s.ResourceName = "data.oci_identity_api_keys.t"
 }
 
@@ -59,7 +60,7 @@ func (s *DatasourceIdentityAPIKeysTestSuite) TestAccDatasourceIdentityAPIKeys_ba
 				data "oci_identity_api_keys" "t" {
 					user_id = "${oci_identity_user.t.id}"
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.#", "2"),
 				),
 			},
@@ -73,12 +74,12 @@ func (s *DatasourceIdentityAPIKeysTestSuite) TestAccDatasourceIdentityAPIKeys_ba
 						values = ["${oci_identity_api_key.t.id}"]
 					}
 				}`,
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.#", "1"),
-					TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.id", "oci_identity_api_key.t", "id"),
-					TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.fingerprint", "oci_identity_api_key.t", "fingerprint"),
+					acctest.TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.id", "oci_identity_api_key.t", "id"),
+					acctest.TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.fingerprint", "oci_identity_api_key.t", "fingerprint"),
 					resource.TestMatchResourceAttr(s.ResourceName, "api_keys.0.key_value", regexp.MustCompile("-----BEGIN PUBL.*")),
-					TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.time_created", "oci_identity_api_key.t", "time_created"),
+					acctest.TestCheckResourceAttributesEqual(s.ResourceName, "api_keys.0.time_created", "oci_identity_api_key.t", "time_created"),
 					// TODO: This field is not being returned by the service call but is showing up in the datasource
 					//resource.TestCheckNoResourceAttr(s.ResourceName, "api_keys.0.inactive_status"),
 					resource.TestCheckResourceAttr(s.ResourceName, "api_keys.0.state", string(identity.ApiKeyLifecycleStateActive)),

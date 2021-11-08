@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"context"
@@ -22,13 +22,13 @@ import (
 
 var (
 	TagNamespaceRequiredOnlyResource = TagNamespaceResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Required, Create, tagNamespaceRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Required, Create, tagNamespaceRepresentation)
 
 	tagNamespaceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"include_subcompartments": Representation{RepType: Optional, Create: `false`},
 		"state":                   Representation{RepType: Optional, Create: `AVAILABLE`},
-		"filter":                  RepresentationGroup{Required, tagNamespaceDataSourceFilterRepresentation}}
+		"filter":                  acctest.RepresentationGroup{Required, tagNamespaceDataSourceFilterRepresentation}}
 	tagNamespaceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
 		"values": Representation{RepType: Required, Create: []string{`${oci_identity_tag_namespace.test_tag_namespace.id}`}},
@@ -50,12 +50,12 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityTagNamespaceResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdU := utils.GetEnvSettingWithBlankDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_identity_tag_namespace.test_tag_namespace"
@@ -63,21 +63,21 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	SaveConfigContent(config+compartmentIdVariableStr+TagNamespaceResourceDependencies+
-		GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation), "identity", "tagNamespace", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+TagNamespaceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation), "identity", "tagNamespace", t)
 
-	ResourceTest(t, testAccCheckIdentityTagNamespaceDestroy, []resource.TestStep{
+	acctest.ResourceTest(t, testAccCheckIdentityTagNamespaceDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Required, Create, tagNamespaceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Required, Create, tagNamespaceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
 				resource.TestCheckResourceAttr(resourceName, "name", "BillingTags"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -90,7 +90,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
@@ -101,8 +101,8 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -115,7 +115,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TagNamespaceResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create,
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create,
 					RepresentationCopyWithNewProperties(tagNamespaceRepresentation, map[string]interface{}{
 						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
@@ -129,7 +129,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -141,7 +141,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -152,7 +152,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -163,9 +163,9 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_tag_namespaces", "test_tag_namespaces", Optional, Update, tagNamespaceDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tag_namespaces", "test_tag_namespaces", Optional, Update, tagNamespaceDataSourceRepresentation) +
 				compartmentIdVariableStr + TagNamespaceResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "include_subcompartments", "false"),
@@ -248,7 +248,7 @@ func init() {
 
 func sweepIdentityTagNamespaceResource(compartment string) error {
 	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
-	importIfExists, _ := strconv.ParseBool(GetEnvSettingWithDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		return nil
 	}

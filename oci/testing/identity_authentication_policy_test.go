@@ -1,10 +1,12 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"fmt"
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 	"strconv"
 	"testing"
 
@@ -16,33 +18,33 @@ import (
 
 var (
 	AuthenticationPolicyRequiredOnlyResource = AuthenticationPolicyResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Required, Create, authenticationPolicyRepresentation)
+		acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", acctest.Required, acctest.Create, authenticationPolicyRepresentation)
 
 	AuthenticationPolicyResourceConfig = AuthenticationPolicyResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Update, authenticationPolicyRepresentation)
+		acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", acctest.Optional, acctest.Update, authenticationPolicyRepresentation)
 
 	authenticationPolicySingularDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 	}
 
 	authenticationPolicyRepresentation = map[string]interface{}{
-		"compartment_id":  Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
-		"network_policy":  RepresentationGroup{Optional, authenticationPolicyNetworkPolicyRepresentation},
-		"password_policy": RepresentationGroup{Optional, authenticationPolicyPasswordPolicyRepresentation},
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"network_policy":  acctest.RepresentationGroup{acctest.Optional, authenticationPolicyNetworkPolicyRepresentation},
+		"password_policy": acctest.RepresentationGroup{acctest.Optional, authenticationPolicyPasswordPolicyRepresentation},
 	}
 	authenticationPolicyNetworkPolicyRepresentation = map[string]interface{}{
-		"network_source_ids": Representation{RepType: Optional, Create: []string{`${oci_identity_network_source.test_network_source.id}`}, Update: []string{}},
+		"network_source_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_identity_network_source.test_network_source.id}`}, Update: []string{}},
 	}
 	authenticationPolicyPasswordPolicyRepresentation = map[string]interface{}{
-		"is_lowercase_characters_required": Representation{RepType: Optional, Create: `true`, Update: `false`},
-		"is_numeric_characters_required":   Representation{RepType: Optional, Create: `true`, Update: `false`},
-		"is_special_characters_required":   Representation{RepType: Optional, Create: `true`, Update: `false`},
-		"is_uppercase_characters_required": Representation{RepType: Optional, Create: `true`, Update: `false`},
-		"is_username_containment_allowed":  Representation{RepType: Optional, Create: `false`},
-		"minimum_password_length":          Representation{RepType: Optional, Create: `11`, Update: `8`},
+		"is_lowercase_characters_required": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"is_numeric_characters_required":   acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"is_special_characters_required":   acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"is_uppercase_characters_required": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"is_username_containment_allowed":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"minimum_password_length":          acctest.Representation{RepType: acctest.Optional, Create: `11`, Update: `8`},
 	}
 
-	AuthenticationPolicyResourceDependencies = GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Required, Create, networkSourceRepresentation)
+	AuthenticationPolicyResourceDependencies = acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", acctest.Required, acctest.Create, networkSourceRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -52,11 +54,11 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityAuthenticationPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_identity_authentication_policy.test_authentication_policy"
 
@@ -64,19 +66,19 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	SaveConfigContent(config+compartmentIdVariableStr+AuthenticationPolicyResourceDependencies+
-		GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation), "identity", "authenticationPolicy", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+AuthenticationPolicyResourceDependencies+
+		acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", acctest.Optional, acctest.Create, authenticationPolicyRepresentation), "identity", "authenticationPolicy", t)
 
-	ResourceTest(t, nil, []resource.TestStep{
+	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", acctest.Optional, acctest.Create, authenticationPolicyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -89,8 +91,8 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "network_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_policy.0.network_source_ids.#", "1"),
@@ -103,8 +105,8 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "password_policy.0.minimum_password_length", "11"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -117,8 +119,8 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Update, authenticationPolicyRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.acctest.GenerateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", acctest.Optional, acctest.Update, authenticationPolicyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "network_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_policy.0.network_source_ids.#", "0"),
@@ -131,7 +133,7 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "password_policy.0.minimum_password_length", "8"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -142,9 +144,9 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Required, Create, authenticationPolicySingularDataSourceRepresentation) +
+				acctest.acctest.GenerateDataSourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", acctest.Required, acctest.Create, authenticationPolicySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AuthenticationPolicyResourceConfig,
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
