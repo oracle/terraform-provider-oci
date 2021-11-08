@@ -1,9 +1,11 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
 	"os"
 	"regexp"
 	"strings"
@@ -28,7 +30,7 @@ type ResourceIdentityGroupTestSuite struct {
 }
 
 func (s *ResourceIdentityGroupTestSuite) SetupTest() {
-	s.Providers = TestAccProviders
+	s.Providers = acctest.TestAccProviders
 	PreCheck()
 	s.Config = legacyTestProviderConfig()
 	s.ResourceName = "oci_identity_group.t"
@@ -36,7 +38,7 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 
 func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 	var resId, resId2 string
-	token, tokenFn := TokenizeWithHttpReplay("identity_group_resource")
+	token, tokenFn := acctest.TokenizeWithHttpReplay("identity_group_resource")
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -57,8 +59,8 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 					description = "tf test Group"
 					compartment_id = "${var.tenancy_ocid}"
 				}`, nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(s.ResourceName+"0", "compartment_id", GetEnvSettingWithBlankDefault("tenancy_ocid")),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(s.ResourceName+"0", "compartment_id", utils.GetEnvSettingWithBlankDefault("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "description", "tf test Group"),
 					resource.TestCheckResourceAttr(s.ResourceName+"0", "state", string(identity.GroupLifecycleStateActive)),
@@ -69,15 +71,15 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			// verify Create w/o compartment, verify that it defaults to tenancy
 			{
 				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test Group"), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", GetEnvSettingWithBlankDefault("tenancy_ocid")),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", utils.GetEnvSettingWithBlankDefault("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test Group"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(identity.GroupLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
-						resId, err = FromInstanceState(s, "oci_identity_group.t", "id")
+						resId, err = acctest.FromInstanceState(s, "oci_identity_group.t", "id")
 						return err
 					},
 				),
@@ -85,7 +87,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			// verify Update
 			{
 				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test Group (updated)"), nil),
-				Check: ComposeAggregateTestCheckFuncWrapper(
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test Group (updated)"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
@@ -93,7 +95,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "inactive_state"),
 					func(s *terraform.State) (err error) {
-						resId2, err = FromInstanceState(s, "oci_identity_group.t", "id")
+						resId2, err = acctest.FromInstanceState(s, "oci_identity_group.t", "id")
 						if resId != resId2 {
 							return fmt.Errorf("resource was recreated when it should not have been")
 						}

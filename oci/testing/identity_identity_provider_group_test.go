@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"fmt"
@@ -19,13 +19,13 @@ var (
 		"state":                Representation{RepType: Optional, Create: `ACTIVE`},
 	}
 
-	IdentityProviderGroupResourceConfig = GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation) +
+	IdentityProviderGroupResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation) +
 		IdentityProviderPropertyVariables
 )
 
 // issue-routing-tag: identity/default
 func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
-	metadataFile := GetEnvSettingWithBlankDefault("identity_provider_metadata_file")
+	metadataFile := utils.GetEnvSettingWithBlankDefault("identity_provider_metadata_file")
 	if metadataFile == "" {
 		t.Skip("Skipping generated test for now as it has a dependency on federation metadata file")
 	}
@@ -33,23 +33,23 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityIdentityProviderGroupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	datasourceName := "data.oci_identity_identity_provider_groups.test_identity_provider_groups"
 
-	SaveConfigContent("", "", "", t)
+	acctest.SaveConfigContent("", "", "", t)
 
-	_, tokenFn := TokenizeWithHttpReplay("identity_group_resource")
+	_, tokenFn := acctest.TokenizeWithHttpReplay("identity_group_resource")
 	IdentityProviderGroupResourceConfig = tokenFn(IdentityProviderGroupResourceConfig, map[string]string{"metadata_file": metadataFile})
 
-	ResourceTest(t, nil, []resource.TestStep{
+	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Optional, Create, identityProviderGroupDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_identity_provider_groups", "test_identity_provider_groups", Optional, Create, identityProviderGroupDataSourceRepresentation) +
 				compartmentIdVariableStr + IdentityProviderGroupResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),

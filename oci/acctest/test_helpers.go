@@ -53,7 +53,7 @@ func apply(template string, values map[string]string) string {
 }
 
 // Returns date-time formatted as a string, ex: 2017-10-12-000934-119299083"
-func timestamp() string {
+func Timestamp() string {
 	t := time.Now()
 	return fmt.Sprintf("%d-%02d-%02d-%02d%02d%02d-%d",
 		t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond())
@@ -67,7 +67,7 @@ func TokenizeWithHttpReplay(defaultString string) (string, TokenFn) {
 	if httpreplay.ModeRecordReplay() {
 		ts = defaultString
 	} else {
-		ts = timestamp()
+		ts = Timestamp()
 	}
 	return ts, func(template string, values map[string]string) string {
 		if values == nil {

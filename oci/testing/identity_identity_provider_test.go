@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package oci
+package testing
 
 import (
 	"context"
@@ -29,14 +29,14 @@ variable "identity_provider_metadata_file" { default = "{{.metadata_file}}" }
 
 var (
 	IdentityProviderRequiredOnlyResource = IdentityProviderResourceDependencies +
-		GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation)
 
 	identityProviderDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.tenancy_ocid}`},
 		"protocol":       Representation{RepType: Required, Create: `SAML2`},
 		"name":           Representation{RepType: Optional, Create: `test-idp-saml2-adfs`},
 		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
-		"filter":         RepresentationGroup{Required, identityProviderDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{Required, identityProviderDataSourceFilterRepresentation}}
 	identityProviderDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
 		"values": Representation{RepType: Required, Create: []string{`${oci_identity_identity_provider.test_identity_provider.id}`}},
@@ -61,7 +61,7 @@ var (
 
 // issue-routing-tag: identity/default
 func TestIdentityIdentityProviderResource_basic(t *testing.T) {
-	metadataFile := GetEnvSettingWithBlankDefault("identity_provider_metadata_file")
+	metadataFile := utils.GetEnvSettingWithBlankDefault("identity_provider_metadata_file")
 	if metadataFile == "" {
 		t.Skip("Skipping generated test for now as it has a dependency on federation metadata file")
 	}
@@ -69,19 +69,19 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityIdentityProviderResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := ProviderTestConfig()
+	config := acctest.ProviderTestConfig()
 
-	compartmentId := GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-	tenancyId := GetEnvSettingWithBlankDefault("tenancy_ocid")
+	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_identity_identity_provider.test_identity_provider"
 	datasourceName := "data.oci_identity_identity_providers.test_identity_providers"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	SaveConfigContent(config+compartmentIdVariableStr+IdentityProviderResourceDependencies+
-		GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation), "identity", "identityProvider", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+IdentityProviderResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation), "identity", "identityProvider", t)
 
 	metadataContents, err := ioutil.ReadFile(metadataFile)
 	if err != nil {
@@ -89,15 +89,15 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	}
 	metadata := string(metadataContents)
 
-	_, tokenFn := TokenizeWithHttpReplay("identity_provider")
+	_, tokenFn := acctest.TokenizeWithHttpReplay("identity_provider")
 	IdentityProviderResourceDependencies = tokenFn(IdentityProviderResourceDependencies, map[string]string{"metadata_file": metadataFile})
 
-	ResourceTest(t, testAccCheckIdentityIdentityProviderDestroy, []resource.TestStep{
+	acctest.ResourceTest(t, testAccCheckIdentityIdentityProviderDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
-				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
@@ -107,7 +107,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "protocol", "SAML2"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -122,7 +122,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
@@ -138,8 +138,8 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId, err = FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
@@ -153,7 +153,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + IdentityProviderResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
@@ -169,7 +169,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -180,10 +180,10 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				GenerateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", Optional, Update, identityProviderDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_identity_providers", "test_identity_providers", Optional, Update, identityProviderDataSourceRepresentation) +
 				compartmentIdVariableStr + IdentityProviderResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
-			Check: ComposeAggregateTestCheckFuncWrapper(
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "test-idp-saml2-adfs"),
 				resource.TestCheckResourceAttr(datasourceName, "protocol", "SAML2"),
