@@ -1,18 +1,16 @@
 // Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-package integrationtest
+package tfresource
 
 import (
 	"testing"
-
-	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
 )
 
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_toString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	tests := []struct {
 		name   string
@@ -21,13 +19,13 @@ func TestUnitTfHclVersion11_toString(t *testing.T) {
 	}{
 		{
 			"toString",
-			fields{tfresource.TfVersion11},
+			fields{TfVersion11},
 			"0.11",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion11{
+			tfversion := &TfHclVersion11{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.ToString(); got != tt.want {
@@ -40,7 +38,7 @@ func TestUnitTfHclVersion11_toString(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_getVarHclString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	type args struct {
 		varName string
@@ -53,14 +51,14 @@ func TestUnitTfHclVersion11_getVarHclString(t *testing.T) {
 	}{
 		{
 			"VarHclString",
-			fields{tfresource.TfVersion11},
+			fields{TfVersion11},
 			args{"variableName"},
 			"\"${var.variableName}\"",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion11{
+			tfversion := &TfHclVersion11{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.GetVarHclString(tt.args.varName); got != tt.want {
@@ -73,7 +71,7 @@ func TestUnitTfHclVersion11_getVarHclString(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_getDataSourceHclString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	type args struct {
 		datasourceType string
@@ -87,14 +85,14 @@ func TestUnitTfHclVersion11_getDataSourceHclString(t *testing.T) {
 	}{
 		{
 			"DataSourceHclString",
-			fields{tfresource.TfVersion11},
+			fields{TfVersion11},
 			args{"datasource_type", "datasource_name"},
 			"\"${data.datasource_type.datasource_name}\"",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion11{
+			tfversion := &TfHclVersion11{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.GetDataSourceHclString(tt.args.datasourceType, tt.args.datasourceName); got != tt.want {
@@ -107,7 +105,7 @@ func TestUnitTfHclVersion11_getDataSourceHclString(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_getSingleExpHclString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	type args struct {
 		expString string
@@ -120,7 +118,7 @@ func TestUnitTfHclVersion11_getSingleExpHclString(t *testing.T) {
 	}{
 		{
 			"SingleExpHclString",
-			fields{tfresource.TfVersion11},
+			fields{TfVersion11},
 			args{"exp"},
 			"" +
 				"\"${exp}\"",
@@ -128,7 +126,7 @@ func TestUnitTfHclVersion11_getSingleExpHclString(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion11{
+			tfversion := &TfHclVersion11{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.GetSingleExpHclString(tt.args.expString); got != tt.want {
@@ -141,7 +139,7 @@ func TestUnitTfHclVersion11_getSingleExpHclString(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion11_getDoubleExpHclString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	type args struct {
 		expString1 string
@@ -155,14 +153,14 @@ func TestUnitTfHclVersion11_getDoubleExpHclString(t *testing.T) {
 	}{
 		{
 			"DoubleExpHclString",
-			fields{tfresource.TfVersion11},
+			fields{TfVersion11},
 			args{"exp1", "exp2"},
 			"\"${exp1.exp2}\"",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion11{
+			tfversion := &TfHclVersion11{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.GetDoubleExpHclString(tt.args.expString1, tt.args.expString2); got != tt.want {
@@ -175,7 +173,7 @@ func TestUnitTfHclVersion11_getDoubleExpHclString(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_toString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	tests := []struct {
 		name   string
@@ -184,13 +182,13 @@ func TestUnitTfHclVersion12_toString(t *testing.T) {
 	}{
 		{
 			"versionTest",
-			fields{tfresource.TfVersion12},
+			fields{TfVersion12},
 			"0.12",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion12{
+			tfversion := &TfHclVersion12{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.ToString(); got != tt.want {
@@ -203,7 +201,7 @@ func TestUnitTfHclVersion12_toString(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_getVarHclString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	type args struct {
 		varName string
@@ -216,14 +214,14 @@ func TestUnitTfHclVersion12_getVarHclString(t *testing.T) {
 	}{
 		{
 			"VarHclString",
-			fields{tfresource.TfVersion12},
+			fields{TfVersion12},
 			args{"variableName"},
 			"var.variableName",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion12{
+			tfversion := &TfHclVersion12{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.GetVarHclString(tt.args.varName); got != tt.want {
@@ -236,7 +234,7 @@ func TestUnitTfHclVersion12_getVarHclString(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_getDataSourceHclString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	type args struct {
 		datasourceType string
@@ -250,14 +248,14 @@ func TestUnitTfHclVersion12_getDataSourceHclString(t *testing.T) {
 	}{
 		{
 			"DataSourceHclString",
-			fields{tfresource.TfVersion12},
+			fields{TfVersion12},
 			args{"datasource_type", "datasource_name"},
 			"data.datasource_type.datasource_name",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion12{
+			tfversion := &TfHclVersion12{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.GetDataSourceHclString(tt.args.datasourceType, tt.args.datasourceName); got != tt.want {
@@ -270,7 +268,7 @@ func TestUnitTfHclVersion12_getDataSourceHclString(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_getSingleExpHclString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	type args struct {
 		expString string
@@ -283,14 +281,14 @@ func TestUnitTfHclVersion12_getSingleExpHclString(t *testing.T) {
 	}{
 		{
 			"SingleExpHclString",
-			fields{tfresource.TfVersion12},
+			fields{TfVersion12},
 			args{"exp"},
 			"exp",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion12{
+			tfversion := &TfHclVersion12{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.GetSingleExpHclString(tt.args.expString); got != tt.want {
@@ -303,7 +301,7 @@ func TestUnitTfHclVersion12_getSingleExpHclString(t *testing.T) {
 // issue-routing-tag: terraform/default
 func TestUnitTfHclVersion12_getDoubleExpHclString(t *testing.T) {
 	type fields struct {
-		Value tfresource.TfVersionEnum
+		Value TfVersionEnum
 	}
 	type args struct {
 		expString1 string
@@ -317,14 +315,14 @@ func TestUnitTfHclVersion12_getDoubleExpHclString(t *testing.T) {
 	}{
 		{
 			"DoubleExpHclString",
-			fields{tfresource.TfVersion12},
+			fields{TfVersion12},
 			args{"exp1", "exp2"},
 			"exp1.exp2",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tfversion := &tfresource.TfHclVersion12{
+			tfversion := &TfHclVersion12{
 				Value: tt.fields.Value,
 			}
 			if got := tfversion.GetDoubleExpHclString(tt.args.expString1, tt.args.expString2); got != tt.want {
