@@ -82,7 +82,7 @@ func newCustomError(sync interface{}, err error) error {
 		return err
 	}
 
-	tfError.VersionError = getVersionAndDateError()
+	tfError.VersionError = GetVersionAndDateError()
 	tfError.Suggestion = getSuggestionFromError(tfError)
 	return tfError.Error()
 }
@@ -200,7 +200,7 @@ func getResourceOCID(sync interface{}) string {
 	return ""
 }
 
-func getVersionAndDateError() string {
+func GetVersionAndDateError() string {
 	result := fmt.Sprintf("Provider version: %s, released on %s. ", globalvar.Version, globalvar.ReleaseDate)
 	today := time.Now()
 	releaseDate, _ := time.Parse("2006-01-02", globalvar.ReleaseDate)
