@@ -114,8 +114,11 @@ security_token_file=%s
 `
 	keyPath := path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, "oci_api_key.pem")
 	configPath := path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, globalvar.DefaultConfigFileName)
-	os.MkdirAll(path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName), 0700)
-	err := utils.WriteTempFile(testPrivateKey, keyPath)
+	err := os.MkdirAll(path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName), 0700)
+	if err != nil {
+		return "", "", err
+	}
+	err = utils.WriteTempFile(testPrivateKey, keyPath)
 	if err != nil {
 		return "", "", err
 	}
