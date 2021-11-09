@@ -486,14 +486,14 @@ func GetCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err
 	return
 }
 
-func RemoveFile(file string) {
-	os.Remove(file)
+func RemoveFile(file string) error {
+	return os.Remove(file)
 }
 
 func WriteTempFile(data string, originFileName string) (err error) {
 	f, err := os.OpenFile(originFileName, os.O_CREATE|os.O_WRONLY, 0666)
 	if err == nil {
-		f.WriteString(data)
+		_, _ = f.WriteString(data)
 	}
 	return err
 }

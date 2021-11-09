@@ -206,9 +206,15 @@ func TestUnitProviderConfig(t *testing.T) {
 	ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "wrongProfile", nil)       // Invalid profileName
 	//providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", nil)           // correct profileName with mix and match
 	ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE3", nil) // correct profileName with mix and match & env
-	defer utils.RemoveFile(configFile)
-	defer utils.RemoveFile(keyFile)
-	os.RemoveAll(path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName))
+	defer func() {
+		_ = utils.RemoveFile(configFile)
+	}()
+	defer func() {
+		_ = utils.RemoveFile(keyFile)
+	}()
+	defer func() {
+		_ = os.RemoveAll(path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName))
+	}()
 }
 
 // ensure the http client is configured with the expected settings
