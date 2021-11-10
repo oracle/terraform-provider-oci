@@ -58,7 +58,7 @@ var isMissingRequiredAttributes bool
 var missingAttributesPerResourceLock sync.Mutex
 var sem chan struct{}
 var exportConfigProvider oci_common.ConfigurationProvider
-var tfHclVersion tfresource.TfHclVersion
+var tfHclVersion TfHclVersion
 
 func elapsed(what string, step *resourceDiscoveryBaseStep, stage ResourceDiscoveryStage) func() {
 	start := time.Now()
@@ -199,7 +199,7 @@ type ExportCommandArgs struct {
 	Services                     []string
 	OutputDir                    *string
 	GenerateState                bool
-	TFVersion                    *tfresource.TfHclVersion
+	TFVersion                    *TfHclVersion
 	RetryTimeout                 *string
 	ExcludeServices              []string
 	IsExportWithRelatedResources bool
@@ -369,10 +369,10 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 		Configuration: make(map[string]string),
 	}
 
-	userAgentString := fmt.Sprintf(globalvar.ExportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, Version)
-	httpClient := utils.BuildHttpClient()
+	userAgentString := fmt.Sprintf(globalvar.ExportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, globalvar.Version)
+	httpClient := tf_provider.BuildHttpClient()
 
-	sdkConfigProvider, err := getSdkConfigProvider(d, clients)
+	sdkConfigProvider, err := tf_provider.GetSdkConfigProvider(d, clients)
 	if err != nil {
 		return nil, err
 	}
@@ -380,13 +380,13 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 
 	// Note: In case of Instance Principal auth, the TenancyOCID will return
 	// the ocid for the tenancy for the compute instance and not the one for the customer
-	clients.configuration["tenancy_ocid"], err = sdkConfigProvider.TenancyOCID()
+	clients.Configuration["tenancy_ocid"], err = sdkConfigProvider.TenancyOCID()
 	if err != nil {
 		return nil, err
 	}
 
 	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
-	configureClientLocal, err := utils.BuildConfigureClientFn(sdkConfigProvider, httpClient)
+	configureClientLocal, err := tf_provider.BuildConfigureClientFn(sdkConfigProvider, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -399,8 +399,8 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 		return nil
 	}
 	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
-	configureClient = configureClientWithUserAgent
-	err = createSDKClients(clients, sdkConfigProvider, configureClientWithUserAgent)
+	tf_client.ConfigureClientVar = configureClientWithUserAgent
+	err = tf_client.CreateSDKClients(clients, sdkConfigProvider, configureClientWithUserAgent)
 	if err != nil {
 		return nil, err
 	}
@@ -565,7 +565,7 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 
 	if isMissingRequiredAttributes {
 		ctx.summaryStatements = append(ctx.summaryStatements, "")
-		ctx.summaryStatements = append(ctx.summaryStatements, missingRequiredAttributeWarning)
+		ctx.summaryStatements = append(ctx.summaryStatements, globalvar.MissingRequiredAttributeWarning)
 		ctx.summaryStatements = append(ctx.summaryStatements, "Missing required attributes:")
 		for key, value := range ctx.missingAttributesPerResource {
 			ctx.summaryStatements = append(ctx.summaryStatements, fmt.Sprintf("%s: %s", key, strings.Join(value, ",")))
@@ -664,7 +664,7 @@ func generateStateParallel(ctx *resourceDiscoveryContext, steps []resourceDiscov
 	}
 
 	// Create final state file to write state
-	stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultStateFilename)
+	stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), globalvar.DefaultStateFilename)
 
 	f, err := os.OpenFile(stateOutputFile, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, os.ModePerm)
 	if err != nil {
@@ -706,7 +706,7 @@ generateState is used if value of parallelism arg == 1
 */
 func generateState(ctx *resourceDiscoveryContext, steps []resourceDiscoveryStep) error {
 
-	Debugln("[DEBUG] writing temp config files for import")
+	utils.Debugln("[DEBUG] writing temp config files for import")
 	for _, step := range steps {
 
 		/* Generate temporary HCL configs from all discovered resources to run import
@@ -730,8 +730,8 @@ func generateState(ctx *resourceDiscoveryContext, steps []resourceDiscoveryStep)
 		return err
 	}
 
-	stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultStateFilename)
-	tmpStateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultTmpStateFile)
+	stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), globalvar.DefaultStateFilename)
+	tmpStateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), globalvar.DefaultTmpStateFile)
 	if err := os.RemoveAll(tmpStateOutputFile); err != nil {
 		utils.Logf("[WARN] unable to delete existing tmp state file %s", tmpStateOutputFile)
 		return err
@@ -959,8 +959,8 @@ func findResources(ctx *resourceDiscoveryContext, root *OCIResource, resourceGra
 }
 
 func generateVarsFile(vars map[string]string, outputDir *string) error {
-	varsTmpFile := fmt.Sprintf("%s%s%s.tmp", *outputDir, string(os.PathSeparator), varsFile)
-	varsOutputFile := fmt.Sprintf("%s%s%s", *outputDir, string(os.PathSeparator), varsFile)
+	varsTmpFile := fmt.Sprintf("%s%s%s.tmp", *outputDir, string(os.PathSeparator), globalvar.VarsFile)
+	varsOutputFile := fmt.Sprintf("%s%s%s", *outputDir, string(os.PathSeparator), globalvar.VarsFile)
 	file, err := os.OpenFile(varsTmpFile, os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
 		return err
@@ -986,8 +986,8 @@ func generateVarsFile(vars map[string]string, outputDir *string) error {
 }
 
 func generateProviderFile(outputDir *string) error {
-	providerTmpFile := fmt.Sprintf("%s%s%s.tmp", *outputDir, string(os.PathSeparator), providerFile)
-	providerOutputFile := fmt.Sprintf("%s%s%s", *outputDir, string(os.PathSeparator), providerFile)
+	providerTmpFile := fmt.Sprintf("%s%s%s.tmp", *outputDir, string(os.PathSeparator), globalvar.ProviderFile)
+	providerOutputFile := fmt.Sprintf("%s%s%s", *outputDir, string(os.PathSeparator), globalvar.ProviderFile)
 	file, err := os.OpenFile(providerTmpFile, os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
 		return err
@@ -1152,7 +1152,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 				case schema.TypeMap:
 					builder.WriteString(fmt.Sprintf("%s = {\n", tfAttribute))
 
-					keys := getSortedKeys(v)
+					keys := utils.GetSortedKeys(v)
 					for _, mapKey := range keys {
 						switch mapVal := v[mapKey].(type) {
 						case InterpolationString:
@@ -1206,7 +1206,7 @@ func getHCLStringFromMap(builder *strings.Builder, sourceAttributes map[string]i
 			if tfAttributeVal, exists := ociRes.terraformTypeInfo.defaultValuesForMissingAttributes[tfAttribute]; exists {
 				builder.WriteString(fmt.Sprintf("%s = %q", tfAttribute, tfAttributeVal))
 			} else {
-				builder.WriteString(fmt.Sprintf("%s = %q", tfAttribute, placeholderValueForMissingAttribute))
+				builder.WriteString(fmt.Sprintf("%s = %q", tfAttribute, globalvar.PlaceholderValueForMissingAttribute))
 			}
 			builder.WriteString("\t#Required attribute not found in discovery, placeholder value set to avoid plan failure\n")
 			isMissingRequiredAttributes = true
@@ -1687,7 +1687,7 @@ func getOciResource(d *schema.ResourceData, resourceSchema map[string]*schema.Sc
 	return resource, nil
 }
 
-func resolveCompartmentId(clients *OracleClients, compartmentName *string) (*string, error) {
+func resolveCompartmentId(clients *tf_client.OracleClients, compartmentName *string) (*string, error) {
 	req := oci_identity.ListCompartmentsRequest{}
 
 	rootCompartment, err := exportConfigProvider.TenancyOCID()
@@ -1700,7 +1700,7 @@ func resolveCompartmentId(clients *OracleClients, compartmentName *string) (*str
 	req.CompartmentIdInSubtree = &recursiveSearch
 
 	for {
-		resp, err := clients.identityClient().ListCompartments(context.Background(), req)
+		resp, err := clients.IdentityClient().ListCompartments(context.Background(), req)
 		if err != nil {
 			return nil, err
 		}
@@ -1723,59 +1723,59 @@ func resolveCompartmentId(clients *OracleClients, compartmentName *string) (*str
 
 func readEnvironmentVars(d *schema.ResourceData) error {
 
-	if err := d.Set(authAttrName, getProviderEnvSettingWithDefault(authAttrName, authAPIKeySetting)); err != nil {
+	if err := d.Set(globalvar.AuthAttrName, utils.GetProviderEnvSettingWithDefault(globalvar.AuthAttrName, globalvar.AuthAPIKeySetting)); err != nil {
 		return err
 	}
-	if err := d.Set(configFileProfileAttrName, getProviderEnvSettingWithDefault(configFileProfileAttrName, "")); err != nil {
+	if err := d.Set(globalvar.ConfigFileProfileAttrName, utils.GetProviderEnvSettingWithDefault(globalvar.ConfigFileProfileAttrName, "")); err != nil {
 		return err
 	}
-	if region := getProviderEnvSettingWithDefault(regionAttrName, ""); region != "" {
-		if err := d.Set(regionAttrName, region); err != nil {
+	if region := utils.GetProviderEnvSettingWithDefault(globalvar.RegionAttrName, ""); region != "" {
+		if err := d.Set(globalvar.RegionAttrName, region); err != nil {
 			return err
 		}
 	}
 
-	if tenancyOcid := getProviderEnvSettingWithDefault(tenancyOcidAttrName, ""); tenancyOcid != "" {
-		if err := d.Set(tenancyOcidAttrName, tenancyOcid); err != nil {
+	if tenancyOcid := utils.GetProviderEnvSettingWithDefault(globalvar.TenancyOcidAttrName, ""); tenancyOcid != "" {
+		if err := d.Set(globalvar.TenancyOcidAttrName, tenancyOcid); err != nil {
 			return err
 		}
 	}
 
-	if userOcid := getProviderEnvSettingWithDefault(userOcidAttrName, ""); userOcid != "" {
-		if err := d.Set(userOcidAttrName, userOcid); err != nil {
+	if userOcid := utils.GetProviderEnvSettingWithDefault(globalvar.UserOcidAttrName, ""); userOcid != "" {
+		if err := d.Set(globalvar.UserOcidAttrName, userOcid); err != nil {
 			return err
 		}
 	}
-	if fingerprint := getProviderEnvSettingWithDefault(fingerprintAttrName, ""); fingerprint != "" {
-		if err := d.Set(fingerprintAttrName, fingerprint); err != nil {
+	if fingerprint := utils.GetProviderEnvSettingWithDefault(globalvar.FingerprintAttrName, ""); fingerprint != "" {
+		if err := d.Set(globalvar.FingerprintAttrName, fingerprint); err != nil {
 			return err
 		}
 	}
-	if privateKey := getProviderEnvSettingWithDefault(privateKeyAttrName, ""); privateKey != "" {
-		if err := d.Set(privateKeyAttrName, privateKey); err != nil {
+	if privateKey := utils.GetProviderEnvSettingWithDefault(globalvar.PrivateKeyAttrName, ""); privateKey != "" {
+		if err := d.Set(globalvar.PrivateKeyAttrName, privateKey); err != nil {
 			return err
 		}
 	}
-	if privateKeyPath := getProviderEnvSettingWithDefault(privateKeyPathAttrName, ""); privateKeyPath != "" {
-		if err := d.Set(privateKeyPathAttrName, privateKeyPath); err != nil {
+	if privateKeyPath := utils.GetProviderEnvSettingWithDefault(globalvar.PrivateKeyPathAttrName, ""); privateKeyPath != "" {
+		if err := d.Set(globalvar.PrivateKeyPathAttrName, privateKeyPath); err != nil {
 			return err
 		}
 	}
-	if privateKeyPassword := getProviderEnvSettingWithDefault(privateKeyPasswordAttrName, ""); privateKeyPassword != "" {
-		if err := d.Set(privateKeyPasswordAttrName, privateKeyPassword); err != nil {
+	if privateKeyPassword := utils.GetProviderEnvSettingWithDefault(globalvar.PrivateKeyPasswordAttrName, ""); privateKeyPassword != "" {
+		if err := d.Set(globalvar.PrivateKeyPasswordAttrName, privateKeyPassword); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func getTenancyOcidFromCompartment(clients *OracleClients, compartmentId string) (string, error) {
+func getTenancyOcidFromCompartment(clients *tf_client.OracleClients, compartmentId string) (string, error) {
 
 	for true {
-		response, err := clients.identityClient().GetCompartment(context.Background(), oci_identity.GetCompartmentRequest{
+		response, err := clients.IdentityClient().GetCompartment(context.Background(), oci_identity.GetCompartmentRequest{
 			CompartmentId: &compartmentId,
 			RequestMetadata: oci_common.RequestMetadata{
-				RetryPolicy: GetRetryPolicy(true, "identity"),
+				RetryPolicy: tfresource.GetRetryPolicy(true, "identity"),
 			},
 		})
 		if err != nil {
@@ -1843,7 +1843,7 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, string, 
 
 	utils.Logln("[INFO] validating Terraform CLI")
 	var err error
-	terraformBinPath := GetEnvSettingWithBlankDefault(terraformBinPathName)
+	terraformBinPath := utils.GetEnvSettingWithBlankDefault(globalvar.TerraformBinPathName)
 	if terraformBinPath == "" {
 		terraformBinPath, err = tfinstall.Find(context.Background(), tfinstall.LookPath())
 		if err != nil {
@@ -1870,7 +1870,7 @@ func createTerraformStruct(args *ExportCommandArgs) (*tfexec.Terraform, string, 
 	}
 
 	// Set log path for TF Exec
-	logPath := os.Getenv(Envtf_utils.LogFile)
+	logPath := os.Getenv(globalvar.EnvLogFile)
 	if logPath != "" {
 		utils.Logf("[INFO] setting log path for Terraform exec to '%s'", logPath)
 		if err := tf.SetLogPath(logPath); err != nil {
@@ -1928,4 +1928,11 @@ func cleanupTempStateFiles(ctx *resourceDiscoveryContext) {
 	if err := os.RemoveAll(fmt.Sprintf("%s%stmp%s", *ctx.OutputDir, string(os.PathSeparator), string(os.PathSeparator))); err != nil {
 		utils.Logf("[ERROR] Error removing tmp state files: %s", err.Error())
 	}
+}
+
+func parseDeliveryPolicy(policy interface{}) string {
+	backoffRetryPolicy := policy.(map[string]interface{})["backoff_retry_policy"].([]interface{})
+	maxRetryDuration := backoffRetryPolicy[0].(map[string]interface{})["max_retry_duration"]
+	policyType := backoffRetryPolicy[0].(map[string]interface{})["policy_type"]
+	return fmt.Sprintf("{\"backoffRetryPolicy\":{\"maxRetryDuration\":%v,\"policyType\":\"%v\"}}", maxRetryDuration, policyType)
 }

@@ -294,7 +294,7 @@ func (s *IdentitySmtpCredentialResourceCrud) SetData() error {
 	return nil
 }
 
-func getSmtpCredentialCompositeId(smtpCredentialId string, userId string) string {
+func GetSmtpCredentialCompositeId(smtpCredentialId string, userId string) string {
 	smtpCredentialId = url.PathEscape(smtpCredentialId)
 	userId = url.PathEscape(userId)
 	compositeId := "users/" + userId + "/smtpCredentials/" + smtpCredentialId

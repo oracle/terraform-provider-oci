@@ -4,65 +4,209 @@
 package resourcediscovery
 
 import (
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
-	oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
-	oci_apm "github.com/oracle/oci-go-sdk/v54/apmcontrolplane"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
-	oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
-	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
-	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
-	oci_core "github.com/oracle/oci-go-sdk/v54/core"
-	oci_database "github.com/oracle/oci-go-sdk/v54/database"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v54/databasemigration"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
-	oci_datascience "github.com/oracle/oci-go-sdk/v54/datascience"
-	oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
-	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
-	oci_email "github.com/oracle/oci-go-sdk/v54/email"
-	oci_events "github.com/oracle/oci-go-sdk/v54/events"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
-	oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
-	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
-	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
-	oci_jms "github.com/oracle/oci-go-sdk/v54/jms"
-	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
-	oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
-	oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
-	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
-	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
-	oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
-	oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
-	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
-	oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
-	oci_sch "github.com/oracle/oci-go-sdk/v54/sch"
-	oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
-	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
-	oci_waas "github.com/oracle/oci-go-sdk/v54/waas"
-	oci_waf "github.com/oracle/oci-go-sdk/v54/waf"
+	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
+
+
+var exportIdentityApiKeyHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_api_key",
+	datasourceClass:      "oci_identity_api_keys",
+	datasourceItemsAttr:  "api_keys",
+	resourceAbbreviation: "api_key",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.ApiKeyLifecycleStateActive),
+	},
+}
+
+var exportIdentityAvailabilityDomainHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_availability_domain",
+	datasourceClass:      "oci_identity_availability_domains",
+	datasourceItemsAttr:  "availability_domains",
+	resourceAbbreviation: "availability_domain",
+}
+
+var exportIdentityAuthenticationPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_authentication_policy",
+	datasourceClass:      "oci_identity_authentication_policy",
+	resourceAbbreviation: "authentication_policy",
+}
+
+var exportIdentityAuthTokenHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_auth_token",
+	datasourceClass:      "oci_identity_auth_tokens",
+	datasourceItemsAttr:  "tokens",
+	resourceAbbreviation: "auth_token",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.AuthTokenLifecycleStateActive),
+	},
+}
+
+var exportIdentityCompartmentHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_compartment",
+	datasourceClass:      "oci_identity_compartments",
+	datasourceItemsAttr:  "compartments",
+	resourceAbbreviation: "compartment",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.CompartmentLifecycleStateActive),
+	},
+}
+
+var exportIdentityCustomerSecretKeyHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_customer_secret_key",
+	datasourceClass:      "oci_identity_customer_secret_keys",
+	datasourceItemsAttr:  "customer_secret_keys",
+	resourceAbbreviation: "customer_secret_key",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.CustomerSecretKeyLifecycleStateActive),
+	},
+}
+
+var exportIdentityDynamicGroupHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_dynamic_group",
+	datasourceClass:      "oci_identity_dynamic_groups",
+	datasourceItemsAttr:  "dynamic_groups",
+	resourceAbbreviation: "dynamic_group",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.DynamicGroupLifecycleStateActive),
+	},
+}
+
+var exportIdentityGroupHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_group",
+	datasourceClass:      "oci_identity_groups",
+	datasourceItemsAttr:  "groups",
+	resourceAbbreviation: "Group",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.GroupLifecycleStateActive),
+	},
+}
+
+var exportIdentityIdentityProviderHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_identity_provider",
+	datasourceClass:      "oci_identity_identity_providers",
+	datasourceItemsAttr:  "identity_providers",
+	resourceAbbreviation: "identity_provider",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.IdentityProviderLifecycleStateActive),
+	},
+}
+
+var exportIdentityIdpGroupMappingHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_idp_group_mapping",
+	datasourceClass:      "oci_identity_idp_group_mappings",
+	datasourceItemsAttr:  "idp_group_mappings",
+	resourceAbbreviation: "idp_group_mapping",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.IdpGroupMappingLifecycleStateActive),
+	},
+}
+
+var exportIdentityPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_policy",
+	datasourceClass:      "oci_identity_policies",
+	datasourceItemsAttr:  "policies",
+	resourceAbbreviation: "policy",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.PolicyLifecycleStateActive),
+	},
+}
+
+var exportIdentitySmtpCredentialHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_smtp_credential",
+	datasourceClass:      "oci_identity_smtp_credentials",
+	datasourceItemsAttr:  "smtp_credentials",
+	resourceAbbreviation: "smtp_credential",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.SmtpCredentialLifecycleStateActive),
+	},
+}
+
+var exportIdentitySwiftPasswordHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_swift_password",
+	datasourceClass:      "oci_identity_swift_passwords",
+	datasourceItemsAttr:  "passwords",
+	resourceAbbreviation: "swift_password",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.SwiftPasswordLifecycleStateActive),
+	},
+}
+
+var exportIdentityUiPasswordHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_ui_password",
+	datasourceClass:      "oci_identity_ui_password",
+	resourceAbbreviation: "ui_password",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.UiPasswordLifecycleStateActive),
+	},
+}
+
+var exportIdentityUserGroupMembershipHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_user_group_membership",
+	datasourceClass:      "oci_identity_user_group_memberships",
+	datasourceItemsAttr:  "memberships",
+	resourceAbbreviation: "user_group_membership",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.UserGroupMembershipLifecycleStateActive),
+	},
+}
+
+var exportIdentityUserHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_user",
+	datasourceClass:      "oci_identity_users",
+	datasourceItemsAttr:  "users",
+	resourceAbbreviation: "user",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.UserLifecycleStateActive),
+	},
+}
+
+var exportIdentityTagDefaultHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_tag_default",
+	datasourceClass:      "oci_identity_tag_defaults",
+	datasourceItemsAttr:  "tag_defaults",
+	resourceAbbreviation: "tag_default",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.TagDefaultLifecycleStateActive),
+	},
+}
+
+var exportIdentityTagNamespaceHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_tag_namespace",
+	datasourceClass:      "oci_identity_tag_namespaces",
+	datasourceItemsAttr:  "tag_namespaces",
+	resourceAbbreviation: "tag_namespace",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.TagNamespaceLifecycleStateActive),
+	},
+}
+
+var exportIdentityTagHints = &TerraformResourceHints{
+	resourceClass:          "oci_identity_tag",
+	datasourceClass:        "oci_identity_tags",
+	datasourceItemsAttr:    "tags",
+	resourceAbbreviation:   "tag",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_identity.TagLifecycleStateActive),
+	},
+}
+
+var exportIdentityNetworkSourceHints = &TerraformResourceHints{
+	resourceClass:          "oci_identity_network_source",
+	datasourceClass:        "oci_identity_network_sources",
+	datasourceItemsAttr:    "network_sources",
+	resourceAbbreviation:   "network_source",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_identity.NetworkSourcesLifecycleStateActive),
+	},
+}
+
+/*
+
+
 var exportAiAnomalyDetectionDataAssetHints = &TerraformResourceHints{
 	resourceClass:          "oci_ai_anomaly_detection_data_asset",
 	datasourceClass:        "oci_ai_anomaly_detection_data_assets",

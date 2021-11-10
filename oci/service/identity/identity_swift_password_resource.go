@@ -275,7 +275,7 @@ func (s *IdentitySwiftPasswordResourceCrud) SetData() error {
 	return nil
 }
 
-func getSwiftPasswordCompositeId(swiftPasswordId string, userId string) string {
+func GetSwiftPasswordCompositeId(swiftPasswordId string, userId string) string {
 	swiftPasswordId = url.PathEscape(swiftPasswordId)
 	userId = url.PathEscape(userId)
 	compositeId := "users/" + userId + "/swiftPasswords/" + swiftPasswordId

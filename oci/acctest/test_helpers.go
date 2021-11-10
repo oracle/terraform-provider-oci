@@ -17,6 +17,8 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
 
 	"github.com/hashicorp/go-multierror"
@@ -400,112 +402,8 @@ func setEnvSetting(s, v string) error {
 }
 
 /*
-func testExportCompartment(compartmentId *string, exportCommandArgs *tf_resource_discovery.ExportCommandArgs) error {
-	// checking for provider_bin_path here because parent func will also be
-	// called for resources that do not support RD
-	if providerBinPath := utils.GetEnvSettingWithBlankDefault("provider_bin_path"); providerBinPath == "" {
-		goPath := os.Getenv("GOPATH")
-		if goPath == "" {
-			return fmt.Errorf("not able to set 'provider_bin_path', either specificy 'provider_bin_path' env variable or set GOPATH to use default provider bin path ($GOPATH/bin)")
-		}
-		if err := os.Setenv("provider_bin_path", strings.Join([]string{os.Getenv("GOPATH"), string(os.PathSeparator), "bin"}, "")); err != nil {
-			log.Printf("unable to set 'provider_bin_path' to GOPATH/bin")
-			return err
-		}
-		log.Printf("'provider_bin_path' not provided for resource discovery testing, using GOPATH/bin as default provider location")
-	}
-	dir, _ := os.Getwd()
-	outputDir := fmt.Sprintf(dir + "/exportCompartment")
-	if err := os.RemoveAll(outputDir); err != nil {
-		log.Printf("unable to remove existing '%s' due to error '%v'", outputDir, err)
-		return err
-	}
-	if err := os.Mkdir(outputDir, os.ModePerm); err != nil {
-		log.Printf("unable to Create '%s' due to error '%v'", outputDir, err)
-		return err
-	}
-	defer func() {
-		if err := os.RemoveAll(outputDir); err != nil {
-			log.Printf("unable to cleanup '%s' due to error '%v'", outputDir, err)
-		}
-	}()
-	exportCommandArgs.Services = append(exportCommandArgs.Services, "availability_domain")
-	exportCommandArgs.CompartmentId = compartmentId
-	exportCommandArgs.OutputDir = &outputDir
-	var tfVersion tf_resource.TfHclVersion = &tf_resource.TfHclVersion12{Value: tf_resource.TfVersion12}
-	exportCommandArgs.TFVersion = &tfVersion
 
-	var parseErr error
-	if exportCommandArgs.Parallelism, parseErr = strconv.Atoi(utils.GetEnvSettingWithDefault("export_parallelism", "10")); parseErr != nil {
-		return fmt.Errorf("[ERROR] invalid value for resource discovery parallelism: %s", parseErr.Error())
-	}
-	log.Printf("[INFO] exportCommandArgs.Parallelism: %d", exportCommandArgs.Parallelism)
-
-	if errExport, status := tf_resource_discovery.RunExportCommand(exportCommandArgs); errExport != nil || status == tf_resource_discovery.StatusPartialSuccess {
-		if errExport != nil {
-			return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport.Error())
-		}
-		// For generated tests, RD will only return this error if one of the `ids` was not found
-		// (which in case of tests is the id for the resource RD is looking for)
-		if status == tf_resource_discovery.StatusPartialSuccess {
-			return fmt.Errorf("[ERROR] expected resource was not found")
-		}
-	}
-
-	// run init command
-
-	terraformBinPath := utils.GetEnvSettingWithBlankDefault(globalvar.TerraformBinPathName)
-	if terraformBinPath == "" {
-		var err error
-		terraformBinPath, err = tfinstall.Find(context.Background(), tfinstall.LookPath())
-		if err != nil {
-			return err
-		}
-	}
-	tf, err := tfexec.NewTerraform(*exportCommandArgs.OutputDir, terraformBinPath)
-	if err != nil {
-		return err
-	}
-	backgroundCtx := context.Background()
-
-	var initArgs []tfexec.InitOption
-	if pluginDir := utils.GetEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
-		log.Printf("[INFO] plugin dir: '%s'", pluginDir)
-		initArgs = append(initArgs, tfexec.PluginDir(pluginDir))
-	}
-	if err := tf.Init(backgroundCtx, initArgs...); err != nil {
-		return err
-	}
-
-	// Need to set the compartment id environment variable for plan step
-	compartmentOcidVarName := "TF_VAR_compartment_ocid"
-	storeCompartmentId := os.Getenv(compartmentOcidVarName)
-	if err := os.Setenv(compartmentOcidVarName, *compartmentId); err != nil {
-		return fmt.Errorf("could not set %s environment in export test", compartmentOcidVarName)
-	}
-
-	defer func() {
-		if storeCompartmentId != "" {
-			if err := os.Setenv(compartmentOcidVarName, storeCompartmentId); err != nil {
-				log.Printf("[WARN] unable to restore %s to %s", compartmentOcidVarName, storeCompartmentId)
-			}
-		}
-	}()
-
-	// run plan command
-
-	var planArgs []tfexec.PlanOption
-	if exportCommandArgs.GenerateState {
-		statefile := fmt.Sprintf(*exportCommandArgs.OutputDir + "/terraform.tfstate")
-		planArgs = append(planArgs, tfexec.State(statefile))
-	}
-
-	if _, err := tf.Plan(backgroundCtx, planArgs...); err != nil {
-		return fmt.Errorf("[ERROR] terraform plan command failed %s", err.Error())
-	}
-	return nil
-}
-*/
+ */
 func CheckJsonStringsEqual(expectedJsonString string, actualJsonString string) error {
 	if expectedJsonString == actualJsonString {
 		return nil
@@ -539,17 +437,6 @@ func TestCheckJsonResourceAttr(name, key, expectedJson string) resource.TestChec
 		}
 		return nil
 	}
-}
-
-func isResourceSupportImport(resourceName string) (support bool, err error) {
-	if strings.Contains(resourceName, ".") {
-		resourceName = strings.Split(resourceName, ".")[0]
-	}
-	resource := tf_provider.ResourcesMap()[resourceName]
-	if resource == nil {
-		return false, fmt.Errorf("[ERROR]: resouce %v is not found in resource Map", resourceName)
-	}
-	return resource.Importer != nil, nil
 }
 
 func SaveConfigContent(content string, service string, resource string, t *testing.T) {
@@ -796,4 +683,79 @@ func ComposeAggregateTestCheckFuncWrapper(fs ...resource.TestCheckFunc) resource
 
 		return err
 	}
+}
+
+func ProviderConfigTest(t *testing.T, disableRetries bool, skipRequiredField bool, auth string, configFileProfile string, configFunc ConfigFunc) {
+	r := &schema.Resource{
+		Schema: tf_provider.SchemaMap(),
+	}
+	d := r.Data(nil)
+	d.SetId("tenancy_ocid")
+	d.Set("auth", auth)
+	if !skipRequiredField {
+		d.Set("tenancy_ocid", testTenancyOCID)
+	}
+	if configFileProfile == "" || configFileProfile == "DEFAULT" {
+		d.Set("user_ocid", testUserOCID)
+		d.Set("fingerprint", testKeyFingerPrint)
+		d.Set("private_key", testPrivateKey)
+		//d.Set("private_key_path", "")
+		d.Set("region", "us-phoenix-1")
+		d.Set("private_key_password", "password")
+	}
+	if configFileProfile == "PROFILE3" {
+		d.Set("fingerprint", testKeyFingerPrint)
+	}
+	if disableRetries {
+		d.Set("disable_auto_retries", disableRetries)
+	}
+	if configFileProfile != "" {
+		d.Set("config_file_profile", configFileProfile)
+	}
+
+	// Use config func for export (resource discovery)
+	configureProviderFn := configFunc
+	//userAgent := fmt.Sprintf(globalvar.ExportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, globalvar.Version)
+
+	// If no ConfigFunc use ProviderConfig
+	if configureProviderFn == nil {
+		configureProviderFn = tf_provider.ProviderConfig
+		//userAgent = fmt.Sprintf(globalvar.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), provider.TerraformCLIVersion, globalvar.DefaultUserAgentProviderName, globalvar.Version)
+
+	}
+	client, err := configureProviderFn(d)
+
+	if configFileProfile == "wrongProfile" {
+		assert.Equal(t, "configuration file did not contain profile: wrongProfile", err.Error())
+		return
+	}
+	if configFileProfile == "PROFILE2" {
+		assert.Equal(t, "can not Create client, bad configuration: did not find a proper configuration for private key", err.Error())
+		return
+	}
+	switch auth {
+	case globalvar.AuthAPIKeySetting, "":
+		if skipRequiredField {
+			assert.Equal(t, err, nil)
+			return
+		}
+	default:
+		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting))
+		return
+	}
+	assert.Nil(t, err)
+	assert.NotNil(t, client)
+
+	oracleClient, ok := client.(*tf_client.OracleClients)
+	assert.True(t, ok)
+
+	testClient := func(c *oci_common.BaseClient) {
+		assert.NotNil(t, c)
+		assert.NotNil(t, c.HTTPClient)
+		assert.Exactly(t, c.UserAgent, globalvar.UserAgentFormatter)
+		assert.NotNil(t, c.Interceptor)
+		assert.NotNil(t, c.Signer)
+	}
+
+	testClient(&oracleClient.IdentityClient().BaseClient)
 }

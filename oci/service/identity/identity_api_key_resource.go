@@ -241,7 +241,7 @@ func (s *IdentityApiKeyResourceCrud) SetData() error {
 	return nil
 }
 
-func getApiKeyCompositeId(fingerprint string, userId string) string {
+func GetApiKeyCompositeId(fingerprint string, userId string) string {
 	fingerprint = url.PathEscape(fingerprint)
 	userId = url.PathEscape(userId)
 	compositeId := "users/" + userId + "/apiKeys/" + fingerprint

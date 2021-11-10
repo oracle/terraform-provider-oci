@@ -88,7 +88,7 @@ var testKeyFingerPrint = "b4:8a:7d:54:e6:81:04:b2:fa:ce:ba:55:34:dd:00:00"
 var testTenancyOCID = "ocid1.tenancy.oc1..faketenancy"
 var testUserOCID = "ocid1.user.oc1..fakeuser"
 
-func writeConfigFile() (string, string, error) {
+func WriteConfigFile() (string, string, error) {
 	dataTpl := `[DEFAULT]
 user=%s
 fingerprint=%s

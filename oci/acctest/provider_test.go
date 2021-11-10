@@ -196,7 +196,7 @@ func TestUnitProviderConfig(t *testing.T) {
 	ProviderConfigTest(t, false, true, globalvar.AuthAPIKeySetting, "", nil)             // ApiKey without required fields
 	ProviderConfigTest(t, false, false, globalvar.AuthInstancePrincipalSetting, "", nil) // InstancePrincipal
 	ProviderConfigTest(t, true, false, "invalid-auth-setting", "", nil)                  // Invalid auth + disable auto-retries
-	configFile, keyFile, err := writeConfigFile()
+	configFile, keyFile, err := WriteConfigFile()
 	assert.Nil(t, err)
 	ProviderConfigTest(t, true, true, globalvar.AuthAPIKeySetting, "DEFAULT", nil)              // ApiKey with required fields + disable auto-retries
 	ProviderConfigTest(t, false, true, globalvar.AuthAPIKeySetting, "DEFAULT", nil)             // ApiKey without required fields
@@ -204,7 +204,7 @@ func TestUnitProviderConfig(t *testing.T) {
 	ProviderConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", nil)                  // Invalid auth + disable auto-retries
 	ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE1", nil)           // correct profileName
 	ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "wrongProfile", nil)       // Invalid profileName
-	//providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", nil)           // correct profileName with mix and match
+	//acctest.ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE2", nil)           // correct profileName with mix and match
 	ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE3", nil) // correct profileName with mix and match & env
 	defer func() {
 		_ = utils.RemoveFile(configFile)
@@ -939,79 +939,4 @@ func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, set
 		return fmt.Errorf("%s: Set Attribute '%s' does not contain an element with attributes %v %v\nAttributesInStatefile: %v", name, setKey, properties, presentProperties, is.Attributes)
 	}
 
-}
-
-func ProviderConfigTest(t *testing.T, disableRetries bool, skipRequiredField bool, auth string, configFileProfile string, configFunc ConfigFunc) {
-	r := &schema.Resource{
-		Schema: provider.SchemaMap(),
-	}
-	d := r.Data(nil)
-	d.SetId("tenancy_ocid")
-	d.Set("auth", auth)
-	if !skipRequiredField {
-		d.Set("tenancy_ocid", testTenancyOCID)
-	}
-	if configFileProfile == "" || configFileProfile == "DEFAULT" {
-		d.Set("user_ocid", testUserOCID)
-		d.Set("fingerprint", testKeyFingerPrint)
-		d.Set("private_key", testPrivateKey)
-		//d.Set("private_key_path", "")
-		d.Set("region", "us-phoenix-1")
-		d.Set("private_key_password", "password")
-	}
-	if configFileProfile == "PROFILE3" {
-		d.Set("fingerprint", testKeyFingerPrint)
-	}
-	if disableRetries {
-		d.Set("disable_auto_retries", disableRetries)
-	}
-	if configFileProfile != "" {
-		d.Set("config_file_profile", configFileProfile)
-	}
-
-	// Use config func for export (resource discovery)
-	configureProviderFn := configFunc
-	//userAgent := fmt.Sprintf(globalvar.ExportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, globalvar.Version)
-
-	// If no ConfigFunc use ProviderConfig
-	if configureProviderFn == nil {
-		configureProviderFn = provider.ProviderConfig
-		//userAgent = fmt.Sprintf(globalvar.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), provider.TerraformCLIVersion, globalvar.DefaultUserAgentProviderName, globalvar.Version)
-
-	}
-	client, err := configureProviderFn(d)
-
-	if configFileProfile == "wrongProfile" {
-		assert.Equal(t, "configuration file did not contain profile: wrongProfile", err.Error())
-		return
-	}
-	if configFileProfile == "PROFILE2" {
-		assert.Equal(t, "can not Create client, bad configuration: did not find a proper configuration for private key", err.Error())
-		return
-	}
-	switch auth {
-	case globalvar.AuthAPIKeySetting, "":
-		if skipRequiredField {
-			assert.Equal(t, err, nil)
-			return
-		}
-	default:
-		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting))
-		return
-	}
-	assert.Nil(t, err)
-	assert.NotNil(t, client)
-
-	oracleClient, ok := client.(*tf_client.OracleClients)
-	assert.True(t, ok)
-
-	testClient := func(c *oci_common.BaseClient) {
-		assert.NotNil(t, c)
-		assert.NotNil(t, c.HTTPClient)
-		assert.Exactly(t, c.UserAgent, globalvar.UserAgentFormatter)
-		assert.NotNil(t, c.Interceptor)
-		assert.NotNil(t, c.Signer)
-	}
-
-	testClient(&oracleClient.IdentityClient().BaseClient)
 }

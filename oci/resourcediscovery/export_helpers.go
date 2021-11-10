@@ -5,66 +5,62 @@ package resourcediscovery
 
 import (
 	"fmt"
-	"log"
-	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	tf_identity "github.com/terraform-providers/terraform-provider-oci/oci/service/identity"
 )
 
 func init() {
-	exportApmConfigConfigHints.getIdFn = getApmConfigConfigId
-	exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
-	exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
-	exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
-	exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
-	exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
-	exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
-	exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
-	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
-	exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
-	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
-	exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
-	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
-	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
-	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
-	exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
-	exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
-	exportDnsRrsetHints.getIdFn = getDnsRrsetId
+	//exportApmConfigConfigHints.getIdFn = getApmConfigConfigId
+	//exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
+	//exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
+	//exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
+	//exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
+	//exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
+	//exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
+	//exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
+	//exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
+	//exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
+	//exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
+	//exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
+	//exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
+	//exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
+	//exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
+	//exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
+	//exportDnsRrsetHints.getIdFn = getDnsRrsetId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
 	exportIdentityCustomerSecretKeyHints.getIdFn = getIdentityCustomerSecretKeyId
 	exportIdentityIdpGroupMappingHints.getIdFn = getIdentityIdpGroupMappingId
 	exportIdentitySmtpCredentialHints.getIdFn = getIdentitySmtpCredentialId
 	exportIdentitySwiftPasswordHints.getIdFn = getIdentitySwiftPasswordId
-	exportIdentityDbCredentialHints.getIdFn = getIdentityDbCredentialId
-	exportKmsKeyHints.getIdFn = getKmsKeyId
-	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
-	exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
-	exportLoadBalancerBackendSetHints.getIdFn = getLoadBalancerBackendSetId
-	exportLoadBalancerCertificateHints.getIdFn = getLoadBalancerCertificateId
-	exportLoadBalancerHostnameHints.getIdFn = getLoadBalancerHostnameId
-	exportLoadBalancerListenerHints.getIdFn = getLoadBalancerListenerId
-	exportLoadBalancerPathRouteSetHints.getIdFn = getLoadBalancerPathRouteSetId
-	exportLoadBalancerLoadBalancerRoutingPolicyHints.getIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
-	exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
-	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
-	exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
-	exportLoggingLogHints.getIdFn = getLoggingLogId
-	exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
-	exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
-	exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
-	exportNosqlIndexHints.getIdFn = getNosqlIndexId
-	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
-	exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
-	exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
-	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
-	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
-	exportUsageProxySubscriptionRedeemableUserHints.getIdFn = getUsageProxySubscriptionRedeemableUserId
-	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
+	exportIdentityAuthenticationPolicyHints.getIdFn = getIdentityAuthenticationPolicyId
+	//exportKmsKeyHints.getIdFn = getKmsKeyId
+	//exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
+	//exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
+	//exportLoadBalancerBackendSetHints.getIdFn = getLoadBalancerBackendSetId
+	//exportLoadBalancerCertificateHints.getIdFn = getLoadBalancerCertificateId
+	//exportLoadBalancerHostnameHints.getIdFn = getLoadBalancerHostnameId
+	//exportLoadBalancerListenerHints.getIdFn = getLoadBalancerListenerId
+	//exportLoadBalancerPathRouteSetHints.getIdFn = getLoadBalancerPathRouteSetId
+	//exportLoadBalancerLoadBalancerRoutingPolicyHints.getIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
+	//exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
+	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
+	//exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
+	//exportLoggingLogHints.getIdFn = getLoggingLogId
+	//exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
+	//exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
+	//exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
+	//exportNosqlIndexHints.getIdFn = getNosqlIndexId
+	//exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
+	//exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
+	//exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
+	//exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
+	//exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
+	//exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
-
+/*
 func getApmConfigConfigId(resource *OCIResource) (string, error) {
 
 	configId, ok := resource.sourceAttributes["id"].(string)
@@ -231,16 +227,6 @@ func getDatascienceModelProvenanceId(resource *OCIResource) (string, error) {
 	return getModelProvenanceCompositeId(modelId), nil
 }
 
-func getDevopsRepositoryRefId(resource *OCIResource) (string, error) {
-
-	refName, ok := resource.sourceAttributes["ref_name"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find refName for Devops RepositoryRef")
-	}
-	repositoryId := resource.parent.id
-	return getRepositoryRefCompositeId(refName, repositoryId), nil
-}
-
 func getDnsRrsetId(resource *OCIResource) (string, error) {
 
 	domain, ok := resource.sourceAttributes["domain"].(string)
@@ -254,7 +240,7 @@ func getDnsRrsetId(resource *OCIResource) (string, error) {
 	zoneNameOrId := resource.parent.id
 	return getRrsetCompositeId(domain, rtype, zoneNameOrId), nil
 }
-
+*/
 func getIdentityApiKeyId(resource *OCIResource) (string, error) {
 
 	fingerprint, ok := resource.sourceAttributes["fingerprint"].(string)
@@ -262,7 +248,7 @@ func getIdentityApiKeyId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find fingerprint for Identity ApiKey")
 	}
 	userId := resource.parent.id
-	return getApiKeyCompositeId(fingerprint, userId), nil
+	return tf_identity.GetApiKeyCompositeId(fingerprint, userId), nil
 }
 
 func getIdentityAuthenticationPolicyId(resource *OCIResource) (string, error) {
@@ -271,7 +257,7 @@ func getIdentityAuthenticationPolicyId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find compartmentId for Identity AuthenticationPolicy")
 	}
-	return getAuthenticationPolicyCompositeId(compartmentId), nil
+	return tf_identity.GetAuthenticationPolicyCompositeId(compartmentId), nil
 }
 
 func getIdentityAuthTokenId(resource *OCIResource) (string, error) {
@@ -281,7 +267,7 @@ func getIdentityAuthTokenId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find authTokenId for Identity AuthToken")
 	}
 	userId := resource.parent.id
-	return getAuthTokenCompositeId(authTokenId, userId), nil
+	return tf_identity.GetAuthTokenCompositeId(authTokenId, userId), nil
 }
 
 func getIdentityCustomerSecretKeyId(resource *OCIResource) (string, error) {
@@ -291,7 +277,7 @@ func getIdentityCustomerSecretKeyId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find customerSecretKeyId for Identity CustomerSecretKey")
 	}
 	userId := resource.parent.id
-	return getCustomerSecretKeyCompositeId(customerSecretKeyId, userId), nil
+	return tf_identity.GetCustomerSecretKeyCompositeId(customerSecretKeyId, userId), nil
 }
 
 func getIdentityIdpGroupMappingId(resource *OCIResource) (string, error) {
@@ -301,7 +287,7 @@ func getIdentityIdpGroupMappingId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find mappingId for Identity IdpGroupMapping")
 	}
-	return getIdpGroupMappingCompositeId(identityProviderId, mappingId), nil
+	return tf_identity.GetIdpGroupMappingCompositeId(identityProviderId, mappingId), nil
 }
 
 func getIdentitySmtpCredentialId(resource *OCIResource) (string, error) {
@@ -311,7 +297,7 @@ func getIdentitySmtpCredentialId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find smtpCredentialId for Identity SmtpCredential")
 	}
 	userId := resource.parent.id
-	return getSmtpCredentialCompositeId(smtpCredentialId, userId), nil
+	return tf_identity.GetSmtpCredentialCompositeId(smtpCredentialId, userId), nil
 }
 
 func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
@@ -321,18 +307,10 @@ func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find swiftPasswordId for Identity SwiftPassword")
 	}
 	userId := resource.parent.id
-	return getSwiftPasswordCompositeId(swiftPasswordId, userId), nil
+	return tf_identity.GetSwiftPasswordCompositeId(swiftPasswordId, userId), nil
 }
 
-func getIdentityDbCredentialId(resource *OCIResource) (string, error) {
-
-	dbCredentialId, ok := resource.sourceAttributes["id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find dbCredentialId for Identity DbCredential")
-	}
-	userId := resource.parent.id
-	return getDbCredentialCompositeId(dbCredentialId, userId), nil
-}
+/*
 
 func getKmsKeyId(resource *OCIResource) (string, error) {
 	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
@@ -617,16 +595,6 @@ func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) 
 	return getReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
 }
 
-func getUsageProxySubscriptionRedeemableUserId(resource *OCIResource) (string, error) {
-
-	subscriptionId := resource.parent.id
-	tenancyId, ok := resource.parent.sourceAttributes["tenancy_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find bucket for ObjectStorage ReplicationPolicy")
-	}
-	return getSubscriptionRedeemableUserCompositeId(subscriptionId, tenancyId), nil
-}
-
 func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
 	id, ok := resource.sourceAttributes["topic_id"].(string)
 	if !ok {
@@ -635,56 +603,4 @@ func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
 	return id, nil
 }
 
-func TestExportCompartmentWithResourceName(id *string, compartmentId *string, resourceName string) error {
-
-	// add logs for notifying execution
-	log.Println()
-	log.Printf("-------------------------------- Executing Resource Discovery Sub-Step --------------------------------")
-	log.Println()
-
-	defer func() {
-		// add logs for notifying execution
-		log.Println()
-		log.Printf("-------------------------------- Exiting Resource Discovery Sub-Step --------------------------------")
-		log.Println()
-	}()
-
-	var exportCommandArgs ExportCommandArgs
-	if strings.Contains(resourceName, ".") {
-		resourceName = strings.Split(resourceName, ".")[0]
-	}
-
-	var err error
-	exportCommandArgs.GenerateState, err = isResourceSupportImport(resourceName)
-	if err != nil {
-		return err
-	}
-
-	for serviceName, resourceGraph := range tenancyResourceGraphs {
-		for _, association := range resourceGraph {
-			for _, hint := range association {
-				if hint.resourceClass == resourceName {
-					exportCommandArgs.Services = []string{serviceName}
-					exportCommandArgs.IDs = []string{*id}
-					return testExportCompartment(compartmentId, &exportCommandArgs)
-				}
-			}
-		}
-	}
-
-	for serviceName, resourceGraph := range compartmentResourceGraphs {
-		for _, association := range resourceGraph {
-			for _, hint := range association {
-				if hint.resourceClass == resourceName {
-					exportCommandArgs.Services = []string{serviceName}
-					exportCommandArgs.IDs = []string{*id}
-					return testExportCompartment(compartmentId, &exportCommandArgs)
-				}
-			}
-		}
-	}
-
-	// compartment export not support yet
-	log.Printf("[INFO] ===> Compartment export doesn't support this resource %v yet", resourceName)
-	return nil
-}
+*/
