@@ -410,6 +410,11 @@ func (s *DnsSteeringPolicyResourceCrud) Create() error {
 	}
 
 	s.Res = &response.SteeringPolicy
+
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
@@ -484,6 +489,12 @@ func (s *DnsSteeringPolicyResourceCrud) Update() error {
 	}
 
 	s.Res = &response.SteeringPolicy
+
+	// This update does not support work-request
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
