@@ -48,7 +48,7 @@ fi
 
 check_make_target 2 'vet'
 check_make_target 3 'errcheck'
-check_make_target 5 'test-compile' 'TEST=./oci/integrationtest'
+check_make_target 5 'test-compile' 'TEST=./internal/integrationtest'
 check_make_target 6 'ocicheck'
 #check_make_target 7 'website-test'
 check_make_target 7 'test-docscheck'

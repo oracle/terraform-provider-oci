@@ -13,10 +13,6 @@ func init() {
 	RegisterOracleClient("oci_identity.IdentityClient", &OracleClient{InitClientFn: initIdentityIdentityClient})
 }
 
-/*type OracleIdentityClients struct {
-	*tf_client.OracleClients
-}*/
-
 func initIdentityIdentityClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
 	client, err := oci_identity.NewIdentityClientWithConfigurationProvider(configProvider)
 	if err != nil {

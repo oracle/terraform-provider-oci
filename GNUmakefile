@@ -2,8 +2,8 @@
 
 TEST?=./...
 GOFMT_FILES?=$(if $(SERVICE), $$(find . -name '$(SERVICE)*.go' |grep -v vendor), $$(find . -name '*.go' |grep -v vendor))
-PKG_NAME=oci
-TEST_PKG_NAME=oci/integrationtest
+PKG_NAME=internal
+TEST_PKG_NAME=internal/integrationtest
 WEBSITE_REPO=github.com/hashicorp/terraform-website
 release_date=$(shell date -v +5d +%F)
 
@@ -106,8 +106,8 @@ get: ;go get golang.org/x/tools/cmd/goimports; go get github.com/mitchellh/gox
 ### `make update-version version=2.0.1`
 update-version:
 ifdef version
-	sed -i -e 's/ReleaseDate = ".*"/ReleaseDate = "$(release_date)"/g' oci/version.go
-	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' oci/version.go && rm -f oci/version.go-e
+	sed -i -e 's/ReleaseDate = ".*"/ReleaseDate = "$(release_date)"/g' internal/globalvar/version.go
+	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' internal/globalvar/version.go && rm -f internal/globalvar/version.go-e
 else
 	@echo Err! `make update-version` requires a version argument
 endif
@@ -115,7 +115,7 @@ endif
 ### `make release version=2.0.1`
 release: clean
 ifdef version
-	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' oci/version.go && rm -f oci/version.go-e
+	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' internal/globalvar/version.go && rm -f internal/globalvar/version.go-e
 ifdef platform
 	gox -output ./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci_v$(version) -osarch=$(platform)
 else
