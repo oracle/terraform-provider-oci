@@ -1,4 +1,4 @@
-## 4.52.0 (Unreleased)
+## 4.52.0 (November 10, 2021)
 
 ### Added
 - Support for Operator Access Control Service
