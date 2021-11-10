@@ -168,6 +168,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `ocvp` - Discovers ocvp resources within the specified compartment
     * `oda` - Discovers oda resources within the specified compartment
     * `ons` - Discovers ons resources within the specified compartment
+    * `operator_access_control` - Discovers operator_access_control resources within the specified compartment
     * `opsi` - Discovers opsi resources within the specified compartment
     * `optimizer` - Discovers optimizer resources across the entire tenancy
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
@@ -670,6 +671,11 @@ ons
     
 * oci\_ons\_notification\_topic
 * oci\_ons\_subscription
+
+operator_access_control
+    
+* oci\_operator\_access\_control\_operator\_control
+* oci\_operator\_access\_control\_operator\_control\_assignment
 
 opsi
     

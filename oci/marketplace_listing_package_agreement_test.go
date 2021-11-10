@@ -17,6 +17,7 @@ var (
 		"agreement_id":    Representation{RepType: Required, Create: `${data.oci_marketplace_listing_package_agreements.test_listing_package_agreements.agreements.0.id}`},
 		"listing_id":      Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.id}`},
 		"package_version": Representation{RepType: Required, Create: `${data.oci_marketplace_listing.test_listing.default_package_version}`},
+		"compartment_id":  Representation{RepType: Optional, Create: `${var.compartment_id}`},
 	}
 
 	listingPackageAgreementDataSourceRepresentation = map[string]interface{}{

@@ -4,60 +4,61 @@
 package oci
 
 import (
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v50/aianomalydetection"
-	oci_analytics "github.com/oracle/oci-go-sdk/v50/analytics"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v50/apigateway"
-	oci_apm "github.com/oracle/oci-go-sdk/v50/apmcontrolplane"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v50/artifacts"
-	oci_bastion "github.com/oracle/oci-go-sdk/v50/bastion"
-	oci_bds "github.com/oracle/oci-go-sdk/v50/bds"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v50/blockchain"
-	oci_budget "github.com/oracle/oci-go-sdk/v50/budget"
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v50/certificatesmanagement"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v50/cloudguard"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v50/containerengine"
-	oci_core "github.com/oracle/oci-go-sdk/v50/core"
-	oci_database "github.com/oracle/oci-go-sdk/v50/database"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v50/databasemigration"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v50/datacatalog"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v50/dataflow"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v50/dataintegration"
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v50/datalabelingservice"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v50/datasafe"
-	oci_datascience "github.com/oracle/oci-go-sdk/v50/datascience"
-	oci_devops "github.com/oracle/oci-go-sdk/v50/devops"
-	oci_dns "github.com/oracle/oci-go-sdk/v50/dns"
-	oci_email "github.com/oracle/oci-go-sdk/v50/email"
-	oci_events "github.com/oracle/oci-go-sdk/v50/events"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v50/filestorage"
-	oci_functions "github.com/oracle/oci-go-sdk/v50/functions"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v50/goldengate"
-	oci_identity "github.com/oracle/oci-go-sdk/v50/identity"
-	oci_integration "github.com/oracle/oci-go-sdk/v50/integration"
-	oci_jms "github.com/oracle/oci-go-sdk/v50/jms"
-	oci_kms "github.com/oracle/oci-go-sdk/v50/keymanagement"
-	oci_limits "github.com/oracle/oci-go-sdk/v50/limits"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v50/loadbalancer"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v50/loganalytics"
-	oci_logging "github.com/oracle/oci-go-sdk/v50/logging"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v50/managementagent"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v50/marketplace"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v50/monitoring"
-	oci_mysql "github.com/oracle/oci-go-sdk/v50/mysql"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v50/networkloadbalancer"
-	oci_nosql "github.com/oracle/oci-go-sdk/v50/nosql"
-	oci_oce "github.com/oracle/oci-go-sdk/v50/oce"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v50/ocvp"
-	oci_oda "github.com/oracle/oci-go-sdk/v50/oda"
-	oci_ons "github.com/oracle/oci-go-sdk/v50/ons"
-	oci_opsi "github.com/oracle/oci-go-sdk/v50/opsi"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v50/optimizer"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v50/osmanagement"
-	oci_sch "github.com/oracle/oci-go-sdk/v50/sch"
-	oci_streaming "github.com/oracle/oci-go-sdk/v50/streaming"
-	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v50/vulnerabilityscanning"
-	oci_waas "github.com/oracle/oci-go-sdk/v50/waas"
-	oci_waf "github.com/oracle/oci-go-sdk/v50/waf"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v51/aianomalydetection"
+	oci_analytics "github.com/oracle/oci-go-sdk/v51/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v51/apigateway"
+	oci_apm "github.com/oracle/oci-go-sdk/v51/apmcontrolplane"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v51/artifacts"
+	oci_bastion "github.com/oracle/oci-go-sdk/v51/bastion"
+	oci_bds "github.com/oracle/oci-go-sdk/v51/bds"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v51/blockchain"
+	oci_budget "github.com/oracle/oci-go-sdk/v51/budget"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v51/certificatesmanagement"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v51/cloudguard"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v51/containerengine"
+	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	oci_database "github.com/oracle/oci-go-sdk/v51/database"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v51/databasemigration"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v51/datacatalog"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v51/dataflow"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v51/dataintegration"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v51/datalabelingservice"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v51/datasafe"
+	oci_datascience "github.com/oracle/oci-go-sdk/v51/datascience"
+	oci_devops "github.com/oracle/oci-go-sdk/v51/devops"
+	oci_dns "github.com/oracle/oci-go-sdk/v51/dns"
+	oci_email "github.com/oracle/oci-go-sdk/v51/email"
+	oci_events "github.com/oracle/oci-go-sdk/v51/events"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v51/filestorage"
+	oci_functions "github.com/oracle/oci-go-sdk/v51/functions"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v51/goldengate"
+	oci_identity "github.com/oracle/oci-go-sdk/v51/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/v51/integration"
+	oci_jms "github.com/oracle/oci-go-sdk/v51/jms"
+	oci_kms "github.com/oracle/oci-go-sdk/v51/keymanagement"
+	oci_limits "github.com/oracle/oci-go-sdk/v51/limits"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v51/loadbalancer"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v51/loganalytics"
+	oci_logging "github.com/oracle/oci-go-sdk/v51/logging"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v51/managementagent"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v51/marketplace"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v51/monitoring"
+	oci_mysql "github.com/oracle/oci-go-sdk/v51/mysql"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v51/networkloadbalancer"
+	oci_nosql "github.com/oracle/oci-go-sdk/v51/nosql"
+	oci_oce "github.com/oracle/oci-go-sdk/v51/oce"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v51/ocvp"
+	oci_oda "github.com/oracle/oci-go-sdk/v51/oda"
+	oci_ons "github.com/oracle/oci-go-sdk/v51/ons"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v51/operatoraccesscontrol"
+	oci_opsi "github.com/oracle/oci-go-sdk/v51/opsi"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v51/optimizer"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v51/osmanagement"
+	oci_sch "github.com/oracle/oci-go-sdk/v51/sch"
+	oci_streaming "github.com/oracle/oci-go-sdk/v51/streaming"
+	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v51/vulnerabilityscanning"
+	oci_waas "github.com/oracle/oci-go-sdk/v51/waas"
+	oci_waf "github.com/oracle/oci-go-sdk/v51/waf"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -2449,6 +2450,31 @@ var exportOnsSubscriptionHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_ons.SubscriptionLifecycleStatePending),
 		string(oci_ons.SubscriptionLifecycleStateActive),
+	},
+}
+
+var exportOperatorAccessControlOperatorControlHints = &TerraformResourceHints{
+	resourceClass:          "oci_operator_access_control_operator_control",
+	datasourceClass:        "oci_operator_access_control_operator_controls",
+	datasourceItemsAttr:    "operator_control_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operator_control",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_operator_access_control.OperatorControlLifecycleStatesCreated),
+		string(oci_operator_access_control.OperatorControlLifecycleStatesAssigned),
+	},
+}
+
+var exportOperatorAccessControlOperatorControlAssignmentHints = &TerraformResourceHints{
+	resourceClass:          "oci_operator_access_control_operator_control_assignment",
+	datasourceClass:        "oci_operator_access_control_operator_control_assignments",
+	datasourceItemsAttr:    "operator_control_assignment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operator_control_assignment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesCreated),
 	},
 }
 

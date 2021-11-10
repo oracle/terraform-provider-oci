@@ -7,11 +7,11 @@ import (
 	"context"
 	"fmt"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v50/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v51/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v50/database"
+	oci_database "github.com/oracle/oci-go-sdk/v51/database"
 )
 
 func init() {

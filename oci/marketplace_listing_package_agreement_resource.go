@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v50/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v51/marketplace"
 )
 
 func init() {
@@ -35,12 +35,15 @@ func MarketplaceListingPackageAgreementResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			// Optional
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			// Computed
 			"author": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -108,6 +111,11 @@ func (s *MarketplaceListingPackageAgreementResourceCrud) Create() error {
 	if packageVersion, ok := s.D.GetOkExists("package_version"); ok {
 		tmp := packageVersion.(string)
 		request.PackageVersion = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(false, "marketplace")
