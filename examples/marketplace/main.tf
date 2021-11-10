@@ -42,6 +42,9 @@ resource "oci_marketplace_listing_package_agreement" "test_listing_package_agree
   agreement_id    = data.oci_marketplace_listing_package_agreements.test_listing_package_agreements.agreements[0].id
   listing_id      = data.oci_marketplace_listing.test_listing.id
   package_version = data.oci_marketplace_listing.test_listing.default_package_version
+
+  #Optional
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_marketplace_listing_package_agreements" "test_listing_package_agreements" {

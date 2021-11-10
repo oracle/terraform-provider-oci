@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_functions "github.com/oracle/oci-go-sdk/v50/functions"
+	oci_functions "github.com/oracle/oci-go-sdk/v51/functions"
 )
 
 func init() {
