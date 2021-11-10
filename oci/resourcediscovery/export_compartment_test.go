@@ -4,13 +4,7 @@
 package resourcediscovery
 
 import (
-	"archive/zip"
-	"bytes"
-	"context"
-	"encoding/base64"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"reflect"
@@ -22,8 +16,12 @@ import (
 	"testing"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v49/common"
-	oci_resourcemanager "github.com/oracle/oci-go-sdk/v49/resourcemanager"
+	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/oci/globalvar"
+	tf_provider "github.com/terraform-providers/terraform-provider-oci/oci/provider"
+	"github.com/terraform-providers/terraform-provider-oci/oci/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/oci/utils"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -241,7 +239,7 @@ func testParentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 				ForceNew: true,
-				Set:      LiteralTypeHashCodeForSets,
+				Set:      utils.LiteralTypeHashCodeForSets,
 			},
 			"a_nested": {
 				Type:     schema.TypeList,
@@ -324,7 +322,7 @@ func testParentsDatasource() *schema.Resource {
 			"items": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(testParentResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(testParentResource()),
 			},
 		},
 	}
@@ -332,7 +330,7 @@ func testParentsDatasource() *schema.Resource {
 
 func testChildrenDatasource() *schema.Resource {
 	// Convert child resource schema to datasource schema
-	childDatasourceSchema := GetDataSourceItemSchema(testChildResource())
+	childDatasourceSchema := tfresource.GetDataSourceItemSchema(testChildResource())
 
 	// Remove some attributes from datasource (i.e. treat the datasource results as incomplete representations of the resource)
 	delete(childDatasourceSchema.Schema, "a_nested")
@@ -368,7 +366,7 @@ func testParentsDatasourceWithError() *schema.Resource {
 			"items": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(testParentResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(testParentResource()),
 			},
 		},
 	}
@@ -385,7 +383,7 @@ func testParentsDatasourceWithPanic() *schema.Resource {
 			"items": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(testParentResource()),
+				Elem:     tfresource.GetDataSourceItemSchema(testParentResource()),
 			},
 		},
 	}
@@ -545,11 +543,11 @@ func readTestChildWith404Error(d *schema.ResourceData, m interface{}) error {
 	sync := &TestChildWith404ErrorResourceCrud{}
 	sync.D = d
 
-	return ReadResource(sync)
+	return tfresource.ReadResource(sync)
 }
 
 type TestChildWith404ErrorResourceCrud struct {
-	BaseCrud
+	tfresource.BaseCrud
 }
 
 func (s TestChildWith404ErrorResourceCrud) Get() error {
@@ -567,8 +565,8 @@ func (s TestChildWith404ErrorResourceCrud) SetData() error {
 
 func initResourceDiscoveryTests() {
 	resourceNameCount = map[string]int{}
-	resourcesMap = ResourcesMap()
-	datasourcesMap = DataSourcesMap()
+	resourcesMap = tf_provider.ResourcesMap()
+	datasourcesMap = tf_provider.DataSourcesMap()
 	tfHclVersion = &TfHclVersion12{}
 
 	resourcesMap["oci_test_parent"] = testParentResource()
@@ -1494,23 +1492,23 @@ func TestUnitGetExportConfig(t *testing.T) {
 		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
 	}
 
-	providerConfigTest(t, true, true, authAPIKeySetting, "", getExportConfig)              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, authAPIKeySetting, "", getExportConfig)             // ApiKey without required fields
-	providerConfigTest(t, false, false, authInstancePrincipalSetting, "", getExportConfig) // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "", getExportConfig)        // Invalid auth + disable auto-retries
-	configFile, keyFile, err := writeConfigFile()
+	acctest.ProviderConfigTest(t, true, true, globalvar.AuthAPIKeySetting, "", getExportConfig)              // ApiKey with required fields + disable auto-retries
+	acctest.ProviderConfigTest(t, false, true, globalvar.AuthAPIKeySetting, "", getExportConfig)             // ApiKey without required fields
+	acctest.ProviderConfigTest(t, false, false, globalvar.AuthInstancePrincipalSetting, "", getExportConfig) // InstancePrincipal
+	acctest.ProviderConfigTest(t, true, false, "invalid-auth-setting", "", getExportConfig)                  // Invalid auth + disable auto-retries
+	configFile, keyFile, err := acctest.WriteConfigFile()
 	assert.Nil(t, err)
-	providerConfigTest(t, true, true, authAPIKeySetting, "DEFAULT", getExportConfig)              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, authAPIKeySetting, "DEFAULT", getExportConfig)             // ApiKey without required fields
-	providerConfigTest(t, false, false, authInstancePrincipalSetting, "DEFAULT", getExportConfig) // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", getExportConfig)        // Invalid auth + disable auto-retries
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE1", getExportConfig)           // correct profileName
-	providerConfigTest(t, false, false, authAPIKeySetting, "wrongProfile", getExportConfig)       // Invalid profileName
-	//providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", getExportConfig)           // correct profileName with mix and match, disable for TC
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", getExportConfig) // correct profileName with mix and match & env
-	defer removeFile(configFile)
-	defer removeFile(keyFile)
-	defer os.RemoveAll(path.Join(getHomeFolder(), defaultConfigDirName))
+	acctest.ProviderConfigTest(t, true, true, globalvar.AuthAPIKeySetting, "DEFAULT", getExportConfig)              // ApiKey with required fields + disable auto-retries
+	acctest.ProviderConfigTest(t, false, true, globalvar.AuthAPIKeySetting, "DEFAULT", getExportConfig)             // ApiKey without required fields
+	acctest.ProviderConfigTest(t, false, false, globalvar.AuthInstancePrincipalSetting, "DEFAULT", getExportConfig) // InstancePrincipal
+	acctest.ProviderConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", getExportConfig)                  // Invalid auth + disable auto-retries
+	acctest.ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE1", getExportConfig)           // correct profileName
+	acctest.ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "wrongProfile", getExportConfig)       // Invalid profileName
+	//acctest.ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE2", getExportConfig)           // correct profileName with mix and match, disable for TC
+	acctest.ProviderConfigTest(t, false, false, globalvar.AuthAPIKeySetting, "PROFILE3", getExportConfig) // correct profileName with mix and match & env
+	defer utils.RemoveFile(configFile)
+	defer utils.RemoveFile(keyFile)
+	defer os.RemoveAll(path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName))
 }
 
 /*
@@ -1522,12 +1520,15 @@ job_operation: APPLY/DESTROY. Job operation for the stack
 DO NOT RUN THIS TEST LOCALLY AS IT WILL DESTROY INFRASTRUCTURE
 */
 // issue-routing-tag: terraform/default
+/*
+
+
 func TestResourceDiscoveryApplyOrDestroyResourcesUsingStack(t *testing.T) {
 	// env var check so as to prevent local run of this test.
-	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(GetEnvSettingWithDefault("enable_create_destroy_rd_resources", "false")); !reCreateResourceDiscoveryResources {
+	if reCreateResourceDiscoveryResources, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_create_destroy_rd_resources", "false")); !reCreateResourceDiscoveryResources {
 		t.Skip("This run is used to apply/destroy resource for RD")
 	}
-	resourceManagerClient := GetTestClients(&schema.ResourceData{}).resourceManagerClient()
+	resourceManagerClient := acctest.GetTestClients(&schema.ResourceData{}).resourceManagerClient()
 	stackId := GetEnvSettingWithBlankDefault("stack_id")
 	if stackId == "" {
 		t.Skip("Dependency stack_id not defined for test")
@@ -1660,7 +1661,7 @@ func TestResourceDiscoveryOnCompartment(t *testing.T) {
 	err := testExportCompartment(&compartmentId, &exportCommandArgs)
 	assert.NoError(t, err)
 }
-
+*/
 // issue-routing-tag: terraform/default
 func TestExportCommandArgs_finalizeServices(t *testing.T) {
 	compartmentResourceGraphs["compartment_testing"] = compartmentTestingResourceGraph
@@ -1766,8 +1767,8 @@ func TestUnitGetHCLString_logging(t *testing.T) {
 		t.Fail()
 	}
 	os.Setenv("OCI_TF_LOG_PATH", logFilePath)
-	l, _ := newTFProviderLogger()
-	SetTFProviderLogger(l)
+	l, _ := utils.NewTFProviderLogger()
+	utils.SetTFProviderLogger(l)
 
 	ctx := &resourceDiscoveryContext{
 		errorList: ErrorList{},
@@ -1862,7 +1863,7 @@ func Test_deleteInvalidReferences(t *testing.T) {
 // issue-routing-tag: terraform/default
 func Test_createTerraformStruct(t *testing.T) {
 
-	_ = os.Unsetenv(terraformBinPathName)
+	_ = os.Unsetenv(globalvar.TerraformBinPathName)
 	outputDir, err := os.Getwd()
 	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
 	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
@@ -1881,7 +1882,7 @@ func Test_createTerraformStruct(t *testing.T) {
 
 	// verify executable from env var
 	// if invalid path is specified
-	_ = os.Setenv(terraformBinPathName, "invalidPath")
+	_ = os.Setenv(globalvar.TerraformBinPathName, "invalidPath")
 
 	if _, _, err := createTerraformStruct(args); err == nil {
 		t.Errorf("createTerraformStruct() expected error but succeeded")
@@ -1889,7 +1890,7 @@ func Test_createTerraformStruct(t *testing.T) {
 	}
 
 	// if path specified is a directory
-	_ = os.Setenv(terraformBinPathName, "./")
+	_ = os.Setenv(globalvar.TerraformBinPathName, "./")
 
 	if _, _, err := createTerraformStruct(args); err == nil {
 		t.Errorf("createTerraformStruct() expected error but succeeded")

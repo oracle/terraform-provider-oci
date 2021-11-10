@@ -3,73 +3,92 @@
 
 package resourcediscovery
 
-var tenancyResourceGraphs = map[string]TerraformResourceGraph{
-	"budget":               budgetResourceGraph,
-	"email_tenancy":        emailTenancyResourceGraph,
-	"cloud_guard_tenancy":  cloudGuardTenancyResourceGraph,
-	"identity":             identityResourceGraph,
-	"limits":               limitsResourceGraph,
-	"metering_computation": meteringComputationResourceGraph,
-	"optimizer":            optimizerResourceGraph,
+var identityResourceGraph = TerraformResourceGraph{
+	"oci_identity_tenancy": {
+		{TerraformResourceHints: exportIdentityAuthenticationPolicyHints},
+		{TerraformResourceHints: exportIdentityCompartmentHints},
+		{TerraformResourceHints: exportIdentityDynamicGroupHints},
+		{TerraformResourceHints: exportIdentityGroupHints},
+		{
+			TerraformResourceHints: exportIdentityIdentityProviderHints,
+			datasourceQueryParams:  map[string]string{"protocol": "'SAML2'"},
+		},
+		{TerraformResourceHints: exportIdentityPolicyHints},
+		{TerraformResourceHints: exportIdentityUserHints},
+		{TerraformResourceHints: exportIdentityNetworkSourceHints},
+	},
+	"oci_identity_compartment": {
+		{
+			TerraformResourceHints: exportIdentityCompartmentHints,
+			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
+		},
+		{
+			TerraformResourceHints: exportIdentityPolicyHints,
+			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
+		},
+	},
+	"oci_identity_identity_provider": {
+		{
+			TerraformResourceHints: exportIdentityIdpGroupMappingHints,
+			datasourceQueryParams: map[string]string{
+				"identity_provider_id": "id",
+			},
+		},
+	},
+	"oci_identity_user": {
+		{
+			TerraformResourceHints: exportIdentityApiKeyHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityAuthTokenHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityCustomerSecretKeyHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentitySmtpCredentialHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentitySwiftPasswordHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityUiPasswordHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityUserGroupMembershipHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+	},
 }
 
-var compartmentResourceGraphs = map[string]TerraformResourceGraph{
-	"availability_domain":    availabilityDomainResourceGraph,
-	"ai_anomaly_detection":   aiAnomalyDetectionResourceGraph,
-	"analytics":              analyticsResourceGraph,
-	"apigateway":             apigatewayResourceGraph,
-	"apm":                    apmResourceGraph,
-	"apm_config":             apmConfigResourceGraph,
-	"apm_synthetics":         apmSyntheticsResourceGraph,
-	"artifacts":              artifactsResourceGraph,
-	"auto_scaling":           autoScalingResourceGraph,
-	"bastion":                bastionResourceGraph,
-	"bds":                    bdsResourceGraph,
-	"blockchain":             blockchainResourceGraph,
-	"cloud_guard":            cloudGuardResourceGraph,
-	"containerengine":        containerengineResourceGraph,
-	"core":                   coreResourceGraph,
-	"data_labeling_service":  dataLabelingServiceResourceGraph,
-	"data_safe":              dataSafeResourceGraph,
-	"database":               databaseResourceGraph,
-	"database_migration":     databaseMigrationResourceGraph,
-	"datacatalog":            datacatalogResourceGraph,
-	"dataflow":               dataflowResourceGraph,
-	"dataintegration":        dataintegrationResourceGraph,
-	"datascience":            datascienceResourceGraph,
-	"devops":                 devopsResourceGraph,
-	"dns":                    dnsResourceGraph,
-	"email":                  emailResourceGraph,
-	"events":                 eventsResourceGraph,
-	"file_storage":           fileStorageResourceGraph,
-	"functions":              functionsResourceGraph,
-	"golden_gate":            goldenGateResourceGraph,
-	"health_checks":          healthChecksResourceGraph,
-	"integration":            integrationResourceGraph,
-	"jms":                    jmsResourceGraph,
-	"kms":                    kmsResourceGraph,
-	"load_balancer":          loadBalancerResourceGraph,
-	"log_analytics":          logAnalyticsResourceGraph,
-	"logging":                loggingResourceGraph,
-	"management_agent":       managementAgentResourceGraph,
-	"marketplace":            marketplaceResourceGraph,
-	"monitoring":             monitoringResourceGraph,
-	"mysql":                  mysqlResourceGraph,
-	"network_load_balancer":  networkLoadBalancerResourceGraph,
-	"nosql":                  nosqlResourceGraph,
-	"object_storage":         objectStorageResourceGraph,
-	"oce":                    oceResourceGraph,
-	"ocvp":                   ocvpResourceGraph,
-	"oda":                    odaResourceGraph,
-	"ons":                    onsResourceGraph,
-	"opsi":                   opsiResourceGraph,
-	"osmanagement":           osmanagementResourceGraph,
-	"sch":                    schResourceGraph,
-	"streaming":              streamingResourceGraph,
-	"tagging":                taggingResourceGraph,
-	"vulnerability_scanning": vulnerabilityScanningResourceGraph,
-	"waas":                   waasResourceGraph,
-	"waf":                    wafResourceGraph,
+var tenancyResourceGraphs = map[string]TerraformResourceGraph{
+	//"budget":               budgetResourceGraph,
+	//"email_tenancy":        emailTenancyResourceGraph,
+	//"cloud_guard_tenancy":  cloudGuardTenancyResourceGraph,
+	"identity":             identityResourceGraph,
+	//"limits":               limitsResourceGraph,
+	//"metering_computation": meteringComputationResourceGraph,
+	//"optimizer":            optimizerResourceGraph,
 }
 
 var availabilityDomainResourceGraph = TerraformResourceGraph{
@@ -78,35 +97,111 @@ var availabilityDomainResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportIdentityAvailabilityDomainHints,
 		},
 	},
-	"oci_identity_availability_domain": {
-		{
-			TerraformResourceHints: exportCoreBootVolumeHints,
-			datasourceQueryParams: map[string]string{
-				"availability_domain": "name",
-			},
-		},
-		{
-			TerraformResourceHints: exportFileStorageFileSystemHints,
-			datasourceQueryParams: map[string]string{
-				"availability_domain": "name",
-			},
-		},
-		{
-			TerraformResourceHints: exportFileStorageMountTargetHints,
-			datasourceQueryParams: map[string]string{
-				"availability_domain": "name",
-			},
-		},
+	//"oci_identity_availability_domain": {
+	//	{
+	//		TerraformResourceHints: exportCoreBootVolumeHints,
+	//		datasourceQueryParams: map[string]string{
+	//			"availability_domain": "name",
+	//		},
+	//	},
+	//	{
+	//		TerraformResourceHints: exportFileStorageFileSystemHints,
+	//		datasourceQueryParams: map[string]string{
+	//			"availability_domain": "name",
+	//		},
+	//	},
+	//	{
+	//		TerraformResourceHints: exportFileStorageMountTargetHints,
+	//		datasourceQueryParams: map[string]string{
+	//			"availability_domain": "name",
+	//		},
+	//	},
+	//},
+	//"oci_file_storage_file_system": {
+	//	{
+	//		TerraformResourceHints: exportFileStorageSnapshotHints,
+	//		datasourceQueryParams: map[string]string{
+	//			"file_system_id": "id",
+	//		},
+	//	},
+	//},
+}
+
+var taggingResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportIdentityTagDefaultHints},
+		{TerraformResourceHints: exportIdentityTagNamespaceHints},
 	},
-	"oci_file_storage_file_system": {
+	"oci_identity_tag_namespace": {
 		{
-			TerraformResourceHints: exportFileStorageSnapshotHints,
+			TerraformResourceHints: exportIdentityTagHints,
 			datasourceQueryParams: map[string]string{
-				"file_system_id": "id",
+				"tag_namespace_id": "id",
 			},
 		},
 	},
 }
+
+var compartmentResourceGraphs = map[string]TerraformResourceGraph{
+	"availability_domain":    availabilityDomainResourceGraph,
+	//"ai_anomaly_detection":   aiAnomalyDetectionResourceGraph,
+	//"analytics":              analyticsResourceGraph,
+	//"apigateway":             apigatewayResourceGraph,
+	//"apm":                    apmResourceGraph,
+	//"apm_config":             apmConfigResourceGraph,
+	//"apm_synthetics":         apmSyntheticsResourceGraph,
+	//"artifacts":              artifactsResourceGraph,
+	//"auto_scaling":           autoScalingResourceGraph,
+	//"bastion":                bastionResourceGraph,
+	//"bds":                    bdsResourceGraph,
+	//"blockchain":             blockchainResourceGraph,
+	//"cloud_guard":            cloudGuardResourceGraph,
+	//"containerengine":        containerengineResourceGraph,
+	//"core":                   coreResourceGraph,
+	//"data_labeling_service":  dataLabelingServiceResourceGraph,
+	//"data_safe":              dataSafeResourceGraph,
+	//"database":               databaseResourceGraph,
+	//"database_migration":     databaseMigrationResourceGraph,
+	//"datacatalog":            datacatalogResourceGraph,
+	//"dataflow":               dataflowResourceGraph,
+	//"dataintegration":        dataintegrationResourceGraph,
+	//"datascience":            datascienceResourceGraph,
+	//"devops":                 devopsResourceGraph,
+	//"dns":                    dnsResourceGraph,
+	//"email":                  emailResourceGraph,
+	//"events":                 eventsResourceGraph,
+	//"file_storage":           fileStorageResourceGraph,
+	//"functions":              functionsResourceGraph,
+	//"golden_gate":            goldenGateResourceGraph,
+	//"health_checks":          healthChecksResourceGraph,
+	//"integration":            integrationResourceGraph,
+	//"jms":                    jmsResourceGraph,
+	//"kms":                    kmsResourceGraph,
+	//"load_balancer":          loadBalancerResourceGraph,
+	//"log_analytics":          logAnalyticsResourceGraph,
+	//"logging":                loggingResourceGraph,
+	//"management_agent":       managementAgentResourceGraph,
+	//"marketplace":            marketplaceResourceGraph,
+	//"monitoring":             monitoringResourceGraph,
+	//"mysql":                  mysqlResourceGraph,
+	//"network_load_balancer":  networkLoadBalancerResourceGraph,
+	//"nosql":                  nosqlResourceGraph,
+	//"object_storage":         objectStorageResourceGraph,
+	//"oce":                    oceResourceGraph,
+	//"ocvp":                   ocvpResourceGraph,
+	//"oda":                    odaResourceGraph,
+	//"ons":                    onsResourceGraph,
+	//"opsi":                   opsiResourceGraph,
+	//"osmanagement":           osmanagementResourceGraph,
+	//"sch":                    schResourceGraph,
+	//"streaming":              streamingResourceGraph,
+	"tagging":                taggingResourceGraph,
+	//"vulnerability_scanning": vulnerabilityScanningResourceGraph,
+	//"waas":                   waasResourceGraph,
+	//"waf":                    wafResourceGraph,
+}
+
+/*
 
 var aiAnomalyDetectionResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
@@ -630,84 +725,6 @@ var healthChecksResourceGraph = TerraformResourceGraph{
 	},
 }
 
-var identityResourceGraph = TerraformResourceGraph{
-	"oci_identity_tenancy": {
-		{TerraformResourceHints: exportIdentityAuthenticationPolicyHints},
-		{TerraformResourceHints: exportIdentityCompartmentHints},
-		{TerraformResourceHints: exportIdentityDynamicGroupHints},
-		{TerraformResourceHints: exportIdentityGroupHints},
-		{
-			TerraformResourceHints: exportIdentityIdentityProviderHints,
-			datasourceQueryParams:  map[string]string{"protocol": "'SAML2'"},
-		},
-		{TerraformResourceHints: exportIdentityPolicyHints},
-		{TerraformResourceHints: exportIdentityUserHints},
-		{TerraformResourceHints: exportIdentityNetworkSourceHints},
-	},
-	"oci_identity_compartment": {
-		{
-			TerraformResourceHints: exportIdentityCompartmentHints,
-			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
-		},
-		{
-			TerraformResourceHints: exportIdentityPolicyHints,
-			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
-		},
-	},
-	"oci_identity_identity_provider": {
-		{
-			TerraformResourceHints: exportIdentityIdpGroupMappingHints,
-			datasourceQueryParams: map[string]string{
-				"identity_provider_id": "id",
-			},
-		},
-	},
-	"oci_identity_user": {
-		{
-			TerraformResourceHints: exportIdentityApiKeyHints,
-			datasourceQueryParams: map[string]string{
-				"user_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportIdentityAuthTokenHints,
-			datasourceQueryParams: map[string]string{
-				"user_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportIdentityCustomerSecretKeyHints,
-			datasourceQueryParams: map[string]string{
-				"user_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportIdentitySmtpCredentialHints,
-			datasourceQueryParams: map[string]string{
-				"user_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportIdentitySwiftPasswordHints,
-			datasourceQueryParams: map[string]string{
-				"user_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportIdentityUiPasswordHints,
-			datasourceQueryParams: map[string]string{
-				"user_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportIdentityUserGroupMembershipHints,
-			datasourceQueryParams: map[string]string{
-				"user_id": "id",
-			},
-		},
-	},
-}
-
 var integrationResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportIntegrationIntegrationInstanceHints},
@@ -1042,17 +1059,4 @@ var wafResourceGraph = TerraformResourceGraph{
 	},
 }
 
-var taggingResourceGraph = TerraformResourceGraph{
-	"oci_identity_compartment": {
-		{TerraformResourceHints: exportIdentityTagDefaultHints},
-		{TerraformResourceHints: exportIdentityTagNamespaceHints},
-	},
-	"oci_identity_tag_namespace": {
-		{
-			TerraformResourceHints: exportIdentityTagHints,
-			datasourceQueryParams: map[string]string{
-				"tag_namespace_id": "id",
-			},
-		},
-	},
-}
+*/

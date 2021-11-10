@@ -6,6 +6,8 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"github.com/terraform-providers/terraform-provider-oci/oci/resourcediscovery"
+	"strconv"
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
@@ -112,16 +114,16 @@ func TestIdentityUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
-				/*
+
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
 						return err
-					},*/
+					},
 			),
 		},
 
