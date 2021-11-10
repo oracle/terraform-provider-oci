@@ -20,16 +20,16 @@ import (
 
 	"github.com/hashicorp/terraform-exec/tfexec"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v52/dns"
-
 	"github.com/hashicorp/hcl2/hclwrite"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v52/core"
+	oci_dns "github.com/oracle/oci-go-sdk/v52/dns"
 	oci_identity "github.com/oracle/oci-go-sdk/v52/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v52/loadbalancer"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v52/loganalytics"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v52/networkloadbalancer"
 	oci_objectstorage "github.com/oracle/oci-go-sdk/v52/objectstorage"
 )
 
@@ -829,6 +829,7 @@ func init() {
 	// Custom overrides for generating composite Network Load Balancer IDs within the resource discovery framework
 	exportNetworkLoadBalancerBackendHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackends
 	exportNetworkLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackendSets
+	exportNetworkLoadBalancerListenerHints.findResourcesOverrideFn = findNetworkLoadBalancerListeners
 	exportNetworkLoadBalancerListenerHints.processDiscoveredResourcesFn = processNetworkLoadBalancerListeners
 
 	exportCoreDrgRouteTableRouteRuleHints.datasourceClass = "oci_core_drg_route_table_route_rules"
@@ -1453,6 +1454,68 @@ func processNetworkLoadBalancerBackends(ctx *resourceDiscoveryContext, resources
 	}
 
 	return resources, nil
+}
+
+func findNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
+	networkLoadBalancerId := parent.sourceAttributes["network_load_balancer_id"].(string)
+	backendSetName := parent.sourceAttributes["name"].(string)
+
+	request := oci_network_load_balancer.GetNetworkLoadBalancerRequest{}
+	request.NetworkLoadBalancerId = &networkLoadBalancerId
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "network_load_balancer")
+
+	response, err := ctx.clients.networkLoadBalancerClient().GetNetworkLoadBalancer(context.Background(), request)
+	if err != nil {
+		return nil, err
+	}
+
+	listenerResource := resourcesMap[tfMeta.resourceClass]
+
+	results := []*OCIResource{}
+	for listenerName, listener := range response.NetworkLoadBalancer.Listeners {
+		if *listener.DefaultBackendSetName != backendSetName {
+			continue
+		}
+
+		d := listenerResource.TestResourceData()
+		d.SetId(getNlbListenerCompositeId(listenerName, networkLoadBalancerId))
+
+		// This calls into the listener resource's Read fn which has the unfortunate implementation of
+		// calling GetNetworkLoadBalancer and looping through the listeners to find the expected one. So this entire method
+		// may require O(n^^2) time. However, the benefits of having Read populate the ResourceData struct is better than duplicating it here.
+		if err := listenerResource.Read(d, ctx.clients); err != nil {
+			// add error to the errorList and continue discovering rest of the resources
+			rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
+			ctx.addErrorToList(rdError)
+			continue
+		}
+
+		resource := &OCIResource{
+			compartmentId:    parent.compartmentId,
+			sourceAttributes: convertResourceDataToMap(listenerResource.Schema, d),
+			rawResource:      listener,
+			TerraformResource: TerraformResource{
+				id:             d.Id(),
+				terraformClass: tfMeta.resourceClass,
+				terraformName:  fmt.Sprintf("%s_%s", parent.parent.terraformName, listenerName),
+			},
+			getHclStringFn: getHclStringFromGenericMap,
+			parent:         parent,
+		}
+
+		if !parent.omitFromExport {
+			resource.sourceAttributes["default_backend_set_name"] = InterpolationString{
+				resourceReference: parent.getTerraformReference(),
+				interpolation:     tfHclVersion.getDoubleExpHclString(parent.getTerraformReference(), "name"),
+				value:             parent.sourceAttributes["name"].(string),
+			}
+		} else {
+			resource.sourceAttributes["default_backend_set_name"] = parent.sourceAttributes["name"].(string)
+		}
+		results = append(results, resource)
+	}
+
+	return results, nil
 }
 
 func processNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
