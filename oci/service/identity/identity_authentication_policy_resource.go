@@ -151,7 +151,7 @@ type IdentityAuthenticationPolicyResourceCrud struct {
 }
 
 func (s *IdentityAuthenticationPolicyResourceCrud) ID() string {
-	return getAuthenticationPolicyCompositeId(s.D.Get("compartment_id").(string))
+	return GetAuthenticationPolicyCompositeId(s.D.Get("compartment_id").(string))
 }
 
 func (s *IdentityAuthenticationPolicyResourceCrud) Create() error {
@@ -290,7 +290,7 @@ func (s *IdentityAuthenticationPolicyResourceCrud) SetData() error {
 	return nil
 }
 
-func getAuthenticationPolicyCompositeId(compartmentId string) string {
+func GetAuthenticationPolicyCompositeId(compartmentId string) string {
 	compartmentId = url.PathEscape(compartmentId)
 	compositeId := "authenticationPolicies/" + compartmentId
 	return compositeId

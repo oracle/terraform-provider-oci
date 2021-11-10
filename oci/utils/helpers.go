@@ -291,7 +291,7 @@ func getSourceFileState(source interface{}) string {
 }
 
 // Returns a slice of keys from the given map in alphabetical order
-func getSortedKeys(source map[string]interface{}) []string {
+func GetSortedKeys(source map[string]interface{}) []string {
 	sortedKeys := make([]string, len(source))
 	cnt := 0
 	for k := range source {

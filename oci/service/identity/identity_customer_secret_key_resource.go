@@ -275,7 +275,7 @@ func (s *IdentityCustomerSecretKeyResourceCrud) SetData() error {
 	return nil
 }
 
-func getCustomerSecretKeyCompositeId(customerSecretKeyId string, userId string) string {
+func GetCustomerSecretKeyCompositeId(customerSecretKeyId string, userId string) string {
 	customerSecretKeyId = url.PathEscape(customerSecretKeyId)
 	userId = url.PathEscape(userId)
 	compositeId := "users/" + userId + "/customerSecretKeys/" + customerSecretKeyId

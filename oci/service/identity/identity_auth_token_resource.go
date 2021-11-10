@@ -275,7 +275,7 @@ func (s *IdentityAuthTokenResourceCrud) SetData() error {
 	return nil
 }
 
-func getAuthTokenCompositeId(authTokenId string, userId string) string {
+func GetAuthTokenCompositeId(authTokenId string, userId string) string {
 	authTokenId = url.PathEscape(authTokenId)
 	userId = url.PathEscape(userId)
 	compositeId := "users/" + userId + "/authTokens/" + authTokenId

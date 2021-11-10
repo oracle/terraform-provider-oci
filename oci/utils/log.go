@@ -18,9 +18,9 @@ import (
 )
 
 var (
-	yellow = color.New(color.FgYellow).SprintFunc()
-	red    = color.New(color.FgRed).SprintFunc()
-	green  = color.New(color.FgGreen).SprintFunc()
+	Yellow = color.New(color.FgYellow).SprintFunc()
+	Red    = color.New(color.FgRed).SprintFunc()
+	Green  = color.New(color.FgGreen).SprintFunc()
 )
 
 //TFProviderLogger interface for logging in the Terraform Provider
@@ -54,7 +54,7 @@ var loggerLock sync.Mutex
 
 //initializes the defaultTFProviderLogger as default Logger
 func init() {
-	l, _ := newTFProviderLogger()
+	l, _ := NewTFProviderLogger()
 	SetTFProviderLogger(l)
 }
 
@@ -65,10 +65,10 @@ func SetTFProviderLogger(logger TFProviderLogger) {
 	loggerLock.Unlock()
 }
 
-// newTFProviderLogger creates a defaultTFProviderLogger
+// NewTFProviderLogger creates a defaultTFProviderLogger
 // The value of the "OCI_TF_LOG" environment variable controls the logging level.
 // Default logging level is INFO "i"
-func newTFProviderLogger() (defaultTFProviderLogger, error) {
+func NewTFProviderLogger() (defaultTFProviderLogger, error) {
 	logger := defaultTFProviderLogger{}
 
 	logOutput := os.Stderr

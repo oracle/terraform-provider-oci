@@ -285,7 +285,7 @@ func (s *IdentityIdpGroupMappingResourceCrud) SetData() error {
 	return nil
 }
 
-func getIdpGroupMappingCompositeId(identityProviderId string, mappingId string) string {
+func GetIdpGroupMappingCompositeId(identityProviderId string, mappingId string) string {
 	identityProviderId = url.PathEscape(identityProviderId)
 	mappingId = url.PathEscape(mappingId)
 	compositeId := "identityProviders/" + identityProviderId + "/groupMappings/" + mappingId
