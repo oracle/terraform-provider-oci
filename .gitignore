@@ -25,5 +25,5 @@ docs/solutions/rhel74_image/ipxe.sh
 vendor/github.com/oracle/oci-go-sdk/target
 *.test
 .gitmodules
-oci/record
+internal/record
 .terraform.lock.hcl
