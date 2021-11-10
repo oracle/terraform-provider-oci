@@ -11,7 +11,7 @@ import (
 	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v50/core"
+	oci_core "github.com/oracle/oci-go-sdk/v51/core"
 )
 
 // Not supplying filters should not restrict results
