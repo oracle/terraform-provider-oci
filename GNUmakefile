@@ -2,8 +2,8 @@
 
 TEST?=./...
 GOFMT_FILES?=$(if $(SERVICE), $$(find . -name '$(SERVICE)*.go' |grep -v vendor), $$(find . -name '*.go' |grep -v vendor))
-PKG_NAME=oci
-TEST_PKG_NAME=oci/integrationtest
+PKG_NAME=internal
+TEST_PKG_NAME=internal/integrationtest
 WEBSITE_REPO=github.com/hashicorp/terraform-website
 release_date=$(shell date -v +5d +%F)
 
