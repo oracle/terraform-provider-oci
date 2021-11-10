@@ -53,7 +53,7 @@ checkFn () {
 if [ $# -eq 0 ]
     then
         echo "Checking all test files"
-        checkFn "oci/*_test.go"
+        checkFn "internal/integrationtest/*_test.go"
 fi
 
 # Get the options
@@ -63,9 +63,9 @@ while getopts "hs:f:" option; do
             help
             exit 0;;
         s) # check for untagged tests in specific service
-            checkFn "oci/$OPTARG*_test.go";;
+            checkFn "internal/integrationtest/$OPTARG*_test.go";;
         f) # check for untagged tests in specific test file
-            checkFn "oci/$OPTARG";;
+            checkFn "internal/integrationtest/$OPTARG";;
         *) # invalid option
             echo "Error: Invalid option"
             help
