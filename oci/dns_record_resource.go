@@ -20,7 +20,7 @@ import (
 	"net"
 	"regexp"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v50/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v51/dns"
 )
 
 func init() {
