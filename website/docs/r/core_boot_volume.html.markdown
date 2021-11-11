@@ -57,7 +57,7 @@ The following arguments are supported:
 * `backup_policy_id` - (Optional) If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned. 
 * `boot_volume_replicas` - (Optional) (Updatable) The list of boot volume replicas to be enabled for this boot volume in the specified destination availability domains. 
 	* `availability_domain` - (Required) (Updatable) The availability domain of the boot volume replica.  Example: `Uocm:PHX-AD-1` 
-	* `display_name` - (Optional) (Updatable) The display name of the boot volume replica. You may optionally specify a *display name* for the boot volume replica, otherwise a default is provided. 
+	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the boot volume.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -88,7 +88,7 @@ The following attributes are exported:
 * `boot_volume_replicas` - The list of boot volume replicas of this boot volume
 	* `availability_domain` - The availability domain of the boot volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `boot_volume_replica_id` - The boot volume replica's Oracle ID (OCID).
-	* `display_name` - The display name of the boot volume replica 
+	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `compartment_id` - The OCID of the compartment that contains the boot volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 

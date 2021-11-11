@@ -19,6 +19,11 @@ variable "region" {
 variable "compartment_ocid" {
 }
 
+variable "ipsec_connection_tunnel_route_advertiser" {
+  default = "CUSTOMER"
+}
+
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -100,6 +105,16 @@ resource "oci_core_ipsec_connection_tunnel_management" "test_ipsec_connection_tu
   shared_secret = "sharedSecret"
   ike_version   = "V1"
 }
+
+data "oci_core_ipsec_connection_tunnel_routes" "test_ipsec_connection_tunnel_routes" {
+  #Required
+  ipsec_id  = oci_core_ipsec.test_ip_sec_connection.id
+  tunnel_id = data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id
+
+  #Optional
+  advertiser = var.ipsec_connection_tunnel_route_advertiser
+}
+
 
 resource "oci_identity_tag_namespace" "tag_namespace1" {
   #Required

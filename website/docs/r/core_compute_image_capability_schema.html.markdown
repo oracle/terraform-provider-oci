@@ -45,7 +45,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the resource.
 * `compute_global_image_capability_schema_version_name` - (Required) The name of the compute global image capability schema version 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A user-friendly name for the compute image capability schema 
+* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `image_id` - (Required) The ocid of the image 
 * `schema_data` - (Required) (Updatable) The map of each capability name to its ImageCapabilitySchemaDescriptor.
@@ -66,7 +66,7 @@ The following attributes are exported:
 * `compute_global_image_capability_schema_id` - The ocid of the compute global image capability schema 
 * `compute_global_image_capability_schema_version_name` - The name of the compute global image capability schema version 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - A user-friendly name for the compute global image capability schema 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The compute image capability schema [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `image_id` - The OCID of the image associated with this compute image capability schema 

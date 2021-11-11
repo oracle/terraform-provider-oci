@@ -37,7 +37,7 @@ The following attributes are exported:
 * `block_volume_replicas` - The list of block volume replicas of this volume.
 	* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `block_volume_replica_id` - The block volume replica's Oracle ID (OCID).
-	* `display_name` - The display name of the block volume replica 
+	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `compartment_id` - The OCID of the compartment that contains the volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 

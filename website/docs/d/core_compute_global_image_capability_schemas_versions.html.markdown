@@ -44,7 +44,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compute_global_image_capability_schema_id` - The ocid of the compute global image capability schema 
-* `display_name` - A user-friendly name for the compute global image capability schema 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `name` - The name of the compute global image capability schema version 
 * `schema_data` - The map of each capability name to its ImageCapabilityDescriptor.
 	* `default_value` - the default value
