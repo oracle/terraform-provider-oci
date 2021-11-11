@@ -1494,20 +1494,20 @@ func TestUnitGetExportConfig(t *testing.T) {
 		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
 	}
 
-	providerConfigTest(t, true, true, authAPIKeySetting, "", getExportConfig)              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, authAPIKeySetting, "", getExportConfig)             // ApiKey without required fields
-	providerConfigTest(t, false, false, authInstancePrincipalSetting, "", getExportConfig) // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "", getExportConfig)        // Invalid auth + disable auto-retries
-	configFile, keyFile, err := writeConfigFile()
+	providerConfigTest(t, true, true, authAPIKeySetting, "", "", getExportConfig)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, authAPIKeySetting, "", "", getExportConfig)             // ApiKey without required fields
+	providerConfigTest(t, false, false, authInstancePrincipalSetting, "", "", getExportConfig) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "", "", getExportConfig)        // Invalid auth + disable auto-retries
+	configFile, keyFile, err := writeConfigFile(defaultConfigDirName, defaultConfigFileName)
 	assert.Nil(t, err)
-	providerConfigTest(t, true, true, authAPIKeySetting, "DEFAULT", getExportConfig)              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, authAPIKeySetting, "DEFAULT", getExportConfig)             // ApiKey without required fields
-	providerConfigTest(t, false, false, authInstancePrincipalSetting, "DEFAULT", getExportConfig) // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", getExportConfig)        // Invalid auth + disable auto-retries
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE1", getExportConfig)           // correct profileName
-	providerConfigTest(t, false, false, authAPIKeySetting, "wrongProfile", getExportConfig)       // Invalid profileName
-	//providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", getExportConfig)           // correct profileName with mix and match, disable for TC
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", getExportConfig) // correct profileName with mix and match & env
+	providerConfigTest(t, true, true, authAPIKeySetting, "DEFAULT", "", getExportConfig)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, authAPIKeySetting, "DEFAULT", "", getExportConfig)             // ApiKey without required fields
+	providerConfigTest(t, false, false, authInstancePrincipalSetting, "DEFAULT", "", getExportConfig) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", "", getExportConfig)        // Invalid auth + disable auto-retries
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE1", "", getExportConfig)           // correct profileName
+	providerConfigTest(t, false, false, authAPIKeySetting, "wrongProfile", "", getExportConfig)       // Invalid profileName
+	//providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", "", getExportConfig)           // correct profileName with mix and match, disable for TC
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", "", getExportConfig) // correct profileName with mix and match & env
 	defer removeFile(configFile)
 	defer removeFile(keyFile)
 	defer os.RemoveAll(path.Join(getHomeFolder(), defaultConfigDirName))

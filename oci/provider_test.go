@@ -383,7 +383,7 @@ var testKeyFingerPrint = "b4:8a:7d:54:e6:81:04:b2:fa:ce:ba:55:34:dd:00:00"
 var testTenancyOCID = "ocid1.tenancy.oc1..faketenancy"
 var testUserOCID = "ocid1.user.oc1..fakeuser"
 
-func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField bool, auth string, configFileProfile string, configFunc ConfigFunc) {
+func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField bool, auth string, configFileProfile string, configFilePath string, configFunc ConfigFunc) {
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
@@ -409,6 +409,9 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	}
 	if configFileProfile != "" {
 		d.Set("config_file_profile", configFileProfile)
+	}
+	if configFilePath != "" {
+		d.Set("config_file_path", configFilePath)
 	}
 
 	// Use config func for export (resource discovery)
@@ -464,7 +467,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	testClient(&oracleClient.loadBalancerClient().BaseClient)
 }
 
-func writeConfigFile() (string, string, error) {
+func writeConfigFile(configDirName string, configFileName string) (string, string, error) {
 	dataTpl := `[DEFAULT]
 user=%s
 fingerprint=%s
@@ -488,9 +491,9 @@ tenancy=%s
 region=%s
 security_token_file=%s
 `
-	keyPath := path.Join(getHomeFolder(), defaultConfigDirName, "oci_api_key.pem")
-	configPath := path.Join(getHomeFolder(), defaultConfigDirName, defaultConfigFileName)
-	os.MkdirAll(path.Join(getHomeFolder(), defaultConfigDirName), 0700)
+	keyPath := path.Join(getHomeFolder(), configDirName, "oci_api_key.pem")
+	configPath := path.Join(getHomeFolder(), configDirName, configFileName)
+	os.MkdirAll(path.Join(getHomeFolder(), configDirName), 0700)
 	err := writeTempFile(testPrivateKey, keyPath)
 	if err != nil {
 		return "", "", err
@@ -513,22 +516,32 @@ func TestUnitProviderConfig(t *testing.T) {
 	if os.Getenv("TF_HOME_OVERRIDE") == "" {
 		t.Skip("This run requires you to set TF_HOME_OVERRIDE")
 	}
-	providerConfigTest(t, true, true, authAPIKeySetting, "", nil)              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, authAPIKeySetting, "", nil)             // ApiKey without required fields
-	providerConfigTest(t, false, false, authInstancePrincipalSetting, "", nil) // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "", nil)        // Invalid auth + disable auto-retries
-	configFile, keyFile, err := writeConfigFile()
+	providerConfigTest(t, true, true, authAPIKeySetting, "", "", nil)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, authAPIKeySetting, "", "", nil)             // ApiKey without required fields
+	providerConfigTest(t, false, false, authInstancePrincipalSetting, "", "", nil) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "", "", nil)        // Invalid auth + disable auto-retries
+	keyFile, configFile, err := writeConfigFile(defaultConfigDirName, defaultConfigFileName)
 	assert.Nil(t, err)
-	providerConfigTest(t, true, true, authAPIKeySetting, "DEFAULT", nil)              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, authAPIKeySetting, "DEFAULT", nil)             // ApiKey without required fields
-	providerConfigTest(t, false, false, authInstancePrincipalSetting, "DEFAULT", nil) // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", nil)        // Invalid auth + disable auto-retries
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE1", nil)           // correct profileName
-	providerConfigTest(t, false, false, authAPIKeySetting, "wrongProfile", nil)       // Invalid profileName
-	//providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", nil)           // correct profileName with mix and match
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", nil) // correct profileName with mix and match & env
+	providerConfigTest(t, true, true, authAPIKeySetting, "DEFAULT", "", nil)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, authAPIKeySetting, "DEFAULT", "", nil)             // ApiKey without required fields
+	providerConfigTest(t, false, false, authInstancePrincipalSetting, "DEFAULT", "", nil) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", "", nil)        // Invalid auth + disable auto-retries
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE1", "", nil)           // correct profileName
+	providerConfigTest(t, false, false, authAPIKeySetting, "wrongProfile", "", nil)       // Invalid profileName
+	//providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", "", nil)           // correct profileName with mix and match
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", "", nil) // correct profileName with mix and match & env
 	defer removeFile(configFile)
 	defer removeFile(keyFile)
+
+	customKeyFile, customConfigFile, err := writeConfigFile(defaultConfigDirName, "test_config")
+	assert.Nil(t, err)
+	providerConfigTest(t, true, true, authAPIKeySetting, "", "", nil)                       // config_file_profile: no, config_file_path: no
+	providerConfigTest(t, true, true, authAPIKeySetting, "", customConfigFile, nil)         // config_file_profile: no, config_file_path: yes
+	providerConfigTest(t, true, true, authAPIKeySetting, "PROFILE1", "", nil)               // config_file_profile: yes, config_file_path: no
+	providerConfigTest(t, true, true, authAPIKeySetting, "PROFILE1", customConfigFile, nil) // config_file_profile: yes, config_file_path: yes
+	defer removeFile(customConfigFile)
+	defer removeFile(customKeyFile)
+
 	os.RemoveAll(path.Join(getHomeFolder(), defaultConfigDirName))
 }
 
