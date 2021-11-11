@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_core_instance_measured_boot_report
 This data source provides details about a specific Instance Measured Boot Report resource in Oracle Cloud Infrastructure Core service.
 
-Gets the measured boot report for this Shielded Instance.
+Gets the measured boot report for this shielded instance.
 
 ## Example Usage
 
@@ -32,7 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `is_policy_verification_successful` - Whether the verification succeeded and the new values matched the expected values. 
+* `is_policy_verification_successful` - Whether the verification succeeded, and the new values match the expected values. 
 * `measurements` - A list of Trusted Platform Module (TPM) Platform Configuration Register (PCR) entries. 
 	* `actual` - The list of actual PCR entries measured during boot.
 		* `hash_algorithm` - The type of algorithm used to calculate the hash.

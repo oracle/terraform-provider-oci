@@ -115,6 +115,14 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"dpd_mode": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"dpd_timeout_in_sec": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"ike_version": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -123,6 +131,136 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 					string(oci_core.UpdateIpSecConnectionTunnelDetailsIkeVersionV1),
 					string(oci_core.UpdateIpSecConnectionTunnelDetailsIkeVersionV2),
 				}, true),
+			},
+			"nat_translation_enabled": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"oracle_can_initiate": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"phase_one_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"custom_authentication_algorithm": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"custom_dh_group": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"custom_encryption_algorithm": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_custom_phase_one_config": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_ike_established": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"lifetime": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"negotiated_authentication_algorithm": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"negotiated_dh_group": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"negotiated_encryption_algorithm": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"remaining_lifetime": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"remaining_lifetime_last_retrieved": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"phase_two_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"custom_authentication_algorithm": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"custom_encryption_algorithm": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"dh_group": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_custom_phase_two_config": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_esp_established": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_pfs_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"lifetime": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"negotiated_authentication_algorithm": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"negotiated_dh_group": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"negotiated_encryption_algorithm": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"remaining_lifetime": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"remaining_lifetime_last_retrieved": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"shared_secret": {
 				Type:         schema.TypeString,
@@ -324,6 +462,86 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) Update() error {
 		request.Routing = oci_core.UpdateIpSecConnectionTunnelDetailsRoutingEnum(routing.(string))
 	}
 
+	if natTranslation, ok := s.D.GetOkExists("nat_translation_enabled"); ok {
+		request.NatTranslationEnabled = oci_core.UpdateIpSecConnectionTunnelDetailsNatTranslationEnabledEnum(natTranslation.(string))
+	}
+
+	if oracleInitiation, ok := s.D.GetOkExists("oracle_can_initiate"); ok {
+		request.OracleInitiation = oci_core.UpdateIpSecConnectionTunnelDetailsOracleInitiationEnum(oracleInitiation.(string))
+	}
+
+	dpdConfig := &oci_core.DpdConfig{}
+	if dpdMode, ok := s.D.GetOkExists("dpd_mode"); ok {
+		dpdConfig.DpdMode = oci_core.DpdConfigDpdModeEnum(dpdMode.(string))
+	}
+
+	if dpdTimeout, ok := s.D.GetOkExists("dpd_timeout_in_sec"); ok {
+		tmp := dpdTimeout.(int)
+		dpdConfig.DpdTimeoutInSec = &tmp
+	}
+	request.DpdConfig = dpdConfig
+
+	if _, ok := s.D.GetOkExists("phase_one_details"); ok {
+		phaseOneDetails := &oci_core.PhaseOneConfigDetails{}
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "phase_one_details", 0)
+		if customAuthenticationAlgorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_authentication_algorithm")); ok {
+			phaseOneDetails.AuthenticationAlgorithm = oci_core.PhaseOneConfigDetailsAuthenticationAlgorithmEnum(customAuthenticationAlgorithm.(string))
+		}
+
+		if customDhGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_dh_group")); ok {
+			phaseOneDetails.DiffieHelmanGroup = oci_core.PhaseOneConfigDetailsDiffieHelmanGroupEnum(customDhGroup.(string))
+		}
+
+		if customEncryptionAlgorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_encryption_algorithm")); ok {
+			phaseOneDetails.EncryptionAlgorithm = oci_core.PhaseOneConfigDetailsEncryptionAlgorithmEnum(customEncryptionAlgorithm.(string))
+		}
+
+		if isCustomPhaseOneConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_phase_one_config")); ok {
+			tmp := isCustomPhaseOneConfig.(bool)
+			phaseOneDetails.IsCustomPhaseOneConfig = &tmp
+		}
+
+		if lifetime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lifetime")); ok {
+			tmp := lifetime.(int)
+			phaseOneDetails.LifetimeInSeconds = &tmp
+		}
+
+		request.PhaseOneConfig = phaseOneDetails
+	}
+
+	if _, ok := s.D.GetOkExists("phase_two_details"); ok {
+		phaseTwoDetails := &oci_core.PhaseTwoConfigDetails{}
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "phase_two_details", 0)
+		if customAuthenticationAlgorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_authentication_algorithm")); ok {
+			phaseTwoDetails.AuthenticationAlgorithm = oci_core.PhaseTwoConfigDetailsAuthenticationAlgorithmEnum(customAuthenticationAlgorithm.(string))
+		}
+
+		if customDhGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dh_group")); ok {
+			phaseTwoDetails.PfsDhGroup = oci_core.PhaseTwoConfigDetailsPfsDhGroupEnum(customDhGroup.(string))
+		}
+
+		if customEncryptionAlgorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_encryption_algorithm")); ok {
+			phaseTwoDetails.EncryptionAlgorithm = oci_core.PhaseTwoConfigDetailsEncryptionAlgorithmEnum(customEncryptionAlgorithm.(string))
+		}
+
+		if isCustomPhaseTwoConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_phase_two_config")); ok {
+			tmp := isCustomPhaseTwoConfig.(bool)
+			phaseTwoDetails.IsCustomPhaseTwoConfig = &tmp
+		}
+
+		if lifetime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lifetime")); ok {
+			tmp := lifetime.(int)
+			phaseTwoDetails.LifetimeInSeconds = &tmp
+		}
+
+		if isPfsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pfs_enabled")); ok {
+			tmp := isPfsEnabled.(bool)
+			phaseTwoDetails.IsPfsEnabled = &tmp
+		}
+
+		request.PhaseTwoConfig = phaseTwoDetails
+	}
+
 	if request.Routing == oci_core.UpdateIpSecConnectionTunnelDetailsRoutingBgp {
 		if _, ok := s.D.GetOkExists("bgp_session_info"); ok {
 			BgpSessionDeatails := &oci_core.UpdateIpSecTunnelBgpSessionDetails{}
@@ -427,6 +645,32 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	s.D.Set("dpd_mode", s.Res.DpdMode)
+
+	if s.Res.DpdTimeoutInSec != nil {
+		s.D.Set("dpd_timeout_in_sec", *s.Res.DpdTimeoutInSec)
+	}
+
+	s.D.Set("nat_translation_enabled", s.Res.NatTranslationEnabled)
+
+	s.D.Set("oracle_can_initiate", s.Res.OracleCanInitiate)
+
+	if s.Res.PhaseOneDetails != nil {
+		s.D.Set("phase_one_details", []interface{}{TunnelPhaseOneDetailsToMap(s.Res.PhaseOneDetails)})
+	} else {
+		if _, ok := s.D.GetOkExists("phase_one_details"); !ok {
+			s.D.Set("phase_one_details", nil)
+		}
+	}
+
+	if s.Res.PhaseTwoDetails != nil {
+		s.D.Set("phase_two_details", []interface{}{TunnelPhaseTwoDetailsToMap(s.Res.PhaseTwoDetails)})
+	} else {
+		if _, ok := s.D.GetOkExists("phase_two_details"); !ok {
+			s.D.Set("phase_two_details", nil)
+		}
 	}
 
 	s.D.Set("ike_version", s.Res.IkeVersion)

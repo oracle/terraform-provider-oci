@@ -37,7 +37,7 @@ The following attributes are exported:
 * `bandwith_shape_management` - Who is responsible for managing the virtual circuit bandwidth. 
 * `customer_asn_management` - Who is responsible for managing the ASN information for the network at the other end of the connection from Oracle. 
 * `description` - The location of the provider's website or portal. This portal is where you can get information about the provider service, create a virtual circuit connection from the provider to Oracle Cloud Infrastructure, and retrieve your provider service key for that virtual circuit connection.  Example: `https://example.com` 
-* `id` - The OCID of the service offered by the provider. 
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider. 
 * `private_peering_bgp_management` - Who is responsible for managing the private peering BGP information. 
 * `provider_name` - The name of the provider. 
 * `provider_service_key_management` - Who is responsible for managing the provider service key. 

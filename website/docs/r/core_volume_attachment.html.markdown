@@ -38,8 +38,8 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 The following arguments are supported:
 
 * `attachment_type` - (Required) The type of volume. The only supported values are "iscsi" and "paravirtualized". 
-* `device` - (Optional) The device name.
-* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
+* `device` - (Optional) The device name. To retrieve a list of devices for a given instance, see [ListInstanceDevices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Device/ListInstanceDevices).
+* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `encryption_in_transit_type` - (Applicable when attachment_type=iscsi) Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
 * `instance_id` - (Required) The OCID of the instance.
 * `is_pv_encryption_in_transit_enabled` - (Applicable when attachment_type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
@@ -62,7 +62,7 @@ The following attributes are exported:
 * `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name. See [RFC 1994](https://tools.ietf.org/html/rfc1994) for more on CHAP.  Example: `ocid1.volume.oc1.phx.<unique_ID>` 
 * `compartment_id` - The OCID of the compartment.
 * `device` - The device name.
-* `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.  Example: `My volume attachment` 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `encryption_in_transit_type` - Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.
