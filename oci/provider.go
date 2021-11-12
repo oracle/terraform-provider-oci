@@ -84,6 +84,7 @@ const (
 	oboTokenAttrName             = "obo_token"
 	oboTokenPath                 = "obo_token_path"
 	configFileProfileAttrName    = "config_file_profile"
+	configFilePathAttrName       = "config_file_path"
 
 	tfEnvPrefix              = "TF_VAR_"
 	ociEnvPrefix             = "OCI_"
@@ -147,6 +148,7 @@ func init() {
 		retryDurationSecondsAttrName: "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
 			"The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.",
 		configFileProfileAttrName: fmt.Sprintf("(Optional) The profile name to be used from config file, if not set it will be %s.", defaultConfigProfile),
+		configFilePathAttrName:    fmt.Sprintf("(Optional) The config file path, if not set it will be ~/%s/%s.", defaultConfigFileName, defaultConfigDirName),
 	}
 }
 
@@ -234,6 +236,12 @@ func schemaMap() map[string]*schema.Schema {
 			Optional:    true,
 			Description: descriptions[configFileProfileAttrName],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(configFileProfileAttrName), ociVarName(configFileProfileAttrName)}, nil),
+		},
+		configFilePathAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[configFilePathAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(configFilePathAttrName), ociVarName(configFilePathAttrName)}, nil),
 		},
 	}
 }
@@ -388,8 +396,19 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 func getSdkConfigProvider(d *schema.ResourceData, clients *OracleClients) (oci_common.ConfigurationProvider, error) {
 
 	auth := strings.ToLower(d.Get(authAttrName).(string))
-	profile := d.Get(configFileProfileAttrName).(string)
 	clients.configuration[authAttrName] = auth
+
+	configFile := path.Join(getHomeFolder(), defaultConfigDirName, defaultConfigFileName)
+	configFilePath, hasConfigFilePath := d.GetOk(configFilePathAttrName)
+	if hasConfigFilePath {
+		configFile = expandPath(configFilePath.(string))
+	}
+
+	profile := defaultConfigProfile
+	configFileProfile, hasConfigFileProfile := d.GetOk(configFileProfileAttrName)
+	if hasConfigFileProfile {
+		profile = configFileProfile.(string)
+	}
 
 	configProviders, err := getConfigProviders(d, auth)
 	if err != nil {
@@ -405,16 +424,16 @@ func getSdkConfigProvider(d *schema.ResourceData, clients *OracleClients) (oci_c
 	//Then SDK will based on the AuthType to Create the actual provider if it's a valid value.
 	//If not, then SDK will base on the order in the composite provider list to check for necessary info (tenancyid, userID, fingerprint, region, keyID).
 	configProviders = append(configProviders, resourceDataConfigProvider)
-	if profile == "" {
+
+	if !hasConfigFileProfile && !hasConfigFilePath {
 		configProviders = append(configProviders, oci_common.DefaultConfigProvider())
 	} else {
-		defaultPath := path.Join(getHomeFolder(), defaultConfigDirName, defaultConfigFileName)
-		err := checkProfile(profile, defaultPath)
-		if err != nil {
+		if err := checkProfile(profile, configFile); err != nil {
 			return nil, err
 		}
-		configProviders = append(configProviders, oci_common.CustomProfileConfigProvider(defaultPath, profile))
+		configProviders = append(configProviders, oci_common.CustomProfileConfigProvider(configFile, profile))
 	}
+
 	sdkConfigProvider, err := oci_common.ComposingConfigurationProvider(configProviders)
 	if err != nil {
 		return nil, err
@@ -522,11 +541,15 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 			return nil, fmt.Errorf("missing profile in provider block %v", configFileProfileAttrName)
 		}
 		profileString := profile.(string)
-		defaultPath := path.Join(getHomeFolder(), defaultConfigDirName, defaultConfigFileName)
-		if err := checkProfile(profileString, defaultPath); err != nil {
+		configFile := path.Join(getHomeFolder(), defaultConfigDirName, defaultConfigFileName)
+		configFilePath, hasConfigFilePath := d.GetOk(configFilePathAttrName)
+		if hasConfigFilePath {
+			configFile = expandPath(configFilePath.(string))
+		}
+		if err := checkProfile(profileString, configFile); err != nil {
 			return nil, err
 		}
-		securityTokenBasedAuthConfigProvider := oci_common.CustomProfileConfigProvider(defaultPath, profileString)
+		securityTokenBasedAuthConfigProvider := oci_common.CustomProfileConfigProvider(configFile, profileString)
 
 		keyId, err := securityTokenBasedAuthConfigProvider.KeyID()
 		if err != nil || !strings.HasPrefix(keyId, "ST$") {
