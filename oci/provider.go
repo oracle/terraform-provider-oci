@@ -89,6 +89,7 @@ const (
 	ociEnvPrefix             = "OCI_"
 	defaultConfigFileName    = "config"
 	defaultConfigDirName     = ".oci"
+	defaultConfigProfile     = "DEFAULT"
 	colonDelimiter           = ";"
 	equalToOperatorDelimiter = "="
 )
@@ -145,7 +146,7 @@ func init() {
 			"Automatic retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
 		retryDurationSecondsAttrName: "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
 			"The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.",
-		configFileProfileAttrName: "(Optional) The profile name to be used from config file, if not set it will be DEFAULT.",
+		configFileProfileAttrName: fmt.Sprintf("(Optional) The profile name to be used from config file, if not set it will be %s.", defaultConfigProfile),
 	}
 }
 
