@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -30,7 +30,9 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// The OCID of the compute capacity reservation this instance is launched under.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
-	// The OCID of the compartment.
+	// The OCID of the compartment containing the instance.
+	// Instances created from instance configurations are placed in the same compartment
+	// as the instance that was used to create the instance configuration.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	CreateVnicDetails *InstanceConfigurationCreateVnicDetails `mandatory:"false" json:"createVnicDetails"`
@@ -42,7 +44,6 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
-	// Example: `My bare metal instance`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Additional metadata key/value pairs that you provide. They serve the same purpose and

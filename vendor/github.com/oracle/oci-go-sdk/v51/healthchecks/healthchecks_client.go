@@ -52,6 +52,8 @@ func NewHealthChecksClientWithOboToken(configProvider common.ConfigurationProvid
 }
 
 func newHealthChecksClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client HealthChecksClient, err error) {
+	// HealthChecks service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

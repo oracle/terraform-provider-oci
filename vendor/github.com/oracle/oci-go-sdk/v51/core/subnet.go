@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -31,19 +31,19 @@ type Subnet struct {
 	// Example: `10.0.1.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 
-	// The OCID of the compartment containing the subnet.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the subnet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The subnet's Oracle ID (OCID).
+	// The subnet's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 	Id *string `mandatory:"true" json:"id"`
 
 	// The subnet's current state.
 	LifecycleState SubnetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID of the route table that the subnet uses.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table that the subnet uses.
 	RouteTableId *string `mandatory:"true" json:"routeTableId"`
 
-	// The OCID of the VCN the subnet is in.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN the subnet is in.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// The IP address of the virtual router.
@@ -64,7 +64,7 @@ type Subnet struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID of the set of DHCP options that the subnet uses.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the set of DHCP options that the subnet uses.
 	DhcpOptionsId *string `mandatory:"false" json:"dhcpOptionsId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

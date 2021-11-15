@@ -52,6 +52,8 @@ func NewDeploymentClientWithOboToken(configProvider common.ConfigurationProvider
 }
 
 func newDeploymentClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DeploymentClient, err error) {
+	// Deployment service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

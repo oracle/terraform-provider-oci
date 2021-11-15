@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -54,6 +54,8 @@ func NewVirtualNetworkClientWithOboToken(configProvider common.ConfigurationProv
 }
 
 func newVirtualNetworkClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client VirtualNetworkClient, err error) {
+	// VirtualNetwork service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -2153,7 +2155,7 @@ func (client VirtualNetworkClient) createByoipRange(ctx context.Context, request
 }
 
 // CreateCpe Creates a new virtual customer-premises equipment (CPE) object in the specified compartment. For
-// more information, see IPSec VPNs (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPsec.htm).
+// more information, see Site-to-Site VPN Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
 // For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the CPE to reside. Notice that the CPE doesn't have to be in the same compartment as the IPSec
 // connection or other Networking Service components. If you're not sure which compartment to
@@ -2161,7 +2163,7 @@ func (client VirtualNetworkClient) createByoipRange(ctx context.Context, request
 // compartments and access control, see Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You must provide the public IP address of your on-premises router. See
-// Configuring Your On-Premises Router for an IPSec VPN (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
+// CPE Configuration (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
 // You may optionally specify a *display name* for the CPE, otherwise a default is provided. It does not have to
 // be unique, and you can change it. Avoid entering confidential information.
 //
@@ -2441,7 +2443,7 @@ func (client VirtualNetworkClient) createDhcpOptions(ctx context.Context, reques
 
 // CreateDrg Creates a new dynamic routing gateway (DRG) in the specified compartment. For more information,
 // see Dynamic Routing Gateways (DRGs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
-// For the purposes of access control, you must provide the OCID of the compartment where you want
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the DRG to reside. Notice that the DRG doesn't have to be in the same compartment as the VCN,
 // the DRG attachment, or other Networking Service components. If you're not sure which compartment
 // to use, put the DRG in the same compartment as the VCN. For more information about compartments
@@ -2701,7 +2703,7 @@ func (client VirtualNetworkClient) createDrgRouteTable(ctx context.Context, requ
 }
 
 // CreateIPSecConnection Creates a new IPSec connection between the specified DRG and CPE. For more information, see
-// IPSec VPNs (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPsec.htm).
+// Site-to-Site VPN Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
 // If you configure at least one tunnel to use static routing, then in the request you must provide
 // at least one valid static route (you're allowed a maximum of 10). For example: 10.0.0.0/16.
 // If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for
@@ -2721,7 +2723,7 @@ func (client VirtualNetworkClient) createDrgRouteTable(ctx context.Context, requ
 //   * IPSecConnectionTunnelSharedSecret
 // For each tunnel, you need the IP address of Oracle's VPN headend and the shared secret
 // (that is, the pre-shared key). For more information, see
-// Configuring Your On-Premises Router for an IPSec VPN (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
+// CPE Configuration (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
 //
 // See also
 //
@@ -3163,7 +3165,7 @@ func (client VirtualNetworkClient) createPrivateIp(ctx context.Context, request 
 // reserved public IP. For information about limits on how many you can create, see
 // Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 // * **For an ephemeral public IP assigned to a private IP:** You must also specify a `privateIpId`
-// with the OCID of the primary private IP you want to assign the public IP to. The public IP is
+// with the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary private IP you want to assign the public IP to. The public IP is
 // created in the same availability domain as the private IP. An ephemeral public IP must always be
 // assigned to a private IP, and only to the *primary* private IP on a VNIC, not a secondary
 // private IP. Exception: If you create a NatGateway, Oracle
@@ -3360,7 +3362,7 @@ func (client VirtualNetworkClient) createRemotePeeringConnection(ctx context.Con
 // Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For general information about route
 // tables in your VCN and the types of targets you can use in route rules,
 // see Route Tables (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
-// For the purposes of access control, you must provide the OCID of the compartment where you want the route
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the route
 // table to reside. Notice that the route table doesn't have to be in the same compartment as the VCN, subnets,
 // or other Networking Service components. If you're not sure which compartment to use, put the route
 // table in the same compartment as the VCN. For more information about compartments and access control, see
@@ -3431,7 +3433,7 @@ func (client VirtualNetworkClient) createRouteTable(ctx context.Context, request
 // about security lists, see Security Lists (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securitylists.htm).
 // For information on the number of rules you can have in a security list, see
 // Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).
-// For the purposes of access control, you must provide the OCID of the compartment where you want the security
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the security
 // list to reside. Notice that the security list doesn't have to be in the same compartment as the VCN, subnets,
 // or other Networking Service components. If you're not sure which compartment to use, put the security
 // list in the same compartment as the VCN. For more information about compartments and access control, see
@@ -3499,7 +3501,7 @@ func (client VirtualNetworkClient) createSecurityList(ctx context.Context, reque
 }
 
 // CreateServiceGateway Creates a new service gateway in the specified compartment.
-// For the purposes of access control, you must provide the OCID of the compartment where you want
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 // the service gateway to reside. For more information about compartments and access control, see
 // Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 // For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -3569,7 +3571,7 @@ func (client VirtualNetworkClient) createServiceGateway(ctx context.Context, req
 // For more information, see VCNs and Subnets (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
 // For information on the number of subnets you can have in a VCN, see
 // Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm).
-// For the purposes of access control, you must provide the OCID of the compartment where you want the subnet
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the subnet
 // to reside. Notice that the subnet doesn't have to be in the same compartment as the VCN, route tables, or
 // other Networking Service components. If you're not sure which compartment to use, put the subnet in
 // the same compartment as the VCN. For more information about compartments and access control, see
@@ -3656,7 +3658,7 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 // - The number of CIDR blocks does not exceed the limit of CIDR blocks allowed per VCN.
 // For a CIDR block, Oracle recommends that you use one of the private IP address ranges specified in RFC 1918 (https://tools.ietf.org/html/rfc1918) (10.0.0.0/8, 172.16/12, and 192.168/16). Example:
 // 172.16.0.0/16. The CIDR blocks can range from /16 to /30.
-// For the purposes of access control, you must provide the OCID of the compartment where you want the VCN to
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the VCN to
 // reside. Consult an Oracle Cloud Infrastructure administrator in your organization if you're not sure which
 // compartment to use. Notice that the VCN doesn't have to be in the same compartment as the subnets or other
 // Networking Service components. For more information about compartments and access control, see
@@ -3668,9 +3670,9 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 // Interent and VCN Resolver option for DNS in the VCN. For more information, see
 // DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 // The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
-// The OCID for each is returned in the response. You can't delete these default objects, but you can change their
+// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for each is returned in the response. You can't delete these default objects, but you can change their
 // contents (that is, change the route rules, security list rules, and so on).
-// The VCN and subnets you create are not accessible until you attach an internet gateway or set up an IPSec VPN
+// The VCN and subnets you create are not accessible until you attach an internet gateway or set up a Site-to-Site VPN
 // or FastConnect. For more information, see
 // Overview of the Networking Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm).
 //
@@ -3735,7 +3737,7 @@ func (client VirtualNetworkClient) createVcn(ctx context.Context, request common
 // CreateVirtualCircuit Creates a new virtual circuit to use with Oracle Cloud
 // Infrastructure FastConnect. For more information, see
 // FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
-// For the purposes of access control, you must provide the OCID of the
+// For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the
 // compartment where you want the virtual circuit to reside. If you're
 // not sure which compartment to use, put the virtual circuit in the
 // same compartment with the DRG it's using. For more information about
@@ -4382,9 +4384,9 @@ func (client VirtualNetworkClient) deleteDrgRouteTable(ctx context.Context, requ
 	return response, err
 }
 
-// DeleteIPSecConnection Deletes the specified IPSec connection. If your goal is to disable the IPSec VPN between your VCN and
-// on-premises network, it's easiest to simply detach the DRG but keep all the IPSec VPN components intact.
-// If you were to delete all the components and then later need to create an IPSec VPN again, you would
+// DeleteIPSecConnection Deletes the specified IPSec connection. If your goal is to disable the Site-to-Site VPN between your VCN and
+// on-premises network, it's easiest to simply detach the DRG but keep all the Site-to-Site VPN components intact.
+// If you were to delete all the components and then later need to create an Site-to-Site VPN again, you would
 // need to configure your on-premises router again with the new information returned from
 // CreateIPSecConnection.
 // This is an asynchronous operation. The connection's `lifecycleState` will change to TERMINATING temporarily
@@ -4676,7 +4678,7 @@ func (client VirtualNetworkClient) deleteNatGateway(ctx context.Context, request
 // To get a list of the VNICs in a network security group, use
 // ListNetworkSecurityGroupVnics.
 // Each returned NetworkSecurityGroupVnic object
-// contains both the OCID of the VNIC and the OCID of the VNIC's parent resource (for example,
+// contains both the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC and the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC's parent resource (for example,
 // the Compute instance that the VNIC is attached to).
 //
 // See also
@@ -4733,7 +4735,7 @@ func (client VirtualNetworkClient) deleteNetworkSecurityGroup(ctx context.Contex
 }
 
 // DeletePrivateIp Unassigns and deletes the specified private IP. You must
-// specify the object's OCID. The private IP address is returned to
+// specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). The private IP address is returned to
 // the subnet's pool of available addresses.
 // This operation cannot be used with primary private IPs, which are
 // automatically unassigned and deleted when the VNIC is terminated.
@@ -4796,7 +4798,7 @@ func (client VirtualNetworkClient) deletePrivateIp(ctx context.Context, request 
 }
 
 // DeletePublicIp Unassigns and deletes the specified public IP (either ephemeral or reserved).
-// You must specify the object's OCID. The public IP address is returned to the
+// You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). The public IP address is returned to the
 // Oracle Cloud Infrastructure public IP pool.
 // **Note:** You cannot update, unassign, or delete the public IP that Oracle automatically
 // assigned to an entity for you (such as a load balancer or NAT gateway). The public IP is
@@ -5616,9 +5618,9 @@ func (client VirtualNetworkClient) getCpe(ctx context.Context, request common.OC
 // IPSecConnection objects that use the specified CPE.
 // Here are similar operations:
 //   * GetIpsecCpeDeviceConfigContent
-//   returns CPE configuration content for all tunnels in a single IPSec connection.
+//   returns CPE configuration content for all IPSec tunnels in a single IPSec connection.
 //   * GetTunnelCpeDeviceConfigContent
-//   returns CPE configuration content for a specific tunnel within an IPSec connection.
+//   returns CPE configuration content for a specific IPSec tunnel in an IPSec connection.
 //
 // See also
 //
@@ -6807,7 +6809,7 @@ func (client VirtualNetworkClient) getIpsecCpeDeviceConfigContent(ctx context.Co
 // GetIpv6 Gets the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // Alternatively, you can get the object by using
 // ListIpv6s
-// with the IPv6 address (for example, 2001:0db8:0123:1111:98fe:dcba:9876:4321) and subnet OCID.
+// with the IPv6 address (for example, 2001:0db8:0123:1111:98fe:dcba:9876:4321) and subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //
 // See also
 //
@@ -7086,10 +7088,10 @@ func (client VirtualNetworkClient) getNetworkingTopology(ctx context.Context, re
 	return response, err
 }
 
-// GetPrivateIp Gets the specified private IP. You must specify the object's OCID.
+// GetPrivateIp Gets the specified private IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Alternatively, you can get the object by using
 // ListPrivateIps
-// with the private IP address (for example, 10.0.3.3) and subnet OCID.
+// with the private IP address (for example, 10.0.3.3) and subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //
 // See also
 //
@@ -7144,14 +7146,14 @@ func (client VirtualNetworkClient) getPrivateIp(ctx context.Context, request com
 	return response, err
 }
 
-// GetPublicIp Gets the specified public IP. You must specify the object's OCID.
+// GetPublicIp Gets the specified public IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Alternatively, you can get the object by using GetPublicIpByIpAddress
 // with the public IP address (for example, 203.0.113.2).
 // Or you can use GetPublicIpByPrivateIpId
-// with the OCID of the private IP that the public IP is assigned to.
+// with the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP that the public IP is assigned to.
 // **Note:** If you're fetching a reserved public IP that is in the process of being
 // moved to a different private IP, the service returns the public IP object with
-// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID of the target private IP.
+// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
 //
 // See also
 //
@@ -7209,7 +7211,7 @@ func (client VirtualNetworkClient) getPublicIp(ctx context.Context, request comm
 // GetPublicIpByIpAddress Gets the public IP based on the public IP address (for example, 203.0.113.2).
 // **Note:** If you're fetching a reserved public IP that is in the process of being
 // moved to a different private IP, the service returns the public IP object with
-// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID of the target private IP.
+// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
 //
 // See also
 //
@@ -7267,13 +7269,13 @@ func (client VirtualNetworkClient) getPublicIpByIpAddress(ctx context.Context, r
 // GetPublicIpByPrivateIpId Gets the public IP assigned to the specified private IP. You must specify the OCID
 // of the private IP. If no public IP is assigned, a 404 is returned.
 // **Note:** If you're fetching a reserved public IP that is in the process of being
-// moved to a different private IP, and you provide the OCID of the original private
-// IP, this operation returns a 404. If you instead provide the OCID of the target
+// moved to a different private IP, and you provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the original private
+// IP, this operation returns a 404. If you instead provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target
 // private IP, or if you instead call
 // GetPublicIp or
 // GetPublicIpByIpAddress, the
 // service returns the public IP object with `lifecycleState` = ASSIGNING and
-// `assignedEntityId` = OCID of the target private IP.
+// `assignedEntityId` = OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target private IP.
 //
 // See also
 //
@@ -7701,6 +7703,61 @@ func (client VirtualNetworkClient) getSubnet(ctx context.Context, request common
 	}
 
 	var response GetSubnetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSubnetTopology Gets a topology for a given subnet.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetSubnetTopology.go.html to see an example of how to use GetSubnetTopology API.
+func (client VirtualNetworkClient) GetSubnetTopology(ctx context.Context, request GetSubnetTopologyRequest) (response GetSubnetTopologyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSubnetTopology, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubnetTopologyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubnetTopologyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSubnetTopologyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSubnetTopologyResponse")
+	}
+	return
+}
+
+// getSubnetTopology implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getSubnetTopology(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subnetTopology", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSubnetTopologyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -8171,7 +8228,7 @@ func (client VirtualNetworkClient) getVlan(ctx context.Context, request common.O
 }
 
 // GetVnic Gets the information for the specified virtual network interface card (VNIC).
-// You can get the VNIC OCID from the
+// You can get the VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) from the
 // ListVnicAttachments
 // operation.
 //
@@ -9475,11 +9532,11 @@ func (client VirtualNetworkClient) listInternetGateways(ctx context.Context, req
 
 // ListIpv6s Lists the Ipv6 objects based
 // on one of these filters:
-//   * Subnet OCID.
-//   * VNIC OCID.
+//   * Subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   * VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //   * Both IPv6 address and subnet OCID: This lets you get an `Ipv6` object based on its private
-//   IPv6 address (for example, 2001:0db8:0123:1111:abcd:ef01:2345:6789) and not its OCID. For comparison,
-//   GetIpv6 requires the OCID.
+//   IPv6 address (for example, 2001:0db8:0123:1111:abcd:ef01:2345:6789) and not its OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
+//   GetIpv6 requires the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //
 // See also
 //
@@ -9814,17 +9871,17 @@ func (client VirtualNetworkClient) listNetworkSecurityGroups(ctx context.Context
 
 // ListPrivateIps Lists the PrivateIp objects based
 // on one of these filters:
-//   - Subnet OCID.
-//   - VNIC OCID.
+//   - Subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   - VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //   - Both private IP address and subnet OCID: This lets
 //   you get a `privateIP` object based on its private IP
-//   address (for example, 10.0.3.3) and not its OCID. For comparison,
+//   address (for example, 10.0.3.3) and not its OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
 //   GetPrivateIp
-//   requires the OCID.
+//   requires the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // If you're listing all the private IPs associated with a given subnet
 // or VNIC, the response includes both primary and secondary private IPs.
 // If you are an Oracle Cloud VMware Solution customer and have VLANs
-// in your VCN, you can filter the list by VLAN OCID. See Vlan.
+// in your VCN, you can filter the list by VLAN OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). See Vlan.
 //
 // See also
 //
@@ -10398,7 +10455,7 @@ func (client VirtualNetworkClient) listVcns(ctx context.Context, request common.
 	return response, err
 }
 
-// ListVirtualCircuitBandwidthShapes The deprecated operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID of your tenancy (the root compartment).
+// ListVirtualCircuitBandwidthShapes The deprecated operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
 //
 // See also
 //
@@ -11928,7 +11985,7 @@ func (client VirtualNetworkClient) updateInternetGateway(ctx context.Context, re
 	return response, err
 }
 
-// UpdateIpv6 Updates the specified IPv6. You must specify the object's OCID.
+// UpdateIpv6 Updates the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Use this operation if you want to:
 //   * Move an IPv6 to a different VNIC in the same subnet.
 //   * Enable/disable internet access for an IPv6.
@@ -12101,7 +12158,7 @@ func (client VirtualNetworkClient) updateNatGateway(ctx context.Context, request
 // UpdateNetworkSecurityGroup Updates the specified network security group.
 // To add or remove an existing VNIC from the group, use
 // UpdateVnic.
-// To add a VNIC to the group *when you create the VNIC*, specify the NSG's OCID during creation.
+// To add a VNIC to the group *when you create the VNIC*, specify the NSG's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) during creation.
 // For example, see the `nsgIds` attribute in CreateVnicDetails.
 // To add or remove security rules from the group, use
 // AddNetworkSecurityGroupSecurityRules
@@ -12218,7 +12275,7 @@ func (client VirtualNetworkClient) updateNetworkSecurityGroupSecurityRules(ctx c
 	return response, err
 }
 
-// UpdatePrivateIp Updates the specified private IP. You must specify the object's OCID.
+// UpdatePrivateIp Updates the specified private IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Use this operation if you want to:
 //   - Move a secondary private IP to a different VNIC in the same subnet.
 //   - Change the display name for a secondary private IP.
@@ -12280,7 +12337,7 @@ func (client VirtualNetworkClient) updatePrivateIp(ctx context.Context, request 
 	return response, err
 }
 
-// UpdatePublicIp Updates the specified public IP. You must specify the object's OCID. Use this operation if you want to:
+// UpdatePublicIp Updates the specified public IP. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Use this operation if you want to:
 // * Assign a reserved public IP in your pool to a private IP.
 // * Move a reserved public IP to a different private IP.
 // * Unassign a reserved public IP from a private IP (which returns it to your pool

@@ -50,6 +50,8 @@ func NewQuotasClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newQuotasClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client QuotasClient, err error) {
+	// Quotas service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

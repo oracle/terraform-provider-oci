@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -26,7 +26,7 @@ import (
 // see Public IP Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm).
 type PublicIp struct {
 
-	// The OCID of the entity the public IP is assigned to, or in the process of
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the entity the public IP is assigned to, or in the process of
 	// being assigned to.
 	AssignedEntityId *string `mandatory:"false" json:"assignedEntityId"`
 
@@ -40,7 +40,7 @@ type PublicIp struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// The OCID of the compartment containing the public IP. For an ephemeral public IP, this is
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the public IP. For an ephemeral public IP, this is
 	// the compartment of its assigned entity (which can be a private IP or a regional entity such
 	// as a NAT gateway). For a reserved public IP that is currently assigned,
 	// its compartment can be different from the assigned private IP's.
@@ -51,8 +51,8 @@ type PublicIp struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid
-	// entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
@@ -60,7 +60,7 @@ type PublicIp struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The public IP's Oracle ID (OCID).
+	// The public IP's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 	Id *string `mandatory:"false" json:"id"`
 
 	// The public IP address of the `publicIp` object.
@@ -84,7 +84,7 @@ type PublicIp struct {
 	Lifetime PublicIpLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 
 	// Deprecated. Use `assignedEntityId` instead.
-	// The OCID of the private IP that the public IP is currently assigned to, or in the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP that the public IP is currently assigned to, or in the
 	// process of being assigned to.
 	// **Note:** This is `null` if the public IP is not assigned to a private IP, or is
 	// in the process of being assigned to one.

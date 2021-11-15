@@ -54,6 +54,8 @@ func NewEmailClientWithOboToken(configProvider common.ConfigurationProvider, obo
 }
 
 func newEmailClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EmailClient, err error) {
+	// Email service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

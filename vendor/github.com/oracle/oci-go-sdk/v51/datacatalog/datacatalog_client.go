@@ -51,6 +51,8 @@ func NewDataCatalogClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newDataCatalogClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DataCatalogClient, err error) {
+	// DataCatalog service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

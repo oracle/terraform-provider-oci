@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -75,6 +75,10 @@ func (m *topology) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := NetworkingTopology{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SUBNET":
+		mm := SubnetTopology{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -106,11 +110,13 @@ type TopologyTypeEnum string
 const (
 	TopologyTypeNetworking TopologyTypeEnum = "NETWORKING"
 	TopologyTypeVcn        TopologyTypeEnum = "VCN"
+	TopologyTypeSubnet     TopologyTypeEnum = "SUBNET"
 )
 
 var mappingTopologyType = map[string]TopologyTypeEnum{
 	"NETWORKING": TopologyTypeNetworking,
 	"VCN":        TopologyTypeVcn,
+	"SUBNET":     TopologyTypeSubnet,
 }
 
 // GetTopologyTypeEnumValues Enumerates the set of values for TopologyTypeEnum

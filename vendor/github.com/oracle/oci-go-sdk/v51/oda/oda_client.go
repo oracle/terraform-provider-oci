@@ -50,6 +50,8 @@ func NewOdaClientWithOboToken(configProvider common.ConfigurationProvider, oboTo
 }
 
 func newOdaClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OdaClient, err error) {
+	// Oda service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

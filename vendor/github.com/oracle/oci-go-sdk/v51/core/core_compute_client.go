@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -86,7 +86,7 @@ func (client *ComputeClient) ConfigurationProvider() *common.ConfigurationProvid
 	return client.config
 }
 
-// AcceptShieldedIntegrityPolicy Accept the changes to the PCR values in the Measured Boot Report.
+// AcceptShieldedIntegrityPolicy Accept the changes to the PCR values in the measured boot report.
 //
 // See also
 //
@@ -2612,7 +2612,7 @@ func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, re
 	return response, err
 }
 
-// GetMeasuredBootReport Gets the measured boot report for this Shielded Instance.
+// GetMeasuredBootReport Gets the measured boot report for this shielded instance.
 //
 // See also
 //
@@ -2851,6 +2851,7 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // crash dump file when it crashes. The crash dump captures information about the state of the OS at the time of
 // the crash. After the OS restarts, you can analyze the crash dump to diagnose the issue. For more information, see
 // Sending a Diagnostic Interrupt (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/sendingdiagnosticinterrupt.htm).
+//
 //
 // For more information about managing instance lifecycle states, see
 // Stopping and Starting an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
@@ -3890,13 +3891,15 @@ func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Conte
 	return response, err
 }
 
-// ListImages Lists the available images in the specified compartment, including
+// ListImages Lists a subset of images available in the specified compartment, including
 // platform images (https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm) and
-// custom images (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm) that have
-// been created.
-// The list of images that's returned is ordered to first show all
-// platform images, then all custom images. The order of images might
-// change when new images are released.
+// custom images (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm).
+// The list of platform images includes the three most recently published versions
+// of each major distribution.
+// The list of images returned is ordered to first show the recent platform images,
+// then all of the custom images.
+// **Caution:** Platform images are refreshed regularly. When new images are released, older versions are replaced.
+// The image OCIDs remain available, but when the platform image is replaced, the image OCIDs are no longer returned as part of the platform image list.
 //
 // See also
 //
@@ -4421,9 +4424,9 @@ func (client ComputeClient) terminateInstance(ctx context.Context, request commo
 	return response, err
 }
 
-// UpdateComputeCapacityReservation Updates the display name, defined tag, and freeform tag fields for the specified compute capacity reservation.
-// Fields that are not provided in the request will not be updated. Avoid entering confidential information.
-// The update also modifies the reservation configurations of the specified compute capacity reservation.
+// UpdateComputeCapacityReservation Updates the specified capacity reservation and its associated capacity configurations.
+// Fields that are not provided in the request will not be updated. Capacity configurations that are not included will be deleted.
+// Avoid entering confidential information.
 //
 // See also
 //

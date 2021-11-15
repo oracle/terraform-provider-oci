@@ -52,6 +52,8 @@ func NewApiGatewayClientWithOboToken(configProvider common.ConfigurationProvider
 }
 
 func newApiGatewayClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ApiGatewayClient, err error) {
+	// ApiGateway service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

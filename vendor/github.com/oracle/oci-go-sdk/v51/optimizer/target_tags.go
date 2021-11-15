@@ -4,7 +4,9 @@
 
 // Cloud Advisor API
 //
-// APIs for managing Cloud Advisor. Cloud Advisor provides recommendations that help you maximize cost savings and improve the security posture of your tenancy.
+// Use the Cloud Advisor API to find potential inefficiencies in your tenancy and address them.
+// Cloud Advisor can help you save money, improve performance, strengthen system resilience, and improve security.
+// For more information, see Cloud Advisor (https://docs.cloud.oracle.com/Content/CloudAdvisor/Concepts/cloudadvisoroverview.htm).
 //
 
 package optimizer
@@ -13,10 +15,10 @@ import (
 	"github.com/oracle/oci-go-sdk/v51/common"
 )
 
-// TargetTags Optional. The target tags supported by a profile override for a recommendation.
+// TargetTags Optional. The tags specified in the profile override for a recommendation.
 type TargetTags struct {
 
-	// The list of target tags attached to the current profile override.
+	// The list of tags specified in the current profile override.
 	Items []TargetTag `mandatory:"true" json:"items"`
 }
 

@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -30,8 +30,34 @@ type TopologyRoutesToRelationshipDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the routing table that contains the route rule.
 	RouteTableId *string `mandatory:"true" json:"routeTableId"`
+
+	// A route rule can be `STATIC` if manually added to the route table or `DYNAMIC` if imported from another route table.
+	RouteType TopologyRoutesToRelationshipDetailsRouteTypeEnum `mandatory:"false" json:"routeType,omitempty"`
 }
 
 func (m TopologyRoutesToRelationshipDetails) String() string {
 	return common.PointerString(m)
+}
+
+// TopologyRoutesToRelationshipDetailsRouteTypeEnum Enum with underlying type: string
+type TopologyRoutesToRelationshipDetailsRouteTypeEnum string
+
+// Set of constants representing the allowable values for TopologyRoutesToRelationshipDetailsRouteTypeEnum
+const (
+	TopologyRoutesToRelationshipDetailsRouteTypeStatic  TopologyRoutesToRelationshipDetailsRouteTypeEnum = "STATIC"
+	TopologyRoutesToRelationshipDetailsRouteTypeDynamic TopologyRoutesToRelationshipDetailsRouteTypeEnum = "DYNAMIC"
+)
+
+var mappingTopologyRoutesToRelationshipDetailsRouteType = map[string]TopologyRoutesToRelationshipDetailsRouteTypeEnum{
+	"STATIC":  TopologyRoutesToRelationshipDetailsRouteTypeStatic,
+	"DYNAMIC": TopologyRoutesToRelationshipDetailsRouteTypeDynamic,
+}
+
+// GetTopologyRoutesToRelationshipDetailsRouteTypeEnumValues Enumerates the set of values for TopologyRoutesToRelationshipDetailsRouteTypeEnum
+func GetTopologyRoutesToRelationshipDetailsRouteTypeEnumValues() []TopologyRoutesToRelationshipDetailsRouteTypeEnum {
+	values := make([]TopologyRoutesToRelationshipDetailsRouteTypeEnum, 0)
+	for _, v := range mappingTopologyRoutesToRelationshipDetailsRouteType {
+		values = append(values, v)
+	}
+	return values
 }

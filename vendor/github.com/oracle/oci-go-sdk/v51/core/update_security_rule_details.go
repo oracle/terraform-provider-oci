@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -46,7 +46,7 @@ type UpdateSecurityRuleDetails struct {
 	//   * The `cidrBlock` value for a Service, if you're
 	//     setting up a security rule for traffic destined for a particular `Service` through
 	//     a service gateway. For example: `oci-phx-objectstorage`.
-	//   * The OCID of a NetworkSecurityGroup in the same
+	//   * The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a NetworkSecurityGroup in the same
 	//     VCN. The value can be the NSG that the rule belongs to if the rule's intent is to control
 	//     traffic between VNICs in the same NSG.
 	Destination *string `mandatory:"false" json:"destination"`
@@ -57,7 +57,7 @@ type UpdateSecurityRuleDetails struct {
 	//   * `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a
 	//     Service (the rule is for traffic destined for a
 	//     particular `Service` through a service gateway).
-	//   * `NETWORK_SECURITY_GROUP`: If the rule's `destination` is the OCID of a
+	//   * `NETWORK_SECURITY_GROUP`: If the rule's `destination` is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a
 	//     NetworkSecurityGroup.
 	DestinationType UpdateSecurityRuleDetailsDestinationTypeEnum `mandatory:"false" json:"destinationType,omitempty"`
 
@@ -79,7 +79,7 @@ type UpdateSecurityRuleDetails struct {
 	//   * The `cidrBlock` value for a Service, if you're
 	//     setting up a security rule for traffic coming from a particular `Service` through
 	//     a service gateway. For example: `oci-phx-objectstorage`.
-	//   * The OCID of a NetworkSecurityGroup in the same
+	//   * The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a NetworkSecurityGroup in the same
 	//     VCN. The value can be the NSG that the rule belongs to if the rule's intent is to control
 	//     traffic between VNICs in the same NSG.
 	Source *string `mandatory:"false" json:"source"`
@@ -89,7 +89,7 @@ type UpdateSecurityRuleDetails struct {
 	//   * `SERVICE_CIDR_BLOCK`: If the rule's `source` is the `cidrBlock` value for a
 	//     Service (the rule is for traffic coming from a
 	//     particular `Service` through a service gateway).
-	//   * `NETWORK_SECURITY_GROUP`: If the rule's `source` is the OCID of a
+	//   * `NETWORK_SECURITY_GROUP`: If the rule's `source` is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a
 	//     NetworkSecurityGroup.
 	SourceType UpdateSecurityRuleDetailsSourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
 

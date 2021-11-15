@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -26,10 +26,10 @@ type CreateSubnetDetails struct {
 	// Example: `10.0.1.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 
-	// The OCID of the compartment to contain the subnet.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the subnet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the VCN to contain the subnet.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN to contain the subnet.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Controls whether the subnet is regional or specific to an availability domain. Oracle
@@ -49,7 +49,7 @@ type CreateSubnetDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID of the set of DHCP options the subnet will use. If you don't
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the set of DHCP options the subnet will use. If you don't
 	// provide a value, the subnet uses the VCN's default set of DHCP options.
 	DhcpOptionsId *string `mandatory:"false" json:"dhcpOptionsId"`
 
@@ -103,7 +103,7 @@ type CreateSubnetDetails struct {
 	// Example: `true`
 	ProhibitPublicIpOnVnic *bool `mandatory:"false" json:"prohibitPublicIpOnVnic"`
 
-	// The OCID of the route table the subnet will use. If you don't provide a value,
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the subnet will use. If you don't provide a value,
 	// the subnet uses the VCN's default route table.
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 

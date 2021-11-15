@@ -52,6 +52,8 @@ func NewAnomalyDetectionClientWithOboToken(configProvider common.ConfigurationPr
 }
 
 func newAnomalyDetectionClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client AnomalyDetectionClient, err error) {
+	// AnomalyDetection service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

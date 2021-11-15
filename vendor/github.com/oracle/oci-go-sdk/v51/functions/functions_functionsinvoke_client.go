@@ -50,6 +50,8 @@ func NewFunctionsInvokeClientWithOboToken(configProvider common.ConfigurationPro
 }
 
 func newFunctionsInvokeClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider, endpoint string) (client FunctionsInvokeClient, err error) {
+	// FunctionsInvoke service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

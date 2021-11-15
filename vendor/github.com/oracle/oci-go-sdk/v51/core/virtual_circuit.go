@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -51,7 +51,7 @@ type VirtualCircuit struct {
 	// The state of the Ipv6 BGP session associated with the virtual circuit.
 	BgpIpv6SessionState VirtualCircuitBgpIpv6SessionStateEnum `mandatory:"false" json:"bgpIpv6SessionState,omitempty"`
 
-	// The OCID of the compartment containing the virtual circuit.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the virtual circuit.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// An array of mappings, each containing properties for a
@@ -91,11 +91,11 @@ type VirtualCircuit struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID of the customer's Drg
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's Drg
 	// that this virtual circuit uses. Applicable only to private virtual circuits.
 	GatewayId *string `mandatory:"false" json:"gatewayId"`
 
-	// The virtual circuit's Oracle ID (OCID).
+	// The virtual circuit's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 	Id *string `mandatory:"false" json:"id"`
 
 	// The virtual circuit's current state. For information about
@@ -109,7 +109,7 @@ type VirtualCircuit struct {
 	// Deprecated. Instead use `providerServiceId`.
 	ProviderName *string `mandatory:"false" json:"providerName"`
 
-	// The OCID of the service offered by the provider (if the customer is connecting via a provider).
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if the customer is connecting via a provider).
 	ProviderServiceId *string `mandatory:"false" json:"providerServiceId"`
 
 	// The service key name offered by the provider (if the customer is connecting via a provider).
@@ -148,6 +148,9 @@ type VirtualCircuit struct {
 	// Whether the virtual circuit supports private or public peering. For more information,
 	// see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 	Type VirtualCircuitTypeEnum `mandatory:"false" json:"type,omitempty"`
+
+	// The layer 3 IP MTU to use on this virtual circuit.
+	IpMtu VirtualCircuitIpMtuEnum `mandatory:"false" json:"ipMtu,omitempty"`
 }
 
 func (m VirtualCircuit) String() string {

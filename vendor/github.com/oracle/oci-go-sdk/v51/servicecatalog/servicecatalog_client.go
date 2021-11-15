@@ -50,6 +50,8 @@ func NewServiceCatalogClientWithOboToken(configProvider common.ConfigurationProv
 }
 
 func newServiceCatalogClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ServiceCatalogClient, err error) {
+	// ServiceCatalog service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

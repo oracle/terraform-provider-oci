@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -17,7 +17,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v51/common"
 )
 
-// InstanceReservationConfigDetails A template that contains the settings to use when defining the instance reservation configuration.
+// InstanceReservationConfigDetails A template that contains the settings to use when defining the instance capacity configuration.
 type InstanceReservationConfigDetails struct {
 
 	// The shape requested when launching instances using reserved capacity.
@@ -26,12 +26,12 @@ type InstanceReservationConfigDetails struct {
 	// You can list all available shapes by calling ListComputeCapacityReservationInstanceShapes.
 	InstanceShape *string `mandatory:"true" json:"instanceShape"`
 
-	// The amount of capacity to reserve in this reservation configuration.
+	// The total number of instances that can be launched from the capacity configuration.
 	ReservedCount *int64 `mandatory:"true" json:"reservedCount"`
 
 	InstanceShapeConfig *InstanceReservationShapeConfigDetails `mandatory:"false" json:"instanceShapeConfig"`
 
-	// The fault domain to use for instances created using this reservation configuration.
+	// The fault domain to use for instances created using this capacity configuration.
 	// For more information, see Fault Domains (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm#fault).
 	// If you do not specify the fault domain, the capacity is available for an instance
 	// that does not specify a fault domain. To change the fault domain for a reservation,

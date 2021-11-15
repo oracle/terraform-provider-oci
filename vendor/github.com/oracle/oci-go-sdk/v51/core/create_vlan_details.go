@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -27,10 +27,10 @@ type CreateVlanDetails struct {
 	// Example: `192.0.2.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
 
-	// The OCID of the compartment to contain the VLAN.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the VLAN.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the VCN to contain the VLAN.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN to contain the VLAN.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Controls whether the VLAN is regional or specific to an availability domain.
@@ -48,7 +48,7 @@ type CreateVlanDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A descriptive name. Does not have to be unique, and it's changeable.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -62,7 +62,7 @@ type CreateVlanDetails struct {
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The OCID of the route table the VLAN will use. If you don't provide a value,
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the VLAN will use. If you don't provide a value,
 	// the VLAN uses the VCN's default route table.
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 

@@ -19,7 +19,7 @@ type UpdateIPSecConnectionRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the IPSec connection.
 	IpscId *string `mandatory:"true" contributesTo:"path" name:"ipscId"`
 
-	// Details object for updating a IPSec connection.
+	// Details object for updating an IPSec connection.
 	UpdateIpSecConnectionDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

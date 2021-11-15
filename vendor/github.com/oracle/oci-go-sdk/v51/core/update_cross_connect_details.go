@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -40,9 +40,10 @@ type UpdateCrossConnectDetails struct {
 	// Example: `true`
 	IsActive *bool `mandatory:"false" json:"isActive"`
 
-	// A reference name or identifier for the physical fiber connection that this cross-connect
-	// uses.
+	// A reference name or identifier for the physical fiber connection this cross-connect uses.
 	CustomerReferenceName *string `mandatory:"false" json:"customerReferenceName"`
+
+	MacsecProperties *UpdateMacsecProperties `mandatory:"false" json:"macsecProperties"`
 }
 
 func (m UpdateCrossConnectDetails) String() string {

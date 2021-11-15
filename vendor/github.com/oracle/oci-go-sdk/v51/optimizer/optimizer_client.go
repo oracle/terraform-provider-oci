@@ -4,7 +4,9 @@
 
 // Cloud Advisor API
 //
-// APIs for managing Cloud Advisor. Cloud Advisor provides recommendations that help you maximize cost savings and improve the security posture of your tenancy.
+// Use the Cloud Advisor API to find potential inefficiencies in your tenancy and address them.
+// Cloud Advisor can help you save money, improve performance, strengthen system resilience, and improve security.
+// For more information, see Cloud Advisor (https://docs.cloud.oracle.com/Content/CloudAdvisor/Concepts/cloudadvisoroverview.htm).
 //
 
 package optimizer
@@ -50,6 +52,8 @@ func NewOptimizerClientWithOboToken(configProvider common.ConfigurationProvider,
 }
 
 func newOptimizerClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OptimizerClient, err error) {
+	// Optimizer service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -245,6 +249,61 @@ func (client OptimizerClient) deleteProfile(ctx context.Context, request common.
 	}
 
 	var response DeleteProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// FilterResourceActions Queries the Cloud Advisor resource actions that are supported by the specified recommendation.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/FilterResourceActions.go.html to see an example of how to use FilterResourceActions API.
+func (client OptimizerClient) FilterResourceActions(ctx context.Context, request FilterResourceActionsRequest) (response FilterResourceActionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.filterResourceActions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FilterResourceActionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FilterResourceActionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FilterResourceActionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FilterResourceActionsResponse")
+	}
+	return
+}
+
+// filterResourceActions implements the OCIOperation interface (enables retrying operations)
+func (client OptimizerClient) filterResourceActions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/filterResourceActions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FilterResourceActionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -753,6 +812,61 @@ func (client OptimizerClient) listHistories(ctx context.Context, request common.
 	return response, err
 }
 
+// ListProfileLevels Lists the existing profile levels.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListProfileLevels.go.html to see an example of how to use ListProfileLevels API.
+func (client OptimizerClient) ListProfileLevels(ctx context.Context, request ListProfileLevelsRequest) (response ListProfileLevelsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listProfileLevels, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListProfileLevelsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListProfileLevelsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListProfileLevelsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListProfileLevelsResponse")
+	}
+	return
+}
+
+// listProfileLevels implements the OCIOperation interface (enables retrying operations)
+func (client OptimizerClient) listProfileLevels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/profileLevels", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListProfileLevelsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListProfiles Lists the existing profiles.
 //
 // See also
@@ -906,6 +1020,61 @@ func (client OptimizerClient) listRecommendations(ctx context.Context, request c
 	}
 
 	var response ListRecommendationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListResourceActionQueryableFields Lists the fields that are indexed for querying and their associated value types.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListResourceActionQueryableFields.go.html to see an example of how to use ListResourceActionQueryableFields API.
+func (client OptimizerClient) ListResourceActionQueryableFields(ctx context.Context, request ListResourceActionQueryableFieldsRequest) (response ListResourceActionQueryableFieldsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listResourceActionQueryableFields, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListResourceActionQueryableFieldsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListResourceActionQueryableFieldsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListResourceActionQueryableFieldsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListResourceActionQueryableFieldsResponse")
+	}
+	return
+}
+
+// listResourceActionQueryableFields implements the OCIOperation interface (enables retrying operations)
+func (client OptimizerClient) listResourceActionQueryableFields(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resourceActions/actions/getQueryableFields", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListResourceActionQueryableFieldsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

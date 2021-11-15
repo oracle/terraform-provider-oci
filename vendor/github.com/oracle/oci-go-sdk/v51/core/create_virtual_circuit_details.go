@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -20,7 +20,7 @@ import (
 // CreateVirtualCircuitDetails The representation of CreateVirtualCircuitDetails
 type CreateVirtualCircuitDetails struct {
 
-	// The OCID of the compartment to contain the virtual circuit.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the virtual circuit.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The type of IP addresses used in this virtual circuit. PRIVATE
@@ -60,7 +60,8 @@ type CreateVirtualCircuitDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
@@ -68,7 +69,7 @@ type CreateVirtualCircuitDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// For private virtual circuits only. The OCID of the Drg
+	// For private virtual circuits only. The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Drg
 	// that this virtual circuit uses.
 	GatewayId *string `mandatory:"false" json:"gatewayId"`
 
@@ -77,7 +78,7 @@ type CreateVirtualCircuitDetails struct {
 	// ListFastConnectProviderServices.
 	ProviderName *string `mandatory:"false" json:"providerName"`
 
-	// The OCID of the service offered by the provider (if you're connecting
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if you're connecting
 	// via a provider). To get a list of the available service offerings, see
 	// ListFastConnectProviderServices.
 	ProviderServiceId *string `mandatory:"false" json:"providerServiceId"`
@@ -98,6 +99,9 @@ type CreateVirtualCircuitDetails struct {
 	// circuit is located.
 	// Example: `phx`
 	Region *string `mandatory:"false" json:"region"`
+
+	// The layer 3 IP MTU to use with this virtual circuit.
+	IpMtu VirtualCircuitIpMtuEnum `mandatory:"false" json:"ipMtu,omitempty"`
 }
 
 func (m CreateVirtualCircuitDetails) String() string {

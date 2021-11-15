@@ -4,7 +4,9 @@
 
 // Cloud Advisor API
 //
-// APIs for managing Cloud Advisor. Cloud Advisor provides recommendations that help you maximize cost savings and improve the security posture of your tenancy.
+// Use the Cloud Advisor API to find potential inefficiencies in your tenancy and address them.
+// Cloud Advisor can help you save money, improve performance, strengthen system resilience, and improve security.
+// For more information, see Cloud Advisor (https://docs.cloud.oracle.com/Content/CloudAdvisor/Concepts/cloudadvisoroverview.htm).
 //
 
 package optimizer
@@ -22,10 +24,10 @@ type CategorySummary struct {
 	// The OCID of the tenancy. The tenancy is the root compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name assigned to the category. Avoid entering confidential information.
+	// The name assigned to the category.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Text describing the category. Avoid entering confidential information.
+	// Text describing the category.
 	Description *string `mandatory:"true" json:"description"`
 
 	// An array of `RecommendationCount` objects grouped by the level of importance assigned to each recommendation.
@@ -45,6 +47,11 @@ type CategorySummary struct {
 
 	// The date and time the category details were last updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// Additional metadata key/value pairs for the category summary.
+	// For example:
+	// `{"EstimatedSaving": "200"}`
+	ExtendedMetadata map[string]string `mandatory:"false" json:"extendedMetadata"`
 }
 
 func (m CategorySummary) String() string {

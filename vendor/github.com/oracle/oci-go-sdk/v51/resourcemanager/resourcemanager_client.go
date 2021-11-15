@@ -53,6 +53,8 @@ func NewResourceManagerClientWithOboToken(configProvider common.ConfigurationPro
 }
 
 func newResourceManagerClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ResourceManagerClient, err error) {
+	// ResourceManager service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
