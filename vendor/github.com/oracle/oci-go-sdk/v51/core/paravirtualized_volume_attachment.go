@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -44,9 +44,8 @@ type ParavirtualizedVolumeAttachment struct {
 	// The device name.
 	Device *string `mandatory:"false" json:"device"`
 
-	// A user-friendly name. Does not have to be unique, and it cannot be changed.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
-	// Example: `My volume attachment`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Whether the attachment was created in read-only mode.

@@ -21,10 +21,14 @@ type LocalClonePluggableDatabaseDetails struct {
 	ClonedPdbName *string `mandatory:"true" json:"clonedPdbName"`
 
 	// A strong password for PDB Admin of the newly cloned PDB. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
-	PdbAdminPassword *string `mandatory:"true" json:"pdbAdminPassword"`
+	PdbAdminPassword *string `mandatory:"false" json:"pdbAdminPassword"`
 
 	// The existing TDE wallet password of the target CDB.
-	TargetTdeWalletPassword *string `mandatory:"true" json:"targetTdeWalletPassword"`
+	TargetTdeWalletPassword *string `mandatory:"false" json:"targetTdeWalletPassword"`
+
+	// The locked mode of the pluggable database admin account. If false, the user needs to provide the PDB Admin Password to connect to it.
+	// If true, the pluggable database will be locked and user cannot login to it.
+	ShouldPdbAdminAccountBeLocked *bool `mandatory:"false" json:"shouldPdbAdminAccountBeLocked"`
 }
 
 func (m LocalClonePluggableDatabaseDetails) String() string {

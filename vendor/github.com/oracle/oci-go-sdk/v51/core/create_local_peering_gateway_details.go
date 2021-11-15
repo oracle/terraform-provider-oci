@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -20,10 +20,10 @@ import (
 // CreateLocalPeeringGatewayDetails The representation of CreateLocalPeeringGatewayDetails
 type CreateLocalPeeringGatewayDetails struct {
 
-	// The OCID of the compartment containing the local peering gateway (LPG).
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the local peering gateway (LPG).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the VCN the LPG belongs to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN the LPG belongs to.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -31,8 +31,8 @@ type CreateLocalPeeringGatewayDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid
-	// entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
@@ -40,7 +40,7 @@ type CreateLocalPeeringGatewayDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID of the route table the LPG will use.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the LPG will use.
 	// If you don't specify a route table here, the LPG is created without an associated route
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
 	// with the LPG.

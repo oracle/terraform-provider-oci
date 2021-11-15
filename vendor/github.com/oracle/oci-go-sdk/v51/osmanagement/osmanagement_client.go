@@ -51,6 +51,8 @@ func NewOsManagementClientWithOboToken(configProvider common.ConfigurationProvid
 }
 
 func newOsManagementClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OsManagementClient, err error) {
+	// OsManagement service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

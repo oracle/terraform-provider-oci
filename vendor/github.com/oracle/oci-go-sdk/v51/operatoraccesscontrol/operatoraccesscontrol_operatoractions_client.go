@@ -52,6 +52,8 @@ func NewOperatorActionsClientWithOboToken(configProvider common.ConfigurationPro
 }
 
 func newOperatorActionsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OperatorActionsClient, err error) {
+	// OperatorActions service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

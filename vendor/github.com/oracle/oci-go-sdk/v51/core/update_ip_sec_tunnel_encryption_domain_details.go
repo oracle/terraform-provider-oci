@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -17,7 +17,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v51/common"
 )
 
-// UpdateIpSecTunnelEncryptionDomainDetails Request to update a multi-encryption domain policy on the VPNaaS tunnel.
+// UpdateIpSecTunnelEncryptionDomainDetails Request to update a multi-encryption domain policy on the IPSec tunnel.
 // There can't be more than 50 security associations in use at one time. See Encryption domain for policy-based
 // tunnels (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/ipsecencryptiondomains.htm#spi_policy_based_tunnel) for more.
 type UpdateIpSecTunnelEncryptionDomainDetails struct {

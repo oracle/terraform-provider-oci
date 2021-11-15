@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -41,10 +41,10 @@ type Vnic struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID of the compartment containing the VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the VNIC.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the VNIC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The current state of the VNIC.
@@ -59,7 +59,7 @@ type Vnic struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name. Does not have to be unique.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -99,7 +99,7 @@ type Vnic struct {
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// If the VNIC belongs to a VLAN as part of the Oracle Cloud VMware Solution (instead of
-	// belonging to a subnet), the `vlanId` is the OCID of the VLAN the VNIC is in. See
+	// belonging to a subnet), the `vlanId` is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN the VNIC is in. See
 	// Vlan. If the VNIC is instead in a subnet, `subnetId` has a value.
 	VlanId *string `mandatory:"false" json:"vlanId"`
 
@@ -122,7 +122,7 @@ type Vnic struct {
 	// Example: `true`
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`
 
-	// The OCID of the subnet the VNIC is in.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the VNIC is in.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 }
 

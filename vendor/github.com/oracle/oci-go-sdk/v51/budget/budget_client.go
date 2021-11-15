@@ -50,6 +50,8 @@ func NewBudgetClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newBudgetClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client BudgetClient, err error) {
+	// Budget service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

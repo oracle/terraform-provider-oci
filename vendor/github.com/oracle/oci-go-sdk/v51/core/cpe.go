@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -17,9 +17,9 @@ import (
 	"github.com/oracle/oci-go-sdk/v51/common"
 )
 
-// Cpe An object you create when setting up an IPSec VPN between your on-premises network
+// Cpe An object you create when setting up a Site-to-Site VPN between your on-premises network
 // and VCN. The `Cpe` is a virtual representation of your customer-premises equipment,
-// which is the actual router on-premises at your site at your end of the IPSec VPN connection.
+// which is the actual router on-premises at your site at your end of the Site-to-Site VPN IPSec connection.
 // For more information,
 // see Overview of the Networking Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
@@ -27,7 +27,7 @@ import (
 // Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type Cpe struct {
 
-	// The OCID of the compartment containing the CPE.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the CPE.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The CPE's Oracle ID (OCID).
@@ -53,7 +53,7 @@ type Cpe struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE's device type.
 	// The Networking service maintains a general list of CPE device types (for example,
 	// Cisco ASA). For each type, Oracle provides CPE configuration content that can help
-	// a network engineer configure the CPE. The OCID uniquely identifies the type of
+	// a network engineer configure the CPE. The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) uniquely identifies the type of
 	// device. To get the OCIDs for the device types on the list, see
 	// ListCpeDeviceShapes.
 	// For information about how to generate CPE configuration content for a

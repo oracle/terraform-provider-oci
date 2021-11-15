@@ -50,6 +50,8 @@ func NewRewardsClientWithOboToken(configProvider common.ConfigurationProvider, o
 }
 
 func newRewardsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client RewardsClient, err error) {
+	// Rewards service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

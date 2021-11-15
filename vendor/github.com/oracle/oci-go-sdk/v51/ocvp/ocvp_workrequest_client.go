@@ -50,6 +50,8 @@ func NewWorkRequestClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newWorkRequestClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client WorkRequestClient, err error) {
+	// WorkRequest service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

@@ -51,6 +51,8 @@ func NewEventsClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newEventsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EventsClient, err error) {
+	// Events service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

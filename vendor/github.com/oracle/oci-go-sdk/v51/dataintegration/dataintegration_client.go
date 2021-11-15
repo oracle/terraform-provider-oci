@@ -50,6 +50,8 @@ func NewDataIntegrationClientWithOboToken(configProvider common.ConfigurationPro
 }
 
 func newDataIntegrationClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DataIntegrationClient, err error) {
+	// DataIntegration service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

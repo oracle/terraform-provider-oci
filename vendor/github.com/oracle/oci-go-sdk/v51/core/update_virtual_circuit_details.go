@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -59,9 +59,8 @@ type UpdateVirtualCircuitDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name. Does not have to be unique.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
-	// To be updated only by the customer who owns the virtual circuit.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
@@ -69,7 +68,7 @@ type UpdateVirtualCircuitDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID of the Drg
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Drg
 	// that this private virtual circuit uses.
 	// To be updated only by the customer who owns the virtual circuit.
 	GatewayId *string `mandatory:"false" json:"gatewayId"`
@@ -89,6 +88,9 @@ type UpdateVirtualCircuitDetails struct {
 	// Relevant only if the customer is using FastConnect via a provider.
 	// To be updated only by the provider.
 	ReferenceComment *string `mandatory:"false" json:"referenceComment"`
+
+	// The layer 3 IP MTU to use on this virtual circuit.
+	IpMtu VirtualCircuitIpMtuEnum `mandatory:"false" json:"ipMtu,omitempty"`
 }
 
 func (m UpdateVirtualCircuitDetails) String() string {

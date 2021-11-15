@@ -4,7 +4,9 @@
 
 // Cloud Advisor API
 //
-// APIs for managing Cloud Advisor. Cloud Advisor provides recommendations that help you maximize cost savings and improve the security posture of your tenancy.
+// Use the Cloud Advisor API to find potential inefficiencies in your tenancy and address them.
+// Cloud Advisor can help you save money, improve performance, strengthen system resilience, and improve security.
+// For more information, see Cloud Advisor (https://docs.cloud.oracle.com/Content/CloudAdvisor/Concepts/cloudadvisoroverview.htm).
 //
 
 package optimizer
@@ -30,6 +32,9 @@ type WorkRequestResource struct {
 
 	// The URI path that the user can do a GET on to access the resource metadata
 	EntityUri *string `mandatory:"false" json:"entityUri"`
+
+	// Additional information about the resource.
+	Metadata map[string]string `mandatory:"false" json:"metadata"`
 }
 
 func (m WorkRequestResource) String() string {

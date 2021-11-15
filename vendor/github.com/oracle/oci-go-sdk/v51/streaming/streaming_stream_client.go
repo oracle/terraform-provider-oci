@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Streaming Service API
+// Streaming API
 //
-// The API for the Streaming Service.
+// Use the Streaming API to produce and consume messages, create streams and stream pools, and manage related items. For more information, see Streaming (https://docs.cloud.oracle.com/Content/Streaming/Concepts/streamingoverview.htm).
 //
 
 package streaming
@@ -81,9 +81,10 @@ func (client *StreamClient) ConfigurationProvider() *common.ConfigurationProvide
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ConsumerCommit.go.html to see an example of how to use ConsumerCommit API.
+// A default retry strategy applies to this operation ConsumerCommit()
 func (client StreamClient) ConsumerCommit(ctx context.Context, request ConsumerCommitRequest) (response ConsumerCommitResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -136,9 +137,10 @@ func (client StreamClient) consumerCommit(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ConsumerHeartbeat.go.html to see an example of how to use ConsumerHeartbeat API.
+// A default retry strategy applies to this operation ConsumerHeartbeat()
 func (client StreamClient) ConsumerHeartbeat(ctx context.Context, request ConsumerHeartbeatRequest) (response ConsumerHeartbeatResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -195,9 +197,10 @@ func (client StreamClient) consumerHeartbeat(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateCursor.go.html to see an example of how to use CreateCursor API.
+// A default retry strategy applies to this operation CreateCursor()
 func (client StreamClient) CreateCursor(ctx context.Context, request CreateCursorRequest) (response CreateCursorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -250,9 +253,10 @@ func (client StreamClient) createCursor(ctx context.Context, request common.OCIR
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateGroupCursor.go.html to see an example of how to use CreateGroupCursor API.
+// A default retry strategy applies to this operation CreateGroupCursor()
 func (client StreamClient) CreateGroupCursor(ctx context.Context, request CreateGroupCursorRequest) (response CreateGroupCursorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -305,9 +309,10 @@ func (client StreamClient) createGroupCursor(ctx context.Context, request common
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetGroup.go.html to see an example of how to use GetGroup API.
+// A default retry strategy applies to this operation GetGroup()
 func (client StreamClient) GetGroup(ctx context.Context, request GetGroupRequest) (response GetGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -362,9 +367,10 @@ func (client StreamClient) getGroup(ctx context.Context, request common.OCIReque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetMessages.go.html to see an example of how to use GetMessages API.
+// A default retry strategy applies to this operation GetMessages()
 func (client StreamClient) GetMessages(ctx context.Context, request GetMessagesRequest) (response GetMessagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -485,9 +491,10 @@ func (client StreamClient) putMessages(ctx context.Context, request common.OCIRe
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateGroup.go.html to see an example of how to use UpdateGroup API.
+// A default retry strategy applies to this operation UpdateGroup()
 func (client StreamClient) UpdateGroup(ctx context.Context, request UpdateGroupRequest) (response UpdateGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

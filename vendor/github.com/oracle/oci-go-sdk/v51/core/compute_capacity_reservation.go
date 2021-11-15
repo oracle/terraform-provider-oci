@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -43,8 +43,8 @@ type ComputeCapacityReservation struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name for the compute capacity reservation.
-	// It does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
@@ -56,14 +56,14 @@ type ComputeCapacityReservation struct {
 	// For more information, see Capacity Reservations (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 	IsDefaultReservation *bool `mandatory:"false" json:"isDefaultReservation"`
 
-	// The reservation configurations for the capacity reservation.
+	// The capacity configurations for the capacity reservation.
 	// To use the reservation for the desired shape, specify the shape, count, and
 	// optionally the fault domain where you want this configuration.
 	InstanceReservationConfigs []InstanceReservationConfig `mandatory:"false" json:"instanceReservationConfigs"`
 
 	// The number of instances for which capacity will be held with this
 	// compute capacity reservation. This number is the sum of the values of the `reservedCount` fields
-	// for all of the instance reservation configurations under this reservation.
+	// for all of the instance capacity configurations under this reservation.
 	// The purpose of this field is to calculate the percentage usage of the reservation.
 	ReservedInstanceCount *int64 `mandatory:"false" json:"reservedInstanceCount"`
 
@@ -73,7 +73,7 @@ type ComputeCapacityReservation struct {
 
 	// The total number of instances currently consuming space in
 	// this compute capacity reservation. This number is the sum of the values of the `usedCount` fields
-	// for all of the instance reservation configurations under this reservation.
+	// for all of the instance capacity configurations under this reservation.
 	// The purpose of this field is to calculate the percentage usage of the reservation.
 	UsedInstanceCount *int64 `mandatory:"false" json:"usedInstanceCount"`
 }

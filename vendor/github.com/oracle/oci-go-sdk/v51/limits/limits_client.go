@@ -50,6 +50,8 @@ func NewLimitsClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newLimitsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client LimitsClient, err error) {
+	// Limits service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

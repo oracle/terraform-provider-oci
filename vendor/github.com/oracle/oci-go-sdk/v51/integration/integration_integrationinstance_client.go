@@ -50,6 +50,8 @@ func NewIntegrationInstanceClientWithOboToken(configProvider common.Configuratio
 }
 
 func newIntegrationInstanceClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client IntegrationInstanceClient, err error) {
+	// IntegrationInstance service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

@@ -52,6 +52,8 @@ func NewOperatorControlAssignmentClientWithOboToken(configProvider common.Config
 }
 
 func newOperatorControlAssignmentClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OperatorControlAssignmentClient, err error) {
+	// OperatorControlAssignment service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

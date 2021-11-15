@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -27,17 +27,17 @@ import (
 // Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type RemotePeeringConnection struct {
 
-	// The OCID of the compartment that contains the RPC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the RPC.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the DRG that this RPC belongs to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG that this RPC belongs to.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
-	// The OCID of the RPC.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the RPC.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Whether the VCN at the other end of the peering is in a different tenancy.
@@ -66,14 +66,14 @@ type RemotePeeringConnection struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// If this RPC is peered, this value is the OCID of the other RPC.
+	// If this RPC is peered, this value is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the other RPC.
 	PeerId *string `mandatory:"false" json:"peerId"`
 
 	// If this RPC is peered, this value is the region that contains the other RPC.
 	// Example: `us-ashburn-1`
 	PeerRegionName *string `mandatory:"false" json:"peerRegionName"`
 
-	// If this RPC is peered, this value is the OCID of the other RPC's tenancy.
+	// If this RPC is peered, this value is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the other RPC's tenancy.
 	PeerTenancyId *string `mandatory:"false" json:"peerTenancyId"`
 }
 

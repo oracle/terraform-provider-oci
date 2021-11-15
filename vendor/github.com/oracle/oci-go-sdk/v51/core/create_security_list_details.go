@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -20,7 +20,7 @@ import (
 // CreateSecurityListDetails The representation of CreateSecurityListDetails
 type CreateSecurityListDetails struct {
 
-	// The OCID of the compartment to contain the security list.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the security list.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Rules for allowing egress IP packets.
@@ -29,7 +29,7 @@ type CreateSecurityListDetails struct {
 	// Rules for allowing ingress IP packets.
 	IngressSecurityRules []IngressSecurityRule `mandatory:"true" json:"ingressSecurityRules"`
 
-	// The OCID of the VCN the security list belongs to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN the security list belongs to.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

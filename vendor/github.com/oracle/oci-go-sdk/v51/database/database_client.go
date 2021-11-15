@@ -50,6 +50,8 @@ func NewDatabaseClientWithOboToken(configProvider common.ConfigurationProvider, 
 }
 
 func newDatabaseClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DatabaseClient, err error) {
+	// Database service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
@@ -2696,7 +2698,7 @@ func (client DatabaseClient) createKeyStore(ctx context.Context, request common.
 }
 
 // CreatePluggableDatabase Creates and starts a pluggable database in the specified container database.
-// Use the [StartPluggableDatabase](#/en/database/latest/PluggableDatabase/StartPluggableDatabase] and [StopPluggableDatabase](#/en/database/latest/PluggableDatabase/StopPluggableDatabase] APIs to start and stop the pluggable database.
+// Use the StartPluggableDatabase and StopPluggableDatabase APIs to start and stop the pluggable database.
 //
 // See also
 //

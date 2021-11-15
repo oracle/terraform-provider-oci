@@ -50,6 +50,8 @@ func NewDatabaseMigrationClientWithOboToken(configProvider common.ConfigurationP
 }
 
 func newDatabaseMigrationClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DatabaseMigrationClient, err error) {
+	// DatabaseMigration service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

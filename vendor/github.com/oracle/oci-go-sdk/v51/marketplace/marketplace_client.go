@@ -50,6 +50,8 @@ func NewMarketplaceClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newMarketplaceClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client MarketplaceClient, err error) {
+	// Marketplace service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

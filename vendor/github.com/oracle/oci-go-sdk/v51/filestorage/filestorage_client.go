@@ -50,6 +50,8 @@ func NewFileStorageClientWithOboToken(configProvider common.ConfigurationProvide
 }
 
 func newFileStorageClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client FileStorageClient, err error) {
+	// FileStorage service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

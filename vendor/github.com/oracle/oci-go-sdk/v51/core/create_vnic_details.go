@@ -4,11 +4,11 @@
 
 // Core Services API
 //
-// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Use the Core Services API to manage resources such as virtual cloud networks (VCNs),
+// compute instances, and block storage volumes. For more information, see the console
+// documentation for the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
 // Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
-// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
-// to manage resources such as virtual cloud networks (VCNs), compute instances, and
-// block storage volumes.
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 //
 
 package core
@@ -55,7 +55,7 @@ type CreateVnicDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name for the VNIC. Does not have to be unique.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -119,7 +119,7 @@ type CreateVnicDetails struct {
 	// Example: `true`
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`
 
-	// The OCID of the subnet to create the VNIC in. When launching an instance,
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create the VNIC in. When launching an instance,
 	// use this `subnetId` instead of the deprecated `subnetId` in
 	// LaunchInstanceDetails.
 	// At least one of them is required; if you provide both, the values must match.
@@ -129,7 +129,7 @@ type CreateVnicDetails struct {
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Provide this attribute only if you are an Oracle Cloud VMware Solution
-	// customer and creating a secondary VNIC in a VLAN. The value is the OCID of the VLAN.
+	// customer and creating a secondary VNIC in a VLAN. The value is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.
 	// See Vlan.
 	// Provide a `vlanId` instead of a `subnetId`. If you provide both a
 	// `vlanId` and `subnetId`, the request fails.

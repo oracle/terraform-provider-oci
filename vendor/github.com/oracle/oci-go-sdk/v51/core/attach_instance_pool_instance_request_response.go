@@ -76,7 +76,7 @@ type AttachInstancePoolInstanceResponse struct {
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// The OCID of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
 	// with this ID to track the status of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 

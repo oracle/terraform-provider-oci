@@ -19,11 +19,11 @@ type CreateDatabaseFromBackupDetails struct {
 	// The backup OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	BackupId *string `mandatory:"true" json:"backupId"`
 
-	// The password to open the TDE wallet.
-	BackupTDEPassword *string `mandatory:"true" json:"backupTDEPassword"`
-
 	// A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
+
+	// The password to open the TDE wallet.
+	BackupTDEPassword *string `mandatory:"false" json:"backupTDEPassword"`
 
 	// The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`

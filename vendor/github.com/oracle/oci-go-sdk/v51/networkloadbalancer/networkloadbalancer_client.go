@@ -50,6 +50,8 @@ func NewNetworkLoadBalancerClientWithOboToken(configProvider common.Configuratio
 }
 
 func newNetworkLoadBalancerClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client NetworkLoadBalancerClient, err error) {
+	// NetworkLoadBalancer service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

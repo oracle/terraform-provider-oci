@@ -51,6 +51,8 @@ func NewPluginClientWithOboToken(configProvider common.ConfigurationProvider, ob
 }
 
 func newPluginClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client PluginClient, err error) {
+	// Plugin service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSetting())
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
