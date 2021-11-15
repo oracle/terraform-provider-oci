@@ -256,6 +256,10 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
+# github.com/oracle/oci-go-sdk/v50 v50.1.0
+github.com/oracle/oci-go-sdk/v50/common
+github.com/oracle/oci-go-sdk/v50/common/auth
+github.com/oracle/oci-go-sdk/v50/databasetools
 # github.com/oracle/oci-go-sdk/v51 v51.0.0 => ./vendor/github.com/oracle/oci-go-sdk
 github.com/oracle/oci-go-sdk/v51/aianomalydetection
 github.com/oracle/oci-go-sdk/v51/analytics
@@ -323,6 +327,7 @@ github.com/oracle/oci-go-sdk/v51/osmanagement
 github.com/oracle/oci-go-sdk/v51/resourcemanager
 github.com/oracle/oci-go-sdk/v51/sch
 github.com/oracle/oci-go-sdk/v51/servicecatalog
+github.com/oracle/oci-go-sdk/v51/servicemanagerproxy
 github.com/oracle/oci-go-sdk/v51/streaming
 github.com/oracle/oci-go-sdk/v51/usage
 github.com/oracle/oci-go-sdk/v51/usageapi
