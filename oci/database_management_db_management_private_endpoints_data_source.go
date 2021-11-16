@@ -23,6 +23,10 @@ func DatabaseManagementDbManagementPrivateEndpointsDataSource() *schema.Resource
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"is_cluster": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -77,6 +81,11 @@ func (s *DatabaseManagementDbManagementPrivateEndpointsDataSourceCrud) Get() err
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if isCluster, ok := s.D.GetOkExists("is_cluster"); ok {
+		tmp := isCluster.(bool)
+		request.IsCluster = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

@@ -75,6 +75,10 @@ func (s *DatabaseManagementDbManagementPrivateEndpointDataSourceCrud) SetData() 
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	if s.Res.IsCluster != nil {
+		s.D.Set("is_cluster", *s.Res.IsCluster)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}

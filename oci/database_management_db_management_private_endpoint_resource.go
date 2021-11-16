@@ -53,6 +53,12 @@ func DatabaseManagementDbManagementPrivateEndpointResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_cluster": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -163,6 +169,11 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Create() err
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if isCluster, ok := s.D.GetOkExists("is_cluster"); ok {
+		tmp := isCluster.(bool)
+		request.IsCluster = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -411,6 +422,10 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) SetData() er
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.IsCluster != nil {
+		s.D.Set("is_cluster", *s.Res.IsCluster)
 	}
 
 	if s.Res.Name != nil {
