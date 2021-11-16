@@ -32,6 +32,7 @@ var (
 
 	dbManagementPrivateEndpointDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
+		"is_cluster":     Representation{RepType: Optional, Create: `false`},
 		"name":           Representation{RepType: Optional, Create: `name`, Update: `name2`},
 		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
 		"vcn_id":         Representation{RepType: Optional, Create: `${oci_core_vcn.test_vcn.id}`},
@@ -46,6 +47,7 @@ var (
 		"name":           Representation{RepType: Required, Create: `name`, Update: `name2`},
 		"subnet_id":      Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"description":    Representation{RepType: Optional, Create: `description`, Update: `description2`},
+		"is_cluster":     Representation{RepType: Optional, Create: `false`},
 		"nsg_ids":        Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 	}
 
@@ -92,6 +94,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
@@ -145,6 +148,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttrSet(resourceName, "private_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = FromInstanceState(s, resourceName, "id")
@@ -169,6 +173,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = FromInstanceState(s, resourceName, "id")
@@ -190,9 +195,9 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
-
 					resource.TestCheckResourceAttr(datasourceName, "db_management_private_endpoint_collection.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "db_management_private_endpoint_collection.0.items.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "is_cluster", "false"),
 				),
 			},
 			// verify singular datasource
@@ -202,7 +207,6 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					compartmentIdVariableStr + DbManagementPrivateEndpointResourceConfig,
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_management_private_endpoint_id"),
-
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -210,6 +214,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_cluster", "false"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
