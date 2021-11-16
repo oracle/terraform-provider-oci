@@ -166,6 +166,12 @@ resource "oci_core_instance" "test_instance" {
 
 The following arguments are supported:
 
+* `async` - (Optional) Whether Terraform creates and destroys the resource asynchronously. The default value is false.
+	* If `async` is true, all the creation and deletion of instances are asynchronous
+	* If `async` is false, all the creation and deletion of instances are synchronous as normal behavior
+
+-> Please follow this guideline [Terraform support asynchronous operation](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraform-async.htm) for more detail of this advanced option.
+
 * `agent_config` - (Optional) (Updatable) Configuration options for the Oracle Cloud Agent software running on the instance.
 	* `are_all_plugins_disabled` - (Optional) (Updatable) Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
 
