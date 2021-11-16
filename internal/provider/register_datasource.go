@@ -37,5 +37,6 @@ func init() {
 	RegisterDatasource("oci_identity_ui_password", tf_identity.IdentityUiPasswordDataSource())
 	RegisterDatasource("oci_identity_user", tf_identity.IdentityUserDataSource())
 	RegisterDatasource("oci_identity_user_group_memberships", tf_identity.IdentityUserGroupMembershipsDataSource())
+	RegisterDatasource("oci_identity_users", tf_identity.IdentityUsersDataSource())
 
 }
