@@ -19,7 +19,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/v51/core"
 	oci_database "github.com/oracle/oci-go-sdk/v51/database"
 	oci_database_migration "github.com/oracle/oci-go-sdk/v51/databasemigration"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v50/databasetools"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v51/databasetools"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v51/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v51/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v51/dataintegration"
