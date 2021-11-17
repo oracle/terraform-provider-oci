@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_auto_scaling "github.com/oracle/oci-go-sdk/v51/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/v52/autoscaling"
 
-	oci_common "github.com/oracle/oci-go-sdk/v51/common"
+	oci_common "github.com/oracle/oci-go-sdk/v52/common"
 )
 
 func init() {

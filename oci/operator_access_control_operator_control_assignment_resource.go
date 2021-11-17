@@ -9,8 +9,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v51/common"
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v51/operatoraccesscontrol"
+	oci_common "github.com/oracle/oci-go-sdk/v52/common"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v52/operatoraccesscontrol"
 )
 
 func init() {
