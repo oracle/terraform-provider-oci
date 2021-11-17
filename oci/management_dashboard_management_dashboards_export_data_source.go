@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_management_dashboard "github.com/oracle/oci-go-sdk/v51/managementdashboard"
+	oci_management_dashboard "github.com/oracle/oci-go-sdk/v52/managementdashboard"
 )
 
 func init() {
