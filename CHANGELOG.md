@@ -1,4 +1,4 @@
-## 4.53.0 (Unreleased)
+## 4.53.0 (November 18, 2021)
 
 ### Added
 - Support for Service Manager Proxy service
