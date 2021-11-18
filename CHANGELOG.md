@@ -1,3 +1,11 @@
+## 4.53.0 (Unreleased)
+
+### Added
+- Support for Service Manager Proxy service
+- Support for Oracle Cloud Advisor v2
+- Support for TDE Wallet Password Optional for ExaCS and DBCS
+- Support for Encrypted FastConnect
+
 ## 4.52.0 (November 10, 2021)
 
 ### Added

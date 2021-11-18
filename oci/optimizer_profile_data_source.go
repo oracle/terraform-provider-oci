@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v51/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v52/optimizer"
 )
 
 func init() {
@@ -66,6 +66,10 @@ func (s *OptimizerProfileDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	if s.Res.AggregationIntervalInDays != nil {
+		s.D.Set("aggregation_interval_in_days", *s.Res.AggregationIntervalInDays)
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

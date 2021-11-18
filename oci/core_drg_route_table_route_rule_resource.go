@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	oci_core "github.com/oracle/oci-go-sdk/v52/core"
 )
 
 func init() {
@@ -36,6 +36,12 @@ func CoreDrgRouteTableRouteRuleResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+			},
+			// Computed
+			"attributes": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"destination": {
 				Type:     schema.TypeString,
@@ -166,6 +172,15 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Create() error {
 
 func (s *CoreDrgRouteTableRouteRuleResourceCrud) SetData() error {
 
+	drgRouteTableId, drgRouteRuleId, err := parseDrgRouteTableRouteRuleCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("drg_route_table_id", &drgRouteTableId)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
+	s.D.Set("attributes", s.Res.Attributes)
+
 	if s.Res.Destination != nil {
 		s.D.Set("destination", *s.Res.Destination)
 	}
@@ -188,7 +203,7 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) SetData() error {
 
 	s.D.Set("route_type", s.Res.RouteType)
 
-	drgRouteTableId, drgRouteRuleId, err := parseDrgRouteTableRouteRuleCompositeId(s.D.Id())
+	drgRouteTableId, drgRouteRuleId, err = parseDrgRouteTableRouteRuleCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("drg_route_table_id", &drgRouteTableId)
 		s.D.SetId(getDrgRouteTableRouteRuleCompositeId(drgRouteTableId, drgRouteRuleId))

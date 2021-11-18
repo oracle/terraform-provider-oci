@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	oci_core "github.com/oracle/oci-go-sdk/v52/core"
 )
 
 func init() {
@@ -127,6 +127,12 @@ func (s *CoreCrossConnectGroupsDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			crossConnectGroup["id"] = *r.Id
+		}
+
+		if r.MacsecProperties != nil {
+			crossConnectGroup["macsec_properties"] = []interface{}{MacsecPropertiesToMap(r.MacsecProperties)}
+		} else {
+			crossConnectGroup["macsec_properties"] = nil
 		}
 
 		crossConnectGroup["state"] = r.LifecycleState

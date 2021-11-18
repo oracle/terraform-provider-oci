@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v51/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v52/optimizer"
 )
 
 func init() {
@@ -61,6 +61,11 @@ func OptimizerCategoriesDataSource() *schema.Resource {
 									"estimated_cost_saving": {
 										Type:     schema.TypeFloat,
 										Computed: true,
+									},
+									"extended_metadata": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
 									},
 									"id": {
 										Type:     schema.TypeString,

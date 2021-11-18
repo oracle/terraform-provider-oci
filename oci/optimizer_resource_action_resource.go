@@ -9,8 +9,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v51/common"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v51/optimizer"
+	oci_common "github.com/oracle/oci-go-sdk/v52/common"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v52/optimizer"
 )
 
 func init() {
@@ -305,7 +305,7 @@ func (s *OptimizerResourceActionResourceCrud) SetData() error {
 		s.D.Set("estimated_cost_saving", *s.Res.EstimatedCostSaving)
 	}
 
-	s.D.Set("extended_metadata", s.Res.ExtendedMetadata)
+	s.D.Set("extended_metadata", GenericMapToJsonMap(s.Res.ExtendedMetadata))
 
 	s.D.Set("metadata", s.Res.Metadata)
 
@@ -371,7 +371,7 @@ func ResourceActionSummaryToMap(obj oci_optimizer.ResourceActionSummary) map[str
 		result["estimated_cost_saving"] = float32(*obj.EstimatedCostSaving)
 	}
 
-	result["extended_metadata"] = obj.ExtendedMetadata
+	result["extended_metadata"] = GenericMapToJsonMap(obj.ExtendedMetadata)
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

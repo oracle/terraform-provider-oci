@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	oci_core "github.com/oracle/oci-go-sdk/v52/core"
 )
 
 func init() {
@@ -133,6 +133,11 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"gateway_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"ip_mtu": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -372,6 +377,10 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		request.GatewayId = &tmp
 	}
 
+	if ipMtu, ok := s.D.GetOkExists("ip_mtu"); ok {
+		request.IpMtu = oci_core.VirtualCircuitIpMtuEnum(ipMtu.(string))
+	}
+
 	if providerServiceId, ok := s.D.GetOkExists("provider_service_id"); ok {
 		tmp := providerServiceId.(string)
 		request.ProviderServiceId = &tmp
@@ -555,6 +564,10 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		request.GatewayId = &tmp
 	}
 
+	if ipMtu, ok := s.D.GetOkExists("ip_mtu"); ok {
+		request.IpMtu = oci_core.VirtualCircuitIpMtuEnum(ipMtu.(string))
+	}
+
 	if providerServiceKeyName, ok := s.D.GetOkExists("provider_service_key_name"); ok {
 		tmp := providerServiceKeyName.(string)
 		request.ProviderServiceKeyName = &tmp
@@ -712,6 +725,8 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 	if s.Res.GatewayId != nil {
 		s.D.Set("gateway_id", *s.Res.GatewayId)
 	}
+
+	s.D.Set("ip_mtu", s.Res.IpMtu)
 
 	if s.Res.OracleBgpAsn != nil {
 		s.D.Set("oracle_bgp_asn", *s.Res.OracleBgpAsn)

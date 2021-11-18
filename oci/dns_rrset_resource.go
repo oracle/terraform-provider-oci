@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v51/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v52/dns"
 )
 
 func init() {
@@ -227,6 +227,10 @@ func (s *DnsRrsetResourceCrud) Create() error {
 	rrSet.Items = response.Items
 	s.Res = &rrSet
 
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
@@ -349,6 +353,12 @@ func (s *DnsRrsetResourceCrud) Update() error {
 	rrSet := oci_dns.RrSet{}
 	rrSet.Items = response.Items
 	s.Res = &rrSet
+
+	// This update does not support work-request
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

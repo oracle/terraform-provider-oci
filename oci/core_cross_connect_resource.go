@@ -5,11 +5,13 @@ package oci
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	oci_core "github.com/oracle/oci-go-sdk/v52/core"
 )
 
 func init() {
@@ -78,6 +80,63 @@ func CoreCrossConnectResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"macsec_properties": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"state": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"encryption_cipher": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"primary_key": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"connectivity_association_key_secret_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"connectivity_association_name_secret_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+									"connectivity_association_key_secret_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"connectivity_association_name_secret_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
 			},
 			"near_cross_connect_or_cross_connect_group_id": {
 				Type:     schema.TypeString,
@@ -253,6 +312,17 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 		request.LocationName = &tmp
 	}
 
+	if macsecProperties, ok := s.D.GetOkExists("macsec_properties"); ok {
+		if tmpList := macsecProperties.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "macsec_properties", 0)
+			tmp, err := s.mapToCreateMacsecProperties(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MacsecProperties = &tmp
+		}
+	}
+
 	if nearCrossConnectOrCrossConnectGroupId, ok := s.D.GetOkExists("near_cross_connect_or_cross_connect_group_id"); ok {
 		tmp := nearCrossConnectOrCrossConnectGroupId.(string)
 		request.NearCrossConnectOrCrossConnectGroupId = &tmp
@@ -337,6 +407,17 @@ func (s *CoreCrossConnectResourceCrud) Update() error {
 		}
 	}
 
+	if macsecProperties, ok := s.D.GetOkExists("macsec_properties"); ok {
+		if tmpList := macsecProperties.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "macsec_properties", 0)
+			tmp, err := s.mapToUpdateMacsecProperties(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MacsecProperties = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateCrossConnect(context.Background(), request)
@@ -387,6 +468,12 @@ func (s *CoreCrossConnectResourceCrud) SetData() error {
 		s.D.Set("location_name", *s.Res.LocationName)
 	}
 
+	if s.Res.MacsecProperties != nil {
+		s.D.Set("macsec_properties", []interface{}{MacsecPropertiesToMap(s.Res.MacsecProperties)})
+	} else {
+		s.D.Set("macsec_properties", nil)
+	}
+
 	if s.Res.PortName != nil {
 		s.D.Set("port_name", *s.Res.PortName)
 	}
@@ -402,6 +489,142 @@ func (s *CoreCrossConnectResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *CoreCrossConnectResourceCrud) mapToCreateMacsecKey(fieldKeyFormat string) (oci_core.CreateMacsecKey, error) {
+	result := oci_core.CreateMacsecKey{}
+
+	if connectivityAssociationKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connectivity_association_key_secret_id")); ok {
+		tmp := connectivityAssociationKeySecretId.(string)
+		result.ConnectivityAssociationKeySecretId = &tmp
+	}
+
+	if connectivityAssociationNameSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connectivity_association_name_secret_id")); ok {
+		tmp := connectivityAssociationNameSecretId.(string)
+		result.ConnectivityAssociationNameSecretId = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *CoreCrossConnectResourceCrud) mapToUpdateMacsecKey(fieldKeyFormat string) (oci_core.UpdateMacsecKey, error) {
+	result := oci_core.UpdateMacsecKey{}
+
+	if connectivityAssociationKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connectivity_association_key_secret_id")); ok {
+		tmp := connectivityAssociationKeySecretId.(string)
+		result.ConnectivityAssociationKeySecretId = &tmp
+	}
+
+	if connectivityAssociationNameSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connectivity_association_name_secret_id")); ok {
+		tmp := connectivityAssociationNameSecretId.(string)
+		result.ConnectivityAssociationNameSecretId = &tmp
+	}
+
+	if connectivityAssociationKeySecretVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connectivity_association_key_secret_version")); ok {
+		tmp := connectivityAssociationKeySecretVersion.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert connectivityAssociationKeySecretVersion string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.ConnectivityAssociationKeySecretVersion = &tmpInt64
+	}
+
+	if connectivityAssociationNameSecretVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connectivity_association_name_secret_version")); ok {
+		tmp := connectivityAssociationNameSecretVersion.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert connectivityAssociationNameSecretVersion string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.ConnectivityAssociationNameSecretVersion = &tmpInt64
+	}
+
+	return result, nil
+}
+
+func MacsecKeyToMap(obj *oci_core.MacsecKey) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ConnectivityAssociationKeySecretId != nil {
+		result["connectivity_association_key_secret_id"] = string(*obj.ConnectivityAssociationKeySecretId)
+	}
+
+	if obj.ConnectivityAssociationKeySecretVersion != nil {
+		result["connectivity_association_key_secret_version"] = strconv.FormatInt(*obj.ConnectivityAssociationKeySecretVersion, 10)
+	}
+
+	if obj.ConnectivityAssociationNameSecretId != nil {
+		result["connectivity_association_name_secret_id"] = string(*obj.ConnectivityAssociationNameSecretId)
+	}
+
+	if obj.ConnectivityAssociationNameSecretVersion != nil {
+		result["connectivity_association_name_secret_version"] = strconv.FormatInt(*obj.ConnectivityAssociationNameSecretVersion, 10)
+	}
+
+	return result
+}
+
+func (s *CoreCrossConnectResourceCrud) mapToCreateMacsecProperties(fieldKeyFormat string) (oci_core.CreateMacsecProperties, error) {
+	result := oci_core.CreateMacsecProperties{}
+
+	if encryptionCipher, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_cipher")); ok {
+		result.EncryptionCipher = oci_core.MacsecEncryptionCipherEnum(encryptionCipher.(string))
+	}
+
+	if primaryKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_key")); ok {
+		if tmpList := primaryKey.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "primary_key"), 0)
+			tmp, err := s.mapToCreateMacsecKey(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert primary_key, encountered error: %v", err)
+			}
+			result.PrimaryKey = &tmp
+		}
+	}
+
+	if state, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
+		result.State = oci_core.MacsecStateEnum(state.(string))
+	}
+
+	return result, nil
+}
+
+func (s *CoreCrossConnectResourceCrud) mapToUpdateMacsecProperties(fieldKeyFormat string) (oci_core.UpdateMacsecProperties, error) {
+	result := oci_core.UpdateMacsecProperties{}
+
+	if encryptionCipher, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_cipher")); ok {
+		result.EncryptionCipher = oci_core.MacsecEncryptionCipherEnum(encryptionCipher.(string))
+	}
+
+	if primaryKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_key")); ok {
+		if tmpList := primaryKey.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "primary_key"), 0)
+			tmp, err := s.mapToUpdateMacsecKey(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert primary_key, encountered error: %v", err)
+			}
+			result.PrimaryKey = &tmp
+		}
+	}
+
+	if state, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
+		result.State = oci_core.MacsecStateEnum(state.(string))
+	}
+
+	return result, nil
+}
+
+func MacsecPropertiesToMap(obj *oci_core.MacsecProperties) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["encryption_cipher"] = string(obj.EncryptionCipher)
+
+	if obj.PrimaryKey != nil {
+		result["primary_key"] = []interface{}{MacsecKeyToMap(obj.PrimaryKey)}
+	}
+
+	result["state"] = string(obj.State)
+
+	return result
 }
 
 func (s *CoreCrossConnectResourceCrud) updateCompartment(compartment interface{}) error {

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	oci_core "github.com/oracle/oci-go-sdk/v52/core"
 )
 
 func init() {
@@ -37,6 +37,11 @@ func CoreDrgRouteTableRouteRulesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"attributes": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"destination": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -139,6 +144,8 @@ func (s *CoreDrgRouteTableRouteRulesDataSourceCrud) SetData() error {
 
 	for _, r := range s.Res.Items {
 		drgRouteTableRouteRule := map[string]interface{}{}
+
+		drgRouteTableRouteRule["attributes"] = r.Attributes
 
 		if r.Destination != nil {
 			drgRouteTableRouteRule["destination"] = *r.Destination

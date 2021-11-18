@@ -51,6 +51,14 @@ The following attributes are exported:
 * `display_name` - The display name of a user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The cross-connect group's Oracle ID (OCID).
+* `macsec_properties` - Properties used for MACSEC (if capable)
+	* `encryption_cipher` - Type of encryption cipher suite to use for the MACSEC connection
+	* `primary_key` - An object defining the Secrets-in-Vault OCIDs representing the MACSEC key
+		* `connectivity_association_key_secret_id` - Secret OCID containing the Connectivity Association Key (CAK) of this MACSEC key
+		* `connectivity_association_key_secret_version` - The secret version of the connectivityAssociationKey secret in vault
+		* `connectivity_association_name_secret_id` - Secret OCID containing the Connectivity association Key Name (CKN) of this MACSEC key
+		* `connectivity_association_name_secret_version` - The secret version of the connectivityAssociationName secret in vault
+	* `state` - Current state of whether MACSEC is enabled or not
 * `state` - The cross-connect group's current state.
 * `time_created` - The date and time the cross-connect group was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 

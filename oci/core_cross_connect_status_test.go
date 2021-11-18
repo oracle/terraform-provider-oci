@@ -44,6 +44,7 @@ func TestCoreCrossConnectStatusResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "encryption_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "interface_state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "light_level_ind_bm"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "light_level_indicator"),

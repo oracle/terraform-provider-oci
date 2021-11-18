@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v51/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v52/optimizer"
 )
 
 func init() {
@@ -83,6 +83,8 @@ func (s *OptimizerRecommendationDataSourceCrud) SetData() error {
 	if s.Res.EstimatedCostSaving != nil {
 		s.D.Set("estimated_cost_saving", *s.Res.EstimatedCostSaving)
 	}
+
+	s.D.Set("extended_metadata", s.Res.ExtendedMetadata)
 
 	s.D.Set("importance", s.Res.Importance)
 

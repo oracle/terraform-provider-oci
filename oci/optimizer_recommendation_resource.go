@@ -9,8 +9,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v51/common"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v51/optimizer"
+	oci_common "github.com/oracle/oci-go-sdk/v52/common"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v52/optimizer"
 )
 
 func init() {
@@ -63,6 +63,11 @@ func OptimizerRecommendationResource() *schema.Resource {
 			"estimated_cost_saving": {
 				Type:     schema.TypeFloat,
 				Computed: true,
+			},
+			"extended_metadata": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"importance": {
 				Type:     schema.TypeString,
@@ -308,6 +313,8 @@ func (s *OptimizerRecommendationResourceCrud) SetData() error {
 		s.D.Set("estimated_cost_saving", *s.Res.EstimatedCostSaving)
 	}
 
+	s.D.Set("extended_metadata", s.Res.ExtendedMetadata)
+
 	s.D.Set("importance", s.Res.Importance)
 
 	if s.Res.Name != nil {
@@ -367,6 +374,8 @@ func RecommendationSummaryToMap(obj oci_optimizer.RecommendationSummary) map[str
 	if obj.EstimatedCostSaving != nil {
 		result["estimated_cost_saving"] = float32(*obj.EstimatedCostSaving)
 	}
+
+	result["extended_metadata"] = obj.ExtendedMetadata
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

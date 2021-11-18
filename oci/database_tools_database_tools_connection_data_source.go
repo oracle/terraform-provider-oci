@@ -8,7 +8,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v51/databasetools"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v52/databasetools"
 )
 
 func init() {
