@@ -20,7 +20,7 @@ import (
 	"net"
 	"regexp"
 
-	oci_dns "github.com/oracle/oci-go-sdk/v51/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v52/dns"
 )
 
 func init() {
@@ -198,6 +198,11 @@ func (s *DnsRecordResourceCrud) Create() error {
 	}
 
 	s.Res = item
+
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
@@ -287,6 +292,12 @@ func (s *DnsRecordResourceCrud) Update() error {
 	}
 
 	s.Res = item
+
+	// This update does not support work-request
+	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

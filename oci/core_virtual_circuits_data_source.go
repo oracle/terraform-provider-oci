@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	oci_core "github.com/oracle/oci-go-sdk/v52/core"
 )
 
 func init() {
@@ -153,6 +153,8 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 		if r.Id != nil {
 			virtualCircuit["id"] = *r.Id
 		}
+
+		virtualCircuit["ip_mtu"] = r.IpMtu
 
 		if r.OracleBgpAsn != nil {
 			virtualCircuit["oracle_bgp_asn"] = *r.OracleBgpAsn

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	oci_core "github.com/oracle/oci-go-sdk/v52/core"
 )
 
 func init() {
@@ -91,6 +91,12 @@ func (s *CoreCrossConnectDataSourceCrud) SetData() error {
 
 	if s.Res.LocationName != nil {
 		s.D.Set("location_name", *s.Res.LocationName)
+	}
+
+	if s.Res.MacsecProperties != nil {
+		s.D.Set("macsec_properties", []interface{}{MacsecPropertiesToMap(s.Res.MacsecProperties)})
+	} else {
+		s.D.Set("macsec_properties", nil)
 	}
 
 	if s.Res.PortName != nil {

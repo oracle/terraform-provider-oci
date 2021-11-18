@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v51/common"
-	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	"github.com/oracle/oci-go-sdk/v52/common"
+	oci_core "github.com/oracle/oci-go-sdk/v52/core"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -57,6 +57,7 @@ var (
 		"gateway_id":             Representation{RepType: Required, Create: `${oci_core_drg.test_drg.id}`},
 	}
 	virtualCircuitRepresentation = map[string]interface{}{
+		"ip_mtu":                 Representation{RepType: Optional, Create: `MTU_1500`, Update: `MTU_9000`},
 		"compartment_id":         Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"type":                   Representation{RepType: Required, Create: `${var.virtual_circuit_type}`},
 		"bandwidth_shape_name":   Representation{RepType: Optional, Create: `10 Gbps`, Update: `20 Gbps`},
@@ -148,7 +149,8 @@ variable "virtual_circuit_type" { default = "PRIVATE" }
 variable "virtual_circuit_type" { default = "PUBLIC" }
 
 `
-	VirtualCircuitResourceDependencies = DrgRequiredOnlyResource + CrossConnectWithGroupResourceConfig
+	VirtualCircuitResourceDependencies          = DrgRequiredOnlyResource + CrossConnectWithGroupResourceConfig
+	VirtualCircuitResourceDependenciesCopyForVC = DrgRequiredOnlyResource + CrossConnectWithGroupResourceConfigCopyForVC
 )
 
 // issue-routing-tag: core/default
@@ -164,19 +166,31 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	secretIdCKN := getEnvSettingWithBlankDefault("secret_ocid_ckn")
+	secretIdVariableStrCKN := fmt.Sprintf("variable \"secret_ocid_ckn\" { default = \"%s\" }\n", secretIdCKN)
+
+	secretIdCAK := getEnvSettingWithBlankDefault("secret_ocid_cak")
+	secretIdVariableStrCAK := fmt.Sprintf("variable \"secret_ocid_cak\" { default = \"%s\" }\n", secretIdCAK)
+
+	secretVersionCAK := getEnvSettingWithBlankDefault("secret_version_cak")
+	secretVersionStrCAK := fmt.Sprintf("variable \"secret_version_cak\" { default = \"%s\" }\n", secretVersionCAK)
+
+	secretVersionCKN := getEnvSettingWithBlankDefault("secret_version_ckn")
+	secretVersionStrCKN := fmt.Sprintf("variable \"secret_version_ckn\" { default = \"%s\" }\n", secretVersionCKN)
+
 	resourceName := "oci_core_virtual_circuit.test_virtual_circuit"
 	datasourceName := "data.oci_core_virtual_circuits.test_virtual_circuits"
 	singularDatasourceName := "data.oci_core_virtual_circuit.test_virtual_circuit"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
-	SaveConfigContent(config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPublicPropertyVariables+
+	SaveConfigContent(config+compartmentIdVariableStr+VirtualCircuitResourceDependencies+VirtualCircuitPublicPropertyVariables+secretIdVariableStrCKN+secretIdVariableStrCAK+secretVersionStrCAK+secretVersionStrCKN+
 		GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation), "core", "virtualCircuit", t)
 
 	ResourceTest(t, testAccCheckCoreVirtualCircuitDestroy, []resource.TestStep{
 		// verify Create - PUBLIC Virtual Circuit
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -199,11 +213,11 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
 					RepresentationCopyWithNewProperties(RepresentationCopyWithRemovedProperties(virtualCircuitRepresentation, []string{"gateway_id", "cross_connect_mappings", "customer_asn"}),
 						map[string]interface{}{
@@ -225,7 +239,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify Update from customer_bgp_asn to customer_asn
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -251,7 +265,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify Update - PUBLIC Virtual Circuit
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -277,11 +291,11 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
 		// verify Create - PRIVATE Virtual Circuit with Provider
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitWithProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -302,7 +316,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// verify Update - PRIVATE Virtual Circuit with Provider
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitWithProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -326,12 +340,12 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
 
 		// verify Create - PRIVATE Virtual Circuit
 		{
-			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitRequiredOnlyResource,
+			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + VirtualCircuitRequiredOnlyResource + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -352,12 +366,12 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies,
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN + VirtualCircuitWithProviderResourceConfigFilter +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
@@ -372,6 +386,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_mtu", "MTU_1500"),
 				resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
 				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
@@ -390,7 +405,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
 					RepresentationCopyWithNewProperties(virtualCircuitRepresentation, map[string]interface{}{
 						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
@@ -406,6 +421,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_mtu", "MTU_1500"),
 				resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
 				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
@@ -422,7 +438,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "20 Gbps"),
@@ -437,6 +453,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_mtu", "MTU_9000"),
 				resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
 				resource.TestCheckResourceAttr(resourceName, "routing_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
@@ -453,7 +470,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuits", "test_virtual_circuits", Optional, Update, virtualCircuitDataSourceRepresentation) +
-				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -476,6 +493,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.gateway_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.ip_mtu", "MTU_9000"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.oracle_bgp_asn"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.routing_policy.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.service_type"),
@@ -488,7 +506,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+				compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
@@ -508,6 +526,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_mtu", "MTU_9000"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oracle_bgp_asn"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "routing_policy.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_type"),
@@ -521,7 +540,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
 		},
 		// verify resource import

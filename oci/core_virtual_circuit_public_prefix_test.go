@@ -19,7 +19,7 @@ var (
 	}
 
 	VirtualCircuitPublicPrefixResourceConfig = VirtualCircuitPublicPropertyVariables +
-		VirtualCircuitResourceDependencies +
+		VirtualCircuitResourceDependenciesCopyForVC +
 		GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation)
 )
 
@@ -33,6 +33,18 @@ func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	secretIdCKN := getEnvSettingWithBlankDefault("secret_ocid_ckn")
+	secretIdVariableStrCKN := fmt.Sprintf("variable \"secret_ocid_ckn\" { default = \"%s\" }\n", secretIdCKN)
+
+	secretIdCAK := getEnvSettingWithBlankDefault("secret_ocid_cak")
+	secretIdVariableStrCAK := fmt.Sprintf("variable \"secret_ocid_cak\" { default = \"%s\" }\n", secretIdCAK)
+
+	secretVersionCAK := getEnvSettingWithBlankDefault("secret_version_cak")
+	secretVersionStrCAK := fmt.Sprintf("variable \"secret_version_cak\" { default = \"%s\" }\n", secretVersionCAK)
+
+	secretVersionCKN := getEnvSettingWithBlankDefault("secret_version_ckn")
+	secretVersionStrCKN := fmt.Sprintf("variable \"secret_version_ckn\" { default = \"%s\" }\n", secretVersionCKN)
+
 	datasourceName := "data.oci_core_virtual_circuit_public_prefixes.test_virtual_circuit_public_prefixes"
 
 	SaveConfigContent("", "", "", t)
@@ -40,7 +52,7 @@ func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
 	ResourceTest(t, nil, []resource.TestStep{
 		// verify datasource
 		{
-			Config: config +
+			Config: config + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				GenerateDataSourceFromRepresentationMap("oci_core_virtual_circuit_public_prefixes", "test_virtual_circuit_public_prefixes", Required, Create, virtualCircuitPublicPrefixDataSourceRepresentation) +
 				compartmentIdVariableStr + VirtualCircuitPublicPrefixResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(

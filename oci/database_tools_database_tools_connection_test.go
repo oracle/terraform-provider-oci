@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v51/common"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v51/databasetools"
+	"github.com/oracle/oci-go-sdk/v52/common"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v52/databasetools"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -34,7 +34,7 @@ var (
 		"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"display_name":   Representation{RepType: Required, Create: `tf_connection_name`, Update: `displayName2`},
 		"state":          Representation{RepType: Optional, Create: `ACTIVE`},
-		"type":           Representation{RepType: Optional, Create: []string{`ORACLE_DATABASE`}}, //  `ORACLE_DATABASE`},
+		"type":           Representation{RepType: Optional, Create: []string{`ORACLE_DATABASE`}},
 		"filter":         RepresentationGroup{Required, databaseToolsConnectionDataSourceFilterRepresentation}}
 	databaseToolsConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
@@ -46,7 +46,7 @@ var (
 		"display_name":        Representation{RepType: Required, Create: `tf_connection_name`, Update: `displayName2`},
 		"type":                Representation{RepType: Required, Create: `ORACLE_DATABASE`},
 		"advanced_properties": Representation{RepType: Optional, Create: map[string]string{"oracle.jdbc.loginTimeout": "0"}, Update: map[string]string{"oracle.net.CONNECT_TIMEOUT": "0"}},
-		"connection_string":   Representation{RepType: Required, Create: `tcps://adb-preprod.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231555_low.adb.oraclecloud.com`, Update: `connectionString2`},
+		"connection_string":   Representation{RepType: Required, Create: `tcps://adb.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231111_low.adb.oraclecloud.com`, Update: `connectionString2`},
 		"defined_tags":        Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"key_stores":          RepresentationGroup{Optional, databaseToolsConnectionKeyStoresRepresentation},
@@ -54,7 +54,7 @@ var (
 		"related_resource":    RepresentationGroup{Optional, databaseToolsConnectionRelatedResourceRepresentation},
 		"user_name":           Representation{RepType: Required, Create: `${oci_identity_user.test_user.name}`},
 		"user_password":       RepresentationGroup{Required, databaseToolsConnectionUserPasswordRepresentation},
-		//"lifecycle":        RepresentationGroup{Required, ignoreChangesDatabaseToolsConnectionRepresentation},
+		"lifecycle":           RepresentationGroup{Required, ignoreChangesDatabaseToolsConnectionRepresentation},
 	}
 	databaseToolsConnectionKeyStoresRepresentation = map[string]interface{}{
 		"key_store_content":  RepresentationGroup{Optional, databaseToolsConnectionKeyStoresKeyStoreContentRepresentation},
@@ -67,20 +67,20 @@ var (
 	}
 	databaseToolsConnectionUserPasswordRepresentation = map[string]interface{}{
 		"value_type": Representation{RepType: Required, Create: `SECRETID`},
-		"secret_id":  Representation{RepType: Required, Create: `ocid1.vaultsecret.region1.sea.amaaaaaazlynb3aahrylxtg7peotj6yybjblsqocjumsg5fp6glwqkoi2kza`}, // ${oci_vault_secret.test_secret.id}
+		"secret_id":  Representation{RepType: Required, Create: `ocid1.vaultsecret.region1.sea.amaaaaaazlynb3aahrylxtg7peotj6yybjblsqocjumsg5fp6g1111111111`}, // ${oci_vault_secret.test_secret.id}
 	}
 	databaseToolsConnectionKeyStoresKeyStoreContentRepresentation = map[string]interface{}{
 		"value_type": Representation{RepType: Required, Create: `SECRETID`},
-		"secret_id":  Representation{RepType: Optional, Create: `ocid1.vaultsecret.region1.sea.amaaaaaazlynb3aahrylxtg7peotj6yybjblsqocjumsg5fp6glwqkoi2kza`}, // `${oci_vault_secret.test_secret.id}`},
+		"secret_id":  Representation{RepType: Optional, Create: `ocid1.vaultsecret.region1.sea.amaaaaaazlynb3aahrylxtg7peotj6yybjblsqocjumsg5fp6g1111111111`}, // `${oci_vault_secret.test_secret.id}`},
 	}
 	databaseToolsConnectionKeyStoresKeyStorePasswordRepresentation = map[string]interface{}{
 		"value_type": Representation{RepType: Required, Create: `SECRETID`},
-		"secret_id":  Representation{RepType: Optional, Create: `ocid1.vaultsecret.region1.sea.amaaaaaazlynb3aahrylxtg7peotj6yybjblsqocjumsg5fp6glwqkoi2kza`}, //`${oci_vault_secret.test_secret.id}`},
+		"secret_id":  Representation{RepType: Optional, Create: `ocid1.vaultsecret.region1.sea.amaaaaaazlynb3aahrylxtg7peotj6yybjblsqocjumsg5fp6g1111111111`}, //`${oci_vault_secret.test_secret.id}`},
 	}
 
-	//ignoreChangesDatabaseToolsConnectionRepresentation = map[string]interface{}{  // For R1 only
-	//	"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`}},
-	//}
+	ignoreChangesDatabaseToolsConnectionRepresentation = map[string]interface{}{ // This may vary depending on the tenancy settings
+		"ignore_changes": Representation{RepType: Required, Create: []string{`defined_tags`, `freeform_tags`}},
+	}
 
 	DatabaseToolsConnectionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
@@ -127,7 +127,7 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tf_connection_name"),
 					resource.TestCheckResourceAttr(resourceName, "type", "ORACLE_DATABASE"),
-					resource.TestCheckResourceAttr(resourceName, "connection_string", "tcps://adb-preprod.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231555_low.adb.oraclecloud.com"),
+					resource.TestCheckResourceAttr(resourceName, "connection_string", "tcps://adb.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231111_low.adb.oraclecloud.com"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_name"),
 					resource.TestCheckResourceAttr(resourceName, "user_password.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_password.0.secret_id"),
@@ -153,7 +153,7 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "advanced_properties.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "connection_string", "tcps://adb-preprod.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231555_low.adb.oraclecloud.com"),
+					resource.TestCheckResourceAttr(resourceName, "connection_string", "tcps://adb.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231111_low.adb.oraclecloud.com"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"), // On R1: "3": "1" + "2" for Operators = "3"
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tf_connection_name"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -202,7 +202,7 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "advanced_properties.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "connection_string", "tcps://adb-preprod.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231555_low.adb.oraclecloud.com"),
+					resource.TestCheckResourceAttr(resourceName, "connection_string", "tcps://adb.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231111_low.adb.oraclecloud.com"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tf_connection_name"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),

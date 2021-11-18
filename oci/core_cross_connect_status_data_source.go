@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v51/core"
+	oci_core "github.com/oracle/oci-go-sdk/v52/core"
 )
 
 func init() {
@@ -23,6 +23,10 @@ func CoreCrossConnectStatusDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"encryption_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"interface_state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -82,6 +86,8 @@ func (s *CoreCrossConnectStatusDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(GenerateDataSourceHashID("CoreCrossConnectStatusDataSource-", CoreCrossConnectStatusDataSource(), s.D))
+
+	s.D.Set("encryption_status", s.Res.EncryptionStatus)
 
 	s.D.Set("interface_state", s.Res.InterfaceState)
 

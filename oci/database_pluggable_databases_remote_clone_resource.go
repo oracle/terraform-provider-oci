@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v51/database"
+	oci_database "github.com/oracle/oci-go-sdk/v52/database"
 )
 
 func init() {
@@ -28,12 +28,6 @@ func DatabasePluggableDatabasesRemoteCloneResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"pdb_admin_password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
-			},
 			"pluggable_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -50,14 +44,28 @@ func DatabasePluggableDatabasesRemoteCloneResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"target_tde_wallet_password": {
+
+			// Optional
+			"pdb_admin_password": {
 				Type:      schema.TypeString,
-				Required:  true,
+				Optional:  true,
+				Computed:  true,
 				ForceNew:  true,
 				Sensitive: true,
 			},
-
-			// Optional
+			"should_pdb_admin_account_be_locked": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"target_tde_wallet_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				ForceNew:  true,
+				Sensitive: true,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -201,6 +209,11 @@ func (s *DatabasePluggableDatabasesRemoteCloneResourceCrud) Create() error {
 	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
 		tmp := pluggableDatabaseId.(string)
 		request.PluggableDatabaseId = &tmp
+	}
+
+	if shouldPdbAdminAccountBeLocked, ok := s.D.GetOkExists("should_pdb_admin_account_be_locked"); ok {
+		tmp := shouldPdbAdminAccountBeLocked.(bool)
+		request.ShouldPdbAdminAccountBeLocked = &tmp
 	}
 
 	if sourceContainerDbAdminPassword, ok := s.D.GetOkExists("source_container_db_admin_password"); ok {

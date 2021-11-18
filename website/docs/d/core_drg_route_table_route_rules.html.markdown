@@ -42,6 +42,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `attributes` - Additional properties for the route, computed by the service. 
 * `destination` - Represents the range of IP addresses to match against when routing traffic.
 
 	Potential values:

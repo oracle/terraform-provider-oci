@@ -50,10 +50,15 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the tenancy. The tenancy is the root compartment.
-* `description` - Text describing the category. Avoid entering confidential information.
+* `description` - Text describing the category.
 * `estimated_cost_saving` - The estimated cost savings, in dollars, for the category.
+* `extended_metadata` - Additional metadata key/value pairs for the category.
+
+	For example:
+
+	`{"EstimatedSaving": "200"}` 
 * `id` - The unique OCID of the category.
-* `name` - The name assigned to the category. Avoid entering confidential information.
+* `name` - The name assigned to the category.
 * `recommendation_counts` - An array of `RecommendationCount` objects grouped by the level of importance assigned to the recommendation.
 	* `count` - The count of recommendations.
 	* `importance` - The level of importance assigned to the recommendation.

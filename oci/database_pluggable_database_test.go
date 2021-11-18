@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v51/common"
-	oci_database "github.com/oracle/oci-go-sdk/v51/database"
+	"github.com/oracle/oci-go-sdk/v52/common"
+	oci_database "github.com/oracle/oci-go-sdk/v52/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -43,14 +43,15 @@ var (
 	}
 
 	pluggableDatabaseRepresentation = map[string]interface{}{
-		"container_database_id": Representation{RepType: Required, Create: `${data.oci_database_database.t.id}`},
-		"pdb_admin_password":    Representation{RepType: Required, Create: `BEstrO0ng_#11`},
-		"pdb_name":              Representation{RepType: Required, Create: `SalesPdb`},
-		"tde_wallet_password":   Representation{RepType: Required, Create: `BEstrO0ng_#11`},
-		"defined_tags":          Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":         Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":             RepresentationGroup{Required, ignoreChangesLBRepresentation},
-		"depends_on":            Representation{RepType: Required, Create: []string{"oci_database_db_system.t"}},
+		"container_database_id":              Representation{RepType: Required, Create: `${data.oci_database_database.t.id}`},
+		"pdb_admin_password":                 Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"pdb_name":                           Representation{RepType: Required, Create: `SalesPdb`},
+		"tde_wallet_password":                Representation{RepType: Required, Create: `BEstrO0ng_#11`},
+		"defined_tags":                       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                      Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"should_pdb_admin_account_be_locked": Representation{RepType: Optional, Create: `false`},
+		"lifecycle":                          RepresentationGroup{Required, ignoreChangesLBRepresentation},
+		"depends_on":                         Representation{RepType: Required, Create: []string{"oci_database_db_system.t"}},
 	}
 
 	ResourcePluggableDatabaseBaseConfig = `
@@ -245,6 +246,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_name", "SalesPdb"),
+				resource.TestCheckResourceAttr(resourceName, "should_pdb_admin_account_be_locked", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "tde_wallet_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -274,6 +276,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_name", "SalesPdb"),
+				resource.TestCheckResourceAttr(resourceName, "should_pdb_admin_account_be_locked", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "tde_wallet_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -340,6 +343,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"pdb_admin_password",
+				"should_pdb_admin_account_be_locked",
 				"tde_wallet_password",
 			},
 			ResourceName: resourceName,
