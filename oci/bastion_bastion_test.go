@@ -30,11 +30,13 @@ var (
 		"bastion_id": Representation{RepType: Required, Create: `${oci_bastion_bastion.test_bastion.id}`},
 	}
 
+	bastionName = RandomString(15, charsetWithoutDigits)
+
 	bastionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"bastion_id":              Representation{RepType: Optional, Create: `${oci_bastion_bastion.test_bastion.id}`},
 		"bastion_lifecycle_state": Representation{RepType: Optional, Create: `ACTIVE`},
-		"name":                    Representation{RepType: Optional, Create: `bastionterraformtest`},
+		"name":                    Representation{RepType: Optional, Create: bastionName},
 		"filter":                  RepresentationGroup{Required, bastionDataSourceFilterRepresentation}}
 	bastionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
@@ -49,7 +51,7 @@ var (
 		"defined_tags":                 Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"max_session_ttl_in_seconds":   Representation{RepType: Optional, Create: `1800`, Update: `3600`},
-		"name":                         Representation{RepType: Required, Create: `bastionterraformtest`, Update: "BastionTerraformtest"},
+		"name":                         Representation{RepType: Required, Create: bastionName},
 	}
 
 	BastionResourceDependencies = GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
@@ -112,7 +114,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "1800"),
-				resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "name", bastionName),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
@@ -145,7 +147,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "1800"),
-				resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "name", bastionName),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
@@ -173,7 +175,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_session_ttl_in_seconds", "3600"),
-				resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "name", bastionName),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
@@ -198,7 +200,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 				resource.TestCheckResourceAttr(datasourceName, "bastion_lifecycle_state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(datasourceName, "name", bastionName),
 
 				resource.TestCheckResourceAttr(datasourceName, "bastions.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "bastions.0.bastion_type", "STANDARD"),
@@ -206,7 +208,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "bastions.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "bastions.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.id"),
-				resource.TestCheckResourceAttr(datasourceName, "bastions.0.name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(datasourceName, "bastions.0.name", bastionName),
 				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.target_subnet_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.target_vcn_id"),
@@ -230,7 +232,7 @@ func TestBastionBastionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "max_session_ttl_in_seconds", "3600"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "max_sessions_allowed"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", bastionName),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_vcn_id"),
