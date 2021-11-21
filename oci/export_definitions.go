@@ -1983,6 +1983,11 @@ var exportIdentityTagHints = &TerraformResourceHints{
 	},
 }
 
+var exportIdentityImportStandardTagsManagementHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_import_standard_tags_management",
+	resourceAbbreviation: "import_standard_tags_management",
+}
+
 var exportIdentityDomainHints = &TerraformResourceHints{
 	resourceClass:        "oci_identity_domain",
 	datasourceClass:      "oci_identity_domains",
