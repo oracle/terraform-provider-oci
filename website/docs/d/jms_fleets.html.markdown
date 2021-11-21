@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_jms_fleets
 This data source provides the list of Fleets in Oracle Cloud Infrastructure Jms service.
 
-Returns a list of all the Fleets contained by a compartment.
+Returns a list of all the Fleets contained by a compartment. The query parameter `compartmentId`
+is required unless the query parameter `id` is specified.
 
 
 ## Example Usage
@@ -30,7 +31,7 @@ data "oci_jms_fleets" "test_fleets" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources. 
 * `display_name` - (Optional) The display name.
 * `id` - (Optional) The ID of the Fleet.
 * `state` - (Optional) The state of the lifecycle.
@@ -58,5 +59,5 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 * `state` - The lifecycle state of the Fleet.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The creation date and time of the Fleet (formatted according to RFC3339). 
+* `time_created` - The creation date and time of the Fleet (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 

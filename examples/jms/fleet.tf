@@ -7,6 +7,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
+variable "host_ocid" {}
 
 variable "fleet_description" {
   default = "Example Fleet created by Terraform"
@@ -61,4 +62,13 @@ data "oci_jms_fleets" "example_fleets" {
   display_name   = var.fleet_display_name
   id             = var.fleet_id
   state          = var.fleet_state
+}
+
+data "oci_jms_list_jre_usage" "example_jms_list_jre_usage" {
+  compartment_id   = var.compartment_ocid
+  host_id          = var.host_ocid
+}
+
+data "oci_jms_summarize_resource_inventory" "example_oci_jms_summarize_resource_inventory" {
+  compartment_id = var.compartment_ocid
 }
