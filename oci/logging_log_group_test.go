@@ -106,7 +106,6 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Create, logGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -133,7 +132,6 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -155,7 +153,6 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Optional, Update, logGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -183,7 +180,6 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "log_groups.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "log_groups.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "log_groups.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "log_groups.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "log_groups.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "log_groups.0.freeform_tags.%", "1"),
@@ -202,7 +198,6 @@ func TestLoggingLogGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

@@ -131,7 +131,6 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_enabled", "true"),
 					//resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_window", "SLOT_THREE"),
 					resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.recovery_window_in_days", "10"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
 					func(s *terraform.State) (err error) {
@@ -156,7 +155,6 @@ func TestDatabaseDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.recovery_window_in_days", "30"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", "testDbBu"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
 					resource.TestCheckResourceAttr(resourceName, "pdb_name", "pdbName"),

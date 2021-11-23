@@ -92,7 +92,6 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyCpe"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -121,7 +120,6 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyCpe"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -145,7 +143,6 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -173,7 +170,6 @@ func TestCoreCpeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cpes.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cpes.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "cpes.0.cpe_device_shape_id"),
-				resource.TestCheckResourceAttr(datasourceName, "cpes.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cpes.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "cpes.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cpes.0.id"),

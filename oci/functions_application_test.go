@@ -126,7 +126,6 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -162,7 +161,6 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -193,7 +191,6 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", applicationDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -230,7 +227,6 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "applications.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "applications.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.display_name", applicationDisplayName),
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.id"),
@@ -257,7 +253,6 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", applicationDisplayName),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

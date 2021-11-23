@@ -124,7 +124,6 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Create, identityProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -156,7 +155,6 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Optional, Update, identityProviderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -193,7 +191,6 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "identity_providers.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_attributes.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_tags.%", "1"),

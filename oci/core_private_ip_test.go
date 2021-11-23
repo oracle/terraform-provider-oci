@@ -108,7 +108,6 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Create, privateIpRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance"),
@@ -132,7 +131,6 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance2"),
@@ -159,7 +157,6 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "private_ips.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.compartment_id"),
-				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.hostname_label", "privateiptestinstance2"),
@@ -182,7 +179,6 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "privateiptestinstance2"),

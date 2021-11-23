@@ -79,7 +79,6 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -106,7 +105,6 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					})),
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -143,7 +141,6 @@ func TestGovSpecificLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),

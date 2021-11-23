@@ -94,7 +94,6 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Create, groupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "Group for network administrators"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -120,7 +119,6 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -150,7 +148,6 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "groups.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "groups.0.compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(datasourceName, "groups.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "groups.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "groups.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "groups.0.id"),
@@ -169,7 +166,6 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "group_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

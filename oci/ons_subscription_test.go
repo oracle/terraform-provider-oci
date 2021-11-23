@@ -103,7 +103,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -132,7 +131,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -156,7 +154,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -186,7 +183,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "subscriptions.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.created_time"),
-				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.delivery_policy.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.endpoint", "john.smith@example.com"),
 				resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.etag"),
@@ -207,7 +203,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_time"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "endpoint", "john.smith@example.com"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

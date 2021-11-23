@@ -341,7 +341,6 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -367,7 +366,6 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -405,7 +403,6 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -437,7 +434,6 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
-					//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -477,7 +473,6 @@ func TestResourceLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.compartment_id", compartmentId),
 					//Commenting this out as we are ignoring the changes to the tags in the resource representation.
-					//resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),

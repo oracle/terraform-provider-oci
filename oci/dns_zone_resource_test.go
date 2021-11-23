@@ -131,7 +131,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "nameservers.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
@@ -165,7 +164,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_protected"),
@@ -194,7 +192,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 					RepresentationCopyWithRemovedProperties(zoneRepresentationPrimaryDefault, []string{"external_masters"})), nil),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
@@ -225,7 +222,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.is_protected"),
@@ -245,7 +241,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestMatchResourceAttr(datasourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 				resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 			),
 		},
@@ -256,7 +251,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "name_contains", "oci-zone-test"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 			),
 		},
@@ -267,7 +261,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 			),
 		},
@@ -278,7 +271,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "zone_type", "PRIMARY"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 			),
 		},
@@ -290,7 +282,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "time_created_greater_than_or_equal_to", "2018-01-01T00:00:00.000Z"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 			),
 		},
@@ -302,7 +293,6 @@ func TestDnsZoneResource_default(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2022-04-10T19:01:09.000-00:00"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.#"),
-				resource.TestCheckResourceAttr(datasourceName, "zones.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 			),
 		},

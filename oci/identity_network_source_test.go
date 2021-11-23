@@ -106,7 +106,6 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Create, networkSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "corporate ip ranges to be used for ip based authorization"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -135,7 +134,6 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_network_source", "test_network_source", Optional, Update, networkSourceRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -168,7 +166,6 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "network_sources.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_sources.0.id"),
@@ -188,7 +185,6 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_source_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

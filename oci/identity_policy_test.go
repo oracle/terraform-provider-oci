@@ -91,7 +91,6 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Create, policyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "Policy for users who need to launch instances, attach volumes, manage images"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -119,7 +118,6 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_policy", "test_policy", Optional, Update, policyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -151,7 +149,6 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "policies.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "policies.0.compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(datasourceName, "policies.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "policies.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "policies.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "policies.0.id"),

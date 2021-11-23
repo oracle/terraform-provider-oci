@@ -90,7 +90,6 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", Optional, Create, instanceConsoleConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "public_key", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
@@ -112,7 +111,6 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", Optional, Update, instanceConsoleConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "public_key", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
@@ -139,7 +137,6 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "instance_console_connections.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.compartment_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.connection_string"),
-				resource.TestCheckResourceAttr(datasourceName, "instance_console_connections.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.fingerprint"),
 				resource.TestCheckResourceAttr(datasourceName, "instance_console_connections.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.id"),

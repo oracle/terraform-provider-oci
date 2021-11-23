@@ -196,7 +196,6 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Create, securityListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
 				resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "3"),
 				CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
@@ -301,7 +300,6 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
 				resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "3"),
 				CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
@@ -349,7 +347,6 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Update, securityListRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "3"),
 				CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
@@ -462,7 +459,6 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "security_lists.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "security_lists.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "security_lists.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "security_lists.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.#", "3"),
 				CheckResourceSetContainsElementWithProperties(datasourceName, "security_lists.0.egress_security_rules", map[string]string{

@@ -133,7 +133,6 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "tst3dbsys"),
 				resource.TestCheckResourceAttr(resourceName, "domain", "subnetexadata.tfvcn.oraclevcn.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -170,7 +169,6 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "tst3dbsys"),
 				resource.TestCheckResourceAttr(resourceName, "domain", "subnetexadata.tfvcn.oraclevcn.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -202,7 +200,6 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "domain", "subnetexadata.tfvcn.oraclevcn.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -247,7 +244,6 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_exadata_infrastructures.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.domain", "subnetexadata.tfvcn.oraclevcn.com"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_exadata_infrastructures.0.freeform_tags.%", "1"),
@@ -272,7 +268,6 @@ func TestDatabaseAutonomousExadataInfrastructureResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "domain", "subnetexadata.tfvcn.oraclevcn.com"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

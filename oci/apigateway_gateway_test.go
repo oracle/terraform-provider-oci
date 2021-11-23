@@ -136,7 +136,6 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -177,7 +176,6 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -213,7 +211,6 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "PUBLIC"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -255,7 +252,6 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "gateway_collection.0.id"),
-				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "gateway_collection.0.freeform_tags.%", "1"),
 			),
 		},
@@ -268,7 +264,6 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "endpoint_type", "PUBLIC"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

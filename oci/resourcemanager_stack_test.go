@@ -86,7 +86,6 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(datasourceName, "stacks.#"),
 					resource.TestCheckResourceAttr(datasourceName, "stacks.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "stacks.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "stacks.0.description"),
 					resource.TestCheckResourceAttr(datasourceName, "stacks.0.display_name", "TestResourcemanagerStackResource_basic"),
 					resource.TestCheckResourceAttr(datasourceName, "stacks.0.freeform_tags.%", "1"),
@@ -109,7 +108,6 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "config_source.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "config_source.0.config_source_type", "ZIP_UPLOAD"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TestResourcemanagerStackResource_basic"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

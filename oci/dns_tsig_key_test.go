@@ -105,7 +105,6 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
 				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
@@ -132,7 +131,6 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
 				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
@@ -154,7 +152,6 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name", tsigKeyName),
 				resource.TestCheckResourceAttr(resourceName, "secret", "c2VjcmV0"),
@@ -183,7 +180,6 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "tsig_keys.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "tsig_keys.0.name", tsigKeyName),
@@ -202,7 +198,6 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "algorithm", "hmac-sha1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", tsigKeyName),

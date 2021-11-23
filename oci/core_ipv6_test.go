@@ -111,7 +111,6 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Create, ipv6Representation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -139,7 +138,6 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", Optional, Update, ipv6Representation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -168,7 +166,6 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.id"),
@@ -186,7 +183,6 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

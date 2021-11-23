@@ -100,7 +100,6 @@ func (s *DatasourcePrivateIPTestSuite) TestAccCorePrivateIPs_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ips.0.time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.hostname_label", ""),
-					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ips.0.freeform_tags.%", "1"),
 				),
 			},

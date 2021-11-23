@@ -127,7 +127,6 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "entity_type_internal_name"),
 				resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -165,7 +164,6 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "entity_type_internal_name"),
 				resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -199,7 +197,6 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cloud_resource_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "entity_type_internal_name"),
 				resource.TestCheckResourceAttr(resourceName, "entity_type_name", "Host (Linux)"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -261,7 +258,6 @@ func TestLogAnalyticsLogAnalyticsEntityResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "are_logs_collected"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "entity_type_internal_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "entity_type_name", "Host (Linux)"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

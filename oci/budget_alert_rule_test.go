@@ -108,7 +108,6 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Create, alertRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "budget_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -143,7 +142,6 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Optional, Update, alertRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "budget_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -179,7 +177,6 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "alert_rules.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "alert_rules.0.budget_id"),
-				resource.TestCheckResourceAttr(datasourceName, "alert_rules.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "alert_rules.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "alert_rules.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "alert_rules.0.freeform_tags.%", "1"),
@@ -204,7 +201,6 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_rule_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "budget_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

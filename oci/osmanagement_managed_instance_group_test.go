@@ -103,7 +103,6 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Create, managedInstanceGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", managedGroupDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -131,7 +130,6 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", managedGroupDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -154,7 +152,6 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_osmanagement_managed_instance_group", "test_managed_instance_group", Optional, Update, managedInstanceGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", managedGroupUpdateDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -184,7 +181,6 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.0.display_name", managedGroupUpdateDisplayName),
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.0.freeform_tags.%", "1"),
@@ -202,7 +198,6 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_group_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", managedGroupUpdateDisplayName),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

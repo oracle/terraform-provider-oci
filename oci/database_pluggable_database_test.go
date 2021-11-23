@@ -240,7 +240,6 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
@@ -270,7 +269,6 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
@@ -304,7 +302,6 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "pluggable_databases.0.compartment_id"),
 				resource.TestCheckResourceAttr(datasourceName, "pluggable_databases.0.connection_strings.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "pluggable_databases.0.container_database_id"),
-				resource.TestCheckResourceAttr(datasourceName, "pluggable_databases.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "pluggable_databases.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "pluggable_databases.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "pluggable_databases.0.open_mode"),
@@ -322,7 +319,6 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pluggable_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),

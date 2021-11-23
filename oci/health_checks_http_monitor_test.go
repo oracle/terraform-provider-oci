@@ -110,7 +110,6 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Create, httpMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
@@ -145,7 +144,6 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
@@ -175,7 +173,6 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Optional, Update, httpMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "headers.%", "1"),
@@ -211,7 +208,6 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "http_monitors.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "http_monitors.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "http_monitors.0.home_region"),
@@ -232,7 +228,6 @@ func TestHealthChecksHttpMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "headers.%", "1"),

@@ -94,7 +94,6 @@ func TestEmailDkimResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Create, dkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -118,7 +117,6 @@ func TestEmailDkimResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DkimResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_email_dkim", "test_dkim", Optional, Update, dkimRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "email_domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -160,7 +158,6 @@ func TestEmailDkimResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cname_record_value"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dns_subdomain_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

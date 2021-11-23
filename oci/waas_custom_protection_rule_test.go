@@ -110,7 +110,6 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Create, customProtectionRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -137,7 +136,6 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -159,7 +157,6 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_waas_custom_protection_rule", "test_custom_protection_rule", Optional, Update, customProtectionRuleRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -190,7 +187,6 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "custom_protection_rules.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "custom_protection_rules.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "custom_protection_rules.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "custom_protection_rules.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "custom_protection_rules.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "custom_protection_rules.0.id"),
@@ -208,7 +204,6 @@ func TestWaasCustomProtectionRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_protection_rule_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

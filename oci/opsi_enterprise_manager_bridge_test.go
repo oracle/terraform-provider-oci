@@ -90,7 +90,6 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Required, Create, enterpriseManagerBridgeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "object_storage_bucket_name"),
 
@@ -111,7 +110,6 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Create, enterpriseManagerBridgeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -142,7 +140,6 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -168,7 +165,6 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_enterprise_manager_bridge", "test_enterprise_manager_bridge", Optional, Update, enterpriseManagerBridgeRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -213,7 +209,6 @@ func TestOpsiEnterpriseManagerBridgeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_bridge_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

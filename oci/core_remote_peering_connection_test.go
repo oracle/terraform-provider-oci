@@ -91,7 +91,6 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Create, remotePeeringConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -146,7 +145,6 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Update, remotePeeringConnectionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -177,7 +175,6 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "remote_peering_connections.0.drg_id"),
 				resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.0.freeform_tags.%", "1"),
