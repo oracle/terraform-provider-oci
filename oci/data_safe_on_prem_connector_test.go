@@ -103,7 +103,6 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Create, onPremConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -127,7 +126,6 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -151,7 +149,6 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_data_safe_on_prem_connector", "test_on_prem_connector", Optional, Update, onPremConnectorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -190,7 +187,6 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "on_prem_connectors.0.created_version"),
-				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "on_prem_connectors.0.freeform_tags.%", "1"),
@@ -210,7 +206,6 @@ func TestDataSafeOnPremConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_version"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

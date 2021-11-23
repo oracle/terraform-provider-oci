@@ -102,7 +102,6 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Create, externalPluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
@@ -132,7 +131,6 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
@@ -157,7 +155,6 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_external_pluggable_database", "test_external_pluggable_database", Optional, Update, externalPluggableDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalPdb"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_container_database_id"),
 
@@ -190,7 +187,6 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.database_management_config.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "external_pluggable_databases.0.display_name", "myTestExternalPdb"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_pluggable_databases.0.external_container_database_id"),
 
@@ -211,7 +207,6 @@ func TestDatabaseExternalPluggableDatabaseResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_management_config.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "myTestExternalPdb"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

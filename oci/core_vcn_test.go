@@ -105,7 +105,6 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -135,7 +134,6 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -162,7 +160,6 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -198,7 +195,6 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.default_dhcp_options_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.default_route_table_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.default_security_list_id"),
-				resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.freeform_tags.%", "1"),
@@ -225,7 +221,6 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "default_dhcp_options_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "default_route_table_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "default_security_list_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

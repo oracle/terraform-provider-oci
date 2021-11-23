@@ -127,7 +127,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + TagResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, tagRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -157,7 +156,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + TagResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, RepresentationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -186,7 +184,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "tags.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "tags.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
@@ -206,7 +203,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

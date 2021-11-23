@@ -106,7 +106,6 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Create, drgRouteTableRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -134,7 +133,6 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", Optional, Update, drgRouteTableRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -198,7 +196,6 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.compartment_id"),
-				resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_tables.0.drg_id"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_tables.0.freeform_tags.%", "1"),
@@ -218,7 +215,6 @@ func TestCoreDrgRouteTableResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "drg_route_table_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

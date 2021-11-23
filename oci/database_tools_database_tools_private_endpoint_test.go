@@ -125,7 +125,6 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", Optional, Create, databaseToolsPrivateEndpointRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"), // On R1: "3": "1" + "2" for Operators = "3"
 					resource.TestCheckResourceAttr(resourceName, "description", "Private Endpoint for mySubnet"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPE"),
 					resource.TestCheckResourceAttrSet(resourceName, "endpoint_service_id"),
@@ -160,7 +159,6 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "Private Endpoint for mySubnet"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPE"),
 					resource.TestCheckResourceAttrSet(resourceName, "endpoint_service_id"),
@@ -190,7 +188,6 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", Optional, Update, databaseToolsPrivateEndpointRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "endpoint_service_id"),
@@ -241,7 +238,6 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "additional_fqdns.#", "0"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

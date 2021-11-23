@@ -131,7 +131,6 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "comment", "comment"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "false"),
@@ -168,7 +167,6 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "comment", "comment2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "true"),
@@ -221,7 +219,6 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "assigner_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "comment", "comment2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "error_code"),
 				resource.TestCheckNoResourceAttr(singularDatasourceName, "error_message"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),

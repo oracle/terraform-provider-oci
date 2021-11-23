@@ -381,7 +381,6 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -585,7 +584,6 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -783,7 +781,6 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_domains.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -990,7 +987,6 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "waas_policies.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.domain", waasPolicyDomain),
 				resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.freeform_tags.%", "1"),
@@ -1010,7 +1006,6 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "additional_domains.#", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cname"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "domain", waasPolicyDomain),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

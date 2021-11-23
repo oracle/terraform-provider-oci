@@ -110,7 +110,6 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "Channel for admin messages"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name", topicName),
@@ -140,7 +139,6 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "Channel for admin messages"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name", topicName),
@@ -165,7 +163,6 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "api_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name", topicName),
@@ -197,7 +194,6 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "notification_topics.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "notification_topics.0.api_endpoint"),
 				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "notification_topics.0.name", topicName),
@@ -215,7 +211,6 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "api_endpoint"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", topicName),

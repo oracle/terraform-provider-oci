@@ -88,7 +88,6 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -111,7 +110,6 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "kms_key_id", ""),
@@ -146,7 +144,6 @@ func TestFileStorageFileSystemResource_removeKMSKey(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.display_name", "media-files-1"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.freeform_tags.%", "1"),
 				TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.id", "oci_file_storage_file_system.test_file_system", "id"),

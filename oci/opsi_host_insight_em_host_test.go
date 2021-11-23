@@ -102,7 +102,6 @@ func TestOpsiEmHostInsightResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Create, emHostInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(resourceName, "entity_source", "EM_MANAGED_EXTERNAL_HOST"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "host_name"),
@@ -137,7 +136,6 @@ func TestOpsiEmHostInsightResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(resourceName, "entity_source", "EM_MANAGED_EXTERNAL_HOST"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
@@ -167,7 +165,6 @@ func TestOpsiEmHostInsightResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update, emHostInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(resourceName, "entity_source", "EM_MANAGED_EXTERNAL_HOST"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "host_name"),
@@ -217,7 +214,6 @@ func TestOpsiEmHostInsightResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_insight_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "entity_source", "EM_MANAGED_EXTERNAL_HOST"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_display_name"),

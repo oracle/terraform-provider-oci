@@ -103,7 +103,6 @@ func TestKmsVaultResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Vault 1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -134,7 +133,6 @@ func TestKmsVaultResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Vault 1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -160,7 +158,6 @@ func TestKmsVaultResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -190,7 +187,6 @@ func TestKmsVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vaults.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vaults.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "vaults.0.crypto_endpoint"),
-				resource.TestCheckResourceAttr(datasourceName, "vaults.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vaults.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "vaults.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vaults.0.id"),
@@ -210,7 +206,6 @@ func TestKmsVaultResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "crypto_endpoint"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

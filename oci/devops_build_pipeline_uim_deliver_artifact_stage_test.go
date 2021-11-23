@@ -147,7 +147,6 @@ func TestDevopsBuildPipelineStageUIMDeliverArtifactResource_basic(t *testing.T) 
 				resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_predecessor_collection.0.items.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_type", "DELIVER_ARTIFACT"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deliver_artifact_collection.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deliver_artifact_collection.0.items.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "deliver_artifact_collection.0.items.0.artifact_id"),
@@ -181,7 +180,6 @@ func TestDevopsBuildPipelineStageUIMDeliverArtifactResource_basic(t *testing.T) 
 				resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_type", "DELIVER_ARTIFACT"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deliver_artifact_collection.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deliver_artifact_collection.0.items.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "deliver_artifact_collection.0.items.0.artifact_id"),
@@ -229,7 +227,6 @@ func TestDevopsBuildPipelineStageUIMDeliverArtifactResource_basic(t *testing.T) 
 				resource.TestCheckResourceAttr(singularDatasourceName, "build_pipeline_stage_type", "DELIVER_ARTIFACT"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deliver_artifact_collection.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deliver_artifact_collection.0.items.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deliver_artifact_collection.0.items.0.artifact_name", "artifactName2"),

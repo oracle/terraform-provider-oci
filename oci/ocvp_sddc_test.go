@@ -471,7 +471,6 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
@@ -527,7 +526,6 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
@@ -579,7 +577,6 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
@@ -642,7 +639,6 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.freeform_tags.%", "1"),
 			),
 		},
@@ -656,7 +652,6 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actual_esxi_hosts_count", "3"),

@@ -110,7 +110,6 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -142,7 +141,6 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -169,7 +167,6 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "block_traffic", "true"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -203,7 +200,6 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "nat_gateways.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.block_traffic", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "nat_gateways.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "nat_gateways.0.id"),
@@ -224,7 +220,6 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "block_traffic", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

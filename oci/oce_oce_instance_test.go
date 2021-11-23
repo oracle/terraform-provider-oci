@@ -128,7 +128,6 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "guid"),
@@ -166,7 +165,6 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "guid"),
@@ -199,7 +197,6 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "guid"),
@@ -238,7 +235,6 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.admin_email"),
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.guid"),
@@ -268,7 +264,6 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "admin_email"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "guid"),

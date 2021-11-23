@@ -110,7 +110,6 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
 				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -146,7 +145,6 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
@@ -175,7 +173,6 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -208,7 +205,6 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "mount_targets.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.export_set_id"),
 				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.freeform_tags.%", "1"),

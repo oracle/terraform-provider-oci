@@ -107,7 +107,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
 				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
 				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -143,7 +142,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
 				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
 				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -175,7 +173,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttrSet(resourceName, "database_id"), // Won't be available for EM managed databases
 				//resource.TestCheckResourceAttrSet(resourceName, "database_name"),
 				//resource.TestCheckResourceAttrSet(resourceName, "database_resource_type"),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -235,7 +232,6 @@ func TestOpsiDatabaseInsightResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "db_additional_details"),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_entity_display_name"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),

@@ -93,7 +93,6 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "messages_endpoint"),
@@ -131,7 +130,6 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 				})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "messages_endpoint"),
@@ -158,7 +156,6 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Update, streampoolidRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "messages_endpoint"),
@@ -192,7 +189,6 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "streams.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "streams.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "streams.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "streams.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "streams.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "streams.0.messages_endpoint"),
@@ -212,7 +208,6 @@ func TestStreamingStreamWithStreamPoolIdResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "messages_endpoint"),
