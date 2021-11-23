@@ -1,3 +1,9 @@
+## 4.54.0 (November 24, 2021)
+
+### Fixed
+- Recovery from panic in getResourceOCID
+- NLB Resource Discovery - Avoiding duplication for backend sets
+
 ## 4.53.0 (November 18, 2021)
 
 ### Added
