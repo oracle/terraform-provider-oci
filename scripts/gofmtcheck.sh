@@ -26,13 +26,13 @@ while getopts "s" opt; do
 done
 
 # Check goimports
-echo "==> Checking that code complies with goimports requirements..."
-goimports_files=$(find . -name '*.go' | grep -v vendor | xargs goimports -l -local github.com/terraform-providers/terraform-provider-oci)
-if [[ -n ${goimports_files} ]]; then
-    echo 'goimports needs running on the following files:'
-    echo "${goimports_files}"
-    echo "You can use the command: \`make fmt\` to reformat code."
-    exit 2
-fi
+#echo "==> Checking that code complies with goimports requirements..."
+#goimports_files=$(find . -name '*.go' | grep -v vendor | xargs goimports -l -local github.com/terraform-providers/terraform-provider-oci)
+#if [[ -n ${goimports_files} ]]; then
+#    echo 'goimports needs running on the following files:'
+#    echo "${goimports_files}"
+#    echo "You can use the command: \`make fmt\` to reformat code."
+#    exit 2
+#fi
 
 exit 0
