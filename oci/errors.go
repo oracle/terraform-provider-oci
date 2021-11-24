@@ -187,6 +187,11 @@ func removeDuplicate(name string) string {
 
 // Use to get OCID from refresh state only
 func getResourceOCID(sync interface{}) string {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Println("[WARN] ID() function panic recovered!", r)
+		}
+	}()
 	if syn, ok := sync.(StatefulResource); ok {
 		return syn.ID()
 	}

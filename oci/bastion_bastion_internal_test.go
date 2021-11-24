@@ -25,11 +25,13 @@ var (
 		"bastion_id": Representation{RepType: Required, Create: `${oci_bastion_bastion.test_bastion.id}`},
 	}
 
+	internalBastionName = RandomString(15, charsetWithoutDigits)
+
 	InternalBastionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":          Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"bastion_id":              Representation{RepType: Optional, Create: `${oci_bastion_bastion.test_bastion.id}`},
 		"bastion_lifecycle_state": Representation{RepType: Optional, Create: `ACTIVE`},
-		"name":                    Representation{RepType: Optional, Create: `bastionterraformtest`},
+		"name":                    Representation{RepType: Optional, Create: internalBastionName},
 		"filter":                  RepresentationGroup{Required, InternalBastionDataSourceFilterRepresentation}}
 	InternalBastionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
@@ -40,7 +42,7 @@ var (
 		"bastion_type":                  Representation{RepType: Required, Create: `INTERNAL`},
 		"compartment_id":                Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"target_subnet_id":              Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"name":                          Representation{RepType: Required, Create: `bastionterraformtest`},
+		"name":                          Representation{RepType: Required, Create: internalBastionName},
 		"phone_book_entry":              Representation{RepType: Required, Create: `OCIBastion`},
 		"static_jump_host_ip_addresses": Representation{RepType: Optional, Create: []string{`10.0.0.3`}},
 	}
@@ -100,7 +102,7 @@ func TestBastionBastionResource_internal(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "bastion_type", "INTERNAL"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(resourceName, "name", internalBastionName),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_vcn_id"),
@@ -129,13 +131,13 @@ func TestBastionBastionResource_internal(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "bastion_id"),
 				resource.TestCheckResourceAttr(datasourceName, "bastion_lifecycle_state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(datasourceName, "name", internalBastionName),
 
 				resource.TestCheckResourceAttr(datasourceName, "bastions.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "bastions.0.bastion_type", "INTERNAL"),
 				resource.TestCheckResourceAttr(datasourceName, "bastions.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.id"),
-				resource.TestCheckResourceAttr(datasourceName, "bastions.0.name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(datasourceName, "bastions.0.name", internalBastionName),
 				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.target_subnet_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "bastions.0.target_vcn_id"),
@@ -153,7 +155,7 @@ func TestBastionBastionResource_internal(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "bastion_type", "INTERNAL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "name", "bastionterraformtest"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", internalBastionName),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_vcn_id"),
