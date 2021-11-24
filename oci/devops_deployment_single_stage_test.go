@@ -73,7 +73,7 @@ var (
 		"display_name":       Representation{RepType: Optional, Create: `displayName`},
 		"id":                 Representation{RepType: Optional, Create: `${oci_devops_deployment.test_deployment.id}`},
 		"project_id":         Representation{RepType: Optional, Create: `${oci_devops_project.test_project.id}`},
-		"state":              Representation{RepType: Optional, Create: `Active`},
+		"state":              Representation{RepType: Optional, Create: `Accepted`},
 		"filter":             RepresentationGroup{Required, devopsSingleStageDeploymentDataSourceFilterRepresentation}}
 	devopsSingleStageDeploymentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{RepType: Required, Create: `id`},
@@ -87,12 +87,12 @@ var (
 		"display_name":       Representation{RepType: Optional, Create: `displayName`},
 		"freeform_tags":      Representation{RepType: Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"deploy_stage_id":    Representation{RepType: Required, Create: `${oci_devops_deploy_stage.test_deploy_stage.id}`},
-		"lifecycle":          RepresentationGroup{Required, ignoreDefinedTagsDifferencesRepresentation},
+		"lifecycle":          RepresentationGroup{Required, ignoreExecutionProgressDifferencesRepresentation},
 	}
 
 	deployLogRepresentation = map[string]interface{}{
 		"display_name":       Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
-		"log_group_id":       Representation{RepType: Required, Create: `${oci_logging_log_group.test_log_group.id}`, Update: `${oci_logging_log_group.test_update_log_group.id}`},
+		"log_group_id":       Representation{RepType: Required, Create: `${oci_logging_log_group.test_devops_log_group.id}`},
 		"log_type":           Representation{RepType: Required, Create: `SERVICE`},
 		"configuration":      RepresentationGroup{Required, devopLogConfigurationRepresentation},
 		"defined_tags":       Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -102,6 +102,10 @@ var (
 		"lifecycle":          RepresentationGroup{Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
 
+	ignoreExecutionProgressDifferencesRepresentation = map[string]interface{}{
+		"ignore_changes": Representation{RepType: Required, Create: []string{`deployment_execution_progress`, `defined_tags`}},
+	}
+
 	DevopsSingleStageDeploymentResourceDependencies = GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_inline_artifact", Required, Create, deployGenericArtifactSingleStageRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_kubernetes_environment", Required, Create, deployOkeEnvironmentRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
@@ -109,7 +113,7 @@ var (
 		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
-		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", Required, Create, logGroupRepresentation) +
+		GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_devops_log_group", Required, Create, devopsLogGroupRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, deployLogRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )

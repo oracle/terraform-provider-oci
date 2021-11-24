@@ -30,10 +30,10 @@ var (
 			"function_deploy_environment_id": Representation{RepType: Required, Create: `${oci_devops_deploy_environment.test_deploy_function_environment_1.id}`},
 			"is_async":                       Representation{RepType: Required, Create: `true`, Update: `false`},
 			"is_validation_enabled":          Representation{RepType: Required, Create: `false`, Update: `true`},
-			"deploy_artifact_id":             Representation{RepType: Optional, Create: `${oci_devops_deploy_artifact.test_deploy_ocir_artifact_1.id}`},
+			"deploy_artifact_id":             Representation{RepType: Optional, Create: `${oci_devops_deploy_artifact.test_deploy_generic_artifact_1.id}`},
 		}))
 
-	DeployInvokeFunctionStageResourceDependencies = GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_ocir_artifact_1", Required, Create, deployOcirArtifactRepresentation) +
+	DeployInvokeFunctionStageResourceDependencies = GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_generic_artifact_1", Required, Create, deployGenericArtifactRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_function_environment_1", Required, Create, deployFunctionEnvironmentRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", Required, Create, deployPipelineRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", Required, Create, devopsProjectRepresentation) +
