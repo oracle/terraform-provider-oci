@@ -149,6 +149,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
+    * `identity_data_plane` - Discovers identity_data_plane resources within the specified compartment
     * `integration` - Discovers integration resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
@@ -564,6 +565,10 @@ identity
 * oci\_identity\_network\_source
 * oci\_identity\_domain
 * oci\_identity\_db\_credential
+
+identity_data_plane
+    
+* oci\_identity\_data\_plane\_generate\_scoped\_access\_token
 
 integration
     
