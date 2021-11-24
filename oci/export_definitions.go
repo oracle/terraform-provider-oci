@@ -1982,6 +1982,11 @@ var exportIdentityDomainHints = &TerraformResourceHints{
 	},
 }
 
+var exportIdentityDataPlaneGenerateScopedAccessTokenHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_data_plane_generate_scoped_access_token",
+	resourceAbbreviation: "generate_scoped_access_token",
+}
+
 var exportIdentityDbCredentialHints = &TerraformResourceHints{
 	resourceClass:        "oci_identity_db_credential",
 	datasourceClass:      "oci_identity_db_credentials",

@@ -48,6 +48,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"functions":               functionsResourceGraph,
 	"golden_gate":             goldenGateResourceGraph,
 	"health_checks":           healthChecksResourceGraph,
+	"identity_data_plane":     identityDataPlaneResourceGraph,
 	"integration":             integrationResourceGraph,
 	"jms":                     jmsResourceGraph,
 	"kms":                     kmsResourceGraph,
@@ -747,6 +748,10 @@ var identityResourceGraph = TerraformResourceGraph{
 			},
 		},
 	},
+}
+
+var identityDataPlaneResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {},
 }
 
 var integrationResourceGraph = TerraformResourceGraph{
