@@ -175,7 +175,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"maintenance": {
 				Type:     schema.TypeList,
@@ -913,6 +912,11 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = utils.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isHighlyAvailable, ok := s.D.GetOkExists("is_highly_available"); ok && s.D.HasChange("is_highly_available") {
+		tmp := isHighlyAvailable.(bool)
+		request.IsHighlyAvailable = &tmp
 	}
 
 	if maintenance, ok := s.D.GetOkExists("maintenance"); ok && s.D.HasChange("maintenance") {
