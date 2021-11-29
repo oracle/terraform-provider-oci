@@ -60,6 +60,14 @@ The following attributes are exported:
 * `time_created` - Time at which the metastore was created. An [RFC3339](https://tools.ietf.org/html/rfc3339) formatted datetime string.
 * `time_updated` - Time at which the metastore was last modified. An [RFC3339](https://tools.ietf.org/html/rfc3339) formatted datetime string.
 
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Metastore
+	* `update` - (Defaults to 20 minutes), when updating the Metastore
+	* `delete` - (Defaults to 20 minutes), when destroying the Metastore
+
+
 ## Import
 
 Metastores can be imported using the `id`, e.g.

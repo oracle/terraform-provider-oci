@@ -43,7 +43,7 @@ The following arguments are supported:
 * `created_by_id` - (Optional) OCID of the user who created the resource.
 * `data_asset_key` - (Required) Unique data asset key.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
-* `display_name_contains` - (Optional) A filter to return only resources that match display name pattern given. The match is not case sensitive. For Example : /folders?displayNameContains=Cu.* The above would match all folders with display name that starts with "Cu". 
+* `display_name_contains` - (Optional) A filter to return only resources that match display name pattern given. The match is not case sensitive. For Example : /folders?displayNameContains=Cu.* The above would match all folders with display name that starts with "Cu" or has the pattern "Cu" anywhere in between. 
 * `external_key` - (Optional) Unique external identifier of this resource in the external source system.
 * `fields` - (Optional) Specifies the fields to return in a connection summary response. 
 * `is_default` - (Optional) Indicates whether this connection is the default connection.
