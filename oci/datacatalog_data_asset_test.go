@@ -30,6 +30,7 @@ var (
 		"data_asset_key": Representation{RepType: Required, Create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
 		"fields":         Representation{RepType: Optional, Create: []string{`key`}},
 	}
+
 	dataAssetDataSourceRepresentation = map[string]interface{}{
 		"catalog_id":            Representation{RepType: Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
 		"display_name":          Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
@@ -49,7 +50,7 @@ var (
 		"display_name": Representation{RepType: Required, Create: `displayName`, Update: `displayName2`},
 		"type_key":     Representation{RepType: Required, Create: `${data.oci_datacatalog_catalog_types.test_catalog_types.type_collection.0.items.0.key}`},
 		"description":  Representation{RepType: Optional, Create: `description`, Update: `description2`},
-		"properties":   Representation{RepType: Required, Create: map[string]string{"default.host": "jbanford-host", "default.port": "1521", "default.database": "SID"}, Update: map[string]string{"default.host": "jbanford-host", "default.port": "1251", "default.database": "SID"}},
+		"properties":   Representation{RepType: Required, Create: map[string]string{"default.host": "jbanford-host", "default.port": "1521", "default.database": "SID"}},
 	}
 
 	DataAssetResourceDependencies = GenerateResourceFromRepresentationMap("oci_datacatalog_catalog", "test_catalog", Required, Create, catalogRepresentation) +
@@ -177,7 +178,6 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_asset_key"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_key"),
@@ -185,6 +185,7 @@ func TestDatacatalogDataAssetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_harvested"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type_key"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "uri"),

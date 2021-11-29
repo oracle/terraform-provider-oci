@@ -47,6 +47,7 @@ The following attributes are exported:
 * `properties` - A map of maps that contains the properties which are specific to the asset type. Each data asset type definition defines it's set of required and optional properties. The map keys are category names and the values are maps of property name to property value. Every property is contained inside of a category. Most data assets have required properties within the "default" category. Example: `{"properties": { "default": { "host": "host1", "port": "1521", "database": "orcl"}}}` 
 * `state` - The current state of the data asset.
 * `time_created` - The date and time the data asset was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2019-03-25T21:10:29.600Z` 
+* `time_harvested` - The last time that a harvest was performed on the data asset. An [RFC3339](https://tools.ietf.org/html/rfc3339) formatted datetime string. 
 * `time_updated` - The last time that any change was made to the data asset. An [RFC3339](https://tools.ietf.org/html/rfc3339) formatted datetime string. 
 * `type_key` - The key of the object type. Type key's can be found via the '/types' endpoint.
 * `updated_by_id` - OCID of the user who last modified the data asset.
