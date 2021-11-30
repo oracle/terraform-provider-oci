@@ -6,10 +6,10 @@ package oci
 import (
 	"context"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v52/workrequests"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v53/workrequests"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v52/database"
+	oci_database "github.com/oracle/oci-go-sdk/v53/database"
 )
 
 func init() {
