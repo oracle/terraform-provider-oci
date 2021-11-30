@@ -1,4 +1,4 @@
-## 4.54.0 (November 24, 2021)
+## 4.54.0 (Unreleased)
 
 ### Fixed
 - Recovery from panic in getResourceOCID
