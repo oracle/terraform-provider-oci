@@ -9,7 +9,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v52/certificatesmanagement"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v53/certificatesmanagement"
 )
 
 func init() {

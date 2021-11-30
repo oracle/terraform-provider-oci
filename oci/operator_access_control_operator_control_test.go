@@ -10,13 +10,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oracle/oci-go-sdk/v52/identity"
+	"github.com/oracle/oci-go-sdk/v53/identity"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v52/common"
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v52/operatoraccesscontrol"
+	"github.com/oracle/oci-go-sdk/v53/common"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v53/operatoraccesscontrol"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
