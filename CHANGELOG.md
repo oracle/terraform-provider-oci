@@ -11,7 +11,7 @@
 - Support for Golden Gate backup size
 - Support for database management users added
 
-## 4.54.0 (November 24, 2021)
+## 4.54.0 (November 30, 2021)
 
 ### Fixed
 - Recovery from panic in getResourceOCID
