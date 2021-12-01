@@ -43,7 +43,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The compartmentID of the subscription.
-* `display_name` - The display name of the listing.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `listing_id` - The ocid of the listing resource.
 * `listing_resource_id` - Listing resource id.
 * `listing_resource_version` - Listing resource version.

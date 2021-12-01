@@ -96,6 +96,15 @@ resource "oci_database_autonomous_database" "autonomous_database_oneway_tls_conn
   is_mtls_connection_required    = "true"
 }
 
+resource "oci_database_autonomous_database" "autonomous_database_dbms_status" {
+  admin_password              = random_string.autonomous_database_admin_password.result
+  compartment_id              = var.compartment_ocid
+  cpu_core_count              = "1"
+  data_storage_size_in_tbs    = "1"
+  db_name                     = "adbdbms"
+  database_management_status  = "ENABLED"
+}
+
 // Per service, we need to pass in a back up that is at least 2 hours old
 /*
 resource "oci_database_autonomous_database" "autonomous_database_from_backup_id" {

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_management "github.com/oracle/oci-go-sdk/v52/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v53/databasemanagement"
 )
 
 func init() {
@@ -125,6 +125,10 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"workload_type": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -267,6 +271,8 @@ func ManagedDatabaseSummaryToMap(obj oci_database_management.ManagedDatabaseSumm
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
 	}
+
+	result["workload_type"] = string(obj.WorkloadType)
 
 	return result
 }

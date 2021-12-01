@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v52/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v52/opsi"
+	"github.com/oracle/oci-go-sdk/v53/common"
+	oci_opsi "github.com/oracle/oci-go-sdk/v53/opsi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -31,12 +31,13 @@ var (
 	}
 
 	hostInsightDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{RepType: Optional, Create: `${var.compartment_id}`},
-		"host_type":      Representation{RepType: Optional, Create: []string{`EXTERNAL-HOST`}},
-		"id":             Representation{RepType: Optional, Create: `${oci_opsi_host_insight.test_host_insight.id}`},
-		"state":          Representation{RepType: Optional, Create: []string{`ACTIVE`}},
-		"status":         Representation{RepType: Optional, Create: []string{`Enabled`}, Update: []string{`DISABLED`}},
-		"filter":         RepresentationGroup{Required, hostInsightDataSourceFilterRepresentation},
+		"compartment_id":            Representation{RepType: Optional, Create: `${var.compartment_id}`},
+		"compartment_id_in_subtree": Representation{RepType: Optional, Create: `false`},
+		"host_type":                 Representation{RepType: Optional, Create: []string{`EXTERNAL-HOST`}},
+		"id":                        Representation{RepType: Optional, Create: `${oci_opsi_host_insight.test_host_insight.id}`},
+		"state":                     Representation{RepType: Optional, Create: []string{`ACTIVE`}},
+		"status":                    Representation{RepType: Optional, Create: []string{`Enabled`}, Update: []string{`DISABLED`}},
+		"filter":                    RepresentationGroup{Required, hostInsightDataSourceFilterRepresentation},
 	}
 
 	hostInsightDataSourceFilterRepresentation = map[string]interface{}{
@@ -181,6 +182,7 @@ func TestOpsiHostInsightResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_host_insight", "test_host_insight", Optional, Update, hostInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "host_type.#", "1"),
 				//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"), //id is not list and it is a string So ignoring this field
 				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),

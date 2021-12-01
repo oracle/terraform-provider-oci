@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_apm "github.com/oracle/oci-go-sdk/v52/apmcontrolplane"
-	oci_common "github.com/oracle/oci-go-sdk/v52/common"
+	oci_apm "github.com/oracle/oci-go-sdk/v53/apmcontrolplane"
+	oci_common "github.com/oracle/oci-go-sdk/v53/common"
 )
 
 func init() {
@@ -151,7 +151,9 @@ func (s *ApmApmDomainResourceCrud) DeletedPending() []string {
 }
 
 func (s *ApmApmDomainResourceCrud) DeletedTarget() []string {
-	return []string{}
+	return []string{
+		string(oci_apm.LifecycleStatesDeleted),
+	}
 }
 
 func (s *ApmApmDomainResourceCrud) Create() error {

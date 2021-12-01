@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v52/common"
-	oci_database_management "github.com/oracle/oci-go-sdk/v52/databasemanagement"
+	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+	oci_database_management "github.com/oracle/oci-go-sdk/v53/databasemanagement"
 )
 
 func init() {
@@ -52,6 +52,12 @@ func DatabaseManagementDbManagementPrivateEndpointResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"is_cluster": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
@@ -163,6 +169,11 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Create() err
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if isCluster, ok := s.D.GetOkExists("is_cluster"); ok {
+		tmp := isCluster.(bool)
+		request.IsCluster = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -411,6 +422,10 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) SetData() er
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.IsCluster != nil {
+		s.D.Set("is_cluster", *s.Res.IsCluster)
 	}
 
 	if s.Res.Name != nil {

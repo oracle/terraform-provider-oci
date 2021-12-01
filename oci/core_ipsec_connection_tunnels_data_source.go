@@ -5,9 +5,10 @@ package oci
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v52/core"
+	oci_core "github.com/oracle/oci-go-sdk/v53/core"
 )
 
 func init() {
@@ -92,6 +93,14 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"dpd_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"dpd_timeout_in_sec": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"encryption_domain_config": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -128,6 +137,136 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 						"ike_version": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"nat_translation_enabled": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"oracle_can_initiate": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"phase_one_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"custom_authentication_algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"custom_dh_group": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"custom_encryption_algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_custom_phase_one_config": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_ike_established": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"lifetime": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"negotiated_authentication_algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"negotiated_dh_group": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"negotiated_encryption_algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"remaining_lifetime": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"remaining_lifetime_last_retrieved": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"phase_two_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"custom_authentication_algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"custom_encryption_algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"dh_group": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_custom_phase_two_config": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_esp_established": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_pfs_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"lifetime": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"negotiated_authentication_algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"negotiated_dh_group": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"negotiated_encryption_algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"remaining_lifetime": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"remaining_lifetime_last_retrieved": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"routing": {
 							Type:     schema.TypeString,
@@ -238,6 +377,12 @@ func (s *CoreIpSecConnectionTunnelsDataSourceCrud) SetData() error {
 			ipSecConnectionTunnel["display_name"] = *r.DisplayName
 		}
 
+		ipSecConnectionTunnel["dpd_mode"] = r.DpdMode
+
+		if r.DpdTimeoutInSec != nil {
+			ipSecConnectionTunnel["dpd_timeout_in_sec"] = *r.DpdTimeoutInSec
+		}
+
 		if r.EncryptionDomainConfig != nil {
 			ipSecConnectionTunnel["encryption_domain_config"] = []interface{}{EncryptionDomainConfigToMap(r.EncryptionDomainConfig)}
 		} else {
@@ -249,6 +394,22 @@ func (s *CoreIpSecConnectionTunnelsDataSourceCrud) SetData() error {
 		}
 
 		ipSecConnectionTunnel["ike_version"] = r.IkeVersion
+
+		ipSecConnectionTunnel["nat_translation_enabled"] = r.NatTranslationEnabled
+
+		ipSecConnectionTunnel["oracle_can_initiate"] = r.OracleCanInitiate
+
+		if r.PhaseOneDetails != nil {
+			ipSecConnectionTunnel["phase_one_details"] = []interface{}{TunnelPhaseOneDetailsToMap(r.PhaseOneDetails)}
+		} else {
+			ipSecConnectionTunnel["phase_one_details"] = nil
+		}
+
+		if r.PhaseTwoDetails != nil {
+			ipSecConnectionTunnel["phase_two_details"] = []interface{}{TunnelPhaseTwoDetailsToMap(r.PhaseTwoDetails)}
+		} else {
+			ipSecConnectionTunnel["phase_two_details"] = nil
+		}
 
 		ipSecConnectionTunnel["routing"] = r.Routing
 
@@ -288,6 +449,110 @@ func EncryptionDomainConfigToMap(obj *oci_core.EncryptionDomainConfig) map[strin
 	result["cpe_traffic_selector"] = obj.CpeTrafficSelector
 
 	result["oracle_traffic_selector"] = obj.OracleTrafficSelector
+
+	return result
+}
+
+func TunnelPhaseOneDetailsToMap(obj *oci_core.TunnelPhaseOneDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CustomAuthenticationAlgorithm != nil {
+		result["custom_authentication_algorithm"] = string(*obj.CustomAuthenticationAlgorithm)
+	}
+
+	if obj.CustomDhGroup != nil {
+		result["custom_dh_group"] = string(*obj.CustomDhGroup)
+	}
+
+	if obj.CustomEncryptionAlgorithm != nil {
+		result["custom_encryption_algorithm"] = string(*obj.CustomEncryptionAlgorithm)
+	}
+
+	if obj.IsCustomPhaseOneConfig != nil {
+		result["is_custom_phase_one_config"] = bool(*obj.IsCustomPhaseOneConfig)
+	}
+
+	if obj.IsIkeEstablished != nil {
+		result["is_ike_established"] = bool(*obj.IsIkeEstablished)
+	}
+
+	if obj.Lifetime != nil {
+		result["lifetime"] = strconv.FormatInt(*obj.Lifetime, 10)
+	}
+
+	if obj.NegotiatedAuthenticationAlgorithm != nil {
+		result["negotiated_authentication_algorithm"] = string(*obj.NegotiatedAuthenticationAlgorithm)
+	}
+
+	if obj.NegotiatedDhGroup != nil {
+		result["negotiated_dh_group"] = string(*obj.NegotiatedDhGroup)
+	}
+
+	if obj.NegotiatedEncryptionAlgorithm != nil {
+		result["negotiated_encryption_algorithm"] = string(*obj.NegotiatedEncryptionAlgorithm)
+	}
+
+	if obj.RemainingLifetime != nil {
+		result["remaining_lifetime"] = strconv.FormatInt(*obj.RemainingLifetime, 10)
+	}
+
+	if obj.RemainingLifetimeLastRetrieved != nil {
+		result["remaining_lifetime_last_retrieved"] = obj.RemainingLifetimeLastRetrieved.String()
+	}
+
+	return result
+}
+
+func TunnelPhaseTwoDetailsToMap(obj *oci_core.TunnelPhaseTwoDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CustomAuthenticationAlgorithm != nil {
+		result["custom_authentication_algorithm"] = string(*obj.CustomAuthenticationAlgorithm)
+	}
+
+	if obj.CustomEncryptionAlgorithm != nil {
+		result["custom_encryption_algorithm"] = string(*obj.CustomEncryptionAlgorithm)
+	}
+
+	if obj.DhGroup != nil {
+		result["dh_group"] = string(*obj.DhGroup)
+	}
+
+	if obj.IsCustomPhaseTwoConfig != nil {
+		result["is_custom_phase_two_config"] = bool(*obj.IsCustomPhaseTwoConfig)
+	}
+
+	if obj.IsEspEstablished != nil {
+		result["is_esp_established"] = bool(*obj.IsEspEstablished)
+	}
+
+	if obj.IsPfsEnabled != nil {
+		result["is_pfs_enabled"] = bool(*obj.IsPfsEnabled)
+	}
+
+	if obj.Lifetime != nil {
+		result["lifetime"] = strconv.FormatInt(*obj.Lifetime, 10)
+	}
+
+	if obj.NegotiatedAuthenticationAlgorithm != nil {
+		result["negotiated_authentication_algorithm"] = string(*obj.NegotiatedAuthenticationAlgorithm)
+	}
+
+	if obj.NegotiatedDhGroup != nil {
+		result["negotiated_dh_group"] = string(*obj.NegotiatedDhGroup)
+	}
+
+	if obj.NegotiatedEncryptionAlgorithm != nil {
+		result["negotiated_encryption_algorithm"] = string(*obj.NegotiatedEncryptionAlgorithm)
+	}
+
+	if obj.RemainingLifetime != nil {
+		result["remaining_lifetime"] = strconv.FormatInt(*obj.RemainingLifetime, 10)
+	}
+
+	if obj.RemainingLifetimeLastRetrieved != nil {
+		result["remaining_lifetime_last_retrieved"] = obj.RemainingLifetimeLastRetrieved.String()
+	}
 
 	return result
 }

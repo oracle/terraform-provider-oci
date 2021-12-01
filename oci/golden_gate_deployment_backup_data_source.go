@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v52/goldengate"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v53/goldengate"
 )
 
 func init() {
@@ -111,10 +111,18 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) SetData() error {
 		s.D.Set("ogg_version", *s.Res.OggVersion)
 	}
 
+	if s.Res.SizeInBytes != nil {
+		s.D.Set("size_in_bytes", *s.Res.SizeInBytes)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TimeBackupFinished != nil {
+		s.D.Set("time_backup_finished", s.Res.TimeBackupFinished.String())
 	}
 
 	if s.Res.TimeCreated != nil {

@@ -21,6 +21,7 @@ data "oci_database_management_db_management_private_endpoints" "test_db_manageme
 	compartment_id = var.compartment_id
 
 	#Optional
+	is_cluster = var.db_management_private_endpoint_is_cluster
 	name = var.db_management_private_endpoint_name
 	state = var.db_management_private_endpoint_state
 	vcn_id = oci_core_vcn.test_vcn.id
@@ -32,6 +33,7 @@ data "oci_database_management_db_management_private_endpoints" "test_db_manageme
 The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `is_cluster` - (Optional) The option to filter Database Management private endpoints that can used for Oracle Databases in a cluster. This should be used along with the vcnId query parameter. 
 * `name` - (Optional) A filter to return only resources that match the entire name.
 * `state` - (Optional) The lifecycle state of a resource.
 * `vcn_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
@@ -47,14 +49,15 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment.
-* `description` - The description of the private endpoint.
-* `id` - The OCID of the Database Management private endpoint.
-* `name` - The display name of the private endpoint.
-* `nsg_ids` - The OCIDs of the network security groups that the private endpoint belongs to. 
-* `private_ip` - The private IP addresses assigned to the private endpoint. 
-* `state` - The current state of the private endpoint.
-* `subnet_id` - The OCID of the subnet.
-* `time_created` - The date and time the private endpoint was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
-* `vcn_id` - The OCID of the VCN.
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `description` - The description of the Database Management private endpoint.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
+* `is_cluster` - Specifies whether the Database Management private endpoint can be used for Oracle Databases in a cluster.
+* `name` - The display name of the Database Management private endpoint.
+* `nsg_ids` - The OCIDs of the Network Security Groups to which the Database Management private endpoint belongs. 
+* `private_ip` - The IP addresses assigned to the Database Management private endpoint. 
+* `state` - The current lifecycle state of the Database Management private endpoint.
+* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
+* `time_created` - The date and time the Database Managament private endpoint was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 

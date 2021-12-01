@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_management_db_management_private_endpoint_associated_database
 This data source provides details about a specific Db Management Private Endpoint Associated Database resource in Oracle Cloud Infrastructure Database Management service.
 
-Gets the list of Databases using the specified Database Management private endpoint.
+Gets the list of databases using a specific Database Management private endpoint.
 
 ## Example Usage
 
@@ -35,8 +35,8 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `items` - A list of databases using a Database Management private endpoint.
-	* `compartment_id` - The compartment ID of the database.
-	* `id` - The OCID of the database.
+	* `compartment_id` - The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 	* `name` - The name of the database.
-	* `time_registered` - The time when the database was registered for Database Management.
+	* `time_registered` - The time when Database Management was enabled for the database.
 

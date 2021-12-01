@@ -57,7 +57,7 @@ The following attributes are exported:
 * `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name. See [RFC 1994](https://tools.ietf.org/html/rfc1994) for more on CHAP.  Example: `ocid1.volume.oc1.phx.<unique_ID>` 
 * `compartment_id` - The OCID of the compartment.
 * `device` - The device name.
-* `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.  Example: `My volume attachment` 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `encryption_in_transit_type` - Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.

@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Exadata Insights in Oracle Cloud Infrastructure Opsi service.
 
 Gets a list of Exadata insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
+When both compartmentId and compartmentIdInSubtree are specified, a list of Exadata insights in that compartment and in all sub-compartments will be returned.
 
 
 ## Example Usage
@@ -20,6 +21,7 @@ data "oci_opsi_exadata_insights" "test_exadata_insights" {
 
 	#Optional
 	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.exadata_insight_compartment_id_in_subtree
 	enterprise_manager_bridge_id = oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id
 	exadata_type = var.exadata_insight_exadata_type
 	id = var.exadata_insight_id
@@ -33,6 +35,7 @@ data "oci_opsi_exadata_insights" "test_exadata_insights" {
 The following arguments are supported:
 
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compartment_id_in_subtree` - (Optional) A flag to search all resources within a given compartment and all sub-compartments. 
 * `enterprise_manager_bridge_id` - (Optional) Unique Enterprise Manager bridge identifier
 * `exadata_type` - (Optional) Filter by one or more Exadata types. Possible value are DBMACHINE, EXACS, and EXACC. 
 * `id` - (Optional) Optional list of Exadata insight resource [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 

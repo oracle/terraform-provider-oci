@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v52/blockchain"
-	"github.com/oracle/oci-go-sdk/v52/common"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v53/blockchain"
+	"github.com/oracle/oci-go-sdk/v53/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -56,6 +56,7 @@ var (
 		"replicas":            RepresentationGroup{Optional, blockchainPlatformReplicasRepresentation},
 		"storage_size_in_tbs": Representation{RepType: Optional, Create: `1.0`, Update: `2.0`},
 		"total_ocpu_capacity": Representation{RepType: Optional, Create: `16`, Update: `32`},
+		"platform_version":    Representation{RepType: Optional, Create: `Hyperledger Fabric v1.4.7`},
 		"load_balancer_shape": Representation{RepType: Optional, Create: `LB_100_MBPS`, Update: `LB_400_MBPS`},
 	}
 	blockchainPlatformReplicasRepresentation = map[string]interface{}{
@@ -131,6 +132,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
 				resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
+				resource.TestCheckResourceAttr(resourceName, "platform_version", "Hyperledger Fabric v1.4.7"),
 				resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "replicas.0.ca_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "replicas.0.console_count", "3"),
@@ -169,6 +171,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
 				resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
+				resource.TestCheckResourceAttr(resourceName, "platform_version", "Hyperledger Fabric v1.4.7"),
 				resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "total_ocpu_capacity", "16"),
@@ -199,6 +202,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
 				resource.TestCheckResourceAttr(resourceName, "platform_role", "FOUNDER"),
+				resource.TestCheckResourceAttr(resourceName, "platform_version", "Hyperledger Fabric v1.4.7"),
 				resource.TestCheckResourceAttr(resourceName, "replicas.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "replicas.0.ca_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "replicas.0.console_count", "3"),
@@ -252,6 +256,7 @@ func TestBlockchainBlockchainPlatformResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_shape"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "platform_role", "FOUNDER"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "platform_shape_type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "platform_version", "Hyperledger Fabric v1.4.7"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "replicas.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.ca_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas.0.console_count"),

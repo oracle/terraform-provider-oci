@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_management "github.com/oracle/oci-go-sdk/v52/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v53/databasemanagement"
 )
 
 func init() {
@@ -22,6 +22,10 @@ func DatabaseManagementDbManagementPrivateEndpointsDataSource() *schema.Resource
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"is_cluster": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -77,6 +81,11 @@ func (s *DatabaseManagementDbManagementPrivateEndpointsDataSourceCrud) Get() err
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if isCluster, ok := s.D.GetOkExists("is_cluster"); ok {
+		tmp := isCluster.(bool)
+		request.IsCluster = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

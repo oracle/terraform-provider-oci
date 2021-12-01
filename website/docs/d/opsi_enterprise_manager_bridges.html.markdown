@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Enterprise Manager Bridges in Oracle Cloud Infrastructure Opsi service.
 
 Gets a list of Operations Insights Enterprise Manager bridges. Either compartmentId or id must be specified.
+When both compartmentId and compartmentIdInSubtree are specified, a list of bridges in that compartment and in all sub-compartments will be returned.
 
 
 ## Example Usage
@@ -20,6 +21,7 @@ data "oci_opsi_enterprise_manager_bridges" "test_enterprise_manager_bridges" {
 
 	#Optional
 	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.enterprise_manager_bridge_compartment_id_in_subtree
 	display_name = var.enterprise_manager_bridge_display_name
 	id = var.enterprise_manager_bridge_id
 	state = var.enterprise_manager_bridge_state
@@ -31,6 +33,7 @@ data "oci_opsi_enterprise_manager_bridges" "test_enterprise_manager_bridges" {
 The following arguments are supported:
 
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compartment_id_in_subtree` - (Optional) A flag to search all resources within a given compartment and all sub-compartments. 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name.
 * `id` - (Optional) Unique Enterprise Manager bridge identifier
 * `state` - (Optional) Lifecycle states

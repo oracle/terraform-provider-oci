@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_opsi "github.com/oracle/oci-go-sdk/v52/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v53/opsi"
 )
 
 func init() {
@@ -21,6 +21,10 @@ func OpsiHostInsightsDataSource() *schema.Resource {
 			"filter": DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"enterprise_manager_bridge_id": {
@@ -98,6 +102,11 @@ func (s *OpsiHostInsightsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
 	}
 
 	if hostType, ok := s.D.GetOkExists("host_type"); ok {

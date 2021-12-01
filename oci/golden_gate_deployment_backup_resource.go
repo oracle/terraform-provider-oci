@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_common "github.com/oracle/oci-go-sdk/v52/common"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v52/goldengate"
+	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v53/goldengate"
 )
 
 func init() {
@@ -95,6 +95,10 @@ func GoldenGateDeploymentBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"size_in_bytes": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -103,6 +107,10 @@ func GoldenGateDeploymentBackupResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"time_backup_finished": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -483,10 +491,18 @@ func (s *GoldenGateDeploymentBackupResourceCrud) SetData() error {
 		s.D.Set("ogg_version", *s.Res.OggVersion)
 	}
 
+	if s.Res.SizeInBytes != nil {
+		s.D.Set("size_in_bytes", *s.Res.SizeInBytes)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TimeBackupFinished != nil {
+		s.D.Set("time_backup_finished", s.Res.TimeBackupFinished.String())
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -555,10 +571,18 @@ func DeploymentBackupSummaryToMap(obj oci_golden_gate.DeploymentBackupSummary) m
 		result["ogg_version"] = string(*obj.OggVersion)
 	}
 
+	if obj.SizeInBytes != nil {
+		result["size_in_bytes"] = float32(*obj.SizeInBytes)
+	}
+
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.SystemTags != nil {
 		result["system_tags"] = systemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TimeBackupFinished != nil {
+		result["time_backup_finished"] = obj.TimeBackupFinished.String()
 	}
 
 	if obj.TimeCreated != nil {

@@ -11,7 +11,7 @@ description: |-
 This resource provides the Cpe resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new virtual customer-premises equipment (CPE) object in the specified compartment. For
-more information, see [IPSec VPNs](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPsec.htm).
+more information, see [Site-to-Site VPN Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
 
 For the purposes of access control, you must provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 the CPE to reside. Notice that the CPE doesn't have to be in the same compartment as the IPSec
@@ -21,7 +21,7 @@ compartments and access control, see [Overview of the IAM Service](https://docs.
 For information about OCIDs, see [Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 You must provide the public IP address of your on-premises router. See
-[Configuring Your On-Premises Router for an IPSec VPN](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
+[CPE Configuration](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
 
 You may optionally specify a *display name* for the CPE, otherwise a default is provided. It does not have to
 be unique, and you can change it. Avoid entering confidential information.
@@ -47,7 +47,7 @@ resource "oci_core_cpe" "test_cpe" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the CPE.
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the CPE.
 * `cpe_device_shape_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE device type. You can provide a value if you want to later generate CPE device configuration content for IPSec connections that use this CPE. You can also call [UpdateCpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Cpe/UpdateCpe) later to provide a value. For a list of possible values, see [ListCpeDeviceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CpeDeviceShapeSummary/ListCpeDeviceShapes).
 
 	For more information about generating CPE device configuration content, see:
@@ -68,8 +68,8 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment containing the CPE.
-* `cpe_device_shape_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE's device type. The Networking service maintains a general list of CPE device types (for example, Cisco ASA). For each type, Oracle provides CPE configuration content that can help a network engineer configure the CPE. The OCID uniquely identifies the type of device. To get the OCIDs for the device types on the list, see [ListCpeDeviceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CpeDeviceShapeSummary/ListCpeDeviceShapes).
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the CPE.
+* `cpe_device_shape_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE's device type. The Networking service maintains a general list of CPE device types (for example, Cisco ASA). For each type, Oracle provides CPE configuration content that can help a network engineer configure the CPE. The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) uniquely identifies the type of device. To get the OCIDs for the device types on the list, see [ListCpeDeviceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CpeDeviceShapeSummary/ListCpeDeviceShapes).
 
 	For information about how to generate CPE configuration content for a CPE device type, see:
 	* [GetCpeDeviceConfigContent](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Cpe/GetCpeDeviceConfigContent)

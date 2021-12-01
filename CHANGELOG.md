@@ -1,3 +1,16 @@
+## 4.55.0 (Unreleased)
+
+### Added
+- Support for C3: Customer Experience Enhancements
+- Support Advanced Management of ADB-S
+- Support for Blockchain Platform API enhancements
+- Support for cross compartment in OPSI service
+- Support for DBM SQL Tuning Advisor
+- Support for APM Domain termination Workflow
+- Support for Advanced Management of ADB-S
+- Support for Golden Gate backup size
+- Support for database management users added
+
 ## 4.54.0 (November 30, 2021)
 
 ### Fixed

@@ -10,14 +10,17 @@ description: |-
 # Data Source: oci_core_images
 This data source provides the list of Images in Oracle Cloud Infrastructure Core service.
 
-Lists the available images in the specified compartment, including
+Lists a subset of images available in the specified compartment, including
 [platform images](https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm) and
-[custom images](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm) that have
-been created.
+[custom images](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm). 
+The list of platform images includes the three most recently published versions 
+of each major distribution.
 
-The list of images that's returned is ordered to first show all
-platform images, then all custom images. The order of images might
-change when new images are released.
+The list of images returned is ordered to first show the recent platform images,
+then all of the custom images.
+
+**Caution:** Platform images are refreshed regularly. When new images are released, older versions are replaced. 
+The image OCIDs remain available, but when the platform image is replaced, the image OCIDs are no longer returned as part of the platform image list.
 
 
 ## Example Usage

@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_dns "github.com/oracle/oci-go-sdk/v52/dns"
+	oci_dns "github.com/oracle/oci-go-sdk/v53/dns"
 
-	oci_common "github.com/oracle/oci-go-sdk/v52/common"
+	oci_common "github.com/oracle/oci-go-sdk/v53/common"
 )
 
 func init() {

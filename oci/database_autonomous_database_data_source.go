@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v52/database"
+	oci_database "github.com/oracle/oci-go-sdk/v53/database"
 )
 
 func init() {
@@ -126,6 +126,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
 	}
+
+	s.D.Set("database_management_status", s.Res.DatabaseManagementStatus)
 
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
