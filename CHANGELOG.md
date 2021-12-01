@@ -1,4 +1,4 @@
-## 4.55.0 (Unreleased)
+## 4.55.0 (December 01, 2021)
 
 ### Added
 - Support for C3: Customer Experience Enhancements
