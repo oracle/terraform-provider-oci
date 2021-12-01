@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_management "github.com/oracle/oci-go-sdk/v52/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v53/databasemanagement"
 )
 
 func init() {
@@ -90,6 +90,10 @@ func DatabaseManagementManagedDatabaseDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"workload_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -178,6 +182,8 @@ func (s *DatabaseManagementManagedDatabaseDataSourceCrud) SetData() error {
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
+
+	s.D.Set("workload_type", s.Res.WorkloadType)
 
 	return nil
 }

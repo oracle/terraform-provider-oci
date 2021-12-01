@@ -34,8 +34,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment containing the IPSec connection.
-* `id` - The IPSec connection's Oracle ID (OCID).
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the IPSec connection.
+* `id` - The IPSec connection's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 * `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `tunnels` - Two [TunnelStatus](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/TunnelStatus/) objects.
 	* `ip_address` - The IP address of Oracle's VPN headend.  Example: `203.0.113.50` 

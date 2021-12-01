@@ -11,6 +11,7 @@ description: |-
 This data source provides the list of Database Insights in Oracle Cloud Infrastructure Opsi service.
 
 Gets a list of database insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
+When both compartmentId and compartmentIdInSubtree are specified, a list of database insights in that compartment and in all sub-compartments will be returned.
 
 
 ## Example Usage
@@ -20,6 +21,7 @@ data "oci_opsi_database_insights" "test_database_insights" {
 
 	#Optional
 	compartment_id = var.compartment_id
+	compartment_id_in_subtree = var.database_insight_compartment_id_in_subtree
 	database_id = oci_database_database.test_database.id
 	database_type = var.database_insight_database_type
 	enterprise_manager_bridge_id = oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id
@@ -36,6 +38,7 @@ data "oci_opsi_database_insights" "test_database_insights" {
 The following arguments are supported:
 
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compartment_id_in_subtree` - (Optional) A flag to search all resources within a given compartment and all sub-compartments. 
 * `database_id` - (Applicable when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) Optional list of database [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated DBaaS entity. 
 * `database_type` - (Optional) Filter by one or more database type. Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB. 
 * `enterprise_manager_bridge_id` - (Optional) Unique Enterprise Manager bridge identifier

@@ -51,7 +51,7 @@ The following attributes are exported:
 
 * `availability_domain` - The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment the VNIC attachment is in, which is the same compartment the instance is in. 
-* `display_name` - A user-friendly name. Does not have to be unique. Avoid entering confidential information. 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `id` - The OCID of the VNIC attachment.
 * `instance_id` - The OCID of the instance.
 * `nic_index` - Which physical network interface card (NIC) the VNIC uses. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 

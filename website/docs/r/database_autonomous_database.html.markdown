@@ -205,6 +205,7 @@ The following attributes are exported:
 * `data_safe_status` - Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
 * `data_storage_size_in_gb` - The quantity of data in the database, in gigabytes.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
+* `database_management_status` - Status of Database Management for this Autonomous Database.
 * `db_name` - The database name.
 * `db_version` - A valid Oracle Database version for Autonomous Database.
 * `db_workload` - The Autonomous Database workload type. The following values are valid:

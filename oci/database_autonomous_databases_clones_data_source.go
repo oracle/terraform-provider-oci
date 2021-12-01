@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v52/database"
+	oci_database "github.com/oracle/oci-go-sdk/v53/database"
 )
 
 func init() {
@@ -261,6 +261,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						},
 						"data_storage_size_in_tbs": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"database_management_status": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"db_name": {
@@ -673,6 +677,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.DataStorageSizeInTBs != nil {
 			autonomousDatabasesClone["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
+
+		autonomousDatabasesClone["database_management_status"] = r.DatabaseManagementStatus
 
 		if r.DbName != nil {
 			autonomousDatabasesClone["db_name"] = *r.DbName

@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database_management "github.com/oracle/oci-go-sdk/v52/databasemanagement"
+	oci_database_management "github.com/oracle/oci-go-sdk/v53/databasemanagement"
 )
 
 func init() {
@@ -73,6 +73,10 @@ func (s *DatabaseManagementDbManagementPrivateEndpointDataSourceCrud) SetData() 
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.IsCluster != nil {
+		s.D.Set("is_cluster", *s.Res.IsCluster)
 	}
 
 	if s.Res.Name != nil {

@@ -12,9 +12,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_common "github.com/oracle/oci-go-sdk/v52/common"
-	oci_database "github.com/oracle/oci-go-sdk/v52/database"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v52/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v53/workrequests"
 )
 
 func init() {
@@ -477,6 +477,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"database_management_status": {
+				Type:             schema.TypeString,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+			},
 			"failed_data_recovery_in_seconds": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -690,6 +696,11 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		configOperationsInsightsStatus = oci_database.AutonomousDatabaseOperationsInsightsStatusEnum((operationsInsightsStatus.(string)))
 	}
 
+	configDatabaseManagementStatus := oci_database.AutonomousDatabaseDatabaseManagementStatusNotEnabled
+	if databaseManagementStatus, ok := sync.D.GetOkExists("database_management_status"); ok {
+		configDatabaseManagementStatus = oci_database.AutonomousDatabaseDatabaseManagementStatusEnum((databaseManagementStatus.(string)))
+	}
+
 	if e := CreateResource(d, sync); e != nil {
 		return e
 	}
@@ -721,6 +732,14 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 			sync.D.Set("permission_level", configPermissionLevel)
 		}
 		err := sync.updateOpenModeAndPermission(sync.D.Id(), configOpenMode, configPermissionLevel)
+		if err != nil {
+			return err
+		}
+		return ReadResource(sync)
+	}
+
+	if configDatabaseManagementStatus == oci_database.AutonomousDatabaseDatabaseManagementStatusEnabled {
+		err := sync.updateAutonomousDatabaseManagementStatus(sync.D.Id(), oci_database.AutonomousDatabaseDatabaseManagementStatusEnabled)
 		if err != nil {
 			return err
 		}
@@ -961,6 +980,18 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 			}
 		}
 	}
+
+	if databaseManagementStatus, ok := s.D.GetOkExists("database_management_status"); ok && s.D.HasChange("database_management_status") {
+		_, newRaw := s.D.GetChange("database_management_status")
+		if newRaw != "" {
+			configDatabaseManagementStatus := oci_database.AutonomousDatabaseDatabaseManagementStatusEnum((databaseManagementStatus.(string)))
+			err := s.updateAutonomousDatabaseManagementStatus(s.D.Id(), configDatabaseManagementStatus)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok && s.D.HasChange("kms_key_id") {
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok && s.D.HasChange("vault_id") {
 			oldRaw1, newRaw1 := s.D.GetChange("kms_key_id")
@@ -1237,6 +1268,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
 	}
+
+	s.D.Set("database_management_status", s.Res.DatabaseManagementStatus)
 
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
@@ -2725,6 +2758,46 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(
 		return fmt.Errorf("received unknown 'operations_insights_status' %s", operationsInsightsStatus)
 	}
 }
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateAutonomousDatabaseManagementStatus(autonomousDatabaseId string, autonomousDatabaseManagement oci_database.AutonomousDatabaseDatabaseManagementStatusEnum) error {
+	switch autonomousDatabaseManagement {
+	case oci_database.AutonomousDatabaseDatabaseManagementStatusEnabled:
+		request := oci_database.EnableAutonomousDatabaseManagementRequest{}
+
+		request.AutonomousDatabaseId = &autonomousDatabaseId
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
+		response, err := s.Client.EnableAutonomousDatabaseManagement(context.Background(), request)
+		if err != nil {
+			return err
+		}
+		workId := response.OpcWorkRequestId
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+
+		return nil
+
+	case oci_database.AutonomousDatabaseDatabaseManagementStatusNotEnabled:
+		request := oci_database.DisableAutonomousDatabaseManagementRequest{}
+		request.AutonomousDatabaseId = &autonomousDatabaseId
+		request.RequestMetadata.RetryPolicy = GetRetryPolicy(s.DisableNotFoundRetries, "database")
+		response, err := s.Client.DisableAutonomousDatabaseManagement(context.Background(), request)
+		if err != nil {
+			return err
+		}
+		workId := response.OpcWorkRequestId
+		_, err = WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	default:
+		return fmt.Errorf("received unknown 'database_management_status' %s", autonomousDatabaseManagement)
+	}
+}
+
 func inactiveAutonomousDatabaseIfNeeded(d *schema.ResourceData, sync *DatabaseAutonomousDatabaseResourceCrud) error {
 	if err := sync.StopAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
 		return err

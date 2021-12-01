@@ -34,7 +34,7 @@ The following attributes are exported:
 
 * `authorized_entity_name` - The name of the entity authorized by this Letter of Authority.
 * `circuit_type` - The type of cross-connect fiber, termination, and optical specification.
-* `cross_connect_id` - The OCID of the cross-connect.
+* `cross_connect_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect.
 * `facility_location` - The address of the FastConnect location.
 * `port_name` - The meet-me room port for this cross-connect.
 * `time_expires` - The date and time when the Letter of Authority expires, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 

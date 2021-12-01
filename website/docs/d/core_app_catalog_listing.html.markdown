@@ -34,7 +34,7 @@ The following attributes are exported:
 
 * `contact_url` - Listing's contact URL.
 * `description` - Description of the listing.
-* `display_name` - The display name of the listing.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `listing_id` - the region free ocid of the listing resource.
 * `publisher_logo_url` - Publisher's logo URL.
 * `publisher_name` - The name of the publisher who published this listing.

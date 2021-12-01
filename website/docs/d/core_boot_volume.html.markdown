@@ -37,7 +37,7 @@ The following attributes are exported:
 * `boot_volume_replicas` - The list of boot volume replicas of this boot volume
 	* `availability_domain` - The availability domain of the boot volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `boot_volume_replica_id` - The boot volume replica's Oracle ID (OCID).
-	* `display_name` - The display name of the boot volume replica 
+	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `compartment_id` - The OCID of the compartment that contains the boot volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 

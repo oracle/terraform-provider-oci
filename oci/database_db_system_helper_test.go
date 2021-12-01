@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/oracle/oci-go-sdk/v52/common"
-	oci_database "github.com/oracle/oci-go-sdk/v52/database"
+	"github.com/oracle/oci-go-sdk/v53/common"
+	oci_database "github.com/oracle/oci-go-sdk/v53/database"
 )
 
 func sweepDatabaseDbSystemResource(compartment string) error {

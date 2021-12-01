@@ -46,7 +46,7 @@ The following attributes are exported:
 
 * `availability_domain` - The availability domain the instance is running in.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the instance. 
-* `display_name` - The user-friendly name. Does not have to be unique.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `fault_domain` - The fault domain the instance is running in.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 * `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration used to create the instance. 
