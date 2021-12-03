@@ -263,6 +263,7 @@ github.com/oracle/oci-go-sdk/v53/apigateway
 github.com/oracle/oci-go-sdk/v53/apmconfig
 github.com/oracle/oci-go-sdk/v53/apmcontrolplane
 github.com/oracle/oci-go-sdk/v53/apmsynthetics
+github.com/oracle/oci-go-sdk/v53/appmgmtcontrol
 github.com/oracle/oci-go-sdk/v53/artifacts
 github.com/oracle/oci-go-sdk/v53/audit
 github.com/oracle/oci-go-sdk/v53/autoscaling
