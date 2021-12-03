@@ -67,6 +67,9 @@ type DatabaseRegistrationSummary struct {
 	// Connect descriptor or Easy Connect Naming method that Oracle GoldenGate uses to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
+	// The mode of the database connection session to be established by the data client. REDIRECT - for a RAC database, DIRECT - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT.
+	SessionMode DatabaseRegistrationSummarySessionModeEnum `mandatory:"false" json:"sessionMode,omitempty"`
+
 	// Credential store alias.
 	AliasName *string `mandatory:"false" json:"aliasName"`
 
@@ -76,4 +79,27 @@ type DatabaseRegistrationSummary struct {
 
 func (m DatabaseRegistrationSummary) String() string {
 	return common.PointerString(m)
+}
+
+// DatabaseRegistrationSummarySessionModeEnum Enum with underlying type: string
+type DatabaseRegistrationSummarySessionModeEnum string
+
+// Set of constants representing the allowable values for DatabaseRegistrationSummarySessionModeEnum
+const (
+	DatabaseRegistrationSummarySessionModeDirect   DatabaseRegistrationSummarySessionModeEnum = "DIRECT"
+	DatabaseRegistrationSummarySessionModeRedirect DatabaseRegistrationSummarySessionModeEnum = "REDIRECT"
+)
+
+var mappingDatabaseRegistrationSummarySessionMode = map[string]DatabaseRegistrationSummarySessionModeEnum{
+	"DIRECT":   DatabaseRegistrationSummarySessionModeDirect,
+	"REDIRECT": DatabaseRegistrationSummarySessionModeRedirect,
+}
+
+// GetDatabaseRegistrationSummarySessionModeEnumValues Enumerates the set of values for DatabaseRegistrationSummarySessionModeEnum
+func GetDatabaseRegistrationSummarySessionModeEnumValues() []DatabaseRegistrationSummarySessionModeEnum {
+	values := make([]DatabaseRegistrationSummarySessionModeEnum, 0)
+	for _, v := range mappingDatabaseRegistrationSummarySessionMode {
+		values = append(values, v)
+	}
+	return values
 }

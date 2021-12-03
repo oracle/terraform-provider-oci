@@ -41,6 +41,9 @@ type ListParsersRequest struct {
 	// of the specified type will be returned.
 	ParserType ListParsersParserTypeEnum `mandatory:"false" contributesTo:"query" name:"parserType" omitEmpty:"true"`
 
+	// A comma-separated list of categories used for filtering
+	Categories *string `mandatory:"false" contributesTo:"query" name:"categories"`
+
 	// The system value used for filtering.  Only items with the specified system value
 	// will be returned.  Valid values are built in, custom (for user defined items), or
 	// all (for all items, regardless of system value).
