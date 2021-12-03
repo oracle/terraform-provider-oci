@@ -28,6 +28,9 @@ type ManagedInstanceUsage struct {
 	// The hostname of the managed instance (if applicable).
 	Hostname *string `mandatory:"false" json:"hostname"`
 
+	// The host OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance.
+	HostId *string `mandatory:"false" json:"hostId"`
+
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
 	// The approximate count of applications reported by this managed instance.

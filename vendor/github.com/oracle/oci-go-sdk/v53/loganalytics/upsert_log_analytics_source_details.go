@@ -100,6 +100,10 @@ type UpsertLogAnalyticsSourceDetails struct {
 
 	// An array of custom parsers.
 	UserParsers []LogAnalyticsParser `mandatory:"false" json:"userParsers"`
+
+	// An array of categories to assign to the source. Specifying the name attribute for each category would suffice.
+	// Oracle-defined category assignments cannot be removed.
+	Categories []LogAnalyticsCategory `mandatory:"false" json:"categories"`
 }
 
 func (m UpsertLogAnalyticsSourceDetails) String() string {

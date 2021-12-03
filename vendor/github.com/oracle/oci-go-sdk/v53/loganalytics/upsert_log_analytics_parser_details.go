@@ -91,6 +91,10 @@ type UpsertLogAnalyticsParserDetails struct {
 
 	// A flag indicating whether the XML parser should consider the namespace(s) while processing the log data.
 	IsNamespaceAware *bool `mandatory:"false" json:"isNamespaceAware"`
+
+	// An array of categories to assign to the parser. Specifying the name attribute for each category would suffice.
+	// Oracle-defined category assignments cannot be removed.
+	Categories []LogAnalyticsCategory `mandatory:"false" json:"categories"`
 }
 
 func (m UpsertLogAnalyticsParserDetails) String() string {

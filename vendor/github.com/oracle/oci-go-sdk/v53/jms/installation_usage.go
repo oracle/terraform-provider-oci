@@ -26,7 +26,7 @@ type InstallationUsage struct {
 	// The version of the Java Runtime that is deployed with the installation.
 	JreVersion *string `mandatory:"true" json:"jreVersion"`
 
-	// The file system path of the installation.
+	// The file system path of the Java installation.
 	Path *string `mandatory:"true" json:"path"`
 
 	// The Operating System for the installation. Deprecated, use `operatingSystem` instead.

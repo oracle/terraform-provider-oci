@@ -76,6 +76,9 @@ type DatabaseRegistration struct {
 	// Connect descriptor or Easy Connect Naming method that Oracle GoldenGate uses to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
+	// The mode of the database connection session to be established by the data client. REDIRECT - for a RAC database, DIRECT - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT.
+	SessionMode DatabaseRegistrationSessionModeEnum `mandatory:"false" json:"sessionMode,omitempty"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being referenced. If provided, this will reference a vault which the customer will be required to ensure the policies are established to permit the GoldenGate Service to manage secrets contained within this vault.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
@@ -91,4 +94,27 @@ type DatabaseRegistration struct {
 
 func (m DatabaseRegistration) String() string {
 	return common.PointerString(m)
+}
+
+// DatabaseRegistrationSessionModeEnum Enum with underlying type: string
+type DatabaseRegistrationSessionModeEnum string
+
+// Set of constants representing the allowable values for DatabaseRegistrationSessionModeEnum
+const (
+	DatabaseRegistrationSessionModeDirect   DatabaseRegistrationSessionModeEnum = "DIRECT"
+	DatabaseRegistrationSessionModeRedirect DatabaseRegistrationSessionModeEnum = "REDIRECT"
+)
+
+var mappingDatabaseRegistrationSessionMode = map[string]DatabaseRegistrationSessionModeEnum{
+	"DIRECT":   DatabaseRegistrationSessionModeDirect,
+	"REDIRECT": DatabaseRegistrationSessionModeRedirect,
+}
+
+// GetDatabaseRegistrationSessionModeEnumValues Enumerates the set of values for DatabaseRegistrationSessionModeEnum
+func GetDatabaseRegistrationSessionModeEnumValues() []DatabaseRegistrationSessionModeEnum {
+	values := make([]DatabaseRegistrationSessionModeEnum, 0)
+	for _, v := range mappingDatabaseRegistrationSessionMode {
+		values = append(values, v)
+	}
+	return values
 }
