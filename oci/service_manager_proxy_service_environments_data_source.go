@@ -99,6 +99,10 @@ func ServiceManagerProxyServiceEnvironmentsDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"description": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"environment_type": {
 													Type:     schema.TypeString,
 													Computed: true,

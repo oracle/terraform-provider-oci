@@ -66,6 +66,10 @@ func ServiceManagerProxyServiceEnvironmentDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"environment_type": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -185,6 +189,10 @@ func ServiceDefinitionToMap(obj *oci_service_manager_proxy.ServiceDefinition) ma
 
 func ServiceEnvironmentEndPointOverviewToMap(obj oci_service_manager_proxy.ServiceEnvironmentEndPointOverview) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	result["environment_type"] = string(obj.EnvironmentType)
 
