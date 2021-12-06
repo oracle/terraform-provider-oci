@@ -10,7 +10,9 @@ description: |-
 # Data Source: oci_network_load_balancer_network_load_balancers_protocols
 This data source provides the list of Network Load Balancers Protocols in Oracle Cloud Infrastructure Network Load Balancer service.
 
+This API has been deprecated so it won't return the updated list of supported protocls.
 Lists all supported traffic protocols.
+
 
 ## Example Usage
 
