@@ -3,7 +3,7 @@
 ### Added
 - Support for APP MGMT : API to Discover Ebusiness suite
 - Support for security baseline improvements for Java Management Service
-changes for schema in database_db_nodes_data_source.go to include the attribute db_node_id
+- Support for database_db_nodes_data_source to include the attribute db_node_id
 - Support for Logging Analytics Categories and Entity Topology
 - Support for KMS key version in ADB-D
 - Support for Golden Gate RAC databases
