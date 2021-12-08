@@ -124,6 +124,10 @@ type LogAnalyticsSource struct {
 
 	// An array of event types.
 	EventTypes []EventType `mandatory:"false" json:"eventTypes"`
+
+	// An array of categories assigned to this source.
+	// The isSystem flag denotes if each category assignment is user-created or Oracle-defined.
+	Categories []LogAnalyticsCategory `mandatory:"false" json:"categories"`
 }
 
 func (m LogAnalyticsSource) String() string {

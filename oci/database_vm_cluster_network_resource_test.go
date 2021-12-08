@@ -82,7 +82,6 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -120,7 +119,6 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 					RepresentationCopyWithRemovedProperties(vmClusterNetworkValidateRepresentation, []string{`validate_vm_cluster_network`})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -158,7 +156,6 @@ func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateUpdateRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),

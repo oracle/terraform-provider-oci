@@ -98,7 +98,6 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Optional, Create, drgRouteDistributionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "distribution_type", "IMPORT"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
@@ -125,7 +124,6 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", Optional, Update, drgRouteDistributionRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "distribution_type", "IMPORT"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
@@ -156,7 +154,6 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_distributions.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_distributions.0.compartment_id"),
-				resource.TestCheckResourceAttr(datasourceName, "drg_route_distributions.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_distributions.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_route_distributions.0.distribution_type", "IMPORT"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_distributions.0.drg_id"),
@@ -175,7 +172,6 @@ func TestCoreDrgRouteDistributionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "drg_route_distribution_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "distribution_type", "IMPORT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

@@ -23,6 +23,7 @@ const (
 	JreSortByApproximateApplicationCount     JreSortByEnum = "approximateApplicationCount"
 	JreSortByApproximateManagedInstanceCount JreSortByEnum = "approximateManagedInstanceCount"
 	JreSortByOsName                          JreSortByEnum = "osName"
+	JreSortBySecurityStatus                  JreSortByEnum = "securityStatus"
 )
 
 var mappingJreSortBy = map[string]JreSortByEnum{
@@ -35,6 +36,7 @@ var mappingJreSortBy = map[string]JreSortByEnum{
 	"approximateApplicationCount":     JreSortByApproximateApplicationCount,
 	"approximateManagedInstanceCount": JreSortByApproximateManagedInstanceCount,
 	"osName":                          JreSortByOsName,
+	"securityStatus":                  JreSortBySecurityStatus,
 }
 
 // GetJreSortByEnumValues Enumerates the set of values for JreSortByEnum

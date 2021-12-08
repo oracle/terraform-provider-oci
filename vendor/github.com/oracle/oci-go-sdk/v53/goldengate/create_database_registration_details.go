@@ -57,6 +57,9 @@ type CreateDatabaseRegistrationDetails struct {
 	// Connect descriptor or Easy Connect Naming method that Oracle GoldenGate uses to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
+	// The mode of the database connection session to be established by the data client. REDIRECT - for a RAC database, DIRECT - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT.
+	SessionMode CreateDatabaseRegistrationDetailsSessionModeEnum `mandatory:"false" json:"sessionMode,omitempty"`
+
 	// The wallet contents Oracle GoldenGate uses to make connections to a database.  This attribute is expected to be base64 encoded.
 	Wallet *string `mandatory:"false" json:"wallet"`
 
@@ -72,4 +75,27 @@ type CreateDatabaseRegistrationDetails struct {
 
 func (m CreateDatabaseRegistrationDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateDatabaseRegistrationDetailsSessionModeEnum Enum with underlying type: string
+type CreateDatabaseRegistrationDetailsSessionModeEnum string
+
+// Set of constants representing the allowable values for CreateDatabaseRegistrationDetailsSessionModeEnum
+const (
+	CreateDatabaseRegistrationDetailsSessionModeDirect   CreateDatabaseRegistrationDetailsSessionModeEnum = "DIRECT"
+	CreateDatabaseRegistrationDetailsSessionModeRedirect CreateDatabaseRegistrationDetailsSessionModeEnum = "REDIRECT"
+)
+
+var mappingCreateDatabaseRegistrationDetailsSessionMode = map[string]CreateDatabaseRegistrationDetailsSessionModeEnum{
+	"DIRECT":   CreateDatabaseRegistrationDetailsSessionModeDirect,
+	"REDIRECT": CreateDatabaseRegistrationDetailsSessionModeRedirect,
+}
+
+// GetCreateDatabaseRegistrationDetailsSessionModeEnumValues Enumerates the set of values for CreateDatabaseRegistrationDetailsSessionModeEnum
+func GetCreateDatabaseRegistrationDetailsSessionModeEnumValues() []CreateDatabaseRegistrationDetailsSessionModeEnum {
+	values := make([]CreateDatabaseRegistrationDetailsSessionModeEnum, 0)
+	for _, v := range mappingCreateDatabaseRegistrationDetailsSessionMode {
+		values = append(values, v)
+	}
+	return values
 }

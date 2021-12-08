@@ -60,6 +60,10 @@ type LogAnalyticsLookup struct {
 
 	// The last updated date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// An array of categories assigned to this lookup.
+	// The isSystem flag denotes if each category assignment is user-created or Oracle-defined.
+	Categories []LogAnalyticsCategory `mandatory:"false" json:"categories"`
 }
 
 func (m LogAnalyticsLookup) String() string {

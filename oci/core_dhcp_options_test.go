@@ -114,7 +114,6 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Create, dhcpOptionsRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				// resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
 				resource.TestCheckResourceAttr(resourceName, "domain_name_type", "CUSTOM_DOMAIN"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -155,7 +154,6 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				// resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyDhcpOptions"),
 				resource.TestCheckResourceAttr(resourceName, "domain_name_type", "CUSTOM_DOMAIN"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -190,7 +188,6 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Optional, Update, dhcpOptionsRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "domain_name_type", "VCN_DOMAIN"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -232,7 +229,6 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "options.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "options.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "options.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "options.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "options.0.domain_name_type", "VCN_DOMAIN"),
 				resource.TestCheckResourceAttr(datasourceName, "options.0.freeform_tags.%", "1"),

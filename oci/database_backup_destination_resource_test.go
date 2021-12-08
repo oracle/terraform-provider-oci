@@ -63,7 +63,6 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "NFS1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "local_mount_point_path", "localMountPointPath"),
@@ -84,7 +83,6 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Update, backupDestinationNFSRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "NFS1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "type", "NFS"),
@@ -113,7 +111,6 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.associated_databases.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.display_name", "NFS1"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_destinations.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backup_destinations.0.id"),
@@ -135,7 +132,6 @@ func TestResourceDatabaseBackupDestination_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "associated_databases.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "NFS1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

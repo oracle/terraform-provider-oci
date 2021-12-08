@@ -33,7 +33,11 @@ variable "session_target_resource_details_target_resource_port" {
   default = 22
 }
 
+resource "time_sleep" "wait_3_minutes_for_bastion_plugin" {
+  depends_on = [oci_core_instance.test_instance]
 
+  create_duration = "3m"
+}
 
 resource "oci_bastion_session" "test_session_managed_ssh" {
   #Required
@@ -45,6 +49,7 @@ resource "oci_bastion_session" "test_session_managed_ssh" {
   target_resource_details {
     #Required
     session_type       = var.session_target_resource_details_session_type_managed_ssh
+    // target_resource_id is required for managed ssh session
     target_resource_id = oci_core_instance.test_instance.id
 
     #Optional
@@ -56,6 +61,8 @@ resource "oci_bastion_session" "test_session_managed_ssh" {
   display_name           = var.session_display_name
   key_type               = var.session_key_type
   session_ttl_in_seconds = var.session_session_ttl_in_seconds
+
+  depends_on = [time_sleep.wait_3_minutes_for_bastion_plugin]
 }
 
 resource "oci_bastion_session" "test_session_port_forwarding" {
@@ -68,11 +75,12 @@ resource "oci_bastion_session" "test_session_port_forwarding" {
   target_resource_details {
     #Required
     session_type       = var.session_target_resource_details_session_type_port_forwarding
-    target_resource_id = oci_core_instance.test_instance.id
 
     #Optional
-    target_resource_port                       = var.session_target_resource_details_target_resource_port
+    // You should either use target_resource_id or target_resource_private_ip_address in port forwarding session
+    target_resource_id                         = oci_core_instance.test_instance.id
     target_resource_private_ip_address         = oci_core_instance.test_instance.private_ip
+    target_resource_port                       = var.session_target_resource_details_target_resource_port
   }
 
   display_name           = var.session_display_name

@@ -6,6 +6,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 	"time"
@@ -143,6 +144,15 @@ func TestBastionSessionResource_basic(t *testing.T) {
 		GenerateResourceFromRepresentationMap("oci_bastion_session", "test_session", Optional, Create, sessionRepresentation), "bastion", "session", t)
 
 	ResourceTest(t, testAccCheckBastionSessionDestroy, []resource.TestStep{
+		// Create Dependencies
+		{
+			Config: config + compartmentIdVariableStr + SessionResourceDependencies,
+			Check: func(s *terraform.State) (err error) {
+				log.Printf("[DEBUG] Wait for instance and bastion plugin to be run")
+				time.Sleep(5 * time.Minute)
+				return nil
+			},
+		},
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SessionResourceDependencies +

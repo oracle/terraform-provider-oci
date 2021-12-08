@@ -49,6 +49,10 @@ func DatabaseDbNodesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"db_node_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"additional_details": {
 							Type:     schema.TypeString,
 							Computed: true,

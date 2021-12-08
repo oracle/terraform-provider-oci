@@ -96,7 +96,6 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + CustomLogResourceDependencies +
 					GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Create, customLogRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "log"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -126,7 +125,6 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 					GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", Optional, Update, customLogRepresentation) +
 					GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", Required, Update, logGroupRepresentation),
 				Check: ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -159,7 +157,6 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttr(datasourceName, "logs.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "logs.0.compartment_id"),
-					resource.TestCheckResourceAttr(datasourceName, "logs.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "logs.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "logs.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "logs.0.id"),
@@ -181,7 +178,6 @@ func TestLoggingCustomLogResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_group_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "log_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

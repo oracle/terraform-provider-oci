@@ -99,7 +99,6 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Create, senderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -125,7 +124,6 @@ func TestEmailSenderResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -146,7 +144,6 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "email_address", "johnsmithtester@example.com"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -173,7 +170,6 @@ func TestEmailSenderResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "senders.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "senders.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "senders.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "senders.0.email_address", "johnsmithtester@example.com"),
 				resource.TestCheckResourceAttr(datasourceName, "senders.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "senders.0.id"),
@@ -190,7 +186,6 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sender_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "johnsmithtester@example.com"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

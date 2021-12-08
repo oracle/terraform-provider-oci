@@ -251,7 +251,6 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "actions.0.type", "RETURN_HTTP_RESPONSE"),
 
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
@@ -368,7 +367,6 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "actions.0.type", "RETURN_HTTP_RESPONSE"),
 
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -479,7 +477,6 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "actions.0.type", "RETURN_HTTP_RESPONSE"),
 
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -610,7 +607,6 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.type", "RETURN_HTTP_RESPONSE"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

@@ -2171,6 +2171,11 @@ var exportLogAnalyticsLogAnalyticsUnprocessedDataBucketManagementHints = &Terraf
 	resourceAbbreviation: "log_analytics_unprocessed_data_bucket_management",
 }
 
+var exportLogAnalyticsLogAnalyticsResourceCategoriesManagementHints = &TerraformResourceHints{
+	resourceClass:        "oci_log_analytics_log_analytics_resource_categories_management",
+	resourceAbbreviation: "log_analytics_resource_categories_management",
+}
+
 var exportLoggingLogGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_logging_log_group",
 	datasourceClass:      "oci_logging_log_groups",

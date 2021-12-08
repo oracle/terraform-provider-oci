@@ -100,7 +100,6 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Create, volumeBackupPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "BackupPolicy1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -139,7 +138,6 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_volume_backup_policy", "test_volume_backup_policy", Optional, Update, volumeBackupPolicyRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_region"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "BackupPolicy2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -180,7 +178,6 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.destination_region"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.display_name", "BackupPolicy2"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.freeform_tags.%", "1"),

@@ -125,6 +125,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := GeoStatsCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "JSON_EXTRACT":
+		mm := JsonExtractCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MAP":
 		mm := MapCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
@@ -245,6 +249,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := RenameCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "XML_EXTRACT":
+		mm := XmlExtractCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -299,6 +307,8 @@ const (
 	AbstractCommandDescriptorNameClusterSplit    AbstractCommandDescriptorNameEnum = "CLUSTER_SPLIT"
 	AbstractCommandDescriptorNameEval            AbstractCommandDescriptorNameEnum = "EVAL"
 	AbstractCommandDescriptorNameExtract         AbstractCommandDescriptorNameEnum = "EXTRACT"
+	AbstractCommandDescriptorNameJsonExtract     AbstractCommandDescriptorNameEnum = "JSON_EXTRACT"
+	AbstractCommandDescriptorNameXmlExtract      AbstractCommandDescriptorNameEnum = "XML_EXTRACT"
 	AbstractCommandDescriptorNameEventStats      AbstractCommandDescriptorNameEnum = "EVENT_STATS"
 	AbstractCommandDescriptorNameBucket          AbstractCommandDescriptorNameEnum = "BUCKET"
 	AbstractCommandDescriptorNameClassify        AbstractCommandDescriptorNameEnum = "CLASSIFY"
@@ -345,6 +355,8 @@ var mappingAbstractCommandDescriptorName = map[string]AbstractCommandDescriptorN
 	"CLUSTER_SPLIT":    AbstractCommandDescriptorNameClusterSplit,
 	"EVAL":             AbstractCommandDescriptorNameEval,
 	"EXTRACT":          AbstractCommandDescriptorNameExtract,
+	"JSON_EXTRACT":     AbstractCommandDescriptorNameJsonExtract,
+	"XML_EXTRACT":      AbstractCommandDescriptorNameXmlExtract,
 	"EVENT_STATS":      AbstractCommandDescriptorNameEventStats,
 	"BUCKET":           AbstractCommandDescriptorNameBucket,
 	"CLASSIFY":         AbstractCommandDescriptorNameClassify,

@@ -105,7 +105,6 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 				GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Create, dynamicGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "Instance Group for dev compartment"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -132,7 +131,6 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 				GenerateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -163,7 +161,6 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 
 				resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dynamic_groups.0.id"),

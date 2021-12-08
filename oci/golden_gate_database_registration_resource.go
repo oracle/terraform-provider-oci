@@ -107,6 +107,11 @@ func GoldenGateDatabaseRegistrationResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"session_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -298,6 +303,10 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Create() error {
 	if secretCompartmentId, ok := s.D.GetOkExists("secret_compartment_id"); ok {
 		tmp := secretCompartmentId.(string)
 		request.SecretCompartmentId = &tmp
+	}
+
+	if sessionMode, ok := s.D.GetOkExists("session_mode"); ok {
+		request.SessionMode = oci_golden_gate.CreateDatabaseRegistrationDetailsSessionModeEnum(sessionMode.(string))
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -521,6 +530,10 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) Update() error {
 		request.Password = &tmp
 	}
 
+	if sessionMode, ok := s.D.GetOkExists("session_mode"); ok {
+		request.SessionMode = oci_golden_gate.UpdateDatabaseRegistrationDetailsSessionModeEnum(sessionMode.(string))
+	}
+
 	if username, ok := s.D.GetOkExists("username"); ok {
 		tmp := username.(string)
 		request.Username = &tmp
@@ -621,6 +634,8 @@ func (s *GoldenGateDatabaseRegistrationResourceCrud) SetData() error {
 		s.D.Set("secret_id", *s.Res.SecretId)
 	}
 
+	s.D.Set("session_mode", s.Res.SessionMode)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
@@ -698,6 +713,8 @@ func DatabaseRegistrationSummaryToMap(obj oci_golden_gate.DatabaseRegistrationSu
 	if obj.SecretId != nil {
 		result["secret_id"] = string(*obj.SecretId)
 	}
+
+	result["session_mode"] = string(obj.SessionMode)
 
 	result["state"] = string(obj.LifecycleState)
 

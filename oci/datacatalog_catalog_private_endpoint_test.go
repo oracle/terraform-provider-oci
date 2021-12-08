@@ -103,7 +103,6 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Create, catalogPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -131,7 +130,6 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -154,7 +152,6 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", Optional, Update, catalogPrivateEndpointRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -183,7 +180,6 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.freeform_tags.%", "1"),
@@ -203,7 +199,6 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "catalog_private_endpoint_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

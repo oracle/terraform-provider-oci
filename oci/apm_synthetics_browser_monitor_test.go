@@ -84,7 +84,6 @@ func TestApmSyntheticsBrowserMonitorResource(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "BROWSER_CONFIG"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -117,7 +116,6 @@ func TestApmSyntheticsBrowserMonitorResource(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "BROWSER_CONFIG"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -166,7 +164,6 @@ func TestApmSyntheticsBrowserMonitorResource(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.config_type", "BROWSER_CONFIG"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

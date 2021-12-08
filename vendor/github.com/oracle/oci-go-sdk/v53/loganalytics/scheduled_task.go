@@ -264,6 +264,7 @@ const (
 	ScheduledTaskPauseReasonQueryStringNotValid      ScheduledTaskPauseReasonEnum = "QUERY_STRING_NOT_VALID"
 	ScheduledTaskPauseReasonUserAction               ScheduledTaskPauseReasonEnum = "USER_ACTION"
 	ScheduledTaskPauseReasonTenancyLifecycle         ScheduledTaskPauseReasonEnum = "TENANCY_LIFECYCLE"
+	ScheduledTaskPauseReasonPurgeResourceNotFound    ScheduledTaskPauseReasonEnum = "PURGE_RESOURCE_NOT_FOUND"
 )
 
 var mappingScheduledTaskPauseReason = map[string]ScheduledTaskPauseReasonEnum{
@@ -273,6 +274,7 @@ var mappingScheduledTaskPauseReason = map[string]ScheduledTaskPauseReasonEnum{
 	"QUERY_STRING_NOT_VALID":      ScheduledTaskPauseReasonQueryStringNotValid,
 	"USER_ACTION":                 ScheduledTaskPauseReasonUserAction,
 	"TENANCY_LIFECYCLE":           ScheduledTaskPauseReasonTenancyLifecycle,
+	"PURGE_RESOURCE_NOT_FOUND":    ScheduledTaskPauseReasonPurgeResourceNotFound,
 }
 
 // GetScheduledTaskPauseReasonEnumValues Enumerates the set of values for ScheduledTaskPauseReasonEnum

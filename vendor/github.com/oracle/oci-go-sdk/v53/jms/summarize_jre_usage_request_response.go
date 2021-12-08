@@ -68,6 +68,9 @@ type SummarizeJreUsageRequest struct {
 	// The operating system type.
 	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
+	// The security status of the Java Runtime.
+	JreSecurityStatus SummarizeJreUsageJreSecurityStatusEnum `mandatory:"false" contributesTo:"query" name:"jreSecurityStatus" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -160,6 +163,7 @@ const (
 	SummarizeJreUsageSortByApproximateapplicationcount     SummarizeJreUsageSortByEnum = "approximateApplicationCount"
 	SummarizeJreUsageSortByApproximatemanagedinstancecount SummarizeJreUsageSortByEnum = "approximateManagedInstanceCount"
 	SummarizeJreUsageSortByOsname                          SummarizeJreUsageSortByEnum = "osName"
+	SummarizeJreUsageSortBySecuritystatus                  SummarizeJreUsageSortByEnum = "securityStatus"
 )
 
 var mappingSummarizeJreUsageSortBy = map[string]SummarizeJreUsageSortByEnum{
@@ -172,12 +176,40 @@ var mappingSummarizeJreUsageSortBy = map[string]SummarizeJreUsageSortByEnum{
 	"approximateApplicationCount":     SummarizeJreUsageSortByApproximateapplicationcount,
 	"approximateManagedInstanceCount": SummarizeJreUsageSortByApproximatemanagedinstancecount,
 	"osName":                          SummarizeJreUsageSortByOsname,
+	"securityStatus":                  SummarizeJreUsageSortBySecuritystatus,
 }
 
 // GetSummarizeJreUsageSortByEnumValues Enumerates the set of values for SummarizeJreUsageSortByEnum
 func GetSummarizeJreUsageSortByEnumValues() []SummarizeJreUsageSortByEnum {
 	values := make([]SummarizeJreUsageSortByEnum, 0)
 	for _, v := range mappingSummarizeJreUsageSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// SummarizeJreUsageJreSecurityStatusEnum Enum with underlying type: string
+type SummarizeJreUsageJreSecurityStatusEnum string
+
+// Set of constants representing the allowable values for SummarizeJreUsageJreSecurityStatusEnum
+const (
+	SummarizeJreUsageJreSecurityStatusUnknown         SummarizeJreUsageJreSecurityStatusEnum = "UNKNOWN"
+	SummarizeJreUsageJreSecurityStatusUpToDate        SummarizeJreUsageJreSecurityStatusEnum = "UP_TO_DATE"
+	SummarizeJreUsageJreSecurityStatusUpdateRequired  SummarizeJreUsageJreSecurityStatusEnum = "UPDATE_REQUIRED"
+	SummarizeJreUsageJreSecurityStatusUpgradeRequired SummarizeJreUsageJreSecurityStatusEnum = "UPGRADE_REQUIRED"
+)
+
+var mappingSummarizeJreUsageJreSecurityStatus = map[string]SummarizeJreUsageJreSecurityStatusEnum{
+	"UNKNOWN":          SummarizeJreUsageJreSecurityStatusUnknown,
+	"UP_TO_DATE":       SummarizeJreUsageJreSecurityStatusUpToDate,
+	"UPDATE_REQUIRED":  SummarizeJreUsageJreSecurityStatusUpdateRequired,
+	"UPGRADE_REQUIRED": SummarizeJreUsageJreSecurityStatusUpgradeRequired,
+}
+
+// GetSummarizeJreUsageJreSecurityStatusEnumValues Enumerates the set of values for SummarizeJreUsageJreSecurityStatusEnum
+func GetSummarizeJreUsageJreSecurityStatusEnumValues() []SummarizeJreUsageJreSecurityStatusEnum {
+	values := make([]SummarizeJreUsageJreSecurityStatusEnum, 0)
+	for _, v := range mappingSummarizeJreUsageJreSecurityStatus {
 		values = append(values, v)
 	}
 	return values

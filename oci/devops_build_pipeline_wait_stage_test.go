@@ -129,7 +129,6 @@ func TestDevopsBuildPipelineWaitStageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_type", "WAIT"),
 
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -161,7 +160,6 @@ func TestDevopsBuildPipelineWaitStageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_type", "WAIT"),
 
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -208,7 +206,6 @@ func TestDevopsBuildPipelineWaitStageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_pipeline_stage_type", "WAIT"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

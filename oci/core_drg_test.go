@@ -87,7 +87,6 @@ func TestCoreDrgResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Create, drgRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyDrg"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -115,7 +114,6 @@ func TestCoreDrgResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyDrg"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -138,7 +136,6 @@ func TestCoreDrgResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", Optional, Update, drgRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -167,7 +164,6 @@ func TestCoreDrgResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "drgs.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "drgs.0.default_drg_route_tables.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drgs.0.default_export_drg_route_distribution_id"),
-				resource.TestCheckResourceAttr(datasourceName, "drgs.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "drgs.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "drgs.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drgs.0.id"),

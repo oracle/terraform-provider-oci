@@ -116,7 +116,6 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Create, networkSecurityGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -145,7 +144,6 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -169,7 +167,6 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Update, networkSecurityGroupRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -200,7 +197,6 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_security_groups.0.id"),
@@ -221,7 +217,6 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "network_security_groups.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_security_groups.0.id"),
@@ -239,7 +234,6 @@ func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_security_group_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

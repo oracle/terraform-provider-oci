@@ -56,7 +56,6 @@ func (s *DatasourceCoreVnicTestSuite) TestAccDatasourceCoreAttachVnic_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "is_primary", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VnicLifecycleStateAvailable)),
-					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 				),
 			},

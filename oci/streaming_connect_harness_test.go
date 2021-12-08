@@ -99,7 +99,6 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Create, connectHarnessRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "mynewconnectharness"),
@@ -127,7 +126,6 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "mynewconnectharness"),
@@ -150,7 +148,6 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_streaming_connect_harness", "test_connect_harness", Optional, Update, connectHarnessRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "mynewconnectharness"),
@@ -180,7 +177,6 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "connect_harness.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "connect_harness.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "connect_harness.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "connect_harness.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "connect_harness.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "connect_harness.0.name", "mynewconnectharness"),
@@ -197,7 +193,6 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connect_harness_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "mynewconnectharness"),

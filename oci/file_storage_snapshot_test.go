@@ -94,7 +94,6 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Create, snapshotRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -119,7 +118,6 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + SnapshotResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -147,7 +145,6 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.file_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.id"),
@@ -166,7 +163,6 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_clone_source"),

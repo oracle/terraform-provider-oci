@@ -103,7 +103,6 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", Optional, Create, exadataInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
@@ -139,7 +138,6 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -170,7 +168,6 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_opsi_exadata_insight", "test_exadata_insight", Optional, Update, exadataInsightRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(resourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(resourceName, "enterprise_manager_entity_name"),
@@ -222,7 +219,6 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_insight_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_entity_display_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "enterprise_manager_entity_identifier", enterpriseManagerEntityId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enterprise_manager_entity_name"),

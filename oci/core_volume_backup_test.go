@@ -116,7 +116,6 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -146,7 +145,6 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -178,7 +176,6 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "volume_backups.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.id"),

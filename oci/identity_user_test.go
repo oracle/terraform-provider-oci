@@ -97,7 +97,6 @@ func TestIdentityUserResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
 				resource.TestCheckResourceAttr(resourceName, "email", "email"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -125,7 +124,6 @@ func TestIdentityUserResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "email", "email2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -157,7 +155,6 @@ func TestIdentityUserResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "users.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "users.0.compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(datasourceName, "users.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "users.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "users.0.email", "email2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.0.email_verified"),
@@ -178,7 +175,6 @@ func TestIdentityUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "email", "email2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "email_verified"),

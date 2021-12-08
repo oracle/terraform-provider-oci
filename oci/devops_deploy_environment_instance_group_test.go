@@ -87,7 +87,6 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.0.items.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_environment_type", "COMPUTE_INSTANCE_GROUP"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -115,7 +114,6 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_instance_group_selectors.0.items.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_environment_type", "COMPUTE_INSTANCE_GROUP"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -157,7 +155,6 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deploy_environment_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_environment_type", "COMPUTE_INSTANCE_GROUP"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),

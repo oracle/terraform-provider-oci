@@ -111,7 +111,6 @@ func TestCoreImageResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -144,7 +143,6 @@ func TestCoreImageResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -172,7 +170,6 @@ func TestCoreImageResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -209,7 +206,6 @@ func TestCoreImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "images.0.billable_size_in_gbs"),
 				resource.TestCheckResourceAttr(datasourceName, "images.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "images.0.create_image_allowed"),
-				resource.TestCheckResourceAttr(datasourceName, "images.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "images.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "images.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "images.0.id"),
@@ -235,7 +231,6 @@ func TestCoreImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "billable_size_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "create_image_allowed"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

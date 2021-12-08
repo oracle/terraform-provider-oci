@@ -100,7 +100,6 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(resourceName, "content", jsScriptContent),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "JS"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -166,7 +165,6 @@ func TestApmSyntheticsScriptResource(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "content", jsScriptContent),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "JS"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

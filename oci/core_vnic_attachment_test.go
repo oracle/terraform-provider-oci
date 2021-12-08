@@ -111,7 +111,6 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "false"),
-				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "attachvnictestinstance"),
