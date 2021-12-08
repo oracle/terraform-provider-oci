@@ -1,3 +1,16 @@
+## 4.56.0 (Unreleased)
+
+### Added
+- Support for APP MGMT : API to Discover Ebusiness suite
+- Support for security baseline improvements for Java Management Service
+- Support for database_db_nodes_data_source to include the attribute db_node_id
+- Support for Logging Analytics Categories and Entity Topology
+- Support for KMS key version in ADB-D
+- Support for Golden Gate RAC databases
+
+### Bug Fix
+- Change target resource id to optional for bastion session creation
+
 ## 4.55.0 (December 01, 2021)
 
 ### Added

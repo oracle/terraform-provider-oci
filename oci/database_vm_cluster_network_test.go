@@ -172,7 +172,6 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Create, vmClusterNetworkRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -219,7 +218,6 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(resourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
@@ -269,7 +267,6 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.dns.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.exadata_infrastructure_id"),
@@ -310,7 +307,6 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_network_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

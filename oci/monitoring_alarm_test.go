@@ -127,7 +127,6 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -173,7 +172,6 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -214,7 +212,6 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "body", "body2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -261,7 +258,6 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "alarms.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "alarms.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "alarms.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "alarms.0.destinations.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "alarms.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "alarms.0.freeform_tags.%", "1"),
@@ -289,7 +285,6 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "body", "body2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "destinations.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

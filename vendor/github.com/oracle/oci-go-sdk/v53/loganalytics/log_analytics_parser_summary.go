@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// LogAnalyticsParserSummary LoganParserDetails
+// LogAnalyticsParserSummary LogAnalyticsParserSummary
 type LogAnalyticsParserSummary struct {
 
 	// The content.

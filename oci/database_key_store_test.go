@@ -112,7 +112,6 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -144,7 +143,6 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -171,7 +169,6 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Update, keyStoreRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -203,7 +200,6 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "key_stores.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.associated_databases.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.display_name", "Key Store1"),
 				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.id"),
@@ -226,7 +222,6 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "associated_databases.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Key Store1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

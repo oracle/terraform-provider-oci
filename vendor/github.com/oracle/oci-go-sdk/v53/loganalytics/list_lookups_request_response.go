@@ -37,6 +37,9 @@ type ListLookupsRequest struct {
 	// The lookup status used for filtering when fetching a list of lookups.
 	Status ListLookupsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
+	// A comma-separated list of categories used for filtering
+	Categories *string `mandatory:"false" contributesTo:"query" name:"categories"`
+
 	// A flag indicating whether or not to return OMC annotated or hidden lookups.
 	IsHideSpecial *bool `mandatory:"false" contributesTo:"query" name:"isHideSpecial"`
 

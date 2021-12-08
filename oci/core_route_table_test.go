@@ -104,7 +104,6 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -141,7 +140,6 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -173,7 +171,6 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Update, routeTableRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -212,7 +209,6 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "route_tables.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "route_tables.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "route_tables.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "route_tables.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "route_tables.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.id"),

@@ -106,7 +106,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Create, viewRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -139,7 +138,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -166,7 +164,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", Optional, Update, viewRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -199,7 +196,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "views.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "views.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "views.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "views.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "views.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "views.0.id"),
@@ -219,7 +215,6 @@ func TestDnsViewResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "view_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

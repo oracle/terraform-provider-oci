@@ -126,7 +126,6 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -156,7 +155,6 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -191,7 +189,6 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "functions.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.application_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.compartment_id"),
-				resource.TestCheckResourceAttr(datasourceName, "functions.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.display_name", "ExampleFunction"),
 				resource.TestCheckResourceAttr(datasourceName, "functions.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "functions.0.id"),
@@ -217,7 +214,6 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "config.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "ExampleFunction"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

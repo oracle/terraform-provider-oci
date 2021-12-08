@@ -96,7 +96,6 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create, compartmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -125,7 +124,6 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -149,7 +147,6 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -181,7 +178,6 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "compartments.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "compartments.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "compartments.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "compartments.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "compartments.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "compartments.0.id"),
@@ -197,7 +193,6 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				compartmentIdVariableStr + CompartmentResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

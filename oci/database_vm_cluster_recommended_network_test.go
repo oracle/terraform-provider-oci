@@ -88,7 +88,6 @@ func TestDatabaseVmClusterRecommendedNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "scan_listener_port_tcp_ssl", "2484"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "testVmClusterNw"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

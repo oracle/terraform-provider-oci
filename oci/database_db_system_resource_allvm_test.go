@@ -154,7 +154,6 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.freeform_tags.Department", "Finance"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_system_options.0.storage_management", "LVM"),
 				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "state"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "freeform_tags.Department", "Finance"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
 
@@ -543,7 +542,6 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "false"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "defined_tags.example-tag-namespace-all.example-tag", "updateValue"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "freeform_tags.Department", "Admin"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "2"),
 

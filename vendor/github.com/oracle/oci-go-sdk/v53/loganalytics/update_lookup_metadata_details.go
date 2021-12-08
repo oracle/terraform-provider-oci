@@ -27,6 +27,10 @@ type UpdateLookupMetadataDetails struct {
 
 	// The maximum number of matches.
 	MaxMatches *int64 `mandatory:"false" json:"maxMatches"`
+
+	// An array of categories to assign to the lookup. Specifying the name attribute for each category would suffice.
+	// Oracle-defined category assignments cannot be removed.
+	Categories []LogAnalyticsCategory `mandatory:"false" json:"categories"`
 }
 
 func (m UpdateLookupMetadataDetails) String() string {

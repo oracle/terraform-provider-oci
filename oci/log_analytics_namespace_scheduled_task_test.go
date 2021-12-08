@@ -198,7 +198,6 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tfPurgeTask"),
 					resource.TestCheckResourceAttr(resourceName, "task_type", "PURGE"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "action.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "action.0.data_type", "LOG"),
@@ -237,7 +236,6 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "tfPurgeTask2"),
 					resource.TestCheckResourceAttr(resourceName, "task_type", "PURGE"),
 					// TODO: add check for defined_tags value change
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					// TODO: add check for freeform tags change
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "action.#", "1"),
@@ -308,7 +306,6 @@ func TestLogAnalyticsNamespaceScheduledTaskResource_basic(t *testing.T) {
 						"recurring_interval": "P2D",
 						"repeat_count":       "6",
 					}, []string{}),
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				),
 			},

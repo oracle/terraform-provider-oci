@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// LogAnalyticsParser LoganParserDetails
+// LogAnalyticsParser LogAnalyticsParser
 type LogAnalyticsParser struct {
 
 	// The content.
@@ -111,6 +111,10 @@ type LogAnalyticsParser struct {
 
 	// A flag indicating whether the XML parser should consider the namespace(s) while processing the log data.
 	IsNamespaceAware *bool `mandatory:"false" json:"isNamespaceAware"`
+
+	// An array of categories assigned to this parser.
+	// The isSystem flag denotes if each category assignment is user-created or Oracle-defined.
+	Categories []LogAnalyticsCategory `mandatory:"false" json:"categories"`
 }
 
 func (m LogAnalyticsParser) String() string {

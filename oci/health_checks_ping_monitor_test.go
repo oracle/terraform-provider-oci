@@ -107,7 +107,6 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Create, pingMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "10"),
@@ -139,7 +138,6 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "10"),
@@ -166,7 +164,6 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Optional, Update, pingMonitorRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "interval_in_seconds", "30"),
@@ -199,7 +196,6 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "ping_monitors.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "ping_monitors.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "ping_monitors.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "ping_monitors.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "ping_monitors.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ping_monitors.0.home_region"),
@@ -220,7 +216,6 @@ func TestHealthChecksPingMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "home_region"),

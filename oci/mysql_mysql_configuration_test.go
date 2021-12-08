@@ -75,7 +75,6 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "Default Standalone configuration for the VM.Standard.E2.2 MySQL Shape"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "VM.Standard.E2.2.Standalone"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

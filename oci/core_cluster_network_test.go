@@ -160,12 +160,10 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Create, clusterNetworkRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
 				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
@@ -209,12 +207,10 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
 				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
@@ -253,7 +249,6 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", Optional, Update, clusterNetworkRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -302,7 +297,6 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "cluster_networks.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cluster_networks.0.id"),
@@ -330,7 +324,6 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_network_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

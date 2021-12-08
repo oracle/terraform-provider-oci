@@ -74,7 +74,6 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 						resId, err = FromInstanceState(s, "oci_core_private_ip.t", "id")
 						return
 					},
-					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 				),
 			},
@@ -100,7 +99,6 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIP_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					// hostname_label should not be set unless explicitly set
 					resource.TestCheckNoResourceAttr(s.ResourceName, "hostname_label"),
-					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 				),
 			},
@@ -181,7 +179,6 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_id"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.VlanResourceName, "display_name", "-private-ip"),
-					resource.TestCheckResourceAttr(s.VlanResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.VlanResourceName, "freeform_tags.%", "1"),
 				),
 			},
@@ -204,7 +201,6 @@ func (s *ResourcePrivateIPTestSuite) TestAccCoreResourcePrivateIPVlan_basic() {
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "is_primary"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "vlan_id"),
 					resource.TestCheckResourceAttrSet(s.VlanResourceName, "time_created"),
-					resource.TestCheckResourceAttr(s.VlanResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.VlanResourceName, "freeform_tags.%", "1"),
 				),
 			},

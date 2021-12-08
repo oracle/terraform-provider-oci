@@ -92,7 +92,6 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -119,7 +118,6 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -151,7 +149,6 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "console_histories.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.availability_domain"),
 				resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.compartment_id"),
-				resource.TestCheckResourceAttr(datasourceName, "console_histories.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "console_histories.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "console_histories.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "console_histories.0.id"),

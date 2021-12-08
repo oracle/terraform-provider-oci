@@ -100,7 +100,6 @@ func TestResourceDnsSteeringPolicyFailOver(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "answers.0.pool", "primary"),
 				resource.TestCheckResourceAttr(resourceName, "answers.0.rtype", "A"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "health_check_monitor_id"),

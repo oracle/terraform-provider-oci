@@ -121,7 +121,6 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "filter_text", createFilterText),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = FromInstanceState(s, resourceName, "id")
@@ -141,7 +140,6 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 				Check: ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttr(resourceName, "config_type", configTypeSpanFilter),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -177,7 +175,6 @@ func TestApmConfigConfigResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "config_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "filter_text", updateFilterText),

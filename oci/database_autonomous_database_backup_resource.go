@@ -71,6 +71,10 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"kms_key_version_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -241,6 +245,10 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
+	if s.Res.KmsKeyVersionId != nil {
+		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
 	}
 
 	if s.Res.LifecycleDetails != nil {

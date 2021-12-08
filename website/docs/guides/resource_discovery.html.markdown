@@ -600,6 +600,11 @@ load_balancer
 log_analytics
     
 * oci\_log\_analytics\_log\_analytics\_object\_collection\_rule
+* oci\_log\_analytics\_log\_analytics\_import\_custom\_content
+* oci\_log\_analytics\_namespace\_scheduled\_task
+* oci\_log\_analytics\_log\_analytics\_preferences\_management
+* oci\_log\_analytics\_log\_analytics\_unprocessed\_data\_bucket\_management
+* oci\_log\_analytics\_log\_analytics\_resource\_categories\_management
 
 logging
     

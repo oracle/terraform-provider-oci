@@ -98,7 +98,6 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Create, externalNonContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -126,7 +125,6 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -149,7 +147,6 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_database_external_non_container_database", "test_external_non_container_database", Optional, Update, externalNonContainerDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "myTestExternalNonCdb"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -179,7 +176,6 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "external_non_container_databases.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "external_non_container_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "external_non_container_databases.0.database_management_config.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "external_non_container_databases.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "external_non_container_databases.0.display_name", "myTestExternalNonCdb"),
 				resource.TestCheckResourceAttr(datasourceName, "external_non_container_databases.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_non_container_databases.0.id"),
@@ -198,7 +194,6 @@ func TestDatabaseExternalNonContainerDatabaseResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_management_config.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "myTestExternalNonCdb"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

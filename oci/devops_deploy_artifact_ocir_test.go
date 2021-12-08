@@ -90,7 +90,6 @@ func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.image_uri", image_uri),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.image_digest", image_digest),
@@ -121,7 +120,6 @@ func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.image_uri", image_uri_updated),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.image_digest", image_digest_updated),
@@ -169,7 +167,6 @@ func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_artifact_source.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_artifact_source.0.image_uri", image_uri_updated),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_artifact_source.0.image_digest", image_digest_updated),

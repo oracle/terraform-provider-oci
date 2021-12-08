@@ -94,7 +94,6 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyInternetGateway"),
 				resource.TestCheckResourceAttr(resourceName, "enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -123,7 +122,6 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyInternetGateway"),
 				resource.TestCheckResourceAttr(resourceName, "enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -147,7 +145,6 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Update, internetGatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -178,7 +175,6 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "gateways.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "gateways.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "gateways.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "gateways.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "gateways.0.enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "gateways.0.freeform_tags.%", "1"),

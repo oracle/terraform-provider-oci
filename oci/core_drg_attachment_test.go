@@ -134,7 +134,6 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Create, drgAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
@@ -166,7 +165,6 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Optional, Update, drgAttachmentRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
@@ -274,7 +272,6 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.compartment_id"),
-				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.drg_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.drg_route_table_id"),
