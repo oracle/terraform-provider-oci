@@ -57,6 +57,8 @@ var (
 		"instance_license_type":    Representation{RepType: Optional, Create: `STARTER`, Update: `PREMIUM`},
 		"instance_usage_type":      Representation{RepType: Optional, Create: `PRIMARY`, Update: `NONPRIMARY`},
 		"upgrade_schedule":         Representation{RepType: Optional, Create: `UPGRADE_IMMEDIATELY`},
+		"vanity_domains":           Representation{RepType: Optional, Create: []string{`mysite1.mycompany.com`, `mysite2.mycompany.com`}, Update: []string{`mysite3.mycompany.com`, `mysite2.mycompany.com`}},
+		"waf_primary_domain":       Representation{RepType: Optional, Create: `oracle.com`, Update: `java.com`},
 	}
 
 	OceInstanceResourceDependencies = GenerateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation) +

@@ -26,7 +26,7 @@ var (
 	}
 
 	deployGenericArtifactRepresentation                     = GetUpdatedRepresentationCopy("deploy_artifact_source", RepresentationGroup{Required, deployGenericArtifactDeployArtifactSourceRepresentation}, deployArtifactRepresentation)
-	repository_id                                           = "ocid1.artifactrepository.oc1.iad.0.amaaaaaansx72maa7nbce5ebmsqkan3msgyosvxe5d5a6jghn5su6ykgw7vq"
+	repository_id                                           = "ocid1.artifactrepository.oc1.iad.0.amaaaaaamdb2enyazr72hrxgh4zcffpzrddr7tqe2376vgvfodiavftlavpq"
 	repository_id_updated                                   = "ocid1.artifactrepository.oc1.iad.0.amaaaaaansx72maa7nbce5ebmsqkan3msgyosvxe5d5a6jghnfakeartifact2"
 	artifact_path                                           = "helloworld-oke.yaml"
 	version                                                 = "v1"
@@ -97,6 +97,7 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -126,6 +127,7 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -172,6 +174,7 @@ func TestDevopsDeployArtifactResource_generic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
