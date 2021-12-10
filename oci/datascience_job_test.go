@@ -105,7 +105,6 @@ var (
 
 // issue-routing-tag: datascience/default
 func TestDatascienceJobResource_basic(t *testing.T) {
-	t.Skip("Skip this test until service fixes it")
 	httpreplay.SetScenario("TestDatascienceJobResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -298,7 +297,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "jobs.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "jobs.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "jobs.0.created_by"),
-					resource.TestCheckResourceAttr(datasourceName, "jobs.0.defined_tags.%", "3"),
+					resource.TestCheckResourceAttrSet(datasourceName, "jobs.0.defined_tags.%"),
 					resource.TestCheckResourceAttr(datasourceName, "jobs.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "jobs.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "jobs.0.id"),
@@ -348,6 +347,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 				ImportStateVerifyIgnore: []string{
 					"artifact_content_disposition",
 					"artifact_content_length",
+					"lifecycle_details",
 					"delete_related_job_runs",
 					"job_artifact",
 				},
