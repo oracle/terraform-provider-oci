@@ -883,7 +883,7 @@ func getRetryPolicyWithAdditionalRetryCondition(timeout time.Duration, retryCond
 	startTime := time.Now()
 	return &oci_common.RetryPolicy{
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
-			if shouldRetry(response, false, service, startTime) {
+			if ShouldRetry(response, false, service, startTime) {
 				return true
 			}
 			if retryConditionFunction(response) {
@@ -1004,7 +1004,7 @@ func workRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.
 		}
 
 		// Make sure we stop on default rules
-		if shouldRetry(response, false, "work_request", startTime) {
+		if ShouldRetry(response, false, "work_request", startTime) {
 			return true
 		}
 

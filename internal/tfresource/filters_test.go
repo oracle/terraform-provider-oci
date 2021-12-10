@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_core "github.com/oracle/oci-go-sdk/v49/core"
+	oci_core "github.com/oracle/oci-go-sdk/v53/core"
 )
 
 // Not supplying filters should not restrict results

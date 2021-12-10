@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
 )
 
 func IdentityUsersDataSource() *schema.Resource {

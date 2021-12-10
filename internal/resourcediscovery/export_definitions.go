@@ -4,7 +4,7 @@
 package resourcediscovery
 
 import (
-	oci_identity "github.com/oracle/oci-go-sdk/v49/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files

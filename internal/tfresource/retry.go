@@ -44,7 +44,7 @@ var serviceExpectedRetryDurationMap = map[string]serviceExpectedRetryDurationFun
 	identityService:      getIdentityExpectedRetryDuration,
 	objectstorageService: getObjectstorageServiceExpectedRetryDuration,
 	//waasService:          getWaasExpectedRetryDuration,
-	logAnalyticsService:  getLogAnalyticsExpectedRetryDuration,
+	logAnalyticsService: getLogAnalyticsExpectedRetryDuration,
 }
 var serviceRetryPolicyFnMap = map[string]getRetryPolicyFunc{
 	//kmsService: kmsGetRetryPolicy,
@@ -348,7 +348,7 @@ func getDefaultRetryPolicy(disableNotFoundRetries bool, service string, optional
 	retryPolicy := &oci_common.RetryPolicy{
 		MaximumNumberAttempts: 0,
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
-			return shouldRetry(response, disableNotFoundRetries, service, startTime, optionals...)
+			return ShouldRetry(response, disableNotFoundRetries, service, startTime, optionals...)
 		},
 		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
 			return getRetryBackoffDuration(response, disableNotFoundRetries, service, startTime, optionals...)
