@@ -38,6 +38,9 @@ type CreateVmClusterDetails struct {
 	// The Oracle Grid Infrastructure software version for the VM cluster.
 	GiVersion *string `mandatory:"true" json:"giVersion"`
 
+	// The number of OCPU cores to enable for the VM cluster. Only 1 decimal place is allowed for the fractional part.
+	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
+
 	// The memory to be allocated in GBs.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 
@@ -46,6 +49,9 @@ type CreateVmClusterDetails struct {
 
 	// The data disk group size to be allocated in TBs.
 	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
+
+	// The data disk group size to be allocated in GBs.
+	DataStorageSizeInGBs *float64 `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// The Oracle license model that applies to the VM cluster. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel CreateVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`

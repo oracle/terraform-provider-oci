@@ -39,6 +39,9 @@ type TermRelationship struct {
 	// Full path of the related term.
 	RelatedTermPath *string `mandatory:"false" json:"relatedTermPath"`
 
+	// Glossary key of the related term.
+	RelatedTermGlossaryKey *string `mandatory:"false" json:"relatedTermGlossaryKey"`
+
 	// URI to the term relationship instance in the API.
 	Uri *string `mandatory:"false" json:"uri"`
 
@@ -53,6 +56,9 @@ type TermRelationship struct {
 
 	// Full path of the parent term.
 	ParentTermPath *string `mandatory:"false" json:"parentTermPath"`
+
+	// Glossary key of the parent term.
+	ParentTermGlossaryKey *string `mandatory:"false" json:"parentTermGlossaryKey"`
 
 	// The date and time the term relationship was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2019-03-25T21:10:29.600Z`

@@ -33,12 +33,12 @@ type ListAttributesRequest struct {
 
 	// A filter to return only resources that match display name or business name pattern given. The match is not case sensitive.
 	// For Example : /folders?displayOrBusinessNameContains=Cu.*
-	// The above would match all folders with display name or business name that starts with "Cu".
+	// The above would match all folders with display name or business name that starts with "Cu" or has the pattern "Cu" anywhere in between.
 	DisplayOrBusinessNameContains *string `mandatory:"false" contributesTo:"query" name:"displayOrBusinessNameContains"`
 
 	// A filter to return only resources that match display name pattern given. The match is not case sensitive.
 	// For Example : /folders?displayNameContains=Cu.*
-	// The above would match all folders with display name that starts with "Cu".
+	// The above would match all folders with display name that starts with "Cu" or has the pattern "Cu" anywhere in between.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
 	// A filter to return only resources that match the specified lifecycle state. The value is case insensitive.
@@ -215,6 +215,7 @@ const (
 	ListAttributesFieldsParentattributekey         ListAttributesFieldsEnum = "parentAttributeKey"
 	ListAttributesFieldsExternalparentattributekey ListAttributesFieldsEnum = "externalParentAttributeKey"
 	ListAttributesFieldsPosition                   ListAttributesFieldsEnum = "position"
+	ListAttributesFieldsTypekey                    ListAttributesFieldsEnum = "typeKey"
 )
 
 var mappingListAttributesFields = map[string]ListAttributesFieldsEnum{
@@ -239,6 +240,7 @@ var mappingListAttributesFields = map[string]ListAttributesFieldsEnum{
 	"parentAttributeKey":         ListAttributesFieldsParentattributekey,
 	"externalParentAttributeKey": ListAttributesFieldsExternalparentattributekey,
 	"position":                   ListAttributesFieldsPosition,
+	"typeKey":                    ListAttributesFieldsTypekey,
 }
 
 // GetListAttributesFieldsEnumValues Enumerates the set of values for ListAttributesFieldsEnum

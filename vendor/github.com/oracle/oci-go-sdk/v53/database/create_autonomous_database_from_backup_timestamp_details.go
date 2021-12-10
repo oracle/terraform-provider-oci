@@ -150,6 +150,9 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// Indicates whether the Autonomous Database requires mTLS connections.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
+	// list of scheduled operations
+	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
@@ -324,6 +327,11 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetIsMtlsConnectionR
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
+}
+
+//GetScheduledOperations returns ScheduledOperations
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetScheduledOperations() []ScheduledOperationDetails {
+	return m.ScheduledOperations
 }
 
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) String() string {

@@ -144,6 +144,9 @@ type CreateAutonomousDatabaseDetails struct {
 	// Indicates whether the Autonomous Database requires mTLS connections.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
+	// list of scheduled operations
+	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
+
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
@@ -315,6 +318,11 @@ func (m CreateAutonomousDatabaseDetails) GetIsMtlsConnectionRequired() *bool {
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
 func (m CreateAutonomousDatabaseDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
+}
+
+//GetScheduledOperations returns ScheduledOperations
+func (m CreateAutonomousDatabaseDetails) GetScheduledOperations() []ScheduledOperationDetails {
+	return m.ScheduledOperations
 }
 
 func (m CreateAutonomousDatabaseDetails) String() string {

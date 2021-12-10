@@ -4,7 +4,8 @@
 
 // Service Manager Proxy API
 //
-// API to manage Service manager proxy.
+// Use the Service Manager Proxy API to obtain information about SaaS environments provisioned by Service Manager.
+// You can get information such as service types and service environment URLs.
 //
 
 package servicemanagerproxy
@@ -13,19 +14,22 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// ServiceEnvironment Model describing service environment properties.
+// ServiceEnvironment Detailed information about a service environment.
+// **Note:** Service URL formats may vary from the provided example.
 type ServiceEnvironment struct {
 
 	// Unqiue identifier for the entitlement related to the environment.
+	// **Note:** Not an OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
-	// The subscription Id corresponding to the service environment Id.
+	// The unique subscription ID associated with the service environment ID.
+	// **Note:** Not an OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SubscriptionId *string `mandatory:"true" json:"subscriptionId"`
 
 	// Status of the entitlement registration for the service.
 	Status ServiceEntitlementRegistrationStatusEnum `mandatory:"true" json:"status"`
 
-	// Compartment Id associated with the service.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	ServiceDefinition *ServiceDefinition `mandatory:"true" json:"serviceDefinition"`

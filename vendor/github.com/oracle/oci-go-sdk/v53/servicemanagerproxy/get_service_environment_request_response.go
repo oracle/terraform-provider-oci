@@ -16,10 +16,11 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemanagerproxy/GetServiceEnvironment.go.html to see an example of how to use GetServiceEnvironmentRequest.
 type GetServiceEnvironmentRequest struct {
 
-	// The Id associated with the service environment.
+	// The unique identifier associated with the service environment.
+	// **Note:** Not an OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ServiceEnvironmentId *string `mandatory:"true" contributesTo:"path" name:"serviceEnvironmentId"`
 
-	// The unique identifier for the compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,

@@ -4,7 +4,8 @@
 
 // Service Manager Proxy API
 //
-// API to manage Service manager proxy.
+// Use the Service Manager Proxy API to obtain information about SaaS environments provisioned by Service Manager.
+// You can get information such as service types and service environment URLs.
 //
 
 package servicemanagerproxy
@@ -13,14 +14,17 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// ServiceEnvironmentEndPointOverview Model describing the properties of service environment endPoint overview.
+// ServiceEnvironmentEndPointOverview An overview of service environment endpoints.
 type ServiceEnvironmentEndPointOverview struct {
 
-	// Service Environemnt EndPoint type.
+	// Service environment endpoint type.
 	EnvironmentType ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum `mandatory:"true" json:"environmentType"`
 
-	// Service Environemnt Instance EndPoint url.
+	// Service environment instance URL.
 	Url *string `mandatory:"true" json:"url"`
+
+	// Description of the environment link
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m ServiceEnvironmentEndPointOverview) String() string {
@@ -32,15 +36,17 @@ type ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum string
 
 // Set of constants representing the allowable values for ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum
 const (
-	ServiceEnvironmentEndPointOverviewEnvironmentTypeProd ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum = "INSTANCE_URL_PROD"
-	ServiceEnvironmentEndPointOverviewEnvironmentTypeTest ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum = "INSTANCE_URL_TEST"
-	ServiceEnvironmentEndPointOverviewEnvironmentTypeDev  ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum = "INSTANCE_URL_DEV"
+	ServiceEnvironmentEndPointOverviewEnvironmentTypeInstanceUrlProd ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum = "INSTANCE_URL_PROD"
+	ServiceEnvironmentEndPointOverviewEnvironmentTypeInstanceUrlTest ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum = "INSTANCE_URL_TEST"
+	ServiceEnvironmentEndPointOverviewEnvironmentTypeInstanceUrlDev  ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum = "INSTANCE_URL_DEV"
+	ServiceEnvironmentEndPointOverviewEnvironmentTypeOther           ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum = "OTHER"
 )
 
 var mappingServiceEnvironmentEndPointOverviewEnvironmentType = map[string]ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum{
-	"INSTANCE_URL_PROD": ServiceEnvironmentEndPointOverviewEnvironmentTypeProd,
-	"INSTANCE_URL_TEST": ServiceEnvironmentEndPointOverviewEnvironmentTypeTest,
-	"INSTANCE_URL_DEV":  ServiceEnvironmentEndPointOverviewEnvironmentTypeDev,
+	"INSTANCE_URL_PROD": ServiceEnvironmentEndPointOverviewEnvironmentTypeInstanceUrlProd,
+	"INSTANCE_URL_TEST": ServiceEnvironmentEndPointOverviewEnvironmentTypeInstanceUrlTest,
+	"INSTANCE_URL_DEV":  ServiceEnvironmentEndPointOverviewEnvironmentTypeInstanceUrlDev,
+	"OTHER":             ServiceEnvironmentEndPointOverviewEnvironmentTypeOther,
 }
 
 // GetServiceEnvironmentEndPointOverviewEnvironmentTypeEnumValues Enumerates the set of values for ServiceEnvironmentEndPointOverviewEnvironmentTypeEnum

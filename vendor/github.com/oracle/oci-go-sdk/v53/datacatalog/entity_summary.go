@@ -32,6 +32,13 @@ type EntitySummary struct {
 	// Detailed description of a data entity.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Property that identifies if the object is a physical object (materialized) or virtual/logical object
+	// defined on other objects.
+	IsLogical *bool `mandatory:"false" json:"isLogical"`
+
+	// Property that identifies if an object is a sub object of a physical or materialized parent object.
+	IsPartition *bool `mandatory:"false" json:"isPartition"`
+
 	// Unique key of the parent data asset.
 	DataAssetKey *string `mandatory:"false" json:"dataAssetKey"`
 
@@ -71,6 +78,13 @@ type EntitySummary struct {
 
 	// State of the data entity.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// A map of maps that contains the properties which are specific to the entity type. Each entity type
+	// definition defines it's set of required and optional properties. The map keys are category names and the
+	// values are maps of property name to property value. Every property is contained inside of a category. Most
+	// data entities have required properties within the "default" category.
+	// Example: `{"properties": { "default": { "key1": "value1"}}}`
+	Properties map[string]map[string]string `mandatory:"false" json:"properties"`
 }
 
 func (m EntitySummary) String() string {

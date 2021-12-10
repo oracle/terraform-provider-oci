@@ -16,10 +16,12 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// LoggingSourceDetails The logging source.
+// LoggingSourceDetails The Logging source.
+// For configuration instructions, see
+// To create a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#create).
 type LoggingSourceDetails struct {
 
-	// The resources affected by this work request.
+	// The logs for this Logging source.
 	LogSources []LogSource `mandatory:"true" json:"logSources"`
 }
 

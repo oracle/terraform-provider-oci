@@ -15,7 +15,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// LogSource The log source.
+// LogSource The logs for this Logging source.
 type LogSource struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the log source.

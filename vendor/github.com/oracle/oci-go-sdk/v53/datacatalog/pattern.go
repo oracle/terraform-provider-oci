@@ -14,8 +14,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// Pattern Pattern representation. A Pattern is defined using an expression and can be used as data selectors or filters
-// to provide a singular view of an entity across multiple physical data artifacts.
+// Pattern A pattern is a data selector or filter which can provide a singular,
+// logical entity view aggregating multiple physical data artifacts for ease of use.
 type Pattern struct {
 
 	// Unique pattern key that is immutable.
@@ -31,7 +31,7 @@ type Pattern struct {
 	// The data catalog's OCID.
 	CatalogId *string `mandatory:"false" json:"catalogId"`
 
-	// The current state of the data asset.
+	// The current state of the pattern.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The date and time the pattern was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -47,17 +47,24 @@ type Pattern struct {
 	// OCID of the user who last modified the pattern.
 	UpdatedById *string `mandatory:"false" json:"updatedById"`
 
-	// The expression used in the pattern that may include qualifiers. Refer to the user documentation for details of the format and examples.
+	// Input string which drives the selection process, allowing for fine-grained control using qualifiers.
+	// Refer to the user documentation for details of the format and examples. A pattern cannot include both
+	// a prefix and an expression.
 	Expression *string `mandatory:"false" json:"expression"`
 
-	// List of file paths against which the expression can be tried, as a check. This documents, for reference
+	// Input string which drives the selection process.
+	// Refer to the user documentation for details of the format and examples. A pattern cannot include both
+	// a prefix and an expression.
+	FilePathPrefix *string `mandatory:"false" json:"filePathPrefix"`
+
+	// List of file paths against which the pattern can be tried, as a check. This documents, for reference
 	// purposes, some example objects a pattern is meant to work with. If isEnableCheckFailureLimit is set to true,
 	// this will be run as a validation during the request, such that if the check fails the request fails. If
 	// isEnableCheckFailureLimit instead is set to (the default) false, a pattern will still be created or updated even
 	// if the check fails, with a lifecycleState of FAILED.
 	CheckFilePathList []string `mandatory:"false" json:"checkFilePathList"`
 
-	// Indicates whether the expression check, against the checkFilePathList, will fail the request if the count of
+	// Indicates whether the pattern check, against the checkFilePathList, will fail the request if the count of
 	// UNMATCHED files is above the checkFailureLimit.
 	IsEnableCheckFailureLimit *bool `mandatory:"false" json:"isEnableCheckFailureLimit"`
 

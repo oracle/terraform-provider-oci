@@ -14,8 +14,8 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// PatternSummary Summary of a pattern. A Pattern is defined using an expression and can be used as data selectors or filters
-// to provide a singular view of an entity across multiple physical data artifacts.
+// PatternSummary Summary of a pattern. A pattern is a data selector or filter which can provide a singular,
+// logical entity view aggregating multiple physical data artifacts for ease of use.
 type PatternSummary struct {
 
 	// Unique pattern key that is immutable.
@@ -35,8 +35,15 @@ type PatternSummary struct {
 	// Example: `2019-03-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The expression used in the pattern that may include qualifiers.
+	// Input string which drives the selection process, allowing for fine-grained control using qualifiers.
+	// Refer to the user documentation for details of the format and examples. A pattern cannot include both
+	// a prefix and an expression.
 	Expression *string `mandatory:"false" json:"expression"`
+
+	// Input string which drives the selection process.
+	// Refer to the user documentation for details of the format and examples. A pattern cannot include both
+	// a prefix and an expression.
+	FilePathPrefix *string `mandatory:"false" json:"filePathPrefix"`
 
 	// State of the pattern.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

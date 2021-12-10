@@ -43,6 +43,9 @@ type UpdateGatewayDetails struct {
 	// Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// An array of CA bundles that should be used on the Gateway for TLS validation.
+	CaBundles []CaBundle `mandatory:"false" json:"caBundles"`
 }
 
 func (m UpdateGatewayDetails) String() string {
@@ -58,6 +61,7 @@ func (m *UpdateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 		ResponseCacheDetails    responsecachedetails              `json:"responseCacheDetails"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		CaBundles               []cabundle                        `json:"caBundles"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -87,6 +91,19 @@ func (m *UpdateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.CaBundles = make([]CaBundle, len(model.CaBundles))
+	for i, n := range model.CaBundles {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.CaBundles[i] = nn.(CaBundle)
+		} else {
+			m.CaBundles[i] = nil
+		}
+	}
 
 	return
 }

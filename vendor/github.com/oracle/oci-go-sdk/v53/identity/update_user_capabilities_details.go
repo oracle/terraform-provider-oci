@@ -28,6 +28,9 @@ type UpdateUserCapabilitiesDetails struct {
 	// Indicates if the user can use SMTP passwords.
 	CanUseSmtpCredentials *bool `mandatory:"false" json:"canUseSmtpCredentials"`
 
+	// Indicates if the user can use DB passwords.
+	CanUseDBCredentials *bool `mandatory:"false" json:"canUseDBCredentials"`
+
 	// Indicates if the user can use SigV4 symmetric keys.
 	CanUseCustomerSecretKeys *bool `mandatory:"false" json:"canUseCustomerSecretKeys"`
 

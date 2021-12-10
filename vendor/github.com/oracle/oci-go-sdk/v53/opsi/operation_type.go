@@ -40,6 +40,19 @@ const (
 	OperationTypeDeleteExadataInsight          OperationTypeEnum = "DELETE_EXADATA_INSIGHT"
 	OperationTypeAddExadataInsightMembers      OperationTypeEnum = "ADD_EXADATA_INSIGHT_MEMBERS"
 	OperationTypeExadataAutoSync               OperationTypeEnum = "EXADATA_AUTO_SYNC"
+	OperationTypeUpdateOpsiWarehouse           OperationTypeEnum = "UPDATE_OPSI_WAREHOUSE"
+	OperationTypeCreateOpsiWarehouse           OperationTypeEnum = "CREATE_OPSI_WAREHOUSE"
+	OperationTypeMoveOpsiWarehouse             OperationTypeEnum = "MOVE_OPSI_WAREHOUSE"
+	OperationTypeDeleteOpsiWarehouse           OperationTypeEnum = "DELETE_OPSI_WAREHOUSE"
+	OperationTypeRotateOpsiWarehouseWallet     OperationTypeEnum = "ROTATE_OPSI_WAREHOUSE_WALLET"
+	OperationTypeUpdateOpsiWarehouseUser       OperationTypeEnum = "UPDATE_OPSI_WAREHOUSE_USER"
+	OperationTypeCreateOpsiWarehouseUser       OperationTypeEnum = "CREATE_OPSI_WAREHOUSE_USER"
+	OperationTypeMoveOpsiWarehouseUser         OperationTypeEnum = "MOVE_OPSI_WAREHOUSE_USER"
+	OperationTypeDeleteOpsiWarehouseUser       OperationTypeEnum = "DELETE_OPSI_WAREHOUSE_USER"
+	OperationTypeUpdateAwrhub                  OperationTypeEnum = "UPDATE_AWRHUB"
+	OperationTypeCreateAwrhub                  OperationTypeEnum = "CREATE_AWRHUB"
+	OperationTypeMoveAwrhub                    OperationTypeEnum = "MOVE_AWRHUB"
+	OperationTypeDeleteAwrhub                  OperationTypeEnum = "DELETE_AWRHUB"
 )
 
 var mappingOperationType = map[string]OperationTypeEnum{
@@ -67,6 +80,19 @@ var mappingOperationType = map[string]OperationTypeEnum{
 	"DELETE_EXADATA_INSIGHT":           OperationTypeDeleteExadataInsight,
 	"ADD_EXADATA_INSIGHT_MEMBERS":      OperationTypeAddExadataInsightMembers,
 	"EXADATA_AUTO_SYNC":                OperationTypeExadataAutoSync,
+	"UPDATE_OPSI_WAREHOUSE":            OperationTypeUpdateOpsiWarehouse,
+	"CREATE_OPSI_WAREHOUSE":            OperationTypeCreateOpsiWarehouse,
+	"MOVE_OPSI_WAREHOUSE":              OperationTypeMoveOpsiWarehouse,
+	"DELETE_OPSI_WAREHOUSE":            OperationTypeDeleteOpsiWarehouse,
+	"ROTATE_OPSI_WAREHOUSE_WALLET":     OperationTypeRotateOpsiWarehouseWallet,
+	"UPDATE_OPSI_WAREHOUSE_USER":       OperationTypeUpdateOpsiWarehouseUser,
+	"CREATE_OPSI_WAREHOUSE_USER":       OperationTypeCreateOpsiWarehouseUser,
+	"MOVE_OPSI_WAREHOUSE_USER":         OperationTypeMoveOpsiWarehouseUser,
+	"DELETE_OPSI_WAREHOUSE_USER":       OperationTypeDeleteOpsiWarehouseUser,
+	"UPDATE_AWRHUB":                    OperationTypeUpdateAwrhub,
+	"CREATE_AWRHUB":                    OperationTypeCreateAwrhub,
+	"MOVE_AWRHUB":                      OperationTypeMoveAwrhub,
+	"DELETE_AWRHUB":                    OperationTypeDeleteAwrhub,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum

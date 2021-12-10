@@ -4,7 +4,8 @@
 
 // Service Manager Proxy API
 //
-// API to manage Service manager proxy.
+// Use the Service Manager Proxy API to obtain information about SaaS environments provisioned by Service Manager.
+// You can get information such as service types and service environment URLs.
 //
 
 package servicemanagerproxy
@@ -13,16 +14,17 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// ServiceDefinition Model for details associated with service
+// ServiceDefinition Details for a service definition.
 type ServiceDefinition struct {
 
-	// The service definition type.
+	// The service definition type. For example, a service definition type "RGBUOROMS"
+	// would be for the service "Oracle Retail Order Management Cloud Service".
 	Type *string `mandatory:"true" json:"type"`
 
-	// Display name of the service.
+	// Display name of the service. For example, "Oracle Retail Order Management Cloud Service".
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Short display name of the service.
+	// Short display name of the service. For example, "Retail Order Management".
 	ShortDisplayName *string `mandatory:"true" json:"shortDisplayName"`
 }
 

@@ -4,7 +4,8 @@
 
 // Service Manager Proxy API
 //
-// API to manage Service manager proxy.
+// Use the Service Manager Proxy API to obtain information about SaaS environments provisioned by Service Manager.
+// You can get information such as service types and service environment URLs.
 //
 
 package servicemanagerproxy
@@ -13,19 +14,21 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// ServiceEnvironmentSummary Model describing service environment details.
+// ServiceEnvironmentSummary Summary of service environment details.
 type ServiceEnvironmentSummary struct {
 
 	// Unqiue identifier for the entitlement related to the environment.
+	// **Note:** Not an OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
-	// The subscription Id corresponding to the service environment Id.
+	// The unique subscription ID associated with the service environment ID.
+	// **Note:** Not an OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SubscriptionId *string `mandatory:"true" json:"subscriptionId"`
 
 	// Status of the entitlement registration for the service.
 	Status ServiceEntitlementRegistrationStatusEnum `mandatory:"true" json:"status"`
 
-	// Compartment Id associated with the service.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	ServiceDefinition *ServiceDefinition `mandatory:"true" json:"serviceDefinition"`
@@ -36,12 +39,14 @@ type ServiceEnvironmentSummary struct {
 	// Array of service environment end points.
 	ServiceEnvironmentEndpoints []ServiceEnvironmentEndPointOverview `mandatory:"false" json:"serviceEnvironmentEndpoints"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// Defined tags for this resource. Each key is predefined and scoped to a
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"CostCenter": "42"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }
 

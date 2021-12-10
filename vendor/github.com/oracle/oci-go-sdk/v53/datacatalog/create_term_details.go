@@ -27,7 +27,7 @@ type CreateTermDetails struct {
 	// Indicates whether a term may contain child terms.
 	IsAllowedToHaveChildTerms *bool `mandatory:"false" json:"isAllowedToHaveChildTerms"`
 
-	// The terms parent term key. Will be null if the term has no parent term.
+	// The parent key of the term. In the case of a root-level category only, the term would have no parent and this should be left unset.
 	ParentTermKey *string `mandatory:"false" json:"parentTermKey"`
 
 	// OCID of the user who is the owner of this business terminology.
