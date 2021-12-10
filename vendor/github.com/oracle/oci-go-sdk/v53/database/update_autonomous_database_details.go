@@ -155,6 +155,9 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// Indicates whether the Autonomous Database requires mTLS connections.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
+
+	// list of scheduled operations
+	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {

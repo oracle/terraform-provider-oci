@@ -4,7 +4,8 @@
 
 // Oracle Cloud VMware Solution API
 //
-// Use this API to manage your Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
+// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
 package ocvp
@@ -74,6 +75,19 @@ type EsxiHostSummary struct {
 
 	// The current state of the ESXi host.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the esxi host that
+	// is failed.
+	FailedEsxiHostId *string `mandatory:"false" json:"failedEsxiHostId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the esxi host that
+	// is newly created to replace the failed node.
+	ReplacementEsxiHostId *string `mandatory:"false" json:"replacementEsxiHostId"`
+
+	// The date and time when the new esxi host should start billing cycle.
+	// RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2021-07-25T21:10:29.600Z`
+	GracePeriodEndDate *common.SDKTime `mandatory:"false" json:"gracePeriodEndDate"`
 }
 
 func (m EsxiHostSummary) String() string {

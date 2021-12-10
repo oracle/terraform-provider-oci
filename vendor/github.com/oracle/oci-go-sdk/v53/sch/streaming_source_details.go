@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// StreamingSourceDetails The streaming source.
+// StreamingSourceDetails The Streaming source.
 type StreamingSourceDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream.

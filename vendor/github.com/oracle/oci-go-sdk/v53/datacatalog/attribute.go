@@ -65,6 +65,9 @@ type Attribute struct {
 	// Property that identifies if this attribute can be assigned null values.
 	IsNullable *bool `mandatory:"false" json:"isNullable"`
 
+	// The type of the attribute. Type keys can be found via the '/types' endpoint.
+	TypeKey *string `mandatory:"false" json:"typeKey"`
+
 	// The minimum count for the number of instances of a given type stored in this collection type attribute,applicable if this attribute is a complex type.
 	MinCollectionCount *int `mandatory:"false" json:"minCollectionCount"`
 

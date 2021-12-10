@@ -17,10 +17,17 @@ import (
 // ValidatePatternDetails Validate pattern using the expression and file list.
 type ValidatePatternDetails struct {
 
-	// The expression used in the pattern that may include qualifiers. Refer to the user documentation for details of the format and examples.
+	// Input string which drives the selection process, allowing for fine-grained control using qualifiers.
+	// Refer to the user documentation for details of the format and examples. A pattern cannot include both
+	// a prefix and an expression.
 	Expression *string `mandatory:"false" json:"expression"`
 
-	// List of file paths against which the expression can be tried, as a check. This documents, for reference
+	// Input string which drives the selection process.
+	// Refer to the user documentation for details of the format and examples. A pattern cannot include both
+	// a prefix and an expression.
+	FilePathPrefix *string `mandatory:"false" json:"filePathPrefix"`
+
+	// List of file paths against which the pattern can be tried, as a check. This documents, for reference
 	// purposes, some example objects a pattern is meant to work with.
 	// If provided with the request,this overrides the list which already exists as part of the pattern, if any.
 	CheckFilePathList []string `mandatory:"false" json:"checkFilePathList"`

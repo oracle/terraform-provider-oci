@@ -27,6 +27,9 @@ type CreateEntityDetails struct {
 	// Optional user friendly business name of the data entity. If set, this supplements the harvested display name of the object.
 	BusinessName *string `mandatory:"false" json:"businessName"`
 
+	// The type of data entity object. Type key's can be found via the '/types' endpoint.
+	TypeKey *string `mandatory:"false" json:"typeKey"`
+
 	// Detailed description of a data entity.
 	Description *string `mandatory:"false" json:"description"`
 

@@ -30,7 +30,7 @@ type ListAggregatedPhysicalEntitiesRequest struct {
 
 	// A filter to return only resources that match display name pattern given. The match is not case sensitive.
 	// For Example : /folders?displayNameContains=Cu.*
-	// The above would match all folders with display name that starts with "Cu".
+	// The above would match all folders with display name that starts with "Cu" or has the pattern "Cu" anywhere in between.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for TIMECREATED is descending. Default order for DISPLAYNAME is ascending. If no value is specified TIMECREATED is default.
@@ -44,6 +44,9 @@ type ListAggregatedPhysicalEntitiesRequest struct {
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
+
+	// Indicates whether the properties map will be provided in the response.
+	IsIncludeProperties *bool `mandatory:"false" contributesTo:"query" name:"isIncludeProperties"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

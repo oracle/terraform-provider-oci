@@ -113,6 +113,12 @@ type SearchResult struct {
 
 	// Custom properties defined by users.
 	CustomProperties []FacetedSearchCustomProperty `mandatory:"false" json:"customProperties"`
+
+	// A map of maps that contains the properties which are specific to the element type in the search result.
+	// The map keys are category names and the values are maps of property name to property value. Every property
+	// is contained inside of a category. Most element types have required properties within the "default" category.
+	// Example: `{"properties": { "default": { "key1": "value1"}}}`
+	Properties map[string]map[string]string `mandatory:"false" json:"properties"`
 }
 
 func (m SearchResult) String() string {

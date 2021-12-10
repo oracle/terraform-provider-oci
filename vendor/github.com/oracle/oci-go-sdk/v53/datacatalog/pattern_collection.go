@@ -14,8 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v53/common"
 )
 
-// PatternCollection Results of a patterns listing.  A Pattern is defined using an expression and can be used as data selectors or filters
-// to provide a singular view of an entity across multiple physical data artifacts.
+// PatternCollection Results of a pattern listing. Patterns are used in entity harvesting.
 type PatternCollection struct {
 
 	// Collection of pattern summaries.

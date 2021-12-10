@@ -165,6 +165,9 @@ type CreateAutonomousDatabaseBase interface {
 	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database
 	// follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
 	GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
+
+	// list of scheduled operations
+	GetScheduledOperations() []ScheduledOperationDetails
 }
 
 type createautonomousdatabasebase struct {
@@ -200,6 +203,7 @@ type createautonomousdatabasebase struct {
 	CustomerContacts                         []CustomerContact                                                 `mandatory:"false" json:"customerContacts"`
 	IsMtlsConnectionRequired                 *bool                                                             `mandatory:"false" json:"isMtlsConnectionRequired"`
 	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
+	ScheduledOperations                      []ScheduledOperationDetails                                       `mandatory:"false" json:"scheduledOperations"`
 	Source                                   string                                                            `json:"source"`
 }
 
@@ -245,6 +249,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.CustomerContacts = s.Model.CustomerContacts
 	m.IsMtlsConnectionRequired = s.Model.IsMtlsConnectionRequired
 	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
+	m.ScheduledOperations = s.Model.ScheduledOperations
 	m.Source = s.Model.Source
 
 	return err
@@ -441,6 +446,11 @@ func (m createautonomousdatabasebase) GetIsMtlsConnectionRequired() *bool {
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
 func (m createautonomousdatabasebase) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
+}
+
+//GetScheduledOperations returns ScheduledOperations
+func (m createautonomousdatabasebase) GetScheduledOperations() []ScheduledOperationDetails {
+	return m.ScheduledOperations
 }
 
 func (m createautonomousdatabasebase) String() string {

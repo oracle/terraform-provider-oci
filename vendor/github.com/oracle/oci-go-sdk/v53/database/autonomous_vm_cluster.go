@@ -49,6 +49,9 @@ type AutonomousVmCluster struct {
 	// The number of enabled CPU cores.
 	CpusEnabled *int `mandatory:"false" json:"cpusEnabled"`
 
+	// The number of enabled OCPU cores.
+	OcpusEnabled *float32 `mandatory:"false" json:"ocpusEnabled"`
+
 	// The numnber of CPU cores available.
 	AvailableCpus *int `mandatory:"false" json:"availableCpus"`
 
@@ -60,6 +63,9 @@ type AutonomousVmCluster struct {
 
 	// The total data storage allocated in TBs
 	DataStorageSizeInTBs *float64 `mandatory:"false" json:"dataStorageSizeInTBs"`
+
+	// The total data storage allocated in GBs
+	DataStorageSizeInGBs *float64 `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// The data storage available in TBs
 	AvailableDataStorageSizeInTBs *float64 `mandatory:"false" json:"availableDataStorageSizeInTBs"`

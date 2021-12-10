@@ -4,7 +4,8 @@
 
 // Service Manager Proxy API
 //
-// API to manage Service manager proxy.
+// Use the Service Manager Proxy API to obtain information about SaaS environments provisioned by Service Manager.
+// You can get information such as service types and service environment URLs.
 //
 
 package servicemanagerproxy
@@ -84,7 +85,7 @@ func (client *ServiceManagerProxyClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
-// GetServiceEnvironment Gets details of the service environment specified by the serviceEnvironmentId.
+// GetServiceEnvironment Get the detailed information for a specific service environment.
 //
 // See also
 //
@@ -139,9 +140,8 @@ func (client ServiceManagerProxyClient) getServiceEnvironment(ctx context.Contex
 	return response, err
 }
 
-// ListServiceEnvironments List details of environments which the service is authorized to view.
-// This includes the service instance endpoints and service definition
-// details.
+// ListServiceEnvironments List the details of Software as a Service (SaaS) environments provisioned by Service Manager.
+// Information includes the service instance endpoints and service definition details.
 //
 // See also
 //
