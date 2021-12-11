@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v53/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v53/operationsinsights"
+	oci_opsi "github.com/oracle/oci-go-sdk/v53/opsi"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
