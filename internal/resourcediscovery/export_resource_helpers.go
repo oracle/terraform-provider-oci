@@ -135,122 +135,6 @@ const (
 
 var isAllDataSourceLock sync.Mutex
 
-func init() {
-	// TODO: The following changes to resource hints are deviations from what can currently be handled by the core resource discovery/generation logic
-	// We should strive to eliminate these deviations by either improving the core logic or code generator
-
-	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
-	exportIdentityAvailabilityDomainHints.alwaysExportable = true
-	exportIdentityAvailabilityDomainHints.processDiscoveredResourcesFn = processAvailabilityDomains
-	exportIdentityAvailabilityDomainHints.getHCLStringOverrideFn = getAvailabilityDomainHCLDatasource
-	exportIdentityAuthenticationPolicyHints.processDiscoveredResourcesFn = processIdentityAuthenticationPolicies
-	exportIdentityTagHints.findResourcesOverrideFn = findIdentityTags
-	exportIdentityTagHints.processDiscoveredResourcesFn = processTagDefinitions
-	exportIdentityAvailabilityDomainHints.isDataSource = true
-
-	/*
-		exportObjectStorageNamespaceHints.isDataSource = true
-
-		// Custom overrides for generating composite Load Balancer IDs within the resource discovery framework
-		exportLoadBalancerBackendHints.processDiscoveredResourcesFn = processLoadBalancerBackends
-		exportLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processLoadBalancerBackendSets
-		exportLoadBalancerCertificateHints.processDiscoveredResourcesFn = processLoadBalancerCertificates
-		exportLoadBalancerHostnameHints.processDiscoveredResourcesFn = processLoadBalancerHostnames
-		exportLoadBalancerListenerHints.findResourcesOverrideFn = findLoadBalancerListeners
-		exportLoadBalancerListenerHints.processDiscoveredResourcesFn = processLoadBalancerListeners
-		exportLoadBalancerPathRouteSetHints.processDiscoveredResourcesFn = processLoadBalancerPathRouteSets
-		exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
-		exportLoadBalancerLoadBalancerRoutingPolicyHints.processDiscoveredResourcesFn = processLoadBalancerRoutingPolicies
-
-		exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
-		exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
-		exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
-		exportCoreImageHints.processDiscoveredResourcesFn = filterCustomImages
-
-		exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
-		exportCoreInstanceHints.processDiscoveredResourcesFn = processInstances
-		exportCorePublicIpHints.processDiscoveredResourcesFn = processCorePublicIp
-		exportCorePrivateIpHints.processDiscoveredResourcesFn = processPrivateIps
-		exportCoreInstanceHints.requireResourceRefresh = true
-		exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceClass = "oci_core_network_security_group_security_rules"
-		exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceItemsAttr = "security_rules"
-		exportCoreNetworkSecurityGroupSecurityRuleHints.processDiscoveredResourcesFn = processNetworkSecurityGroupRules
-		exportCoreRouteTableHints.processDiscoveredResourcesFn = processDefaultRouteTables
-		exportCoreSecurityListHints.processDiscoveredResourcesFn = processDefaultSecurityLists
-		exportCoreVcnHints.processDiscoveredResourcesFn = processCoreVcns
-		exportCoreVnicAttachmentHints.requireResourceRefresh = true
-		exportCoreVnicAttachmentHints.processDiscoveredResourcesFn = filterSecondaryVnicAttachments
-		exportCoreVolumeGroupHints.processDiscoveredResourcesFn = processVolumeGroups
-
-		exportDatabaseAutonomousContainerDatabaseHints.requireResourceRefresh = true
-		exportDatabaseAutonomousDatabaseHints.requireResourceRefresh = true
-		exportDatabaseAutonomousDatabaseHints.processDiscoveredResourcesFn = processAutonomousDatabaseSource
-
-		exportDatabaseAutonomousExadataInfrastructureHints.requireResourceRefresh = true
-
-		exportDatabaseDbSystemHints.requireResourceRefresh = true
-		exportDatabaseDbSystemHints.processDiscoveredResourcesFn = processDbSystems
-
-		exportDatabaseDbHomeHints.processDiscoveredResourcesFn = filterPrimaryDbHomes
-		exportDatabaseDbHomeHints.requireResourceRefresh = true
-
-		exportDatabaseDatabaseHints.requireResourceRefresh = true
-		exportDatabaseDatabaseHints.processDiscoveredResourcesFn = filterPrimaryDatabases
-
-		exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]interface{}{
-			"source": "NONE",
-		}
-		exportDatabaseDatabaseHints.processDiscoveredResourcesFn = processDatabases
-
-		exportDatabaseExadataInfrastructureHints.processDiscoveredResourcesFn = processDatabaseExadataInfrastructures
-
-		exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]interface{}{
-			"artifact_content_length": "0",
-		}
-
-		exportLoggingLogHints.getIdFn = getLogId
-
-		exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
-		exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
-		exportObjectStorageNamespaceHints.alwaysExportable = true
-		exportObjectStorageObjectHints.requireResourceRefresh = true
-		exportObjectStoragePreauthenticatedRequestHints.processDiscoveredResourcesFn = processObjectStoragePreauthenticatedRequest
-		exportObjectStorageReplicationPolicyHints.processDiscoveredResourcesFn = processObjectStorageReplicationPolicy
-
-		exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
-
-		exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
-
-		exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
-
-		exportFileStorageMountTargetHints.requireResourceRefresh = true
-
-		exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
-		exportKmsKeyVersionHints.processDiscoveredResourcesFn = processKmsKeyVersion
-
-		exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
-		exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
-
-		exportMysqlMysqlBackupHints.requireResourceRefresh = true
-		exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
-		exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem
-
-		// Custom overrides for generating composite Network Load Balancer IDs within the resource discovery framework
-		exportNetworkLoadBalancerBackendHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackends
-		exportNetworkLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackendSets
-		exportNetworkLoadBalancerListenerHints.processDiscoveredResourcesFn = processNetworkLoadBalancerListeners
-
-		exportCoreDrgRouteTableRouteRuleHints.datasourceClass = "oci_core_drg_route_table_route_rules"
-		exportCoreDrgRouteTableRouteRuleHints.datasourceItemsAttr = "drg_route_rules"
-		exportCoreDrgRouteTableRouteRuleHints.processDiscoveredResourcesFn = processDrgRouteTableRouteRules
-
-		exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.findResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
-		exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.processDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
-
-
-	*/
-}
-
 func (ctx *resourceDiscoveryContext) addErrorToList(error *ResourceDiscoveryError) {
 	ctx.ctxLock.Lock()
 	defer ctx.ctxLock.Unlock()
@@ -836,6 +720,121 @@ func (r *resourceDiscoveryWithTargetIds) discover() error {
 type TerraformResourceGraph map[string][]TerraformResourceAssociation
 
 type ProcessOCIResourcesFunc func(*resourceDiscoveryContext, []*OCIResource) ([]*OCIResource, error)
+
+func init() {
+	// TODO: The following changes to resource hints are deviations from what can currently be handled by the core resource discovery/generation logic
+	// We should strive to eliminate these deviations by either improving the core logic or code generator
+
+	//exportObjectStorageNamespaceHints.isDataSource = true
+	exportIdentityAvailabilityDomainHints.isDataSource = true
+
+	// Custom overrides for generating composite Load Balancer IDs within the resource discovery framework
+	//exportLoadBalancerBackendHints.processDiscoveredResourcesFn = processLoadBalancerBackends
+	//exportLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processLoadBalancerBackendSets
+	//exportLoadBalancerCertificateHints.processDiscoveredResourcesFn = processLoadBalancerCertificates
+	//exportLoadBalancerHostnameHints.processDiscoveredResourcesFn = processLoadBalancerHostnames
+	//exportLoadBalancerListenerHints.findResourcesOverrideFn = findLoadBalancerListeners
+	//exportLoadBalancerListenerHints.processDiscoveredResourcesFn = processLoadBalancerListeners
+	//exportLoadBalancerPathRouteSetHints.processDiscoveredResourcesFn = processLoadBalancerPathRouteSets
+	//exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
+	//exportLoadBalancerLoadBalancerRoutingPolicyHints.processDiscoveredResourcesFn = processLoadBalancerRoutingPolicies
+	//
+	//exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
+	//exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
+	//exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
+	//exportCoreImageHints.processDiscoveredResourcesFn = filterCustomImages
+	//
+	//exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
+	//exportCoreInstanceHints.processDiscoveredResourcesFn = processInstances
+	//exportCorePublicIpHints.processDiscoveredResourcesFn = processCorePublicIp
+	//exportCorePrivateIpHints.processDiscoveredResourcesFn = processPrivateIps
+	//exportCoreInstanceHints.requireResourceRefresh = true
+	//exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceClass = "oci_core_network_security_group_security_rules"
+	//exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceItemsAttr = "security_rules"
+	//exportCoreNetworkSecurityGroupSecurityRuleHints.processDiscoveredResourcesFn = processNetworkSecurityGroupRules
+	//exportCoreRouteTableHints.processDiscoveredResourcesFn = processDefaultRouteTables
+	//exportCoreSecurityListHints.processDiscoveredResourcesFn = processDefaultSecurityLists
+	//exportCoreVcnHints.processDiscoveredResourcesFn = processCoreVcns
+	//exportCoreVnicAttachmentHints.requireResourceRefresh = true
+	//exportCoreVnicAttachmentHints.processDiscoveredResourcesFn = filterSecondaryVnicAttachments
+	//exportCoreVolumeGroupHints.processDiscoveredResourcesFn = processVolumeGroups
+	//
+	//exportDatabaseAutonomousContainerDatabaseHints.requireResourceRefresh = true
+	//exportDatabaseAutonomousDatabaseHints.requireResourceRefresh = true
+	//exportDatabaseAutonomousDatabaseHints.processDiscoveredResourcesFn = processAutonomousDatabaseSource
+	//
+	//exportDatabaseAutonomousExadataInfrastructureHints.requireResourceRefresh = true
+	//
+	//exportDatabaseDbSystemHints.requireResourceRefresh = true
+	//exportDatabaseDbSystemHints.processDiscoveredResourcesFn = processDbSystems
+	//
+	//exportDatabaseDbHomeHints.processDiscoveredResourcesFn = filterPrimaryDbHomes
+	//exportDatabaseDbHomeHints.requireResourceRefresh = true
+	//
+	//exportDatabaseDatabaseHints.requireResourceRefresh = true
+	//exportDatabaseDatabaseHints.processDiscoveredResourcesFn = filterPrimaryDatabases
+	//
+	//exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]interface{}{
+	//	"source": "NONE",
+	//}
+	//exportDatabaseDatabaseHints.processDiscoveredResourcesFn = processDatabases
+	//
+	//exportDatabaseExadataInfrastructureHints.processDiscoveredResourcesFn = processDatabaseExadataInfrastructures
+	//
+	//exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]interface{}{
+	//	"artifact_content_length": "0",
+	//}
+	exportIdentityAvailabilityDomainHints.resourceAbbreviation = "ad"
+	exportIdentityAvailabilityDomainHints.alwaysExportable = true
+	exportIdentityAvailabilityDomainHints.processDiscoveredResourcesFn = processAvailabilityDomains
+	exportIdentityAvailabilityDomainHints.getHCLStringOverrideFn = getAvailabilityDomainHCLDatasource
+	exportIdentityAuthenticationPolicyHints.processDiscoveredResourcesFn = processIdentityAuthenticationPolicies
+	exportIdentityTagHints.findResourcesOverrideFn = findIdentityTags
+	exportIdentityTagHints.processDiscoveredResourcesFn = processTagDefinitions
+
+	//exportLoggingLogHints.getIdFn = getLogId
+	//
+	//exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
+	//exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
+	//exportObjectStorageNamespaceHints.alwaysExportable = true
+	//exportObjectStorageObjectHints.requireResourceRefresh = true
+	//exportObjectStoragePreauthenticatedRequestHints.processDiscoveredResourcesFn = processObjectStoragePreauthenticatedRequest
+	//exportObjectStorageReplicationPolicyHints.processDiscoveredResourcesFn = processObjectStorageReplicationPolicy
+	//
+	//exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
+	//
+	//exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
+	//
+	//exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
+	//
+	//exportFileStorageMountTargetHints.requireResourceRefresh = true
+	//
+	//exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
+	//exportKmsKeyVersionHints.processDiscoveredResourcesFn = processKmsKeyVersion
+	//
+	//exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
+	//exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
+	//
+	//exportMysqlMysqlBackupHints.requireResourceRefresh = true
+	//exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
+	//exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem
+	//
+	//// Custom overrides for generating composite Network Load Balancer IDs within the resource discovery framework
+	//exportNetworkLoadBalancerBackendHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackends
+	//exportNetworkLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackendSets
+	//exportNetworkLoadBalancerListenerHints.findResourcesOverrideFn = findNetworkLoadBalancerListeners
+	//exportNetworkLoadBalancerListenerHints.processDiscoveredResourcesFn = processNetworkLoadBalancerListeners
+	//
+	//exportCoreDrgRouteTableRouteRuleHints.datasourceClass = "oci_core_drg_route_table_route_rules"
+	//exportCoreDrgRouteTableRouteRuleHints.datasourceItemsAttr = "drg_route_rules"
+	//exportCoreDrgRouteTableRouteRuleHints.processDiscoveredResourcesFn = processDrgRouteTableRouteRules
+	//
+	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.findResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
+	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.processDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
+	//
+	//exportCertificatesManagementCertificateAuthorityHints.processDiscoveredResourcesFn = processCertificateAuthorities
+	//exportCertificatesManagementCertificateHints.processDiscoveredResourcesFn = processCertificates
+}
 
 /*
 mergeState merges 2 json state files
