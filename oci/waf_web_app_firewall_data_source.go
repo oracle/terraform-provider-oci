@@ -8,7 +8,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_waf "github.com/oracle/oci-go-sdk/v53/waf"
+	oci_waf "github.com/oracle/oci-go-sdk/v54/waf"
 )
 
 func init() {

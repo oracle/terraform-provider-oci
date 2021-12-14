@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"strings"
 
-	oci_common "github.com/oracle/oci-go-sdk/v53/common"
-	oci_functions "github.com/oracle/oci-go-sdk/v53/functions"
-	oci_kms "github.com/oracle/oci-go-sdk/v53/keymanagement"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v53/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
+	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v54/workrequests"
 )
 
 var oracleClientRegistrations *OracleClientRegistrations // This is a global registration for all oracle clients. This is invariant information about all clients regardless of region
