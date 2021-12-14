@@ -11,126 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
-func findIdentityTags(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
-	// List on Tags does not return validator, and resource Read requires tagNamespaceId
-	// which is also not returned in Summary response. Tags also do not have composite id in state.
-	// Getting tags using ListTagsRequest and the calling tagResource.Read
-	tagNamespaceId := parent.id
-	request := oci_identity.ListTagsRequest{}
-
-	request.TagNamespaceId = &tagNamespaceId
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
-	results := []*OCIResource{}
-
-	response, err := ctx.clients.IdentityClient().ListTags(context.Background(), request)
-	if err != nil {
-		return results, err
-	}
-
-	request.Page = response.OpcNextPage
-
-	for request.Page != nil {
-		listResponse, err := ctx.clients.IdentityClient().ListTags(context.Background(), request)
-		if err != nil {
-			return results, err
-		}
-
-		response.Items = append(response.Items, listResponse.Items...)
-		request.Page = listResponse.OpcNextPage
-	}
-
-	for _, tag := range response.Items {
-		tagResource := resourcesMap[tfMeta.resourceClass]
-
-		d := tagResource.TestResourceData()
-		d.SetId(tf_identity.GetIdentityTagCompositeId(*tag.Name, parent.id))
-
-		if err := tagResource.Read(d, ctx.clients); err != nil {
-			rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
-			ctx.addErrorToList(rdError)
-			continue
-		}
-
-		resource := &OCIResource{
-			compartmentId:    parent.compartmentId,
-			sourceAttributes: convertResourceDataToMap(tagResource.Schema, d),
-			rawResource:      tag,
-			TerraformResource: TerraformResource{
-				id:             d.Id(),
-				terraformClass: tfMeta.resourceClass,
-			},
-			getHclStringFn: getHclStringFromGenericMap,
-			parent:         parent,
-		}
-
-		if resource.terraformName, err = generateTerraformNameFromResource(resource.sourceAttributes, tagResource.Schema); err != nil {
-			resource.terraformName = fmt.Sprintf("%s_%s", parent.parent.terraformName, *tag.Name)
-		}
-
-		results = append(results, resource)
-	}
-
-	return results, nil
-
-}
-
-func processIdentityAuthenticationPolicies(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	// Add composite id as the resource's import ID
-	for _, resource := range resources {
-		resource.importId = tf_identity.GetAuthenticationPolicyCompositeId(resource.compartmentId)
-		resource.id = resource.importId
-	}
-	return resources, nil
-}
-
-func processAvailabilityDomains(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	for idx, ad := range resources {
-		ad.sourceAttributes["index"] = idx + 1
-
-		adName, ok := ad.sourceAttributes["name"].(string)
-		if !ok || adName == "" {
-			return resources, fmt.Errorf("[ERROR] availability domain at index '%v' has no name\n", idx)
-		}
-		refMapLock.Lock()
-		referenceMap[adName] = tfHclVersion.getDataSourceHclString(ad.getTerraformReference(), "name")
-		refMapLock.Unlock()
-	}
-
-	return resources, nil
-}
-
-func getAvailabilityDomainHCLDatasource(builder *strings.Builder, ociRes *OCIResource, varMap map[string]string) error {
-	builder.WriteString(fmt.Sprintf("data %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
-
-	builder.WriteString(fmt.Sprintf("compartment_id = %v\n", varMap[ociRes.compartmentId]))
-
-	adIndex, ok := ociRes.sourceAttributes["index"]
-	if !ok {
-		return fmt.Errorf("[ERROR] no index found for availability domain '%s'", ociRes.getTerraformReference())
-	}
-	builder.WriteString(fmt.Sprintf("ad_number = \"%v\"\n", adIndex.(int)))
-	builder.WriteString("}\n")
-
-	return nil
-}
-
-func processTagDefinitions(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	for _, resource := range resources {
-		if resource.parent == nil {
-			resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.sourceAttributes["tag_namespace_id"], resource.sourceAttributes["name"].(string))
-			continue
-		}
-
-		resource.sourceAttributes["tag_namespace_id"] = resource.parent.id
-		resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.parent.id, resource.sourceAttributes["name"].(string))
-		resource.id = resource.importId
-	}
-	return resources, nil
-}
-
 /*
-
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
 
 func processDnsRrset(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
@@ -437,6 +318,25 @@ func filterSourcedBootVolumes(ctx *resourceDiscoveryContext, resources []*OCIRes
 	return results, nil
 }
 
+*/
+func processAvailabilityDomains(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for idx, ad := range resources {
+		ad.sourceAttributes["index"] = idx + 1
+
+		adName, ok := ad.sourceAttributes["name"].(string)
+		if !ok || adName == "" {
+			return resources, fmt.Errorf("[ERROR] availability domain at index '%v' has no name\n", idx)
+		}
+		refMapLock.Lock()
+		referenceMap[adName] = tfHclVersion.getDataSourceHclString(ad.getTerraformReference(), "name")
+		refMapLock.Unlock()
+	}
+
+	return resources, nil
+}
+
+/*
+
 func processObjectStorageNamespace(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, ns := range resources {
 		namespaceName, ok := ns.sourceAttributes["namespace"].(string)
@@ -451,6 +351,23 @@ func processObjectStorageNamespace(ctx *resourceDiscoveryContext, resources []*O
 	return resources, nil
 }
 
+*/
+func getAvailabilityDomainHCLDatasource(builder *strings.Builder, ociRes *OCIResource, varMap map[string]string) error {
+	builder.WriteString(fmt.Sprintf("data %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
+
+	builder.WriteString(fmt.Sprintf("compartment_id = %v\n", varMap[ociRes.compartmentId]))
+
+	adIndex, ok := ociRes.sourceAttributes["index"]
+	if !ok {
+		return fmt.Errorf("[ERROR] no index found for availability domain '%s'", ociRes.getTerraformReference())
+	}
+	builder.WriteString(fmt.Sprintf("ad_number = \"%v\"\n", adIndex.(int)))
+	builder.WriteString("}\n")
+
+	return nil
+}
+
+/*
 func getObjectStorageNamespaceHCLDatasource(builder *strings.Builder, ociRes *OCIResource, varMap map[string]string) error {
 	builder.WriteString(fmt.Sprintf("data %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
 	builder.WriteString(fmt.Sprintf("compartment_id = %v\n", varMap[ociRes.compartmentId]))
@@ -713,6 +630,68 @@ func processNetworkLoadBalancerBackends(ctx *resourceDiscoveryContext, resources
 	return resources, nil
 }
 
+func findNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
+	networkLoadBalancerId := parent.sourceAttributes["network_load_balancer_id"].(string)
+	backendSetName := parent.sourceAttributes["name"].(string)
+
+	request := oci_network_load_balancer.GetNetworkLoadBalancerRequest{}
+	request.NetworkLoadBalancerId = &networkLoadBalancerId
+	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "network_load_balancer")
+
+	response, err := ctx.clients.networkLoadBalancerClient().GetNetworkLoadBalancer(context.Background(), request)
+	if err != nil {
+		return nil, err
+	}
+
+	listenerResource := resourcesMap[tfMeta.resourceClass]
+
+	results := []*OCIResource{}
+	for listenerName, listener := range response.NetworkLoadBalancer.Listeners {
+		if *listener.DefaultBackendSetName != backendSetName {
+			continue
+		}
+
+		d := listenerResource.TestResourceData()
+		d.SetId(getNlbListenerCompositeId(listenerName, networkLoadBalancerId))
+
+		// This calls into the listener resource's Read fn which has the unfortunate implementation of
+		// calling GetNetworkLoadBalancer and looping through the listeners to find the expected one. So this entire method
+		// may require O(n^^2) time. However, the benefits of having Read populate the ResourceData struct is better than duplicating it here.
+		if err := listenerResource.Read(d, ctx.clients); err != nil {
+			// add error to the errorList and continue discovering rest of the resources
+			rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
+			ctx.addErrorToList(rdError)
+			continue
+		}
+
+		resource := &OCIResource{
+			compartmentId:    parent.compartmentId,
+			sourceAttributes: convertResourceDataToMap(listenerResource.Schema, d),
+			rawResource:      listener,
+			TerraformResource: TerraformResource{
+				id:             d.Id(),
+				terraformClass: tfMeta.resourceClass,
+				terraformName:  fmt.Sprintf("%s_%s", parent.parent.terraformName, listenerName),
+			},
+			getHclStringFn: getHclStringFromGenericMap,
+			parent:         parent,
+		}
+
+		if !parent.omitFromExport {
+			resource.sourceAttributes["default_backend_set_name"] = InterpolationString{
+				resourceReference: parent.getTerraformReference(),
+				interpolation:     tfHclVersion.getDoubleExpHclString(parent.getTerraformReference(), "name"),
+				value:             parent.sourceAttributes["name"].(string),
+			}
+		} else {
+			resource.sourceAttributes["default_backend_set_name"] = parent.sourceAttributes["name"].(string)
+		}
+		results = append(results, resource)
+	}
+
+	return results, nil
+}
+
 func processNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, listener := range resources {
 		if listener.parent == nil {
@@ -738,6 +717,72 @@ func processNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, resource
 	return resources, nil
 }
 
+*/
+func findIdentityTags(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
+	// List on Tags does not return validator, and resource Read requires tagNamespaceId
+	// which is also not returned in Summary response. Tags also do not have composite id in state.
+	// Getting tags using ListTagsRequest and the calling tagResource.Read
+	tagNamespaceId := parent.id
+	request := oci_identity.ListTagsRequest{}
+
+	request.TagNamespaceId = &tagNamespaceId
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
+	results := []*OCIResource{}
+
+	response, err := ctx.clients.IdentityClient().ListTags(context.Background(), request)
+	if err != nil {
+		return results, err
+	}
+
+	request.Page = response.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := ctx.clients.IdentityClient().ListTags(context.Background(), request)
+		if err != nil {
+			return results, err
+		}
+
+		response.Items = append(response.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	for _, tag := range response.Items {
+		tagResource := resourcesMap[tfMeta.resourceClass]
+
+		d := tagResource.TestResourceData()
+		d.SetId(tf_identity.GetIdentityTagCompositeId(*tag.Name, parent.id))
+
+		if err := tagResource.Read(d, ctx.clients); err != nil {
+			rdError := &ResourceDiscoveryError{tfMeta.resourceClass, parent.terraformName, err, resourceGraph}
+			ctx.addErrorToList(rdError)
+			continue
+		}
+
+		resource := &OCIResource{
+			compartmentId:    parent.compartmentId,
+			sourceAttributes: convertResourceDataToMap(tagResource.Schema, d),
+			rawResource:      tag,
+			TerraformResource: TerraformResource{
+				id:             d.Id(),
+				terraformClass: tfMeta.resourceClass,
+			},
+			getHclStringFn: getHclStringFromGenericMap,
+			parent:         parent,
+		}
+
+		if resource.terraformName, err = generateTerraformNameFromResource(resource.sourceAttributes, tagResource.Schema); err != nil {
+			resource.terraformName = fmt.Sprintf("%s_%s", parent.parent.terraformName, *tag.Name)
+		}
+
+		results = append(results, resource)
+	}
+
+	return results, nil
+
+}
+
+/*
 func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
 	loadBalancerId := parent.sourceAttributes["load_balancer_id"].(string)
 	backendSetName := parent.sourceAttributes["name"].(string)
@@ -899,6 +944,22 @@ func processLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OC
 	return resources, nil
 }
 
+*/
+func processTagDefinitions(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		if resource.parent == nil {
+			resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.sourceAttributes["tag_namespace_id"], resource.sourceAttributes["name"].(string))
+			continue
+		}
+
+		resource.sourceAttributes["tag_namespace_id"] = resource.parent.id
+		resource.importId = fmt.Sprintf("tagNamespaces/%s/tags/%s", resource.parent.id, resource.sourceAttributes["name"].(string))
+		resource.id = resource.importId
+	}
+	return resources, nil
+}
+
+/*
 func processNetworkSecurityGroupRules(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.parent == nil {
@@ -977,144 +1038,307 @@ func filterPrimaryDatabases(ctx *resourceDiscoveryContext, resources []*OCIResou
 	return results, nil
 }
 
-func processDefaultSecurityLists(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	// Default security lists need to be handled as default resources
-	for _, resource := range resources {
-		if resource.parent == nil {
-			continue
-		}
-
-		if resource.id == resource.parent.sourceAttributes["default_security_list_id"].(string) {
-			resource.sourceAttributes["manage_default_resource_id"] = resource.id
-			resource.TerraformResource.terraformClass = "oci_core_default_security_list"
-
-			// Don't use references to parent resources if they will be omitted from final result
-			if !resource.parent.omitFromExport {
-				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_security_list_id")
-			}
-		}
-	}
-	return resources, nil
-}
-
-func processDefaultRouteTables(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	// Default route tables need to be handled as default resources
-	for _, resource := range resources {
-		if resource.parent == nil {
-			continue
-		}
-
-		if resource.id == resource.parent.sourceAttributes["default_route_table_id"].(string) {
-			resource.sourceAttributes["manage_default_resource_id"] = resource.id
-			resource.TerraformResource.terraformClass = "oci_core_default_route_table"
-
-			// Don't use references to parent resources if they will be omitted from final result
-			if !resource.parent.omitFromExport {
-				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_route_table_id")
-			}
-		}
-	}
-	return resources, nil
-}
-
-func processDefaultDhcpOptions(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	// Default dhcp options need to be handled as default resources
-	for _, resource := range resources {
-		if resource.parent == nil {
-			continue
-		}
-
-		if resource.id == resource.parent.sourceAttributes["default_dhcp_options_id"].(string) {
-			resource.sourceAttributes["manage_default_resource_id"] = resource.id
-			resource.TerraformResource.terraformClass = "oci_core_default_dhcp_options"
-
-			// Don't use references to parent resources if they will be omitted from final result
-			if !resource.parent.omitFromExport {
-				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_dhcp_options_id")
-			}
-		}
-	}
-	return resources, nil
-}
-
-func processDbSystems(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	// Fix db version to remove the PSU date from versions with 18+ major version
-	for _, resource := range resources {
-		if dbHomes, ok := resource.sourceAttributes["db_home"].([]interface{}); ok {
-			if dbHome, ok := dbHomes[0].(map[string]interface{}); ok {
-				if dbVersion, ok := dbHome["db_version"].(string); ok {
-					dbHome["db_version"] = getValidDbVersion(dbVersion)
-				}
-			}
-		}
-	}
-	return resources, nil
-}
-
-func processDatabases(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	// Fix database db version to remove the PSU date from versions with 18+ major version
-	for _, resource := range resources {
-		if databases, ok := resource.sourceAttributes["database"].([]interface{}); ok {
-			if database, ok := databases[0].(map[string]interface{}); ok {
-				if dbVersion, ok := database["db_version"].(string); ok {
-					database["db_version"] = getValidDbVersion(dbVersion)
-				}
-			}
-		}
-	}
-	return resources, nil
-}
-
-func processDatabaseExadataInfrastructures(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	// Remove weeks_of_month if there is no item in response
-	for _, resource := range resources {
-		if maintenanceWindow, ok := resource.sourceAttributes["maintenance_window"].([]interface{}); ok {
-			if mWindow, ok := maintenanceWindow[0].(map[string]interface{}); ok {
-				if weeksOfMonth, ok := mWindow["weeks_of_month"].([]interface{}); ok && len(weeksOfMonth) == 0 {
-					delete(mWindow, "weeks_of_month")
-				}
-			}
-		}
-	}
-	return resources, nil
-}
-
-func getValidDbVersion(dbVersion string) string {
-
-		//For 11.2.0.4, 12.1.0.2 and 12.2.0.1, the PSU is added as the 5th digit. So when the customer specifies either of these,
-		//service will be returning 11.2.0.4.xxxxxx where the last part is the PSU version.
-		//For 18.0.0.0 and 19.0.0.0 onwards, the second digit specifies the PSU version and the fifth digit specifies the date for that PSU.
-		//(The PSU-date pair change hand in hand)
-		//* For pre 18 versions, service returns 5th digit in response and 5 digit version is valid for Create
-		//* For 18+ versions, service will return PSU date but only 4 digit version is valid for Create.
-		//* Resource discovery will keep only 4 digits in config and dbVersionDiffSuppress will handle the diff
-
-	parts := strings.Split(dbVersion, ".")
-	if strings.Compare(parts[0], "18") == 1 {
-		return strings.Join(parts[0:4], ".")
-	}
-	return dbVersion
-}
-
-func getLogId(resource *OCIResource) (string, error) {
-	logId, ok := resource.sourceAttributes["id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find log_id for Log")
-	}
-	logGroupId := resource.parent.id
-	return getLogCompositeId(logGroupId, logId), nil
-}
-
-func processCoreVcns(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-	// remove deprecated cidr_block field from discovered vcns,
-	// either cidr_block or cidr_blocks should be specified in config
-	// service returns the cidr_block value in cidr_blocks field
-	for _, resource := range resources {
-		if _, ok := resource.sourceAttributes["cidr_block"].(string); ok {
-			delete(resource.sourceAttributes, "cidr_block")
-		}
-	}
-	return resources, nil
-}
-
 */
+func processIdentityAuthenticationPolicies(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	// Add composite id as the resource's import ID
+	for _, resource := range resources {
+		resource.importId = tf_identity.GetAuthenticationPolicyCompositeId(resource.compartmentId)
+		resource.id = resource.importId
+	}
+	return resources, nil
+}
+
+//
+//func processDefaultSecurityLists(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+//	// Default security lists need to be handled as default resources
+//	for _, resource := range resources {
+//		if resource.parent == nil {
+//			continue
+//		}
+//
+//		if resource.id == resource.parent.sourceAttributes["default_security_list_id"].(string) {
+//			resource.sourceAttributes["manage_default_resource_id"] = resource.id
+//			resource.TerraformResource.terraformClass = "oci_core_default_security_list"
+//
+//			// Don't use references to parent resources if they will be omitted from final result
+//			if !resource.parent.omitFromExport {
+//				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_security_list_id")
+//			}
+//		}
+//	}
+//	return resources, nil
+//}
+//
+//func processDefaultRouteTables(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+//	// Default route tables need to be handled as default resources
+//	for _, resource := range resources {
+//		if resource.parent == nil {
+//			continue
+//		}
+//
+//		if resource.id == resource.parent.sourceAttributes["default_route_table_id"].(string) {
+//			resource.sourceAttributes["manage_default_resource_id"] = resource.id
+//			resource.TerraformResource.terraformClass = "oci_core_default_route_table"
+//
+//			// Don't use references to parent resources if they will be omitted from final result
+//			if !resource.parent.omitFromExport {
+//				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_route_table_id")
+//			}
+//		}
+//	}
+//	return resources, nil
+//}
+//
+//func processDefaultDhcpOptions(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+//	// Default dhcp options need to be handled as default resources
+//	for _, resource := range resources {
+//		if resource.parent == nil {
+//			continue
+//		}
+//
+//		if resource.id == resource.parent.sourceAttributes["default_dhcp_options_id"].(string) {
+//			resource.sourceAttributes["manage_default_resource_id"] = resource.id
+//			resource.TerraformResource.terraformClass = "oci_core_default_dhcp_options"
+//
+//			// Don't use references to parent resources if they will be omitted from final result
+//			if !resource.parent.omitFromExport {
+//				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_dhcp_options_id")
+//			}
+//		}
+//	}
+//	return resources, nil
+//}
+//
+//func processDbSystems(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+//	// Fix db version to remove the PSU date from versions with 18+ major version
+//	for _, resource := range resources {
+//		if dbHomes, ok := resource.sourceAttributes["db_home"].([]interface{}); ok {
+//			if dbHome, ok := dbHomes[0].(map[string]interface{}); ok {
+//				if dbVersion, ok := dbHome["db_version"].(string); ok {
+//					dbHome["db_version"] = getValidDbVersion(dbVersion)
+//				}
+//			}
+//		}
+//	}
+//	return resources, nil
+//}
+//
+//func processDatabases(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+//	// Fix database db version to remove the PSU date from versions with 18+ major version
+//	for _, resource := range resources {
+//		if databases, ok := resource.sourceAttributes["database"].([]interface{}); ok {
+//			if database, ok := databases[0].(map[string]interface{}); ok {
+//				if dbVersion, ok := database["db_version"].(string); ok {
+//					database["db_version"] = getValidDbVersion(dbVersion)
+//				}
+//			}
+//		}
+//	}
+//	return resources, nil
+//}
+//
+//func processDatabaseExadataInfrastructures(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+//	// Remove weeks_of_month if there is no item in response
+//	for _, resource := range resources {
+//		if maintenanceWindow, ok := resource.sourceAttributes["maintenance_window"].([]interface{}); ok {
+//			if mWindow, ok := maintenanceWindow[0].(map[string]interface{}); ok {
+//				if weeksOfMonth, ok := mWindow["weeks_of_month"].([]interface{}); ok && len(weeksOfMonth) == 0 {
+//					delete(mWindow, "weeks_of_month")
+//				}
+//			}
+//		}
+//	}
+//	return resources, nil
+//}
+//
+//func getValidDbVersion(dbVersion string) string {
+//	/*
+//		For 11.2.0.4, 12.1.0.2 and 12.2.0.1, the PSU is added as the 5th digit. So when the customer specifies either of these,
+//		service will be returning 11.2.0.4.xxxxxx where the last part is the PSU version.
+//		For 18.0.0.0 and 19.0.0.0 onwards, the second digit specifies the PSU version and the fifth digit specifies the date for that PSU.
+//		(The PSU-date pair change hand in hand)
+//		* For pre 18 versions, service returns 5th digit in response and 5 digit version is valid for Create
+//		* For 18+ versions, service will return PSU date but only 4 digit version is valid for Create.
+//		* Resource discovery will keep only 4 digits in config and dbVersionDiffSuppress will handle the diff
+//	*/
+//	parts := strings.Split(dbVersion, ".")
+//	if strings.Compare(parts[0], "18") == 1 {
+//		return strings.Join(parts[0:4], ".")
+//	}
+//	return dbVersion
+//}
+//
+//func getLogId(resource *OCIResource) (string, error) {
+//	logId, ok := resource.sourceAttributes["id"].(string)
+//	if !ok {
+//		return "", fmt.Errorf("[ERROR] unable to find log_id for Log")
+//	}
+//	logGroupId := resource.parent.id
+//	return getLogCompositeId(logGroupId, logId), nil
+//}
+//
+//func processCoreVcns(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+//	// remove deprecated cidr_block field from discovered vcns,
+//	// either cidr_block or cidr_blocks should be specified in config
+//	// service returns the cidr_block value in cidr_blocks field
+//	for _, resource := range resources {
+//		if _, ok := resource.sourceAttributes["cidr_block"].(string); ok {
+//			delete(resource.sourceAttributes, "cidr_block")
+//		}
+//	}
+//	return resources, nil
+//}
+//
+//func processCertificateAuthorities(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+//	for _, resource := range resources {
+//		certificateAuthorityConfigMap := map[string]interface{}{}
+//		if configType, ok := resource.sourceAttributes["config_type"].(string); ok {
+//			certificateAuthorityConfigMap["config_type"] = configType
+//		}
+//
+//		if subjects, ok := resource.sourceAttributes["subject"].([]interface{}); ok {
+//			if subject, ok := subjects[0].(map[string]interface{}); ok {
+//				certificateAuthorityConfigMap["subject"] = []interface{}{subject}
+//			}
+//		}
+//
+//		if issuerCertificateAuthorityId, ok := resource.sourceAttributes["issuer_certificate_authority_id"].(string); ok {
+//			certificateAuthorityConfigMap["issuer_certificate_authority_id"] = issuerCertificateAuthorityId
+//		}
+//
+//		if signingAlgorithm, ok := resource.sourceAttributes["signing_algorithm"].(string); ok {
+//			certificateAuthorityConfigMap["signing_algorithm"] = signingAlgorithm
+//		}
+//
+//		if currentVersions, ok := resource.sourceAttributes["current_version"].([]interface{}); ok {
+//			if currentVersion, ok := currentVersions[0].(map[string]interface{}); ok {
+//				if validity, ok := currentVersion["validity"].([]interface{}); ok {
+//					validityMap := map[string]interface{}{}
+//					if timeOfValidityNotAfter, ok := validity[0].(map[string]interface{})["time_of_validity_not_after"]; ok {
+//						// Check if time is already in RFC3339Nano format
+//						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotAfter.(string))
+//						if err != nil {
+//							// parse time using format in time.String()
+//							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotAfter.(string))
+//							if err != nil {
+//								return resources, err
+//							}
+//							// Format to RFC3339Nano
+//							validityMap["time_of_validity_not_after"] = tmp.Format(time.RFC3339Nano)
+//						}
+//					}
+//					if timeOfValidityNotBefore, ok := validity[0].(map[string]interface{})["time_of_validity_not_before"]; ok {
+//						// Check if time is already in RFC3339Nano format
+//						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotBefore.(string))
+//						if err != nil {
+//							// parse time using format in time.String()
+//							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotBefore.(string))
+//							if err != nil {
+//								return resources, err
+//							}
+//							// Format to RFC3339Nano
+//							validityMap["time_of_validity_not_before"] = tmp.Format(time.RFC3339Nano)
+//						}
+//					}
+//
+//					certificateAuthorityConfigMap["validity"] = []interface{}{validityMap}
+//				}
+//
+//				if versionName, ok := currentVersion["version_name"].(string); ok {
+//					certificateAuthorityConfigMap["version_name"] = versionName
+//				}
+//			}
+//		}
+//
+//		resource.sourceAttributes["certificate_authority_config"] = []interface{}{certificateAuthorityConfigMap}
+//	}
+//
+//	return resources, nil
+//}
+//
+//func processCertificates(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+//	for _, resource := range resources {
+//		certificateConfigMap := map[string]interface{}{}
+//		if configType, ok := resource.sourceAttributes["config_type"].(string); ok {
+//			certificateConfigMap["config_type"] = configType
+//		}
+//
+//		if profileType, ok := resource.sourceAttributes["certificate_profile_type"].(string); ok {
+//			certificateConfigMap["certificate_profile_type"] = profileType
+//		}
+//
+//		if csrPem, ok := resource.sourceAttributes["csr_pem"].(string); ok {
+//			certificateConfigMap["csr_pem"] = csrPem
+//		}
+//
+//		if issuerCertificateAuthorityId, ok := resource.sourceAttributes["issuer_certificate_authority_id"].(string); ok {
+//			certificateConfigMap["issuer_certificate_authority_id"] = issuerCertificateAuthorityId
+//		}
+//
+//		if keyAlgorithm, ok := resource.sourceAttributes["key_algorithm"].(string); ok {
+//			certificateConfigMap["key_algorithm"] = keyAlgorithm
+//		}
+//
+//		if signatureAlgorithm, ok := resource.sourceAttributes["signature_algorithm"].(string); ok {
+//			certificateConfigMap["signature_algorithm"] = signatureAlgorithm
+//		}
+//
+//		if subjects, ok := resource.sourceAttributes["subject"].([]interface{}); ok {
+//			if subject, ok := subjects[0].(map[string]interface{}); ok {
+//				certificateConfigMap["subject"] = []interface{}{subject}
+//			}
+//		}
+//
+//		if currentVersions, ok := resource.sourceAttributes["current_version"].([]interface{}); ok {
+//			if currentVersion, ok := currentVersions[0].(map[string]interface{}); ok {
+//				if validity, ok := currentVersion["validity"].([]interface{}); ok {
+//					validityMap := map[string]interface{}{}
+//					if timeOfValidityNotAfter, ok := validity[0].(map[string]interface{})["time_of_validity_not_after"]; ok {
+//						// Check if time is already in RFC3339Nano format
+//						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotAfter.(string))
+//						if err != nil {
+//							// parse time using format in time.String()
+//							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotAfter.(string))
+//							if err != nil {
+//								return resources, err
+//							}
+//							// Format to RFC3339Nano
+//							validityMap["time_of_validity_not_after"] = tmp.Format(time.RFC3339Nano)
+//						}
+//					}
+//					if timeOfValidityNotBefore, ok := validity[0].(map[string]interface{})["time_of_validity_not_before"]; ok {
+//						// Check if time is already in RFC3339Nano format
+//						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotBefore.(string))
+//						if err != nil {
+//							// parse time using format in time.String()
+//							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotBefore.(string))
+//							if err != nil {
+//								return resources, err
+//							}
+//							// Format to RFC3339Nano
+//							validityMap["time_of_validity_not_before"] = tmp.Format(time.RFC3339Nano)
+//						}
+//					}
+//
+//					certificateConfigMap["validity"] = []interface{}{validityMap}
+//				}
+//
+//				if versionName, ok := currentVersion["version_name"].(string); ok {
+//					certificateConfigMap["version_name"] = versionName
+//				}
+//
+//				if subjectAlternativeNames, ok := currentVersion["subject_alternative_names"].([]interface{}); ok {
+//					tmp := []interface{}{}
+//					for _, item := range subjectAlternativeNames {
+//						tmp = append(tmp, item)
+//					}
+//					certificateConfigMap["subject_alternative_names"] = tmp
+//				}
+//			}
+//		}
+//
+//		resource.sourceAttributes["certificate_config"] = []interface{}{certificateConfigMap}
+//	}
+//
+//	return resources, nil
+//}

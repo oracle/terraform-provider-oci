@@ -4,207 +4,68 @@
 package resourcediscovery
 
 import (
+	//oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v53/aianomalydetection"
+	//oci_analytics "github.com/oracle/oci-go-sdk/v53/analytics"
+	//oci_apigateway "github.com/oracle/oci-go-sdk/v53/apigateway"
+	//oci_apm "github.com/oracle/oci-go-sdk/v53/apmcontrolplane"
+	//oci_artifacts "github.com/oracle/oci-go-sdk/v53/artifacts"
+	//oci_bastion "github.com/oracle/oci-go-sdk/v53/bastion"
+	//oci_bds "github.com/oracle/oci-go-sdk/v53/bds"
+	//oci_blockchain "github.com/oracle/oci-go-sdk/v53/blockchain"
+	//oci_budget "github.com/oracle/oci-go-sdk/v53/budget"
+	//oci_certificates_management "github.com/oracle/oci-go-sdk/v53/certificatesmanagement"
+	//oci_cloud_guard "github.com/oracle/oci-go-sdk/v53/cloudguard"
+	//oci_containerengine "github.com/oracle/oci-go-sdk/v53/containerengine"
+	//oci_core "github.com/oracle/oci-go-sdk/v53/core"
+	//oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	//oci_database_migration "github.com/oracle/oci-go-sdk/v53/databasemigration"
+	//oci_database_tools "github.com/oracle/oci-go-sdk/v53/databasetools"
+	//oci_datacatalog "github.com/oracle/oci-go-sdk/v53/datacatalog"
+	//oci_dataflow "github.com/oracle/oci-go-sdk/v53/dataflow"
+	//oci_dataintegration "github.com/oracle/oci-go-sdk/v53/dataintegration"
+	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v53/datalabelingservice"
+	//oci_data_safe "github.com/oracle/oci-go-sdk/v53/datasafe"
+	//oci_datascience "github.com/oracle/oci-go-sdk/v53/datascience"
+	//oci_devops "github.com/oracle/oci-go-sdk/v53/devops"
+	//oci_dns "github.com/oracle/oci-go-sdk/v53/dns"
+	//oci_email "github.com/oracle/oci-go-sdk/v53/email"
+	//oci_events "github.com/oracle/oci-go-sdk/v53/events"
+	//oci_file_storage "github.com/oracle/oci-go-sdk/v53/filestorage"
+	//oci_functions "github.com/oracle/oci-go-sdk/v53/functions"
+	//oci_golden_gate "github.com/oracle/oci-go-sdk/v53/goldengate"
+	//oci_core "github.com/oracle/oci-go-sdk/v53/core"
 	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
+	//oci_load_balancer "github.com/oracle/oci-go-sdk/v53/loadbalancer"
+	//oci_integration "github.com/oracle/oci-go-sdk/v53/integration"
+	//oci_jms "github.com/oracle/oci-go-sdk/v53/jms"
+	//oci_kms "github.com/oracle/oci-go-sdk/v53/keymanagement"
+	//oci_limits "github.com/oracle/oci-go-sdk/v53/limits"
+	//oci_load_balancer "github.com/oracle/oci-go-sdk/v53/loadbalancer"
+	//oci_log_analytics "github.com/oracle/oci-go-sdk/v53/loganalytics"
+	//oci_logging "github.com/oracle/oci-go-sdk/v53/logging"
+	//oci_management_agent "github.com/oracle/oci-go-sdk/v53/managementagent"
+	//oci_marketplace "github.com/oracle/oci-go-sdk/v53/marketplace"
+	//oci_monitoring "github.com/oracle/oci-go-sdk/v53/monitoring"
+	//oci_mysql "github.com/oracle/oci-go-sdk/v53/mysql"
+	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v53/networkloadbalancer"
+	//oci_nosql "github.com/oracle/oci-go-sdk/v53/nosql"
+	//oci_oce "github.com/oracle/oci-go-sdk/v53/oce"
+	//oci_ocvp "github.com/oracle/oci-go-sdk/v53/ocvp"
+	//oci_oda "github.com/oracle/oci-go-sdk/v53/oda"
+	//oci_ons "github.com/oracle/oci-go-sdk/v53/ons"
+	//oci_operator_access_control "github.com/oracle/oci-go-sdk/v53/operatoraccesscontrol"
+	//oci_opsi "github.com/oracle/oci-go-sdk/v53/opsi"
+	//oci_optimizer "github.com/oracle/oci-go-sdk/v53/optimizer"
+	//oci_osmanagement "github.com/oracle/oci-go-sdk/v53/osmanagement"
+	//oci_sch "github.com/oracle/oci-go-sdk/v53/sch"
+	//oci_streaming "github.com/oracle/oci-go-sdk/v53/streaming"
+	//oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v53/vulnerabilityscanning"
+	//oci_waas "github.com/oracle/oci-go-sdk/v53/waas"
+	//oci_waf "github.com/oracle/oci-go-sdk/v53/waf"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
-
-var exportIdentityApiKeyHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_api_key",
-	datasourceClass:      "oci_identity_api_keys",
-	datasourceItemsAttr:  "api_keys",
-	resourceAbbreviation: "api_key",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.ApiKeyLifecycleStateActive),
-	},
-}
-
-var exportIdentityAvailabilityDomainHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_availability_domain",
-	datasourceClass:      "oci_identity_availability_domains",
-	datasourceItemsAttr:  "availability_domains",
-	resourceAbbreviation: "availability_domain",
-}
-
-var exportIdentityAuthenticationPolicyHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_authentication_policy",
-	datasourceClass:      "oci_identity_authentication_policy",
-	resourceAbbreviation: "authentication_policy",
-}
-
-var exportIdentityAuthTokenHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_auth_token",
-	datasourceClass:      "oci_identity_auth_tokens",
-	datasourceItemsAttr:  "tokens",
-	resourceAbbreviation: "auth_token",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.AuthTokenLifecycleStateActive),
-	},
-}
-
-var exportIdentityCompartmentHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_compartment",
-	datasourceClass:      "oci_identity_compartments",
-	datasourceItemsAttr:  "compartments",
-	resourceAbbreviation: "compartment",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.CompartmentLifecycleStateActive),
-	},
-}
-
-var exportIdentityCustomerSecretKeyHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_customer_secret_key",
-	datasourceClass:      "oci_identity_customer_secret_keys",
-	datasourceItemsAttr:  "customer_secret_keys",
-	resourceAbbreviation: "customer_secret_key",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.CustomerSecretKeyLifecycleStateActive),
-	},
-}
-
-var exportIdentityDynamicGroupHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_dynamic_group",
-	datasourceClass:      "oci_identity_dynamic_groups",
-	datasourceItemsAttr:  "dynamic_groups",
-	resourceAbbreviation: "dynamic_group",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.DynamicGroupLifecycleStateActive),
-	},
-}
-
-var exportIdentityGroupHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_group",
-	datasourceClass:      "oci_identity_groups",
-	datasourceItemsAttr:  "groups",
-	resourceAbbreviation: "Group",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.GroupLifecycleStateActive),
-	},
-}
-
-var exportIdentityIdentityProviderHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_identity_provider",
-	datasourceClass:      "oci_identity_identity_providers",
-	datasourceItemsAttr:  "identity_providers",
-	resourceAbbreviation: "identity_provider",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.IdentityProviderLifecycleStateActive),
-	},
-}
-
-var exportIdentityIdpGroupMappingHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_idp_group_mapping",
-	datasourceClass:      "oci_identity_idp_group_mappings",
-	datasourceItemsAttr:  "idp_group_mappings",
-	resourceAbbreviation: "idp_group_mapping",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.IdpGroupMappingLifecycleStateActive),
-	},
-}
-
-var exportIdentityPolicyHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_policy",
-	datasourceClass:      "oci_identity_policies",
-	datasourceItemsAttr:  "policies",
-	resourceAbbreviation: "policy",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.PolicyLifecycleStateActive),
-	},
-}
-
-var exportIdentitySmtpCredentialHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_smtp_credential",
-	datasourceClass:      "oci_identity_smtp_credentials",
-	datasourceItemsAttr:  "smtp_credentials",
-	resourceAbbreviation: "smtp_credential",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.SmtpCredentialLifecycleStateActive),
-	},
-}
-
-var exportIdentitySwiftPasswordHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_swift_password",
-	datasourceClass:      "oci_identity_swift_passwords",
-	datasourceItemsAttr:  "passwords",
-	resourceAbbreviation: "swift_password",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.SwiftPasswordLifecycleStateActive),
-	},
-}
-
-var exportIdentityUiPasswordHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_ui_password",
-	datasourceClass:      "oci_identity_ui_password",
-	resourceAbbreviation: "ui_password",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.UiPasswordLifecycleStateActive),
-	},
-}
-
-var exportIdentityUserGroupMembershipHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_user_group_membership",
-	datasourceClass:      "oci_identity_user_group_memberships",
-	datasourceItemsAttr:  "memberships",
-	resourceAbbreviation: "user_group_membership",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.UserGroupMembershipLifecycleStateActive),
-	},
-}
-
-var exportIdentityUserHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_user",
-	datasourceClass:      "oci_identity_users",
-	datasourceItemsAttr:  "users",
-	resourceAbbreviation: "user",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.UserLifecycleStateActive),
-	},
-}
-
-var exportIdentityTagDefaultHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_tag_default",
-	datasourceClass:      "oci_identity_tag_defaults",
-	datasourceItemsAttr:  "tag_defaults",
-	resourceAbbreviation: "tag_default",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.TagDefaultLifecycleStateActive),
-	},
-}
-
-var exportIdentityTagNamespaceHints = &TerraformResourceHints{
-	resourceClass:        "oci_identity_tag_namespace",
-	datasourceClass:      "oci_identity_tag_namespaces",
-	datasourceItemsAttr:  "tag_namespaces",
-	resourceAbbreviation: "tag_namespace",
-	discoverableLifecycleStates: []string{
-		string(oci_identity.TagNamespaceLifecycleStateActive),
-	},
-}
-
-var exportIdentityTagHints = &TerraformResourceHints{
-	resourceClass:          "oci_identity_tag",
-	datasourceClass:        "oci_identity_tags",
-	datasourceItemsAttr:    "tags",
-	resourceAbbreviation:   "tag",
-	requireResourceRefresh: true,
-	discoverableLifecycleStates: []string{
-		string(oci_identity.TagLifecycleStateActive),
-	},
-}
-
-var exportIdentityNetworkSourceHints = &TerraformResourceHints{
-	resourceClass:          "oci_identity_network_source",
-	datasourceClass:        "oci_identity_network_sources",
-	datasourceItemsAttr:    "network_sources",
-	resourceAbbreviation:   "network_source",
-	requireResourceRefresh: true,
-	discoverableLifecycleStates: []string{
-		string(oci_identity.NetworkSourcesLifecycleStateActive),
-	},
-}
-
 /*
-
 
 var exportAiAnomalyDetectionDataAssetHints = &TerraformResourceHints{
 	resourceClass:          "oci_ai_anomaly_detection_data_asset",
@@ -479,6 +340,42 @@ var exportBudgetAlertRuleHints = &TerraformResourceHints{
 	resourceAbbreviation: "alert_rule",
 	discoverableLifecycleStates: []string{
 		string(oci_budget.AlertRuleLifecycleStateActive),
+	},
+}
+
+var exportCertificatesManagementCaBundleHints = &TerraformResourceHints{
+	resourceClass:          "oci_certificates_management_ca_bundle",
+	datasourceClass:        "oci_certificates_management_ca_bundles",
+	datasourceItemsAttr:    "ca_bundle_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "ca_bundle",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_certificates_management.CaBundleLifecycleStateActive),
+	},
+}
+
+var exportCertificatesManagementCertificateAuthorityHints = &TerraformResourceHints{
+	resourceClass:          "oci_certificates_management_certificate_authority",
+	datasourceClass:        "oci_certificates_management_certificate_authorities",
+	datasourceItemsAttr:    "certificate_authority_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "certificate_authority",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_certificates_management.CertificateAuthorityLifecycleStateActive),
+	},
+}
+
+var exportCertificatesManagementCertificateHints = &TerraformResourceHints{
+	resourceClass:          "oci_certificates_management_certificate",
+	datasourceClass:        "oci_certificates_management_certificates",
+	datasourceItemsAttr:    "certificate_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "certificate",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_certificates_management.CertificateLifecycleStateActive),
 	},
 }
 
@@ -1286,6 +1183,16 @@ var exportDatabaseExternalDatabaseConnectorHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatabaseCloudAutonomousVmClusterHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_cloud_autonomous_vm_cluster",
+	datasourceClass:      "oci_database_cloud_autonomous_vm_clusters",
+	datasourceItemsAttr:  "cloud_autonomous_vm_clusters",
+	resourceAbbreviation: "cloud_autonomous_vm_cluster",
+	discoverableLifecycleStates: []string{
+		string(oci_database.CloudAutonomousVmClusterLifecycleStateAvailable),
+	},
+}
+
 var exportDatabaseMigrationMigrationHints = &TerraformResourceHints{
 	resourceClass:          "oci_database_migration_migration",
 	datasourceClass:        "oci_database_migration_migrations",
@@ -1307,6 +1214,30 @@ var exportDatabaseMigrationConnectionHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 	discoverableLifecycleStates: []string{
 		string(oci_database_migration.LifecycleStatesActive),
+	},
+}
+
+var exportDatabaseToolsDatabaseToolsPrivateEndpointHints = &TerraformResourceHints{
+	resourceClass:          "oci_database_tools_database_tools_private_endpoint",
+	datasourceClass:        "oci_database_tools_database_tools_private_endpoints",
+	datasourceItemsAttr:    "database_tools_private_endpoint_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "database_tools_private_endpoint",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_database_tools.LifecycleStateActive),
+	},
+}
+
+var exportDatabaseToolsDatabaseToolsConnectionHints = &TerraformResourceHints{
+	resourceClass:          "oci_database_tools_database_tools_connection",
+	datasourceClass:        "oci_database_tools_database_tools_connections",
+	datasourceItemsAttr:    "database_tools_connection_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "database_tools_connection",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_database_tools.LifecycleStateActive),
 	},
 }
 
@@ -1553,6 +1484,92 @@ var exportDevopsDeploymentHints = &TerraformResourceHints{
 	},
 }
 
+var exportDevopsRepositoryHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_repository",
+	datasourceClass:        "oci_devops_repositories",
+	datasourceItemsAttr:    "repository_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "repository",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.RepositoryLifecycleStateActive),
+	},
+}
+
+var exportDevopsRepositoryRefHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_repository_ref",
+	datasourceClass:        "oci_devops_repository_refs",
+	datasourceItemsAttr:    "repository_ref_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "repository_ref",
+	requireResourceRefresh: true,
+}
+
+var exportDevopsBuildPipelineHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_build_pipeline",
+	datasourceClass:        "oci_devops_build_pipelines",
+	datasourceItemsAttr:    "build_pipeline_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "build_pipeline",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.BuildPipelineLifecycleStateActive),
+	},
+}
+
+var exportDevopsBuildRunHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_build_run",
+	datasourceClass:        "oci_devops_build_runs",
+	datasourceItemsAttr:    "build_run_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "build_run",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.BuildRunLifecycleStateSucceeded),
+	},
+}
+
+var exportDevopsConnectionHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_connection",
+	datasourceClass:        "oci_devops_connections",
+	datasourceItemsAttr:    "connection_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "connection",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.ConnectionLifecycleStateActive),
+	},
+}
+
+var exportDevopsBuildPipelineStageHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_build_pipeline_stage",
+	datasourceClass:        "oci_devops_build_pipeline_stages",
+	datasourceItemsAttr:    "build_pipeline_stage_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "build_pipeline_stage",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.BuildPipelineStageLifecycleStateActive),
+	},
+}
+
+var exportDevopsTriggerHints = &TerraformResourceHints{
+	resourceClass:          "oci_devops_trigger",
+	datasourceClass:        "oci_devops_triggers",
+	datasourceItemsAttr:    "trigger_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "trigger",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_devops.TriggerLifecycleStateActive),
+	},
+}
+
+var exportDevopsRepositoryMirrorHints = &TerraformResourceHints{
+	resourceClass:        "oci_devops_repository_mirror",
+	resourceAbbreviation: "repository_mirror",
+}
+
 var exportDnsZoneHints = &TerraformResourceHints{
 	resourceClass:          "oci_dns_zone",
 	datasourceClass:        "oci_dns_zones",
@@ -1775,6 +1792,211 @@ var exportHealthChecksPingMonitorHints = &TerraformResourceHints{
 	resourceAbbreviation:   "ping_monitor",
 	requireResourceRefresh: true,
 }
+*/
+var exportIdentityApiKeyHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_api_key",
+	datasourceClass:      "oci_identity_api_keys",
+	datasourceItemsAttr:  "api_keys",
+	resourceAbbreviation: "api_key",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.ApiKeyLifecycleStateActive),
+	},
+}
+
+var exportIdentityAvailabilityDomainHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_availability_domain",
+	datasourceClass:      "oci_identity_availability_domains",
+	datasourceItemsAttr:  "availability_domains",
+	resourceAbbreviation: "availability_domain",
+}
+
+var exportIdentityAuthenticationPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_authentication_policy",
+	datasourceClass:      "oci_identity_authentication_policy",
+	resourceAbbreviation: "authentication_policy",
+}
+
+var exportIdentityAuthTokenHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_auth_token",
+	datasourceClass:      "oci_identity_auth_tokens",
+	datasourceItemsAttr:  "tokens",
+	resourceAbbreviation: "auth_token",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.AuthTokenLifecycleStateActive),
+	},
+}
+
+var exportIdentityCompartmentHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_compartment",
+	datasourceClass:      "oci_identity_compartments",
+	datasourceItemsAttr:  "compartments",
+	resourceAbbreviation: "compartment",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.CompartmentLifecycleStateActive),
+	},
+}
+
+var exportIdentityCustomerSecretKeyHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_customer_secret_key",
+	datasourceClass:      "oci_identity_customer_secret_keys",
+	datasourceItemsAttr:  "customer_secret_keys",
+	resourceAbbreviation: "customer_secret_key",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.CustomerSecretKeyLifecycleStateActive),
+	},
+}
+
+var exportIdentityDynamicGroupHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_dynamic_group",
+	datasourceClass:      "oci_identity_dynamic_groups",
+	datasourceItemsAttr:  "dynamic_groups",
+	resourceAbbreviation: "dynamic_group",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.DynamicGroupLifecycleStateActive),
+	},
+}
+
+var exportIdentityGroupHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_group",
+	datasourceClass:      "oci_identity_groups",
+	datasourceItemsAttr:  "groups",
+	resourceAbbreviation: "Group",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.GroupLifecycleStateActive),
+	},
+}
+
+var exportIdentityIdentityProviderHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_identity_provider",
+	datasourceClass:      "oci_identity_identity_providers",
+	datasourceItemsAttr:  "identity_providers",
+	resourceAbbreviation: "identity_provider",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.IdentityProviderLifecycleStateActive),
+	},
+}
+
+var exportIdentityIdpGroupMappingHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_idp_group_mapping",
+	datasourceClass:      "oci_identity_idp_group_mappings",
+	datasourceItemsAttr:  "idp_group_mappings",
+	resourceAbbreviation: "idp_group_mapping",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.IdpGroupMappingLifecycleStateActive),
+	},
+}
+
+var exportIdentityPolicyHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_policy",
+	datasourceClass:      "oci_identity_policies",
+	datasourceItemsAttr:  "policies",
+	resourceAbbreviation: "policy",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.PolicyLifecycleStateActive),
+	},
+}
+
+var exportIdentitySmtpCredentialHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_smtp_credential",
+	datasourceClass:      "oci_identity_smtp_credentials",
+	datasourceItemsAttr:  "smtp_credentials",
+	resourceAbbreviation: "smtp_credential",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.SmtpCredentialLifecycleStateActive),
+	},
+}
+
+var exportIdentitySwiftPasswordHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_swift_password",
+	datasourceClass:      "oci_identity_swift_passwords",
+	datasourceItemsAttr:  "passwords",
+	resourceAbbreviation: "swift_password",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.SwiftPasswordLifecycleStateActive),
+	},
+}
+
+var exportIdentityUiPasswordHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_ui_password",
+	datasourceClass:      "oci_identity_ui_password",
+	resourceAbbreviation: "ui_password",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.UiPasswordLifecycleStateActive),
+	},
+}
+
+var exportIdentityUserGroupMembershipHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_user_group_membership",
+	datasourceClass:      "oci_identity_user_group_memberships",
+	datasourceItemsAttr:  "memberships",
+	resourceAbbreviation: "user_group_membership",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.UserGroupMembershipLifecycleStateActive),
+	},
+}
+
+var exportIdentityUserHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_user",
+	datasourceClass:      "oci_identity_users",
+	datasourceItemsAttr:  "users",
+	resourceAbbreviation: "user",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.UserLifecycleStateActive),
+	},
+}
+
+var exportIdentityTagDefaultHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_tag_default",
+	datasourceClass:      "oci_identity_tag_defaults",
+	datasourceItemsAttr:  "tag_defaults",
+	resourceAbbreviation: "tag_default",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.TagDefaultLifecycleStateActive),
+	},
+}
+
+var exportIdentityTagNamespaceHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_tag_namespace",
+	datasourceClass:      "oci_identity_tag_namespaces",
+	datasourceItemsAttr:  "tag_namespaces",
+	resourceAbbreviation: "tag_namespace",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.TagNamespaceLifecycleStateActive),
+	},
+}
+
+var exportIdentityTagHints = &TerraformResourceHints{
+	resourceClass:          "oci_identity_tag",
+	datasourceClass:        "oci_identity_tags",
+	datasourceItemsAttr:    "tags",
+	resourceAbbreviation:   "tag",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_identity.TagLifecycleStateActive),
+	},
+}
+
+var exportIdentityDomainHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_domain",
+	datasourceClass:      "oci_identity_domains",
+	datasourceItemsAttr:  "domains",
+	resourceAbbreviation: "domain",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.DomainLifecycleStateActive),
+	},
+}
+
+/*
+
+var exportIdentityDbCredentialHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_db_credential",
+	datasourceClass:      "oci_identity_db_credentials",
+	datasourceItemsAttr:  "db_credentials",
+	resourceAbbreviation: "db_credential",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.DbCredentialLifecycleStateActive),
+	},
+}
 
 var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_integration_integration_instance",
@@ -1849,6 +2071,21 @@ var exportKmsDeleteReplicaHints = &TerraformResourceHints{
 	resourceClass:        "oci_kms_vault_replication",
 	resourceAbbreviation: "vault_replication",
 }
+
+*/
+
+var exportIdentityNetworkSourceHints = &TerraformResourceHints{
+	resourceClass:          "oci_identity_network_source",
+	datasourceClass:        "oci_identity_network_sources",
+	datasourceItemsAttr:    "network_sources",
+	resourceAbbreviation:   "network_source",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_identity.NetworkSourcesLifecycleStateActive),
+	},
+}
+
+/*
 
 var exportLimitsQuotaHints = &TerraformResourceHints{
 	resourceClass:          "oci_limits_quota",
@@ -1962,6 +2199,11 @@ var exportLogAnalyticsLogAnalyticsPreferencesManagementHints = &TerraformResourc
 var exportLogAnalyticsLogAnalyticsUnprocessedDataBucketManagementHints = &TerraformResourceHints{
 	resourceClass:        "oci_log_analytics_log_analytics_unprocessed_data_bucket_management",
 	resourceAbbreviation: "log_analytics_unprocessed_data_bucket_management",
+}
+
+var exportLogAnalyticsLogAnalyticsResourceCategoriesManagementHints = &TerraformResourceHints{
+	resourceClass:        "oci_log_analytics_log_analytics_resource_categories_management",
+	resourceAbbreviation: "log_analytics_resource_categories_management",
 }
 
 var exportLoggingLogGroupHints = &TerraformResourceHints{
@@ -2271,6 +2513,31 @@ var exportOnsSubscriptionHints = &TerraformResourceHints{
 	},
 }
 
+var exportOperatorAccessControlOperatorControlHints = &TerraformResourceHints{
+	resourceClass:          "oci_operator_access_control_operator_control",
+	datasourceClass:        "oci_operator_access_control_operator_controls",
+	datasourceItemsAttr:    "operator_control_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operator_control",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_operator_access_control.OperatorControlLifecycleStatesCreated),
+		string(oci_operator_access_control.OperatorControlLifecycleStatesAssigned),
+	},
+}
+
+var exportOperatorAccessControlOperatorControlAssignmentHints = &TerraformResourceHints{
+	resourceClass:          "oci_operator_access_control_operator_control_assignment",
+	datasourceClass:        "oci_operator_access_control_operator_control_assignments",
+	datasourceItemsAttr:    "operator_control_assignment_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operator_control_assignment",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesCreated),
+	},
+}
+
 var exportOpsiEnterpriseManagerBridgeHints = &TerraformResourceHints{
 	resourceClass:          "oci_opsi_enterprise_manager_bridge",
 	datasourceClass:        "oci_opsi_enterprise_manager_bridges",
@@ -2306,6 +2573,64 @@ var exportOpsiHostInsightHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_opsi.LifecycleStateActive),
 	},
+}
+
+var exportOpsiAwrHubHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_awr_hub",
+	datasourceClass:        "oci_opsi_awr_hubs",
+	datasourceItemsAttr:    "awr_hub_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "awr_hub",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.AwrHubLifecycleStateActive),
+	},
+}
+
+var exportOpsiExadataInsightHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_exadata_insight",
+	datasourceClass:        "oci_opsi_exadata_insights",
+	datasourceItemsAttr:    "exadata_insight_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "exadata_insight",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.ExadataInsightLifecycleStateActive),
+	},
+}
+
+var exportOpsiOperationsInsightsWarehouseUserHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_operations_insights_warehouse_user",
+	datasourceClass:        "oci_opsi_operations_insights_warehouse_users",
+	datasourceItemsAttr:    "operations_insights_warehouse_user_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operations_insights_warehouse_user",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.OperationsInsightsWarehouseUserLifecycleStateActive),
+	},
+}
+
+var exportOpsiOperationsInsightsWarehouseHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_operations_insights_warehouse",
+	datasourceClass:        "oci_opsi_operations_insights_warehouses",
+	datasourceItemsAttr:    "operations_insights_warehouse_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operations_insights_warehouse",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.OperationsInsightsWarehouseLifecycleStateActive),
+	},
+}
+
+var exportOpsiOperationsInsightsWarehouseDownloadWarehouseWalletHints = &TerraformResourceHints{
+	resourceClass:        "oci_opsi_operations_insights_warehouse_download_warehouse_wallet",
+	resourceAbbreviation: "operations_insights_warehouse_download_warehouse_wallet",
+}
+
+var exportOpsiOperationsInsightsWarehouseRotateWarehouseWalletHints = &TerraformResourceHints{
+	resourceClass:        "oci_opsi_operations_insights_warehouse_rotate_warehouse_wallet",
+	resourceAbbreviation: "operations_insights_warehouse_rotate_warehouse_wallet",
 }
 
 var exportOptimizerProfileHints = &TerraformResourceHints{
@@ -2391,6 +2716,14 @@ var exportStreamingStreamHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_streaming.StreamLifecycleStateActive),
 	},
+}
+
+var exportUsageProxySubscriptionRedeemableUserHints = &TerraformResourceHints{
+	resourceClass:          "oci_usage_proxy_subscription_redeemable_user",
+	datasourceClass:        "oci_usage_proxy_subscription_redeemable_users",
+	datasourceItemsAttr:    "redeemable_user_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "subscription_redeemable_user",
 }
 
 var exportVulnerabilityScanningHostScanRecipeHints = &TerraformResourceHints{
@@ -2519,5 +2852,4 @@ var exportWafNetworkAddressListHints = &TerraformResourceHints{
 		string(oci_waf.NetworkAddressListLifecycleStateActive),
 	},
 }
-
 */

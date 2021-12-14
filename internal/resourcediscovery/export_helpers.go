@@ -26,6 +26,7 @@ func init() {
 	//exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
 	//exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
 	//exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
+	//exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
 	//exportDnsRrsetHints.getIdFn = getDnsRrsetId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
@@ -33,7 +34,7 @@ func init() {
 	exportIdentityIdpGroupMappingHints.getIdFn = getIdentityIdpGroupMappingId
 	exportIdentitySmtpCredentialHints.getIdFn = getIdentitySmtpCredentialId
 	exportIdentitySwiftPasswordHints.getIdFn = getIdentitySwiftPasswordId
-	exportIdentityAuthenticationPolicyHints.getIdFn = getIdentityAuthenticationPolicyId
+	//exportIdentityDbCredentialHints.getIdFn = getIdentityDbCredentialId
 	//exportKmsKeyHints.getIdFn = getKmsKeyId
 	//exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
 	//exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
@@ -56,6 +57,7 @@ func init() {
 	//exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
 	//exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
 	//exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
+	//exportUsageProxySubscriptionRedeemableUserHints.getIdFn = getUsageProxySubscriptionRedeemableUserId
 	//exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 }
 
@@ -227,6 +229,16 @@ func getDatascienceModelProvenanceId(resource *OCIResource) (string, error) {
 	return getModelProvenanceCompositeId(modelId), nil
 }
 
+func getDevopsRepositoryRefId(resource *OCIResource) (string, error) {
+
+	refName, ok := resource.sourceAttributes["ref_name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find refName for Devops RepositoryRef")
+	}
+	repositoryId := resource.parent.id
+	return getRepositoryRefCompositeId(refName, repositoryId), nil
+}
+
 func getDnsRrsetId(resource *OCIResource) (string, error) {
 
 	domain, ok := resource.sourceAttributes["domain"].(string)
@@ -240,6 +252,7 @@ func getDnsRrsetId(resource *OCIResource) (string, error) {
 	zoneNameOrId := resource.parent.id
 	return getRrsetCompositeId(domain, rtype, zoneNameOrId), nil
 }
+
 */
 func getIdentityApiKeyId(resource *OCIResource) (string, error) {
 
@@ -311,6 +324,15 @@ func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
 }
 
 /*
+func getIdentityDbCredentialId(resource *OCIResource) (string, error) {
+
+	dbCredentialId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find dbCredentialId for Identity DbCredential")
+	}
+	userId := resource.parent.id
+	return getDbCredentialCompositeId(dbCredentialId, userId), nil
+}
 
 func getKmsKeyId(resource *OCIResource) (string, error) {
 	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
@@ -595,6 +617,16 @@ func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) 
 	return getReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
 }
 
+func getUsageProxySubscriptionRedeemableUserId(resource *OCIResource) (string, error) {
+
+	subscriptionId := resource.parent.id
+	tenancyId, ok := resource.parent.sourceAttributes["tenancy_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bucket for ObjectStorage ReplicationPolicy")
+	}
+	return getSubscriptionRedeemableUserCompositeId(subscriptionId, tenancyId), nil
+}
+
 func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
 	id, ok := resource.sourceAttributes["topic_id"].(string)
 	if !ok {
@@ -602,5 +634,4 @@ func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
 	}
 	return id, nil
 }
-
 */
