@@ -298,6 +298,7 @@ github.com/oracle/oci-go-sdk/v53/genericartifactscontent
 github.com/oracle/oci-go-sdk/v53/goldengate
 github.com/oracle/oci-go-sdk/v53/healthchecks
 github.com/oracle/oci-go-sdk/v53/identity
+github.com/oracle/oci-go-sdk/v53/identitydataplane
 github.com/oracle/oci-go-sdk/v53/integration
 github.com/oracle/oci-go-sdk/v53/jms
 github.com/oracle/oci-go-sdk/v53/keymanagement
