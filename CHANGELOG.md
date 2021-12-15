@@ -1,4 +1,4 @@
-## 4.57.0 (Unreleased)
+## 4.57.0 (December 15, 2021)
 
 ### Added
 - Support Node Replacement
