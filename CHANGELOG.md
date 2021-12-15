@@ -1,3 +1,18 @@
+## 4.57.0 (Unreleased)
+
+### Added
+- Support Node Replacement
+- Client mTLS Support
+- Support for Cloud VM cluster resource
+- Support for Identity IAM DB password
+- Support for OPSI AWR Hub
+- Support for Data Catalog 2.2
+- Support for dimensions in monitoring target
+- Support for auto-stop on autonomous database
+
+### Bug Fix
+- Support for Service Manager Proxy API
+
 ## 4.56.0 (December 08, 2021)
 
 ### Added

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v53/apigateway"
-	"github.com/oracle/oci-go-sdk/v53/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
+	"github.com/oracle/oci-go-sdk/v54/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -62,6 +62,7 @@ var (
 	deploymentSpecificationRequestPoliciesRepresentation = map[string]interface{}{
 		"authentication": RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesAuthenticationRepresentation},
 		"cors":           RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesCorsRepresentation},
+		"mutual_tls":     RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesMutualTlsRepresentation},
 		"rate_limiting":  RepresentationGroup{Optional, deploymentSpecificationRequestPoliciesRateLimitingRepresentation},
 	}
 	deploymentSpecificationRoutesRepresentation = map[string]interface{}{
@@ -101,6 +102,10 @@ var (
 		"exposed_headers":              Representation{RepType: Optional, Create: []string{`*`}, Update: []string{`*`, `Content-Type`}},
 		"is_allow_credentials_enabled": Representation{RepType: Optional, Create: `false`, Update: `true`},
 		"max_age_in_seconds":           Representation{RepType: Optional, Create: `600`, Update: `500`},
+	}
+	deploymentSpecificationRequestPoliciesMutualTlsRepresentation = map[string]interface{}{
+		"allowed_sans":                     Representation{RepType: Optional, Create: []string{`allowedSans`}, Update: []string{`allowedSans2`}},
+		"is_verified_certificate_required": Representation{RepType: Optional, Create: `false`, Update: `true`},
 	}
 	deploymentSpecificationRequestPoliciesRateLimitingRepresentation = map[string]interface{}{
 		"rate_in_requests_per_second": Representation{RepType: Required, Create: `10`, Update: `11`},
@@ -357,6 +362,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.0.exposed_headers.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.0.is_allow_credentials_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.0.max_age_in_seconds", "600"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.mutual_tls.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.mutual_tls.0.allowed_sans.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.mutual_tls.0.is_verified_certificate_required", "false"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_in_requests_per_second", "10"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "CLIENT_IP"),
@@ -492,6 +500,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.0.exposed_headers.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.0.is_allow_credentials_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.0.max_age_in_seconds", "600"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.mutual_tls.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.mutual_tls.0.allowed_sans.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.mutual_tls.0.is_verified_certificate_required", "false"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_in_requests_per_second", "10"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "CLIENT_IP"),
@@ -622,6 +633,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.0.exposed_headers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.0.is_allow_credentials_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.cors.0.max_age_in_seconds", "500"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.mutual_tls.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.mutual_tls.0.allowed_sans.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.mutual_tls.0.is_verified_certificate_required", "true"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_in_requests_per_second", "11"),
 				resource.TestCheckResourceAttr(resourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "TOTAL"),
@@ -769,6 +783,9 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.cors.0.exposed_headers.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.cors.0.is_allow_credentials_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.cors.0.max_age_in_seconds", "500"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.mutual_tls.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.mutual_tls.0.allowed_sans.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.mutual_tls.0.is_verified_certificate_required", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.rate_limiting.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.rate_limiting.0.rate_in_requests_per_second", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "specification.0.request_policies.0.rate_limiting.0.rate_key", "TOTAL"),

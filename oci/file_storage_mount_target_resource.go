@@ -8,8 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v53/core"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v53/filestorage"
+	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
 )
 
 func init() {
@@ -256,6 +256,10 @@ func (s *FileStorageMountTargetResourceCrud) Create() error {
 	}
 
 	s.Res = &response.MountTarget
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

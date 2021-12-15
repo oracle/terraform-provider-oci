@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v53/aianomalydetection"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
 )
 
 func init() {

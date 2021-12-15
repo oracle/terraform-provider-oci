@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v53/common"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	"github.com/oracle/oci-go-sdk/v54/common"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -64,6 +64,7 @@ var (
 		"customer_contacts":          RepresentationGroup{Optional, autonomousDatabaseCustomerContactsRepresentation},
 		"kms_key_id":                 Representation{RepType: Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"license_model":              Representation{RepType: Optional, Create: `LICENSE_INCLUDED`},
+		"scheduled_operations":       RepresentationGroup{Optional, autonomousDatabaseScheduledOperationsRepresentation},
 		"vault_id":                   Representation{RepType: Optional, Create: kmsVaultId, Update: kmsVaultId},
 		"whitelisted_ips":            Representation{RepType: Optional, Create: []string{`1.1.1.1/28`}},
 		"operations_insights_status": Representation{RepType: Optional, Create: `NOT_ENABLED`, Update: `ENABLED`},
@@ -72,6 +73,14 @@ var (
 	}
 	autonomousDatabaseCustomerContactsRepresentation = map[string]interface{}{
 		"email": Representation{RepType: Optional, Create: `test@oracle.com`, Update: `test2@oracle.com`},
+	}
+	autonomousDatabaseScheduledOperationsRepresentation = map[string]interface{}{
+		"day_of_week":          RepresentationGroup{Required, autonomousDatabaseScheduledOperationsDayOfWeekRepresentation},
+		"scheduled_start_time": Representation{RepType: Optional, Create: `09:00`, Update: `10:00`},
+		"scheduled_stop_time":  Representation{RepType: Optional, Create: `19:00`, Update: `20:00`},
+	}
+	autonomousDatabaseScheduledOperationsDayOfWeekRepresentation = map[string]interface{}{
+		"name": Representation{RepType: Required, Create: `MONDAY`, Update: `TUESDAY`},
 	}
 
 	autonomousDatabaseTimeoutsRepresentation = map[string]interface{}{
@@ -172,6 +181,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.0.name", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_start_time", "09:00"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_stop_time", "19:00"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
@@ -267,6 +281,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.0.name", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_start_time", "09:00"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_stop_time", "19:00"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
@@ -287,10 +306,10 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					RepresentationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
+					RepresentationCopyWithRemovedProperties(RepresentationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{
 						"database_management_status":  Representation{RepType: Optional, Create: `NOT_ENABLED`, Update: `NOT_ENABLED`},
 						"is_mtls_connection_required": Representation{RepType: Optional, Create: `false`, Update: `false`},
-					})),
+					}), []string{"scheduled_operations"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
@@ -329,7 +348,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					GetUpdatedRepresentationCopy("state", Representation{RepType: Optional, Create: "STOPPED"}, autonomousDatabaseRepresentation)),
+					RepresentationCopyWithRemovedProperties(GetUpdatedRepresentationCopy("state", Representation{RepType: Optional, Create: `STOPPED`},
+						autonomousDatabaseRepresentation), []string{"scheduled_operations"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -361,7 +381,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					GetUpdatedRepresentationCopy("state", Representation{RepType: Optional, Create: "AVAILABLE"}, autonomousDatabaseRepresentation)),
+					GetUpdatedRepresentationCopy("state", Representation{RepType: Optional, Create: `AVAILABLE`}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -471,6 +491,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.0.name", "TUESDAY"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_start_time", "10:00"),
+				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_stop_time", "20:00"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "0"),
@@ -524,6 +549,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.operations_insights_status"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.database_management_status"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.permission_level"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.scheduled_operations.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.scheduled_operations.0.day_of_week.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.scheduled_operations.0.day_of_week.0.name", "TUESDAY"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.scheduled_operations.0.scheduled_start_time", "10:00"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.scheduled_operations.0.scheduled_stop_time", "20:00"),
 				// @Codegen: Can't test private_endpoint with fake resource
 				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.private_endpoint_ip"),
@@ -575,6 +605,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operations_insights_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_management_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "permission_level"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scheduled_operations.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scheduled_operations.0.day_of_week.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scheduled_operations.0.day_of_week.0.name", "TUESDAY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scheduled_operations.0.scheduled_start_time", "10:00"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scheduled_operations.0.scheduled_stop_time", "20:00"),
 				// @Codegen: Can't test private_endpointTestResourceDatabaseAutonomousDatabaseResource_preview with fake resource
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),
@@ -617,7 +652,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
 					GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
-						[]interface{}{Representation{RepType: Optional, Create: "DW"},
+						[]interface{}{Representation{RepType: Optional, Create: `DW`},
 							Representation{RepType: Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -648,10 +683,10 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "is_mtls_connection_required"},
-						[]interface{}{Representation{RepType: Optional, Create: "DW"},
+					RepresentationCopyWithRemovedProperties(GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version", "is_mtls_connection_required"},
+						[]interface{}{Representation{RepType: Optional, Create: `DW`},
 							Representation{RepType: Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`},
-							Representation{RepType: Optional, Create: `false`}}, autonomousDatabaseRepresentation)),
+							Representation{RepType: Optional, Create: `false`}}, autonomousDatabaseRepresentation), []string{"scheduled_operations"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -681,11 +716,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-					GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "is_mtls_connection_required"},
-						[]interface{}{Representation{RepType: Optional, Create: "DW"},
+					RepresentationCopyWithRemovedProperties(GetMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version", "is_mtls_connection_required"},
+						[]interface{}{Representation{RepType: Optional, Create: `DW`},
 							Representation{RepType: Optional, Update: `true`},
 							Representation{RepType: Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`},
-							Representation{RepType: Optional, Create: `false`}}, autonomousDatabaseRepresentation)),
+							Representation{RepType: Optional, Create: `false`}}, autonomousDatabaseRepresentation), []string{"scheduled_operations"})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),

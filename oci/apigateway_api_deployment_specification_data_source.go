@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/oracle/oci-go-sdk/v53/apigateway"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v53/apigateway"
+	"github.com/oracle/oci-go-sdk/v54/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
 )
 
 func init() {
@@ -305,6 +305,32 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 									},
 									"max_age_in_seconds": {
 										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"mutual_tls": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"allowed_sans": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"is_verified_certificate_required": {
+										Type:     schema.TypeBool,
 										Computed: true,
 									},
 								},

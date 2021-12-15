@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 )
 
 func init() {
@@ -125,6 +125,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["cpu_core_count"] = *r.CpusEnabled
 		}
 
+		if r.DataStorageSizeInGBs != nil {
+			vmCluster["data_storage_size_in_gb"] = *r.DataStorageSizeInGBs
+		}
+
 		if r.DataStorageSizeInTBs != nil {
 			vmCluster["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
@@ -177,6 +181,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		if r.MemorySizeInGBs != nil {
 			vmCluster["memory_size_in_gbs"] = *r.MemorySizeInGBs
+		}
+
+		if r.OcpusEnabled != nil {
+			vmCluster["ocpus_enabled"] = *r.OcpusEnabled
 		}
 
 		if r.Shape != nil {

@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
 
 func init() {
@@ -134,6 +134,10 @@ func (s *IdentityUsersDataSourceCrud) SetData() error {
 			user["capabilities"] = []interface{}{UserCapabilitiesToMap(r.Capabilities)}
 		} else {
 			user["capabilities"] = nil
+		}
+
+		if r.DbUserName != nil {
+			user["db_user_name"] = *r.DbUserName
 		}
 
 		if r.DefinedTags != nil {

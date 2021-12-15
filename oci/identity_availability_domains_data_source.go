@@ -9,7 +9,7 @@ import (
 	"sort"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
 
 func init() {

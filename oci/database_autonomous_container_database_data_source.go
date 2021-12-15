@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 )
 
 func init() {
@@ -83,6 +83,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("backup_config", []interface{}{AutonomousContainerDatabaseBackupConfigToMap(s.Res.BackupConfig, nil, true)})
 	} else {
 		s.D.Set("backup_config", nil)
+	}
+
+	if s.Res.CloudAutonomousVmClusterId != nil {
+		s.D.Set("cloud_autonomous_vm_cluster_id", *s.Res.CloudAutonomousVmClusterId)
 	}
 
 	if s.Res.CompartmentId != nil {

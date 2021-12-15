@@ -23,7 +23,7 @@ var (
 	}
 
 	autonomousDatabaseDedicatedRepresentationForDataguard = RepresentationCopyWithNewProperties(
-		RepresentationCopyWithRemovedProperties(GetUpdatedRepresentationCopy("db_name", Representation{RepType: Required, Create: adbDedicatedName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type"}),
+		RepresentationCopyWithRemovedProperties(GetUpdatedRepresentationCopy("db_name", Representation{RepType: Required, Create: adbDedicatedName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "scheduled_operations"}),
 		map[string]interface{}{
 			"autonomous_container_database_id": Representation{RepType: Optional, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 			"is_dedicated":                     Representation{RepType: Optional, Create: `true`},

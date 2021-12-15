@@ -34,6 +34,7 @@ func init() {
 	exportIdentityIdpGroupMappingHints.getIdFn = getIdentityIdpGroupMappingId
 	exportIdentitySmtpCredentialHints.getIdFn = getIdentitySmtpCredentialId
 	exportIdentitySwiftPasswordHints.getIdFn = getIdentitySwiftPasswordId
+	exportIdentityDbCredentialHints.getIdFn = getIdentityDbCredentialId
 	exportKmsKeyHints.getIdFn = getKmsKeyId
 	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
 	exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
@@ -319,6 +320,16 @@ func getIdentitySwiftPasswordId(resource *OCIResource) (string, error) {
 	}
 	userId := resource.parent.id
 	return getSwiftPasswordCompositeId(swiftPasswordId, userId), nil
+}
+
+func getIdentityDbCredentialId(resource *OCIResource) (string, error) {
+
+	dbCredentialId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find dbCredentialId for Identity DbCredential")
+	}
+	userId := resource.parent.id
+	return getDbCredentialCompositeId(dbCredentialId, userId), nil
 }
 
 func getKmsKeyId(resource *OCIResource) (string, error) {

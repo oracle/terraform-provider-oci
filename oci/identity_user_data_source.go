@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
 
 func init() {
@@ -76,6 +76,10 @@ func (s *IdentityUserDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DbUserName != nil {
+		s.D.Set("db_user_name", *s.Res.DbUserName)
 	}
 
 	if s.Res.DefinedTags != nil {

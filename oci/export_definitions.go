@@ -4,62 +4,62 @@
 package oci
 
 import (
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v53/aianomalydetection"
-	oci_analytics "github.com/oracle/oci-go-sdk/v53/analytics"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v53/apigateway"
-	oci_apm "github.com/oracle/oci-go-sdk/v53/apmcontrolplane"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v53/artifacts"
-	oci_bastion "github.com/oracle/oci-go-sdk/v53/bastion"
-	oci_bds "github.com/oracle/oci-go-sdk/v53/bds"
-	oci_blockchain "github.com/oracle/oci-go-sdk/v53/blockchain"
-	oci_budget "github.com/oracle/oci-go-sdk/v53/budget"
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v53/certificatesmanagement"
-	oci_cloud_guard "github.com/oracle/oci-go-sdk/v53/cloudguard"
-	oci_containerengine "github.com/oracle/oci-go-sdk/v53/containerengine"
-	oci_core "github.com/oracle/oci-go-sdk/v53/core"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
-	oci_database_migration "github.com/oracle/oci-go-sdk/v53/databasemigration"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v53/databasetools"
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v53/datacatalog"
-	oci_dataflow "github.com/oracle/oci-go-sdk/v53/dataflow"
-	oci_dataintegration "github.com/oracle/oci-go-sdk/v53/dataintegration"
-	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v53/datalabelingservice"
-	oci_data_safe "github.com/oracle/oci-go-sdk/v53/datasafe"
-	oci_datascience "github.com/oracle/oci-go-sdk/v53/datascience"
-	oci_devops "github.com/oracle/oci-go-sdk/v53/devops"
-	oci_dns "github.com/oracle/oci-go-sdk/v53/dns"
-	oci_email "github.com/oracle/oci-go-sdk/v53/email"
-	oci_events "github.com/oracle/oci-go-sdk/v53/events"
-	oci_file_storage "github.com/oracle/oci-go-sdk/v53/filestorage"
-	oci_functions "github.com/oracle/oci-go-sdk/v53/functions"
-	oci_golden_gate "github.com/oracle/oci-go-sdk/v53/goldengate"
-	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
-	oci_integration "github.com/oracle/oci-go-sdk/v53/integration"
-	oci_jms "github.com/oracle/oci-go-sdk/v53/jms"
-	oci_kms "github.com/oracle/oci-go-sdk/v53/keymanagement"
-	oci_limits "github.com/oracle/oci-go-sdk/v53/limits"
-	oci_load_balancer "github.com/oracle/oci-go-sdk/v53/loadbalancer"
-	oci_log_analytics "github.com/oracle/oci-go-sdk/v53/loganalytics"
-	oci_logging "github.com/oracle/oci-go-sdk/v53/logging"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v53/managementagent"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v53/marketplace"
-	oci_monitoring "github.com/oracle/oci-go-sdk/v53/monitoring"
-	oci_mysql "github.com/oracle/oci-go-sdk/v53/mysql"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v53/networkloadbalancer"
-	oci_nosql "github.com/oracle/oci-go-sdk/v53/nosql"
-	oci_oce "github.com/oracle/oci-go-sdk/v53/oce"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v53/ocvp"
-	oci_oda "github.com/oracle/oci-go-sdk/v53/oda"
-	oci_ons "github.com/oracle/oci-go-sdk/v53/ons"
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v53/operatoraccesscontrol"
-	oci_opsi "github.com/oracle/oci-go-sdk/v53/opsi"
-	oci_optimizer "github.com/oracle/oci-go-sdk/v53/optimizer"
-	oci_osmanagement "github.com/oracle/oci-go-sdk/v53/osmanagement"
-	oci_sch "github.com/oracle/oci-go-sdk/v53/sch"
-	oci_streaming "github.com/oracle/oci-go-sdk/v53/streaming"
-	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v53/vulnerabilityscanning"
-	oci_waas "github.com/oracle/oci-go-sdk/v53/waas"
-	oci_waf "github.com/oracle/oci-go-sdk/v53/waf"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
+	oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
+	oci_apm "github.com/oracle/oci-go-sdk/v54/apmcontrolplane"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
+	oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
+	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
+	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
+	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v54/databasemigration"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
+	oci_datascience "github.com/oracle/oci-go-sdk/v54/datascience"
+	oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
+	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
+	oci_email "github.com/oracle/oci-go-sdk/v54/email"
+	oci_events "github.com/oracle/oci-go-sdk/v54/events"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
+	oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
+	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
+	oci_jms "github.com/oracle/oci-go-sdk/v54/jms"
+	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
+	oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
+	oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
+	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
+	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
+	oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
+	oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
+	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
+	oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
+	oci_sch "github.com/oracle/oci-go-sdk/v54/sch"
+	oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
+	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
+	oci_waas "github.com/oracle/oci-go-sdk/v54/waas"
+	oci_waf "github.com/oracle/oci-go-sdk/v54/waf"
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -1179,6 +1179,16 @@ var exportDatabaseExternalDatabaseConnectorHints = &TerraformResourceHints{
 	},
 }
 
+var exportDatabaseCloudAutonomousVmClusterHints = &TerraformResourceHints{
+	resourceClass:        "oci_database_cloud_autonomous_vm_cluster",
+	datasourceClass:      "oci_database_cloud_autonomous_vm_clusters",
+	datasourceItemsAttr:  "cloud_autonomous_vm_clusters",
+	resourceAbbreviation: "cloud_autonomous_vm_cluster",
+	discoverableLifecycleStates: []string{
+		string(oci_database.CloudAutonomousVmClusterLifecycleStateAvailable),
+	},
+}
+
 var exportDatabaseMigrationMigrationHints = &TerraformResourceHints{
 	resourceClass:          "oci_database_migration_migration",
 	datasourceClass:        "oci_database_migration_migrations",
@@ -1972,6 +1982,21 @@ var exportIdentityDomainHints = &TerraformResourceHints{
 	},
 }
 
+var exportIdentityDataPlaneGenerateScopedAccessTokenHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_data_plane_generate_scoped_access_token",
+	resourceAbbreviation: "generate_scoped_access_token",
+}
+
+var exportIdentityDbCredentialHints = &TerraformResourceHints{
+	resourceClass:        "oci_identity_db_credential",
+	datasourceClass:      "oci_identity_db_credentials",
+	datasourceItemsAttr:  "db_credentials",
+	resourceAbbreviation: "db_credential",
+	discoverableLifecycleStates: []string{
+		string(oci_identity.DbCredentialLifecycleStateActive),
+	},
+}
+
 var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_integration_integration_instance",
 	datasourceClass:        "oci_integration_integration_instances",
@@ -2545,6 +2570,18 @@ var exportOpsiHostInsightHints = &TerraformResourceHints{
 	},
 }
 
+var exportOpsiAwrHubHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_awr_hub",
+	datasourceClass:        "oci_opsi_awr_hubs",
+	datasourceItemsAttr:    "awr_hub_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "awr_hub",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.AwrHubLifecycleStateActive),
+	},
+}
+
 var exportOpsiExadataInsightHints = &TerraformResourceHints{
 	resourceClass:          "oci_opsi_exadata_insight",
 	datasourceClass:        "oci_opsi_exadata_insights",
@@ -2555,6 +2592,40 @@ var exportOpsiExadataInsightHints = &TerraformResourceHints{
 	discoverableLifecycleStates: []string{
 		string(oci_opsi.ExadataInsightLifecycleStateActive),
 	},
+}
+
+var exportOpsiOperationsInsightsWarehouseUserHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_operations_insights_warehouse_user",
+	datasourceClass:        "oci_opsi_operations_insights_warehouse_users",
+	datasourceItemsAttr:    "operations_insights_warehouse_user_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operations_insights_warehouse_user",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.OperationsInsightsWarehouseUserLifecycleStateActive),
+	},
+}
+
+var exportOpsiOperationsInsightsWarehouseHints = &TerraformResourceHints{
+	resourceClass:          "oci_opsi_operations_insights_warehouse",
+	datasourceClass:        "oci_opsi_operations_insights_warehouses",
+	datasourceItemsAttr:    "operations_insights_warehouse_summary_collection",
+	isDatasourceCollection: true,
+	resourceAbbreviation:   "operations_insights_warehouse",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_opsi.OperationsInsightsWarehouseLifecycleStateActive),
+	},
+}
+
+var exportOpsiOperationsInsightsWarehouseDownloadWarehouseWalletHints = &TerraformResourceHints{
+	resourceClass:        "oci_opsi_operations_insights_warehouse_download_warehouse_wallet",
+	resourceAbbreviation: "operations_insights_warehouse_download_warehouse_wallet",
+}
+
+var exportOpsiOperationsInsightsWarehouseRotateWarehouseWalletHints = &TerraformResourceHints{
+	resourceClass:        "oci_opsi_operations_insights_warehouse_rotate_warehouse_wallet",
+	resourceAbbreviation: "operations_insights_warehouse_rotate_warehouse_wallet",
 }
 
 var exportOptimizerProfileHints = &TerraformResourceHints{

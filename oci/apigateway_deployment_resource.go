@@ -16,8 +16,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v53/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v54/common"
 )
 
 func init() {
@@ -413,6 +413,35 @@ func ApigatewayDeploymentResource() *schema.Resource {
 												},
 												"max_age_in_seconds": {
 													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"mutual_tls": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"allowed_sans": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"is_verified_certificate_required": {
+													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
 												},
@@ -1950,6 +1979,17 @@ func (s *ApigatewayDeploymentResourceCrud) mapToApiSpecificationRequestPolicies(
 		}
 	}
 
+	if mutualTls, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mutual_tls")); ok {
+		if tmpList := mutualTls.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "mutual_tls"), 0)
+			tmp, err := s.mapToMutualTlsDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert mutual_tls, encountered error: %v", err)
+			}
+			result.MutualTls = &tmp
+		}
+	}
+
 	if rateLimiting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rate_limiting")); ok {
 		if tmpList := rateLimiting.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "rate_limiting"), 0)
@@ -1977,6 +2017,10 @@ func ApiSpecificationRequestPoliciesToMap(obj *oci_apigateway.ApiSpecificationRe
 
 	if obj.Cors != nil {
 		result["cors"] = []interface{}{CorsPolicyToMap(obj.Cors)}
+	}
+
+	if obj.MutualTls != nil {
+		result["mutual_tls"] = []interface{}{MutualTlsDetailsToMap(obj.MutualTls)}
 	}
 
 	if obj.RateLimiting != nil {
@@ -3186,6 +3230,42 @@ func JsonWebTokenClaimToMap(obj oci_apigateway.JsonWebTokenClaim) map[string]int
 	}
 
 	result["values"] = obj.Values
+
+	return result
+}
+
+func (s *ApigatewayDeploymentResourceCrud) mapToMutualTlsDetails(fieldKeyFormat string) (oci_apigateway.MutualTlsDetails, error) {
+	result := oci_apigateway.MutualTlsDetails{}
+
+	if allowedSans, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowed_sans")); ok {
+		interfaces := allowedSans.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowed_sans")) {
+			result.AllowedSans = tmp
+		}
+	}
+
+	if isVerifiedCertificateRequired, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_verified_certificate_required")); ok {
+		tmp := isVerifiedCertificateRequired.(bool)
+		result.IsVerifiedCertificateRequired = &tmp
+	}
+
+	return result, nil
+}
+
+func MutualTlsDetailsToMap(obj *oci_apigateway.MutualTlsDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["allowed_sans"] = obj.AllowedSans
+
+	if obj.IsVerifiedCertificateRequired != nil {
+		result["is_verified_certificate_required"] = bool(*obj.IsVerifiedCertificateRequired)
+	}
 
 	return result
 }

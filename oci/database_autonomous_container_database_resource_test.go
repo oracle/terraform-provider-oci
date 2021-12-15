@@ -67,13 +67,17 @@ var (
 		GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", Required, Create, autonomousVmClusterRepresentation) +
 		GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Required, Create,
 			RepresentationCopyWithNewProperties(vmClusterNetworkRepresentation, map[string]interface{}{"validate_vm_cluster_network": Representation{RepType: Required, Create: "true"}})) +
-		GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation) + KmsVaultIdVariableStr + OkvSecretVariableStr
+		GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", Optional, Create, keyStoreRepresentation) +
+		KmsVaultIdVariableStr + OkvSecretVariableStr
 
 	dgDbUniqueName = RandomString(10, charsetWithoutDigits)
 )
 
 // issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
+	// sshaagar: Commenting AEI test as not needed post migration.
+	// DISALLOWED_API.launchAutonomousExadataInfrastructure
+	t.Skip("Skipping Test for TeamCity")
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabase_basic")
 	defer httpreplay.SaveScenario()
 
@@ -91,7 +95,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 	ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + ACDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
 					GetUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, ACDatabaseRepresentation)),
 			Check: ComposeAggregateTestCheckFuncWrapper(
@@ -135,7 +139,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + ACDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
 				GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update, ACDatabaseRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
@@ -178,7 +182,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 		{
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", Optional, Create, ACDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + ACDatabaseResourceConfig,
+				compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_cluster_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -217,7 +221,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 		{
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Required, Create, autonomousContainerDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ACDatabaseResourceConfig,
+				compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
@@ -248,7 +252,7 @@ func TestDatabaseAutonomousContainerDatabase_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + ACDatabaseResourceConfig,
+			Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies,
 		},
 		// verify resource import
 		{

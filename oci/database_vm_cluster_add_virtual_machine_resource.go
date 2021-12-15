@@ -9,7 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 )
 
 func init() {
@@ -53,6 +53,14 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 			},
 
 			// Optional
+			"data_storage_size_in_gb": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"ocpus_enabled": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 
 			// Computed
 			"compartment_id": {

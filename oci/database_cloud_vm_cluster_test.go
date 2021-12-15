@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v53/common"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	"github.com/oracle/oci-go-sdk/v54/common"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -83,7 +83,7 @@ var (
 					display_name = "-tf-vcn"
 					dns_label = "tfvcn"
 				}
-			
+
 				resource "oci_core_route_table" "t" {
 					compartment_id = "${var.compartment_id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
@@ -97,7 +97,7 @@ var (
 					vcn_id = "${oci_core_virtual_network.t.id}"
 					display_name = "-tf-internet-gateway"
 				}
-			
+
 				resource "oci_core_subnet" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					cidr_block          = "10.1.20.0/24"
@@ -125,7 +125,7 @@ var (
 					 vcn_id            = "${oci_core_virtual_network.t.id}"
 					 display_name      =  "displayName"
 				}
-			
+
 				resource "oci_core_network_security_group" "test_network_security_group_backup" {
 					compartment_id = "${var.compartment_id}"
 					vcn_id            = "${oci_core_virtual_network.t.id}"

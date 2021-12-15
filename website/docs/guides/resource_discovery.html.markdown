@@ -149,6 +149,7 @@ The generated `.tf` files contain the Terraform configuration with the resources
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
+    * `identity_data_plane` - Discovers identity_data_plane resources within the specified compartment
     * `integration` - Discovers integration resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
@@ -443,6 +444,7 @@ database
 * oci\_database\_pluggable\_database
 * oci\_database\_vm\_cluster\_add\_virtual\_machine
 * oci\_database\_vm\_cluster\_remove\_virtual\_machine
+* oci\_database\_cloud\_autonomous\_vm\_cluster
 
 database_migration
     
@@ -562,6 +564,11 @@ identity
 * oci\_identity\_tag
 * oci\_identity\_network\_source
 * oci\_identity\_domain
+* oci\_identity\_db\_credential
+
+identity_data_plane
+    
+* oci\_identity\_data\_plane\_generate\_scoped\_access\_token
 
 integration
     
@@ -688,6 +695,11 @@ opsi
 * oci\_opsi\_database\_insight
 * oci\_opsi\_host\_insight
 * oci\_opsi\_exadata\_insight
+* oci\_opsi\_awr\_hub
+* oci\_opsi\_operations\_insights\_warehouse\_user
+* oci\_opsi\_operations\_insights\_warehouse
+* oci\_opsi\_operations\_insights\_warehouse\_download\_warehouse\_wallet
+* oci\_opsi\_operations\_insights\_warehouse\_rotate\_warehouse\_wallet
 
 optimizer
     

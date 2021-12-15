@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_datacatalog "github.com/oracle/oci-go-sdk/v53/datacatalog"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
 )
 
 func init() {
@@ -80,6 +80,10 @@ func DatacatalogDataAssetResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_harvested": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -354,6 +358,14 @@ func (s *DatacatalogDataAssetResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeHarvested == nil {
+		s.D.Set("time_harvested", "null")
+	}
+
+	if s.Res.TimeHarvested != nil {
+		s.D.Set("time_harvested", s.Res.TimeHarvested.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_operator_access_control "github.com/oracle/oci-go-sdk/v53/operatoraccesscontrol"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
 )
 
 func init() {

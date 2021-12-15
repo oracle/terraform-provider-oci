@@ -99,6 +99,10 @@ var (
 
 // issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic(t *testing.T) {
+	// sshaagar: Commenting AEI test as not needed post migration.
+	// DISALLOWED_API.launchAutonomousExadataInfrastructure
+	t.Skip("Skipping Test for TeamCity")
+
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseDataguardAssociationResource_basic")
 	defer httpreplay.SaveScenario()
 

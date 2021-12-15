@@ -4,9 +4,9 @@
 package oci
 
 import (
-	oci_mysql "github.com/oracle/oci-go-sdk/v53/mysql"
+	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 
-	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+	oci_common "github.com/oracle/oci-go-sdk/v54/common"
 )
 
 func init() {

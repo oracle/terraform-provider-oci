@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v53/core"
+	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 )
 
 func init() {
@@ -248,7 +248,7 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Update() error {
 	statement := oci_core.UpdateDrgRouteDistributionStatementDetails{}
 	statement.Id = &statementId
 
-	if matchCriteria, ok := s.D.GetOkExists("match_criteria"); ok {
+	if matchCriteria, ok := s.D.GetOkExists("match_criteria"); ok && s.D.HasChange("match_criteria") {
 		if tmpList := matchCriteria.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "match_criteria", 0)
 
@@ -261,7 +261,7 @@ func (s *CoreDrgRouteDistributionStatementResourceCrud) Update() error {
 		}
 	}
 
-	if priority, ok := s.D.GetOkExists("priority"); ok {
+	if priority, ok := s.D.GetOkExists("priority"); ok && s.D.HasChange("priority") {
 		tmp := priority.(int)
 		statement.Priority = &tmp
 	}

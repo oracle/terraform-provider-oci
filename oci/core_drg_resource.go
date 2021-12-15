@@ -10,8 +10,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v53/core"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v53/workrequests"
+	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v54/workrequests"
 )
 
 func init() {
@@ -253,7 +253,7 @@ func (s *CoreDrgResourceCrud) Update() error {
 	}
 	request := oci_core.UpdateDrgRequest{}
 
-	if defaultDrgRouteTables, ok := s.D.GetOkExists("default_drg_route_tables"); ok {
+	if defaultDrgRouteTables, ok := s.D.GetOkExists("default_drg_route_tables"); ok && s.D.HasChange("default_drg_route_tables") {
 		if tmpList := defaultDrgRouteTables.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "default_drg_route_tables", 0)
 			tmp, err := s.mapToDefaultDrgRouteTables(fieldKeyFormat)
@@ -264,7 +264,7 @@ func (s *CoreDrgResourceCrud) Update() error {
 		}
 	}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -272,7 +272,7 @@ func (s *CoreDrgResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
@@ -280,7 +280,7 @@ func (s *CoreDrgResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DrgId = &tmp
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 

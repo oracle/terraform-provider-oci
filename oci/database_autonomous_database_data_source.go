@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 )
 
 func init() {
@@ -248,6 +248,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	s.D.Set("refreshable_status", s.Res.RefreshableStatus)
 
 	s.D.Set("role", s.Res.Role)
+
+	scheduledOperations := []interface{}{}
+	for _, item := range s.Res.ScheduledOperations {
+		scheduledOperations = append(scheduledOperations, ScheduledOperationDetailsToMap(item))
+	}
+	s.D.Set("scheduled_operations", scheduledOperations)
 
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)

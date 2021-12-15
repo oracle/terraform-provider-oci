@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v53/apigateway"
-	"github.com/oracle/oci-go-sdk/v53/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
+	"github.com/oracle/oci-go-sdk/v54/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -45,12 +45,18 @@ var (
 		"compartment_id":             Representation{RepType: Required, Create: `${var.compartment_id}`},
 		"endpoint_type":              Representation{RepType: Required, Create: `PUBLIC`},
 		"subnet_id":                  Representation{RepType: Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"ca_bundles":                 RepresentationGroup{Optional, gatewayCaBundlesRepresentation},
 		"certificate_id":             Representation{RepType: Optional, Create: `${oci_apigateway_certificate.test_certificate.id}`},
 		"defined_tags":               Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":               Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":              Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_security_group_ids": Representation{RepType: Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
 		"response_cache_details":     RepresentationGroup{Optional, gatewayResponseCacheDetailsRepresentation},
+	}
+	gatewayCaBundlesRepresentation = map[string]interface{}{
+		"type":                     Representation{RepType: Required, Create: `CA_BUNDLE`, Update: `CERTIFICATE_AUTHORITY`},
+		"ca_bundle_id":             Representation{RepType: Optional, Create: `${var.ca_bundle_id}`},
+		"certificate_authority_id": Representation{RepType: Optional, Create: `${var.certificate_authority_id}`},
 	}
 	gatewayResponseCacheDetailsRepresentation = map[string]interface{}{
 		"type":                                 Representation{RepType: Required, Create: `EXTERNAL_RESP_CACHE`},
@@ -90,6 +96,12 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	caBundleId := getEnvSettingWithBlankDefault("ca_bundle_id")
+	caBundleIdVariableStr := fmt.Sprintf("variable \"ca_bundle_id\" { default = \"%s\" }\n", caBundleId)
+
+	certificateAuthorityId := getEnvSettingWithBlankDefault("certificate_authority_id")
+	certificateAuthorityIdVariableStr := fmt.Sprintf("variable \"certificate_authority_id\" { default = \"%s\" }\n", certificateAuthorityId)
+
 	vaultSecretId := getEnvSettingWithBlankDefault("oci_vault_secret_id")
 	vaultSecretIdStr := fmt.Sprintf("variable \"oci_vault_secret_id\" { default = \"%s\" }\n", vaultSecretId)
 
@@ -105,7 +117,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 	ResourceTest(t, testAccCheckApigatewayGatewayDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
 				GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -131,9 +143,13 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
 				GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create, gatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ca_bundles.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.ca_bundle_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.certificate_authority_id"),
+				resource.TestCheckResourceAttr(resourceName, "ca_bundles.0.type", "CA_BUNDLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -168,12 +184,16 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
 				GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Create,
 					RepresentationCopyWithNewProperties(gatewayRepresentation, map[string]interface{}{
 						"compartment_id": Representation{RepType: Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ca_bundles.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.ca_bundle_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.certificate_authority_id"),
+				resource.TestCheckResourceAttr(resourceName, "ca_bundles.0.type", "CA_BUNDLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -206,9 +226,13 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
 				GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ca_bundles.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.ca_bundle_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ca_bundles.0.certificate_authority_id"),
+				resource.TestCheckResourceAttr(resourceName, "ca_bundles.0.type", "CERTIFICATE_AUTHORITY"),
 				resource.TestCheckResourceAttrSet(resourceName, "certificate_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -242,7 +266,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		{
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_apigateway_gateways", "test_gateways", Optional, Update, gatewayDataSourceRepresentation) +
-				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies +
+				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceDependencies + caBundleIdVariableStr + certificateAuthorityIdVariableStr +
 				GenerateResourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Optional, Update, gatewayRepresentation),
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "certificate_id"),
@@ -259,10 +283,12 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		{
 			Config: config +
 				GenerateDataSourceFromRepresentationMap("oci_apigateway_gateway", "test_gateway", Required, Create, gatewaySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
+				compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig + caBundleIdVariableStr + certificateAuthorityIdVariableStr,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gateway_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "ca_bundles.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ca_bundles.0.type", "CERTIFICATE_AUTHORITY"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "endpoint_type", "PUBLIC"),
@@ -290,7 +316,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 		},
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig,
+			Config: config + compartmentIdVariableStr + vaultSecretIdStr + GatewayResourceConfig + caBundleIdVariableStr + certificateAuthorityIdVariableStr,
 		},
 		// verify resource import
 		{

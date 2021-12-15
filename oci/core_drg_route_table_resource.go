@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_core "github.com/oracle/oci-go-sdk/v53/core"
+	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 )
 
 func init() {
@@ -236,7 +236,7 @@ func (s *CoreDrgRouteTableResourceCrud) Get() error {
 func (s *CoreDrgRouteTableResourceCrud) Update() error {
 	request := oci_core.UpdateDrgRouteTableRequest{}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -244,7 +244,7 @@ func (s *CoreDrgRouteTableResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
@@ -252,18 +252,18 @@ func (s *CoreDrgRouteTableResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DrgRouteTableId = &tmp
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if importDrgRouteDistributionId, ok := s.D.GetOkExists("import_drg_route_distribution_id"); ok {
+	if importDrgRouteDistributionId, ok := s.D.GetOkExists("import_drg_route_distribution_id"); ok && s.D.HasChange("import_drg_route_distribution_id") {
 		if importDrgRouteDistributionId != nil && importDrgRouteDistributionId != "" {
 			tmp := importDrgRouteDistributionId.(string)
 			request.ImportDrgRouteDistributionId = &tmp
 		}
 	}
 
-	if isEcmpEnabled, ok := s.D.GetOkExists("is_ecmp_enabled"); ok {
+	if isEcmpEnabled, ok := s.D.GetOkExists("is_ecmp_enabled"); ok && s.D.HasChange("is_ecmp_enabled") {
 		tmp := isEcmpEnabled.(bool)
 		request.IsEcmpEnabled = &tmp
 	}
