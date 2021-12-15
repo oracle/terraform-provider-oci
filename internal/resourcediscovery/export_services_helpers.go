@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
