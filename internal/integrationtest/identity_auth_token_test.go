@@ -6,11 +6,11 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"log"
+	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -18,7 +18,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -52,7 +55,7 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_auth_tokens.test_auth_tokens"
 
 	var resId, resId2 string
-	//var compositeId string
+	var compositeId string
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+AuthTokenResourceDependencies+
@@ -67,18 +70,18 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
-				/*func(s *terraform.State) (err error) {
+				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					userId, _ := acctest.FromInstanceState(s, resourceName, "user_id")
 					compositeId = "users/" + userId + "/authTokens/" + resId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
 					return err
-				},*/
+				},
 			),
 		},
 

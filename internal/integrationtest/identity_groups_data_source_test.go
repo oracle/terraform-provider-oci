@@ -3,12 +3,11 @@
 
 package integrationtest
 
-/*
 import (
-	"github.com/terraform-providers/terraform-provider-oci/oci/acctest"
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
@@ -23,7 +22,7 @@ type DatasourceIdentityGroupsTestSuite struct {
 	Providers    map[string]terraform.ResourceProvider
 	ResourceName string
 	Token        string
-	TokenFn      TokenFn
+	TokenFn      acctest.TokenFn
 }
 
 func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
@@ -93,4 +92,3 @@ func TestDatasourceIdentityGroupsTestSuite(t *testing.T) {
 	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceIdentityGroupsTestSuite))
 }
-*/

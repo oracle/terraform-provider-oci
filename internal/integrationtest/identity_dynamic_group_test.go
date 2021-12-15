@@ -7,20 +7,20 @@ import (
 	"context"
 	"fmt"
 	"regexp"
+	"strconv"
 	"testing"
-
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -118,15 +118,15 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-				/*func(s *terraform.State) (err error) {
+				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
 					return err
-				},*/
+				},
 			),
 		},
 

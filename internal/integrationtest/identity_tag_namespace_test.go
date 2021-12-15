@@ -6,21 +6,24 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
+	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 
 	"github.com/oracle/oci-go-sdk/v54/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -103,15 +106,15 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "BillingTags"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
-				/*func(s *terraform.State) (err error) {
+				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
 					return err
-				},*/
+				},
 			),
 		},
 
@@ -236,15 +239,14 @@ func testAccCheckIdentityTagNamespaceDestroy(s *terraform.State) error {
 	return nil
 }
 
-/*
 func init() {
-	if DependencyGraph == nil {
-		InitDependencyGraph()
+	if acctest.DependencyGraph == nil {
+		acctest.InitDependencyGraph()
 	}
-	if !InSweeperExcludeList("IdentityTagNamespace") {
+	if !acctest.InSweeperExcludeList("IdentityTagNamespace") {
 		resource.AddTestSweepers("IdentityTagNamespace", &resource.Sweeper{
 			Name:         "IdentityTagNamespace",
-			Dependencies: DependencyGraph["tagNamespace"],
+			Dependencies: acctest.DependencyGraph["tagNamespace"],
 			F:            sweepIdentityTagNamespaceResource,
 		})
 	}
@@ -252,12 +254,12 @@ func init() {
 
 func sweepIdentityTagNamespaceResource(compartment string) error {
 	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
-	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		return nil
 	}
 
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
+	identityClient := acctest.GetTestClients(&schema.ResourceData{}).IdentityClient()
 	tagNamespaceIds, err := getTagNamespaceIds(compartment)
 	if err != nil {
 		return err
@@ -270,18 +272,18 @@ func sweepIdentityTagNamespaceResource(compartment string) error {
 	}
 
 	for _, tagNamespaceId := range tagNamespaceIds {
-		if ok := SweeperDefaultResourceId[tagNamespaceId]; !ok {
+		if ok := acctest.SweeperDefaultResourceId[tagNamespaceId]; !ok {
 			deleteTagNamespaceRequest := oci_identity.DeleteTagNamespaceRequest{}
 
 			deleteTagNamespaceRequest.TagNamespaceId = &tagNamespaceId
 
-			deleteTagNamespaceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			deleteTagNamespaceRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 			_, error := identityClient.DeleteTagNamespace(context.Background(), deleteTagNamespaceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting TagNamespace %s %s, It is possible that the resource is already deleted. Please verify manually \n", tagNamespaceId, error)
 				continue
 			}
-			WaitTillCondition(TestAccProvider, &tagNamespaceId, tagNamespaceSweepWaitCondition, time.Duration(3*time.Minute),
+			acctest.WaitTillCondition(acctest.TestAccProvider, &tagNamespaceId, tagNamespaceSweepWaitCondition, time.Duration(3*time.Minute),
 				tagNamespaceSweepResponseFetchOperation, "identity", true)
 		}
 	}
@@ -289,13 +291,13 @@ func sweepIdentityTagNamespaceResource(compartment string) error {
 }
 
 func getTagNamespaceIds(compartment string) ([]string, error) {
-	ids := GetResourceIdsToSweep(compartment, "TagNamespaceId")
+	ids := acctest.GetResourceIdsToSweep(compartment, "TagNamespaceId")
 	if ids != nil {
 		return ids, nil
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
+	identityClient := acctest.GetTestClients(&schema.ResourceData{}).IdentityClient()
 
 	listTagNamespacesRequest := oci_identity.ListTagNamespacesRequest{}
 	listTagNamespacesRequest.CompartmentId = &compartmentId
@@ -308,7 +310,7 @@ func getTagNamespaceIds(compartment string) ([]string, error) {
 	for _, tagNamespace := range listTagNamespacesResponse.Items {
 		id := *tagNamespace.Id
 		resourceIds = append(resourceIds, id)
-		AddResourceIdToSweeperResourceIdMap(compartmentId, "TagNamespaceId", id)
+		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "TagNamespaceId", id)
 	}
 	return resourceIds, nil
 }
@@ -321,8 +323,8 @@ func tagNamespaceSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func tagNamespaceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.identityClient().GetTagNamespace(context.Background(), oci_identity.GetTagNamespaceRequest{
+func tagNamespaceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.IdentityClient().GetTagNamespace(context.Background(), oci_identity.GetTagNamespaceRequest{
 		TagNamespaceId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,
@@ -330,4 +332,3 @@ func tagNamespaceSweepResponseFetchOperation(client *OracleClients, resourceId *
 	})
 	return err
 }
-*/

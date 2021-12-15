@@ -10,12 +10,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
-
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v54/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
