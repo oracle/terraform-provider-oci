@@ -9,8 +9,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 
-	oci_common "github.com/oracle/oci-go-sdk/v53/common"
-	oci_work_requests "github.com/oracle/oci-go-sdk/v53/workrequests"
+	oci_common "github.com/oracle/oci-go-sdk/v54/common"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v54/workrequests"
 
 	utils "github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
