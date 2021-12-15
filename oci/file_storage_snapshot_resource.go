@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_file_storage "github.com/oracle/oci-go-sdk/v53/filestorage"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
 )
 
 func init() {
@@ -179,6 +179,10 @@ func (s *FileStorageSnapshotResourceCrud) Create() error {
 	}
 
 	s.Res = &response.Snapshot
+	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

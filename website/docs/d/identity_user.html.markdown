@@ -37,9 +37,11 @@ The following attributes are exported:
 	* `can_use_auth_tokens` - Indicates if the user can use SWIFT passwords / auth tokens.
 	* `can_use_console_password` - Indicates if the user can log in to the console.
 	* `can_use_customer_secret_keys` - Indicates if the user can use SigV4 symmetric keys.
+	* `can_use_db_credentials` - Indicates if the user can use DB passwords. 
 	* `can_use_oauth2client_credentials` - Indicates if the user can use OAuth2 credentials and tokens. 
 	* `can_use_smtp_credentials` - Indicates if the user can use SMTP passwords.
 * `compartment_id` - The OCID of the tenancy containing the user.
+* `db_user_name` - DB username of the DB credential. Has to be unique across the tenancy.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the user. Does not have to be unique, and it's changeable.
 * `email` - The email address you assign to the user. The email address must be unique across all users in the tenancy. 

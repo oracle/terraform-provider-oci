@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_core "github.com/oracle/oci-go-sdk/v53/core"
+	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 )
 
 func init() {
@@ -261,7 +261,7 @@ func (s *CoreDrgAttachmentManagementResourceCrud) Get() error {
 func (s *CoreDrgAttachmentManagementResourceCrud) Update() error {
 	request := oci_core.UpdateDrgAttachmentRequest{}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -269,7 +269,7 @@ func (s *CoreDrgAttachmentManagementResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
@@ -277,19 +277,19 @@ func (s *CoreDrgAttachmentManagementResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
 
-	if drgRouteTableId, ok := s.D.GetOkExists("drg_route_table_id"); ok {
+	if drgRouteTableId, ok := s.D.GetOkExists("drg_route_table_id"); ok && s.D.HasChange("drg_route_table_id") {
 		tmp := drgRouteTableId.(string)
 		request.DrgRouteTableId = &tmp
 	}
 
-	if exportRouteDistributionId, ok := s.D.GetOkExists("export_drg_route_distribution_id"); ok {
+	if exportRouteDistributionId, ok := s.D.GetOkExists("export_drg_route_distribution_id"); ok && s.D.HasChange("export_drg_route_distribution_id") {
 		if exportRouteDistributionId != nil && exportRouteDistributionId != "" {
 			tmp := exportRouteDistributionId.(string)
 			request.ExportDrgRouteDistributionId = &tmp
 		}
 	}
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 

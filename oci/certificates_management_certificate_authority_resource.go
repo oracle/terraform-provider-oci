@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
-	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+	oci_common "github.com/oracle/oci-go-sdk/v54/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_certificates_management "github.com/oracle/oci-go-sdk/v53/certificatesmanagement"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
 )
 
 func init() {

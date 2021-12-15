@@ -24,6 +24,14 @@ resource "oci_apigateway_gateway" "test_gateway" {
 
 	#Optional
 	certificate_id = "${oci_apigateway_certificate.test_certificate.id}"
+	ca_bundles {
+		#Required
+		type = var.gateway_ca_bundles_type
+
+		#Optional
+		ca_bundle_id = oci_apigateway_ca_bundle.test_ca_bundle.id
+		certificate_authority_id = oci_apigateway_certificate_authority.test_certificate_authority.id
+	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
@@ -54,6 +62,10 @@ resource "oci_apigateway_gateway" "test_gateway" {
 
 The following arguments are supported:
 
+* `ca_bundles` - (Optional) (Updatable) An array of CA bundles that should be used on the Gateway for TLS validation.
+	* `ca_bundle_id` - (Applicable when type=CA_BUNDLE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+	* `certificate_authority_id` - (Applicable when type=CERTIFICATE_AUTHORITY) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+	* `type` - (Required) (Updatable) Type of the CA bundle
 * `certificate_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the resource is created. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -83,6 +95,10 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `ca_bundles` - An array of CA bundles that should be used on the Gateway for TLS validation.
+	* `ca_bundle_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+	* `certificate_authority_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+	* `type` - Type of the CA bundle
 * `certificate_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the resource is created. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 

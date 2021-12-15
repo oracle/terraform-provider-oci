@@ -48,6 +48,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"functions":               functionsResourceGraph,
 	"golden_gate":             goldenGateResourceGraph,
 	"health_checks":           healthChecksResourceGraph,
+	"identity_data_plane":     identityDataPlaneResourceGraph,
 	"integration":             integrationResourceGraph,
 	"jms":                     jmsResourceGraph,
 	"kms":                     kmsResourceGraph,
@@ -438,6 +439,7 @@ var databaseResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseExternalPluggableDatabaseHints},
 		{TerraformResourceHints: exportDatabaseExternalNonContainerDatabaseHints},
 		{TerraformResourceHints: exportDatabasePluggableDatabaseHints},
+		{TerraformResourceHints: exportDatabaseCloudAutonomousVmClusterHints},
 	},
 	"oci_database_db_home": {
 		{
@@ -716,6 +718,12 @@ var identityResourceGraph = TerraformResourceGraph{
 			},
 		},
 		{
+			TerraformResourceHints: exportIdentityDbCredentialHints,
+			datasourceQueryParams: map[string]string{
+				"user_id": "id",
+			},
+		},
+		{
 			TerraformResourceHints: exportIdentitySmtpCredentialHints,
 			datasourceQueryParams: map[string]string{
 				"user_id": "id",
@@ -740,6 +748,10 @@ var identityResourceGraph = TerraformResourceGraph{
 			},
 		},
 	},
+}
+
+var identityDataPlaneResourceGraph = TerraformResourceGraph{
+	"oci_identity_compartment": {},
 }
 
 var integrationResourceGraph = TerraformResourceGraph{
@@ -1027,6 +1039,21 @@ var opsiResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportOpsiDatabaseInsightHints},
 		{TerraformResourceHints: exportOpsiHostInsightHints},
 		{TerraformResourceHints: exportOpsiExadataInsightHints},
+		{TerraformResourceHints: exportOpsiOperationsInsightsWarehouseHints},
+	},
+	"oci_opsi_operations_insights_warehouse": {
+		{
+			TerraformResourceHints: exportOpsiAwrHubHints,
+			datasourceQueryParams: map[string]string{
+				"operations_insights_warehouse_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportOpsiOperationsInsightsWarehouseUserHints,
+			datasourceQueryParams: map[string]string{
+				"operations_insights_warehouse_id": "id",
+			},
+		},
 	},
 }
 

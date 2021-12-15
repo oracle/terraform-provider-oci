@@ -10,9 +10,8 @@ description: |-
 # Data Source: oci_service_manager_proxy_service_environments
 This data source provides the list of Service Environments in Oracle Cloud Infrastructure Service Manager Proxy service.
 
-List details of environments which the service is authorized to view.
-This includes the service instance endpoints and service definition
-details.
+List the details of Software as a Service (SaaS) environments provisioned by Service Manager.
+Information includes the service instance endpoints and service definition details.
 
 
 ## Example Usage
@@ -33,10 +32,12 @@ data "oci_service_manager_proxy_service_environments" "test_service_environments
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The unique identifier for the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the compartment.
 * `display_name` - (Optional) The display name of the resource.
-* `service_environment_id` - (Optional) The Id associated with the service environment.
-* `service_environment_type` - (Optional) The service definition type of the environment.
+* `service_environment_id` - (Optional) The unique identifier associated with the service environment. 
+
+	**Note:** Not an [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `service_environment_type` - (Optional) The environment's service definition type.  For example, "RGBUOROMS" is the service definition type for "Oracle Retail Order Management Cloud Service". 
 
 
 ## Attributes Reference
@@ -49,16 +50,21 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - Compartment Id associated with the service.
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the compartment.
 * `console_url` - The URL for the console.
 * `id` - Unqiue identifier for the entitlement related to the environment. 
-* `service_definition` - Model for details associated with service
-	* `display_name` - Display name of the service.
-	* `short_display_name` - Short display name of the service.
-	* `type` - The service definition type.
+
+	**Note:** Not an [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `service_definition` - Details for a service definition. 
+	* `display_name` - Display name of the service. For example, "Oracle Retail Order Management Cloud Service". 
+	* `short_display_name` - Short display name of the service. For example, "Retail Order Management". 
+	* `type` - The service definition type. For example, a service definition type "RGBUOROMS"  would be for the service "Oracle Retail Order Management Cloud Service". 
 * `service_environment_endpoints` - Array of service environment end points.
-	* `environment_type` - Service Environemnt EndPoint type.
-	* `url` - Service Environemnt Instance EndPoint url.
+	* `description` - Description of the environment link
+	* `environment_type` - Service environment endpoint type.
+	* `url` - Service environment instance URL.
 * `status` - Status of the entitlement registration for the service.
-* `subscription_id` - The subscription Id corresponding to the service environment Id. 
+* `subscription_id` - The unique subscription ID associated with the service environment ID.
+
+	**Note:** Not an [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 

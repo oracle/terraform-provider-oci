@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
-	oci_identity "github.com/oracle/oci-go-sdk/v53/identity"
+	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 )
 
 func init() {
@@ -98,6 +98,10 @@ func IdentityUserResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"can_use_db_credentials": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"can_use_oauth2client_credentials": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -108,6 +112,10 @@ func IdentityUserResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"db_user_name": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"email_verified": {
 				Type:     schema.TypeBool,
@@ -357,6 +365,10 @@ func (s *IdentityUserResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DbUserName != nil {
+		s.D.Set("db_user_name", *s.Res.DbUserName)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -425,6 +437,10 @@ func UserCapabilitiesToMap(obj *oci_identity.UserCapabilities) map[string]interf
 
 	if obj.CanUseCustomerSecretKeys != nil {
 		result["can_use_customer_secret_keys"] = bool(*obj.CanUseCustomerSecretKeys)
+	}
+
+	if obj.CanUseDbCredentials != nil {
+		result["can_use_db_credentials"] = bool(*obj.CanUseDbCredentials)
 	}
 
 	if obj.CanUseOAuth2ClientCredentials != nil {

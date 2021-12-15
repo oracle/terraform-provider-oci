@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v53/common"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v53/databasetools"
+	"github.com/oracle/oci-go-sdk/v54/common"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -67,15 +67,15 @@ var (
 	}
 	databaseToolsConnectionUserPasswordRepresentation = map[string]interface{}{
 		"value_type": Representation{RepType: Required, Create: `SECRETID`},
-		"secret_id":  Representation{RepType: Required, Create: `ocid1.vaultsecret.region1.sea.amaaaaaazlynb3aahrylxtg7peotj6yybjblsqocjumsg5fp6g1111111111`}, // ${oci_vault_secret.test_secret.id}
+		"secret_id":  Representation{RepType: Required, Create: `ocid1.vaultsecret.dev.dev.amaaaaaaihuofciaie44ubvpggl6zrodrar7ils25hf53qyue3w5t3awtufa`},
 	}
 	databaseToolsConnectionKeyStoresKeyStoreContentRepresentation = map[string]interface{}{
 		"value_type": Representation{RepType: Required, Create: `SECRETID`},
-		"secret_id":  Representation{RepType: Optional, Create: `ocid1.vaultsecret.region1.sea.amaaaaaazlynb3aahrylxtg7peotj6yybjblsqocjumsg5fp6g1111111111`}, // `${oci_vault_secret.test_secret.id}`},
+		"secret_id":  Representation{RepType: Optional, Create: `ocid1.vaultsecret.dev.dev.amaaaaaaihuofciaie44ubvpggl6zrodrar7ils25hf53qyue3w5t3awtufa`},
 	}
 	databaseToolsConnectionKeyStoresKeyStorePasswordRepresentation = map[string]interface{}{
 		"value_type": Representation{RepType: Required, Create: `SECRETID`},
-		"secret_id":  Representation{RepType: Optional, Create: `ocid1.vaultsecret.region1.sea.amaaaaaazlynb3aahrylxtg7peotj6yybjblsqocjumsg5fp6g1111111111`}, //`${oci_vault_secret.test_secret.id}`},
+		"secret_id":  Representation{RepType: Optional, Create: `ocid1.vaultsecret.dev.dev.amaaaaaaihuofciaie44ubvpggl6zrodrar7ils25hf53qyue3w5t3awtufa`},
 	}
 
 	ignoreChangesDatabaseToolsConnectionRepresentation = map[string]interface{}{ // This may vary depending on the tenancy settings

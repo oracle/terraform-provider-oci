@@ -12,7 +12,7 @@ This resource provides the Autonomous Exadata Infrastructure resource in Oracle 
 
 Creates a new Autonomous Exadata Infrastructure in the specified compartment and availability domain.
 
-
+## Note :- Autonomous Exadata Infrastructure is now end-of-life.Please provision cloud autonomous vm cluster instead. 
 ## Example Usage
 
 ```hcl

@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v53/common"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	"github.com/oracle/oci-go-sdk/v54/common"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -102,7 +102,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AutonomousVmClusterResourceDependencies,
+			Config: config + compartmentIdVariableStr,
 		},
 		// verify Create with optionals
 		{

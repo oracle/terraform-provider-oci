@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 )
 
 func init() {
@@ -28,6 +28,10 @@ func DatabaseAutonomousContainerDatabasesDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"cloud_autonomous_vm_cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -94,6 +98,11 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) Get() error {
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
+	}
+
+	if cloudAutonomousVmClusterId, ok := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); ok {
+		tmp := cloudAutonomousVmClusterId.(string)
+		request.CloudAutonomousVmClusterId = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -171,6 +180,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["backup_config"] = []interface{}{AutonomousContainerDatabaseBackupConfigToMap(r.BackupConfig, nil, true)}
 		} else {
 			autonomousContainerDatabase["backup_config"] = nil
+		}
+
+		if r.CloudAutonomousVmClusterId != nil {
+			autonomousContainerDatabase["cloud_autonomous_vm_cluster_id"] = *r.CloudAutonomousVmClusterId
 		}
 
 		if r.DbUniqueName != nil {

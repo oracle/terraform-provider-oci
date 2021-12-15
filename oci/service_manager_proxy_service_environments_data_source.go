@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_service_manager_proxy "github.com/oracle/oci-go-sdk/v53/servicemanagerproxy"
+	oci_service_manager_proxy "github.com/oracle/oci-go-sdk/v54/servicemanagerproxy"
 )
 
 func init() {
@@ -99,6 +99,10 @@ func ServiceManagerProxyServiceEnvironmentsDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"description": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"environment_type": {
 													Type:     schema.TypeString,
 													Computed: true,

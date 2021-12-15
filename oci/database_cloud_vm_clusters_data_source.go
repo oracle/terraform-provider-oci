@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 )
 
 func init() {
@@ -202,6 +202,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 		}
 
 		cloudVmCluster["nsg_ids"] = r.NsgIds
+
+		if r.OcpuCount != nil {
+			cloudVmCluster["ocpu_count"] = *r.OcpuCount
+		}
 
 		if r.ScanDnsName != nil {
 			cloudVmCluster["scan_dns_name"] = *r.ScanDnsName

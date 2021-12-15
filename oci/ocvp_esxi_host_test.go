@@ -13,8 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	"github.com/oracle/oci-go-sdk/v53/common"
-	oci_ocvp "github.com/oracle/oci-go-sdk/v53/ocvp"
+	"github.com/oracle/oci-go-sdk/v54/common"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -25,6 +25,9 @@ var (
 
 	EsxiHostResourceConfig = EsxiHostResourceDependencies +
 		GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Update, esxiHostRepresentation)
+
+	ReplacementEsxiHostResourceConfig = EsxiHostResourceDependencies +
+		GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, replacementEsxiHostRepresentation)
 
 	esxiHostSingularDataSourceRepresentation = map[string]interface{}{
 		"esxi_host_id": Representation{RepType: Required, Create: `${oci_ocvp_esxi_host.test_esxi_host.id}`},
@@ -39,18 +42,24 @@ var (
 		"name":   Representation{RepType: Required, Create: `id`},
 		"values": Representation{RepType: Required, Create: []string{`${oci_ocvp_esxi_host.test_esxi_host.id}`}},
 	}
+	existingEsxiHostDataSourceRepresentation = map[string]interface{}{
+		"sddc_id":      Representation{RepType: Optional, Create: `${oci_ocvp_sddc.test_sddc.id}`},
+		"display_name": Representation{RepType: Optional, Create: `${oci_ocvp_sddc.test_sddc.display_name}-1`},
+	}
 
 	esxiHostRepresentation = map[string]interface{}{
 		"sddc_id":                     Representation{RepType: Required, Create: `${oci_ocvp_sddc.test_sddc.id}`},
 		"compute_availability_domain": Representation{RepType: Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
-		"current_sku":                 Representation{RepType: Optional, Create: `HOUR`},
-		"defined_tags":                Representation{RepType: Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"current_sku":                 Representation{RepType: Optional, Create: `MONTH`},
 		"display_name":                Representation{RepType: Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":               Representation{RepType: Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"next_sku":                    Representation{RepType: Optional, Create: `HOUR`, Update: `MONTH`},
+		"next_sku":                    Representation{RepType: Optional, Create: `MONTH`, Update: `HOUR`},
 	}
+	replacementEsxiHostRepresentation = RepresentationCopyWithNewProperties(esxiHostRepresentation, map[string]interface{}{
+		"failed_esxi_host_id": Representation{RepType: Optional, Create: `${data.oci_ocvp_esxi_hosts.existing_esxi_hosts.esxi_host_collection[0].id}`},
+	})
 
-	EsxiHostResourceDependencies = SddcRequiredOnlyResource
+	EsxiHostResourceDependencies = SddcRequiredOnlyResource + GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_hosts", "existing_esxi_hosts", Optional, Create, existingEsxiHostDataSourceRepresentation)
 )
 
 // issue-routing-tag: ocvp/default
@@ -91,6 +100,55 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies,
 		},
+		// verify replace node
+		{
+			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
+				GenerateResourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Optional, Create, replacementEsxiHostRepresentation),
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "failed_esxi_host_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "next_sku", "MONTH"),
+				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource for replace node
+		{
+			Config: config +
+				GenerateDataSourceFromRepresentationMap("oci_ocvp_esxi_host", "test_esxi_host", Required, Create, esxiHostSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ReplacementEsxiHostResourceConfig,
+			Check: ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "esxi_host_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "MONTH"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "grace_period_end_date"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "next_sku", "MONTH"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// delete replace node before next Create
+		{
+			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies,
+		},
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + EsxiHostResourceDependencies +
@@ -98,11 +156,11 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "next_sku", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "next_sku", "MONTH"),
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
 
 				func(s *terraform.State) (err error) {
@@ -124,11 +182,11 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "current_sku", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "next_sku", "MONTH"),
+				resource.TestCheckResourceAttr(resourceName, "next_sku", "HOUR"),
 				resource.TestCheckResourceAttrSet(resourceName, "sddc_id"),
 
 				func(s *terraform.State) (err error) {
@@ -170,15 +228,14 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 				compartmentIdVariableStr + EsxiHostResourceConfig,
 			Check: ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "esxi_host_id"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "billing_contract_end_date"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "HOUR"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "current_sku", "MONTH"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "next_sku", "MONTH"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "next_sku", "HOUR"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

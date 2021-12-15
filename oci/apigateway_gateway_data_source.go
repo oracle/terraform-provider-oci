@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v53/apigateway"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
 )
 
 func init() {
@@ -66,6 +66,12 @@ func (s *ApigatewayGatewayDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	caBundles := []interface{}{}
+	for _, item := range s.Res.CaBundles {
+		caBundles = append(caBundles, CaBundleToMap(item))
+	}
+	s.D.Set("ca_bundles", caBundles)
 
 	if s.Res.CertificateId != nil {
 		s.D.Set("certificate_id", *s.Res.CertificateId)

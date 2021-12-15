@@ -15,8 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
-	oci_apigateway "github.com/oracle/oci-go-sdk/v53/apigateway"
-	oci_common "github.com/oracle/oci-go-sdk/v53/common"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
+	oci_common "github.com/oracle/oci-go-sdk/v54/common"
 )
 
 func init() {
@@ -51,6 +51,39 @@ func ApigatewayGatewayResource() *schema.Resource {
 			},
 
 			// Optional
+			"ca_bundles": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"CA_BUNDLE",
+								"CERTIFICATE_AUTHORITY",
+							}, true),
+						},
+
+						// Optional
+						"ca_bundle_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"certificate_authority_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"certificate_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -287,6 +320,23 @@ func (s *ApigatewayGatewayResourceCrud) DeletedTarget() []string {
 func (s *ApigatewayGatewayResourceCrud) Create() error {
 	request := oci_apigateway.CreateGatewayRequest{}
 
+	if caBundles, ok := s.D.GetOkExists("ca_bundles"); ok {
+		interfaces := caBundles.([]interface{})
+		tmp := make([]oci_apigateway.CaBundle, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ca_bundles", stateDataIndex)
+			converted, err := s.mapToCaBundle(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("ca_bundles") {
+			request.CaBundles = tmp
+		}
+	}
+
 	if certificateId, ok := s.D.GetOkExists("certificate_id"); ok {
 		tmp := certificateId.(string)
 		request.CertificateId = &tmp
@@ -515,6 +565,23 @@ func (s *ApigatewayGatewayResourceCrud) Update() error {
 	}
 	request := oci_apigateway.UpdateGatewayRequest{}
 
+	if caBundles, ok := s.D.GetOkExists("ca_bundles"); ok {
+		interfaces := caBundles.([]interface{})
+		tmp := make([]oci_apigateway.CaBundle, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ca_bundles", stateDataIndex)
+			converted, err := s.mapToCaBundle(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("ca_bundles") {
+			request.CaBundles = tmp
+		}
+	}
+
 	if certificateId, ok := s.D.GetOkExists("certificate_id"); ok {
 		tmp := certificateId.(string)
 		request.CertificateId = &tmp
@@ -597,6 +664,12 @@ func (s *ApigatewayGatewayResourceCrud) Delete() error {
 }
 
 func (s *ApigatewayGatewayResourceCrud) SetData() error {
+	caBundles := []interface{}{}
+	for _, item := range s.Res.CaBundles {
+		caBundles = append(caBundles, CaBundleToMap(item))
+	}
+	s.D.Set("ca_bundles", caBundles)
+
 	if s.Res.CertificateId != nil {
 		s.D.Set("certificate_id", *s.Res.CertificateId)
 	}
@@ -662,6 +735,60 @@ func (s *ApigatewayGatewayResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *ApigatewayGatewayResourceCrud) mapToCaBundle(fieldKeyFormat string) (oci_apigateway.CaBundle, error) {
+	var baseObject oci_apigateway.CaBundle
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("CA_BUNDLE"):
+		details := oci_apigateway.CertificatesCaBundle{}
+		if caBundleId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ca_bundle_id")); ok {
+			tmp := caBundleId.(string)
+			details.CaBundleId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("CERTIFICATE_AUTHORITY"):
+		details := oci_apigateway.CertificatesCertificateAuthority{}
+		if certificateAuthorityId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_authority_id")); ok {
+			tmp := certificateAuthorityId.(string)
+			details.CertificateAuthorityId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func CaBundleToMap(obj oci_apigateway.CaBundle) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_apigateway.CertificatesCaBundle:
+		result["type"] = "CA_BUNDLE"
+
+		if v.CaBundleId != nil {
+			result["ca_bundle_id"] = string(*v.CaBundleId)
+		}
+	case oci_apigateway.CertificatesCertificateAuthority:
+		result["type"] = "CERTIFICATE_AUTHORITY"
+
+		if v.CertificateAuthorityId != nil {
+			result["certificate_authority_id"] = string(*v.CertificateAuthorityId)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
 }
 
 func GatewaySummaryToMap(obj oci_apigateway.GatewaySummary, datasource bool) map[string]interface{} {

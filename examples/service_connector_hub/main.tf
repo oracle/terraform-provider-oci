@@ -180,6 +180,16 @@ resource "oci_sch_service_connector" "test_service_connector" {
     enable_formatted_messaging	= "true"
   }*/
 
+  // If using the monitoring target
+  /*target {
+    kind                        = "monitoring"
+    compartment_id              = var.compartment_ocid
+    metric                      = var.metric
+    metric_namespace            = var.metric_namespace
+    // Optional
+    dimensions                  = var.dimensions
+  }*/
+
   tasks {
     condition = "logContent='20'"
     kind      = "logRule"

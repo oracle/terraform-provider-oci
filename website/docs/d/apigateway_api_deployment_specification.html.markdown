@@ -83,6 +83,9 @@ The following attributes are exported:
 		* `exposed_headers` - The list of headers that the client will be allowed to see from the response as indicated by the Access-Control-Expose-Headers header. '*' will expose all headers. 
 		* `is_allow_credentials_enabled` - Whether to send the Access-Control-Allow-Credentials header to allow CORS requests with cookies. 
 		* `max_age_in_seconds` - The time in seconds for the client to cache preflight responses. This is sent as the Access-Control-Max-Age if greater than 0. 
+	* `mutual_tls` - Properties used to configure client mTLS verification when API Consumer makes connection to the gateway. 
+		* `allowed_sans` - Allowed list of CN or SAN which will be used for verification of certificate.
+		* `is_verified_certificate_required` - Determines whether to enable client verification when API Consumer makes connection to the gateway.
 	* `rate_limiting` - Limit the number of requests that should be handled for the specified window using a specfic key.
 		* `rate_in_requests_per_second` - The maximum number of requests per second to allow.
 		* `rate_key` - The key used to group requests together.

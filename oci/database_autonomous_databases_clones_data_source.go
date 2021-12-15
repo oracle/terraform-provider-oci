@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v53/database"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 )
 
 func init() {
@@ -433,6 +433,46 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"scheduled_operations": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"day_of_week": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"scheduled_start_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"scheduled_stop_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"service_console_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -807,6 +847,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		autonomousDatabasesClone["refreshable_status"] = r.RefreshableStatus
 
 		autonomousDatabasesClone["role"] = r.Role
+
+		scheduledOperations := []interface{}{}
+		for _, item := range r.ScheduledOperations {
+			scheduledOperations = append(scheduledOperations, ScheduledOperationDetailsToMap(item))
+		}
+		autonomousDatabasesClone["scheduled_operations"] = scheduledOperations
 
 		if r.ServiceConsoleUrl != nil {
 			autonomousDatabasesClone["service_console_url"] = *r.ServiceConsoleUrl
