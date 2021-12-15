@@ -6,20 +6,21 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"log"
+	"strconv"
 	"testing"
-
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -61,7 +62,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 	datasourceName := "data.oci_identity_idp_group_mappings.test_idp_group_mappings"
 
 	var resId, resId2 string
-	//var compositeId string
+	var compositeId string
 
 	_, tokenFn := acctest.TokenizeWithHttpReplay("idp_group_mapping")
 	IdpGroupMappingResourceDependencies = tokenFn(IdpGroupMappingResourceDependencies, map[string]string{"metadata_file": metadataFile})
@@ -80,18 +81,18 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "identity_provider_id"),
 				resource.TestCheckResourceAttr(resourceName, "idp_group_name", "idpGroupName"),
 
-				/*func(s *terraform.State) (err error) {
+				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					identityProviderId, _ := acctest.FromInstanceState(s, resourceName, "identity_provider_id")
 					compositeId = "identityProviders/" + identityProviderId + "/groupMappings/" + resId
 					log.Printf("[DEBUG] Composite ID to import: %s", compositeId)
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&compositeId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
 					return err
-				},*/
+				},
 			),
 		},
 

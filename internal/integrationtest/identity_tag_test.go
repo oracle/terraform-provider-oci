@@ -6,21 +6,24 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
+	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 
 	"github.com/oracle/oci-go-sdk/v54/common"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -81,7 +84,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+TagResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", acctest.Optional, acctest.Create, tagRepresentation), "identity", "tag", t)
 
-	acctest.ResourceTest(t, testAccCheckIdentityTagDestroy, []resource.TestStep{
+	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + TagResourceDependencies +
@@ -107,7 +110,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + TagResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", acctest.Optional, acctest.Create, tagRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -119,16 +121,16 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "validator.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "validator.0.validator_type", "ENUM"),
 				resource.TestCheckResourceAttr(resourceName, "validator.0.values.#", "2"),
-				/*
-					func(s *terraform.State) (err error) {
-						resId, err = acctest.FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},*/
+					}
+					return err
+				},
 			),
 		},
 
@@ -137,7 +139,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + TagResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -166,7 +167,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "tags.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "tags.0.defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
@@ -186,7 +186,6 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -269,7 +268,6 @@ func testAccCheckIdentityTagDestroy(s *terraform.State) error {
 	return nil
 }
 
-/*
 func init() {
 	if acctest.DependencyGraph == nil {
 		acctest.InitDependencyGraph()
@@ -285,12 +283,12 @@ func init() {
 
 func sweepIdentityTagResource(compartment string) error {
 	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
-	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("tags_import_if_exists", "false"))
+	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
 		return nil
 	}
 
-	identityClient := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).IdentityClient()
+	identityClient := acctest.GetTestClients(&schema.ResourceData{}).IdentityClient()
 	tagIds, err := getTagIds(compartment)
 	if err != nil {
 		return err
@@ -305,7 +303,7 @@ func sweepIdentityTagResource(compartment string) error {
 				fmt.Printf("Error deleting Tag %s %s, It is possible that the resource is already deleted. Please verify manually \n", tagId, error)
 				continue
 			}
-			acctest.WaitTillCondition(TestAccProvider, &tagId, tagSweepWaitCondition, time.Duration(3*time.Minute),
+			acctest.WaitTillCondition(acctest.TestAccProvider, &tagId, tagSweepWaitCondition, time.Duration(3*time.Minute),
 				tagSweepResponseFetchOperation, "identity", true)
 		}
 	}
@@ -319,7 +317,7 @@ func getTagIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	identityClient := acctest.GetTestClients(&schema.ResourceData{}).identityClient()
+	identityClient := acctest.GetTestClients(&schema.ResourceData{}).IdentityClient()
 
 	listTagsRequest := oci_identity.ListTagsRequest{}
 	tagNamespaceIds, error := getTagNamespaceIds(compartment)
@@ -353,11 +351,10 @@ func tagSweepWaitCondition(response common.OCIOperationResponse) bool {
 	return false
 }
 
-func tagSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.identityClient().GetTag(context.Background(), oci_identity.GetTagRequest{RequestMetadata: common.RequestMetadata{
+func tagSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.IdentityClient().GetTag(context.Background(), oci_identity.GetTagRequest{RequestMetadata: common.RequestMetadata{
 		RetryPolicy: retryPolicy,
 	},
 	})
 	return err
 }
-*/

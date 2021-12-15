@@ -7,12 +7,11 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
 func IdentityUsersDataSource() *schema.Resource {
@@ -134,6 +133,10 @@ func (s *IdentityUsersDataSourceCrud) SetData() error {
 			user["capabilities"] = []interface{}{UserCapabilitiesToMap(r.Capabilities)}
 		} else {
 			user["capabilities"] = nil
+		}
+
+		if r.DbUserName != nil {
+			user["db_user_name"] = *r.DbUserName
 		}
 
 		if r.DefinedTags != nil {

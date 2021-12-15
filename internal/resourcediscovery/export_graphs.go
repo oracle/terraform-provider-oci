@@ -79,26 +79,26 @@ var availabilityDomainResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportIdentityAvailabilityDomainHints,
 		},
 	},
-	//"oci_identity_availability_domain": {
-	//	{
-	//		TerraformResourceHints: exportCoreBootVolumeHints,
-	//		datasourceQueryParams: map[string]string{
-	//			"availability_domain": "name",
-	//		},
-	//	},
-	//	{
-	//		TerraformResourceHints: exportFileStorageFileSystemHints,
-	//		datasourceQueryParams: map[string]string{
-	//			"availability_domain": "name",
-	//		},
-	//	},
-	//	{
-	//		TerraformResourceHints: exportFileStorageMountTargetHints,
-	//		datasourceQueryParams: map[string]string{
-	//			"availability_domain": "name",
-	//		},
-	//	},
-	//},
+	"oci_identity_availability_domain": {
+		//{
+		//	TerraformResourceHints: exportCoreBootVolumeHints,
+		//	datasourceQueryParams: map[string]string{
+		//		"availability_domain": "name",
+		//	},
+		//},
+		//{
+		//	TerraformResourceHints: exportFileStorageFileSystemHints,
+		//	datasourceQueryParams: map[string]string{
+		//		"availability_domain": "name",
+		//	},
+		//},
+		//{
+		//	TerraformResourceHints: exportFileStorageMountTargetHints,
+		//	datasourceQueryParams: map[string]string{
+		//		"availability_domain": "name",
+		//	},
+		//},
+	},
 	//"oci_file_storage_file_system": {
 	//	{
 	//		TerraformResourceHints: exportFileStorageSnapshotHints,

@@ -6,20 +6,23 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
+	"time"
 
-	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/oracle/oci-go-sdk/v54/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
-	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
-
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 )
 
 var (
@@ -59,7 +62,7 @@ var (
 		"ip_ranges": acctest.Representation{RepType: acctest.Required, Create: []string{`10.0.0.0/16`}},
 	}
 
-	NetworkSourceResourceDependencies = DefinedTagsDependencies //+ VcnRequiredOnlyResource
+	NetworkSourceResourceDependencies = DefinedTagsDependencies // + VcnRequiredOnlyResource
 )
 
 // issue-routing-tag: identity/default
@@ -118,16 +121,16 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "virtual_source_list.#", "1"),
-				/*
-					func(s *terraform.State) (err error) {
-						resId, err = acctest.FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithBlankDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},*/
+					}
+					return err
+				},
 			),
 		},
 
@@ -254,39 +257,38 @@ func testAccCheckIdentityNetworkSourceDestroy(s *terraform.State) error {
 	return nil
 }
 
-/*
 func init() {
-	if DependencyGraph == nil {
-		InitDependencyGraph()
+	if acctest.DependencyGraph == nil {
+		acctest.InitDependencyGraph()
 	}
-	if !InSweeperExcludeList("IdentityNetworkSource") {
+	if !acctest.InSweeperExcludeList("IdentityNetworkSource") {
 		resource.AddTestSweepers("IdentityNetworkSource", &resource.Sweeper{
 			Name:         "IdentityNetworkSource",
-			Dependencies: DependencyGraph["networkSource"],
+			Dependencies: acctest.DependencyGraph["networkSource"],
 			F:            sweepIdentityNetworkSourceResource,
 		})
 	}
 }
 
 func sweepIdentityNetworkSourceResource(compartment string) error {
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
+	identityClient := acctest.GetTestClients(&schema.ResourceData{}).IdentityClient()
 	networkSourceIds, err := getNetworkSourceIds(compartment)
 	if err != nil {
 		return err
 	}
 	for _, networkSourceId := range networkSourceIds {
-		if ok := SweeperDefaultResourceId[networkSourceId]; !ok {
+		if ok := acctest.SweeperDefaultResourceId[networkSourceId]; !ok {
 			deleteNetworkSourceRequest := oci_identity.DeleteNetworkSourceRequest{}
 
 			deleteNetworkSourceRequest.NetworkSourceId = &networkSourceId
 
-			deleteNetworkSourceRequest.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "identity")
+			deleteNetworkSourceRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "identity")
 			_, error := identityClient.DeleteNetworkSource(context.Background(), deleteNetworkSourceRequest)
 			if error != nil {
 				fmt.Printf("Error deleting NetworkSource %s %s, It is possible that the resource is already deleted. Please verify manually \n", networkSourceId, error)
 				continue
 			}
-			WaitTillCondition(TestAccProvider, &networkSourceId, networkSourceSweepWaitCondition, time.Duration(3*time.Minute),
+			acctest.WaitTillCondition(acctest.TestAccProvider, &networkSourceId, networkSourceSweepWaitCondition, time.Duration(3*time.Minute),
 				networkSourceSweepResponseFetchOperation, "identity", true)
 		}
 	}
@@ -294,13 +296,13 @@ func sweepIdentityNetworkSourceResource(compartment string) error {
 }
 
 func getNetworkSourceIds(compartment string) ([]string, error) {
-	ids := GetResourceIdsToSweep(compartment, "NetworkSourceId")
+	ids := acctest.GetResourceIdsToSweep(compartment, "NetworkSourceId")
 	if ids != nil {
 		return ids, nil
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
+	identityClient := acctest.GetTestClients(&schema.ResourceData{}).IdentityClient()
 
 	listNetworkSourcesRequest := oci_identity.ListNetworkSourcesRequest{}
 	listNetworkSourcesRequest.CompartmentId = &compartmentId
@@ -313,7 +315,7 @@ func getNetworkSourceIds(compartment string) ([]string, error) {
 	for _, networkSource := range listNetworkSourcesResponse.Items {
 		id := *networkSource.Id
 		resourceIds = append(resourceIds, id)
-		AddResourceIdToSweeperResourceIdMap(compartmentId, "NetworkSourceId", id)
+		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "NetworkSourceId", id)
 	}
 	return resourceIds, nil
 }
@@ -326,8 +328,8 @@ func networkSourceSweepWaitCondition(response common.OCIOperationResponse) bool 
 	return false
 }
 
-func networkSourceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.identityClient().GetNetworkSource(context.Background(), oci_identity.GetNetworkSourceRequest{
+func networkSourceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.IdentityClient().GetNetworkSource(context.Background(), oci_identity.GetNetworkSourceRequest{
 		NetworkSourceId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,
@@ -335,4 +337,3 @@ func networkSourceSweepResponseFetchOperation(client *OracleClients, resourceId 
 	})
 	return err
 }
-*/

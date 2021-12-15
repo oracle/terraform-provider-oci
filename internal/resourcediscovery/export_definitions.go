@@ -1986,8 +1986,6 @@ var exportIdentityDomainHints = &TerraformResourceHints{
 	},
 }
 
-/*
-
 var exportIdentityDbCredentialHints = &TerraformResourceHints{
 	resourceClass:        "oci_identity_db_credential",
 	datasourceClass:      "oci_identity_db_credentials",
@@ -1998,6 +1996,7 @@ var exportIdentityDbCredentialHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_integration_integration_instance",
 	datasourceClass:        "oci_integration_integration_instances",
