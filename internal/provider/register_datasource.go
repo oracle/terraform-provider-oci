@@ -4,6 +4,7 @@ import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
+	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
@@ -49,6 +50,11 @@ func init() {
 	RegisterDatasource("oci_analytics_analytics_instance", tf_analytics.AnalyticsAnalyticsInstanceDataSource())
 	RegisterDatasource("oci_analytics_analytics_instance_private_access_channel", tf_analytics.AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
 	RegisterDatasource("oci_analytics_analytics_instances", tf_analytics.AnalyticsAnalyticsInstancesDataSource())
+
+	//apm service
+	RegisterDatasource("oci_apm_data_keys", tf_apm.ApmDataKeysDataSource())
+	RegisterDatasource("oci_apm_apm_domain", tf_apm.ApmApmDomainDataSource())
+	RegisterDatasource("oci_apm_apm_domains", tf_apm.ApmApmDomainsDataSource())
 
 	// bds service
 	RegisterDatasource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationDataSource())

@@ -4,6 +4,7 @@ import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
+	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
@@ -42,6 +43,9 @@ func init() {
 	RegisterResource("oci_analytics_analytics_instance_vanity_url", tf_analytics.AnalyticsAnalyticsInstanceVanityUrlResource())
 	RegisterResource("oci_analytics_analytics_instance", tf_analytics.AnalyticsAnalyticsInstanceResource())
 	RegisterResource("oci_analytics_analytics_instance_private_access_channel", tf_analytics.AnalyticsAnalyticsInstancePrivateAccessChannelResource())
+
+	//apm service
+	RegisterResource("oci_apm_apm_domain", tf_apm.ApmApmDomainResource())
 
 	// bds service
 	RegisterResource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationResource())
