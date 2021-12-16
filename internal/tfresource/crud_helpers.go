@@ -490,7 +490,7 @@ func WaitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
 
 // Helper function to wait for Create to reach terminal state before doing another operation
 // Useful in situations where another operation is done right after Create
-func waitForCreatedState(d *schema.ResourceData, sync ResourceCreator) error {
+func WaitForCreatedState(d *schema.ResourceData, sync ResourceCreator) error {
 	d.SetId(sync.ID())
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
 		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
@@ -552,7 +552,7 @@ func FilterMissingResourceError(sync ResourceVoider, err *error) {
 }
 
 // In the Exadata case the service return the hostname provided by the service with a suffix
-func dbSystemHostnameDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+func DbSystemHostnameDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
 	return EqualIgnoreCaseSuppressDiff(key, old, new, d) || NewIsPrefixOfOldDiffSuppress(key, old, new, d)
 }
 
@@ -560,7 +560,7 @@ func NewIsPrefixOfOldDiffSuppress(key string, old string, new string, d *schema.
 	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
 }
 
-func dbVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+func DbVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
 	if old == "" || new == "" {
 		return false
 	}
@@ -595,7 +595,7 @@ func AdDiffSuppress(key string, old string, new string, d *schema.ResourceData) 
 	return math.Abs(oldf-newf) <= float64EqualityThreshold
 }
 
-func giVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+func GiVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
 	if old == "" || new == "" {
 		return false
 	}

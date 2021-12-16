@@ -4,9 +4,10 @@
 package integrationtest
 
 import (
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 	"regexp"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
