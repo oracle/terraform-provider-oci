@@ -2,6 +2,7 @@ package provider
 
 import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
@@ -20,6 +21,10 @@ func init() {
 	RegisterDatasource("oci_ai_anomaly_detection_models", tf_ai_anomaly_detection.AiAnomalyDetectionModelsDataSource())
 	RegisterDatasource("oci_ai_anomaly_detection_project", tf_ai_anomaly_detection.AiAnomalyDetectionProjectDataSource())
 	RegisterDatasource("oci_ai_anomaly_detection_projects", tf_ai_anomaly_detection.AiAnomalyDetectionProjectsDataSource())
+
+	// analytics service
+	RegisterResource("oci_analytics_analytics_instance", analytics.AnalyticsAnalyticsInstanceDataSource())
+	RegisterResource("oci_analytics_analytics_instance_private_access_channel", analytics.AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
 
 	// identity service
 	RegisterDatasource("oci_identity_smtp_credentials", tf_identity.IdentitySmtpCredentialsDataSource())

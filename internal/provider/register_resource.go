@@ -2,6 +2,7 @@ package provider
 
 import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
@@ -11,11 +12,16 @@ import (
 )
 
 func init() {
-	// ai anomal service
+	// ai anomaly service
 	RegisterResource("oci_ai_anomaly_detection_ai_private_endpoint", tf_ai_anomaly_detection.AiAnomalyDetectionAiPrivateEndpointResource())
 	RegisterResource("oci_ai_anomaly_detection_data_asset", tf_ai_anomaly_detection.AiAnomalyDetectionDataAssetResource())
 	RegisterResource("oci_ai_anomaly_detection_model", tf_ai_anomaly_detection.AiAnomalyDetectionModelResource())
 	RegisterResource("oci_ai_anomaly_detection_project", tf_ai_anomaly_detection.AiAnomalyDetectionProjectResource())
+
+	// analytics service
+	RegisterResource("oci_analytics_analytics_instance", analytics.AnalyticsAnalyticsInstanceResource())
+	RegisterResource("oci_analytics_analytics_instance_private_access_channel", analytics.AnalyticsAnalyticsInstancePrivateAccessChannelResource())
+	RegisterResource("oci_analytics_analytics_instance_vanity_url", analytics.AnalyticsAnalyticsInstanceVanityUrlResource())
 
 	// identity service
 	RegisterResource("oci_budget_alert_rule", budget.BudgetAlertRuleResource())
