@@ -6,9 +6,10 @@ package vault
 import (
 	"context"
 	"fmt"
+	"strconv"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_vault "github.com/oracle/oci-go-sdk/v54/vault"
