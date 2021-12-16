@@ -17,6 +17,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 
+	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
@@ -36,7 +37,7 @@ func init() {
 	exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
 	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
-	//exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
+	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
 	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
 	//exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
@@ -203,7 +204,6 @@ func getCoreDrgRouteTableRouteRuleId(resource *OCIResource) (string, error) {
 	return tf_core.GetDrgRouteTableRouteRuleCompositeId(drgRouteTableId, drgRouteRuleId), nil
 }
 
-/*
 func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
 
 	exadataInfrastructureId := resource.parent.id
@@ -211,9 +211,9 @@ func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find vmClusterNetworkId for Database VmClusterNetwork")
 	}
-	return getVmClusterNetworkCompositeId(exadataInfrastructureId, vmClusterNetworkId), nil
+	return tf_database.GetVmClusterNetworkCompositeId(exadataInfrastructureId, vmClusterNetworkId), nil
 }
-*/
+
 func getDatacatalogDataAssetId(resource *OCIResource) (string, error) {
 
 	catalogId := resource.parent.id

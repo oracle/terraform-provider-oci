@@ -35,6 +35,7 @@ import (
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 	oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
 	oci_email "github.com/oracle/oci-go-sdk/v54/email"
 	oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
@@ -1001,6 +1002,7 @@ var exportDataSafeUserAssessmentHints = &TerraformResourceHints{
 		string(oci_data_safe.UserAssessmentLifecycleStateSucceeded),
 	},
 }
+*/
 
 var exportDatabaseAutonomousContainerDatabaseHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_autonomous_container_database",
@@ -1218,6 +1220,7 @@ var exportDatabaseCloudAutonomousVmClusterHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportDatabaseMigrationMigrationHints = &TerraformResourceHints{
 	resourceClass:          "oci_database_migration_migration",
 	datasourceClass:        "oci_database_migration_migrations",
@@ -1267,7 +1270,6 @@ var exportDatabaseToolsDatabaseToolsConnectionHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportDatabasePluggableDatabaseHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_pluggable_database",
 	datasourceClass:      "oci_database_pluggable_databases",
@@ -1277,7 +1279,7 @@ var exportDatabasePluggableDatabaseHints = &TerraformResourceHints{
 		string(oci_database.PluggableDatabaseLifecycleStateAvailable),
 	},
 }
-*/
+
 var exportDatacatalogCatalogHints = &TerraformResourceHints{
 	resourceClass:        "oci_datacatalog_catalog",
 	datasourceClass:      "oci_datacatalog_catalogs",

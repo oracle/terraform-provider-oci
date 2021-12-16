@@ -563,7 +563,6 @@ func processObjectStoragePreauthenticatedRequest(ctx *resourceDiscoveryContext, 
 	return resources, nil
 }
 
-/*
 func processAutonomousDatabaseSource(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.sourceAttributes["is_refreshable_clone"] == true {
@@ -572,7 +571,7 @@ func processAutonomousDatabaseSource(ctx *resourceDiscoveryContext, resources []
 	}
 	return resources, nil
 }
-*/
+
 func processObjectStorageReplicationPolicy(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.parent == nil {
@@ -993,7 +992,6 @@ func processDrgRouteTableRouteRules(ctx *resourceDiscoveryContext, resources []*
 	return resources, nil
 }
 
-/*
 func filterPrimaryDbHomes(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// No need to filter if db homes are in vm cluster
 	if len(resources) > 0 && resources[0].parent != nil && resources[0].parent.terraformClass == "oci_database_vm_cluster" {
@@ -1041,7 +1039,6 @@ func filterPrimaryDatabases(ctx *resourceDiscoveryContext, resources []*OCIResou
 	return results, nil
 }
 
-*/
 func processIdentityAuthenticationPolicies(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// Add composite id as the resource's import ID
 	for _, resource := range resources {
@@ -1111,65 +1108,65 @@ func processDefaultDhcpOptions(ctx *resourceDiscoveryContext, resources []*OCIRe
 	return resources, nil
 }
 
-//func processDbSystems(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-//	// Fix db version to remove the PSU date from versions with 18+ major version
-//	for _, resource := range resources {
-//		if dbHomes, ok := resource.sourceAttributes["db_home"].([]interface{}); ok {
-//			if dbHome, ok := dbHomes[0].(map[string]interface{}); ok {
-//				if dbVersion, ok := dbHome["db_version"].(string); ok {
-//					dbHome["db_version"] = getValidDbVersion(dbVersion)
-//				}
-//			}
-//		}
-//	}
-//	return resources, nil
-//}
-//
-//func processDatabases(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-//	// Fix database db version to remove the PSU date from versions with 18+ major version
-//	for _, resource := range resources {
-//		if databases, ok := resource.sourceAttributes["database"].([]interface{}); ok {
-//			if database, ok := databases[0].(map[string]interface{}); ok {
-//				if dbVersion, ok := database["db_version"].(string); ok {
-//					database["db_version"] = getValidDbVersion(dbVersion)
-//				}
-//			}
-//		}
-//	}
-//	return resources, nil
-//}
-//
-//func processDatabaseExadataInfrastructures(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-//	// Remove weeks_of_month if there is no item in response
-//	for _, resource := range resources {
-//		if maintenanceWindow, ok := resource.sourceAttributes["maintenance_window"].([]interface{}); ok {
-//			if mWindow, ok := maintenanceWindow[0].(map[string]interface{}); ok {
-//				if weeksOfMonth, ok := mWindow["weeks_of_month"].([]interface{}); ok && len(weeksOfMonth) == 0 {
-//					delete(mWindow, "weeks_of_month")
-//				}
-//			}
-//		}
-//	}
-//	return resources, nil
-//}
-//
-//func getValidDbVersion(dbVersion string) string {
-//	/*
-//		For 11.2.0.4, 12.1.0.2 and 12.2.0.1, the PSU is added as the 5th digit. So when the customer specifies either of these,
-//		service will be returning 11.2.0.4.xxxxxx where the last part is the PSU version.
-//		For 18.0.0.0 and 19.0.0.0 onwards, the second digit specifies the PSU version and the fifth digit specifies the date for that PSU.
-//		(The PSU-date pair change hand in hand)
-//		* For pre 18 versions, service returns 5th digit in response and 5 digit version is valid for Create
-//		* For 18+ versions, service will return PSU date but only 4 digit version is valid for Create.
-//		* Resource discovery will keep only 4 digits in config and dbVersionDiffSuppress will handle the diff
-//	*/
-//	parts := strings.Split(dbVersion, ".")
-//	if strings.Compare(parts[0], "18") == 1 {
-//		return strings.Join(parts[0:4], ".")
-//	}
-//	return dbVersion
-//}
-//
+func processDbSystems(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	// Fix db version to remove the PSU date from versions with 18+ major version
+	for _, resource := range resources {
+		if dbHomes, ok := resource.sourceAttributes["db_home"].([]interface{}); ok {
+			if dbHome, ok := dbHomes[0].(map[string]interface{}); ok {
+				if dbVersion, ok := dbHome["db_version"].(string); ok {
+					dbHome["db_version"] = getValidDbVersion(dbVersion)
+				}
+			}
+		}
+	}
+	return resources, nil
+}
+
+func processDatabases(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	// Fix database db version to remove the PSU date from versions with 18+ major version
+	for _, resource := range resources {
+		if databases, ok := resource.sourceAttributes["database"].([]interface{}); ok {
+			if database, ok := databases[0].(map[string]interface{}); ok {
+				if dbVersion, ok := database["db_version"].(string); ok {
+					database["db_version"] = getValidDbVersion(dbVersion)
+				}
+			}
+		}
+	}
+	return resources, nil
+}
+
+func processDatabaseExadataInfrastructures(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	// Remove weeks_of_month if there is no item in response
+	for _, resource := range resources {
+		if maintenanceWindow, ok := resource.sourceAttributes["maintenance_window"].([]interface{}); ok {
+			if mWindow, ok := maintenanceWindow[0].(map[string]interface{}); ok {
+				if weeksOfMonth, ok := mWindow["weeks_of_month"].([]interface{}); ok && len(weeksOfMonth) == 0 {
+					delete(mWindow, "weeks_of_month")
+				}
+			}
+		}
+	}
+	return resources, nil
+}
+
+func getValidDbVersion(dbVersion string) string {
+	/*
+		For 11.2.0.4, 12.1.0.2 and 12.2.0.1, the PSU is added as the 5th digit. So when the customer specifies either of these,
+		service will be returning 11.2.0.4.xxxxxx where the last part is the PSU version.
+		For 18.0.0.0 and 19.0.0.0 onwards, the second digit specifies the PSU version and the fifth digit specifies the date for that PSU.
+		(The PSU-date pair change hand in hand)
+		* For pre 18 versions, service returns 5th digit in response and 5 digit version is valid for Create
+		* For 18+ versions, service will return PSU date but only 4 digit version is valid for Create.
+		* Resource discovery will keep only 4 digits in config and dbVersionDiffSuppress will handle the diff
+	*/
+	parts := strings.Split(dbVersion, ".")
+	if strings.Compare(parts[0], "18") == 1 {
+		return strings.Join(parts[0:4], ".")
+	}
+	return dbVersion
+}
+
 //func getLogId(resource *OCIResource) (string, error) {
 //	logId, ok := resource.sourceAttributes["id"].(string)
 //	if !ok {

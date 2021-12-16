@@ -761,28 +761,21 @@ func init() {
 	exportCoreVnicAttachmentHints.processDiscoveredResourcesFn = filterSecondaryVnicAttachments
 	exportCoreVolumeGroupHints.processDiscoveredResourcesFn = processVolumeGroups
 
-	//exportDatabaseAutonomousContainerDatabaseHints.requireResourceRefresh = true
-	//exportDatabaseAutonomousDatabaseHints.requireResourceRefresh = true
-	//exportDatabaseAutonomousDatabaseHints.processDiscoveredResourcesFn = processAutonomousDatabaseSource
-	//
-	//exportDatabaseAutonomousExadataInfrastructureHints.requireResourceRefresh = true
-	//
-	//exportDatabaseDbSystemHints.requireResourceRefresh = true
-	//exportDatabaseDbSystemHints.processDiscoveredResourcesFn = processDbSystems
-	//
-	//exportDatabaseDbHomeHints.processDiscoveredResourcesFn = filterPrimaryDbHomes
-	//exportDatabaseDbHomeHints.requireResourceRefresh = true
-	//
-	//exportDatabaseDatabaseHints.requireResourceRefresh = true
-	//exportDatabaseDatabaseHints.processDiscoveredResourcesFn = filterPrimaryDatabases
-	//
-	//exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]interface{}{
-	//	"source": "NONE",
-	//}
-	//exportDatabaseDatabaseHints.processDiscoveredResourcesFn = processDatabases
-	//
-	//exportDatabaseExadataInfrastructureHints.processDiscoveredResourcesFn = processDatabaseExadataInfrastructures
-	//
+	exportDatabaseAutonomousContainerDatabaseHints.requireResourceRefresh = true
+	exportDatabaseAutonomousDatabaseHints.requireResourceRefresh = true
+	exportDatabaseAutonomousDatabaseHints.processDiscoveredResourcesFn = processAutonomousDatabaseSource
+	exportDatabaseAutonomousExadataInfrastructureHints.requireResourceRefresh = true
+	exportDatabaseDbSystemHints.requireResourceRefresh = true
+	exportDatabaseDbSystemHints.processDiscoveredResourcesFn = processDbSystems
+	exportDatabaseDbHomeHints.processDiscoveredResourcesFn = filterPrimaryDbHomes
+	exportDatabaseDbHomeHints.requireResourceRefresh = true
+	exportDatabaseDatabaseHints.requireResourceRefresh = true
+	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = filterPrimaryDatabases
+	exportDatabaseDatabaseHints.defaultValuesForMissingAttributes = map[string]interface{}{
+		"source": "NONE",
+	}
+	exportDatabaseDatabaseHints.processDiscoveredResourcesFn = processDatabases
+	exportDatabaseExadataInfrastructureHints.processDiscoveredResourcesFn = processDatabaseExadataInfrastructures
 	//exportDatascienceModelHints.defaultValuesForMissingAttributes = map[string]interface{}{
 	//	"artifact_content_length": "0",
 	//}

@@ -14,6 +14,7 @@ import (
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
+	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
@@ -285,4 +286,49 @@ func init() {
 	RegisterResource("oci_objectstorage_object", tf_objectstorage.ObjectStorageObjectResource())
 	RegisterResource("oci_objectstorage_namespace_metadata", tf_objectstorage.ObjectStorageNamespaceMetadataResource())
 
+	//Databse Service
+	RegisterResource("oci_database_autonomous_container_database", tf_database.DatabaseAutonomousContainerDatabaseResource())
+	RegisterResource("oci_database_autonomous_container_database_dataguard_association_operation", tf_database.DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource())
+	RegisterResource("oci_database_autonomous_database", tf_database.DatabaseAutonomousDatabaseResource())
+	RegisterResource("oci_database_autonomous_database_backup", tf_database.DatabaseAutonomousDatabaseBackupResource())
+	RegisterResource("oci_database_autonomous_database_instance_wallet_management", tf_database.DatabaseAutonomousDatabaseInstanceWalletManagementResource())
+	RegisterResource("oci_database_autonomous_database_regional_wallet_management", tf_database.DatabaseAutonomousDatabaseRegionalWalletManagementResource())
+	RegisterResource("oci_database_autonomous_database_wallet", tf_database.DatabaseAutonomousDatabaseWalletResource())
+	RegisterResource("oci_database_autonomous_exadata_infrastructure", tf_database.DatabaseAutonomousExadataInfrastructureResource())
+	RegisterResource("oci_database_autonomous_vm_cluster", tf_database.DatabaseAutonomousVmClusterResource())
+	RegisterResource("oci_database_backup", tf_database.DatabaseBackupResource())
+	RegisterResource("oci_database_backup_destination", tf_database.DatabaseBackupDestinationResource())
+	RegisterResource("oci_database_cloud_autonomous_vm_cluster", tf_database.DatabaseCloudAutonomousVmClusterResource())
+	RegisterResource("oci_database_cloud_database_management", tf_database.DatabaseCloudDatabaseManagementResource())
+	RegisterResource("oci_database_cloud_exadata_infrastructure", tf_database.DatabaseCloudExadataInfrastructureResource())
+	RegisterResource("oci_database_cloud_vm_cluster", tf_database.DatabaseCloudVmClusterResource())
+	RegisterResource("oci_database_data_guard_association", tf_database.DatabaseDataGuardAssociationResource())
+	RegisterResource("oci_database_database", tf_database.DatabaseDatabaseResource())
+	RegisterResource("oci_database_database_software_image", tf_database.DatabaseDatabaseSoftwareImageResource())
+	RegisterResource("oci_database_database_upgrade", tf_database.DatabaseDatabaseUpgradeResource())
+	RegisterResource("oci_database_db_home", tf_database.DatabaseDbHomeResource())
+	RegisterResource("oci_database_db_node_console_connection", tf_database.DatabaseDbNodeConsoleConnectionResource())
+	RegisterResource("oci_database_db_system", tf_database.DatabaseDbSystemResource())
+	RegisterResource("oci_database_exadata_infrastructure", tf_database.DatabaseExadataInfrastructureResource())
+	RegisterResource("oci_database_exadata_infrastructure", tf_database.DatabaseExadataInfrastructureResource())
+	RegisterResource("oci_database_exadata_infrastructure_storage", tf_database.DatabaseExadataInfrastructureStorageResource())
+	RegisterResource("oci_database_exadata_iorm_config", tf_database.DatabaseExadataIormConfigResource())
+	RegisterResource("oci_database_external_container_database", tf_database.DatabaseExternalContainerDatabaseResource())
+	RegisterResource("oci_database_external_container_database_management", tf_database.DatabaseExternalContainerDatabaseManagementResource())
+	RegisterResource("oci_database_external_database_connector", tf_database.DatabaseExternalDatabaseConnectorResource())
+	RegisterResource("oci_database_external_non_container_database", tf_database.DatabaseExternalNonContainerDatabaseResource())
+	RegisterResource("oci_database_external_non_container_database_management", tf_database.DatabaseExternalNonContainerDatabaseManagementResource())
+	RegisterResource("oci_database_external_non_container_database_operations_insights_management", tf_database.DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResource())
+	RegisterResource("oci_database_external_pluggable_database", tf_database.DatabaseExternalPluggableDatabaseResource())
+	RegisterResource("oci_database_external_pluggable_database_management", tf_database.DatabaseExternalPluggableDatabaseManagementResource())
+	RegisterResource("oci_database_external_pluggable_database_operations_insights_management", tf_database.DatabaseExternalPluggableDatabaseOperationsInsightsManagementResource())
+	RegisterResource("oci_database_key_store", tf_database.DatabaseKeyStoreResource())
+	RegisterResource("oci_database_maintenance_run", tf_database.DatabaseMaintenanceRunResource())
+	RegisterResource("oci_database_pluggable_database", tf_database.DatabasePluggableDatabaseResource())
+	RegisterResource("oci_database_pluggable_databases_local_clone", tf_database.DatabasePluggableDatabasesLocalCloneResource())
+	RegisterResource("oci_database_pluggable_databases_remote_clone", tf_database.DatabasePluggableDatabasesRemoteCloneResource())
+	RegisterResource("oci_database_vm_cluster", tf_database.DatabaseVmClusterResource())
+	RegisterResource("oci_database_vm_cluster_add_virtual_machine", tf_database.DatabaseVmClusterAddVirtualMachineResource())
+	RegisterResource("oci_database_vm_cluster_network", tf_database.DatabaseVmClusterNetworkResource())
+	RegisterResource("oci_database_vm_cluster_remove_virtual_machine", tf_database.DatabaseVmClusterRemoveVirtualMachineResource())
 }
