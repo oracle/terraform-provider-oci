@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 )
@@ -48,6 +49,8 @@ func init() {
 	RegisterDatasource("oci_identity_domains", tf_identity.IdentityDomainsDataSource())
 	RegisterDatasource("oci_identity_ui_password", tf_identity.IdentityUiPasswordDataSource())
 	RegisterDatasource("oci_identity_fault_domains", tf_identity.IdentityFaultDomainsDataSource())
+	RegisterDatasource("oci_audit_configuration", audit.AuditConfigurationDataSource())
+	RegisterDatasource("oci_audit_events", audit.AuditAuditEventsDataSource())
 
 	//kms service
 	RegisterDatasource("oci_kms_key", tf_kms.KmsKeyDataSource())
