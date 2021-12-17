@@ -30,7 +30,7 @@ var (
 
 	certificateDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"filter":           acctest.RepresentationGroup{acctest.Required, certificateDataSourceFilterRepresentation}}
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: certificateDataSourceFilterRepresentation}}
 	certificateDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `certificate_name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_load_balancer_certificate.test_certificate.certificate_name}`}},

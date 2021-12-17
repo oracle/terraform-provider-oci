@@ -62,3 +62,9 @@ These missing attributes are also added to the lifecycle ignore_changes.
 	EnvOCITFLogFile                     = "OCI_TF_LOG_PATH" // Log path for Custom TF logger - TFProviderLogger
 	TerraformBinPathName                = "terraform_bin_path"
 )
+
+const (
+	SubnetService  = "subnet"
+	CoreService    = "core"
+	DeleteResource = "delete"
+)

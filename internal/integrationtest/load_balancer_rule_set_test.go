@@ -34,14 +34,14 @@ var (
 
 	ruleSetDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"filter":           acctest.RepresentationGroup{acctest.Required, ruleSetDataSourceFilterRepresentation}}
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ruleSetDataSourceFilterRepresentation}}
 	ruleSetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
 	}
 
 	ruleSetRepresentation = map[string]interface{}{
-		"items":            acctest.RepresentationGroup{acctest.Required, ruleSetItemsRepresentation},
+		"items":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ruleSetItemsRepresentation},
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `example_rule_set`},
 	}

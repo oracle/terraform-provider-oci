@@ -36,10 +36,10 @@ var (
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_private":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"reserved_ips":               acctest.RepresentationGroup{acctest.Optional, loadBalancerReservedIpsRepresentation},
-		"shape_details":              acctest.RepresentationGroup{acctest.Required, loadBalancerShapeDetailsRepresentation},
+		"reserved_ips":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: loadBalancerReservedIpsRepresentation},
+		"shape_details":              acctest.RepresentationGroup{RepType: acctest.Required, Group: loadBalancerShapeDetailsRepresentation},
 		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{}},
-		"lifecycle":                  acctest.RepresentationGroup{acctest.Required, ignoreChangesLBRepresentation},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
 	}
 
 	loadBalancerShapeDetailsRepresentation = map[string]interface{}{

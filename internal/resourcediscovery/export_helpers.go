@@ -11,6 +11,8 @@ import (
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
+	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 )
@@ -25,9 +27,9 @@ func init() {
 	//exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 	//exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
-	//exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
-	//exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
-	//exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
+	exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
+	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
+	exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
 	//exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 	//exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
 	//exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
@@ -167,13 +169,11 @@ func getBudgetAlertRuleId(resource *OCIResource) (string, error) {
 	return budget.GetAlertRuleCompositeId(alertRuleId, budgetId), nil
 }
 
-/*
-
 func getCoreInstancePoolInstanceId(resource *OCIResource) (string, error) {
 
 	instancePoolId := resource.parent.id
 	instanceId := resource.sourceAttributes["instance_id"].(string)
-	return getInstancePoolInstanceCompositeId(instancePoolId, instanceId), nil
+	return tf_core.GetInstancePoolInstanceCompositeId(instancePoolId, instanceId), nil
 }
 
 func getCoreNetworkSecurityGroupSecurityRuleId(resource *OCIResource) (string, error) {
@@ -183,7 +183,7 @@ func getCoreNetworkSecurityGroupSecurityRuleId(resource *OCIResource) (string, e
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find id for Core NetworkSecurityGroupSecurityRule")
 	}
-	return getNetworkSecurityGroupSecurityRuleCompositeId(networkSecurityGroupId, securityRuleId), nil
+	return tf_core.GetNetworkSecurityGroupSecurityRuleCompositeId(networkSecurityGroupId, securityRuleId), nil
 }
 
 func getCoreDrgRouteTableRouteRuleId(resource *OCIResource) (string, error) {
@@ -193,9 +193,10 @@ func getCoreDrgRouteTableRouteRuleId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find drgRouteTableId for Core DrgRouteTableRouteRule")
 	}
-	return getDrgRouteTableRouteRuleCompositeId(drgRouteTableId, drgRouteRuleId), nil
+	return tf_core.GetDrgRouteTableRouteRuleCompositeId(drgRouteTableId, drgRouteRuleId), nil
 }
 
+/*
 func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
 
 	exadataInfrastructureId := resource.parent.id

@@ -4,9 +4,14 @@
 package acctest
 
 import (
+	"context"
+	"fmt"
 	"log"
 	"strings"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 
@@ -69,10 +74,9 @@ func GetResourceIdsToSweep(compartmentId string, resourceName string) []string {
 	return nil
 }
 
-/*
 func GetAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	availabilityDomains := make(map[string]string)
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
+	identityClient := GetTestClients(&schema.ResourceData{}).IdentityClient()
 	adRequest := oci_identity.ListAvailabilityDomainsRequest{}
 	adRequest.CompartmentId = &compartmentId
 	ads, err := identityClient.ListAvailabilityDomains(context.Background(), adRequest)
@@ -84,7 +88,7 @@ func GetAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	}
 	return availabilityDomains, nil
 }
-*/
+
 func InSweeperExcludeList(sweeperName string) bool {
 	excludeListSweeper := strings.Split(utils.GetEnvSettingWithBlankDefault("sweep_exclude_list"), ",")
 

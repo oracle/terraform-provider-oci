@@ -33,7 +33,7 @@ func assertEnvAvailable(envVar string, t *testing.T) {
 	}
 }
 
-func getCompartmentIDForLegacyTests() string {
+func GetCompartmentIDForLegacyTests() string {
 	var compartmentId string
 	if compartmentId = utils.GetEnvSettingWithDefault("compartment_ocid", "compartment_ocid"); compartmentId == "compartment_ocid" {
 		compartmentId = utils.GetRequiredEnvSetting("compartment_id_for_create")
@@ -47,7 +47,7 @@ func LegacyTestProviderConfig() string {
 
 	// Add the 'compartment_id' used by the legacy tests.
 	return config + `variable "compartment_id" {
-		default = "` + getCompartmentIDForLegacyTests() + `"
+		default = "` + GetCompartmentIDForLegacyTests() + `"
 	}
 	`
 }

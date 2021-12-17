@@ -48,7 +48,7 @@ func retryLoop(t *testing.T, r *retryTestInput) {
 
 	for i := uint(1); true; i++ {
 		operationResponse := common.NewOCIOperationResponse(TestOCIResponse{statusCode: r.httpResponseStatusCode, header: r.header}, r.responseError, i)
-		expectedShouldRetry := getElapsedRetryDuration(startTime) < (time.Duration(r.expectedRetryTimeSeconds) * time.Second)
+		expectedShouldRetry := GetElapsedRetryDuration(startTime) < (time.Duration(r.expectedRetryTimeSeconds) * time.Second)
 		actualShouldRetry := retryPolicy.ShouldRetryOperation(operationResponse)
 		if actualShouldRetry != expectedShouldRetry {
 			t.Errorf("Expected shouldRetry to return %v for attempt %v", expectedShouldRetry, i)

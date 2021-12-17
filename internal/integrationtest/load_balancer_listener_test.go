@@ -33,12 +33,12 @@ var (
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `myListener1`},
 		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
-		"connection_configuration": acctest.RepresentationGroup{acctest.Optional, listenerConnectionConfigurationRepresentation},
+		"connection_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: listenerConnectionConfigurationRepresentation},
 		"hostname_names":           acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
 		"path_route_set_name":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_path_route_set.test_path_route_set.name}`},
 		"routing_policy_name":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name}`},
 		"rule_set_names":           acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
-		"ssl_configuration":        acctest.RepresentationGroup{acctest.Optional, listenerSslConfigurationRepresentationOciCerts},
+		"ssl_configuration":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: listenerSslConfigurationRepresentationOciCerts},
 	}
 	listenerConnectionConfigurationRepresentation = map[string]interface{}{
 		"idle_timeout_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
@@ -64,12 +64,12 @@ var (
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `myListener1`},
 		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
-		"connection_configuration": acctest.RepresentationGroup{acctest.Optional, listenerConnectionConfigurationRepresentation},
+		"connection_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: listenerConnectionConfigurationRepresentation},
 		"hostname_names":           acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
 		"path_route_set_name":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_path_route_set.test_path_route_set.name}`},
 		"routing_policy_name":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name}`},
 		"rule_set_names":           acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
-		"ssl_configuration":        acctest.RepresentationGroup{acctest.Optional, listenerSslConfigurationRepresentationLBCert},
+		"ssl_configuration":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: listenerSslConfigurationRepresentationLBCert},
 	}
 
 	listenerSslConfigurationRepresentationLBCert = map[string]interface{}{

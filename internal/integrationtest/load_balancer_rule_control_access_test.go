@@ -24,14 +24,14 @@ var (
 
 	ruleSetControlAccessDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"filter":           acctest.RepresentationGroup{acctest.Required, ruleSetControlAccessDataSourceFilterRepresentation}}
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ruleSetControlAccessDataSourceFilterRepresentation}}
 	ruleSetControlAccessDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_load_balancer_rule_set.test_control_access_rule_set.name}`}},
 	}
 
 	ruleSetControlAccessRepresentation = map[string]interface{}{
-		"items":            acctest.RepresentationGroup{acctest.Required, ruleSetItemsControlAccessRepresentation},
+		"items":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ruleSetItemsControlAccessRepresentation},
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `example_control_access_rule_set`},
 	}
@@ -124,7 +124,7 @@ func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_control_access_rule_set", acctest.Optional, acctest.Update,
 						acctest.RepresentationCopyWithNewProperties(ruleSetControlAccessRepresentation, map[string]interface{}{
-							"items": acctest.RepresentationGroup{acctest.Required, ruleSetItemsAnotherControlAccessRepresentation},
+							"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: ruleSetItemsAnotherControlAccessRepresentation},
 						})),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),

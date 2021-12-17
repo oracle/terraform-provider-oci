@@ -35,6 +35,7 @@ import (
 	//oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
+	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
@@ -464,7 +465,7 @@ var exportContainerengineNodePoolHints = &TerraformResourceHints{
 	resourceAbbreviation:   "node_pool",
 	requireResourceRefresh: true,
 }
-
+*/
 var exportCoreBootVolumeBackupHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_boot_volume_backup",
 	datasourceClass:      "oci_core_boot_volume_backups",
@@ -918,6 +919,7 @@ var exportCoreDrgRouteTableRouteRuleHints = &TerraformResourceHints{
 	resourceAbbreviation: "drg_route_table_route_rule",
 }
 
+/*
 var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	resourceClass:          "oci_data_safe_data_safe_private_endpoint",
 	datasourceClass:        "oci_data_safe_data_safe_private_endpoints",

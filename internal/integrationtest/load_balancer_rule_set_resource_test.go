@@ -17,12 +17,12 @@ import (
 
 var (
 	allowRuleSetRepresentation = map[string]interface{}{
-		"items":            acctest.RepresentationGroup{acctest.Required, allowRuleItemsRepresentation},
+		"items":            acctest.RepresentationGroup{RepType: acctest.Required, Group: allowRuleItemsRepresentation},
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `example_rule_set`},
 	}
 	allowRuleSetRepresentationWithTwoItems = map[string]interface{}{
-		"items":            []acctest.RepresentationGroup{{acctest.Required, allowRuleItemsRepresentation}, {acctest.Required, allowRuleItemsRepresentationWithTwoConditions}},
+		"items":            []acctest.RepresentationGroup{{RepType: acctest.Required, Group: allowRuleItemsRepresentation}, {RepType: acctest.Required, Group: allowRuleItemsRepresentationWithTwoConditions}},
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `example_rule_set`},
 	}
@@ -35,12 +35,12 @@ var (
 	allowRuleItemsRepresentation = map[string]interface{}{
 		"action":      acctest.Representation{RepType: acctest.Required, Create: `ALLOW`},
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`},
-		"conditions":  []acctest.RepresentationGroup{{acctest.Optional, itemsConditionsRepresentationSourceIPCondition}},
+		"conditions":  []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: itemsConditionsRepresentationSourceIPCondition}},
 	}
 	allowRuleItemsRepresentationWithTwoConditions = map[string]interface{}{
 		"action":      acctest.Representation{RepType: acctest.Required, Create: `ALLOW`},
 		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`},
-		"conditions":  []acctest.RepresentationGroup{{acctest.Optional, itemsConditionsRepresentationSourceVCNID}, {acctest.Optional, itemsConditionsRepresentationSourceVCNIP}},
+		"conditions":  []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: itemsConditionsRepresentationSourceVCNID}, {RepType: acctest.Optional, Group: itemsConditionsRepresentationSourceVCNIP}},
 	}
 
 	itemsConditionsRepresentationSourceIPCondition = map[string]interface{}{
@@ -85,7 +85,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", acctest.Optional, acctest.Update,
-						acctest.GetUpdatedRepresentationCopy("items", acctest.RepresentationGroup{acctest.Required, httpResponseRuleItemsRepresentation}, allowRuleSetRepresentation)),
+						acctest.GetUpdatedRepresentationCopy("items", acctest.RepresentationGroup{RepType: acctest.Required, Group: httpResponseRuleItemsRepresentation}, allowRuleSetRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
@@ -155,7 +155,7 @@ func TestLoadBalancerRuleSetResource_allowAction(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", acctest.Optional, acctest.Update,
-						acctest.GetUpdatedRepresentationCopy("items", acctest.RepresentationGroup{acctest.Required, allowRuleItemsRepresentationWithTwoConditions}, allowRuleSetRepresentation)),
+						acctest.GetUpdatedRepresentationCopy("items", acctest.RepresentationGroup{RepType: acctest.Required, Group: allowRuleItemsRepresentationWithTwoConditions}, allowRuleSetRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
