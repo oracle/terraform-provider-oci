@@ -10,6 +10,7 @@ import (
 
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 )
 
@@ -22,7 +23,7 @@ func init() {
 	//exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
 	//exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 	//exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
-	//exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
+	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
 	//exportCoreInstancePoolInstanceHints.getIdFn = getCoreInstancePoolInstanceId
 	//exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	//exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
@@ -153,6 +154,8 @@ func getBlockchainOsnId(resource *OCIResource) (string, error) {
 	return getOsnCompositeId(blockchainPlatformId, osnId), nil
 }
 
+*/
+
 func getBudgetAlertRuleId(resource *OCIResource) (string, error) {
 
 	alertRuleId, ok := resource.sourceAttributes["id"].(string)
@@ -160,8 +163,10 @@ func getBudgetAlertRuleId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find alertRuleId for Budget AlertRule")
 	}
 	budgetId := resource.parent.id
-	return getAlertRuleCompositeId(alertRuleId, budgetId), nil
+	return budget.GetAlertRuleCompositeId(alertRuleId, budgetId), nil
 }
+
+/*
 
 func getCoreInstancePoolInstanceId(resource *OCIResource) (string, error) {
 

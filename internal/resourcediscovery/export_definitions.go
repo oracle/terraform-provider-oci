@@ -12,7 +12,6 @@ import (
 	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	//oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
-	//oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	//oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
 	//oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
 	//oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
@@ -34,6 +33,7 @@ import (
 	//oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
 	//oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	//oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
@@ -320,6 +320,8 @@ var exportBlockchainOsnHints = &TerraformResourceHints{
 	},
 }
 
+*/
+
 var exportBudgetBudgetHints = &TerraformResourceHints{
 	resourceClass:        "oci_budget_budget",
 	datasourceClass:      "oci_budget_budgets",
@@ -339,6 +341,8 @@ var exportBudgetAlertRuleHints = &TerraformResourceHints{
 		string(oci_budget.AlertRuleLifecycleStateActive),
 	},
 }
+
+/*
 
 var exportCertificatesManagementCaBundleHints = &TerraformResourceHints{
 	resourceClass:          "oci_certificates_management_ca_bundle",

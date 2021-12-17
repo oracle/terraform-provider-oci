@@ -4,7 +4,7 @@
 package resourcediscovery
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
-	//"budget":               budgetResourceGraph,
+	"budget": budgetResourceGraph,
 	//"email_tenancy":        emailTenancyResourceGraph,
 	//"cloud_guard_tenancy":  cloudGuardTenancyResourceGraph,
 	"identity": identityResourceGraph,
@@ -203,6 +203,8 @@ var blockchainResourceGraph = TerraformResourceGraph{
 	},
 }
 
+*/
+
 var budgetResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{
@@ -221,6 +223,8 @@ var budgetResourceGraph = TerraformResourceGraph{
 		},
 	},
 }
+
+/*
 
 var certificatesManagementResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {

@@ -2,11 +2,14 @@ package provider
 
 import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 )
 
 func init() {
+	RegisterResource("oci_budget_alert_rule", budget.BudgetAlertRuleResource())
+	RegisterResource("oci_budget_budget", budget.BudgetBudgetResource())
 	RegisterResource("oci_identity_dynamic_group", tf_identity.IdentityDynamicGroupResource())
 	RegisterResource("oci_identity_smtp_credential", tf_identity.IdentitySmtpCredentialResource())
 	RegisterResource("oci_identity_authentication_policy", tf_identity.IdentityAuthenticationPolicyResource())
