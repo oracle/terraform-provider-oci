@@ -1,36 +1,35 @@
 package resourcediscovery
 
+import oci_core "github.com/oracle/oci-go-sdk/v54/core"
+
 /*
  * exportRelatedResourcesGraph specify the related resources for a given resource type
  */
 var exportRelatedResourcesGraph = TerraformResourceGraph{
-	/*
-
-			//INSTANCES
-		"oci_core_instance": {
-			{
-				TerraformResourceHints: exportCoreVolumeAttachmentHints,
-				datasourceQueryParams: map[string]string{
-					"availability_domain": "availability_domain",
-					"instance_id":         "id",
-				},
-			},
-			{
-				TerraformResourceHints: exportCoreVnicAttachmentHints,
-				datasourceQueryParams: map[string]string{
-					"instance_id": "id",
-				},
+	//INSTANCES
+	"oci_core_instance": {
+		{
+			TerraformResourceHints: exportCoreVolumeAttachmentHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "availability_domain",
+				"instance_id":         "id",
 			},
 		},
-		"oci_core_volume_attachment": {
-			{
-				TerraformResourceHints: exportCoreVolumeClosureHints,
-				datasourceQueryParams: map[string]string{
-					"volume_id": "volume_id",
-				},
+		{
+			TerraformResourceHints: exportCoreVnicAttachmentHints,
+			datasourceQueryParams: map[string]string{
+				"instance_id": "id",
 			},
 		},
-	*/
+	},
+	"oci_core_volume_attachment": {
+		{
+			TerraformResourceHints: exportCoreVolumeClosureHints,
+			datasourceQueryParams: map[string]string{
+				"volume_id": "volume_id",
+			},
+		},
+	},
 
 	//LOAD BALANCERS
 
@@ -82,7 +81,7 @@ var exportRelatedResourcesGraph = TerraformResourceGraph{
 
 // Separate hints for closure as we want to discover volumes related to an instance only
 // and list data source for these give volumes for an AD or a volume Group only
-/*
+
 var exportCoreVolumeClosureHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_volume",
 	datasourceClass:      "oci_core_volume",
@@ -91,4 +90,3 @@ var exportCoreVolumeClosureHints = &TerraformResourceHints{
 		string(oci_core.VolumeLifecycleStateAvailable),
 	},
 }
-*/

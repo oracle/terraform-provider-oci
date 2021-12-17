@@ -90,7 +90,7 @@ func SystemTagsToMap(systemTags map[string]map[string]interface{}) map[string]in
 	return DefinedTagsToMap(systemTags)
 }
 
-func mapToSystemTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {
+func MapToSystemTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {
 	systemTags := make(map[string]map[string]interface{})
 	if len(rawMap) > 0 {
 		for key, value := range rawMap {

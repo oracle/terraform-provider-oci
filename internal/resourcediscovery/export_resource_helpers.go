@@ -17,6 +17,8 @@ import (
 	"sync"
 	"time"
 
+	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
@@ -739,26 +741,26 @@ func init() {
 	exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
 	exportLoadBalancerLoadBalancerRoutingPolicyHints.processDiscoveredResourcesFn = processLoadBalancerRoutingPolicies
 
-	//exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
-	//exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
-	//exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
-	//exportCoreImageHints.processDiscoveredResourcesFn = filterCustomImages
-	//
-	//exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
-	//exportCoreInstanceHints.processDiscoveredResourcesFn = processInstances
-	//exportCorePublicIpHints.processDiscoveredResourcesFn = processCorePublicIp
-	//exportCorePrivateIpHints.processDiscoveredResourcesFn = processPrivateIps
-	//exportCoreInstanceHints.requireResourceRefresh = true
-	//exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceClass = "oci_core_network_security_group_security_rules"
-	//exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceItemsAttr = "security_rules"
-	//exportCoreNetworkSecurityGroupSecurityRuleHints.processDiscoveredResourcesFn = processNetworkSecurityGroupRules
-	//exportCoreRouteTableHints.processDiscoveredResourcesFn = processDefaultRouteTables
-	//exportCoreSecurityListHints.processDiscoveredResourcesFn = processDefaultSecurityLists
-	//exportCoreVcnHints.processDiscoveredResourcesFn = processCoreVcns
-	//exportCoreVnicAttachmentHints.requireResourceRefresh = true
-	//exportCoreVnicAttachmentHints.processDiscoveredResourcesFn = filterSecondaryVnicAttachments
-	//exportCoreVolumeGroupHints.processDiscoveredResourcesFn = processVolumeGroups
-	//
+	exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
+	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
+	exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
+	exportCoreImageHints.processDiscoveredResourcesFn = filterCustomImages
+
+	exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
+	exportCoreInstanceHints.processDiscoveredResourcesFn = processInstances
+	exportCorePublicIpHints.processDiscoveredResourcesFn = processCorePublicIp
+	exportCorePrivateIpHints.processDiscoveredResourcesFn = processPrivateIps
+	exportCoreInstanceHints.requireResourceRefresh = true
+	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceClass = "oci_core_network_security_group_security_rules"
+	exportCoreNetworkSecurityGroupSecurityRuleHints.datasourceItemsAttr = "security_rules"
+	exportCoreNetworkSecurityGroupSecurityRuleHints.processDiscoveredResourcesFn = processNetworkSecurityGroupRules
+	exportCoreRouteTableHints.processDiscoveredResourcesFn = processDefaultRouteTables
+	exportCoreSecurityListHints.processDiscoveredResourcesFn = processDefaultSecurityLists
+	exportCoreVcnHints.processDiscoveredResourcesFn = processCoreVcns
+	exportCoreVnicAttachmentHints.requireResourceRefresh = true
+	exportCoreVnicAttachmentHints.processDiscoveredResourcesFn = filterSecondaryVnicAttachments
+	exportCoreVolumeGroupHints.processDiscoveredResourcesFn = processVolumeGroups
+
 	//exportDatabaseAutonomousContainerDatabaseHints.requireResourceRefresh = true
 	//exportDatabaseAutonomousDatabaseHints.requireResourceRefresh = true
 	//exportDatabaseAutonomousDatabaseHints.processDiscoveredResourcesFn = processAutonomousDatabaseSource
@@ -824,11 +826,11 @@ func init() {
 	//exportNetworkLoadBalancerBackendSetHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackendSets
 	//exportNetworkLoadBalancerListenerHints.findResourcesOverrideFn = findNetworkLoadBalancerListeners
 	//exportNetworkLoadBalancerListenerHints.processDiscoveredResourcesFn = processNetworkLoadBalancerListeners
-	//
-	//exportCoreDrgRouteTableRouteRuleHints.datasourceClass = "oci_core_drg_route_table_route_rules"
-	//exportCoreDrgRouteTableRouteRuleHints.datasourceItemsAttr = "drg_route_rules"
-	//exportCoreDrgRouteTableRouteRuleHints.processDiscoveredResourcesFn = processDrgRouteTableRouteRules
-	//
+
+	exportCoreDrgRouteTableRouteRuleHints.datasourceClass = "oci_core_drg_route_table_route_rules"
+	exportCoreDrgRouteTableRouteRuleHints.datasourceItemsAttr = "drg_route_rules"
+	exportCoreDrgRouteTableRouteRuleHints.processDiscoveredResourcesFn = processDrgRouteTableRouteRules
+
 	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.findResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
 	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.processDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
 	//

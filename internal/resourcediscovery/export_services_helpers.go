@@ -3,6 +3,7 @@ package resourcediscovery
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -83,6 +84,7 @@ func getModelProvenanceId(resource *OCIResource) (string, error) {
 
 	return getModelProvenanceCompositeId(modelId), nil
 }
+*/
 
 func processCorePublicIp(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	publicIps := []*OCIResource{}
@@ -101,6 +103,7 @@ func processCorePublicIp(ctx *resourceDiscoveryContext, resources []*OCIResource
 	return publicIps, nil
 }
 
+/*
 func processContainerengineNodePool(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, nodePool := range resources {
 		// subnet_ids and quantity_per_subnet are deprecated and conflict with node_config_details
@@ -163,7 +166,7 @@ func processKmsKeyVersion(ctx *resourceDiscoveryContext, resources []*OCIResourc
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
-/*
+
 func processPrivateIps(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	privateIps := []*OCIResource{}
 
@@ -267,6 +270,7 @@ func filterSecondaryVnicAttachments(ctx *resourceDiscoveryContext, resources []*
 	return results, nil
 }
 
+/*
 func filterMysqlBackups(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
@@ -300,7 +304,7 @@ func processMysqlDbSystem(ctx *resourceDiscoveryContext, resources []*OCIResourc
 
 	return resources, nil
 }
-
+*/
 func filterSourcedBootVolumes(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
@@ -321,7 +325,6 @@ func filterSourcedBootVolumes(ctx *resourceDiscoveryContext, resources []*OCIRes
 	return results, nil
 }
 
-*/
 func processAvailabilityDomains(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for idx, ad := range resources {
 		ad.sourceAttributes["index"] = idx + 1
@@ -379,6 +382,8 @@ func getObjectStorageNamespaceHCLDatasource(builder *strings.Builder, ociRes *OC
 	return nil
 }
 
+*/
+
 func filterCustomImages(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
@@ -424,7 +429,6 @@ func processVolumeGroups(ctx *resourceDiscoveryContext, resources []*OCIResource
 
 	return resources, nil
 }
-*/
 
 func processLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, backendSet := range resources {
@@ -964,7 +968,6 @@ func processTagDefinitions(ctx *resourceDiscoveryContext, resources []*OCIResour
 	return resources, nil
 }
 
-/*
 func processNetworkSecurityGroupRules(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.parent == nil {
@@ -996,6 +999,7 @@ func processDrgRouteTableRouteRules(ctx *resourceDiscoveryContext, resources []*
 	return resources, nil
 }
 
+/*
 func filterPrimaryDbHomes(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// No need to filter if db homes are in vm cluster
 	if len(resources) > 0 && resources[0].parent != nil && resources[0].parent.terraformClass == "oci_database_vm_cluster" {
@@ -1053,67 +1057,66 @@ func processIdentityAuthenticationPolicies(ctx *resourceDiscoveryContext, resour
 	return resources, nil
 }
 
-//
-//func processDefaultSecurityLists(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-//	// Default security lists need to be handled as default resources
-//	for _, resource := range resources {
-//		if resource.parent == nil {
-//			continue
-//		}
-//
-//		if resource.id == resource.parent.sourceAttributes["default_security_list_id"].(string) {
-//			resource.sourceAttributes["manage_default_resource_id"] = resource.id
-//			resource.TerraformResource.terraformClass = "oci_core_default_security_list"
-//
-//			// Don't use references to parent resources if they will be omitted from final result
-//			if !resource.parent.omitFromExport {
-//				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_security_list_id")
-//			}
-//		}
-//	}
-//	return resources, nil
-//}
-//
-//func processDefaultRouteTables(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-//	// Default route tables need to be handled as default resources
-//	for _, resource := range resources {
-//		if resource.parent == nil {
-//			continue
-//		}
-//
-//		if resource.id == resource.parent.sourceAttributes["default_route_table_id"].(string) {
-//			resource.sourceAttributes["manage_default_resource_id"] = resource.id
-//			resource.TerraformResource.terraformClass = "oci_core_default_route_table"
-//
-//			// Don't use references to parent resources if they will be omitted from final result
-//			if !resource.parent.omitFromExport {
-//				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_route_table_id")
-//			}
-//		}
-//	}
-//	return resources, nil
-//}
-//
-//func processDefaultDhcpOptions(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-//	// Default dhcp options need to be handled as default resources
-//	for _, resource := range resources {
-//		if resource.parent == nil {
-//			continue
-//		}
-//
-//		if resource.id == resource.parent.sourceAttributes["default_dhcp_options_id"].(string) {
-//			resource.sourceAttributes["manage_default_resource_id"] = resource.id
-//			resource.TerraformResource.terraformClass = "oci_core_default_dhcp_options"
-//
-//			// Don't use references to parent resources if they will be omitted from final result
-//			if !resource.parent.omitFromExport {
-//				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_dhcp_options_id")
-//			}
-//		}
-//	}
-//	return resources, nil
-//}
-//
+func processDefaultSecurityLists(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	// Default security lists need to be handled as default resources
+	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
+
+		if resource.id == resource.parent.sourceAttributes["default_security_list_id"].(string) {
+			resource.sourceAttributes["manage_default_resource_id"] = resource.id
+			resource.TerraformResource.terraformClass = "oci_core_default_security_list"
+
+			// Don't use references to parent resources if they will be omitted from final result
+			if !resource.parent.omitFromExport {
+				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_security_list_id")
+			}
+		}
+	}
+	return resources, nil
+}
+
+func processDefaultRouteTables(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	// Default route tables need to be handled as default resources
+	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
+
+		if resource.id == resource.parent.sourceAttributes["default_route_table_id"].(string) {
+			resource.sourceAttributes["manage_default_resource_id"] = resource.id
+			resource.TerraformResource.terraformClass = "oci_core_default_route_table"
+
+			// Don't use references to parent resources if they will be omitted from final result
+			if !resource.parent.omitFromExport {
+				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_route_table_id")
+			}
+		}
+	}
+	return resources, nil
+}
+
+func processDefaultDhcpOptions(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	// Default dhcp options need to be handled as default resources
+	for _, resource := range resources {
+		if resource.parent == nil {
+			continue
+		}
+
+		if resource.id == resource.parent.sourceAttributes["default_dhcp_options_id"].(string) {
+			resource.sourceAttributes["manage_default_resource_id"] = resource.id
+			resource.TerraformResource.terraformClass = "oci_core_default_dhcp_options"
+
+			// Don't use references to parent resources if they will be omitted from final result
+			if !resource.parent.omitFromExport {
+				resource.TerraformResource.terraformReferenceIdString = fmt.Sprintf("%s.%s", resource.parent.getTerraformReference(), "default_dhcp_options_id")
+			}
+		}
+	}
+	return resources, nil
+}
+
 //func processDbSystems(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 //	// Fix db version to remove the PSU date from versions with 18+ major version
 //	for _, resource := range resources {
@@ -1181,19 +1184,19 @@ func processIdentityAuthenticationPolicies(ctx *resourceDiscoveryContext, resour
 //	logGroupId := resource.parent.id
 //	return getLogCompositeId(logGroupId, logId), nil
 //}
-//
-//func processCoreVcns(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-//	// remove deprecated cidr_block field from discovered vcns,
-//	// either cidr_block or cidr_blocks should be specified in config
-//	// service returns the cidr_block value in cidr_blocks field
-//	for _, resource := range resources {
-//		if _, ok := resource.sourceAttributes["cidr_block"].(string); ok {
-//			delete(resource.sourceAttributes, "cidr_block")
-//		}
-//	}
-//	return resources, nil
-//}
-//
+
+func processCoreVcns(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	// remove deprecated cidr_block field from discovered vcns,
+	// either cidr_block or cidr_blocks should be specified in config
+	// service returns the cidr_block value in cidr_blocks field
+	for _, resource := range resources {
+		if _, ok := resource.sourceAttributes["cidr_block"].(string); ok {
+			delete(resource.sourceAttributes, "cidr_block")
+		}
+	}
+	return resources, nil
+}
+
 //func processCertificateAuthorities(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 //	for _, resource := range resources {
 //		certificateAuthorityConfigMap := map[string]interface{}{}

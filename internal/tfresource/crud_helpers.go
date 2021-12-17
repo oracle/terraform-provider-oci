@@ -627,7 +627,7 @@ func mySqlVersionDiffSuppress(key string, old string, new string, d *schema.Reso
 	return false
 }
 
-func loadBlancersSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
+func LoadBlancersSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
 	if !d.HasChange("load_balancers") {
 		return true
 	}
@@ -879,7 +879,7 @@ func convertResourceFieldsToDatasourceFields(resourceSchema *schema.Resource) *s
 	return resourceSchema
 }
 
-func getRetryPolicyWithAdditionalRetryCondition(timeout time.Duration, retryConditionFunction func(oci_common.OCIOperationResponse) bool, service string) *oci_common.RetryPolicy {
+func GetRetryPolicyWithAdditionalRetryCondition(timeout time.Duration, retryConditionFunction func(oci_common.OCIOperationResponse) bool, service string) *oci_common.RetryPolicy {
 	startTime := time.Now()
 	return &oci_common.RetryPolicy{
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
@@ -887,13 +887,13 @@ func getRetryPolicyWithAdditionalRetryCondition(timeout time.Duration, retryCond
 				return true
 			}
 			if retryConditionFunction(response) {
-				timeWaited := getElapsedRetryDuration(startTime)
+				timeWaited := GetElapsedRetryDuration(startTime)
 				return timeWaited < timeout
 			}
 			return false
 		},
 		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
-			return getRetryBackoffDuration(response, false, service, startTime)
+			return GetRetryBackoffDuration(response, false, service, startTime)
 		},
 		MaximumNumberAttempts: 0,
 	}

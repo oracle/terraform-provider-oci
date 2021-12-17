@@ -3,14 +3,14 @@
 
 package tfresource
 
-func testADs() string {
+func TestADs() string {
 	return `
 	data "oci_identity_availability_domains" "t" {
 		compartment_id = "${var.compartment_id}"
 	}`
 }
 
-func testVCN1() string {
+func TestVCN1() string {
 	return `
 	resource "oci_core_virtual_network" "t" {
 		compartment_id = "${var.compartment_id}"
@@ -20,7 +20,7 @@ func testVCN1() string {
 	}`
 }
 
-func testSubnet1() string {
+func TestSubnet1() string {
 	return `
 	resource "oci_core_subnet" "t" {
 		compartment_id      = "${var.compartment_id}"
@@ -35,7 +35,7 @@ func testSubnet1() string {
 	}`
 }
 
-func testImage1() string {
+func TestImage1() string {
 	return `
 	variable "InstanceImageOCID" {
 	  type = "map"
@@ -50,7 +50,7 @@ func testImage1() string {
 	}`
 }
 
-func testInstance1() string {
+func TestInstance1() string {
 	return `
 	resource "oci_core_instance" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"

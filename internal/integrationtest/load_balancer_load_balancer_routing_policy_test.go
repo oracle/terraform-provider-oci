@@ -34,7 +34,7 @@ var (
 
 	loadBalancerRoutingPolicyDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"filter":           acctest.RepresentationGroup{acctest.Required, loadBalancerRoutingPolicyDataSourceFilterRepresentation}}
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: loadBalancerRoutingPolicyDataSourceFilterRepresentation}}
 	loadBalancerRoutingPolicyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name}`}},
@@ -44,10 +44,10 @@ var (
 		"condition_language_version": acctest.Representation{RepType: acctest.Required, Create: `V1`},
 		"load_balancer_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `example_routing_rules`},
-		"rules":                      acctest.RepresentationGroup{acctest.Required, loadBalancerRoutingPolicyRulesRepresentation},
+		"rules":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: loadBalancerRoutingPolicyRulesRepresentation},
 	}
 	loadBalancerRoutingPolicyRulesRepresentation = map[string]interface{}{
-		"actions":   acctest.RepresentationGroup{acctest.Required, loadBalancerRoutingPolicyRulesActionsRepresentation},
+		"actions":   acctest.RepresentationGroup{RepType: acctest.Required, Group: loadBalancerRoutingPolicyRulesActionsRepresentation},
 		"condition": acctest.Representation{RepType: acctest.Required, Create: `all(http.request.url.path eq (i ''))`},
 		"name":      acctest.Representation{RepType: acctest.Required, Create: `example_routing_rules`, Update: `name2`},
 	}

@@ -29,28 +29,28 @@ var (
 
 	backendSetDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"filter":           acctest.RepresentationGroup{acctest.Required, backendSetDataSourceFilterRepresentation}}
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: backendSetDataSourceFilterRepresentation}}
 	backendSetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_load_balancer_backend_set.test_backend_set.name}`}},
 	}
 
 	backendSetRepresentationOciCerts = map[string]interface{}{
-		"health_checker":                    acctest.RepresentationGroup{acctest.Required, backendSetHealthCheckerRepresentation},
+		"health_checker":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: backendSetHealthCheckerRepresentation},
 		"load_balancer_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":                              acctest.Representation{RepType: acctest.Required, Create: `backendSet1`},
 		"policy":                            acctest.Representation{RepType: acctest.Required, Create: `LEAST_CONNECTIONS`},
-		"session_persistence_configuration": acctest.RepresentationGroup{acctest.Optional, backendSetSessionPersistenceConfigurationRepresentation},
-		"ssl_configuration":                 acctest.RepresentationGroup{acctest.Optional, backendSetSslConfigurationRepresentationOciCerts},
+		"session_persistence_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSessionPersistenceConfigurationRepresentation},
+		"ssl_configuration":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSslConfigurationRepresentationOciCerts},
 	}
 
 	backendSetRepresentation = map[string]interface{}{
-		"health_checker":                    acctest.RepresentationGroup{acctest.Required, backendSetHealthCheckerRepresentation},
+		"health_checker":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: backendSetHealthCheckerRepresentation},
 		"load_balancer_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":                              acctest.Representation{RepType: acctest.Required, Create: `backendSet1`},
 		"policy":                            acctest.Representation{RepType: acctest.Required, Create: `LEAST_CONNECTIONS`},
-		"session_persistence_configuration": acctest.RepresentationGroup{acctest.Optional, backendSetSessionPersistenceConfigurationRepresentation},
-		"ssl_configuration":                 acctest.RepresentationGroup{acctest.Optional, backendSetSslConfigurationRepresentationLB},
+		"session_persistence_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSessionPersistenceConfigurationRepresentation},
+		"ssl_configuration":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSslConfigurationRepresentationLB},
 	}
 
 	backendSetSslConfigurationRepresentationOciCerts = map[string]interface{}{
@@ -70,18 +70,18 @@ var (
 	}
 
 	backendSet2Representation = map[string]interface{}{
-		"health_checker":   acctest.RepresentationGroup{acctest.Required, backendSetHealthCheckerRepresentation},
+		"health_checker":   acctest.RepresentationGroup{RepType: acctest.Required, Group: backendSetHealthCheckerRepresentation},
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer2.id}`},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `backendSet2`},
 		"policy":           acctest.Representation{RepType: acctest.Required, Create: `LEAST_CONNECTIONS`},
 	}
 
 	backendSetLBRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(backendSetRepresentation, []string{`session_persistence_configuration`}), map[string]interface{}{
-		"lb_cookie_session_persistence_configuration": acctest.RepresentationGroup{acctest.Optional, backendSetLbCookieSessionPersistenceConfigurationRepresentation},
+		"lb_cookie_session_persistence_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetLbCookieSessionPersistenceConfigurationRepresentation},
 	})
 
 	backendSetLBRepresentationOciCerts = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(backendSetRepresentationOciCerts, []string{`session_persistence_configuration`}), map[string]interface{}{
-		"lb_cookie_session_persistence_configuration": acctest.RepresentationGroup{acctest.Optional, backendSetLbCookieSessionPersistenceConfigurationRepresentation},
+		"lb_cookie_session_persistence_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetLbCookieSessionPersistenceConfigurationRepresentation},
 	})
 
 	backendSetHealthCheckerRepresentation = map[string]interface{}{

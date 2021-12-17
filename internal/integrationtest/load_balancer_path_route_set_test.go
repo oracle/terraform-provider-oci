@@ -26,7 +26,7 @@ import (
 var (
 	pathRouteSetDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"filter":           acctest.RepresentationGroup{acctest.Required, pathRouteSetDataSourceFilterRepresentation}}
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: pathRouteSetDataSourceFilterRepresentation}}
 	pathRouteSetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_load_balancer_path_route_set.test_path_route_set.name}`}},
@@ -35,12 +35,12 @@ var (
 	pathRouteSetRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `example_path_route_set`},
-		"path_routes":      acctest.RepresentationGroup{acctest.Required, pathRouteSetPathRoutesRepresentation},
+		"path_routes":      acctest.RepresentationGroup{RepType: acctest.Required, Group: pathRouteSetPathRoutesRepresentation},
 	}
 	pathRouteSetPathRoutesRepresentation = map[string]interface{}{
 		"backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
 		"path":             acctest.Representation{RepType: acctest.Required, Create: `/example/video/123`, Update: `path2`},
-		"path_match_type":  acctest.RepresentationGroup{acctest.Required, pathRouteSetPathRoutesPathMatchTypeRepresentation},
+		"path_match_type":  acctest.RepresentationGroup{RepType: acctest.Required, Group: pathRouteSetPathRoutesPathMatchTypeRepresentation},
 	}
 	pathRouteSetPathRoutesPathMatchTypeRepresentation = map[string]interface{}{
 		"match_type": acctest.Representation{RepType: acctest.Required, Create: `EXACT_MATCH`},

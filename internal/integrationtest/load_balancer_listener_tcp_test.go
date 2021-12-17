@@ -24,7 +24,7 @@ var (
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `mylistener`},
 		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `TCP`},
-		"connection_configuration": acctest.RepresentationGroup{acctest.Optional, listenerTcpConnectionConfigurationRepresentation},
+		"connection_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: listenerTcpConnectionConfigurationRepresentation},
 		"rule_set_names":           acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
 	}
 	listenerTcpConnectionConfigurationRepresentation = map[string]interface{}{

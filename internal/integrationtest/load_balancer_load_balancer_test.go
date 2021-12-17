@@ -33,7 +33,7 @@ var (
 		"detail":         acctest.Representation{RepType: acctest.Optional, Create: `detail`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `example_load_balancer`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{acctest.Required, loadBalancerDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: loadBalancerDataSourceFilterRepresentation}}
 	loadBalancerDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_load_balancer_load_balancer.test_load_balancer.id}`}},
@@ -50,9 +50,9 @@ var (
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_private":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"reserved_ips":               acctest.RepresentationGroup{acctest.Optional, loadBalancerReservedIpsRepresentation},
+		"reserved_ips":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: loadBalancerReservedIpsRepresentation},
 		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{}},
-		"lifecycle":                  acctest.RepresentationGroup{acctest.Required, ignoreChangesLBRepresentation},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
 	}
 
 	loadBalancer2Representation = map[string]interface{}{
@@ -60,7 +60,7 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `example_load_balancer2`, Update: `displayName3`},
 		"shape":          acctest.Representation{RepType: acctest.Required, Create: `100Mbps`, Update: `400Mbps`},
 		"subnet_ids":     acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.lb_test_subnet_3.id}`, `${oci_core_subnet.lb_test_subnet_4.id}`}},
-		"lifecycle":      acctest.RepresentationGroup{acctest.Required, ignoreChangesLBRepresentation},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
 	}
 
 	ignoreChangesLBRepresentation = map[string]interface{}{

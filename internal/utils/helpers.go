@@ -139,7 +139,7 @@ func LiteralTypeHashCodeForSets(m interface{}) int {
 	return hashcode.String(fmt.Sprintf("%v", m))
 }
 
-func validateBoolInSlice(valid []bool) schema.SchemaValidateFunc {
+func ValidateBoolInSlice(valid []bool) schema.SchemaValidateFunc {
 	return func(i interface{}, k string) (s []string, es []error) {
 		v, ok := i.(bool)
 		if !ok {

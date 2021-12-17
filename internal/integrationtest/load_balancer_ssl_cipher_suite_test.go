@@ -34,7 +34,7 @@ var (
 
 	sslCipherSuiteDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"filter":           acctest.RepresentationGroup{acctest.Required, sslCipherSuiteDataSourceFilterRepresentation}}
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: sslCipherSuiteDataSourceFilterRepresentation}}
 	sslCipherSuiteDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite.name}`}},
