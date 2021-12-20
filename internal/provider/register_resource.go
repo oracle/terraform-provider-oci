@@ -5,6 +5,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
+	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 )
 
 func init() {
@@ -45,4 +46,17 @@ func init() {
 	RegisterResource("oci_kms_encrypted_data", tf_kms.KmsEncryptedDataResource())
 	RegisterResource("oci_kms_sign", tf_kms.KmsSignResource())
 	RegisterResource("oci_kms_vault", tf_kms.KmsVaultResource())
+
+	//load_balancer service
+	RegisterResource("oci_load_balancer_certificate", tf_load_balancer.LoadBalancerCertificateResource())
+	RegisterResource("oci_load_balancer_rule_set", tf_load_balancer.LoadBalancerRuleSetResource())
+	RegisterResource("oci_load_balancer_listener", tf_load_balancer.LoadBalancerListenerResource())
+	RegisterResource("oci_load_balancer_path_route_set", tf_load_balancer.LoadBalancerPathRouteSetResource())
+	RegisterResource("oci_load_balancer_hostname", tf_load_balancer.LoadBalancerHostnameResource())
+	RegisterResource("oci_load_balancer_ssl_cipher_suite", tf_load_balancer.LoadBalancerSslCipherSuiteResource())
+	RegisterResource("oci_load_balancer_backend_set", tf_load_balancer.LoadBalancerBackendSetResource())
+	RegisterResource("oci_load_balancer_backend", tf_load_balancer.LoadBalancerBackendResource())
+	RegisterResource("oci_load_balancer_load_balancer_routing_policy", tf_load_balancer.LoadBalancerLoadBalancerRoutingPolicyResource())
+	RegisterResource("oci_load_balancer_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
+
 }

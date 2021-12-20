@@ -48,8 +48,8 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	//"health_checks":          healthChecksResourceGraph,
 	//"integration":            integrationResourceGraph,
 	//"jms":                    jmsResourceGraph,
-	"kms": kmsResourceGraph,
-	//"load_balancer":          loadBalancerResourceGraph,
+	"kms":           kmsResourceGraph,
+	"load_balancer": loadBalancerResourceGraph,
 	//"log_analytics":          logAnalyticsResourceGraph,
 	//"logging":                loggingResourceGraph,
 	//"management_agent":       managementAgentResourceGraph,
@@ -789,6 +789,7 @@ var limitsResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportLimitsQuotaHints},
 	},
 }
+*/
 
 var loadBalancerResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
@@ -847,6 +848,7 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 	},
 }
 
+/*
 var logAnalyticsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints},

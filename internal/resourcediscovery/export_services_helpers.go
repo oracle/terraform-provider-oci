@@ -6,16 +6,16 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
+	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
-/*
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
-
+/*
 func processDnsRrset(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 
 	for _, record := range resources {
@@ -424,6 +424,7 @@ func processVolumeGroups(ctx *resourceDiscoveryContext, resources []*OCIResource
 
 	return resources, nil
 }
+*/
 
 func processLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, backendSet := range resources {
@@ -432,7 +433,7 @@ func processLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resources []*
 		}
 
 		backendSetName := backendSet.sourceAttributes["name"].(string)
-		backendSet.id = getBackendSetCompositeId(backendSetName, backendSet.parent.id)
+		backendSet.id = tf_load_balancer.GetBackendSetCompositeId(backendSetName, backendSet.parent.id)
 		backendSet.sourceAttributes["load_balancer_id"] = backendSet.parent.id
 	}
 
@@ -445,7 +446,7 @@ func processLoadBalancerBackends(ctx *resourceDiscoveryContext, resources []*OCI
 			continue
 		}
 
-		backend.id = getBackendCompositeId(backend.sourceAttributes["name"].(string), backend.parent.sourceAttributes["name"].(string), backend.parent.sourceAttributes["load_balancer_id"].(string))
+		backend.id = tf_load_balancer.GetBackendCompositeId(backend.sourceAttributes["name"].(string), backend.parent.sourceAttributes["name"].(string), backend.parent.sourceAttributes["load_balancer_id"].(string))
 		backend.sourceAttributes["load_balancer_id"] = backend.parent.sourceAttributes["load_balancer_id"].(string)
 
 		// Don't use references to parent resources if they will be omitted from final result
@@ -469,7 +470,7 @@ func processLoadBalancerHostnames(ctx *resourceDiscoveryContext, resources []*OC
 			continue
 		}
 
-		hostname.id = getHostnameCompositeId(hostname.parent.id, hostname.sourceAttributes["name"].(string))
+		hostname.id = tf_load_balancer.GetHostnameCompositeId(hostname.parent.id, hostname.sourceAttributes["name"].(string))
 		hostname.sourceAttributes["load_balancer_id"] = hostname.parent.id
 	}
 
@@ -482,7 +483,7 @@ func processLoadBalancerPathRouteSets(ctx *resourceDiscoveryContext, resources [
 			continue
 		}
 
-		pathRouteSet.id = getPathRouteSetCompositeId(pathRouteSet.parent.id, pathRouteSet.sourceAttributes["name"].(string))
+		pathRouteSet.id = tf_load_balancer.GetPathRouteSetCompositeId(pathRouteSet.parent.id, pathRouteSet.sourceAttributes["name"].(string))
 		pathRouteSet.sourceAttributes["load_balancer_id"] = pathRouteSet.parent.id
 	}
 
@@ -495,7 +496,7 @@ func processLoadBalancerRoutingPolicies(ctx *resourceDiscoveryContext, resources
 			continue
 		}
 
-		routingPolicy.id = getLoadBalancerRoutingPolicyCompositeId(routingPolicy.parent.id, routingPolicy.sourceAttributes["name"].(string))
+		routingPolicy.id = tf_load_balancer.GetLoadBalancerRoutingPolicyCompositeId(routingPolicy.parent.id, routingPolicy.sourceAttributes["name"].(string))
 		routingPolicy.sourceAttributes["load_balancer_id"] = routingPolicy.parent.id
 	}
 
@@ -508,7 +509,7 @@ func processLoadBalancerRuleSets(ctx *resourceDiscoveryContext, resources []*OCI
 			continue
 		}
 
-		ruleSet.id = getRuleSetCompositeId(ruleSet.parent.id, ruleSet.sourceAttributes["name"].(string))
+		ruleSet.id = tf_load_balancer.GetRuleSetCompositeId(ruleSet.parent.id, ruleSet.sourceAttributes["name"].(string))
 		ruleSet.sourceAttributes["load_balancer_id"] = ruleSet.parent.id
 	}
 
@@ -521,7 +522,7 @@ func processLoadBalancerCertificates(ctx *resourceDiscoveryContext, resources []
 			continue
 		}
 
-		certificate.id = getCertificateCompositeId(certificate.sourceAttributes["certificate_name"].(string), certificate.parent.id)
+		certificate.id = tf_load_balancer.GetCertificateCompositeId(certificate.sourceAttributes["certificate_name"].(string), certificate.parent.id)
 		certificate.sourceAttributes["load_balancer_id"] = certificate.parent.id
 
 		// add certificate name and interpolation to loadBalancerCertificateNameMap
@@ -541,6 +542,7 @@ func processLoadBalancerCertificates(ctx *resourceDiscoveryContext, resources []
 	return resources, nil
 }
 
+/*
 func processObjectStoragePreauthenticatedRequest(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.parent == nil {
@@ -785,16 +787,15 @@ func findIdentityTags(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAs
 
 }
 
-/*
 func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
 	loadBalancerId := parent.sourceAttributes["load_balancer_id"].(string)
 	backendSetName := parent.sourceAttributes["name"].(string)
 
 	request := oci_load_balancer.GetLoadBalancerRequest{}
 	request.LoadBalancerId = &loadBalancerId
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "load_balancer")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "load_balancer")
 
-	response, err := ctx.clients.loadBalancerClient().GetLoadBalancer(context.Background(), request)
+	response, err := ctx.clients.LoadBalancerClient().GetLoadBalancer(context.Background(), request)
 	if err != nil {
 		return nil, err
 	}
@@ -808,7 +809,7 @@ func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformR
 		}
 
 		d := listenerResource.TestResourceData()
-		d.SetId(getListenerCompositeId(listenerName, loadBalancerId))
+		d.SetId(tf_load_balancer.GetListenerCompositeId(listenerName, loadBalancerId))
 
 		// This calls into the listener resource's Read fn which has the unfortunate implementation of
 		// calling GetLoadBalancer and looping through the listeners to find the expected one. So this entire method
@@ -848,6 +849,7 @@ func findLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *TerraformR
 	return results, nil
 }
 
+/*
 func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
 	// List on LogAnalyticsObjectCollectionRules requires namespaceName path parameter.
 	// Getting namespace from ObjectStorage.GetNamespace API before calling ListLogAnalyticsObjectCollectionRules API.
@@ -918,6 +920,7 @@ func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta
 	return results, nil
 
 }
+*/
 
 func processLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 
@@ -930,7 +933,7 @@ func processLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OC
 				if certificateName, ok := sslConfig["certificate_name"]; ok {
 					// check if we have expected ResourceIds set, is load balancer certificate id expected
 					if ctx.expectedResourceIds != nil && len(ctx.expectedResourceIds) > 0 {
-						certificateId := getCertificateCompositeId(certificateName.(string), resource.sourceAttributes["load_balancer_id"].(string))
+						certificateId := tf_load_balancer.GetCertificateCompositeId(certificateName.(string), resource.sourceAttributes["load_balancer_id"].(string))
 						if _, ok = ctx.expectedResourceIds[certificateId]; !ok {
 							continue
 						}
@@ -947,7 +950,6 @@ func processLoadBalancerListeners(ctx *resourceDiscoveryContext, resources []*OC
 	return resources, nil
 }
 
-*/
 func processTagDefinitions(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.parent == nil {

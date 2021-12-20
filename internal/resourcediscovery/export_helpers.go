@@ -12,6 +12,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
+	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 )
 
 func init() {
@@ -42,14 +43,14 @@ func init() {
 	//exportIdentityDbCredentialHints.getIdFn = getIdentityDbCredentialId
 	exportKmsKeyHints.getIdFn = getKmsKeyId
 	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
-	//exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
-	//exportLoadBalancerBackendSetHints.getIdFn = getLoadBalancerBackendSetId
-	//exportLoadBalancerCertificateHints.getIdFn = getLoadBalancerCertificateId
-	//exportLoadBalancerHostnameHints.getIdFn = getLoadBalancerHostnameId
-	//exportLoadBalancerListenerHints.getIdFn = getLoadBalancerListenerId
-	//exportLoadBalancerPathRouteSetHints.getIdFn = getLoadBalancerPathRouteSetId
-	//exportLoadBalancerLoadBalancerRoutingPolicyHints.getIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
-	//exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
+	exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
+	exportLoadBalancerBackendSetHints.getIdFn = getLoadBalancerBackendSetId
+	exportLoadBalancerCertificateHints.getIdFn = getLoadBalancerCertificateId
+	exportLoadBalancerHostnameHints.getIdFn = getLoadBalancerHostnameId
+	exportLoadBalancerListenerHints.getIdFn = getLoadBalancerListenerId
+	exportLoadBalancerPathRouteSetHints.getIdFn = getLoadBalancerPathRouteSetId
+	exportLoadBalancerLoadBalancerRoutingPolicyHints.getIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
+	exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
 	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
 	//exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
 	//exportLoggingLogHints.getIdFn = getLoggingLogId
@@ -379,7 +380,6 @@ func getKmsKeyVersionId(resource *OCIResource) (string, error) {
 	return tf_kms.GetCompositeKeyVersionId(managementEndpoint, keyId, keyVersionId), nil
 }
 
-/*
 func getLoadBalancerBackendId(resource *OCIResource) (string, error) {
 
 	backendName, ok := resource.sourceAttributes["name"].(string)
@@ -394,7 +394,7 @@ func getLoadBalancerBackendId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find loadBalancerId for LoadBalancer Backend")
 	}
-	return getBackendCompositeId(backendName, backendsetName, loadBalancerId), nil
+	return tf_load_balancer.GetBackendCompositeId(backendName, backendsetName, loadBalancerId), nil
 }
 
 func getLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
@@ -404,7 +404,7 @@ func getLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find backendSetName for LoadBalancer BackendSet")
 	}
 	loadBalancerId := resource.parent.id
-	return getBackendSetCompositeId(backendSetName, loadBalancerId), nil
+	return tf_load_balancer.GetBackendSetCompositeId(backendSetName, loadBalancerId), nil
 }
 
 func getLoadBalancerCertificateId(resource *OCIResource) (string, error) {
@@ -414,7 +414,7 @@ func getLoadBalancerCertificateId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find certificateName for LoadBalancer Certificate")
 	}
 	loadBalancerId := resource.parent.id
-	return getCertificateCompositeId(certificateName, loadBalancerId), nil
+	return tf_load_balancer.GetCertificateCompositeId(certificateName, loadBalancerId), nil
 }
 
 func getLoadBalancerHostnameId(resource *OCIResource) (string, error) {
@@ -424,7 +424,7 @@ func getLoadBalancerHostnameId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find name for LoadBalancer Hostname")
 	}
-	return getHostnameCompositeId(loadBalancerId, name), nil
+	return tf_load_balancer.GetHostnameCompositeId(loadBalancerId, name), nil
 }
 
 func getLoadBalancerListenerId(resource *OCIResource) (string, error) {
@@ -437,7 +437,7 @@ func getLoadBalancerListenerId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find loadBalancerId for LoadBalancer Listener")
 	}
-	return getListenerCompositeId(listenerName, loadBalancerId), nil
+	return tf_load_balancer.GetListenerCompositeId(listenerName, loadBalancerId), nil
 }
 
 func getLoadBalancerPathRouteSetId(resource *OCIResource) (string, error) {
@@ -447,7 +447,7 @@ func getLoadBalancerPathRouteSetId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find pathRouteSetName for LoadBalancer PathRouteSet")
 	}
-	return getPathRouteSetCompositeId(loadBalancerId, pathRouteSetName), nil
+	return tf_load_balancer.GetPathRouteSetCompositeId(loadBalancerId, pathRouteSetName), nil
 }
 
 func getLoadBalancerLoadBalancerRoutingPolicyId(resource *OCIResource) (string, error) {
@@ -457,7 +457,7 @@ func getLoadBalancerLoadBalancerRoutingPolicyId(resource *OCIResource) (string, 
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find routingPolicyName for LoadBalancer LoadBalancerRoutingPolicy")
 	}
-	return getLoadBalancerRoutingPolicyCompositeId(loadBalancerId, routingPolicyName), nil
+	return tf_load_balancer.GetLoadBalancerRoutingPolicyCompositeId(loadBalancerId, routingPolicyName), nil
 }
 
 func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {
@@ -467,9 +467,10 @@ func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find name for LoadBalancer RuleSet")
 	}
-	return getRuleSetCompositeId(loadBalancerId, name), nil
+	return tf_load_balancer.GetRuleSetCompositeId(loadBalancerId, name), nil
 }
 
+/*
 func getLogAnalyticsLogAnalyticsObjectCollectionRuleId(resource *OCIResource) (string, error) {
 
 	logAnalyticsObjectCollectionRuleId, ok := resource.sourceAttributes["id"].(string)

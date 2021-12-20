@@ -158,7 +158,7 @@ func validateBoolInSlice(valid []bool) schema.SchemaValidateFunc {
 	}
 }
 
-func validateNotEmptyString() schema.SchemaValidateFunc {
+func ValidateNotEmptyString() schema.SchemaValidateFunc {
 	return func(i interface{}, k string) (s []string, es []error) {
 		v, ok := i.(string)
 		if !ok {
