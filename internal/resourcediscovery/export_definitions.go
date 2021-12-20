@@ -2440,7 +2440,6 @@ var exportNosqlIndexHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportObjectStorageBucketHints = &TerraformResourceHints{
 	resourceClass:          "oci_objectstorage_bucket",
 	datasourceClass:        "oci_objectstorage_bucket_summaries",
@@ -2482,6 +2481,7 @@ var exportObjectStorageReplicationPolicyHints = &TerraformResourceHints{
 	resourceAbbreviation: "replication_policy",
 }
 
+/*
 var exportOceOceInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_oce_oce_instance",
 	datasourceClass:        "oci_oce_oce_instances",

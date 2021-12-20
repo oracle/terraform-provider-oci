@@ -29,6 +29,7 @@ import (
 	tf_metering_computation "github.com/terraform-providers/terraform-provider-oci/internal/service/metering_computation"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
+	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
@@ -488,4 +489,20 @@ func init() {
 	RegisterDatasource("oci_usage_proxy_subscription_redeemable_users", tf_usage_proxy.UsageProxySubscriptionRedeemableUsersDataSource())
 	RegisterDatasource("oci_usage_proxy_subscription_products", tf_usage_proxy.UsageProxySubscriptionProductsDataSource())
 	RegisterDatasource("oci_usage_proxy_subscription_rewards", tf_usage_proxy.UsageProxySubscriptionRewardsDataSource())
+
+	//Object Storage Service
+	RegisterDatasource("oci_objectstorage_bucket", tf_objectstorage.ObjectStorageBucketDataSource())
+	RegisterDatasource("oci_objectstorage_preauthrequests", tf_objectstorage.ObjectStoragePreauthenticatedRequestsDataSource())
+	RegisterDatasource("oci_objectstorage_namespace", tf_objectstorage.ObjectStorageNamespaceDataSource())
+	RegisterDatasource("oci_objectstorage_preauthrequest", tf_objectstorage.ObjectStoragePreauthenticatedRequestDataSource())
+	RegisterDatasource("oci_objectstorage_object_lifecycle_policy", tf_objectstorage.ObjectStorageObjectLifecyclePolicyDataSource())
+	RegisterDatasource("oci_objectstorage_namespace_metadata", tf_objectstorage.ObjectStorageNamespaceMetadataDataSource())
+	RegisterDatasource("oci_objectstorage_object_head", tf_objectstorage.ObjectStorageObjectHeadDataSource())
+	RegisterDatasource("oci_objectstorage_object", tf_objectstorage.ObjectStorageObjectDataSource())
+	RegisterDatasource("oci_objectstorage_replication_policy", tf_objectstorage.ObjectStorageReplicationPolicyDataSource())
+	RegisterDatasource("oci_objectstorage_objects", tf_objectstorage.ObjectStorageObjectsDataSource())
+	RegisterDatasource("oci_objectstorage_replication_policies", tf_objectstorage.ObjectStorageReplicationPoliciesDataSource())
+	RegisterDatasource("oci_objectstorage_object_versions", tf_objectstorage.ObjectStorageObjectVersionsDataSource())
+	RegisterDatasource("oci_objectstorage_bucket_summaries", tf_objectstorage.ObjectStorageBucketsDataSource())
+	RegisterDatasource("oci_objectstorage_replication_sources", tf_objectstorage.ObjectStorageReplicationSourcesDataSource())
 }

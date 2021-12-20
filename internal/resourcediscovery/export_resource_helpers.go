@@ -795,14 +795,14 @@ func init() {
 	exportIdentityTagHints.processDiscoveredResourcesFn = processTagDefinitions
 
 	//exportLoggingLogHints.getIdFn = getLogId
-	//
-	//exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
-	//exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
-	//exportObjectStorageNamespaceHints.alwaysExportable = true
-	//exportObjectStorageObjectHints.requireResourceRefresh = true
-	//exportObjectStoragePreauthenticatedRequestHints.processDiscoveredResourcesFn = processObjectStoragePreauthenticatedRequest
-	//exportObjectStorageReplicationPolicyHints.processDiscoveredResourcesFn = processObjectStorageReplicationPolicy
-	//
+
+	exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
+	exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource
+	exportObjectStorageNamespaceHints.alwaysExportable = true
+	exportObjectStorageObjectHints.requireResourceRefresh = true
+	exportObjectStoragePreauthenticatedRequestHints.processDiscoveredResourcesFn = processObjectStoragePreauthenticatedRequest
+	exportObjectStorageReplicationPolicyHints.processDiscoveredResourcesFn = processObjectStorageReplicationPolicy
+
 	//exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
 	//
 	//exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
