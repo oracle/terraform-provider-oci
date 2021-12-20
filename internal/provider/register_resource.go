@@ -2,6 +2,7 @@ package provider
 
 import (
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
+	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 )
 
 func init() {
@@ -30,4 +31,13 @@ func init() {
 	RegisterResource("oci_identity_user", tf_identity.IdentityUserResource())
 	RegisterResource("oci_identity_customer_secret_key", tf_identity.IdentityCustomerSecretKeyResource())
 
+	// kms service
+	RegisterResource("oci_kms_verify", tf_kms.KmsVerifyResource())
+	RegisterResource("oci_kms_vault_replication", tf_kms.KmsVaultReplicationResource())
+	RegisterResource("oci_kms_generated_key", tf_kms.KmsGeneratedKeyResource())
+	RegisterResource("oci_kms_key", tf_kms.KmsKeyResource())
+	RegisterResource("oci_kms_key_version", tf_kms.KmsKeyVersionResource())
+	RegisterResource("oci_kms_encrypted_data", tf_kms.KmsEncryptedDataResource())
+	RegisterResource("oci_kms_sign", tf_kms.KmsSignResource())
+	RegisterResource("oci_kms_vault", tf_kms.KmsVaultResource())
 }

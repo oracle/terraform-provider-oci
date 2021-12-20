@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"strings"
 
+	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 
 	oci_common "github.com/oracle/oci-go-sdk/v54/common"
@@ -67,10 +69,10 @@ func (m *OracleClients) GetClient(name string) interface{} {
 		return nil, err
 	}
 }
-
-func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
-	if client, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(*m.kmsCryptoClient().ConfigurationProvider(), endpoint); err == nil {
-		if err = configureClient(&client.BaseClient); err != nil {
+}*/
+func (m *OracleClients) KmsCryptoClientWithEndpoint(endpoint string) (*oci_kms.KmsCryptoClient, error) {
+	if client, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(*m.KmsCryptoClient().ConfigurationProvider(), endpoint); err == nil {
+		if err = ConfigureClientVar(&client.BaseClient); err != nil {
 			return nil, err
 		}
 		return &client, nil
@@ -79,16 +81,16 @@ func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClie
 	}
 }
 
-func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManagementClient, error) {
-	if client, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.kmsManagementClient().ConfigurationProvider(), endpoint); err == nil {
-		if err = configureClient(&client.BaseClient); err != nil {
+func (m *OracleClients) KmsManagementClientWithEndpoint(endpoint string) (*oci_kms.KmsManagementClient, error) {
+	if client, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.KmsManagementClient().ConfigurationProvider(), endpoint); err == nil {
+		if err = ConfigureClientVar(&client.BaseClient); err != nil {
 			return nil, err
 		}
 		return &client, nil
 	} else {
 		return nil, err
 	}
-}*/
+}
 
 func getClientHostOverrides() map[string]string {
 	// Get the host URL override for clients

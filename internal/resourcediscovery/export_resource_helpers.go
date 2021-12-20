@@ -809,8 +809,8 @@ func init() {
 	//
 	//exportFileStorageMountTargetHints.requireResourceRefresh = true
 	//
-	//exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
-	//exportKmsKeyVersionHints.processDiscoveredResourcesFn = processKmsKeyVersion
+	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
+	exportKmsKeyVersionHints.processDiscoveredResourcesFn = processKmsKeyVersion
 	//
 	//exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
 	//exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset

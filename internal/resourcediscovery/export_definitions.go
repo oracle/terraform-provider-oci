@@ -35,10 +35,7 @@ import (
 	//oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
-	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
-	//oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
-	//oci_jms "github.com/oracle/oci-go-sdk/v54/jms"
-	//oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
+	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	//oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
@@ -2019,7 +2016,7 @@ var exportJmsFleetHints = &TerraformResourceHints{
 		string(oci_jms.LifecycleStateActive),
 	},
 }
-
+*/
 var exportKmsKeyHints = &TerraformResourceHints{
 	resourceClass:          "oci_kms_key",
 	datasourceClass:        "oci_kms_keys",
@@ -2070,8 +2067,6 @@ var exportKmsDeleteReplicaHints = &TerraformResourceHints{
 	resourceClass:        "oci_kms_vault_replication",
 	resourceAbbreviation: "vault_replication",
 }
-
-*/
 
 var exportIdentityNetworkSourceHints = &TerraformResourceHints{
 	resourceClass:          "oci_identity_network_source",
