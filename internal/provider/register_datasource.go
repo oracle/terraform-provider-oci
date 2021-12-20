@@ -6,6 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
@@ -67,6 +68,17 @@ func init() {
 	RegisterDatasource("oci_health_checks_ping_monitor", tf_health_checks.HealthChecksPingMonitorDataSource())
 	RegisterDatasource("oci_health_checks_http_monitors", tf_health_checks.HealthChecksHttpMonitorsDataSource())
 	RegisterDatasource("oci_health_checks_http_probe_results", tf_health_checks.HealthChecksHttpProbeResultsDataSource())
+	RegisterDatasource("oci_cloud_guard_targets", cloud_guard.CloudGuardTargetsDataSource())
+	RegisterDatasource("oci_cloud_guard_target", cloud_guard.CloudGuardTargetDataSource())
+	RegisterDatasource("oci_cloud_guard_data_mask_rule", cloud_guard.CloudGuardDataMaskRuleDataSource())
+	RegisterDatasource("oci_cloud_guard_managed_list", cloud_guard.CloudGuardManagedListDataSource())
+	RegisterDatasource("oci_cloud_guard_managed_lists", cloud_guard.CloudGuardManagedListsDataSource())
+	RegisterDatasource("oci_cloud_guard_detector_recipe", cloud_guard.CloudGuardDetectorRecipeDataSource())
+	RegisterDatasource("oci_cloud_guard_detector_recipes", cloud_guard.CloudGuardDetectorRecipesDataSource())
+	RegisterDatasource("oci_cloud_guard_responder_recipes", cloud_guard.CloudGuardResponderRecipesDataSource())
+	RegisterDatasource("oci_cloud_guard_data_mask_rules", cloud_guard.CloudGuardDataMaskRulesDataSource())
+	RegisterDatasource("oci_cloud_guard_responder_recipe", cloud_guard.CloudGuardResponderRecipeDataSource())
+	RegisterDatasource("oci_cloud_guard_cloud_guard_configuration", cloud_guard.CloudGuardCloudGuardConfigurationDataSource())
 	RegisterDatasource("oci_identity_compartment", tf_identity.IdentityCompartmentDataSource())
 	RegisterDatasource("oci_identity_compartments", tf_identity.IdentityCompartmentsDataSource())
 	RegisterDatasource("oci_identity_network_source", tf_identity.IdentityNetworkSourceDataSource())
