@@ -6,6 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
@@ -52,6 +53,12 @@ func init() {
 	RegisterResource("oci_health_checks_ping_probe", tf_health_checks.HealthChecksPingProbeResource())
 	RegisterResource("oci_health_checks_http_probe", tf_health_checks.HealthChecksHttpProbeResource())
 	RegisterResource("oci_health_checks_http_monitor", tf_health_checks.HealthChecksHttpMonitorResource())
+	RegisterResource("oci_cloud_guard_responder_recipe", cloud_guard.CloudGuardResponderRecipeResource())
+	RegisterResource("oci_cloud_guard_data_mask_rule", cloud_guard.CloudGuardDataMaskRuleResource())
+	RegisterResource("oci_cloud_guard_cloud_guard_configuration", cloud_guard.CloudGuardCloudGuardConfigurationResource())
+	RegisterResource("oci_cloud_guard_target", cloud_guard.CloudGuardTargetResource())
+	RegisterResource("oci_cloud_guard_managed_list", cloud_guard.CloudGuardManagedListResource())
+	RegisterResource("oci_cloud_guard_detector_recipe", cloud_guard.CloudGuardDetectorRecipeResource())
 	RegisterResource("oci_identity_api_key", tf_identity.IdentityApiKeyResource())
 	RegisterResource("oci_identity_auth_token", tf_identity.IdentityAuthTokenResource())
 	RegisterResource("oci_identity_authentication_policy", tf_identity.IdentityAuthenticationPolicyResource())

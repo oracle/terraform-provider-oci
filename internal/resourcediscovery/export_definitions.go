@@ -4,7 +4,6 @@
 package resourcediscovery
 
 import (
-
 	//oci_events "github.com/oracle/oci-go-sdk/v54/events"
 	//oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
 	//oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
@@ -14,6 +13,7 @@ import (
 	oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
+	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_email "github.com/oracle/oci-go-sdk/v54/email"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
@@ -375,6 +375,8 @@ var exportCertificatesManagementCertificateHints = &TerraformResourceHints{
 	},
 }
 
+*/
+
 var exportCloudGuardTargetHints = &TerraformResourceHints{
 	resourceClass:          "oci_cloud_guard_target",
 	datasourceClass:        "oci_cloud_guard_targets",
@@ -434,6 +436,8 @@ var exportCloudGuardDetectorRecipeHints = &TerraformResourceHints{
 		string(oci_cloud_guard.LifecycleStateActive),
 	},
 }
+
+/*
 
 var exportContainerengineClusterHints = &TerraformResourceHints{
 	resourceClass:          "oci_containerengine_cluster",

@@ -4,11 +4,11 @@
 package resourcediscovery
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
-	"budget":        budgetResourceGraph,
-	"email_tenancy": emailTenancyResourceGraph,
-	//"cloud_guard_tenancy":  cloudGuardTenancyResourceGraph,
-	"identity": identityResourceGraph,
-	"limits":   limitsResourceGraph,
+	"budget":              budgetResourceGraph,
+	"email_tenancy":       emailTenancyResourceGraph,
+	"cloud_guard_tenancy": cloudGuardTenancyResourceGraph,
+	"identity":            identityResourceGraph,
+	"limits":              limitsResourceGraph,
 	//"metering_computation": meteringComputationResourceGraph,
 	//"optimizer":            optimizerResourceGraph,
 	//"usage_proxy":          usageProxyResourceGraph,
@@ -27,7 +27,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	//"bastion":                bastionResourceGraph,
 	"bds": bdsResourceGraph,
 	//"blockchain":             blockchainResourceGraph,
-	//"cloud_guard":            cloudGuardResourceGraph,
+	"cloud_guard": cloudGuardResourceGraph,
 	//"containerengine":        containerengineResourceGraph,
 	"core": coreResourceGraph,
 	//"data_labeling_service":  dataLabelingServiceResourceGraph,
@@ -235,6 +235,8 @@ var certificatesManagementResourceGraph = TerraformResourceGraph{
 	},
 }
 
+*/
+
 var cloudGuardResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCloudGuardTargetHints},
@@ -249,6 +251,8 @@ var cloudGuardTenancyResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCloudGuardDataMaskRuleHints},
 	},
 }
+
+/*
 
 var containerengineResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
