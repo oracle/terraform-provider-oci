@@ -12,6 +12,7 @@ import (
 	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	//oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
+	//oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	//oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
 	//oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
 	//oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
@@ -36,6 +37,11 @@ import (
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
+	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
+	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
+	//oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
+	//oci_jms "github.com/oracle/oci-go-sdk/v54/jms"
+	//oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	//oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
@@ -2095,6 +2101,7 @@ var exportLimitsQuotaHints = &TerraformResourceHints{
 		string(oci_limits.QuotaLifecycleStateActive),
 	},
 }
+*/
 
 var exportLoadBalancerBackendHints = &TerraformResourceHints{
 	resourceClass:        "oci_load_balancer_backend",
@@ -2160,6 +2167,7 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rule_set",
 }
 
+/*
 var exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints = &TerraformResourceHints{
 	resourceClass:          "oci_log_analytics_log_analytics_object_collection_rule",
 	datasourceClass:        "oci_log_analytics_log_analytics_object_collection_rules",

@@ -5,6 +5,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
+	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 )
 
 func init() {
@@ -68,4 +69,26 @@ func init() {
 	RegisterDatasource("oci_kms_encrypted_data", tf_kms.KmsEncryptedDataDataSource())
 	RegisterDatasource("oci_kms_vault", tf_kms.KmsVaultDataSource())
 	RegisterDatasource("oci_kms_vault_replicas", tf_kms.KmsVaultReplicasDataSource())
+
+	//load_balancer service
+	RegisterDatasource("oci_load_balancer_ssl_cipher_suites", tf_load_balancer.LoadBalancerSslCipherSuitesDataSource())
+	RegisterDatasource("oci_load_balancer_listener_rules", tf_load_balancer.LoadBalancerListenerRulesDataSource())
+	RegisterDatasource("oci_load_balancer_protocols", tf_load_balancer.LoadBalancerLoadBalancerProtocolsDataSource())
+	RegisterDatasource("oci_load_balancer_policies", tf_load_balancer.LoadBalancerLoadBalancerPoliciesDataSource())
+	RegisterDatasource("oci_load_balancer_backend_sets", tf_load_balancer.LoadBalancerBackendSetsDataSource())
+	RegisterDatasource("oci_load_balancer_rule_set", tf_load_balancer.LoadBalancerRuleSetDataSource())
+	RegisterDatasource("oci_load_balancer_rule_sets", tf_load_balancer.LoadBalancerRuleSetsDataSource())
+	RegisterDatasource("oci_load_balancer_backend_set_health", tf_load_balancer.LoadBalancerBackendSetHealthDataSource())
+	RegisterDatasource("oci_load_balancer_backend_health", tf_load_balancer.LoadBalancerBackendHealthDataSource())
+	RegisterDatasource("oci_load_balancer_hostnames", tf_load_balancer.LoadBalancerHostnamesDataSource())
+	RegisterDatasource("oci_load_balancer_load_balancers", tf_load_balancer.LoadBalancerLoadBalancersDataSource())
+	RegisterDatasource("oci_load_balancer_ssl_cipher_suite", tf_load_balancer.LoadBalancerSslCipherSuiteDataSource())
+	RegisterDatasource("oci_load_balancer_load_balancer_routing_policies", tf_load_balancer.LoadBalancerLoadBalancerRoutingPoliciesDataSource())
+	RegisterDatasource("oci_load_balancer_certificates", tf_load_balancer.LoadBalancerCertificatesDataSource())
+	RegisterDatasource("oci_load_balancer_health", tf_load_balancer.LoadBalancerLoadBalancerHealthDataSource())
+	RegisterDatasource("oci_load_balancer_shapes", tf_load_balancer.LoadBalancerLoadBalancerShapesDataSource())
+	RegisterDatasource("oci_load_balancer_backends", tf_load_balancer.LoadBalancerBackendsDataSource())
+	RegisterDatasource("oci_load_balancer_path_route_sets", tf_load_balancer.LoadBalancerPathRouteSetsDataSource())
+	RegisterDatasource("oci_load_balancer_load_balancer_routing_policy", tf_load_balancer.LoadBalancerLoadBalancerRoutingPolicyDataSource())
+
 }

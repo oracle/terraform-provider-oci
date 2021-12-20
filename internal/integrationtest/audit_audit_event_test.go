@@ -5,8 +5,9 @@ package integrationtest
 
 import (
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
 

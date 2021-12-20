@@ -5,13 +5,10 @@ package acctest
 
 import (
 	"crypto/tls"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
-	"sort"
-	"strings"
 	"testing"
 	"time"
 
@@ -19,9 +16,7 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/stretchr/testify/assert"
 
 	oci_common "github.com/oracle/oci-go-sdk/v54/common"
@@ -784,159 +779,3 @@ func TestUnitSecurityToken_basic(t *testing.T) {
 	assert.NoError(t, err)
 }
 */
-/* This function is used in the test asserts to verify that an element in a set contains certain properties
- * properties is a map of nameOfProperty -> expectedValueOfProperty
- * presentProperties is an array of property names that are expected to be set in the set element but we don't care about matching the value
- * will return nil (the positive response) if there is an element in the set that matches all properties in properties and presentProperties
- */
-func CheckResourceSetContainsElementWithProperties(name, setKey string, properties map[string]string, presentProperties []string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rm := s.RootModule()
-		rs, ok := rm.Resources[name]
-		if !ok {
-			return fmt.Errorf("Not found: %s", name)
-		}
-		is := rs.Primary
-		if is == nil {
-			return fmt.Errorf("No primary instance: %s", name)
-		}
-
-		orderedKeys := []string{}
-		for key, _ := range is.Attributes {
-			orderedKeys = append(orderedKeys, key)
-		}
-		sort.Strings(orderedKeys)
-		var currSetElementId string
-		currMatchedAttributes := []string{}
-		currMatchedPresentProperties := []string{}
-		setElementMatch := func() bool {
-			return len(currMatchedAttributes) == len(properties) && (presentProperties == nil || len(currMatchedPresentProperties) == len(presentProperties))
-		}
-		for _, key := range orderedKeys {
-			prefix := fmt.Sprintf("%s.", setKey)
-			if !strings.HasPrefix(key, prefix) {
-				continue
-			}
-			attrWithSetIdRaw := strings.TrimPrefix(key, prefix)
-
-			attrWithSetIdRawArr := strings.Split(attrWithSetIdRaw, ".")
-			if len(attrWithSetIdRawArr) < 2 {
-				continue
-			}
-			if currSetElementId == "" {
-				currSetElementId = attrWithSetIdRawArr[0]
-			}
-			if attrWithSetIdRawArr[0] != currSetElementId {
-				if setElementMatch() {
-					return nil
-				}
-				currMatchedPresentProperties = []string{}
-				currMatchedAttributes = []string{}
-				currSetElementId = attrWithSetIdRawArr[0]
-			}
-			attributeName := strings.Join(attrWithSetIdRawArr[1:], ".")
-			for propName, value := range properties {
-				if propName == attributeName && value == is.Attributes[key] {
-					currMatchedAttributes = append(currMatchedAttributes, propName)
-				}
-			}
-			if presentProperties != nil {
-				for _, propName := range presentProperties {
-					if propName == attributeName {
-						currMatchedPresentProperties = append(currMatchedPresentProperties, propName)
-					}
-				}
-			}
-		}
-		if setElementMatch() {
-			return nil
-		}
-
-		return fmt.Errorf("%s: Set Attribute '%s' does not contain an element with attributes %v %v\nAttributesInStatefile: %v", name, setKey, properties, presentProperties, is.Attributes)
-	}
-}
-
-func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, setKey string, properties map[string]interface{}, presentProperties []string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rm := s.RootModule()
-		rs, ok := rm.Resources[name]
-		if !ok {
-			return fmt.Errorf("Not found: %s", name)
-		}
-		is := rs.Primary
-		if is == nil {
-			return fmt.Errorf("No primary instance: %s", name)
-		}
-
-		orderedKeys := []string{}
-		for key, _ := range is.Attributes {
-			orderedKeys = append(orderedKeys, key)
-		}
-		sort.Strings(orderedKeys)
-		var currSetElementId string
-		currMatchedAttributes := []string{}
-		currMatchedPresentProperties := []string{}
-		leafProperties := 0
-		for _, value := range properties {
-			if _, ok := value.(string); ok {
-				leafProperties++
-			}
-		}
-		setElementMatch := func() bool {
-			return len(currMatchedAttributes) == leafProperties && (presentProperties == nil || len(currMatchedPresentProperties) == len(presentProperties))
-		}
-		for _, key := range orderedKeys {
-			prefix := fmt.Sprintf("%s.", setKey)
-			if !strings.HasPrefix(key, prefix) {
-				continue
-			}
-			attrWithSetIdRaw := strings.TrimPrefix(key, prefix)
-
-			attrWithSetIdRawArr := strings.Split(attrWithSetIdRaw, ".")
-			if len(attrWithSetIdRawArr) < 2 {
-				continue
-			}
-			if attrWithSetIdRawArr[0] != currSetElementId {
-				if setElementMatch() {
-					return nil
-				}
-				currMatchedPresentProperties = []string{}
-				currMatchedAttributes = []string{}
-				currSetElementId = attrWithSetIdRawArr[0]
-
-				//check nested set properties, we do it in this if statement to avoid repeating the same checks for each key in the loop. We only need to check once per set element id
-				for propName, value := range properties {
-					if valueSet, ok := value.([]map[string]interface{}); ok {
-						for _, nestedSetElement := range valueSet {
-							nestedSetCheck := CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, fmt.Sprintf("%s.%s.%s", setKey, currSetElementId, propName), nestedSetElement, nil)
-							if err := nestedSetCheck(s); err != nil {
-								return err
-							}
-						}
-					}
-				}
-			}
-			attributeName := strings.Join(attrWithSetIdRawArr[1:], ".")
-			for propName, value := range properties {
-				if valueStr, ok := value.(string); ok {
-					if propName == attributeName && valueStr == is.Attributes[key] {
-						currMatchedAttributes = append(currMatchedAttributes, propName)
-					}
-				}
-			}
-			if presentProperties != nil {
-				for _, propName := range presentProperties {
-					if propName == attributeName {
-						currMatchedPresentProperties = append(currMatchedPresentProperties, propName)
-					}
-				}
-			}
-		}
-		if setElementMatch() {
-			return nil
-		}
-
-		return fmt.Errorf("%s: Set Attribute '%s' does not contain an element with attributes %v %v\nAttributesInStatefile: %v", name, setKey, properties, presentProperties, is.Attributes)
-	}
-
-}
