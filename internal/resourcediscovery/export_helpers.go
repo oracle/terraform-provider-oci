@@ -17,6 +17,7 @@ import (
 
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 )
 
@@ -63,11 +64,11 @@ func init() {
 	//exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
 	//exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
 	exportNosqlIndexHints.getIdFn = getNosqlIndexId
-	//exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
-	//exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
-	//exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
-	//exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
-	//exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
+	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
+	exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
+	exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
+	exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
+	exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
 	exportUsageProxySubscriptionRedeemableUserHints.getIdFn = getUsageProxySubscriptionRedeemableUserId
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 }
@@ -556,7 +557,6 @@ func getNosqlIndexId(resource *OCIResource) (string, error) {
 	return tf_nosql.GetIndexCompositeId(indexName, tableNameOrId), nil
 }
 
-/*
 func getObjectStorageBucketId(resource *OCIResource) (string, error) {
 
 	bucket, ok := resource.sourceAttributes["name"].(string)
@@ -567,7 +567,7 @@ func getObjectStorageBucketId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find namespace for ObjectStorage Bucket")
 	}
-	return getBucketCompositeId(bucket, namespace), nil
+	return tf_objectstorage.GetBucketCompositeId(bucket, namespace), nil
 }
 
 func getObjectStorageObjectLifecyclePolicyId(resource *OCIResource) (string, error) {
@@ -580,7 +580,7 @@ func getObjectStorageObjectLifecyclePolicyId(resource *OCIResource) (string, err
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find namespace for ObjectStorage ObjectLifecyclePolicy")
 	}
-	return getObjectLifecyclePolicyCompositeId(bucket, namespace), nil
+	return tf_objectstorage.GetObjectLifecyclePolicyCompositeId(bucket, namespace), nil
 }
 
 func getObjectStorageObjectId(resource *OCIResource) (string, error) {
@@ -597,7 +597,7 @@ func getObjectStorageObjectId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find object for ObjectStorage Object")
 	}
-	return getObjectCompositeId(bucket, namespace, object), nil
+	return tf_objectstorage.GetObjectCompositeId(bucket, namespace, object), nil
 }
 
 func getObjectStoragePreauthenticatedRequestId(resource *OCIResource) (string, error) {
@@ -614,7 +614,7 @@ func getObjectStoragePreauthenticatedRequestId(resource *OCIResource) (string, e
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find parId for ObjectStorage PreauthenticatedRequest")
 	}
-	return getPreauthenticatedRequestCompositeId(bucket, namespace, parId), nil
+	return tf_objectstorage.GetPreauthenticatedRequestCompositeId(bucket, namespace, parId), nil
 }
 
 func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) {
@@ -631,9 +631,8 @@ func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) 
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find replicationId for ObjectStorage ReplicationPolicy")
 	}
-	return getReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
+	return tf_objectstorage.GetReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
 }
-*/
 
 func getUsageProxySubscriptionRedeemableUserId(resource *OCIResource) (string, error) {
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
@@ -339,8 +340,6 @@ func processAvailabilityDomains(ctx *resourceDiscoveryContext, resources []*OCIR
 	return resources, nil
 }
 
-/*
-
 func processObjectStorageNamespace(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, ns := range resources {
 		namespaceName, ok := ns.sourceAttributes["namespace"].(string)
@@ -355,7 +354,6 @@ func processObjectStorageNamespace(ctx *resourceDiscoveryContext, resources []*O
 	return resources, nil
 }
 
-*/
 func getAvailabilityDomainHCLDatasource(builder *strings.Builder, ociRes *OCIResource, varMap map[string]string) error {
 	builder.WriteString(fmt.Sprintf("data %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
 
@@ -371,7 +369,6 @@ func getAvailabilityDomainHCLDatasource(builder *strings.Builder, ociRes *OCIRes
 	return nil
 }
 
-/*
 func getObjectStorageNamespaceHCLDatasource(builder *strings.Builder, ociRes *OCIResource, varMap map[string]string) error {
 	builder.WriteString(fmt.Sprintf("data %s %s {\n", ociRes.terraformClass, ociRes.terraformName))
 	builder.WriteString(fmt.Sprintf("compartment_id = %v\n", varMap[ociRes.compartmentId]))
@@ -379,8 +376,6 @@ func getObjectStorageNamespaceHCLDatasource(builder *strings.Builder, ociRes *OC
 
 	return nil
 }
-
-*/
 
 func filterCustomImages(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
@@ -544,7 +539,6 @@ func processLoadBalancerCertificates(ctx *resourceDiscoveryContext, resources []
 	return resources, nil
 }
 
-/*
 func processObjectStoragePreauthenticatedRequest(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.parent == nil {
@@ -569,6 +563,7 @@ func processObjectStoragePreauthenticatedRequest(ctx *resourceDiscoveryContext, 
 	return resources, nil
 }
 
+/*
 func processAutonomousDatabaseSource(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.sourceAttributes["is_refreshable_clone"] == true {
@@ -577,7 +572,7 @@ func processAutonomousDatabaseSource(ctx *resourceDiscoveryContext, resources []
 	}
 	return resources, nil
 }
-
+*/
 func processObjectStorageReplicationPolicy(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		if resource.parent == nil {
@@ -589,6 +584,7 @@ func processObjectStorageReplicationPolicy(ctx *resourceDiscoveryContext, resour
 	return resources, nil
 }
 
+/*
 func processLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		namespace := resource.sourceAttributes["namespace"].(string)

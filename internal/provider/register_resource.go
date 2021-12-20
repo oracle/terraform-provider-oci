@@ -28,6 +28,7 @@ import (
 	tf_metering_computation "github.com/terraform-providers/terraform-provider-oci/internal/service/metering_computation"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
+	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
@@ -256,4 +257,13 @@ func init() {
 
 	// usage proxy service
 	RegisterResource("oci_usage_proxy_subscription_redeemable_user", tf_usage_proxy.UsageProxySubscriptionRedeemableUserResource())
+
+	//Object Storage service
+	RegisterResource("oci_objectstorage_object_lifecycle_policy", tf_objectstorage.ObjectStorageObjectLifecyclePolicyResource())
+	RegisterResource("oci_objectstorage_bucket", tf_objectstorage.ObjectStorageBucketResource())
+	RegisterResource("oci_objectstorage_preauthrequest", tf_objectstorage.ObjectStoragePreauthenticatedRequestResource())
+	RegisterResource("oci_objectstorage_replication_policy", tf_objectstorage.ObjectStorageReplicationPolicyResource())
+	RegisterResource("oci_objectstorage_object", tf_objectstorage.ObjectStorageObjectResource())
+	RegisterResource("oci_objectstorage_namespace_metadata", tf_objectstorage.ObjectStorageNamespaceMetadataResource())
+
 }
