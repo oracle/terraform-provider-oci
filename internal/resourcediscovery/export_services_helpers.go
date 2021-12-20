@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
@@ -135,6 +137,7 @@ func processNosqlIndex(ctx *resourceDiscoveryContext, resources []*OCIResource) 
 	}
 	return resources, nil
 }
+*/
 
 func processKmsKey(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
@@ -160,7 +163,7 @@ func processKmsKeyVersion(ctx *resourceDiscoveryContext, resources []*OCIResourc
 }
 
 // Custom functions to alter behavior of resource discovery and resource HCL representation
-
+/*
 func processPrivateIps(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	privateIps := []*OCIResource{}
 

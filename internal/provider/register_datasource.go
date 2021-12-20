@@ -2,6 +2,7 @@ package provider
 
 import (
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
+	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 )
 
 func init() {
@@ -48,4 +49,16 @@ func init() {
 	RegisterDatasource("oci_identity_ui_password", tf_identity.IdentityUiPasswordDataSource())
 	RegisterDatasource("oci_identity_fault_domains", tf_identity.IdentityFaultDomainsDataSource())
 
+	//kms service
+	RegisterDatasource("oci_kms_key", tf_kms.KmsKeyDataSource())
+	RegisterDatasource("oci_kms_replication_status", tf_kms.KmsReplicationStatusDataSource())
+	RegisterDatasource("oci_kms_vault_usage", tf_kms.KmsVaultUsageDataSource())
+	RegisterDatasource("oci_kms_keys", tf_kms.KmsKeysDataSource())
+	RegisterDatasource("oci_kms_key_version", tf_kms.KmsKeyVersionDataSource())
+	RegisterDatasource("oci_kms_key_versions", tf_kms.KmsKeyVersionsDataSource())
+	RegisterDatasource("oci_kms_decrypted_data", tf_kms.KmsDecryptedDataDataSource())
+	RegisterDatasource("oci_kms_vaults", tf_kms.KmsVaultsDataSource())
+	RegisterDatasource("oci_kms_encrypted_data", tf_kms.KmsEncryptedDataDataSource())
+	RegisterDatasource("oci_kms_vault", tf_kms.KmsVaultDataSource())
+	RegisterDatasource("oci_kms_vault_replicas", tf_kms.KmsVaultReplicasDataSource())
 }

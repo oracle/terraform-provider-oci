@@ -6,6 +6,10 @@ package resourcediscovery
 import (
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+
+	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
+
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 )
 
@@ -35,8 +39,8 @@ func init() {
 	exportIdentitySmtpCredentialHints.getIdFn = getIdentitySmtpCredentialId
 	exportIdentitySwiftPasswordHints.getIdFn = getIdentitySwiftPasswordId
 	//exportIdentityDbCredentialHints.getIdFn = getIdentityDbCredentialId
-	//exportKmsKeyHints.getIdFn = getKmsKeyId
-	//exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
+	exportKmsKeyHints.getIdFn = getKmsKeyId
+	exportKmsKeyVersionHints.getIdFn = getKmsKeyVersionId
 	//exportLoadBalancerBackendHints.getIdFn = getLoadBalancerBackendId
 	//exportLoadBalancerBackendSetHints.getIdFn = getLoadBalancerBackendSetId
 	//exportLoadBalancerCertificateHints.getIdFn = getLoadBalancerCertificateId
@@ -333,7 +337,7 @@ func getIdentityDbCredentialId(resource *OCIResource) (string, error) {
 	userId := resource.parent.id
 	return getDbCredentialCompositeId(dbCredentialId, userId), nil
 }
-
+*/
 func getKmsKeyId(resource *OCIResource) (string, error) {
 	managementEndpoint, ok := resource.parent.sourceAttributes["management_endpoint"].(string)
 	if !ok {
@@ -353,7 +357,7 @@ func getKmsKeyId(resource *OCIResource) (string, error) {
 		var resourceMap map[string]interface{} = resource.rawResource.(map[string]interface{})
 		keyId = resourceMap["id"].(string)
 	}
-	return getCompositeKeyId(managementEndpoint, keyId), nil
+	return tf_kms.GetCompositeKeyId(managementEndpoint, keyId), nil
 }
 
 func getKmsKeyVersionId(resource *OCIResource) (string, error) {
@@ -367,9 +371,10 @@ func getKmsKeyVersionId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find keyVersionId for Kms KeyVersion")
 	}
-	return getCompositeKeyVersionId(managementEndpoint, keyId, keyVersionId), nil
+	return tf_kms.GetCompositeKeyVersionId(managementEndpoint, keyId, keyVersionId), nil
 }
 
+/*
 func getLoadBalancerBackendId(resource *OCIResource) (string, error) {
 
 	backendName, ok := resource.sourceAttributes["name"].(string)
