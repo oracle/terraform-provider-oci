@@ -1030,15 +1030,13 @@ var odaResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
-
 var onsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOnsNotificationTopicHints},
 		{TerraformResourceHints: exportOnsSubscriptionHints},
 	},
 }
-*/
+
 var operatorAccessControlResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOperatorAccessControlOperatorControlHints},

@@ -28,6 +28,7 @@ import (
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
+	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
@@ -453,4 +454,9 @@ func init() {
 	RegisterDatasource("oci_vault_secret_version", tf_vault.VaultSecretVersionDataSource())
 	RegisterDatasource("oci_vault_secret", tf_vault.VaultSecretDataSource())
 
+	//ONS Service
+	RegisterDatasource("oci_ons_notification_topics", tf_ons.OnsNotificationTopicsDataSource())
+	RegisterDatasource("oci_ons_subscription", tf_ons.OnsSubscriptionDataSource())
+	RegisterDatasource("oci_ons_subscriptions", tf_ons.OnsSubscriptionsDataSource())
+	RegisterDatasource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicDataSource())
 }
