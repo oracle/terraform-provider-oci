@@ -40,9 +40,9 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"dataintegration": dataintegrationResourceGraph,
 	//"datascience":            datascienceResourceGraph,
 	//"devops":                 devopsResourceGraph,
-	"dns":   dnsResourceGraph,
-	"email": emailResourceGraph,
-	//"events":                 eventsResourceGraph,
+	"dns":    dnsResourceGraph,
+	"email":  emailResourceGraph,
+	"events": eventsResourceGraph,
 	//"file_storage":           fileStorageResourceGraph,
 	"functions":     functionsResourceGraph,
 	"golden_gate":   goldenGateResourceGraph,
@@ -636,13 +636,13 @@ var emailTenancyResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var eventsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEventsRuleHints},
 	},
 }
 
+/*
 var fileStorageResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFileStorageExportHints},

@@ -37,7 +37,6 @@ import (
 	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
 
 	//oci_email "github.com/oracle/oci-go-sdk/v54/email"
-	//oci_events "github.com/oracle/oci-go-sdk/v54/events"
 	//oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
 	//oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
 	//oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
@@ -48,6 +47,7 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/v54/database"
 	oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
 	oci_email "github.com/oracle/oci-go-sdk/v54/email"
+	oci_events "github.com/oracle/oci-go-sdk/v54/events"
 	oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
@@ -1690,7 +1690,6 @@ var exportEmailDkimHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportEventsRuleHints = &TerraformResourceHints{
 	resourceClass:          "oci_events_rule",
 	datasourceClass:        "oci_events_rules",
@@ -1702,6 +1701,7 @@ var exportEventsRuleHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportFileStorageFileSystemHints = &TerraformResourceHints{
 	resourceClass:        "oci_file_storage_file_system",
 	datasourceClass:      "oci_file_storage_file_systems",
