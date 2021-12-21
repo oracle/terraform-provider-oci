@@ -42,9 +42,11 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
+
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
 	//oci_jms "github.com/oracle/oci-go-sdk/v54/jms"
+	oci_jms "github.com/oracle/oci-go-sdk/v54/jms"
 	//oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	//oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
@@ -2022,7 +2024,7 @@ var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 		string(oci_integration.IntegrationInstanceLifecycleStateActive),
 	},
 }
-
+*/
 var exportJmsFleetHints = &TerraformResourceHints{
 	resourceClass:          "oci_jms_fleet",
 	datasourceClass:        "oci_jms_fleets",
@@ -2034,7 +2036,7 @@ var exportJmsFleetHints = &TerraformResourceHints{
 		string(oci_jms.LifecycleStateActive),
 	},
 }
-*/
+
 var exportKmsKeyHints = &TerraformResourceHints{
 	resourceClass:          "oci_kms_key",
 	datasourceClass:        "oci_kms_keys",
