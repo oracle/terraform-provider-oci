@@ -581,7 +581,7 @@ func dbVersionDiffSuppress(key string, old string, new string, d *schema.Resourc
 	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
 }
 
-func adDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+func AdDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
 	const float64EqualityThreshold = 1e-6
 	oldf, err := strconv.ParseFloat(old, 64)
 	if err != nil {

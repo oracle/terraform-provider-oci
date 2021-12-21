@@ -34,6 +34,7 @@ import (
 	//oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
 	//oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
@@ -69,7 +70,6 @@ import (
 )
 
 // Hints for discovering and exporting this resource to configuration and state files
-/*
 
 var exportAiAnomalyDetectionDataAssetHints = &TerraformResourceHints{
 	resourceClass:          "oci_ai_anomaly_detection_data_asset",
@@ -119,6 +119,7 @@ var exportAiAnomalyDetectionAiPrivateEndpointHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportAnalyticsAnalyticsInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_analytics_analytics_instance",
 	datasourceClass:        "oci_analytics_analytics_instances",
