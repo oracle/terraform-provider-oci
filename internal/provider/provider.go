@@ -6,8 +6,6 @@ package provider
 import (
 	"crypto/rsa"
 	"fmt"
-	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
-	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	"io/ioutil"
 	"log"
 	"math"
@@ -18,6 +16,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
 

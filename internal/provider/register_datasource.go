@@ -8,6 +8,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
+	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 )
@@ -248,5 +249,11 @@ func init() {
 	RegisterDatasource("oci_core_drg_attachments", tf_core.CoreDrgAttachmentsDataSource())
 	RegisterDatasource("oci_core_console_histories", tf_core.CoreConsoleHistoriesDataSource())
 	RegisterDatasource("oci_core_ipsec_connection_tunnel", tf_core.CoreIpSecConnectionTunnelDataSource())
+
+	//JMS Service
+	RegisterDatasource("oci_jms_summarize_resource_inventory", tf_jms.JmsSummarizeResourceInventoryDataSource())
+	RegisterDatasource("oci_jms_fleets", tf_jms.JmsFleetsDataSource())
+	RegisterDatasource("oci_jms_list_jre_usage", tf_jms.JmsListJreUsageDataSource())
+	RegisterDatasource("oci_jms_fleet", tf_jms.JmsFleetDataSource())
 
 }

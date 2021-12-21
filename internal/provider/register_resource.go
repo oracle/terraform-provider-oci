@@ -8,6 +8,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
+	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 )
@@ -143,5 +144,8 @@ func init() {
 	RegisterResource("oci_core_instance_pool", tf_core.CoreInstancePoolResource())
 	RegisterResource("oci_core_drg_attachments_list", tf_core.CoreDrgAttachmentsListResource())
 	RegisterResource("oci_core_volume_group_backup", tf_core.CoreVolumeGroupBackupResource())
+
+	// JMS Service
+	RegisterResource("oci_jms_fleet", tf_jms.JmsFleetResource())
 
 }
