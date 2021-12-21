@@ -1773,6 +1773,8 @@ var exportGoldenGateDeploymentBackupHints = &TerraformResourceHints{
 	},
 }
 
+*/
+
 var exportHealthChecksHttpMonitorHints = &TerraformResourceHints{
 	resourceClass:          "oci_health_checks_http_monitor",
 	datasourceClass:        "oci_health_checks_http_monitors",
@@ -1788,7 +1790,7 @@ var exportHealthChecksPingMonitorHints = &TerraformResourceHints{
 	resourceAbbreviation:   "ping_monitor",
 	requireResourceRefresh: true,
 }
-*/
+
 var exportIdentityApiKeyHints = &TerraformResourceHints{
 	resourceClass:        "oci_identity_api_key",
 	datasourceClass:      "oci_identity_api_keys",
