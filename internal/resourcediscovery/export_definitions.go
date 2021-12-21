@@ -60,6 +60,7 @@ import (
 	//oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
+	oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_database "github.com/oracle/oci-go-sdk/v54/database"
@@ -288,7 +289,6 @@ var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
-/*
 var exportBastionBastionHints = &TerraformResourceHints{
 	resourceClass:          "oci_bastion_bastion",
 	datasourceClass:        "oci_bastion_bastions",
@@ -310,8 +310,6 @@ var exportBastionSessionHints = &TerraformResourceHints{
 		string(oci_bastion.SessionLifecycleStateActive),
 	},
 }
-
-*/
 
 var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_bds_bds_instance",
