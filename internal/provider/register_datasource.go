@@ -27,6 +27,7 @@ import (
 	tf_dataintegration "github.com/terraform-providers/terraform-provider-oci/internal/service/dataintegration"
 	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
+	tf_events "github.com/terraform-providers/terraform-provider-oci/internal/service/events"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_golden_gate "github.com/terraform-providers/terraform-provider-oci/internal/service/golden_gate"
@@ -861,4 +862,8 @@ func init() {
 	RegisterDatasource("oci_certificates_management_associations", tf_certificates_management.CertificatesManagementAssociationsDataSource())
 	RegisterDatasource("oci_certificates_management_certificate_version", tf_certificates_management.CertificatesManagementCertificateVersionDataSource())
 	RegisterDatasource("oci_certificates_management_certificate_authority_versions", tf_certificates_management.CertificatesManagementCertificateAuthorityVersionsDataSource())
+
+	//Events Service
+	RegisterDatasource("oci_events_rule", tf_events.EventsRuleDataSource())
+	RegisterDatasource("oci_events_rules", tf_events.EventsRulesDataSource())
 }
