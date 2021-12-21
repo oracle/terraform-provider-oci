@@ -8,6 +8,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
+	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
@@ -43,6 +44,15 @@ func init() {
 	RegisterResource("oci_email_sender", tf_email.EmailSenderResource())
 
 	// identity service
+	RegisterResource("oci_health_checks_ping_monitor", tf_health_checks.HealthChecksPingMonitorResource())
+	RegisterResource("oci_health_checks_ping_probe", tf_health_checks.HealthChecksPingProbeResource())
+	RegisterResource("oci_health_checks_http_probe", tf_health_checks.HealthChecksHttpProbeResource())
+	RegisterResource("oci_health_checks_http_monitor", tf_health_checks.HealthChecksHttpMonitorResource())
+	RegisterResource("oci_identity_api_key", tf_identity.IdentityApiKeyResource())
+	RegisterResource("oci_identity_auth_token", tf_identity.IdentityAuthTokenResource())
+	RegisterResource("oci_identity_authentication_policy", tf_identity.IdentityAuthenticationPolicyResource())
+	RegisterResource("oci_identity_compartment", tf_identity.IdentityCompartmentResource())
+	RegisterResource("oci_identity_customer_secret_key", tf_identity.IdentityCustomerSecretKeyResource())
 	RegisterResource("oci_identity_dynamic_group", tf_identity.IdentityDynamicGroupResource())
 	RegisterResource("oci_identity_smtp_credential", tf_identity.IdentitySmtpCredentialResource())
 	RegisterResource("oci_identity_authentication_policy", tf_identity.IdentityAuthenticationPolicyResource())

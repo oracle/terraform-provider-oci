@@ -8,6 +8,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
+	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
@@ -55,6 +56,13 @@ func init() {
 
 	// identity service
 	RegisterDatasource("oci_identity_smtp_credentials", tf_identity.IdentitySmtpCredentialsDataSource())
+	RegisterDatasource("oci_health_checks_http_monitor", tf_health_checks.HealthChecksHttpMonitorDataSource())
+	RegisterDatasource("oci_health_checks_ping_monitors", tf_health_checks.HealthChecksPingMonitorsDataSource())
+	RegisterDatasource("oci_health_checks_vantage_points", tf_health_checks.HealthChecksVantagePointsDataSource())
+	RegisterDatasource("oci_health_checks_ping_probe_results", tf_health_checks.HealthChecksPingProbeResultsDataSource())
+	RegisterDatasource("oci_health_checks_ping_monitor", tf_health_checks.HealthChecksPingMonitorDataSource())
+	RegisterDatasource("oci_health_checks_http_monitors", tf_health_checks.HealthChecksHttpMonitorsDataSource())
+	RegisterDatasource("oci_health_checks_http_probe_results", tf_health_checks.HealthChecksHttpProbeResultsDataSource())
 	RegisterDatasource("oci_identity_compartment", tf_identity.IdentityCompartmentDataSource())
 	RegisterDatasource("oci_identity_compartments", tf_identity.IdentityCompartmentsDataSource())
 	RegisterDatasource("oci_identity_network_source", tf_identity.IdentityNetworkSourceDataSource())
