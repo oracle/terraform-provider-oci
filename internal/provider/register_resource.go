@@ -11,6 +11,7 @@ import (
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_autoscaling "github.com/terraform-providers/terraform-provider-oci/internal/service/autoscaling"
+	tf_bastion "github.com/terraform-providers/terraform-provider-oci/internal/service/bastion"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
@@ -545,5 +546,9 @@ func init() {
 	RegisterResource("oci_network_load_balancer_network_load_balancer", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancerResource())
 	RegisterResource("oci_network_load_balancer_backend_set", tf_network_load_balancer.NetworkLoadBalancerBackendSetResource())
 	RegisterResource("oci_network_load_balancer_listener", tf_network_load_balancer.NetworkLoadBalancerListenerResource())
+
+	// bastion service
+	RegisterResource("oci_bastion_bastion", tf_bastion.BastionBastionResource())
+	RegisterResource("oci_bastion_session", tf_bastion.BastionSessionResource())
 
 }
