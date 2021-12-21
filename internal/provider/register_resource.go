@@ -1,6 +1,7 @@
 package provider
 
 import (
+	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
@@ -10,6 +11,13 @@ import (
 )
 
 func init() {
+	// ai anomal service
+	RegisterResource("oci_ai_anomaly_detection_ai_private_endpoint", tf_ai_anomaly_detection.AiAnomalyDetectionAiPrivateEndpointResource())
+	RegisterResource("oci_ai_anomaly_detection_data_asset", tf_ai_anomaly_detection.AiAnomalyDetectionDataAssetResource())
+	RegisterResource("oci_ai_anomaly_detection_model", tf_ai_anomaly_detection.AiAnomalyDetectionModelResource())
+	RegisterResource("oci_ai_anomaly_detection_project", tf_ai_anomaly_detection.AiAnomalyDetectionProjectResource())
+
+	// identity service
 	RegisterResource("oci_budget_alert_rule", budget.BudgetAlertRuleResource())
 	RegisterResource("oci_budget_budget", budget.BudgetBudgetResource())
 	RegisterResource("oci_identity_dynamic_group", tf_identity.IdentityDynamicGroupResource())

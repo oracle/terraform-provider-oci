@@ -15,8 +15,8 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 }
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
-	"availability_domain": availabilityDomainResourceGraph,
-	//"ai_anomaly_detection":   aiAnomalyDetectionResourceGraph,
+	"availability_domain":  availabilityDomainResourceGraph,
+	"ai_anomaly_detection": aiAnomalyDetectionResourceGraph,
 	//"analytics":              analyticsResourceGraph,
 	//"apigateway":             apigatewayResourceGraph,
 	//"apm":                    apmResourceGraph,
@@ -109,8 +109,6 @@ var availabilityDomainResourceGraph = TerraformResourceGraph{
 	//},
 }
 
-/*
-
 var aiAnomalyDetectionResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportAiAnomalyDetectionDataAssetHints},
@@ -120,6 +118,7 @@ var aiAnomalyDetectionResourceGraph = TerraformResourceGraph{
 	},
 }
 
+/*
 var analyticsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportAnalyticsAnalyticsInstanceHints},
