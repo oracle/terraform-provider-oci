@@ -28,6 +28,7 @@ import (
 	oci_jms "github.com/oracle/oci-go-sdk/v54/jms"
 	//oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	//oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
+	oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
 	//oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
@@ -2080,8 +2081,6 @@ var exportIdentityNetworkSourceHints = &TerraformResourceHints{
 	},
 }
 
-/*
-
 var exportLimitsQuotaHints = &TerraformResourceHints{
 	resourceClass:          "oci_limits_quota",
 	datasourceClass:        "oci_limits_quotas",
@@ -2092,7 +2091,6 @@ var exportLimitsQuotaHints = &TerraformResourceHints{
 		string(oci_limits.QuotaLifecycleStateActive),
 	},
 }
-*/
 
 var exportLoadBalancerBackendHints = &TerraformResourceHints{
 	resourceClass:        "oci_load_balancer_backend",

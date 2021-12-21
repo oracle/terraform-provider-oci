@@ -12,6 +12,7 @@ import (
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
+	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
@@ -297,4 +298,10 @@ func init() {
 	RegisterDatasource("oci_nosql_tables", tf_nosql.NosqlTablesDataSource())
 	RegisterDatasource("oci_nosql_index", tf_nosql.NosqlIndexDataSource())
 
+	RegisterDatasource("oci_limits_resource_availability", tf_limits.LimitsResourceAvailabilityDataSource())
+	RegisterDatasource("oci_limits_quota", tf_limits.LimitsQuotaDataSource())
+	RegisterDatasource("oci_limits_quotas", tf_limits.LimitsQuotasDataSource())
+	RegisterDatasource("oci_limits_limit_values", tf_limits.LimitsLimitValuesDataSource())
+	RegisterDatasource("oci_limits_limit_definitions", tf_limits.LimitsLimitDefinitionsDataSource())
+	RegisterDatasource("oci_limits_services", tf_limits.LimitsServicesDataSource())
 }

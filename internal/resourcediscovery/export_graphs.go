@@ -8,7 +8,7 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 	"email_tenancy": emailTenancyResourceGraph,
 	//"cloud_guard_tenancy":  cloudGuardTenancyResourceGraph,
 	"identity": identityResourceGraph,
-	//"limits":               limitsResourceGraph,
+	"limits":   limitsResourceGraph,
 	//"metering_computation": meteringComputationResourceGraph,
 	//"optimizer":            optimizerResourceGraph,
 	//"usage_proxy":          usageProxyResourceGraph,
@@ -789,13 +789,11 @@ var kmsResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var limitsResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportLimitsQuotaHints},
 	},
 }
-*/
 
 var loadBalancerResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
