@@ -28,6 +28,7 @@ import (
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
+	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
@@ -239,4 +240,8 @@ func init() {
 	RegisterResource("oci_artifacts_container_image_signature", tf_artifacts.ArtifactsContainerImageSignatureResource())
 	RegisterResource("oci_artifacts_container_repository", tf_artifacts.ArtifactsContainerRepositoryResource())
 	RegisterResource("oci_generic_artifacts_content_artifact_by_path", tf_generic_artifacts_content.GenericArtifactsContentArtifactByPathResource())
+
+	//ONS Service
+	RegisterResource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicResource())
+	RegisterResource("oci_ons_subscription", tf_ons.OnsSubscriptionResource())
 }

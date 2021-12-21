@@ -68,7 +68,7 @@ func init() {
 	//exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
 	//exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
 	//exportUsageProxySubscriptionRedeemableUserHints.getIdFn = getUsageProxySubscriptionRedeemableUserId
-	//exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
+	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
@@ -642,7 +642,7 @@ func getUsageProxySubscriptionRedeemableUserId(resource *OCIResource) (string, e
 	}
 	return getSubscriptionRedeemableUserCompositeId(subscriptionId, tenancyId), nil
 }
-
+*/
 func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
 	id, ok := resource.sourceAttributes["topic_id"].(string)
 	if !ok {
@@ -650,4 +650,3 @@ func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
 	}
 	return id, nil
 }
-*/

@@ -46,6 +46,7 @@ import (
 	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 
+	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
 	//oci_jms "github.com/oracle/oci-go-sdk/v54/jms"
@@ -67,9 +68,8 @@ import (
 	//oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
 	oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
-
-	//oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
+
 	//oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
 	//oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
@@ -2526,8 +2526,6 @@ var exportOdaOdaInstanceHints = &TerraformResourceHints{
 	},
 }
 
-/*
-
 var exportOnsNotificationTopicHints = &TerraformResourceHints{
 	resourceClass:        "oci_ons_notification_topic",
 	datasourceClass:      "oci_ons_notification_topics",
@@ -2548,7 +2546,7 @@ var exportOnsSubscriptionHints = &TerraformResourceHints{
 		string(oci_ons.SubscriptionLifecycleStateActive),
 	},
 }
-*/
+
 var exportOperatorAccessControlOperatorControlHints = &TerraformResourceHints{
 	resourceClass:          "oci_operator_access_control_operator_control",
 	datasourceClass:        "oci_operator_access_control_operator_controls",

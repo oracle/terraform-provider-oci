@@ -47,7 +47,7 @@ var ApiKeyConfigAttributes = [5]string{globalvar.UserOcidAttrName, globalvar.Fin
 var ociProvider *schema.Provider
 
 var TerraformCLIVersion = globalvar.UnknownTerraformCLIVersion
-var avoidWaitingForDeleteTarget bool
+var AvoidWaitingForDeleteTarget bool
 
 var OciResources map[string]*schema.Resource
 var OciDatasources map[string]*schema.Resource
@@ -269,7 +269,7 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 		return nil, err
 	}
 
-	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(utils.GetEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
+	AvoidWaitingForDeleteTarget, _ = strconv.ParseBool(utils.GetEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
 
 	return clients, nil
 }
