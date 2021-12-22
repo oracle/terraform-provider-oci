@@ -22,6 +22,7 @@ import (
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
+	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 )
 
 func init() {
@@ -202,4 +203,5 @@ func init() {
 	RegisterResource("oci_metering_computation_custom_table", tf_metering_computation.MeteringComputationCustomTableResource())
 	RegisterResource("oci_ocvp_esxi_host", tf_ocvp.OcvpEsxiHostResource())
 	RegisterResource("oci_ocvp_sddc", tf_ocvp.OcvpSddcResource())
+	RegisterResource("oci_oda_oda_instance", tf_oda.OdaOdaInstanceResource())
 }

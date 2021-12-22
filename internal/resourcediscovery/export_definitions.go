@@ -40,7 +40,7 @@ import (
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	//oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
-	//oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
+	oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
 	//oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
 	//oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
 	//oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
@@ -2491,8 +2491,6 @@ var exportOcvpEsxiHostHints = &TerraformResourceHints{
 	},
 }
 
-/*
-
 var exportOdaOdaInstanceHints = &TerraformResourceHints{
 	resourceClass:        "oci_oda_oda_instance",
 	datasourceClass:      "oci_oda_oda_instances",
@@ -2502,6 +2500,8 @@ var exportOdaOdaInstanceHints = &TerraformResourceHints{
 		string(oci_oda.OdaInstanceLifecycleStateActive),
 	},
 }
+
+/*
 
 var exportOnsNotificationTopicHints = &TerraformResourceHints{
 	resourceClass:        "oci_ons_notification_topic",

@@ -22,6 +22,7 @@ import (
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
+	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 )
 
 func init() {
@@ -357,4 +358,6 @@ func init() {
 	RegisterDatasource("oci_ocvp_esxi_host", tf_ocvp.OcvpEsxiHostDataSource())
 	RegisterDatasource("oci_ocvp_sddcs", tf_ocvp.OcvpSddcsDataSource())
 	RegisterDatasource("oci_ocvp_supported_vmware_software_versions", tf_ocvp.OcvpSupportedVmwareSoftwareVersionsDataSource())
+	RegisterDatasource("oci_oda_oda_instance", tf_oda.OdaOdaInstanceDataSource())
+	RegisterDatasource("oci_oda_oda_instances", tf_oda.OdaOdaInstancesDataSource())
 }
