@@ -10,7 +10,7 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 	"identity":             identityResourceGraph,
 	"limits":               limitsResourceGraph,
 	"metering_computation": meteringComputationResourceGraph,
-	//"optimizer":            optimizerResourceGraph,
+	"optimizer":            optimizerResourceGraph,
 	//"usage_proxy":          usageProxyResourceGraph,
 }
 
@@ -1072,13 +1072,14 @@ var opsiResourceGraph = TerraformResourceGraph{
 		},
 	},
 }
-
+*/
 var optimizerResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportOptimizerProfileHints},
 	},
 }
 
+/*
 var osmanagementResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOsmanagementManagedInstanceHints},

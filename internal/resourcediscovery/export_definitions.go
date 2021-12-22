@@ -41,10 +41,11 @@ import (
 	//oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
 	oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
+
 	//oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
 	//oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
-	//oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
+	oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
 	//oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
 	//oci_sch "github.com/oracle/oci-go-sdk/v54/sch"
 	//oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
@@ -2644,7 +2645,7 @@ var exportOpsiOperationsInsightsWarehouseRotateWarehouseWalletHints = &Terraform
 	resourceClass:        "oci_opsi_operations_insights_warehouse_rotate_warehouse_wallet",
 	resourceAbbreviation: "operations_insights_warehouse_rotate_warehouse_wallet",
 }
-
+*/
 var exportOptimizerProfileHints = &TerraformResourceHints{
 	resourceClass:          "oci_optimizer_profile",
 	datasourceClass:        "oci_optimizer_profiles",
@@ -2657,6 +2658,7 @@ var exportOptimizerProfileHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportOsmanagementManagedInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_osmanagement_managed_instance",
 	datasourceClass:        "oci_osmanagement_managed_instances",
