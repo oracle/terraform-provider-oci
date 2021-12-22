@@ -25,6 +25,7 @@ import (
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
+	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 )
 
 func init() {
@@ -386,4 +387,7 @@ func init() {
 	RegisterDatasource("oci_optimizer_category", tf_optimizer.OptimizerCategoryDataSource())
 	RegisterDatasource("oci_optimizer_enrollment_statuses", tf_optimizer.OptimizerEnrollmentStatusesDataSource())
 	RegisterDatasource("oci_optimizer_profile", tf_optimizer.OptimizerProfileDataSource())
+	RegisterDatasource("oci_resourcemanager_stack", tf_resourcemanager.ResourcemanagerStackDataSource())
+	RegisterDatasource("oci_resourcemanager_stacks", tf_resourcemanager.ResourcemanagerStacksDataSource())
+	RegisterDatasource("oci_resourcemanager_stack_tf_state", tf_resourcemanager.ResourcemanagerStackTfStateDataSource())
 }
