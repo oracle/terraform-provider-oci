@@ -270,7 +270,6 @@ func filterSecondaryVnicAttachments(ctx *resourceDiscoveryContext, resources []*
 	return results, nil
 }
 
-/*
 func filterMysqlBackups(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 
@@ -304,7 +303,7 @@ func processMysqlDbSystem(ctx *resourceDiscoveryContext, resources []*OCIResourc
 
 	return resources, nil
 }
-*/
+
 func filterSourcedBootVolumes(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	results := []*OCIResource{}
 

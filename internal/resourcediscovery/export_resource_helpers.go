@@ -817,9 +817,9 @@ func init() {
 	//exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
 	//exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
 	//
-	//exportMysqlMysqlBackupHints.requireResourceRefresh = true
-	//exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
-	//exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem
+	exportMysqlMysqlBackupHints.requireResourceRefresh = true
+	exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
+	exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem
 	//
 	//// Custom overrides for generating composite Network Load Balancer IDs within the resource discovery framework
 	//exportNetworkLoadBalancerBackendHints.processDiscoveredResourcesFn = processNetworkLoadBalancerBackends
