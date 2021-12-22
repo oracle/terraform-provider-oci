@@ -17,6 +17,7 @@ import (
 
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 )
 
 func init() {
@@ -67,7 +68,7 @@ func init() {
 	//exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
 	//exportObjectStoragePreauthenticatedRequestHints.getIdFn = getObjectStoragePreauthenticatedRequestId
 	//exportObjectStorageReplicationPolicyHints.getIdFn = getObjectStorageReplicationPolicyId
-	//exportUsageProxySubscriptionRedeemableUserHints.getIdFn = getUsageProxySubscriptionRedeemableUserId
+	exportUsageProxySubscriptionRedeemableUserHints.getIdFn = getUsageProxySubscriptionRedeemableUserId
 	exportOnsNotificationTopicHints.getIdFn = getOnsNotificationTopicId
 }
 
@@ -632,6 +633,7 @@ func getObjectStorageReplicationPolicyId(resource *OCIResource) (string, error) 
 	}
 	return getReplicationPolicyCompositeId(bucket, namespace, replicationId), nil
 }
+*/
 
 func getUsageProxySubscriptionRedeemableUserId(resource *OCIResource) (string, error) {
 
@@ -640,9 +642,9 @@ func getUsageProxySubscriptionRedeemableUserId(resource *OCIResource) (string, e
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find bucket for ObjectStorage ReplicationPolicy")
 	}
-	return getSubscriptionRedeemableUserCompositeId(subscriptionId, tenancyId), nil
+	return tf_usage_proxy.GetSubscriptionRedeemableUserCompositeId(subscriptionId, tenancyId), nil
 }
-*/
+
 func getOnsNotificationTopicId(resource *OCIResource) (string, error) {
 	id, ok := resource.sourceAttributes["topic_id"].(string)
 	if !ok {

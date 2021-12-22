@@ -11,7 +11,7 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 	"limits":               limitsResourceGraph,
 	"metering_computation": meteringComputationResourceGraph,
 	"optimizer":            optimizerResourceGraph,
-	//"usage_proxy":          usageProxyResourceGraph,
+	"usage_proxy":          usageProxyResourceGraph,
 }
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
@@ -1100,11 +1100,12 @@ var streamingResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportStreamingStreamHints},
 	},
 }
-
+*/
 var usageProxyResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {},
 }
 
+/*
 var vulnerabilityScanningResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportVulnerabilityScanningHostScanRecipeHints},

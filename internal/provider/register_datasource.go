@@ -36,6 +36,7 @@ import (
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
+	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
 )
 
@@ -475,4 +476,11 @@ func init() {
 	RegisterDatasource("oci_database_tools_database_tools_endpoint_services", tf_database_tools.DatabaseToolsDatabaseToolsEndpointServicesDataSource())
 	RegisterDatasource("oci_database_tools_database_tools_endpoint_service", tf_database_tools.DatabaseToolsDatabaseToolsEndpointServiceDataSource())
 
+	// usage proxy service
+	RegisterDatasource("oci_usage_proxy_subscription_product", tf_usage_proxy.UsageProxySubscriptionProductDataSource())
+	RegisterDatasource("oci_usage_proxy_subscription_redeemable_user", tf_usage_proxy.UsageProxySubscriptionRedeemableUserDataSource())
+	RegisterDatasource("oci_usage_proxy_subscription_reward", tf_usage_proxy.UsageProxySubscriptionRewardDataSource())
+	RegisterDatasource("oci_usage_proxy_subscription_redeemable_users", tf_usage_proxy.UsageProxySubscriptionRedeemableUsersDataSource())
+	RegisterDatasource("oci_usage_proxy_subscription_products", tf_usage_proxy.UsageProxySubscriptionProductsDataSource())
+	RegisterDatasource("oci_usage_proxy_subscription_rewards", tf_usage_proxy.UsageProxySubscriptionRewardsDataSource())
 }
