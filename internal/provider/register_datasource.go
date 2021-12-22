@@ -24,6 +24,7 @@ import (
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
+	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 )
 
 func init() {
@@ -370,4 +371,19 @@ func init() {
 	RegisterDatasource("oci_ocvp_supported_vmware_software_versions", tf_ocvp.OcvpSupportedVmwareSoftwareVersionsDataSource())
 	RegisterDatasource("oci_oda_oda_instance", tf_oda.OdaOdaInstanceDataSource())
 	RegisterDatasource("oci_oda_oda_instances", tf_oda.OdaOdaInstancesDataSource())
+	RegisterDatasource("oci_optimizer_profile_level", tf_optimizer.OptimizerProfileLevelDataSource())
+	RegisterDatasource("oci_optimizer_resource_actions", tf_optimizer.OptimizerResourceActionsDataSource())
+	RegisterDatasource("oci_optimizer_histories", tf_optimizer.OptimizerHistoriesDataSource())
+	RegisterDatasource("oci_optimizer_recommendations", tf_optimizer.OptimizerRecommendationsDataSource())
+	RegisterDatasource("oci_optimizer_recommendation", tf_optimizer.OptimizerRecommendationDataSource())
+	RegisterDatasource("oci_optimizer_categories", tf_optimizer.OptimizerCategoriesDataSource())
+	RegisterDatasource("oci_optimizer_enrollment_status", tf_optimizer.OptimizerEnrollmentStatusDataSource())
+	RegisterDatasource("oci_optimizer_recommendation_strategy", tf_optimizer.OptimizerRecommendationStrategyDataSource())
+	RegisterDatasource("oci_optimizer_profile_levels", tf_optimizer.OptimizerProfileLevelsDataSource())
+	RegisterDatasource("oci_optimizer_profiles", tf_optimizer.OptimizerProfilesDataSource())
+	RegisterDatasource("oci_optimizer_resource_action", tf_optimizer.OptimizerResourceActionDataSource())
+	RegisterDatasource("oci_optimizer_recommendation_strategies", tf_optimizer.OptimizerRecommendationStrategiesDataSource())
+	RegisterDatasource("oci_optimizer_category", tf_optimizer.OptimizerCategoryDataSource())
+	RegisterDatasource("oci_optimizer_enrollment_statuses", tf_optimizer.OptimizerEnrollmentStatusesDataSource())
+	RegisterDatasource("oci_optimizer_profile", tf_optimizer.OptimizerProfileDataSource())
 }

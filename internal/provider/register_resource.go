@@ -24,6 +24,7 @@ import (
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
+	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 )
 
 func init() {
@@ -207,4 +208,8 @@ func init() {
 	RegisterResource("oci_oda_oda_instance", tf_oda.OdaOdaInstanceResource())
 	RegisterResource("oci_operator_access_control_operator_control_assignment", tf_operator_access_control.OperatorAccessControlOperatorControlAssignmentResource())
 	RegisterResource("oci_operator_access_control_operator_control", tf_operator_access_control.OperatorAccessControlOperatorControlResource())
+	RegisterResource("oci_optimizer_enrollment_status", tf_optimizer.OptimizerEnrollmentStatusResource())
+	RegisterResource("oci_optimizer_recommendation", tf_optimizer.OptimizerRecommendationResource())
+	RegisterResource("oci_optimizer_profile", tf_optimizer.OptimizerProfileResource())
+	RegisterResource("oci_optimizer_resource_action", tf_optimizer.OptimizerResourceActionResource())
 }
