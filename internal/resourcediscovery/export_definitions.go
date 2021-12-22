@@ -36,6 +36,7 @@ import (
 	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
 	oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
+	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
@@ -282,6 +283,8 @@ var exportBastionSessionHints = &TerraformResourceHints{
 	},
 }
 
+*/
+
 var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_bds_bds_instance",
 	datasourceClass:        "oci_bds_bds_instances",
@@ -293,6 +296,7 @@ var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportBlockchainBlockchainPlatformHints = &TerraformResourceHints{
 	resourceClass:          "oci_blockchain_blockchain_platform",
 	datasourceClass:        "oci_blockchain_blockchain_platforms",

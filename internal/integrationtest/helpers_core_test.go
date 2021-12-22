@@ -92,6 +92,20 @@ resource "oci_core_network_security_group" "test_network_security_group2" {
 }` + DefinedTagsDependencies
 )
 
+var subnetRegionalRepresentation = map[string]interface{}{
+	"cidr_block":                 acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
+	"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+	"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+	"dhcp_options_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, Update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
+	"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MySubnet`, Update: `displayName2`},
+	"dns_label":                  acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
+	"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	"prohibit_public_ip_on_vnic": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	"route_table_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`, Update: `${oci_core_route_table.test_route_table.id}`},
+	"security_list_ids":          acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, Update: []string{`${oci_core_security_list.test_security_list.id}`}},
+}
+
 var ignoreDefinedTagsChangesRep = map[string]interface{}{
 	"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 }

@@ -4,6 +4,7 @@ import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
+	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
@@ -23,9 +24,15 @@ func init() {
 	RegisterResource("oci_analytics_analytics_instance_private_access_channel", analytics.AnalyticsAnalyticsInstancePrivateAccessChannelResource())
 	RegisterResource("oci_analytics_analytics_instance_vanity_url", analytics.AnalyticsAnalyticsInstanceVanityUrlResource())
 
-	// identity service
+	// bds service
+	RegisterResource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationResource())
+	RegisterResource("oci_bds_bds_instance", tf_bds.BdsBdsInstanceResource())
+
+	// budget service
 	RegisterResource("oci_budget_alert_rule", budget.BudgetAlertRuleResource())
 	RegisterResource("oci_budget_budget", budget.BudgetBudgetResource())
+
+	// identity service
 	RegisterResource("oci_identity_dynamic_group", tf_identity.IdentityDynamicGroupResource())
 	RegisterResource("oci_identity_smtp_credential", tf_identity.IdentitySmtpCredentialResource())
 	RegisterResource("oci_identity_authentication_policy", tf_identity.IdentityAuthenticationPolicyResource())
