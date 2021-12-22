@@ -263,7 +263,6 @@ var exportArtifactsRepositoryHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
 	resourceClass:          "oci_autoscaling_auto_scaling_configuration",
 	datasourceClass:        "oci_autoscaling_auto_scaling_configurations",
@@ -272,6 +271,7 @@ var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+/*
 var exportBastionBastionHints = &TerraformResourceHints{
 	resourceClass:          "oci_bastion_bastion",
 	datasourceClass:        "oci_bastion_bastions",

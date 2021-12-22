@@ -7,6 +7,7 @@ import (
 	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
+	tf_autoscaling "github.com/terraform-providers/terraform-provider-oci/internal/service/autoscaling"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
@@ -60,6 +61,10 @@ func init() {
 	RegisterDatasource("oci_apm_data_keys", tf_apm.ApmDataKeysDataSource())
 	RegisterDatasource("oci_apm_apm_domain", tf_apm.ApmApmDomainDataSource())
 	RegisterDatasource("oci_apm_apm_domains", tf_apm.ApmApmDomainsDataSource())
+
+	//autoscaling service
+	RegisterDatasource("oci_autoscaling_auto_scaling_configuration", tf_autoscaling.AutoScalingAutoScalingConfigurationDataSource())
+	RegisterDatasource("oci_autoscaling_auto_scaling_configurations", tf_autoscaling.AutoScalingAutoScalingConfigurationsDataSource())
 
 	// bds service
 	RegisterDatasource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationDataSource())

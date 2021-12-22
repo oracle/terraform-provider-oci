@@ -48,7 +48,7 @@ var serviceExpectedRetryDurationMap = map[string]ServiceExpectedRetryDurationFun
 	logAnalyticsService: getLogAnalyticsExpectedRetryDuration,
 }
 var serviceRetryPolicyFnMap = map[string]getRetryPolicyFunc{
-	//kmsService: kmsGetRetryPolicy,
+	kmsService: kmsGetRetryPolicy,
 }
 
 var ShortRetryTime = 2 * time.Minute
@@ -400,4 +400,38 @@ func getCoreExpectedRetryDuration(response oci_common.OCIOperationResponse, disa
 		}
 	}
 	return GetDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+}
+
+func kmsGetRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
+	startTime := time.Now()
+	retryPolicy := &oci_common.RetryPolicy{
+		MaximumNumberAttempts: 0,
+		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
+			return ShouldRetry(response, disableNotFoundRetries, service, startTime, optionals...)
+		},
+		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
+			return getKmsNextRetryDuration(response, disableNotFoundRetries, startTime, optionals...)
+		},
+	}
+	return retryPolicy
+}
+
+func getKmsNextRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, startTime time.Time, optionals ...interface{}) time.Duration {
+	if httpreplay.ShouldRetryImmediately() {
+		return 0
+	}
+	defaultRetryTime := GetRetryBackoffDuration(response, disableNotFoundRetries, "kms", startTime, optionals...)
+	if response.Response == nil || response.Response.HTTPResponse() == nil {
+		return defaultRetryTime
+	}
+	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+	case 429:
+		rawResponse := response.Response.HTTPResponse()
+		if retryAfterVal := rawResponse.Header["retry-after"]; len(retryAfterVal) > 0 {
+			if i, err := strconv.Atoi(retryAfterVal[0]); err == nil {
+				return time.Duration(i) * time.Second
+			}
+		}
+	}
+	return defaultRetryTime
 }
