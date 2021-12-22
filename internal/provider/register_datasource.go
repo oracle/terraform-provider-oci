@@ -12,6 +12,7 @@ import (
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
+	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 )
 
 func init() {
@@ -270,5 +271,11 @@ func init() {
 	RegisterDatasource("oci_mysql_mysql_db_system", tf_mysql.MysqlMysqlDbSystemDataSource())
 	RegisterDatasource("oci_mysql_mysql_db_systems", tf_mysql.MysqlMysqlDbSystemsDataSource())
 	RegisterDatasource("oci_mysql_mysql_configuration", tf_mysql.MysqlMysqlConfigurationDataSource())
+
+	//nosql service
+	RegisterDatasource("oci_nosql_indexes", tf_nosql.NosqlIndexesDataSource())
+	RegisterDatasource("oci_nosql_table", tf_nosql.NosqlTableDataSource())
+	RegisterDatasource("oci_nosql_tables", tf_nosql.NosqlTablesDataSource())
+	RegisterDatasource("oci_nosql_index", tf_nosql.NosqlIndexDataSource())
 
 }

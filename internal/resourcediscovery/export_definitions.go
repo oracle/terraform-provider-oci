@@ -43,6 +43,7 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
+	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
@@ -57,7 +58,6 @@ import (
 	//oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
-	//oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 	//oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
 	//oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
 	//oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
@@ -2400,7 +2400,7 @@ var exportNetworkLoadBalancerListenerHints = &TerraformResourceHints{
 	resourceAbbreviation:   "listener",
 	requireResourceRefresh: true,
 }
-
+*/
 var exportNosqlTableHints = &TerraformResourceHints{
 	resourceClass:          "oci_nosql_table",
 	datasourceClass:        "oci_nosql_tables",
@@ -2423,6 +2423,7 @@ var exportNosqlIndexHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportObjectStorageBucketHints = &TerraformResourceHints{
 	resourceClass:          "oci_objectstorage_bucket",
 	datasourceClass:        "oci_objectstorage_bucket_summaries",

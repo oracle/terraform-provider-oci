@@ -807,7 +807,7 @@ func init() {
 	//
 	//exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
 	//
-	//exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
+	exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
 	//
 	//exportFileStorageMountTargetHints.requireResourceRefresh = true
 	//

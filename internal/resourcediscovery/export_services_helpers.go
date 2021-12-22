@@ -130,7 +130,7 @@ func processStreamingStream(ctx *resourceDiscoveryContext, resources []*OCIResou
 	}
 	return resources, nil
 }
-
+*/
 func processNosqlIndex(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, index := range resources {
 		if index.parent == nil {
@@ -140,7 +140,6 @@ func processNosqlIndex(ctx *resourceDiscoveryContext, resources []*OCIResource) 
 	}
 	return resources, nil
 }
-*/
 
 func processKmsKey(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
