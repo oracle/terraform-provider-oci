@@ -4,12 +4,12 @@
 package resourcediscovery
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
-	"budget":              budgetResourceGraph,
-	"email_tenancy":       emailTenancyResourceGraph,
-	"cloud_guard_tenancy": cloudGuardTenancyResourceGraph,
-	"identity":            identityResourceGraph,
-	"limits":              limitsResourceGraph,
-	//"metering_computation": meteringComputationResourceGraph,
+	"budget":               budgetResourceGraph,
+	"email_tenancy":        emailTenancyResourceGraph,
+	"cloud_guard_tenancy":  cloudGuardTenancyResourceGraph,
+	"identity":             identityResourceGraph,
+	"limits":               limitsResourceGraph,
+	"metering_computation": meteringComputationResourceGraph,
 	//"optimizer":            optimizerResourceGraph,
 	//"usage_proxy":          usageProxyResourceGraph,
 }
@@ -893,13 +893,13 @@ var marketplaceResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
-
 var meteringComputationResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportMeteringComputationQueryHints},
 	},
 }
+
+/*
 
 var monitoringResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {

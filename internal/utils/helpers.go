@@ -497,3 +497,9 @@ func WriteTempFile(data string, originFileName string) (err error) {
 	}
 	return err
 }
+
+func Timestamp() string {
+	t := time.Now()
+	return fmt.Sprintf("%d-%02d-%02d-%02d%02d%02d-%d",
+		t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond())
+}

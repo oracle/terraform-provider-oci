@@ -18,6 +18,7 @@ import (
 	tf_management_agent "github.com/terraform-providers/terraform-provider-oci/internal/service/management_agent"
 	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
 	tf_marketplace "github.com/terraform-providers/terraform-provider-oci/internal/service/marketplace"
+	tf_metering_computation "github.com/terraform-providers/terraform-provider-oci/internal/service/metering_computation"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 )
@@ -195,4 +196,7 @@ func init() {
 	RegisterResource("oci_marketplace_publication", tf_marketplace.MarketplacePublicationResource())
 	RegisterResource("oci_marketplace_accepted_agreement", tf_marketplace.MarketplaceAcceptedAgreementResource())
 	RegisterResource("oci_marketplace_listing_package_agreement", tf_marketplace.MarketplaceListingPackageAgreementResource())
+	RegisterResource("oci_metering_computation_usage", tf_metering_computation.MeteringComputationUsageResource())
+	RegisterResource("oci_metering_computation_query", tf_metering_computation.MeteringComputationQueryResource())
+	RegisterResource("oci_metering_computation_custom_table", tf_metering_computation.MeteringComputationCustomTableResource())
 }
