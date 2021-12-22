@@ -26,6 +26,7 @@ import (
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
+	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 )
 
 func init() {
@@ -390,4 +391,12 @@ func init() {
 	RegisterDatasource("oci_resourcemanager_stack", tf_resourcemanager.ResourcemanagerStackDataSource())
 	RegisterDatasource("oci_resourcemanager_stacks", tf_resourcemanager.ResourcemanagerStacksDataSource())
 	RegisterDatasource("oci_resourcemanager_stack_tf_state", tf_resourcemanager.ResourcemanagerStackTfStateDataSource())
+	RegisterDatasource("oci_service_catalog_private_applications", tf_service_catalog.ServiceCatalogPrivateApplicationsDataSource())
+	RegisterDatasource("oci_service_catalog_service_catalog_associations", tf_service_catalog.ServiceCatalogServiceCatalogAssociationsDataSource())
+	RegisterDatasource("oci_service_catalog_service_catalog_association", tf_service_catalog.ServiceCatalogServiceCatalogAssociationDataSource())
+	RegisterDatasource("oci_service_catalog_private_application_packages", tf_service_catalog.ServiceCatalogPrivateApplicationPackagesDataSource())
+	RegisterDatasource("oci_service_catalog_private_application_package", tf_service_catalog.ServiceCatalogPrivateApplicationPackageDataSource())
+	RegisterDatasource("oci_service_catalog_private_application", tf_service_catalog.ServiceCatalogPrivateApplicationDataSource())
+	RegisterDatasource("oci_service_catalog_service_catalog", tf_service_catalog.ServiceCatalogServiceCatalogDataSource())
+	RegisterDatasource("oci_service_catalog_service_catalogs", tf_service_catalog.ServiceCatalogServiceCatalogsDataSource())
 }
