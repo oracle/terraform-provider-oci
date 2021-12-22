@@ -15,6 +15,7 @@ import (
 	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_management_agent "github.com/terraform-providers/terraform-provider-oci/internal/service/management_agent"
+	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 )
@@ -315,4 +316,5 @@ func init() {
 	RegisterDatasource("oci_management_agent_management_agent_images", tf_management_agent.ManagementAgentManagementAgentImagesDataSource())
 	RegisterDatasource("oci_management_agent_management_agent_count", tf_management_agent.ManagementAgentManagementAgentCountDataSource())
 	RegisterDatasource("oci_management_agent_management_agent_plugin_count", tf_management_agent.ManagementAgentManagementAgentPluginCountDataSource())
+	RegisterDatasource("oci_management_dashboard_management_dashboards_export", tf_management_dashboard.ManagementDashboardManagementDashboardsExportDataSource())
 }
