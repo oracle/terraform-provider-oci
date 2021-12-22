@@ -21,6 +21,7 @@ import (
 	tf_metering_computation "github.com/terraform-providers/terraform-provider-oci/internal/service/metering_computation"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
+	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 )
 
 func init() {
@@ -350,4 +351,10 @@ func init() {
 	RegisterDatasource("oci_metering_computation_custom_table", tf_metering_computation.MeteringComputationCustomTableDataSource())
 	RegisterDatasource("oci_metering_computation_queries", tf_metering_computation.MeteringComputationQueriesDataSource())
 	RegisterDatasource("oci_metering_computation_configuration", tf_metering_computation.MeteringComputationConfigurationDataSource())
+	RegisterDatasource("oci_ocvp_supported_skus", tf_ocvp.OcvpSupportedSkusDataSource())
+	RegisterDatasource("oci_ocvp_sddc", tf_ocvp.OcvpSddcDataSource())
+	RegisterDatasource("oci_ocvp_esxi_hosts", tf_ocvp.OcvpEsxiHostsDataSource())
+	RegisterDatasource("oci_ocvp_esxi_host", tf_ocvp.OcvpEsxiHostDataSource())
+	RegisterDatasource("oci_ocvp_sddcs", tf_ocvp.OcvpSddcsDataSource())
+	RegisterDatasource("oci_ocvp_supported_vmware_software_versions", tf_ocvp.OcvpSupportedVmwareSoftwareVersionsDataSource())
 }

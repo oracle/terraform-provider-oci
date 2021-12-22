@@ -39,7 +39,7 @@ import (
 	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	//oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
-	//oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
+	oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
 	//oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
 	//oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
 	//oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
@@ -2465,6 +2465,8 @@ var exportOceOceInstanceHints = &TerraformResourceHints{
 	},
 }
 
+*/
+
 var exportOcvpSddcHints = &TerraformResourceHints{
 	resourceClass:          "oci_ocvp_sddc",
 	datasourceClass:        "oci_ocvp_sddcs",
@@ -2488,6 +2490,8 @@ var exportOcvpEsxiHostHints = &TerraformResourceHints{
 		string(oci_ocvp.LifecycleStatesFailed),
 	},
 }
+
+/*
 
 var exportOdaOdaInstanceHints = &TerraformResourceHints{
 	resourceClass:        "oci_oda_oda_instance",
