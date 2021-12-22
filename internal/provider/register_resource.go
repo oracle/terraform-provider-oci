@@ -25,6 +25,7 @@ import (
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
+	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 )
 
 func init() {
@@ -212,4 +213,7 @@ func init() {
 	RegisterResource("oci_optimizer_recommendation", tf_optimizer.OptimizerRecommendationResource())
 	RegisterResource("oci_optimizer_profile", tf_optimizer.OptimizerProfileResource())
 	RegisterResource("oci_optimizer_resource_action", tf_optimizer.OptimizerResourceActionResource())
+	RegisterResource("oci_service_catalog_service_catalog_association", tf_service_catalog.ServiceCatalogServiceCatalogAssociationResource())
+	RegisterResource("oci_service_catalog_service_catalog", tf_service_catalog.ServiceCatalogServiceCatalogResource())
+	RegisterResource("oci_service_catalog_private_application", tf_service_catalog.ServiceCatalogPrivateApplicationResource())
 }
