@@ -1040,7 +1040,7 @@ var onsResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportOnsSubscriptionHints},
 	},
 }
-
+*/
 var operatorAccessControlResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOperatorAccessControlOperatorControlHints},
@@ -1048,6 +1048,7 @@ var operatorAccessControlResourceGraph = TerraformResourceGraph{
 	},
 }
 
+/*
 var opsiResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOpsiEnterpriseManagerBridgeHints},

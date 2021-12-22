@@ -23,6 +23,7 @@ import (
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
+	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 )
 
 func init() {
@@ -158,6 +159,15 @@ func init() {
 	RegisterDatasource("oci_load_balancer_backends", tf_load_balancer.LoadBalancerBackendsDataSource())
 	RegisterDatasource("oci_load_balancer_path_route_sets", tf_load_balancer.LoadBalancerPathRouteSetsDataSource())
 	RegisterDatasource("oci_load_balancer_load_balancer_routing_policy", tf_load_balancer.LoadBalancerLoadBalancerRoutingPolicyDataSource())
+	RegisterDatasource("oci_operator_access_control_operator_control", tf_operator_access_control.OperatorAccessControlOperatorControlDataSource())
+	RegisterDatasource("oci_operator_access_control_access_requests", tf_operator_access_control.OperatorAccessControlAccessRequestsDataSource())
+	RegisterDatasource("oci_operator_access_control_access_request_history", tf_operator_access_control.OperatorAccessControlAccessRequestHistoryDataSource())
+	RegisterDatasource("oci_operator_access_control_operator_control_assignments", tf_operator_access_control.OperatorAccessControlOperatorControlAssignmentsDataSource())
+	RegisterDatasource("oci_operator_access_control_operator_control_assignment", tf_operator_access_control.OperatorAccessControlOperatorControlAssignmentDataSource())
+	RegisterDatasource("oci_operator_access_control_operator_controls", tf_operator_access_control.OperatorAccessControlOperatorControlsDataSource())
+	RegisterDatasource("oci_operator_access_control_operator_actions", tf_operator_access_control.OperatorAccessControlOperatorActionsDataSource())
+	RegisterDatasource("oci_operator_access_control_operator_action", tf_operator_access_control.OperatorAccessControlOperatorActionDataSource())
+	RegisterDatasource("oci_operator_access_control_access_request", tf_operator_access_control.OperatorAccessControlAccessRequestDataSource())
 
 	// core service
 	RegisterDatasource("oci_core_tunnel_security_associations", tf_core.CoreTunnelSecurityAssociationsDataSource())

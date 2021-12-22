@@ -42,7 +42,7 @@ import (
 	oci_ocvp "github.com/oracle/oci-go-sdk/v54/ocvp"
 	oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
 	//oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
-	//oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
+	oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
 	//oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
 	//oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
 	//oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
@@ -2523,7 +2523,7 @@ var exportOnsSubscriptionHints = &TerraformResourceHints{
 		string(oci_ons.SubscriptionLifecycleStateActive),
 	},
 }
-
+*/
 var exportOperatorAccessControlOperatorControlHints = &TerraformResourceHints{
 	resourceClass:          "oci_operator_access_control_operator_control",
 	datasourceClass:        "oci_operator_access_control_operator_controls",
@@ -2549,6 +2549,7 @@ var exportOperatorAccessControlOperatorControlAssignmentHints = &TerraformResour
 	},
 }
 
+/*
 var exportOpsiEnterpriseManagerBridgeHints = &TerraformResourceHints{
 	resourceClass:          "oci_opsi_enterprise_manager_bridge",
 	datasourceClass:        "oci_opsi_enterprise_manager_bridges",
