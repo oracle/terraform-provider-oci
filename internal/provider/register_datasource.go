@@ -14,6 +14,7 @@ import (
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_management_agent "github.com/terraform-providers/terraform-provider-oci/internal/service/management_agent"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 )
@@ -304,4 +305,14 @@ func init() {
 	RegisterDatasource("oci_limits_limit_values", tf_limits.LimitsLimitValuesDataSource())
 	RegisterDatasource("oci_limits_limit_definitions", tf_limits.LimitsLimitDefinitionsDataSource())
 	RegisterDatasource("oci_limits_services", tf_limits.LimitsServicesDataSource())
+	RegisterDatasource("oci_management_agent_management_agent_install_keys", tf_management_agent.ManagementAgentManagementAgentInstallKeysDataSource())
+	RegisterDatasource("oci_management_agent_management_agents", tf_management_agent.ManagementAgentManagementAgentsDataSource())
+	RegisterDatasource("oci_management_agent_management_agent", tf_management_agent.ManagementAgentManagementAgentDataSource())
+	RegisterDatasource("oci_management_agent_management_agent_available_histories", tf_management_agent.ManagementAgentManagementAgentAvailableHistoriesDataSource())
+	RegisterDatasource("oci_management_agent_management_agent_get_auto_upgradable_config", tf_management_agent.ManagementAgentManagementAgentGetAutoUpgradableConfigDataSource())
+	RegisterDatasource("oci_management_agent_management_agent_install_key", tf_management_agent.ManagementAgentManagementAgentInstallKeyDataSource())
+	RegisterDatasource("oci_management_agent_management_agent_plugins", tf_management_agent.ManagementAgentManagementAgentPluginsDataSource())
+	RegisterDatasource("oci_management_agent_management_agent_images", tf_management_agent.ManagementAgentManagementAgentImagesDataSource())
+	RegisterDatasource("oci_management_agent_management_agent_count", tf_management_agent.ManagementAgentManagementAgentCountDataSource())
+	RegisterDatasource("oci_management_agent_management_agent_plugin_count", tf_management_agent.ManagementAgentManagementAgentPluginCountDataSource())
 }
