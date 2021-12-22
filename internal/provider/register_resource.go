@@ -12,6 +12,7 @@ import (
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
+	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 )
 
 func init() {
@@ -156,4 +157,7 @@ func init() {
 	RegisterResource("oci_mysql_heat_wave_cluster", tf_mysql.MysqlHeatWaveClusterResource())
 	RegisterResource("oci_mysql_mysql_db_system", tf_mysql.MysqlMysqlDbSystemResource())
 
+	// nosql service
+	RegisterResource("oci_nosql_table", tf_nosql.NosqlTableResource())
+	RegisterResource("oci_nosql_index", tf_nosql.NosqlIndexResource())
 }

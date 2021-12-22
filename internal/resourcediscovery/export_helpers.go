@@ -6,6 +6,8 @@ package resourcediscovery
 import (
 	"fmt"
 
+	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
@@ -59,7 +61,7 @@ func init() {
 	//exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
 	//exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
 	//exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
-	//exportNosqlIndexHints.getIdFn = getNosqlIndexId
+	exportNosqlIndexHints.getIdFn = getNosqlIndexId
 	//exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
 	//exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
 	//exportObjectStorageObjectHints.getIdFn = getObjectStorageObjectId
@@ -540,7 +542,7 @@ func getNetworkLoadBalancerListenerId(resource *OCIResource) (string, error) {
 	networkLoadBalancerId := resource.parent.parent.id
 	return getNlbListenerCompositeId(listenerName, networkLoadBalancerId), nil
 }
-
+*/
 func getNosqlIndexId(resource *OCIResource) (string, error) {
 
 	indexName, ok := resource.sourceAttributes["name"].(string)
@@ -549,9 +551,10 @@ func getNosqlIndexId(resource *OCIResource) (string, error) {
 	}
 	tableNameOrId := resource.parent.id
 
-	return getIndexCompositeId(indexName, tableNameOrId), nil
+	return tf_nosql.GetIndexCompositeId(indexName, tableNameOrId), nil
 }
 
+/*
 func getObjectStorageBucketId(resource *OCIResource) (string, error) {
 
 	bucket, ok := resource.sourceAttributes["name"].(string)
