@@ -3,6 +3,7 @@ package provider
 import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
+	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
@@ -402,4 +403,15 @@ func init() {
 	RegisterDatasource("oci_service_catalog_service_catalogs", tf_service_catalog.ServiceCatalogServiceCatalogsDataSource())
 	RegisterDatasource("oci_service_manager_proxy_service_environments", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentsDataSource())
 	RegisterDatasource("oci_service_manager_proxy_service_environment", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentDataSource())
+	RegisterDatasource("oci_apigateway_deployment", tf_apigateway.ApigatewayDeploymentDataSource())
+	RegisterDatasource("oci_apigateway_api", tf_apigateway.ApigatewayApiDataSource())
+	RegisterDatasource("oci_apigateway_gateway", tf_apigateway.ApigatewayGatewayDataSource())
+	RegisterDatasource("oci_apigateway_api_content", tf_apigateway.ApigatewayApiContentDataSource())
+	RegisterDatasource("oci_apigateway_certificate", tf_apigateway.ApigatewayCertificateDataSource())
+	RegisterDatasource("oci_apigateway_api_validation", tf_apigateway.ApigatewayApiValidationDataSource())
+	RegisterDatasource("oci_apigateway_gateways", tf_apigateway.ApigatewayGatewaysDataSource())
+	RegisterDatasource("oci_apigateway_apis", tf_apigateway.ApigatewayApisDataSource())
+	RegisterDatasource("oci_apigateway_certificates", tf_apigateway.ApigatewayCertificatesDataSource())
+	RegisterDatasource("oci_apigateway_deployments", tf_apigateway.ApigatewayDeploymentsDataSource())
+	RegisterDatasource("oci_apigateway_api_deployment_specification", tf_apigateway.ApigatewayApiDeploymentSpecificationDataSource())
 }
