@@ -11,6 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
+	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
@@ -426,4 +427,6 @@ func init() {
 	RegisterDatasource("oci_artifacts_container_image_signatures", tf_artifacts.ArtifactsContainerImageSignaturesDataSource())
 	RegisterDatasource("oci_artifacts_container_configuration", tf_artifacts.ArtifactsContainerConfigurationDataSource())
 	RegisterDatasource("oci_artifacts_repository", tf_artifacts.ArtifactsRepositoryDataSource())
+	RegisterDatasource("oci_generic_artifacts_content_generic_artifacts_content", tf_generic_artifacts_content.GenericArtifactsContentGenericArtifactsContentDataSource())
+	RegisterDatasource("oci_generic_artifacts_content_artifact_by_path", tf_generic_artifacts_content.GenericArtifactsContentArtifactByPathDataSource())
 }

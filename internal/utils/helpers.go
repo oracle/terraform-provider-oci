@@ -8,6 +8,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -279,7 +280,7 @@ func RandomStringOrHttpReplayValue(length int, charset string, httpReplayValue s
 
 // Set the state for the input source file using the file path and last modification time
 // this information helps us to identify if the file has changed.
-func getSourceFileState(source interface{}) string {
+func GetSourceFileState(source interface{}) string {
 	sourcePath := source.(string)
 	sourceInfo, err := os.Stat(sourcePath)
 
@@ -502,4 +503,28 @@ func Timestamp() string {
 	t := time.Now()
 	return fmt.Sprintf("%d-%02d-%02d-%02d%02d%02d-%d",
 		t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond())
+}
+
+func ValidateSourceValue(i interface{}, k string) (s []string, es []error) {
+	v, ok := i.(string)
+	if !ok {
+		es = append(es, fmt.Errorf("expected type of %s to be string", k))
+		return
+	}
+	info, err := os.Stat(v)
+	if err != nil {
+		es = append(es, fmt.Errorf("cannot get file information for the specified source: %s", v))
+		return
+	}
+	if info.Size() > 10000*50*1024*1024*1024 {
+		es = append(es, fmt.Errorf("the specified source: %s file is too large", v))
+	}
+	return
+}
+
+// Borrowed from https://mijailovic.net/2017/05/09/error-handling-patterns-in-go/
+func SafeClose(c io.Closer, err *error) {
+	if cerr := c.Close(); cerr != nil && *err == nil {
+		*err = cerr
+	}
 }
