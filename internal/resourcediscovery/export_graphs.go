@@ -19,15 +19,14 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"ai_anomaly_detection": aiAnomalyDetectionResourceGraph,
 	"analytics":            analyticsResourceGraph,
 	"apigateway":           apigatewayResourceGraph,
-	//"apm":                    apmResourceGraph,
-	"apm": apmResourceGraph,
+	"apm":                  apmResourceGraph,
 	//"apm_config":             apmConfigResourceGraph,
 	//"apm_synthetics":         apmSyntheticsResourceGraph,
 	"artifacts": artifactsResourceGraph,
 	//"auto_scaling":           autoScalingResourceGraph,
 	//"bastion":                bastionResourceGraph,
-	"bds": bdsResourceGraph,
-	//"blockchain":             blockchainResourceGraph,
+	"bds":         bdsResourceGraph,
+	"blockchain":  blockchainResourceGraph,
 	"cloud_guard": cloudGuardResourceGraph,
 	//"containerengine":        containerengineResourceGraph,
 	"core": coreResourceGraph,
@@ -134,8 +133,6 @@ var apigatewayResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
- */
 var apmResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportApmApmDomainHints},
@@ -187,7 +184,6 @@ var bdsResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var blockchainResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportBlockchainBlockchainPlatformHints},
@@ -207,8 +203,6 @@ var blockchainResourceGraph = TerraformResourceGraph{
 		},
 	},
 }
-
-*/
 
 var budgetResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {

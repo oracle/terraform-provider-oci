@@ -8,6 +8,7 @@ import (
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
+	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
@@ -50,6 +51,11 @@ func init() {
 	// bds service
 	RegisterResource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationResource())
 	RegisterResource("oci_bds_bds_instance", tf_bds.BdsBdsInstanceResource())
+
+	//Blockchain Service
+	RegisterResource("oci_blockchain_blockchain_platform", tf_blockchain.BlockchainBlockchainPlatformResource())
+	RegisterResource("oci_blockchain_peer", tf_blockchain.BlockchainPeerResource())
+	RegisterResource("oci_blockchain_osn", tf_blockchain.BlockchainOsnResource())
 
 	// budget service
 	RegisterResource("oci_budget_alert_rule", tf_budget.BudgetAlertRuleResource())

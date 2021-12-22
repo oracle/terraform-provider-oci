@@ -4,14 +4,17 @@
 package resourcediscovery
 
 import (
-	//oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
-	//oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
-	//oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
-	//oci_apm "github.com/oracle/oci-go-sdk/v54/apmcontrolplane"
+	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
+	oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
+	oci_apm "github.com/oracle/oci-go-sdk/v54/apmcontrolplane"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
+	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
+
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
-	//oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
+	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
 	//oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
 	//oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
 	//oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
@@ -33,12 +36,6 @@ import (
 	//oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
 	//oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
-	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
-	oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
-	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
-	oci_apm "github.com/oracle/oci-go-sdk/v54/apmcontrolplane"
-	oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
-	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
@@ -190,8 +187,6 @@ var exportApigatewayCertificateHints = &TerraformResourceHints{
 	},
 }
 
-/*
- */
 var exportApmApmDomainHints = &TerraformResourceHints{
 	resourceClass:        "oci_apm_apm_domain",
 	datasourceClass:      "oci_apm_apm_domains",
@@ -311,7 +306,6 @@ var exportBdsBdsInstanceHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportBlockchainBlockchainPlatformHints = &TerraformResourceHints{
 	resourceClass:          "oci_blockchain_blockchain_platform",
 	datasourceClass:        "oci_blockchain_blockchain_platforms",
@@ -347,8 +341,6 @@ var exportBlockchainOsnHints = &TerraformResourceHints{
 		string(oci_blockchain.OsnLifecycleStateActive),
 	},
 }
-
-*/
 
 var exportBudgetBudgetHints = &TerraformResourceHints{
 	resourceClass:        "oci_budget_budget",
