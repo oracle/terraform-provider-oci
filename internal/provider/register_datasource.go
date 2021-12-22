@@ -6,6 +6,7 @@ import (
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
 	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
 	tf_apm_config "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_config"
+	tf_apm_synthetics "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_synthetics"
 	tf_appmgmt_control "github.com/terraform-providers/terraform-provider-oci/internal/service/appmgmt_control"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
@@ -96,6 +97,15 @@ func init() {
 	//apm_config service
 	RegisterDatasource("oci_apm_config_config", tf_apm_config.ApmConfigConfigDataSource())
 	RegisterDatasource("oci_apm_config_configs", tf_apm_config.ApmConfigConfigsDataSource())
+
+	//apm synthetics
+	RegisterDatasource("oci_apm_synthetics_public_vantage_point", tf_apm_synthetics.ApmSyntheticsPublicVantagePointDataSource())
+	RegisterDatasource("oci_apm_synthetics_script", tf_apm_synthetics.ApmSyntheticsScriptDataSource())
+	RegisterDatasource("oci_apm_synthetics_monitors", tf_apm_synthetics.ApmSyntheticsMonitorsDataSource())
+	RegisterDatasource("oci_apm_synthetics_monitor", tf_apm_synthetics.ApmSyntheticsMonitorDataSource())
+	RegisterDatasource("oci_apm_synthetics_public_vantage_points", tf_apm_synthetics.ApmSyntheticsPublicVantagePointsDataSource())
+	RegisterDatasource("oci_apm_synthetics_result", tf_apm_synthetics.ApmSyntheticsResultDataSource())
+	RegisterDatasource("oci_apm_synthetics_scripts", tf_apm_synthetics.ApmSyntheticsScriptsDataSource())
 
 	//autoscaling service
 	RegisterDatasource("oci_autoscaling_auto_scaling_configuration", tf_autoscaling.AutoScalingAutoScalingConfigurationDataSource())
