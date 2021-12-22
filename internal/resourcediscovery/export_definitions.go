@@ -2277,8 +2277,6 @@ var exportMarketplacePublicationHints = &TerraformResourceHints{
 	},
 }
 
-/*
-
 var exportMeteringComputationQueryHints = &TerraformResourceHints{
 	resourceClass:          "oci_metering_computation_query",
 	datasourceClass:        "oci_metering_computation_queries",
@@ -2296,6 +2294,8 @@ var exportMeteringComputationCustomTableHints = &TerraformResourceHints{
 	resourceAbbreviation:   "custom_table",
 	requireResourceRefresh: true,
 }
+
+/*
 
 var exportMonitoringAlarmHints = &TerraformResourceHints{
 	resourceClass:          "oci_monitoring_alarm",
