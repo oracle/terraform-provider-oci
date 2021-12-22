@@ -33,6 +33,7 @@ import (
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
+	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 )
 
 func init() {
@@ -250,4 +251,6 @@ func init() {
 	RegisterResource("oci_database_tools_database_tools_connection", tf_database_tools.DatabaseToolsDatabaseToolsConnectionResource())
 	RegisterResource("oci_database_tools_database_tools_private_endpoint", tf_database_tools.DatabaseToolsDatabaseToolsPrivateEndpointResource())
 
+	// usage proxy service
+	RegisterResource("oci_usage_proxy_subscription_redeemable_user", tf_usage_proxy.UsageProxySubscriptionRedeemableUserResource())
 }
