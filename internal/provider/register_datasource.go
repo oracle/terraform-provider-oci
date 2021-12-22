@@ -4,6 +4,7 @@ import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
+	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
@@ -26,12 +27,20 @@ func init() {
 	RegisterResource("oci_analytics_analytics_instance", analytics.AnalyticsAnalyticsInstanceDataSource())
 	RegisterResource("oci_analytics_analytics_instance_private_access_channel", analytics.AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
 
-	// identity service
-	RegisterDatasource("oci_identity_smtp_credentials", tf_identity.IdentitySmtpCredentialsDataSource())
+	// bds service
+	RegisterDatasource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationDataSource())
+	RegisterDatasource("oci_bds_auto_scaling_configurations", tf_bds.BdsAutoScalingConfigurationsDataSource())
+	RegisterDatasource("oci_bds_bds_instance", tf_bds.BdsBdsInstanceDataSource())
+	RegisterDatasource("oci_bds_bds_instances", tf_bds.BdsBdsInstancesDataSource())
+
+	// budget service
 	RegisterDatasource("oci_budget_alert_rule", budget.BudgetAlertRuleDataSource())
 	RegisterDatasource("oci_budget_budget", budget.BudgetBudgetDataSource())
 	RegisterDatasource("oci_budget_alert_rules", budget.BudgetAlertRulesDataSource())
 	RegisterDatasource("oci_budget_budgets", budget.BudgetBudgetsDataSource())
+
+	// identity service
+	RegisterDatasource("oci_identity_smtp_credentials", tf_identity.IdentitySmtpCredentialsDataSource())
 	RegisterDatasource("oci_identity_compartment", tf_identity.IdentityCompartmentDataSource())
 	RegisterDatasource("oci_identity_compartments", tf_identity.IdentityCompartmentsDataSource())
 	RegisterDatasource("oci_identity_network_source", tf_identity.IdentityNetworkSourceDataSource())
