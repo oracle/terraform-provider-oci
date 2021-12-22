@@ -929,3 +929,18 @@ func TestAccPreCheck(t *testing.T) {
 		assertEnvAvailable(envVar, t)
 	}
 }
+
+func TestAccPreCheck(t *testing.T) {
+	envVarChecklist := []string{}
+	copy(envVarChecklist, requiredTestEnvVars)
+	if utils.GetEnvSettingWithDefault("use_obo_token", "false") != "false" {
+		envVarChecklist = append(envVarChecklist, requiredOboTokenAuthEnvVars...)
+	} else {
+		envVarChecklist = append(envVarChecklist, requiredKeyAuthEnvVars...)
+	}
+
+	for _, envVar := range envVarChecklist {
+		assertEnvAvailable(envVar, t)
+	}
+
+}
