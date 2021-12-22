@@ -27,6 +27,7 @@ import (
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
+	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
 )
 
 func init() {
@@ -399,4 +400,6 @@ func init() {
 	RegisterDatasource("oci_service_catalog_private_application", tf_service_catalog.ServiceCatalogPrivateApplicationDataSource())
 	RegisterDatasource("oci_service_catalog_service_catalog", tf_service_catalog.ServiceCatalogServiceCatalogDataSource())
 	RegisterDatasource("oci_service_catalog_service_catalogs", tf_service_catalog.ServiceCatalogServiceCatalogsDataSource())
+	RegisterDatasource("oci_service_manager_proxy_service_environments", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentsDataSource())
+	RegisterDatasource("oci_service_manager_proxy_service_environment", tf_service_manager_proxy.ServiceManagerProxyServiceEnvironmentDataSource())
 }
