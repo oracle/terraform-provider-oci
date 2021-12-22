@@ -11,6 +11,7 @@ import (
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 )
 
 func init() {
@@ -255,5 +256,19 @@ func init() {
 	RegisterDatasource("oci_jms_fleets", tf_jms.JmsFleetsDataSource())
 	RegisterDatasource("oci_jms_list_jre_usage", tf_jms.JmsListJreUsageDataSource())
 	RegisterDatasource("oci_jms_fleet", tf_jms.JmsFleetDataSource())
+
+	// mysql service
+	RegisterDatasource("oci_mysql_mysql_backup", tf_mysql.MysqlMysqlBackupDataSource())
+	RegisterDatasource("oci_mysql_channel", tf_mysql.MysqlChannelDataSource())
+	RegisterDatasource("oci_mysql_analytics_cluster", tf_mysql.MysqlAnalyticsClusterDataSource())
+	RegisterDatasource("oci_mysql_channels", tf_mysql.MysqlChannelsDataSource())
+	RegisterDatasource("oci_mysql_mysql_versions", tf_mysql.MysqlMysqlVersionsDataSource())
+	RegisterDatasource("oci_mysql_shapes", tf_mysql.MysqlShapesDataSource())
+	RegisterDatasource("oci_mysql_mysql_backups", tf_mysql.MysqlMysqlBackupsDataSource())
+	RegisterDatasource("oci_mysql_mysql_configurations", tf_mysql.MysqlMysqlConfigurationsDataSource())
+	RegisterDatasource("oci_mysql_heat_wave_cluster", tf_mysql.MysqlHeatWaveClusterDataSource())
+	RegisterDatasource("oci_mysql_mysql_db_system", tf_mysql.MysqlMysqlDbSystemDataSource())
+	RegisterDatasource("oci_mysql_mysql_db_systems", tf_mysql.MysqlMysqlDbSystemsDataSource())
+	RegisterDatasource("oci_mysql_mysql_configuration", tf_mysql.MysqlMysqlConfigurationDataSource())
 
 }

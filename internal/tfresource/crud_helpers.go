@@ -610,7 +610,7 @@ func giVersionDiffSuppress(key string, old string, new string, d *schema.Resourc
 	return false
 }
 
-func mySqlVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+func MySqlVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
 	if old == "" || new == "" {
 		return false
 	}

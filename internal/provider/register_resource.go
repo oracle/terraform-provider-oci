@@ -11,6 +11,7 @@ import (
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 )
 
 func init() {
@@ -147,5 +148,12 @@ func init() {
 
 	// JMS Service
 	RegisterResource("oci_jms_fleet", tf_jms.JmsFleetResource())
+
+	// mysql service
+	RegisterResource("oci_mysql_mysql_backup", tf_mysql.MysqlMysqlBackupResource())
+	RegisterResource("oci_mysql_analytics_cluster", tf_mysql.MysqlAnalyticsClusterResource())
+	RegisterResource("oci_mysql_channel", tf_mysql.MysqlChannelResource())
+	RegisterResource("oci_mysql_heat_wave_cluster", tf_mysql.MysqlHeatWaveClusterResource())
+	RegisterResource("oci_mysql_mysql_db_system", tf_mysql.MysqlMysqlDbSystemResource())
 
 }

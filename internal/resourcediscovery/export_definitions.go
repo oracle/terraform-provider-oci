@@ -42,6 +42,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
+	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
@@ -55,7 +56,6 @@ import (
 	//oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
 	//oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
-	//oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	//oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 	//oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
@@ -2318,7 +2318,7 @@ var exportMonitoringAlarmHints = &TerraformResourceHints{
 		string(oci_monitoring.AlarmLifecycleStateActive),
 	},
 }
-
+*/
 var exportMysqlHeatWaveClusterHints = &TerraformResourceHints{
 	resourceClass:        "oci_mysql_heat_wave_cluster",
 	datasourceClass:      "oci_mysql_heat_wave_cluster",
@@ -2361,6 +2361,7 @@ var exportMysqlChannelHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportNetworkLoadBalancerNetworkLoadBalancerHints = &TerraformResourceHints{
 	resourceClass:          "oci_network_load_balancer_network_load_balancer",
 	datasourceClass:        "oci_network_load_balancer_network_load_balancers",
