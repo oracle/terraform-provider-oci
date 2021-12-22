@@ -15,6 +15,8 @@ import (
 
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 
+	tf_apm_synthetics "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_synthetics"
+
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -34,11 +36,14 @@ import (
 
 func init() {
 	exportApmConfigConfigHints.getIdFn = getApmConfigConfigId
-	//exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
-	//exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
 	exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
 	exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
 	exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
+	exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
+	exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
+	//exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
+	//exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
+	//exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
 	//exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 	//exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
@@ -102,7 +107,6 @@ func getApmConfigConfigId(resource *OCIResource) (string, error) {
 	return apm_config.GetConfigCompositeId(configId, apmDomainId), nil
 }
 
-/*
 func getApmSyntheticsScriptId(resource *OCIResource) (string, error) {
 
 	scriptId, ok := resource.sourceAttributes["id"].(string)
@@ -113,7 +117,7 @@ func getApmSyntheticsScriptId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find apmDomainId for ApmSynthetics Script")
 	}
-	return getScriptCompositeId(scriptId, apmDomainId), nil
+	return tf_apm_synthetics.GetScriptCompositeId(scriptId, apmDomainId), nil
 }
 
 func getApmSyntheticsMonitorId(resource *OCIResource) (string, error) {
@@ -126,9 +130,9 @@ func getApmSyntheticsMonitorId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find apmDomainId for ApmSynthetics Monitor")
 	}
-	return getMonitorCompositeId(monitorId, apmDomainId), nil
+	return tf_apm_synthetics.GetMonitorCompositeId(monitorId, apmDomainId), nil
 }
-*/
+
 func getArtifactsContainerRepositoryId(resource *OCIResource) (string, error) {
 
 	repositoryId, ok := resource.sourceAttributes["repository_id"].(string)

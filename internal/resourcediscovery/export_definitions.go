@@ -225,7 +225,6 @@ var exportApmConfigConfigHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
-/*
 var exportApmSyntheticsScriptHints = &TerraformResourceHints{
 	resourceClass:          "oci_apm_synthetics_script",
 	datasourceClass:        "oci_apm_synthetics_scripts",
@@ -241,7 +240,7 @@ var exportApmSyntheticsMonitorHints = &TerraformResourceHints{
 	resourceAbbreviation:   "monitor",
 	requireResourceRefresh: true,
 }
-*/
+
 var exportArtifactsContainerConfigurationHints = &TerraformResourceHints{
 	resourceClass:        "oci_artifacts_container_configuration",
 	datasourceClass:      "oci_artifacts_container_configuration",

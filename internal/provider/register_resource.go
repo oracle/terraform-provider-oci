@@ -6,6 +6,7 @@ import (
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
 	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
 	tf_apm_config "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_config"
+	tf_apm_synthetics "github.com/terraform-providers/terraform-provider-oci/internal/service/apm_synthetics"
 	tf_appmgmt_control "github.com/terraform-providers/terraform-provider-oci/internal/service/appmgmt_control"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
@@ -86,6 +87,10 @@ func init() {
 
 	// apm_config service
 	RegisterResource("oci_apm_config_config", tf_apm_config.ApmConfigConfigResource())
+
+	//apm synthetics
+	RegisterResource("oci_apm_synthetics_script", tf_apm_synthetics.ApmSyntheticsScriptResource())
+	RegisterResource("oci_apm_synthetics_monitor", tf_apm_synthetics.ApmSyntheticsMonitorResource())
 
 	//autoscaling service
 	RegisterResource("oci_autoscaling_auto_scaling_configuration", tf_autoscaling.AutoScalingAutoScalingConfigurationResource())
