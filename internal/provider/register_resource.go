@@ -3,6 +3,7 @@ package provider
 import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
+	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
@@ -216,4 +217,8 @@ func init() {
 	RegisterResource("oci_service_catalog_service_catalog_association", tf_service_catalog.ServiceCatalogServiceCatalogAssociationResource())
 	RegisterResource("oci_service_catalog_service_catalog", tf_service_catalog.ServiceCatalogServiceCatalogResource())
 	RegisterResource("oci_service_catalog_private_application", tf_service_catalog.ServiceCatalogPrivateApplicationResource())
+	RegisterResource("oci_apigateway_certificate", tf_apigateway.ApigatewayCertificateResource())
+	RegisterResource("oci_apigateway_gateway", tf_apigateway.ApigatewayGatewayResource())
+	RegisterResource("oci_apigateway_deployment", tf_apigateway.ApigatewayDeploymentResource())
+	RegisterResource("oci_apigateway_api", tf_apigateway.ApigatewayApiResource())
 }

@@ -11,6 +11,7 @@ import (
 	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
 	oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
@@ -115,7 +116,6 @@ var exportAnalyticsAnalyticsInstanceHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportApigatewayApiHints = &TerraformResourceHints{
 	resourceClass:          "oci_apigateway_api",
 	datasourceClass:        "oci_apigateway_apis",
@@ -162,6 +162,7 @@ var exportApigatewayCertificateHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportApmApmDomainHints = &TerraformResourceHints{
 	resourceClass:        "oci_apm_apm_domain",
 	datasourceClass:      "oci_apm_apm_domains",
