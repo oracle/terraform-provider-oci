@@ -914,5 +914,18 @@ func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, set
 
 		return fmt.Errorf("%s: Set Attribute '%s' does not contain an element with attributes %v %v\nAttributesInStatefile: %v", name, setKey, properties, presentProperties, is.Attributes)
 	}
+}
 
+func TestAccPreCheck(t *testing.T) {
+	envVarChecklist := []string{}
+	copy(envVarChecklist, requiredTestEnvVars)
+	if utils.GetEnvSettingWithDefault("use_obo_token", "false") != "false" {
+		envVarChecklist = append(envVarChecklist, requiredOboTokenAuthEnvVars...)
+	} else {
+		envVarChecklist = append(envVarChecklist, requiredKeyAuthEnvVars...)
+	}
+
+	for _, envVar := range envVarChecklist {
+		assertEnvAvailable(envVar, t)
+	}
 }

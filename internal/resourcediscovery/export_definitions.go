@@ -33,6 +33,7 @@ import (
 	//oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
 	//oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
 	//oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
 	//oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
@@ -2230,6 +2231,8 @@ var exportLoggingUnifiedAgentConfigurationHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+*/
+
 var exportManagementAgentManagementAgentHints = &TerraformResourceHints{
 	resourceClass:        "oci_management_agent_management_agent",
 	datasourceClass:      "oci_management_agent_management_agents",
@@ -2249,6 +2252,8 @@ var exportManagementAgentManagementAgentInstallKeyHints = &TerraformResourceHint
 		string(oci_management_agent.LifecycleStatesActive),
 	},
 }
+
+/*
 
 var exportMarketplaceAcceptedAgreementHints = &TerraformResourceHints{
 	resourceClass:          "oci_marketplace_accepted_agreement",
