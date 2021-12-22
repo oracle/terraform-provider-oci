@@ -16,6 +16,7 @@ import (
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_management_agent "github.com/terraform-providers/terraform-provider-oci/internal/service/management_agent"
 	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
+	tf_marketplace "github.com/terraform-providers/terraform-provider-oci/internal/service/marketplace"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 )
@@ -184,4 +185,7 @@ func init() {
 	RegisterResource("oci_management_agent_management_agent", tf_management_agent.ManagementAgentManagementAgentResource())
 	RegisterResource("oci_management_agent_management_agent_install_key", tf_management_agent.ManagementAgentManagementAgentInstallKeyResource())
 	RegisterResource("oci_management_dashboard_management_dashboards_import", tf_management_dashboard.ManagementDashboardManagementDashboardsImportResource())
+	RegisterResource("oci_marketplace_publication", tf_marketplace.MarketplacePublicationResource())
+	RegisterResource("oci_marketplace_accepted_agreement", tf_marketplace.MarketplaceAcceptedAgreementResource())
+	RegisterResource("oci_marketplace_listing_package_agreement", tf_marketplace.MarketplaceListingPackageAgreementResource())
 }

@@ -35,6 +35,7 @@ import (
 	//oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
 	//oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	//oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
@@ -2253,8 +2254,6 @@ var exportManagementAgentManagementAgentInstallKeyHints = &TerraformResourceHint
 	},
 }
 
-/*
-
 var exportMarketplaceAcceptedAgreementHints = &TerraformResourceHints{
 	resourceClass:          "oci_marketplace_accepted_agreement",
 	datasourceClass:        "oci_marketplace_accepted_agreements",
@@ -2273,6 +2272,8 @@ var exportMarketplacePublicationHints = &TerraformResourceHints{
 		string(oci_marketplace.PublicationLifecycleStateActive),
 	},
 }
+
+/*
 
 var exportMeteringComputationQueryHints = &TerraformResourceHints{
 	resourceClass:          "oci_metering_computation_query",

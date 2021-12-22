@@ -16,6 +16,7 @@ import (
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	tf_management_agent "github.com/terraform-providers/terraform-provider-oci/internal/service/management_agent"
 	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
+	tf_marketplace "github.com/terraform-providers/terraform-provider-oci/internal/service/marketplace"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 )
@@ -317,4 +318,18 @@ func init() {
 	RegisterDatasource("oci_management_agent_management_agent_count", tf_management_agent.ManagementAgentManagementAgentCountDataSource())
 	RegisterDatasource("oci_management_agent_management_agent_plugin_count", tf_management_agent.ManagementAgentManagementAgentPluginCountDataSource())
 	RegisterDatasource("oci_management_dashboard_management_dashboards_export", tf_management_dashboard.ManagementDashboardManagementDashboardsExportDataSource())
+	RegisterDatasource("oci_marketplace_listing_packages", tf_marketplace.MarketplaceListingPackagesDataSource())
+	RegisterDatasource("oci_marketplace_listing_package_agreements", tf_marketplace.MarketplaceListingPackageAgreementsDataSource())
+	RegisterDatasource("oci_marketplace_listing", tf_marketplace.MarketplaceListingDataSource())
+	RegisterDatasource("oci_marketplace_accepted_agreement", tf_marketplace.MarketplaceAcceptedAgreementDataSource())
+	RegisterDatasource("oci_marketplace_publishers", tf_marketplace.MarketplacePublishersDataSource())
+	RegisterDatasource("oci_marketplace_listing_taxes", tf_marketplace.MarketplaceListingTaxesDataSource())
+	RegisterDatasource("oci_marketplace_publication_packages", tf_marketplace.MarketplacePublicationPackagesDataSource())
+	RegisterDatasource("oci_marketplace_publication_package", tf_marketplace.MarketplacePublicationPackageDataSource())
+	RegisterDatasource("oci_marketplace_listing_package", tf_marketplace.MarketplaceListingPackageDataSource())
+	RegisterDatasource("oci_marketplace_publications", tf_marketplace.MarketplacePublicationsDataSource())
+	RegisterDatasource("oci_marketplace_publication", tf_marketplace.MarketplacePublicationDataSource())
+	RegisterDatasource("oci_marketplace_categories", tf_marketplace.MarketplaceCategoriesDataSource())
+	RegisterDatasource("oci_marketplace_accepted_agreements", tf_marketplace.MarketplaceAcceptedAgreementsDataSource())
+	RegisterDatasource("oci_marketplace_listings", tf_marketplace.MarketplaceListingsDataSource())
 }
