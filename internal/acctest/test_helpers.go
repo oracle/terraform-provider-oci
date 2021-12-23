@@ -51,13 +51,6 @@ func apply(template string, values map[string]string) string {
 	return b.String()
 }
 
-// Returns date-time formatted as a string, ex: 2017-10-12-000934-119299083"
-func Timestamp() string {
-	t := time.Now()
-	return fmt.Sprintf("%d-%02d-%02d-%02d%02d%02d-%d",
-		t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond())
-}
-
 type TokenFn func(string, map[string]string) string
 
 // Creates a form of "apply" above that will always supply the same value for {{.token}} use hard code value for HTTP replay
@@ -66,7 +59,7 @@ func TokenizeWithHttpReplay(defaultString string) (string, TokenFn) {
 	if httpreplay.ModeRecordReplay() {
 		ts = defaultString
 	} else {
-		ts = Timestamp()
+		ts = utils.Timestamp()
 	}
 	return ts, func(template string, values map[string]string) string {
 		if values == nil {

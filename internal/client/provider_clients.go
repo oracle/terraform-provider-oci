@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"strings"
 
+	oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
+
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/globalvar"
@@ -59,9 +61,9 @@ func (m *OracleClients) GetClient(name string) interface{} {
 // The following clients require special endpoint information that is only known at Terraform apply time; so they
 // Create duplicate clients reusing the same Configuration provider as the initialized client and adding the endpoint
 // here.
-/*func (m *OracleClients) FunctionsInvokeClient(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
-	if client, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(*m.functionsInvokeClient().ConfigurationProvider(), endpoint); err == nil {
-		if err = configureClient(&client.BaseClient); err != nil {
+func (m *OracleClients) FunctionsInvokeClientWithEndpoint(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
+	if client, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(*m.FunctionsInvokeClient().ConfigurationProvider(), endpoint); err == nil {
+		if err = ConfigureClientVar(&client.BaseClient); err != nil {
 			return nil, err
 		}
 		return &client, nil
@@ -69,7 +71,6 @@ func (m *OracleClients) GetClient(name string) interface{} {
 		return nil, err
 	}
 }
-}*/
 func (m *OracleClients) KmsCryptoClientWithEndpoint(endpoint string) (*oci_kms.KmsCryptoClient, error) {
 	if client, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(*m.KmsCryptoClient().ConfigurationProvider(), endpoint); err == nil {
 		if err = ConfigureClientVar(&client.BaseClient); err != nil {

@@ -17,6 +17,7 @@ import (
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
+	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
@@ -86,6 +87,11 @@ func init() {
 	RegisterResource("oci_email_suppression", tf_email.EmailSuppressionResource())
 	RegisterResource("oci_email_email_domain", tf_email.EmailEmailDomainResource())
 	RegisterResource("oci_email_sender", tf_email.EmailSenderResource())
+
+	//function service
+	RegisterResource("oci_functions_invoke_function", tf_functions.FunctionsInvokeFunctionResource())
+	RegisterResource("oci_functions_function", tf_functions.FunctionsFunctionResource())
+	RegisterResource("oci_functions_application", tf_functions.FunctionsApplicationResource())
 
 	// identity service
 	RegisterResource("oci_health_checks_ping_monitor", tf_health_checks.HealthChecksPingMonitorResource())

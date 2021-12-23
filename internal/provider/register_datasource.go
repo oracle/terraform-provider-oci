@@ -18,6 +18,7 @@ import (
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
+	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
@@ -119,6 +120,12 @@ func init() {
 	RegisterDatasource("oci_email_email_domains", tf_email.EmailEmailDomainsDataSource())
 	RegisterDatasource("oci_email_senders", tf_email.EmailSendersDataSource())
 	RegisterDatasource("oci_email_email_domain", tf_email.EmailEmailDomainDataSource())
+
+	//functions service
+	RegisterDatasource("oci_functions_applications", tf_functions.FunctionsApplicationsDataSource())
+	RegisterDatasource("oci_functions_functions", tf_functions.FunctionsFunctionsDataSource())
+	RegisterDatasource("oci_functions_application", tf_functions.FunctionsApplicationDataSource())
+	RegisterDatasource("oci_functions_function", tf_functions.FunctionsFunctionDataSource())
 
 	// identity service
 	RegisterDatasource("oci_identity_smtp_credentials", tf_identity.IdentitySmtpCredentialsDataSource())

@@ -37,6 +37,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
 	oci_email "github.com/oracle/oci-go-sdk/v54/email"
+	oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
@@ -1741,7 +1742,7 @@ var exportFileStorageSnapshotHints = &TerraformResourceHints{
 		string(oci_file_storage.SnapshotLifecycleStateActive),
 	},
 }
-
+*/
 var exportFunctionsApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_functions_application",
 	datasourceClass:        "oci_functions_applications",
@@ -1764,6 +1765,7 @@ var exportFunctionsFunctionHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportGoldenGateDatabaseRegistrationHints = &TerraformResourceHints{
 	resourceClass:          "oci_golden_gate_database_registration",
 	datasourceClass:        "oci_golden_gate_database_registrations",
