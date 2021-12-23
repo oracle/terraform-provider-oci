@@ -50,6 +50,8 @@ import (
 	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 
 	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
+
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
 	//oci_jms "github.com/oracle/oci-go-sdk/v54/jms"
@@ -74,7 +76,6 @@ import (
 
 	//oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
-	//oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
 	//oci_sch "github.com/oracle/oci-go-sdk/v54/sch"
 	//oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
 	//oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
@@ -2683,7 +2684,6 @@ var exportOptimizerProfileHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportOsmanagementManagedInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_osmanagement_managed_instance",
 	datasourceClass:        "oci_osmanagement_managed_instances",
@@ -2713,6 +2713,7 @@ var exportOsmanagementSoftwareSourceHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportSchServiceConnectorHints = &TerraformResourceHints{
 	resourceClass:          "oci_sch_service_connector",
 	datasourceClass:        "oci_sch_service_connectors",

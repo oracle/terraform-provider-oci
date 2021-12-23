@@ -45,6 +45,7 @@ import (
 	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
+	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
@@ -712,4 +713,13 @@ func init() {
 	// dataintegration service
 	RegisterDatasource("oci_dataintegration_workspaces", tf_dataintegration.DataintegrationWorkspacesDataSource())
 	RegisterDatasource("oci_dataintegration_workspace", tf_dataintegration.DataintegrationWorkspaceDataSource())
+
+	// osmanagement service
+	RegisterDatasource("oci_osmanagement_managed_instance", tf_osmanagement.OsmanagementManagedInstanceDataSource())
+	RegisterDatasource("oci_osmanagement_software_source", tf_osmanagement.OsmanagementSoftwareSourceDataSource())
+	RegisterDatasource("oci_osmanagement_managed_instance_groups", tf_osmanagement.OsmanagementManagedInstanceGroupsDataSource())
+	RegisterDatasource("oci_osmanagement_managed_instance_group", tf_osmanagement.OsmanagementManagedInstanceGroupDataSource())
+	RegisterDatasource("oci_osmanagement_managed_instance_event_report", tf_osmanagement.OsmanagementManagedInstanceEventReportDataSource())
+	RegisterDatasource("oci_osmanagement_managed_instances", tf_osmanagement.OsmanagementManagedInstancesDataSource())
+	RegisterDatasource("oci_osmanagement_software_sources", tf_osmanagement.OsmanagementSoftwareSourcesDataSource())
 }
