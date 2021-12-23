@@ -2,13 +2,13 @@ package provider
 
 import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
+	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
+	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
+	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
+	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -39,17 +39,17 @@ func init() {
 	RegisterResource("oci_ai_anomaly_detection_project", tf_ai_anomaly_detection.AiAnomalyDetectionProjectResource())
 
 	// analytics service
-	RegisterResource("oci_analytics_analytics_instance", analytics.AnalyticsAnalyticsInstanceResource())
-	RegisterResource("oci_analytics_analytics_instance_private_access_channel", analytics.AnalyticsAnalyticsInstancePrivateAccessChannelResource())
-	RegisterResource("oci_analytics_analytics_instance_vanity_url", analytics.AnalyticsAnalyticsInstanceVanityUrlResource())
+	RegisterResource("oci_analytics_analytics_instance_vanity_url", tf_analytics.AnalyticsAnalyticsInstanceVanityUrlResource())
+	RegisterResource("oci_analytics_analytics_instance", tf_analytics.AnalyticsAnalyticsInstanceResource())
+	RegisterResource("oci_analytics_analytics_instance_private_access_channel", tf_analytics.AnalyticsAnalyticsInstancePrivateAccessChannelResource())
 
 	// bds service
 	RegisterResource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationResource())
 	RegisterResource("oci_bds_bds_instance", tf_bds.BdsBdsInstanceResource())
 
 	// budget service
-	RegisterResource("oci_budget_alert_rule", budget.BudgetAlertRuleResource())
-	RegisterResource("oci_budget_budget", budget.BudgetBudgetResource())
+	RegisterResource("oci_budget_alert_rule", tf_budget.BudgetAlertRuleResource())
+	RegisterResource("oci_budget_budget", tf_budget.BudgetBudgetResource())
 
 	// email service
 	RegisterResource("oci_email_dkim", tf_email.EmailDkimResource())
@@ -62,12 +62,12 @@ func init() {
 	RegisterResource("oci_health_checks_ping_probe", tf_health_checks.HealthChecksPingProbeResource())
 	RegisterResource("oci_health_checks_http_probe", tf_health_checks.HealthChecksHttpProbeResource())
 	RegisterResource("oci_health_checks_http_monitor", tf_health_checks.HealthChecksHttpMonitorResource())
-	RegisterResource("oci_cloud_guard_responder_recipe", cloud_guard.CloudGuardResponderRecipeResource())
-	RegisterResource("oci_cloud_guard_data_mask_rule", cloud_guard.CloudGuardDataMaskRuleResource())
-	RegisterResource("oci_cloud_guard_cloud_guard_configuration", cloud_guard.CloudGuardCloudGuardConfigurationResource())
-	RegisterResource("oci_cloud_guard_target", cloud_guard.CloudGuardTargetResource())
-	RegisterResource("oci_cloud_guard_managed_list", cloud_guard.CloudGuardManagedListResource())
-	RegisterResource("oci_cloud_guard_detector_recipe", cloud_guard.CloudGuardDetectorRecipeResource())
+	RegisterResource("oci_cloud_guard_responder_recipe", tf_cloud_guard.CloudGuardResponderRecipeResource())
+	RegisterResource("oci_cloud_guard_data_mask_rule", tf_cloud_guard.CloudGuardDataMaskRuleResource())
+	RegisterResource("oci_cloud_guard_cloud_guard_configuration", tf_cloud_guard.CloudGuardCloudGuardConfigurationResource())
+	RegisterResource("oci_cloud_guard_target", tf_cloud_guard.CloudGuardTargetResource())
+	RegisterResource("oci_cloud_guard_managed_list", tf_cloud_guard.CloudGuardManagedListResource())
+	RegisterResource("oci_cloud_guard_detector_recipe", tf_cloud_guard.CloudGuardDetectorRecipeResource())
 	RegisterResource("oci_identity_api_key", tf_identity.IdentityApiKeyResource())
 	RegisterResource("oci_identity_auth_token", tf_identity.IdentityAuthTokenResource())
 	RegisterResource("oci_identity_authentication_policy", tf_identity.IdentityAuthenticationPolicyResource())
@@ -97,7 +97,7 @@ func init() {
 	RegisterResource("oci_identity_policy", tf_identity.IdentityPolicyResource())
 	RegisterResource("oci_identity_user", tf_identity.IdentityUserResource())
 	RegisterResource("oci_identity_customer_secret_key", tf_identity.IdentityCustomerSecretKeyResource())
-	RegisterResource("oci_audit_configuration", audit.AuditConfigurationResource())
+	RegisterResource("oci_audit_configuration", tf_audit.AuditConfigurationResource())
 
 	// kms service
 	RegisterResource("oci_kms_verify", tf_kms.KmsVerifyResource())

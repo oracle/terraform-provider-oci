@@ -2,13 +2,13 @@ package provider
 
 import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
+	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
+	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
-	"github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
+	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
+	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -45,8 +45,9 @@ func init() {
 	RegisterDatasource("oci_ai_anomaly_detection_projects", tf_ai_anomaly_detection.AiAnomalyDetectionProjectsDataSource())
 
 	// analytics service
-	RegisterResource("oci_analytics_analytics_instance", analytics.AnalyticsAnalyticsInstanceDataSource())
-	RegisterResource("oci_analytics_analytics_instance_private_access_channel", analytics.AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
+	RegisterDatasource("oci_analytics_analytics_instance", tf_analytics.AnalyticsAnalyticsInstanceDataSource())
+	RegisterDatasource("oci_analytics_analytics_instance_private_access_channel", tf_analytics.AnalyticsAnalyticsInstancePrivateAccessChannelDataSource())
+	RegisterDatasource("oci_analytics_analytics_instances", tf_analytics.AnalyticsAnalyticsInstancesDataSource())
 
 	// bds service
 	RegisterDatasource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationDataSource())
@@ -55,10 +56,10 @@ func init() {
 	RegisterDatasource("oci_bds_bds_instances", tf_bds.BdsBdsInstancesDataSource())
 
 	// budget service
-	RegisterDatasource("oci_budget_alert_rule", budget.BudgetAlertRuleDataSource())
-	RegisterDatasource("oci_budget_budget", budget.BudgetBudgetDataSource())
-	RegisterDatasource("oci_budget_alert_rules", budget.BudgetAlertRulesDataSource())
-	RegisterDatasource("oci_budget_budgets", budget.BudgetBudgetsDataSource())
+	RegisterDatasource("oci_budget_alert_rule", tf_budget.BudgetAlertRuleDataSource())
+	RegisterDatasource("oci_budget_budget", tf_budget.BudgetBudgetDataSource())
+	RegisterDatasource("oci_budget_alert_rules", tf_budget.BudgetAlertRulesDataSource())
+	RegisterDatasource("oci_budget_budgets", tf_budget.BudgetBudgetsDataSource())
 
 	// email service
 	RegisterDatasource("oci_email_dkims", tf_email.EmailDkimsDataSource())
@@ -79,17 +80,17 @@ func init() {
 	RegisterDatasource("oci_health_checks_ping_monitor", tf_health_checks.HealthChecksPingMonitorDataSource())
 	RegisterDatasource("oci_health_checks_http_monitors", tf_health_checks.HealthChecksHttpMonitorsDataSource())
 	RegisterDatasource("oci_health_checks_http_probe_results", tf_health_checks.HealthChecksHttpProbeResultsDataSource())
-	RegisterDatasource("oci_cloud_guard_targets", cloud_guard.CloudGuardTargetsDataSource())
-	RegisterDatasource("oci_cloud_guard_target", cloud_guard.CloudGuardTargetDataSource())
-	RegisterDatasource("oci_cloud_guard_data_mask_rule", cloud_guard.CloudGuardDataMaskRuleDataSource())
-	RegisterDatasource("oci_cloud_guard_managed_list", cloud_guard.CloudGuardManagedListDataSource())
-	RegisterDatasource("oci_cloud_guard_managed_lists", cloud_guard.CloudGuardManagedListsDataSource())
-	RegisterDatasource("oci_cloud_guard_detector_recipe", cloud_guard.CloudGuardDetectorRecipeDataSource())
-	RegisterDatasource("oci_cloud_guard_detector_recipes", cloud_guard.CloudGuardDetectorRecipesDataSource())
-	RegisterDatasource("oci_cloud_guard_responder_recipes", cloud_guard.CloudGuardResponderRecipesDataSource())
-	RegisterDatasource("oci_cloud_guard_data_mask_rules", cloud_guard.CloudGuardDataMaskRulesDataSource())
-	RegisterDatasource("oci_cloud_guard_responder_recipe", cloud_guard.CloudGuardResponderRecipeDataSource())
-	RegisterDatasource("oci_cloud_guard_cloud_guard_configuration", cloud_guard.CloudGuardCloudGuardConfigurationDataSource())
+	RegisterDatasource("oci_cloud_guard_targets", tf_cloud_guard.CloudGuardTargetsDataSource())
+	RegisterDatasource("oci_cloud_guard_target", tf_cloud_guard.CloudGuardTargetDataSource())
+	RegisterDatasource("oci_cloud_guard_data_mask_rule", tf_cloud_guard.CloudGuardDataMaskRuleDataSource())
+	RegisterDatasource("oci_cloud_guard_managed_list", tf_cloud_guard.CloudGuardManagedListDataSource())
+	RegisterDatasource("oci_cloud_guard_managed_lists", tf_cloud_guard.CloudGuardManagedListsDataSource())
+	RegisterDatasource("oci_cloud_guard_detector_recipe", tf_cloud_guard.CloudGuardDetectorRecipeDataSource())
+	RegisterDatasource("oci_cloud_guard_detector_recipes", tf_cloud_guard.CloudGuardDetectorRecipesDataSource())
+	RegisterDatasource("oci_cloud_guard_responder_recipes", tf_cloud_guard.CloudGuardResponderRecipesDataSource())
+	RegisterDatasource("oci_cloud_guard_data_mask_rules", tf_cloud_guard.CloudGuardDataMaskRulesDataSource())
+	RegisterDatasource("oci_cloud_guard_responder_recipe", tf_cloud_guard.CloudGuardResponderRecipeDataSource())
+	RegisterDatasource("oci_cloud_guard_cloud_guard_configuration", tf_cloud_guard.CloudGuardCloudGuardConfigurationDataSource())
 	RegisterDatasource("oci_identity_compartment", tf_identity.IdentityCompartmentDataSource())
 	RegisterDatasource("oci_identity_compartments", tf_identity.IdentityCompartmentsDataSource())
 	RegisterDatasource("oci_identity_network_source", tf_identity.IdentityNetworkSourceDataSource())
@@ -130,8 +131,8 @@ func init() {
 	RegisterDatasource("oci_identity_domains", tf_identity.IdentityDomainsDataSource())
 	RegisterDatasource("oci_identity_ui_password", tf_identity.IdentityUiPasswordDataSource())
 	RegisterDatasource("oci_identity_fault_domains", tf_identity.IdentityFaultDomainsDataSource())
-	RegisterDatasource("oci_audit_configuration", audit.AuditConfigurationDataSource())
-	RegisterDatasource("oci_audit_events", audit.AuditAuditEventsDataSource())
+	RegisterDatasource("oci_audit_configuration", tf_audit.AuditConfigurationDataSource())
+	RegisterDatasource("oci_audit_events", tf_audit.AuditAuditEventsDataSource())
 
 	//kms service
 	RegisterDatasource("oci_kms_key", tf_kms.KmsKeyDataSource())
