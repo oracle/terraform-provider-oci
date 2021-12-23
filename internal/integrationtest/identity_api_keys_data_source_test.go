@@ -4,6 +4,7 @@
 package integrationtest
 
 import (
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 	"regexp"
 	"testing"
 
@@ -43,7 +44,7 @@ func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	resource "oci_identity_api_key" "u" {
 		user_id = "${oci_identity_user.t.id}"
 		key_value = "${var.api_key_update_value}"
-	}`, map[string]string{"userName": "user_" + acctest.Timestamp()})
+	}`, map[string]string{"userName": "user_" + utils.Timestamp()})
 	s.ResourceName = "data.oci_identity_api_keys.t"
 }
 

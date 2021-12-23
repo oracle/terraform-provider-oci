@@ -188,6 +188,13 @@ func ObjectMapToStringMap(rm map[string]interface{}) map[string]string {
 	return result
 }
 
+// Borrowed from https://mijailovic.net/2017/05/09/error-handling-patterns-in-go/
+func SafeClose(c io.Closer, err *error) {
+	if cerr := c.Close(); cerr != nil && *err == nil {
+		*err = cerr
+	}
+}
+
 func StringMapToObjectMap(sm map[string]string) map[string]interface{} {
 	var result = make(map[string]interface{})
 	if len(sm) > 0 {
@@ -196,6 +203,13 @@ func StringMapToObjectMap(sm map[string]string) map[string]interface{} {
 		}
 	}
 	return result
+}
+
+// Returns date-time formatted as a string, ex: 2017-10-12-000934-119299083"
+func Timestamp() string {
+	t := time.Now()
+	return fmt.Sprintf("%d-%02d-%02d-%02d%02d%02d-%d",
+		t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond())
 }
 
 func ValidateInt64TypeString(v interface{}, k string) (ws []string, errors []error) {
@@ -499,12 +513,6 @@ func WriteTempFile(data string, originFileName string) (err error) {
 	return err
 }
 
-func Timestamp() string {
-	t := time.Now()
-	return fmt.Sprintf("%d-%02d-%02d-%02d%02d%02d-%d",
-		t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond())
-}
-
 func ValidateSourceValue(i interface{}, k string) (s []string, es []error) {
 	v, ok := i.(string)
 	if !ok {
@@ -520,11 +528,4 @@ func ValidateSourceValue(i interface{}, k string) (s []string, es []error) {
 		es = append(es, fmt.Errorf("the specified source: %s file is too large", v))
 	}
 	return
-}
-
-// Borrowed from https://mijailovic.net/2017/05/09/error-handling-patterns-in-go/
-func SafeClose(c io.Closer, err *error) {
-	if cerr := c.Close(); cerr != nil && *err == nil {
-		*err = cerr
-	}
 }
