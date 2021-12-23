@@ -67,7 +67,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"oda":  odaResourceGraph,
 	//"ons":                    onsResourceGraph,
 	//"opsi":                   opsiResourceGraph,
-	//"osmanagement":           osmanagementResourceGraph,
+	"osmanagement": osmanagementResourceGraph,
 	//"sch":                    schResourceGraph,
 	//"streaming":              streamingResourceGraph,
 	"tagging": taggingResourceGraph,
@@ -1076,7 +1076,6 @@ var optimizerResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var osmanagementResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOsmanagementManagedInstanceHints},
@@ -1085,6 +1084,7 @@ var osmanagementResourceGraph = TerraformResourceGraph{
 	},
 }
 
+/*
 var schResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportSchServiceConnectorHints},
