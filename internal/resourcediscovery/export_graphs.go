@@ -4,8 +4,8 @@
 package resourcediscovery
 
 var tenancyResourceGraphs = map[string]TerraformResourceGraph{
-	"budget": budgetResourceGraph,
-	//"email_tenancy":        emailTenancyResourceGraph,
+	"budget":        budgetResourceGraph,
+	"email_tenancy": emailTenancyResourceGraph,
 	//"cloud_guard_tenancy":  cloudGuardTenancyResourceGraph,
 	"identity": identityResourceGraph,
 	//"limits":               limitsResourceGraph,
@@ -40,7 +40,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	//"datascience":            datascienceResourceGraph,
 	//"devops":                 devopsResourceGraph,
 	//"dns":                    dnsResourceGraph,
-	//"email":                  emailResourceGraph,
+	"email": emailResourceGraph,
 	//"events":                 eventsResourceGraph,
 	//"file_storage":           fileStorageResourceGraph,
 	//"functions":              functionsResourceGraph,
@@ -607,6 +607,7 @@ var dnsResourceGraph = TerraformResourceGraph{
 		},
 	},
 }
+*/
 
 var emailResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
@@ -629,6 +630,7 @@ var emailTenancyResourceGraph = TerraformResourceGraph{
 	},
 }
 
+/*
 var eventsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEventsRuleHints},
