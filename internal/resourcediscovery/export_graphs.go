@@ -22,7 +22,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	//"apm":                    apmResourceGraph,
 	//"apm_config":             apmConfigResourceGraph,
 	//"apm_synthetics":         apmSyntheticsResourceGraph,
-	//"artifacts":              artifactsResourceGraph,
+	"artifacts": artifactsResourceGraph,
 	//"auto_scaling":           autoScalingResourceGraph,
 	//"bastion":                bastionResourceGraph,
 	"bds": bdsResourceGraph,
@@ -147,7 +147,7 @@ var apmConfigResourceGraph = TerraformResourceGraph{
 var apmSyntheticsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {},
 }
-
+*/
 var artifactsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportArtifactsContainerRepositoryHints},
@@ -156,6 +156,7 @@ var artifactsResourceGraph = TerraformResourceGraph{
 	},
 }
 
+/*
 var autoScalingResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportAutoScalingAutoScalingConfigurationHints},
