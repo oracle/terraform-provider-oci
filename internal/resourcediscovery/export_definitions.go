@@ -4,31 +4,7 @@
 package resourcediscovery
 
 import (
-	//oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
-	//oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
-	//oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
-	//oci_apm "github.com/oracle/oci-go-sdk/v54/apmcontrolplane"
-	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
-	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
-	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
-	//oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
-	//oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
-	//oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
-	//oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
-	//oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
-	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
-	//oci_database "github.com/oracle/oci-go-sdk/v54/database"
-	//oci_database_migration "github.com/oracle/oci-go-sdk/v54/databasemigration"
-	//oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
-	//oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
-	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
-	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
-	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
-	//oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
-	//oci_datascience "github.com/oracle/oci-go-sdk/v54/datascience"
-	//oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
-	//oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
-	//oci_email "github.com/oracle/oci-go-sdk/v54/email"
+
 	//oci_events "github.com/oracle/oci-go-sdk/v54/events"
 	//oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
 	//oci_functions "github.com/oracle/oci-go-sdk/v54/functions"
@@ -39,6 +15,7 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_email "github.com/oracle/oci-go-sdk/v54/email"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
@@ -1635,6 +1612,7 @@ var exportDnsRrsetHints = &TerraformResourceHints{
 	datasourceClass:      "oci_dns_rrset",
 	resourceAbbreviation: "rrset",
 }
+*/
 
 var exportEmailSuppressionHints = &TerraformResourceHints{
 	resourceClass:        "oci_email_suppression",
@@ -1678,6 +1656,7 @@ var exportEmailDkimHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportEventsRuleHints = &TerraformResourceHints{
 	resourceClass:          "oci_events_rule",
 	datasourceClass:        "oci_events_rules",

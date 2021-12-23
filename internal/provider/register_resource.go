@@ -7,6 +7,7 @@ import (
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
@@ -34,6 +35,12 @@ func init() {
 	// budget service
 	RegisterResource("oci_budget_alert_rule", budget.BudgetAlertRuleResource())
 	RegisterResource("oci_budget_budget", budget.BudgetBudgetResource())
+
+	// email service
+	RegisterResource("oci_email_dkim", tf_email.EmailDkimResource())
+	RegisterResource("oci_email_suppression", tf_email.EmailSuppressionResource())
+	RegisterResource("oci_email_email_domain", tf_email.EmailEmailDomainResource())
+	RegisterResource("oci_email_sender", tf_email.EmailSenderResource())
 
 	// identity service
 	RegisterResource("oci_identity_dynamic_group", tf_identity.IdentityDynamicGroupResource())

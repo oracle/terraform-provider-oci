@@ -7,6 +7,7 @@ import (
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
@@ -41,6 +42,16 @@ func init() {
 	RegisterDatasource("oci_budget_budget", budget.BudgetBudgetDataSource())
 	RegisterDatasource("oci_budget_alert_rules", budget.BudgetAlertRulesDataSource())
 	RegisterDatasource("oci_budget_budgets", budget.BudgetBudgetsDataSource())
+
+	// email service
+	RegisterDatasource("oci_email_dkims", tf_email.EmailDkimsDataSource())
+	RegisterDatasource("oci_email_dkim", tf_email.EmailDkimDataSource())
+	RegisterDatasource("oci_email_suppression", tf_email.EmailSuppressionDataSource())
+	RegisterDatasource("oci_email_suppressions", tf_email.EmailSuppressionsDataSource())
+	RegisterDatasource("oci_email_sender", tf_email.EmailSenderDataSource())
+	RegisterDatasource("oci_email_email_domains", tf_email.EmailEmailDomainsDataSource())
+	RegisterDatasource("oci_email_senders", tf_email.EmailSendersDataSource())
+	RegisterDatasource("oci_email_email_domain", tf_email.EmailEmailDomainDataSource())
 
 	// identity service
 	RegisterDatasource("oci_identity_smtp_credentials", tf_identity.IdentitySmtpCredentialsDataSource())
