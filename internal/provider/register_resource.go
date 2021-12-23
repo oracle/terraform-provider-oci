@@ -4,6 +4,7 @@ import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
+	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
@@ -221,4 +222,9 @@ func init() {
 	RegisterResource("oci_apigateway_gateway", tf_apigateway.ApigatewayGatewayResource())
 	RegisterResource("oci_apigateway_deployment", tf_apigateway.ApigatewayDeploymentResource())
 	RegisterResource("oci_apigateway_api", tf_apigateway.ApigatewayApiResource())
+	RegisterResource("oci_artifacts_generic_artifact", tf_artifacts.ArtifactsGenericArtifactResource())
+	RegisterResource("oci_artifacts_repository", tf_artifacts.ArtifactsRepositoryResource())
+	RegisterResource("oci_artifacts_container_configuration", tf_artifacts.ArtifactsContainerConfigurationResource())
+	RegisterResource("oci_artifacts_container_image_signature", tf_artifacts.ArtifactsContainerImageSignatureResource())
+	RegisterResource("oci_artifacts_container_repository", tf_artifacts.ArtifactsContainerRepositoryResource())
 }

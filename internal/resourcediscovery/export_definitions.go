@@ -12,6 +12,7 @@ import (
 	oci_ai_anomaly_detection "github.com/oracle/oci-go-sdk/v54/aianomalydetection"
 	oci_analytics "github.com/oracle/oci-go-sdk/v54/analytics"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v54/apigateway"
+	oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
@@ -197,7 +198,7 @@ var exportApmSyntheticsMonitorHints = &TerraformResourceHints{
 	resourceAbbreviation:   "monitor",
 	requireResourceRefresh: true,
 }
-
+*/
 var exportArtifactsContainerConfigurationHints = &TerraformResourceHints{
 	resourceClass:        "oci_artifacts_container_configuration",
 	datasourceClass:      "oci_artifacts_container_configuration",
@@ -237,6 +238,7 @@ var exportArtifactsRepositoryHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportAutoScalingAutoScalingConfigurationHints = &TerraformResourceHints{
 	resourceClass:          "oci_autoscaling_auto_scaling_configuration",
 	datasourceClass:        "oci_autoscaling_auto_scaling_configurations",

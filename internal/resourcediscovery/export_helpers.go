@@ -23,9 +23,9 @@ func init() {
 	//exportApmConfigConfigHints.getIdFn = getApmConfigConfigId
 	//exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
 	//exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
-	//exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
-	//exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
-	//exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
+	exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
+	exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
+	exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
 	//exportBlockchainPeerHints.getIdFn = getBlockchainPeerId
 	//exportBlockchainOsnHints.getIdFn = getBlockchainOsnId
 	exportBudgetAlertRuleHints.getIdFn = getBudgetAlertRuleId
@@ -111,7 +111,7 @@ func getApmSyntheticsMonitorId(resource *OCIResource) (string, error) {
 	}
 	return getMonitorCompositeId(monitorId, apmDomainId), nil
 }
-
+*/
 func getArtifactsContainerRepositoryId(resource *OCIResource) (string, error) {
 
 	repositoryId, ok := resource.sourceAttributes["repository_id"].(string)
@@ -139,6 +139,7 @@ func getArtifactsRepositoryId(resource *OCIResource) (string, error) {
 	return repositoryId, nil
 }
 
+/*
 func getBlockchainPeerId(resource *OCIResource) (string, error) {
 
 	blockchainPlatformId := resource.parent.id

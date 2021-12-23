@@ -4,6 +4,7 @@ import (
 	tf_ai_anomaly_detection "github.com/terraform-providers/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
+	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
@@ -414,4 +415,15 @@ func init() {
 	RegisterDatasource("oci_apigateway_certificates", tf_apigateway.ApigatewayCertificatesDataSource())
 	RegisterDatasource("oci_apigateway_deployments", tf_apigateway.ApigatewayDeploymentsDataSource())
 	RegisterDatasource("oci_apigateway_api_deployment_specification", tf_apigateway.ApigatewayApiDeploymentSpecificationDataSource())
+	RegisterDatasource("oci_artifacts_repositories", tf_artifacts.ArtifactsRepositoriesDataSource())
+	RegisterDatasource("oci_artifacts_container_image_signature", tf_artifacts.ArtifactsContainerImageSignatureDataSource())
+	RegisterDatasource("oci_artifacts_container_repositories", tf_artifacts.ArtifactsContainerRepositoriesDataSource())
+	RegisterDatasource("oci_artifacts_container_images", tf_artifacts.ArtifactsContainerImagesDataSource())
+	RegisterDatasource("oci_artifacts_container_image", tf_artifacts.ArtifactsContainerImageDataSource())
+	RegisterDatasource("oci_artifacts_generic_artifacts", tf_artifacts.ArtifactsGenericArtifactsDataSource())
+	RegisterDatasource("oci_artifacts_container_repository", tf_artifacts.ArtifactsContainerRepositoryDataSource())
+	RegisterDatasource("oci_artifacts_generic_artifact", tf_artifacts.ArtifactsGenericArtifactDataSource())
+	RegisterDatasource("oci_artifacts_container_image_signatures", tf_artifacts.ArtifactsContainerImageSignaturesDataSource())
+	RegisterDatasource("oci_artifacts_container_configuration", tf_artifacts.ArtifactsContainerConfigurationDataSource())
+	RegisterDatasource("oci_artifacts_repository", tf_artifacts.ArtifactsRepositoryDataSource())
 }
