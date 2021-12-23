@@ -6,6 +6,8 @@ package provider
 import (
 	"crypto/rsa"
 	"fmt"
+	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	"io/ioutil"
 	"log"
 	"math"
@@ -211,12 +213,12 @@ func RegisterDatasource(name string, datasourceSchema *schema.Resource) {
 // The OciDatasources map is populated by each datasource's init function being invoked before it gets here
 func DataSourcesMap() map[string]*schema.Resource {
 	// Register some aliases of registered datasources. These are registered for convenience and legacy reasons.
-	/*RegisterDatasource("oci_core_listing_resource_version", CoreAppCatalogListingResourceVersionDataSource())
-	RegisterDatasource("oci_core_listing_resource_versions", CoreAppCatalogListingResourceVersionsDataSource())
-	RegisterDatasource("oci_core_shape", CoreShapesDataSource())
-	RegisterDatasource("oci_core_virtual_networks", CoreVcnsDataSource())
-	RegisterDatasource("oci_load_balancers", LoadBalancerLoadBalancersDataSource())
-	RegisterDatasource("oci_load_balancer_backendsets", LoadBalancerBackendSetsDataSource())*/
+	RegisterDatasource("oci_core_listing_resource_version", tf_core.CoreAppCatalogListingResourceVersionDataSource())
+	RegisterDatasource("oci_core_listing_resource_versions", tf_core.CoreAppCatalogListingResourceVersionsDataSource())
+	RegisterDatasource("oci_core_shape", tf_core.CoreShapesDataSource())
+	RegisterDatasource("oci_core_virtual_networks", tf_core.CoreVcnsDataSource())
+	RegisterDatasource("oci_load_balancers", tf_load_balancer.LoadBalancerLoadBalancersDataSource())
+	RegisterDatasource("oci_load_balancer_backendsets", tf_load_balancer.LoadBalancerBackendSetsDataSource())
 	return OciDatasources
 }
 
@@ -224,9 +226,9 @@ func DataSourcesMap() map[string]*schema.Resource {
 // The OciResource map is populated by each resource's init function being invoked before it gets here
 func ResourcesMap() map[string]*schema.Resource {
 	// Register some aliases of registered resources. These are registered for convenience and legacy reasons.
-	/*RegisterResource("oci_core_virtual_network", CoreVcnResource())
-	RegisterResource("oci_load_balancer", LoadBalancerLoadBalancerResource())
-	RegisterResource("oci_load_balancer_backendset", LoadBalancerBackendSetResource())*/
+	RegisterResource("oci_core_virtual_network", tf_core.CoreVcnResource())
+	RegisterResource("oci_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
+	RegisterResource("oci_load_balancer_backendset", tf_load_balancer.LoadBalancerBackendSetResource())
 	return OciResources
 }
 
