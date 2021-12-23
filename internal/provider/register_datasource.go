@@ -31,6 +31,7 @@ import (
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
+	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
 )
 
 func init() {
@@ -430,4 +431,10 @@ func init() {
 	RegisterDatasource("oci_artifacts_repository", tf_artifacts.ArtifactsRepositoryDataSource())
 	RegisterDatasource("oci_generic_artifacts_content_generic_artifacts_content", tf_generic_artifacts_content.GenericArtifactsContentGenericArtifactsContentDataSource())
 	RegisterDatasource("oci_generic_artifacts_content_artifact_by_path", tf_generic_artifacts_content.GenericArtifactsContentArtifactByPathDataSource())
+
+	// vault service
+	RegisterDatasource("oci_vault_secrets", tf_vault.VaultSecretsDataSource())
+	RegisterDatasource("oci_vault_secret_version", tf_vault.VaultSecretVersionDataSource())
+	RegisterDatasource("oci_vault_secret", tf_vault.VaultSecretDataSource())
+
 }
