@@ -14,6 +14,7 @@ import (
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
+	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
@@ -67,6 +68,13 @@ func init() {
 	// budget service
 	RegisterResource("oci_budget_alert_rule", tf_budget.BudgetAlertRuleResource())
 	RegisterResource("oci_budget_budget", tf_budget.BudgetBudgetResource())
+
+	// datacatalog service
+	RegisterResource("oci_datacatalog_metastore", tf_datacatalog.DatacatalogMetastoreResource())
+	RegisterResource("oci_datacatalog_data_asset", tf_datacatalog.DatacatalogDataAssetResource())
+	RegisterResource("oci_datacatalog_connection", tf_datacatalog.DatacatalogConnectionResource())
+	RegisterResource("oci_datacatalog_catalog", tf_datacatalog.DatacatalogCatalogResource())
+	RegisterResource("oci_datacatalog_catalog_private_endpoint", tf_datacatalog.DatacatalogCatalogPrivateEndpointResource())
 
 	// email service
 	RegisterResource("oci_email_dkim", tf_email.EmailDkimResource())

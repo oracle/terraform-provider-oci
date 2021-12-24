@@ -69,8 +69,8 @@ func DefinedTagsDiffSuppressFunction(key string, old string, new string, d *sche
 		return false
 	}
 
-	lowerCaseNewValueMap := toLowerCaseKeyMap(newValue)
-	lowerCaseOldValueMap := toLowerCaseKeyMap(oldValue)
+	lowerCaseNewValueMap := ToLowerCaseKeyMap(newValue)
+	lowerCaseOldValueMap := ToLowerCaseKeyMap(oldValue)
 
 	if reflect.DeepEqual(lowerCaseOldValueMap, lowerCaseNewValueMap) {
 		return true
@@ -78,7 +78,7 @@ func DefinedTagsDiffSuppressFunction(key string, old string, new string, d *sche
 	return false
 }
 
-func toLowerCaseKeyMap(original map[string]interface{}) map[string]interface{} {
+func ToLowerCaseKeyMap(original map[string]interface{}) map[string]interface{} {
 	lowercaseKeyMap := make(map[string]interface{}, len(original))
 	for key, value := range original {
 		lowercaseKeyMap[strings.ToLower(key)] = value

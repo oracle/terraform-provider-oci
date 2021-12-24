@@ -10,19 +10,13 @@ import (
 	oci_apm "github.com/oracle/oci-go-sdk/v54/apmcontrolplane"
 	oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
+	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
 
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
-	//oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
-	//oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
-	//oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
-	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
-	//oci_database "github.com/oracle/oci-go-sdk/v54/database"
-	//oci_database_migration "github.com/oracle/oci-go-sdk/v54/databasemigration"
-	//oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
-	//oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
+
 	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
@@ -1279,7 +1273,7 @@ var exportDatabasePluggableDatabaseHints = &TerraformResourceHints{
 		string(oci_database.PluggableDatabaseLifecycleStateAvailable),
 	},
 }
-
+*/
 var exportDatacatalogCatalogHints = &TerraformResourceHints{
 	resourceClass:        "oci_datacatalog_catalog",
 	datasourceClass:      "oci_datacatalog_catalogs",
@@ -1335,6 +1329,7 @@ var exportDatacatalogMetastoreHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportDataflowApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataflow_application",
 	datasourceClass:        "oci_dataflow_applications",

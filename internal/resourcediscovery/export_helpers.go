@@ -6,6 +6,8 @@ package resourcediscovery
 import (
 	"fmt"
 
+	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
+
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -35,8 +37,8 @@ func init() {
 	exportCoreNetworkSecurityGroupSecurityRuleHints.getIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	exportCoreDrgRouteTableRouteRuleHints.getIdFn = getCoreDrgRouteTableRouteRuleId
 	//exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
-	//exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
-	//exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
+	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
+	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
 	//exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
 	//exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
 	//exportDnsRrsetHints.getIdFn = getDnsRrsetId
@@ -211,7 +213,7 @@ func getDatabaseVmClusterNetworkId(resource *OCIResource) (string, error) {
 	}
 	return getVmClusterNetworkCompositeId(exadataInfrastructureId, vmClusterNetworkId), nil
 }
-
+*/
 func getDatacatalogDataAssetId(resource *OCIResource) (string, error) {
 
 	catalogId := resource.parent.id
@@ -219,7 +221,7 @@ func getDatacatalogDataAssetId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find dataAssetKey for Datacatalog DataAsset")
 	}
-	return getDataAssetCompositeId(catalogId, dataAssetKey), nil
+	return tf_datacatalog.GetDataAssetCompositeId(catalogId, dataAssetKey), nil
 }
 
 func getDatacatalogConnectionId(resource *OCIResource) (string, error) {
@@ -236,9 +238,10 @@ func getDatacatalogConnectionId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find dataAssetKey for Datacatalog Connection")
 	}
-	return getConnectionCompositeId(catalogId, connectionKey, dataAssetKey), nil
+	return tf_datacatalog.GetConnectionCompositeId(catalogId, connectionKey, dataAssetKey), nil
 }
 
+/*
 func getDatascienceModelProvenanceId(resource *OCIResource) (string, error) {
 
 	modelId := resource.parent.id

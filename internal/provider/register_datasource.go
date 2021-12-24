@@ -15,6 +15,7 @@ import (
 	tf_computeinstanceagent "github.com/terraform-providers/terraform-provider-oci/internal/service/computeinstanceagent"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
+	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
@@ -87,6 +88,20 @@ func init() {
 	RegisterDatasource("oci_budget_budget", tf_budget.BudgetBudgetDataSource())
 	RegisterDatasource("oci_budget_alert_rules", tf_budget.BudgetAlertRulesDataSource())
 	RegisterDatasource("oci_budget_budgets", tf_budget.BudgetBudgetsDataSource())
+
+	// datacatalog service
+	RegisterDatasource("oci_datacatalog_catalog_types", tf_datacatalog.DatacatalogCatalogTypesDataSource())
+	RegisterDatasource("oci_datacatalog_catalog_private_endpoints", tf_datacatalog.DatacatalogCatalogPrivateEndpointsDataSource())
+	RegisterDatasource("oci_datacatalog_metastore", tf_datacatalog.DatacatalogMetastoreDataSource())
+	RegisterDatasource("oci_datacatalog_catalog_type", tf_datacatalog.DatacatalogCatalogTypeDataSource())
+	RegisterDatasource("oci_datacatalog_catalog", tf_datacatalog.DatacatalogCatalogDataSource())
+	RegisterDatasource("oci_datacatalog_connection", tf_datacatalog.DatacatalogConnectionDataSource())
+	RegisterDatasource("oci_datacatalog_catalog_private_endpoint", tf_datacatalog.DatacatalogCatalogPrivateEndpointDataSource())
+	RegisterDatasource("oci_datacatalog_metastores", tf_datacatalog.DatacatalogMetastoresDataSource())
+	RegisterDatasource("oci_datacatalog_data_asset", tf_datacatalog.DatacatalogDataAssetDataSource())
+	RegisterDatasource("oci_datacatalog_catalogs", tf_datacatalog.DatacatalogCatalogsDataSource())
+	RegisterDatasource("oci_datacatalog_connections", tf_datacatalog.DatacatalogConnectionsDataSource())
+	RegisterDatasource("oci_datacatalog_data_assets", tf_datacatalog.DatacatalogDataAssetsDataSource())
 
 	// email service
 	RegisterDatasource("oci_email_dkims", tf_email.EmailDkimsDataSource())
