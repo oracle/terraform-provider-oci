@@ -55,6 +55,7 @@ import (
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vulnerability_scanning "github.com/terraform-providers/terraform-provider-oci/internal/service/vulnerability_scanning"
 	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
+	tf_waf "github.com/terraform-providers/terraform-provider-oci/internal/service/waf"
 )
 
 func init() {
@@ -422,4 +423,9 @@ func init() {
 	RegisterResource("oci_vulnerability_scanning_container_scan_target", tf_vulnerability_scanning.VulnerabilityScanningContainerScanTargetResource())
 	RegisterResource("oci_vulnerability_scanning_host_scan_target", tf_vulnerability_scanning.VulnerabilityScanningHostScanTargetResource())
 	RegisterResource("oci_vulnerability_scanning_host_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningHostScanRecipeResource())
+
+	//WAF service
+	RegisterResource("oci_waf_web_app_firewall_policy", tf_waf.WafWebAppFirewallPolicyResource())
+	RegisterResource("oci_waf_network_address_list", tf_waf.WafNetworkAddressListResource())
+	RegisterResource("oci_waf_web_app_firewall", tf_waf.WafWebAppFirewallResource())
 }

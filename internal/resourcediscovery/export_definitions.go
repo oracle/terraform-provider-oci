@@ -25,6 +25,7 @@ import (
 	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
 	oci_waas "github.com/oracle/oci-go-sdk/v54/waas"
+	oci_waf "github.com/oracle/oci-go-sdk/v54/waf"
 
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
@@ -2854,7 +2855,6 @@ var exportWaasWaasPolicyHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportWafWebAppFirewallPolicyHints = &TerraformResourceHints{
 	resourceClass:          "oci_waf_web_app_firewall_policy",
 	datasourceClass:        "oci_waf_web_app_firewall_policies",
@@ -2890,4 +2890,3 @@ var exportWafNetworkAddressListHints = &TerraformResourceHints{
 		string(oci_waf.NetworkAddressListLifecycleStateActive),
 	},
 }
-*/
