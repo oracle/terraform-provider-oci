@@ -39,6 +39,7 @@ import (
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
 	oci_email "github.com/oracle/oci-go-sdk/v54/email"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
@@ -1242,6 +1243,7 @@ var exportDatabaseMigrationConnectionHints = &TerraformResourceHints{
 		string(oci_database_migration.LifecycleStatesActive),
 	},
 }
+*/
 
 var exportDatabaseToolsDatabaseToolsPrivateEndpointHints = &TerraformResourceHints{
 	resourceClass:          "oci_database_tools_database_tools_private_endpoint",
@@ -1267,6 +1269,7 @@ var exportDatabaseToolsDatabaseToolsConnectionHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportDatabasePluggableDatabaseHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_pluggable_database",
 	datasourceClass:      "oci_database_pluggable_databases",
