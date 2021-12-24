@@ -14,6 +14,7 @@ import (
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_computeinstanceagent "github.com/terraform-providers/terraform-provider-oci/internal/service/computeinstanceagent"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
@@ -102,6 +103,12 @@ func init() {
 	RegisterDatasource("oci_datacatalog_catalogs", tf_datacatalog.DatacatalogCatalogsDataSource())
 	RegisterDatasource("oci_datacatalog_connections", tf_datacatalog.DatacatalogConnectionsDataSource())
 	RegisterDatasource("oci_datacatalog_data_assets", tf_datacatalog.DatacatalogDataAssetsDataSource())
+
+	// data labeling service
+	RegisterDatasource("oci_data_labeling_service_annotation_formats", tf_data_labeling_service.DataLabelingServiceAnnotationFormatsDataSource())
+	RegisterDatasource("oci_data_labeling_service_datasets", tf_data_labeling_service.DataLabelingServiceDatasetsDataSource())
+	RegisterDatasource("oci_data_labeling_service_annotation_format", tf_data_labeling_service.DataLabelingServiceAnnotationFormatDataSource())
+	RegisterDatasource("oci_data_labeling_service_dataset", tf_data_labeling_service.DataLabelingServiceDatasetDataSource())
 
 	// email service
 	RegisterDatasource("oci_email_dkims", tf_email.EmailDkimsDataSource())

@@ -11,6 +11,7 @@ import (
 	oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
+	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
@@ -20,6 +21,7 @@ import (
 	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
+
 	//oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
 	//oci_datascience "github.com/oracle/oci-go-sdk/v54/datascience"
 	//oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
@@ -942,7 +944,7 @@ var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 		string(oci_data_safe.ListDataSafePrivateEndpointsLifecycleStateActive),
 	},
 }
-
+*/
 var exportDataLabelingServiceDatasetHints = &TerraformResourceHints{
 	resourceClass:          "oci_data_labeling_service_dataset",
 	datasourceClass:        "oci_data_labeling_service_datasets",
@@ -956,6 +958,7 @@ var exportDataLabelingServiceDatasetHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportDataSafeOnPremConnectorHints = &TerraformResourceHints{
 	resourceClass:        "oci_data_safe_on_prem_connector",
 	datasourceClass:      "oci_data_safe_on_prem_connectors",
