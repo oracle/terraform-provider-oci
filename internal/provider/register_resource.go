@@ -51,6 +51,7 @@ import (
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
+	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
 )
 
 func init() {
@@ -387,4 +388,13 @@ func init() {
 
 	// appmgmt control service
 	RegisterResource("oci_appmgmt_control_monitor_plugin_management", tf_appmgmt_control.AppmgmtControlMonitorPluginManagementResource())
+
+	//WAAS Service
+	RegisterResource("oci_waas_protection_rule", tf_waas.WaasProtectionRuleResource())
+	RegisterResource("oci_waas_custom_protection_rule", tf_waas.WaasCustomProtectionRuleResource())
+	RegisterResource("oci_waas_purge_cache", tf_waas.WaasPurgeCacheResource())
+	RegisterResource("oci_waas_waas_policy", tf_waas.WaasWaasPolicyResource())
+	RegisterResource("oci_waas_http_redirect", tf_waas.WaasHttpRedirectResource())
+	RegisterResource("oci_waas_address_list", tf_waas.WaasAddressListResource())
+	RegisterResource("oci_waas_certificate", tf_waas.WaasCertificateResource())
 }

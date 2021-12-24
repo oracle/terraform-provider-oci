@@ -18,16 +18,23 @@ import (
 	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
 	oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
+	oci_waas "github.com/oracle/oci-go-sdk/v54/waas"
 
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
-
+	//oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
+	//oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
+	//oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
+	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
+	//oci_database "github.com/oracle/oci-go-sdk/v54/database"
+	//oci_database_migration "github.com/oracle/oci-go-sdk/v54/databasemigration"
+	//oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
+	//oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
 	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
-
 	//oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
 	//oci_datascience "github.com/oracle/oci-go-sdk/v54/datascience"
 	//oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
@@ -63,10 +70,12 @@ import (
 	oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
+	//oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
 	//oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
 	//oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
+	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	//oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
@@ -77,6 +86,7 @@ import (
 
 	//oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
+	//oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
 	//oci_sch "github.com/oracle/oci-go-sdk/v54/sch"
 	//oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
 	//oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
@@ -2813,7 +2823,7 @@ var exportVulnerabilityScanningContainerScanTargetHints = &TerraformResourceHint
 		string(oci_vulnerability_scanning.LifecycleStateActive),
 	},
 }
-
+*/
 var exportWaasAddressListHints = &TerraformResourceHints{
 	resourceClass:          "oci_waas_address_list",
 	datasourceClass:        "oci_waas_address_lists",
@@ -2857,6 +2867,7 @@ var exportWaasWaasPolicyHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportWafWebAppFirewallPolicyHints = &TerraformResourceHints{
 	resourceClass:          "oci_waf_web_app_firewall_policy",
 	datasourceClass:        "oci_waf_web_app_firewall_policies",

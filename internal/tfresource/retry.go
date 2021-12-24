@@ -21,18 +21,20 @@ import (
 )
 
 const (
-	quadraticBackoffCap  = 12              // This corresponds to a 2*12*12=288 second cap on retry wait times (~5 minutes)
-	minRetryBackoff      = 1 * time.Second // Must wait for at least 1 second before retrying
-	databaseService      = "database"
-	identityService      = "identity"
-	coreService          = "core"
-	waasService          = "waas"
-	kmsService           = "kms"
-	objectstorageService = "object_storage"
-	logAnalyticsService  = "log_analytics"
-	updateResource       = "update"
-	createResource       = "create"
-	getResource          = "get"
+	quadraticBackoffCap             = 12              // This corresponds to a 2*12*12=288 second cap on retry wait times (~5 minutes)
+	minRetryBackoff                 = 1 * time.Second // Must wait for at least 1 second before retrying
+	databaseService                 = "database"
+	identityService                 = "identity"
+	coreService                     = "core"
+	WaasService                     = "waas"
+	kmsService                      = "kms"
+	objectstorageService            = "object_storage"
+	logAnalyticsService             = "log_analytics"
+	updateResource                  = "update"
+	createResource                  = "create"
+	getResource                     = "get"
+	waasDeleteConflictRetryDuration = 60 * time.Minute
+	certificateService              = "certificate"
 )
 
 type ServiceExpectedRetryDurationFunc func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration
@@ -44,8 +46,8 @@ var serviceExpectedRetryDurationMap = map[string]ServiceExpectedRetryDurationFun
 	databaseService:      getDatabaseExpectedRetryDuration,
 	identityService:      getIdentityExpectedRetryDuration,
 	objectstorageService: getObjectstorageServiceExpectedRetryDuration,
-	//waasService:          getWaasExpectedRetryDuration,
-	logAnalyticsService: getLogAnalyticsExpectedRetryDuration,
+	WaasService:          getWaasExpectedRetryDuration,
+	logAnalyticsService:  getLogAnalyticsExpectedRetryDuration,
 }
 var serviceRetryPolicyFnMap = map[string]getRetryPolicyFunc{
 	kmsService: kmsGetRetryPolicy,
@@ -434,4 +436,47 @@ func getKmsNextRetryDuration(response oci_common.OCIOperationResponse, disableNo
 		}
 	}
 	return defaultRetryTime
+}
+
+func getWaasExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
+	if len(optionals) > 0 {
+		if key, ok := optionals[0].(string); ok {
+			if expectedRetryDurationFunc, ok := waasServiceExpectedRetryDurationMap[key]; ok {
+				return expectedRetryDurationFunc(response, disableNotFoundRetries, optionals[1:]...)
+			}
+		}
+	}
+	return GetDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+
+}
+
+var waasServiceExpectedRetryDurationMap = map[string]ServiceExpectedRetryDurationFunc{
+	certificateService: getWaasCertificateExpectedRetryDuration,
+}
+
+func getWaasCertificateExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
+	defaultRetryTime := GetDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if response.Response == nil || response.Response.HTTPResponse() == nil {
+		return defaultRetryTime
+	}
+	e := response.Error
+	if len(optionals) > 0 {
+		if key, ok := optionals[0].(string); ok {
+			switch key {
+			case globalvar.DeleteResource:
+				switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+				case 409:
+					if isDisable409Retry, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("disable_409_retry", "false")); isDisable409Retry {
+						log.Printf("[ERROR] Resource is in conflict state due to multiple update request: %v", e.Error())
+						return 0
+					}
+					if e := response.Error; e != nil && strings.Contains(e.Error(), "IncorrectState") {
+						defaultRetryTime = waasDeleteConflictRetryDuration
+					}
+				}
+			}
+		}
+	}
+	return defaultRetryTime
+
 }
