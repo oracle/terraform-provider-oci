@@ -13,6 +13,7 @@ import (
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
@@ -56,6 +57,7 @@ func init() {
 
 	//autoscaling service
 	RegisterResource("oci_autoscaling_auto_scaling_configuration", tf_autoscaling.AutoScalingAutoScalingConfigurationResource())
+
 	// bds service
 	RegisterResource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationResource())
 	RegisterResource("oci_bds_bds_instance", tf_bds.BdsBdsInstanceResource())
@@ -75,6 +77,9 @@ func init() {
 	RegisterResource("oci_datacatalog_connection", tf_datacatalog.DatacatalogConnectionResource())
 	RegisterResource("oci_datacatalog_catalog", tf_datacatalog.DatacatalogCatalogResource())
 	RegisterResource("oci_datacatalog_catalog_private_endpoint", tf_datacatalog.DatacatalogCatalogPrivateEndpointResource())
+
+	// data labeling service
+	RegisterResource("oci_data_labeling_service_dataset", tf_data_labeling_service.DataLabelingServiceDatasetResource())
 
 	// email service
 	RegisterResource("oci_email_dkim", tf_email.EmailDkimResource())
