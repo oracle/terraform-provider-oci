@@ -65,6 +65,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 
 	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
@@ -2376,7 +2377,6 @@ var exportMysqlChannelHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportNetworkLoadBalancerNetworkLoadBalancerHints = &TerraformResourceHints{
 	resourceClass:          "oci_network_load_balancer_network_load_balancer",
 	datasourceClass:        "oci_network_load_balancer_network_load_balancers",
@@ -2415,7 +2415,7 @@ var exportNetworkLoadBalancerListenerHints = &TerraformResourceHints{
 	resourceAbbreviation:   "listener",
 	requireResourceRefresh: true,
 }
-*/
+
 var exportNosqlTableHints = &TerraformResourceHints{
 	resourceClass:          "oci_nosql_table",
 	datasourceClass:        "oci_nosql_tables",

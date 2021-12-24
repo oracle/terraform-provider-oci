@@ -50,6 +50,7 @@ import (
 	tf_metering_computation "github.com/terraform-providers/terraform-provider-oci/internal/service/metering_computation"
 	tf_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/monitoring"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
+	tf_network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
 	tf_oce "github.com/terraform-providers/terraform-provider-oci/internal/service/oce"
@@ -504,4 +505,11 @@ func init() {
 	RegisterResource("oci_database_migration_connection", tf_database_migration.DatabaseMigrationConnectionResource())
 	RegisterResource("oci_database_migration", tf_database_migration.DatabaseMigrationResource())
 	RegisterResource("oci_database_migration_job", tf_database_migration.DatabaseMigrationJobResource())
+
+	// network_load_balancer
+	RegisterResource("oci_network_load_balancer_backend", tf_network_load_balancer.NetworkLoadBalancerBackendResource())
+	RegisterResource("oci_network_load_balancer_network_load_balancer", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancerResource())
+	RegisterResource("oci_network_load_balancer_backend_set", tf_network_load_balancer.NetworkLoadBalancerBackendSetResource())
+	RegisterResource("oci_network_load_balancer_listener", tf_network_load_balancer.NetworkLoadBalancerListenerResource())
+
 }

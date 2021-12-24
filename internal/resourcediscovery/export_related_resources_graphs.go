@@ -61,22 +61,18 @@ var exportRelatedResourcesGraph = TerraformResourceGraph{
 		},
 	},
 
-	/*
-			//NETWORK LOAD BALANCERS
+	//NETWORK LOAD BALANCERS
 
-		"oci_network_load_balancer_backend_set": {
-			{
-				TerraformResourceHints: exportNetworkLoadBalancerBackendHints,
-				datasourceQueryParams: map[string]string{
-					"backend_set_name":         "name",
-					"network_load_balancer_id": "network_load_balancer_id",
-				},
+	"oci_network_load_balancer_backend_set": {
+		{
+			TerraformResourceHints: exportNetworkLoadBalancerBackendHints,
+			datasourceQueryParams: map[string]string{
+				"backend_set_name":         "name",
+				"network_load_balancer_id": "network_load_balancer_id",
 			},
-			{TerraformResourceHints: exportNetworkLoadBalancerListenerHints},
 		},
-
-
-	*/
+		{TerraformResourceHints: exportNetworkLoadBalancerListenerHints},
+	},
 }
 
 // Separate hints for closure as we want to discover volumes related to an instance only
