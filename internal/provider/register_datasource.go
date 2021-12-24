@@ -58,6 +58,7 @@ import (
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
 	tf_vulnerability_scanning "github.com/terraform-providers/terraform-provider-oci/internal/service/vulnerability_scanning"
 	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
+	tf_waf "github.com/terraform-providers/terraform-provider-oci/internal/service/waf"
 )
 
 func init() {
@@ -803,4 +804,15 @@ func init() {
 	RegisterDatasource("oci_vulnerability_scanning_host_scan_targets", tf_vulnerability_scanning.VulnerabilityScanningHostScanTargetsDataSource())
 	RegisterDatasource("oci_vulnerability_scanning_host_scan_target", tf_vulnerability_scanning.VulnerabilityScanningHostScanTargetDataSource())
 	RegisterDatasource("oci_vulnerability_scanning_container_scan_targets", tf_vulnerability_scanning.VulnerabilityScanningContainerScanTargetsDataSource())
+
+	//WAF Service
+	RegisterDatasource("oci_waf_web_app_firewall_policies", tf_waf.WafWebAppFirewallPoliciesDataSource())
+	RegisterDatasource("oci_waf_web_app_firewall", tf_waf.WafWebAppFirewallDataSource())
+	RegisterDatasource("oci_waf_web_app_firewall_policy", tf_waf.WafWebAppFirewallPolicyDataSource())
+	RegisterDatasource("oci_waf_network_address_list", tf_waf.WafNetworkAddressListDataSource())
+	RegisterDatasource("oci_waf_protection_capabilities", tf_waf.WafProtectionCapabilitiesDataSource())
+	RegisterDatasource("oci_waf_web_app_firewalls", tf_waf.WafWebAppFirewallsDataSource())
+	RegisterDatasource("oci_waf_network_address_lists", tf_waf.WafNetworkAddressListsDataSource())
+	RegisterDatasource("oci_waf_protection_capability_group_tags", tf_waf.WafProtectionCapabilityGroupTagsDataSource())
+
 }
