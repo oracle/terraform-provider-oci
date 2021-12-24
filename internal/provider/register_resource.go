@@ -12,6 +12,7 @@ import (
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
@@ -244,4 +245,9 @@ func init() {
 	//ONS Service
 	RegisterResource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicResource())
 	RegisterResource("oci_ons_subscription", tf_ons.OnsSubscriptionResource())
+
+	// database_tools service
+	RegisterResource("oci_database_tools_database_tools_connection", tf_database_tools.DatabaseToolsDatabaseToolsConnectionResource())
+	RegisterResource("oci_database_tools_database_tools_private_endpoint", tf_database_tools.DatabaseToolsDatabaseToolsPrivateEndpointResource())
+
 }

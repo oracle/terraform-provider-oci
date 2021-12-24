@@ -13,6 +13,7 @@ import (
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_computeinstanceagent "github.com/terraform-providers/terraform-provider-oci/internal/service/computeinstanceagent"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
+	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
@@ -465,4 +466,13 @@ func init() {
 	RegisterDatasource("oci_ons_subscription", tf_ons.OnsSubscriptionDataSource())
 	RegisterDatasource("oci_ons_subscriptions", tf_ons.OnsSubscriptionsDataSource())
 	RegisterDatasource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicDataSource())
+
+	// database_tools service
+	RegisterDatasource("oci_database_tools_database_tools_private_endpoint", tf_database_tools.DatabaseToolsDatabaseToolsPrivateEndpointDataSource())
+	RegisterDatasource("oci_database_tools_database_tools_connection", tf_database_tools.DatabaseToolsDatabaseToolsConnectionDataSource())
+	RegisterDatasource("oci_database_tools_database_tools_private_endpoints", tf_database_tools.DatabaseToolsDatabaseToolsPrivateEndpointsDataSource())
+	RegisterDatasource("oci_database_tools_database_tools_connections", tf_database_tools.DatabaseToolsDatabaseToolsConnectionsDataSource())
+	RegisterDatasource("oci_database_tools_database_tools_endpoint_services", tf_database_tools.DatabaseToolsDatabaseToolsEndpointServicesDataSource())
+	RegisterDatasource("oci_database_tools_database_tools_endpoint_service", tf_database_tools.DatabaseToolsDatabaseToolsEndpointServiceDataSource())
+
 }
