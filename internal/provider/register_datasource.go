@@ -50,6 +50,7 @@ import (
 	tf_metering_computation "github.com/terraform-providers/terraform-provider-oci/internal/service/metering_computation"
 	tf_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/monitoring"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
+	tf_network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
 	tf_oce "github.com/terraform-providers/terraform-provider-oci/internal/service/oce"
@@ -934,4 +935,18 @@ func init() {
 	RegisterDatasource("oci_database_migration_job_output", tf_database_migration.DatabaseMigrationJobOutputDataSource())
 	RegisterDatasource("oci_database_migration_migration_object_types", tf_database_migration.DatabaseMigrationMigrationObjectTypesDataSource())
 	RegisterDatasource("oci_database_migration_job", tf_database_migration.DatabaseMigrationJobDataSource())
+
+	//network_load_balancer
+	RegisterDatasource("oci_network_load_balancer_backend_set_health", tf_network_load_balancer.NetworkLoadBalancerBackendSetHealthDataSource())
+	RegisterDatasource("oci_network_load_balancer_network_load_balancers", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancersDataSource())
+	RegisterDatasource("oci_network_load_balancer_backend_sets", tf_network_load_balancer.NetworkLoadBalancerBackendSetsDataSource())
+	RegisterDatasource("oci_network_load_balancer_network_load_balancer", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancerDataSource())
+	RegisterDatasource("oci_network_load_balancer_backend_set", tf_network_load_balancer.NetworkLoadBalancerBackendSetDataSource())
+	RegisterDatasource("oci_network_load_balancer_listeners", tf_network_load_balancer.NetworkLoadBalancerListenersDataSource())
+	RegisterDatasource("oci_network_load_balancer_listener", tf_network_load_balancer.NetworkLoadBalancerListenerDataSource())
+	RegisterDatasource("oci_network_load_balancer_backend_health", tf_network_load_balancer.NetworkLoadBalancerBackendHealthDataSource())
+	RegisterDatasource("oci_network_load_balancer_backends", tf_network_load_balancer.NetworkLoadBalancerBackendsDataSource())
+	RegisterDatasource("oci_network_load_balancer_network_load_balancers_policies", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancersPoliciesDataSource())
+	RegisterDatasource("oci_network_load_balancer_network_load_balancers_protocols", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancersProtocolsDataSource())
+	RegisterDatasource("oci_network_load_balancer_network_load_balancer_health", tf_network_load_balancer.NetworkLoadBalancerNetworkLoadBalancerHealthDataSource())
 }

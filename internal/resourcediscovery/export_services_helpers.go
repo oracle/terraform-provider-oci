@@ -15,12 +15,15 @@ import (
 
 	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
 
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
 	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
 )
 
@@ -622,7 +625,6 @@ func processLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, res
 	return resources, nil
 }
 
-/*
 func processNetworkLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, backendSet := range resources {
 		if backendSet.parent == nil {
@@ -630,7 +632,7 @@ func processNetworkLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resour
 		}
 
 		backendSetName := backendSet.sourceAttributes["name"].(string)
-		backendSet.id = getNlbBackendSetCompositeId(backendSetName, backendSet.parent.id)
+		backendSet.id = tf_network_load_balancer.GetNlbBackendSetCompositeId(backendSetName, backendSet.parent.id)
 		backendSet.sourceAttributes["network_load_balancer_id"] = backendSet.parent.id
 	}
 
@@ -643,7 +645,7 @@ func processNetworkLoadBalancerBackends(ctx *resourceDiscoveryContext, resources
 			continue
 		}
 
-		backend.id = getNlbBackendCompositeId(backend.sourceAttributes["name"].(string), backend.parent.sourceAttributes["name"].(string), backend.parent.sourceAttributes["network_load_balancer_id"].(string))
+		backend.id = tf_network_load_balancer.GetNlbBackendCompositeId(backend.sourceAttributes["name"].(string), backend.parent.sourceAttributes["name"].(string), backend.parent.sourceAttributes["network_load_balancer_id"].(string))
 		backend.sourceAttributes["network_load_balancer_id"] = backend.parent.sourceAttributes["network_load_balancer_id"].(string)
 
 		// Don't use references to parent resources if they will be omitted from final result
@@ -667,9 +669,9 @@ func findNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *Ter
 
 	request := oci_network_load_balancer.GetNetworkLoadBalancerRequest{}
 	request.NetworkLoadBalancerId = &networkLoadBalancerId
-	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "network_load_balancer")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "network_load_balancer")
 
-	response, err := ctx.clients.networkLoadBalancerClient().GetNetworkLoadBalancer(context.Background(), request)
+	response, err := ctx.clients.NetworkLoadBalancerClient().GetNetworkLoadBalancer(context.Background(), request)
 	if err != nil {
 		return nil, err
 	}
@@ -683,7 +685,7 @@ func findNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, tfMeta *Ter
 		}
 
 		d := listenerResource.TestResourceData()
-		d.SetId(getNlbListenerCompositeId(listenerName, networkLoadBalancerId))
+		d.SetId(tf_network_load_balancer.GetNlbListenerCompositeId(listenerName, networkLoadBalancerId))
 
 		// This calls into the listener resource's Read fn which has the unfortunate implementation of
 		// calling GetNetworkLoadBalancer and looping through the listeners to find the expected one. So this entire method
@@ -730,7 +732,7 @@ func processNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, resource
 		}
 
 		listenerName := listener.sourceAttributes["name"].(string)
-		listener.id = getNlbListenerCompositeId(listenerName, listener.parent.sourceAttributes["network_load_balancer_id"].(string))
+		listener.id = tf_network_load_balancer.GetNlbListenerCompositeId(listenerName, listener.parent.sourceAttributes["network_load_balancer_id"].(string))
 		listener.sourceAttributes["network_load_balancer_id"] = listener.parent.sourceAttributes["network_load_balancer_id"].(string)
 
 		// Don't use references to parent resources if they will be omitted from final result
@@ -748,7 +750,6 @@ func processNetworkLoadBalancerListeners(ctx *resourceDiscoveryContext, resource
 	return resources, nil
 }
 
-*/
 func findIdentityTags(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) ([]*OCIResource, error) {
 	// List on Tags does not return validator, and resource Read requires tagNamespaceId
 	// which is also not returned in Summary response. Tags also do not have composite id in state.

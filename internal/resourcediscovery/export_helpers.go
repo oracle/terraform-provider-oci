@@ -27,6 +27,7 @@ import (
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 )
@@ -73,9 +74,9 @@ func init() {
 	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
 	exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
 	//exportLoggingLogHints.getIdFn = getLoggingLogId
-	//exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
-	//exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
-	//exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
+	exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
+	exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
+	exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
 	exportNosqlIndexHints.getIdFn = getNosqlIndexId
 	exportObjectStorageBucketHints.getIdFn = getObjectStorageBucketId
 	exportObjectStorageObjectLifecyclePolicyHints.getIdFn = getObjectStorageObjectLifecyclePolicyId
@@ -533,7 +534,6 @@ func getLoggingLogId(resource *OCIResource) (string, error) {
 	return tf_logging.GetLogCompositeId(logGroupId, logId), nil
 }
 
-/*
 func getNetworkLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
 
 	backendSetName, ok := resource.sourceAttributes["name"].(string)
@@ -541,7 +541,7 @@ func getNetworkLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find backendSetName for NetworkLoadBalancer BackendSet")
 	}
 	networkLoadBalancerId := resource.parent.id
-	return getNlbBackendSetCompositeId(backendSetName, networkLoadBalancerId), nil
+	return network_load_balancer.GetNlbBackendSetCompositeId(backendSetName, networkLoadBalancerId), nil
 }
 
 func getNetworkLoadBalancerBackendId(resource *OCIResource) (string, error) {
@@ -554,7 +554,7 @@ func getNetworkLoadBalancerBackendId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find backendSetName for NetworkLoadBalancer Backend")
 	}
 	networkLoadBalancerId := resource.parent.parent.id
-	return getNlbBackendCompositeId(backendName, backendsetName, networkLoadBalancerId), nil
+	return network_load_balancer.GetNlbBackendCompositeId(backendName, backendsetName, networkLoadBalancerId), nil
 }
 
 func getNetworkLoadBalancerListenerId(resource *OCIResource) (string, error) {
@@ -564,9 +564,9 @@ func getNetworkLoadBalancerListenerId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find listenerName for NetworkLoadBalancer Listener")
 	}
 	networkLoadBalancerId := resource.parent.parent.id
-	return getNlbListenerCompositeId(listenerName, networkLoadBalancerId), nil
+	return network_load_balancer.GetNlbListenerCompositeId(listenerName, networkLoadBalancerId), nil
 }
-*/
+
 func getNosqlIndexId(resource *OCIResource) (string, error) {
 
 	indexName, ok := resource.sourceAttributes["name"].(string)
