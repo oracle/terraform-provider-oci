@@ -54,6 +54,7 @@ import (
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
+	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
 )
 
 func init() {
@@ -743,4 +744,19 @@ func init() {
 	// appmgmt control service
 	RegisterDatasource("oci_appmgmt_control_monitored_instances", tf_appmgmt_control.AppmgmtControlMonitoredInstancesDataSource())
 	RegisterDatasource("oci_appmgmt_control_monitored_instance", tf_appmgmt_control.AppmgmtControlMonitoredInstanceDataSource())
+
+	//WAAS Service
+	RegisterDatasource("oci_waas_address_list", tf_waas.WaasAddressListDataSource())
+	RegisterDatasource("oci_waas_custom_protection_rule", tf_waas.WaasCustomProtectionRuleDataSource())
+	RegisterDatasource("oci_waas_protection_rules", tf_waas.WaasProtectionRulesDataSource())
+	RegisterDatasource("oci_waas_waas_policies", tf_waas.WaasWaasPoliciesDataSource())
+	RegisterDatasource("oci_waas_edge_subnets", tf_waas.WaasEdgeSubnetsDataSource())
+	RegisterDatasource("oci_waas_certificates", tf_waas.WaasCertificatesDataSource())
+	RegisterDatasource("oci_waas_http_redirect", tf_waas.WaasHttpRedirectDataSource())
+	RegisterDatasource("oci_waas_address_lists", tf_waas.WaasAddressListsDataSource())
+	RegisterDatasource("oci_waas_custom_protection_rules", tf_waas.WaasCustomProtectionRulesDataSource())
+	RegisterDatasource("oci_waas_protection_rule", tf_waas.WaasProtectionRuleDataSource())
+	RegisterDatasource("oci_waas_certificate", tf_waas.WaasCertificateDataSource())
+	RegisterDatasource("oci_waas_waas_policy", tf_waas.WaasWaasPolicyDataSource())
+	RegisterDatasource("oci_waas_http_redirects", tf_waas.WaasHttpRedirectsDataSource())
 }
