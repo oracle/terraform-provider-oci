@@ -11,6 +11,7 @@ import (
 	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
+	tf_computeinstanceagent "github.com/terraform-providers/terraform-provider-oci/internal/service/computeinstanceagent"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -194,6 +195,11 @@ func init() {
 	RegisterDatasource("oci_operator_access_control_operator_actions", tf_operator_access_control.OperatorAccessControlOperatorActionsDataSource())
 	RegisterDatasource("oci_operator_access_control_operator_action", tf_operator_access_control.OperatorAccessControlOperatorActionDataSource())
 	RegisterDatasource("oci_operator_access_control_access_request", tf_operator_access_control.OperatorAccessControlAccessRequestDataSource())
+
+	// computeinstanceagent service
+	RegisterDatasource("oci_computeinstanceagent_instance_agent_plugin", tf_computeinstanceagent.ComputeinstanceagentInstanceAgentPluginDataSource())
+	RegisterDatasource("oci_computeinstanceagent_instance_available_plugins", tf_computeinstanceagent.ComputeinstanceagentInstanceAvailablePluginsDataSource())
+	RegisterDatasource("oci_computeinstanceagent_instance_agent_plugins", tf_computeinstanceagent.ComputeinstanceagentInstanceAgentPluginsDataSource())
 
 	// core service
 	RegisterDatasource("oci_core_tunnel_security_associations", tf_core.CoreTunnelSecurityAssociationsDataSource())
