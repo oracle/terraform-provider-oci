@@ -13,6 +13,7 @@ import (
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_computeinstanceagent "github.com/terraform-providers/terraform-provider-oci/internal/service/computeinstanceagent"
+	tf_containerengine "github.com/terraform-providers/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
@@ -638,4 +639,17 @@ func init() {
 	RegisterDatasource("oci_database_vm_cluster_update_history_entry", tf_database.DatabaseVmClusterUpdateHistoryEntryDataSource())
 	RegisterDatasource("oci_database_vm_cluster_updates", tf_database.DatabaseVmClusterUpdatesDataSource())
 	RegisterDatasource("oci_database_vm_clusters", tf_database.DatabaseVmClustersDataSource())
+
+	// containerengine service
+	RegisterDatasource("oci_containerengine_cluster_kube_config", tf_containerengine.ContainerengineClusterKubeConfigDataSource())
+	RegisterDatasource("oci_containerengine_work_request_errors", tf_containerengine.ContainerengineWorkRequestErrorsDataSource())
+	RegisterDatasource("oci_containerengine_node_pools", tf_containerengine.ContainerengineNodePoolsDataSource())
+	RegisterDatasource("oci_containerengine_node_pool_option", tf_containerengine.ContainerengineNodePoolOptionDataSource())
+	RegisterDatasource("oci_containerengine_node_pool", tf_containerengine.ContainerengineNodePoolDataSource())
+	RegisterDatasource("oci_containerengine_clusters", tf_containerengine.ContainerengineClustersDataSource())
+	RegisterDatasource("oci_containerengine_cluster_option", tf_containerengine.ContainerengineClusterOptionDataSource())
+	RegisterDatasource("oci_containerengine_work_request_log_entries", tf_containerengine.ContainerengineWorkRequestLogEntriesDataSource())
+	RegisterDatasource("oci_containerengine_work_requests", tf_containerengine.ContainerengineWorkRequestsDataSource())
+	RegisterDatasource("oci_containerengine_migrate_to_native_vcn_status", tf_containerengine.ContainerengineMigrateToNativeVcnStatusDataSource())
+
 }

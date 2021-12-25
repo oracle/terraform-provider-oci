@@ -10,6 +10,7 @@ import (
 	oci_apm "github.com/oracle/oci-go-sdk/v54/apmcontrolplane"
 	oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
+	oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
@@ -461,8 +462,6 @@ var exportCloudGuardDetectorRecipeHints = &TerraformResourceHints{
 	},
 }
 
-/*
-
 var exportContainerengineClusterHints = &TerraformResourceHints{
 	resourceClass:          "oci_containerengine_cluster",
 	datasourceClass:        "oci_containerengine_clusters",
@@ -481,7 +480,7 @@ var exportContainerengineNodePoolHints = &TerraformResourceHints{
 	resourceAbbreviation:   "node_pool",
 	requireResourceRefresh: true,
 }
-*/
+
 var exportCoreBootVolumeBackupHints = &TerraformResourceHints{
 	resourceClass:        "oci_core_boot_volume_backup",
 	datasourceClass:      "oci_core_boot_volume_backups",

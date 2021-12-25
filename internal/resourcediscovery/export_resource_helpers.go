@@ -797,9 +797,9 @@ func init() {
 	exportObjectStorageReplicationPolicyHints.processDiscoveredResourcesFn = processObjectStorageReplicationPolicy
 
 	//exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
-	//
-	//exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
-	//
+
+	exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
+
 	exportNosqlIndexHints.processDiscoveredResourcesFn = processNosqlIndex
 	//
 	//exportFileStorageMountTargetHints.requireResourceRefresh = true

@@ -12,6 +12,7 @@ import (
 	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
+	tf_containerengine "github.com/terraform-providers/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
@@ -335,4 +336,9 @@ func init() {
 	RegisterResource("oci_database_vm_cluster_add_virtual_machine", tf_database.DatabaseVmClusterAddVirtualMachineResource())
 	RegisterResource("oci_database_vm_cluster_network", tf_database.DatabaseVmClusterNetworkResource())
 	RegisterResource("oci_database_vm_cluster_remove_virtual_machine", tf_database.DatabaseVmClusterRemoveVirtualMachineResource())
+
+	// containerengine service
+	RegisterResource("oci_containerengine_node_pool", tf_containerengine.ContainerengineNodePoolResource())
+	RegisterResource("oci_containerengine_cluster", tf_containerengine.ContainerengineClusterResource())
+
 }

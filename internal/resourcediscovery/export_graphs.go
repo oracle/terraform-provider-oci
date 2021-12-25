@@ -25,10 +25,10 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"artifacts":    artifactsResourceGraph,
 	"auto_scaling": autoScalingResourceGraph,
 	//"bastion":                bastionResourceGraph,
-	"bds":         bdsResourceGraph,
-	"blockchain":  blockchainResourceGraph,
-	"cloud_guard": cloudGuardResourceGraph,
-	//"containerengine":        containerengineResourceGraph,
+	"bds":                   bdsResourceGraph,
+	"blockchain":            blockchainResourceGraph,
+	"cloud_guard":           cloudGuardResourceGraph,
+	"containerengine":       containerengineResourceGraph,
 	"core":                  coreResourceGraph,
 	"data_labeling_service": dataLabelingServiceResourceGraph,
 	//"data_safe":              dataSafeResourceGraph,
@@ -253,15 +253,12 @@ var cloudGuardTenancyResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
-
 var containerengineResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportContainerengineClusterHints},
 		{TerraformResourceHints: exportContainerengineNodePoolHints},
 	},
 }
-*/
 
 var coreResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
