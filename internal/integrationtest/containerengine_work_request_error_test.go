@@ -1,0 +1,55 @@
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package integrationtest
+
+import (
+	"fmt"
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"github.com/terraform-providers/terraform-provider-oci/internal/acctest"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
+)
+
+var (
+	workRequestErrorDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"work_request_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_containerengine_work_requests.test_work_requests.work_requests[0], "id")}`},
+	}
+
+	WorkRequestErrorResourceConfig = WorkRequestResourceConfig +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", acctest.Optional, acctest.Create, workRequestDataSourceRepresentation)
+)
+
+// issue-routing-tag: containerengine/default
+func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestContainerengineWorkRequestErrorResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	datasourceName := "data.oci_containerengine_work_request_errors.test_work_request_errors"
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_work_request_errors", "test_work_request_errors", acctest.Required, acctest.Create, workRequestErrorDataSourceRepresentation) +
+				compartmentIdVariableStr + WorkRequestErrorResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "work_request_id"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "work_request_errors.#"),
+			),
+		},
+	})
+}

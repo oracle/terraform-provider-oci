@@ -104,7 +104,6 @@ func processCorePublicIp(ctx *resourceDiscoveryContext, resources []*OCIResource
 	return publicIps, nil
 }
 
-/*
 func processContainerengineNodePool(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, nodePool := range resources {
 		// subnet_ids and quantity_per_subnet are deprecated and conflict with node_config_details
@@ -120,6 +119,7 @@ func processContainerengineNodePool(ctx *resourceDiscoveryContext, resources []*
 	return resources, nil
 }
 
+/*
 func processStreamingStream(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, streamingStream := range resources {
 		// compartment_id conflict with stream_pool_id
