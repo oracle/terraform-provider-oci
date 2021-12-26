@@ -200,7 +200,6 @@ var exportApmApmDomainHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportApmConfigConfigHints = &TerraformResourceHints{
 	resourceClass:          "oci_apm_config_config",
 	datasourceClass:        "oci_apm_config_configs",
@@ -210,6 +209,7 @@ var exportApmConfigConfigHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
+/*
 var exportApmSyntheticsScriptHints = &TerraformResourceHints{
 	resourceClass:          "oci_apm_synthetics_script",
 	datasourceClass:        "oci_apm_synthetics_scripts",

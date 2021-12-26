@@ -5,6 +5,7 @@ package resourcediscovery
 
 import (
 	"fmt"
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/apm_config"
 
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 
@@ -25,7 +26,7 @@ import (
 )
 
 func init() {
-	//exportApmConfigConfigHints.getIdFn = getApmConfigConfigId
+	exportApmConfigConfigHints.getIdFn = getApmConfigConfigId
 	//exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
 	//exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
 	exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
@@ -77,7 +78,7 @@ func init() {
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
-/*
+
 func getApmConfigConfigId(resource *OCIResource) (string, error) {
 
 	configId, ok := resource.sourceAttributes["id"].(string)
@@ -88,9 +89,10 @@ func getApmConfigConfigId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find apmDomainId for ApmConfig Config")
 	}
-	return getConfigCompositeId(configId, apmDomainId), nil
+	return apm_config.GetConfigCompositeId(configId, apmDomainId), nil
 }
 
+/*
 func getApmSyntheticsScriptId(resource *OCIResource) (string, error) {
 
 	scriptId, ok := resource.sourceAttributes["id"].(string)
