@@ -25,6 +25,7 @@ import (
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
+	tf_integration "github.com/terraform-providers/terraform-provider-oci/internal/service/integration"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
@@ -353,4 +354,7 @@ func init() {
 	RegisterResource("oci_dataflow_application", tf_dataflow.DataflowApplicationResource())
 	RegisterResource("oci_dataflow_private_endpoint", tf_dataflow.DataflowPrivateEndpointResource())
 	RegisterResource("oci_dataflow_invoke_run", tf_dataflow.DataflowInvokeRunResource())
+
+	// integration service
+	RegisterResource("oci_integration_integration_instance", tf_integration.IntegrationIntegrationInstanceResource())
 }
