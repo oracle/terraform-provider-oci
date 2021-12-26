@@ -787,7 +787,7 @@ func init() {
 	exportIdentityTagHints.findResourcesOverrideFn = findIdentityTags
 	exportIdentityTagHints.processDiscoveredResourcesFn = processTagDefinitions
 
-	//exportLoggingLogHints.getIdFn = getLogId
+	exportLoggingLogHints.getIdFn = getLogId
 
 	exportObjectStorageNamespaceHints.processDiscoveredResourcesFn = processObjectStorageNamespace
 	exportObjectStorageNamespaceHints.getHCLStringOverrideFn = getObjectStorageNamespaceHCLDatasource

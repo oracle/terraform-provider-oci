@@ -34,6 +34,7 @@ import (
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
 	tf_management_agent "github.com/terraform-providers/terraform-provider-oci/internal/service/management_agent"
 	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
 	tf_marketplace "github.com/terraform-providers/terraform-provider-oci/internal/service/marketplace"
@@ -173,6 +174,12 @@ func init() {
 	RegisterResource("oci_load_balancer_backend", tf_load_balancer.LoadBalancerBackendResource())
 	RegisterResource("oci_load_balancer_load_balancer_routing_policy", tf_load_balancer.LoadBalancerLoadBalancerRoutingPolicyResource())
 	RegisterResource("oci_load_balancer_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
+
+	// logging service
+	RegisterResource("oci_logging_log_saved_search", tf_logging.LoggingLogSavedSearchResource())
+	RegisterResource("oci_logging_unified_agent_configuration", tf_logging.LoggingUnifiedAgentConfigurationResource())
+	RegisterResource("oci_logging_log_group", tf_logging.LoggingLogGroupResource())
+	RegisterResource("oci_logging_log", tf_logging.LoggingLogResource())
 
 	// core service
 	RegisterResource("oci_core_drg_route_table_route_rule", tf_core.CoreDrgRouteTableRouteRuleResource())
