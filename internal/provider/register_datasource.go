@@ -20,6 +20,7 @@ import (
 	tf_database_management "github.com/terraform-providers/terraform-provider-oci/internal/service/database_management"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
+	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -691,5 +692,15 @@ func init() {
 	RegisterDatasource("oci_database_management_managed_databases_user_proxy_user", tf_database_management.DatabaseManagementManagedDatabasesUserProxyUserDataSource())
 	RegisterDatasource("oci_database_management_managed_database_group", tf_database_management.DatabaseManagementManagedDatabaseGroupDataSource())
 	RegisterDatasource("oci_database_management_managed_database_sql_tuning_advisor_tasks_summary_report", tf_database_management.DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksSummaryReportDataSource())
+
+	// dataflow service
+	RegisterDatasource("oci_dataflow_invoke_run", tf_dataflow.DataflowInvokeRunDataSource())
+	RegisterDatasource("oci_dataflow_run_logs", tf_dataflow.DataflowRunLogsDataSource())
+	RegisterDatasource("oci_dataflow_application", tf_dataflow.DataflowApplicationDataSource())
+	RegisterDatasource("oci_dataflow_run_log", tf_dataflow.DataflowRunLogDataSource())
+	RegisterDatasource("oci_dataflow_private_endpoint", tf_dataflow.DataflowPrivateEndpointDataSource())
+	RegisterDatasource("oci_dataflow_applications", tf_dataflow.DataflowApplicationsDataSource())
+	RegisterDatasource("oci_dataflow_private_endpoints", tf_dataflow.DataflowPrivateEndpointsDataSource())
+	RegisterDatasource("oci_dataflow_invoke_runs", tf_dataflow.DataflowInvokeRunsDataSource())
 
 }

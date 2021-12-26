@@ -36,7 +36,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	//"database_migration":     databaseMigrationResourceGraph,
 	"datacatalog":    datacatalogResourceGraph,
 	"database_tools": databaseToolsResourceGraph,
-	//"dataflow":               dataflowResourceGraph,
+	"dataflow":       dataflowResourceGraph,
 	//"dataintegration":        dataintegrationResourceGraph,
 	//"datascience":            datascienceResourceGraph,
 	//"devops":                 devopsResourceGraph,
@@ -539,7 +539,6 @@ var datacatalogResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var dataflowResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataflowApplicationHints},
@@ -547,6 +546,7 @@ var dataflowResourceGraph = TerraformResourceGraph{
 	},
 }
 
+/*
 var dataintegrationResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataintegrationWorkspaceHints},

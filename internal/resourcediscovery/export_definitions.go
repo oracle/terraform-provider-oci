@@ -12,6 +12,7 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
+	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 
@@ -20,7 +21,6 @@ import (
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
 
-	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 
@@ -1334,7 +1334,6 @@ var exportDatacatalogMetastoreHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportDataflowApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataflow_application",
 	datasourceClass:        "oci_dataflow_applications",
@@ -1359,6 +1358,7 @@ var exportDataflowPrivateEndpointHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportDataintegrationWorkspaceHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataintegration_workspace",
 	datasourceClass:        "oci_dataintegration_workspaces",

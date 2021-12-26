@@ -19,6 +19,7 @@ import (
 	tf_database_management "github.com/terraform-providers/terraform-provider-oci/internal/service/database_management"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
+	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -347,4 +348,9 @@ func init() {
 	RegisterResource("oci_database_management_managed_databases_change_database_parameter", tf_database_management.DatabaseManagementManagedDatabasesChangeDatabaseParameterResource())
 	RegisterResource("oci_database_management_managed_databases_reset_database_parameter", tf_database_management.DatabaseManagementManagedDatabasesResetDatabaseParameterResource())
 	RegisterResource("oci_database_management_db_management_private_endpoint", tf_database_management.DatabaseManagementDbManagementPrivateEndpointResource())
+
+	// dataflow service
+	RegisterResource("oci_dataflow_application", tf_dataflow.DataflowApplicationResource())
+	RegisterResource("oci_dataflow_private_endpoint", tf_dataflow.DataflowPrivateEndpointResource())
+	RegisterResource("oci_dataflow_invoke_run", tf_dataflow.DataflowInvokeRunResource())
 }
