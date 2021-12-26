@@ -16,6 +16,7 @@ import (
 	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
+	oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
 	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
@@ -65,7 +66,6 @@ import (
 	//oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 
-	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	//oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
@@ -934,7 +934,6 @@ var exportCoreDrgRouteTableRouteRuleHints = &TerraformResourceHints{
 	resourceAbbreviation: "drg_route_table_route_rule",
 }
 
-/*
 var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 	resourceClass:          "oci_data_safe_data_safe_private_endpoint",
 	datasourceClass:        "oci_data_safe_data_safe_private_endpoints",
@@ -945,7 +944,6 @@ var exportDataSafeDataSafePrivateEndpointHints = &TerraformResourceHints{
 		string(oci_data_safe.ListDataSafePrivateEndpointsLifecycleStateActive),
 	},
 }
-*/
 var exportDataLabelingServiceDatasetHints = &TerraformResourceHints{
 	resourceClass:          "oci_data_labeling_service_dataset",
 	datasourceClass:        "oci_data_labeling_service_datasets",
@@ -959,7 +957,6 @@ var exportDataLabelingServiceDatasetHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportDataSafeOnPremConnectorHints = &TerraformResourceHints{
 	resourceClass:        "oci_data_safe_on_prem_connector",
 	datasourceClass:      "oci_data_safe_on_prem_connectors",
@@ -1001,7 +998,6 @@ var exportDataSafeUserAssessmentHints = &TerraformResourceHints{
 		string(oci_data_safe.UserAssessmentLifecycleStateSucceeded),
 	},
 }
-*/
 
 var exportDatabaseAutonomousContainerDatabaseHints = &TerraformResourceHints{
 	resourceClass:        "oci_database_autonomous_container_database",
