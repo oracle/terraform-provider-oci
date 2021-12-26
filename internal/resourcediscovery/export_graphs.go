@@ -47,7 +47,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"functions": functionsResourceGraph,
 	//"golden_gate":            goldenGateResourceGraph,
 	"health_checks": healthChecksResourceGraph,
-	//"integration":            integrationResourceGraph,
+	"integration":   integrationResourceGraph,
 	"jms":           jmsResourceGraph,
 	"kms":           kmsResourceGraph,
 	"load_balancer": loadBalancerResourceGraph,
@@ -759,14 +759,12 @@ var identityResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
-
 var integrationResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportIntegrationIntegrationInstanceHints},
 	},
 }
-*/
+
 var jmsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportJmsFleetHints},

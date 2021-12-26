@@ -14,6 +14,7 @@ import (
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
+	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
@@ -2030,7 +2031,6 @@ var exportIdentityDbCredentialHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_integration_integration_instance",
 	datasourceClass:        "oci_integration_integration_instances",
@@ -2041,7 +2041,7 @@ var exportIntegrationIntegrationInstanceHints = &TerraformResourceHints{
 		string(oci_integration.IntegrationInstanceLifecycleStateActive),
 	},
 }
-*/
+
 var exportJmsFleetHints = &TerraformResourceHints{
 	resourceClass:          "oci_jms_fleet",
 	datasourceClass:        "oci_jms_fleets",
