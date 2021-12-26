@@ -30,6 +30,7 @@ import (
 	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
 	tf_marketplace "github.com/terraform-providers/terraform-provider-oci/internal/service/marketplace"
 	tf_metering_computation "github.com/terraform-providers/terraform-provider-oci/internal/service/metering_computation"
+	tf_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/monitoring"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
@@ -230,6 +231,9 @@ func init() {
 	RegisterResource("oci_mysql_channel", tf_mysql.MysqlChannelResource())
 	RegisterResource("oci_mysql_heat_wave_cluster", tf_mysql.MysqlHeatWaveClusterResource())
 	RegisterResource("oci_mysql_mysql_db_system", tf_mysql.MysqlMysqlDbSystemResource())
+
+	// monitoring service
+	RegisterResource("oci_monitoring_alarm", tf_monitoring.MonitoringAlarmResource())
 
 	// nosql service
 	RegisterResource("oci_nosql_table", tf_nosql.NosqlTableResource())

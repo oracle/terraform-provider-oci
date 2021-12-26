@@ -55,8 +55,8 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	//"logging":                loggingResourceGraph,
 	"management_agent": managementAgentResourceGraph,
 	"marketplace":      marketplaceResourceGraph,
-	//"monitoring":             monitoringResourceGraph,
-	"mysql": mysqlResourceGraph,
+	"monitoring":       monitoringResourceGraph,
+	"mysql":            mysqlResourceGraph,
 	//"network_load_balancer":  networkLoadBalancerResourceGraph,
 	"nosql": nosqlResourceGraph,
 	//"object_storage":         objectStorageResourceGraph,
@@ -905,14 +905,12 @@ var meteringComputationResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
-
 var monitoringResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMonitoringAlarmHints},
 	},
 }
-*/
+
 var mysqlResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMysqlMysqlBackupHints},

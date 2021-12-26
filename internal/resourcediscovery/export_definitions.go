@@ -12,6 +12,7 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
+	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
@@ -60,7 +61,6 @@ import (
 	oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
 	//oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
-	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	//oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
@@ -2325,8 +2325,6 @@ var exportMeteringComputationCustomTableHints = &TerraformResourceHints{
 	requireResourceRefresh: true,
 }
 
-/*
-
 var exportMonitoringAlarmHints = &TerraformResourceHints{
 	resourceClass:          "oci_monitoring_alarm",
 	datasourceClass:        "oci_monitoring_alarms",
@@ -2337,7 +2335,7 @@ var exportMonitoringAlarmHints = &TerraformResourceHints{
 		string(oci_monitoring.AlarmLifecycleStateActive),
 	},
 }
-*/
+
 var exportMysqlHeatWaveClusterHints = &TerraformResourceHints{
 	resourceClass:        "oci_mysql_heat_wave_cluster",
 	datasourceClass:      "oci_mysql_heat_wave_cluster",

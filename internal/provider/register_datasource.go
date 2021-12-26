@@ -31,6 +31,7 @@ import (
 	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
 	tf_marketplace "github.com/terraform-providers/terraform-provider-oci/internal/service/marketplace"
 	tf_metering_computation "github.com/terraform-providers/terraform-provider-oci/internal/service/metering_computation"
+	tf_monitoring "github.com/terraform-providers/terraform-provider-oci/internal/service/monitoring"
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
@@ -375,6 +376,14 @@ func init() {
 	RegisterDatasource("oci_jms_fleets", tf_jms.JmsFleetsDataSource())
 	RegisterDatasource("oci_jms_list_jre_usage", tf_jms.JmsListJreUsageDataSource())
 	RegisterDatasource("oci_jms_fleet", tf_jms.JmsFleetDataSource())
+
+	// monitoring service
+	RegisterDatasource("oci_monitoring_alarm_statuses", tf_monitoring.MonitoringAlarmStatusesDataSource())
+	RegisterDatasource("oci_monitoring_metrics", tf_monitoring.MonitoringMetricsDataSource())
+	RegisterDatasource("oci_monitoring_alarm_history_collection", tf_monitoring.MonitoringAlarmHistoryCollectionDataSource())
+	RegisterDatasource("oci_monitoring_alarms", tf_monitoring.MonitoringAlarmsDataSource())
+	RegisterDatasource("oci_monitoring_alarm", tf_monitoring.MonitoringAlarmDataSource())
+	RegisterDatasource("oci_monitoring_metric_data", tf_monitoring.MonitoringMetricDataDataSource())
 
 	// mysql service
 	RegisterDatasource("oci_mysql_mysql_backup", tf_mysql.MysqlMysqlBackupDataSource())
