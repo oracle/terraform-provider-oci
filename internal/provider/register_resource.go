@@ -20,6 +20,7 @@ import (
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
+	tf_dataintegration "github.com/terraform-providers/terraform-provider-oci/internal/service/dataintegration"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -357,4 +358,7 @@ func init() {
 
 	// integration service
 	RegisterResource("oci_integration_integration_instance", tf_integration.IntegrationIntegrationInstanceResource())
+
+	// dataintegration service
+	RegisterResource("oci_dataintegration_workspace", tf_dataintegration.DataintegrationWorkspaceResource())
 }

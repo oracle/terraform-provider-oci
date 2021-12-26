@@ -13,6 +13,7 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
+	oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
@@ -1359,7 +1360,6 @@ var exportDataflowPrivateEndpointHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportDataintegrationWorkspaceHints = &TerraformResourceHints{
 	resourceClass:          "oci_dataintegration_workspace",
 	datasourceClass:        "oci_dataintegration_workspaces",
@@ -1371,6 +1371,7 @@ var exportDataintegrationWorkspaceHints = &TerraformResourceHints{
 	},
 }
 
+/*
 var exportDatascienceProjectHints = &TerraformResourceHints{
 	resourceClass:        "oci_datascience_project",
 	datasourceClass:      "oci_datascience_projects",
