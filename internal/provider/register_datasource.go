@@ -5,6 +5,7 @@ import (
 	tf_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/analytics"
 	tf_apigateway "github.com/terraform-providers/terraform-provider-oci/internal/service/apigateway"
 	tf_apm "github.com/terraform-providers/terraform-provider-oci/internal/service/apm"
+	tf_appmgmt_control "github.com/terraform-providers/terraform-provider-oci/internal/service/appmgmt_control"
 	tf_artifacts "github.com/terraform-providers/terraform-provider-oci/internal/service/artifacts"
 	tf_audit "github.com/terraform-providers/terraform-provider-oci/internal/service/audit"
 	tf_autoscaling "github.com/terraform-providers/terraform-provider-oci/internal/service/autoscaling"
@@ -722,4 +723,8 @@ func init() {
 	RegisterDatasource("oci_osmanagement_managed_instance_event_report", tf_osmanagement.OsmanagementManagedInstanceEventReportDataSource())
 	RegisterDatasource("oci_osmanagement_managed_instances", tf_osmanagement.OsmanagementManagedInstancesDataSource())
 	RegisterDatasource("oci_osmanagement_software_sources", tf_osmanagement.OsmanagementSoftwareSourcesDataSource())
+
+	// appmgmt control service
+	RegisterDatasource("oci_appmgmt_control_monitored_instances", tf_appmgmt_control.AppmgmtControlMonitoredInstancesDataSource())
+	RegisterDatasource("oci_appmgmt_control_monitored_instance", tf_appmgmt_control.AppmgmtControlMonitoredInstanceDataSource())
 }
