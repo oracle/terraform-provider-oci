@@ -8,6 +8,8 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/apm_config"
 
+	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
+
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
@@ -64,7 +66,7 @@ func init() {
 	exportLoadBalancerRuleSetHints.getIdFn = getLoadBalancerRuleSetId
 	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
 	//exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
-	//exportLoggingLogHints.getIdFn = getLoggingLogId
+	exportLoggingLogHints.getIdFn = getLoggingLogId
 	//exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
 	//exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
 	//exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
@@ -508,7 +510,7 @@ func getLogAnalyticsNamespaceScheduledTaskId(resource *OCIResource) (string, err
 	}
 	return getNamespaceScheduledTaskCompositeId(namespace, scheduledTaskId), nil
 }
-
+*/
 func getLoggingLogId(resource *OCIResource) (string, error) {
 
 	logGroupId := resource.parent.id
@@ -516,9 +518,10 @@ func getLoggingLogId(resource *OCIResource) (string, error) {
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find logId for Logging Log")
 	}
-	return getLogCompositeId(logGroupId, logId), nil
+	return tf_logging.GetLogCompositeId(logGroupId, logId), nil
 }
 
+/*
 func getNetworkLoadBalancerBackendSetId(resource *OCIResource) (string, error) {
 
 	backendSetName, ok := resource.sourceAttributes["name"].(string)

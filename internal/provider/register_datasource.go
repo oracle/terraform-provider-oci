@@ -34,6 +34,7 @@ import (
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
 	tf_management_agent "github.com/terraform-providers/terraform-provider-oci/internal/service/management_agent"
 	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
 	tf_marketplace "github.com/terraform-providers/terraform-provider-oci/internal/service/marketplace"
@@ -246,6 +247,16 @@ func init() {
 	RegisterDatasource("oci_operator_access_control_operator_actions", tf_operator_access_control.OperatorAccessControlOperatorActionsDataSource())
 	RegisterDatasource("oci_operator_access_control_operator_action", tf_operator_access_control.OperatorAccessControlOperatorActionDataSource())
 	RegisterDatasource("oci_operator_access_control_access_request", tf_operator_access_control.OperatorAccessControlAccessRequestDataSource())
+
+	// logging service
+	RegisterDatasource("oci_logging_unified_agent_configurations", tf_logging.LoggingUnifiedAgentConfigurationsDataSource())
+	RegisterDatasource("oci_logging_log", tf_logging.LoggingLogDataSource())
+	RegisterDatasource("oci_logging_log_groups", tf_logging.LoggingLogGroupsDataSource())
+	RegisterDatasource("oci_logging_logs", tf_logging.LoggingLogsDataSource())
+	RegisterDatasource("oci_logging_log_group", tf_logging.LoggingLogGroupDataSource())
+	RegisterDatasource("oci_logging_unified_agent_configuration", tf_logging.LoggingUnifiedAgentConfigurationDataSource())
+	RegisterDatasource("oci_logging_log_saved_searches", tf_logging.LoggingLogSavedSearchesDataSource())
+	RegisterDatasource("oci_logging_log_saved_search", tf_logging.LoggingLogSavedSearchDataSource())
 
 	// computeinstanceagent service
 	RegisterDatasource("oci_computeinstanceagent_instance_agent_plugin", tf_computeinstanceagent.ComputeinstanceagentInstanceAgentPluginDataSource())

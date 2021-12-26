@@ -16,6 +16,7 @@ import (
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
+	oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
@@ -23,6 +24,7 @@ import (
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
 
+	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 
@@ -61,7 +63,6 @@ import (
 	oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
 	//oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
-	//oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
 	//oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
 	//oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
@@ -2237,7 +2238,7 @@ var exportLogAnalyticsLogAnalyticsResourceCategoriesManagementHints = &Terraform
 	resourceClass:        "oci_log_analytics_log_analytics_resource_categories_management",
 	resourceAbbreviation: "log_analytics_resource_categories_management",
 }
-
+*/
 var exportLoggingLogGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_logging_log_group",
 	datasourceClass:      "oci_logging_log_groups",
@@ -2266,8 +2267,6 @@ var exportLoggingUnifiedAgentConfigurationHints = &TerraformResourceHints{
 	resourceAbbreviation:   "unified_agent_configuration",
 	requireResourceRefresh: true,
 }
-
-*/
 
 var exportManagementAgentManagementAgentHints = &TerraformResourceHints{
 	resourceClass:        "oci_management_agent_management_agent",

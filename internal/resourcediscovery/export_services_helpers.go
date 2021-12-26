@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
+
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
@@ -1167,14 +1169,14 @@ func getValidDbVersion(dbVersion string) string {
 	return dbVersion
 }
 
-//func getLogId(resource *OCIResource) (string, error) {
-//	logId, ok := resource.sourceAttributes["id"].(string)
-//	if !ok {
-//		return "", fmt.Errorf("[ERROR] unable to find log_id for Log")
-//	}
-//	logGroupId := resource.parent.id
-//	return getLogCompositeId(logGroupId, logId), nil
-//}
+func getLogId(resource *OCIResource) (string, error) {
+	logId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find log_id for Log")
+	}
+	logGroupId := resource.parent.id
+	return tf_logging.GetLogCompositeId(logGroupId, logId), nil
+}
 
 func processCoreVcns(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	// remove deprecated cidr_block field from discovered vcns,
