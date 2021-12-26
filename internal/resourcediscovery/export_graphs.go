@@ -31,8 +31,8 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"containerengine":       containerengineResourceGraph,
 	"core":                  coreResourceGraph,
 	"data_labeling_service": dataLabelingServiceResourceGraph,
-	//"data_safe":              dataSafeResourceGraph,
-	"database": databaseResourceGraph,
+	"data_safe":             dataSafeResourceGraph,
+	"database":              databaseResourceGraph,
 	//"database_migration":     databaseMigrationResourceGraph,
 	"datacatalog":     datacatalogResourceGraph,
 	"database_tools":  databaseToolsResourceGraph,
@@ -417,7 +417,6 @@ var dataLabelingServiceResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var dataSafeResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
@@ -427,7 +426,6 @@ var dataSafeResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeUserAssessmentHints},
 	},
 }
-*/
 
 var databaseResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {

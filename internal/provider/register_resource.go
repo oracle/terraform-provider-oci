@@ -18,6 +18,7 @@ import (
 	tf_containerengine "github.com/terraform-providers/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
+	tf_data_safe "github.com/terraform-providers/terraform-provider-oci/internal/service/data_safe"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
 	tf_database_management "github.com/terraform-providers/terraform-provider-oci/internal/service/database_management"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
@@ -106,6 +107,20 @@ func init() {
 
 	// data labeling service
 	RegisterResource("oci_data_labeling_service_dataset", tf_data_labeling_service.DataLabelingServiceDatasetResource())
+
+	//data_safe service
+	RegisterResource("oci_data_safe_target_database", tf_data_safe.DataSafeTargetDatabaseResource())
+	RegisterResource("oci_data_safe_unset_user_assessment_baseline", tf_data_safe.DataSafeUnsetUserAssessmentBaselineResource())
+	RegisterResource("oci_data_safe_security_assessment", tf_data_safe.DataSafeSecurityAssessmentResource())
+	RegisterResource("oci_data_safe_data_safe_configuration", tf_data_safe.DataSafeDataSafeConfigurationResource())
+	RegisterResource("oci_data_safe_set_user_assessment_baseline", tf_data_safe.DataSafeSetUserAssessmentBaselineResource())
+	RegisterResource("oci_data_safe_compare_security_assessment", tf_data_safe.DataSafeCompareSecurityAssessmentResource())
+	RegisterResource("oci_data_safe_unset_security_assessment_baseline", tf_data_safe.DataSafeUnsetSecurityAssessmentBaselineResource())
+	RegisterResource("oci_data_safe_set_security_assessment_baseline", tf_data_safe.DataSafeSetSecurityAssessmentBaselineResource())
+	RegisterResource("oci_data_safe_data_safe_private_endpoint", tf_data_safe.DataSafeDataSafePrivateEndpointResource())
+	RegisterResource("oci_data_safe_user_assessment", tf_data_safe.DataSafeUserAssessmentResource())
+	RegisterResource("oci_data_safe_compare_user_assessment", tf_data_safe.DataSafeCompareUserAssessmentResource())
+	RegisterResource("oci_data_safe_on_prem_connector", tf_data_safe.DataSafeOnPremConnectorResource())
 
 	// email service
 	RegisterResource("oci_email_dkim", tf_email.EmailDkimResource())

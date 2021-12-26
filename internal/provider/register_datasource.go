@@ -19,6 +19,7 @@ import (
 	tf_containerengine "github.com/terraform-providers/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
+	tf_data_safe "github.com/terraform-providers/terraform-provider-oci/internal/service/data_safe"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
 	tf_database_management "github.com/terraform-providers/terraform-provider-oci/internal/service/database_management"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
@@ -413,6 +414,25 @@ func init() {
 	RegisterDatasource("oci_core_drg_attachments", tf_core.CoreDrgAttachmentsDataSource())
 	RegisterDatasource("oci_core_console_histories", tf_core.CoreConsoleHistoriesDataSource())
 	RegisterDatasource("oci_core_ipsec_connection_tunnel", tf_core.CoreIpSecConnectionTunnelDataSource())
+
+	// data_safe service
+	RegisterDatasource("oci_data_safe_security_assessment_comparison", tf_data_safe.DataSafeSecurityAssessmentComparisonDataSource())
+	RegisterDatasource("oci_data_safe_user_assessment_users", tf_data_safe.DataSafeUserAssessmentUsersDataSource())
+	RegisterDatasource("oci_data_safe_data_safe_configuration", tf_data_safe.DataSafeDataSafeConfigurationDataSource())
+	RegisterDatasource("oci_data_safe_security_assessments", tf_data_safe.DataSafeSecurityAssessmentsDataSource())
+	RegisterDatasource("oci_data_safe_target_database", tf_data_safe.DataSafeTargetDatabaseDataSource())
+	RegisterDatasource("oci_data_safe_data_safe_private_endpoint", tf_data_safe.DataSafeDataSafePrivateEndpointDataSource())
+	RegisterDatasource("oci_data_safe_on_prem_connector", tf_data_safe.DataSafeOnPremConnectorDataSource())
+	RegisterDatasource("oci_data_safe_user_assessment_comparison", tf_data_safe.DataSafeUserAssessmentComparisonDataSource())
+	RegisterDatasource("oci_data_safe_security_assessment", tf_data_safe.DataSafeSecurityAssessmentDataSource())
+	RegisterDatasource("oci_data_safe_user_assessments", tf_data_safe.DataSafeUserAssessmentsDataSource())
+	RegisterDatasource("oci_data_safe_list_user_grants", tf_data_safe.DataSafeListUserGrantsDataSource())
+	RegisterDatasource("oci_data_safe_security_assessment_findings", tf_data_safe.DataSafeSecurityAssessmentFindingsDataSource())
+	RegisterDatasource("oci_data_safe_data_safe_private_endpoints", tf_data_safe.DataSafeDataSafePrivateEndpointsDataSource())
+	RegisterDatasource("oci_data_safe_on_prem_connectors", tf_data_safe.DataSafeOnPremConnectorsDataSource())
+	RegisterDatasource("oci_data_safe_target_databases", tf_data_safe.DataSafeTargetDatabasesDataSource())
+	RegisterDatasource("oci_data_safe_user_assessment", tf_data_safe.DataSafeUserAssessmentDataSource())
+	RegisterDatasource("oci_data_safe_user_assessment_user_analytics", tf_data_safe.DataSafeUserAssessmentUserAnalyticsDataSource())
 
 	//JMS Service
 	RegisterDatasource("oci_jms_summarize_resource_inventory", tf_jms.JmsSummarizeResourceInventoryDataSource())

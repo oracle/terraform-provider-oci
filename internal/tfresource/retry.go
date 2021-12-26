@@ -333,7 +333,8 @@ func getLogAnalyticsExpectedRetryDuration(response oci_common.OCIOperationRespon
 	return defaultRetryTime
 }
 
-func ShouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...interface{}) bool {
+func ShouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...interface {
+}) bool {
 	return GetElapsedRetryDuration(startTime) < getExpectedRetryDuration(response, disableNotFoundRetries, service, optionals...)
 }
 
