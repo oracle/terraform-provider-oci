@@ -16,6 +16,7 @@ import (
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 	tf_data_labeling_service "github.com/terraform-providers/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
+	tf_database_management "github.com/terraform-providers/terraform-provider-oci/internal/service/database_management"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
@@ -341,4 +342,9 @@ func init() {
 	RegisterResource("oci_containerengine_node_pool", tf_containerengine.ContainerengineNodePoolResource())
 	RegisterResource("oci_containerengine_cluster", tf_containerengine.ContainerengineClusterResource())
 
+	// database management service
+	RegisterResource("oci_database_management_managed_database_group", tf_database_management.DatabaseManagementManagedDatabaseGroupResource())
+	RegisterResource("oci_database_management_managed_databases_change_database_parameter", tf_database_management.DatabaseManagementManagedDatabasesChangeDatabaseParameterResource())
+	RegisterResource("oci_database_management_managed_databases_reset_database_parameter", tf_database_management.DatabaseManagementManagedDatabasesResetDatabaseParameterResource())
+	RegisterResource("oci_database_management_db_management_private_endpoint", tf_database_management.DatabaseManagementDbManagementPrivateEndpointResource())
 }
