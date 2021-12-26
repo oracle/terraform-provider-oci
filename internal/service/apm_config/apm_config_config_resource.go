@@ -6,13 +6,14 @@ package apm_config
 import (
 	"context"
 	"fmt"
-	"github.com/terraform-providers/terraform-provider-oci/internal/client"
-	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
-	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 	"log"
 	"net/url"
 	"regexp"
 	"strings"
+
+	"github.com/terraform-providers/terraform-provider-oci/internal/client"
+	"github.com/terraform-providers/terraform-provider-oci/internal/tfresource"
+	"github.com/terraform-providers/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"

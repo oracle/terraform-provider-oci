@@ -5,6 +5,7 @@ package resourcediscovery
 
 import (
 	"fmt"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/apm_config"
 
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"

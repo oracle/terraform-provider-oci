@@ -28,6 +28,7 @@ import (
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
+	tf_identity_data_plane "github.com/terraform-providers/terraform-provider-oci/internal/service/identity_data_plane"
 	tf_integration "github.com/terraform-providers/terraform-provider-oci/internal/service/integration"
 	tf_jms "github.com/terraform-providers/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
@@ -147,6 +148,9 @@ func init() {
 	RegisterResource("oci_identity_user", tf_identity.IdentityUserResource())
 	RegisterResource("oci_identity_customer_secret_key", tf_identity.IdentityCustomerSecretKeyResource())
 	RegisterResource("oci_audit_configuration", tf_audit.AuditConfigurationResource())
+
+	// identity data plane
+	RegisterResource("oci_identity_data_plane_generate_scoped_access_token", tf_identity_data_plane.IdentityDataPlaneGenerateScopedAccessTokenResource())
 
 	// kms service
 	RegisterResource("oci_kms_verify", tf_kms.KmsVerifyResource())
