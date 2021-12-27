@@ -34,6 +34,7 @@ import (
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
 	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
 	tf_management_agent "github.com/terraform-providers/terraform-provider-oci/internal/service/management_agent"
 	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
@@ -175,6 +176,17 @@ func init() {
 	RegisterResource("oci_load_balancer_backend", tf_load_balancer.LoadBalancerBackendResource())
 	RegisterResource("oci_load_balancer_load_balancer_routing_policy", tf_load_balancer.LoadBalancerLoadBalancerRoutingPolicyResource())
 	RegisterResource("oci_load_balancer_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
+
+	// log_analytics service
+	RegisterResource("oci_log_analytics_log_analytics_log_group", tf_log_analytics.LogAnalyticsLogAnalyticsLogGroupResource())
+	RegisterResource("oci_log_analytics_log_analytics_object_collection_rule", tf_log_analytics.LogAnalyticsLogAnalyticsObjectCollectionRuleResource())
+	RegisterResource("oci_log_analytics_log_analytics_preferences_management", tf_log_analytics.LogAnalyticsLogAnalyticsPreferencesManagementResource())
+	RegisterResource("oci_log_analytics_log_analytics_resource_categories_management", tf_log_analytics.LogAnalyticsLogAnalyticsResourceCategoriesManagementResource())
+	RegisterResource("oci_log_analytics_namespace_scheduled_task", tf_log_analytics.LogAnalyticsNamespaceScheduledTaskResource())
+	RegisterResource("oci_log_analytics_log_analytics_unprocessed_data_bucket_management", tf_log_analytics.LogAnalyticsLogAnalyticsUnprocessedDataBucketManagementResource())
+	RegisterResource("oci_log_analytics_log_analytics_import_custom_content", tf_log_analytics.LogAnalyticsLogAnalyticsImportCustomContentResource())
+	RegisterResource("oci_log_analytics_namespace", tf_log_analytics.LogAnalyticsNamespaceResource())
+	RegisterResource("oci_log_analytics_log_analytics_entity", tf_log_analytics.LogAnalyticsLogAnalyticsEntityResource())
 
 	// logging service
 	RegisterResource("oci_logging_log_saved_search", tf_logging.LoggingLogSavedSearchResource())

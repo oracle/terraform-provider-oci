@@ -34,6 +34,7 @@ import (
 	tf_kms "github.com/terraform-providers/terraform-provider-oci/internal/service/kms"
 	tf_limits "github.com/terraform-providers/terraform-provider-oci/internal/service/limits"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
+	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
 	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
 	tf_management_agent "github.com/terraform-providers/terraform-provider-oci/internal/service/management_agent"
 	tf_management_dashboard "github.com/terraform-providers/terraform-provider-oci/internal/service/management_dashboard"
@@ -731,6 +732,27 @@ func init() {
 	// dataintegration service
 	RegisterDatasource("oci_dataintegration_workspaces", tf_dataintegration.DataintegrationWorkspacesDataSource())
 	RegisterDatasource("oci_dataintegration_workspace", tf_dataintegration.DataintegrationWorkspaceDataSource())
+
+	// log_analytics service
+	RegisterDatasource("oci_log_analytics_log_analytics_entities_summary", tf_log_analytics.LogAnalyticsLogAnalyticsEntitiesSummaryDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_object_collection_rules", tf_log_analytics.LogAnalyticsLogAnalyticsObjectCollectionRulesDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_unprocessed_data_bucket", tf_log_analytics.LogAnalyticsLogAnalyticsUnprocessedDataBucketDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_entity_topology", tf_log_analytics.LogAnalyticsLogAnalyticsEntityTopologyDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_log_group", tf_log_analytics.LogAnalyticsLogAnalyticsLogGroupDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_log_groups_summary", tf_log_analytics.LogAnalyticsLogAnalyticsLogGroupsSummaryDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_resource_categories_list", tf_log_analytics.LogAnalyticsLogAnalyticsResourceCategoriesListDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_entity", tf_log_analytics.LogAnalyticsLogAnalyticsEntityDataSource())
+	RegisterDatasource("oci_log_analytics_namespaces", tf_log_analytics.LogAnalyticsNamespacesDataSource())
+	RegisterDatasource("oci_log_analytics_log_sets_count", tf_log_analytics.LogAnalyticsLogSetsCountDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_categories_list", tf_log_analytics.LogAnalyticsLogAnalyticsCategoriesListDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_entities", tf_log_analytics.LogAnalyticsLogAnalyticsEntitiesDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_preference", tf_log_analytics.LogAnalyticsLogAnalyticsPreferenceDataSource())
+	RegisterDatasource("oci_log_analytics_namespace", tf_log_analytics.LogAnalyticsNamespaceDataSource())
+	RegisterDatasource("oci_log_analytics_namespace_scheduled_tasks", tf_log_analytics.LogAnalyticsNamespaceScheduledTasksDataSource())
+	RegisterDatasource("oci_log_analytics_namespace_scheduled_task", tf_log_analytics.LogAnalyticsNamespaceScheduledTaskDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_log_groups", tf_log_analytics.LogAnalyticsLogAnalyticsLogGroupsDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_object_collection_rule", tf_log_analytics.LogAnalyticsLogAnalyticsObjectCollectionRuleDataSource())
+	RegisterDatasource("oci_log_analytics_log_analytics_category", tf_log_analytics.LogAnalyticsLogAnalyticsCategoryDataSource())
 
 	// osmanagement service
 	RegisterDatasource("oci_osmanagement_managed_instance", tf_osmanagement.OsmanagementManagedInstanceDataSource())
