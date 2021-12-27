@@ -26,6 +26,7 @@ import (
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
 	tf_dataintegration "github.com/terraform-providers/terraform-provider-oci/internal/service/dataintegration"
+	tf_datascience "github.com/terraform-providers/terraform-provider-oci/internal/service/datascience"
 	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/terraform-providers/terraform-provider-oci/internal/service/events"
@@ -772,6 +773,24 @@ func init() {
 	// dataintegration service
 	RegisterDatasource("oci_dataintegration_workspaces", tf_dataintegration.DataintegrationWorkspacesDataSource())
 	RegisterDatasource("oci_dataintegration_workspace", tf_dataintegration.DataintegrationWorkspaceDataSource())
+
+	// data science service
+	RegisterDatasource("oci_datascience_job_runs", tf_datascience.DatascienceJobRunsDataSource())
+	RegisterDatasource("oci_datascience_project", tf_datascience.DatascienceProjectDataSource())
+	RegisterDatasource("oci_datascience_model_deployment", tf_datascience.DatascienceModelDeploymentDataSource())
+	RegisterDatasource("oci_datascience_notebook_sessions", tf_datascience.DatascienceNotebookSessionsDataSource())
+	RegisterDatasource("oci_datascience_projects", tf_datascience.DatascienceProjectsDataSource())
+	RegisterDatasource("oci_datascience_model_deployments", tf_datascience.DatascienceModelDeploymentsDataSource())
+	RegisterDatasource("oci_datascience_model_deployment_shapes", tf_datascience.DatascienceModelDeploymentShapesDataSource())
+	RegisterDatasource("oci_datascience_jobs", tf_datascience.DatascienceJobsDataSource())
+	RegisterDatasource("oci_datascience_notebook_session_shapes", tf_datascience.DatascienceNotebookSessionShapesDataSource())
+	RegisterDatasource("oci_datascience_job_shapes", tf_datascience.DatascienceJobShapesDataSource())
+	RegisterDatasource("oci_datascience_job", tf_datascience.DatascienceJobDataSource())
+	RegisterDatasource("oci_datascience_model_provenance", tf_datascience.DatascienceModelProvenanceDataSource())
+	RegisterDatasource("oci_datascience_model", tf_datascience.DatascienceModelDataSource())
+	RegisterDatasource("oci_datascience_job_run", tf_datascience.DatascienceJobRunDataSource())
+	RegisterDatasource("oci_datascience_models", tf_datascience.DatascienceModelsDataSource())
+	RegisterDatasource("oci_datascience_notebook_session", tf_datascience.DatascienceNotebookSessionDataSource())
 
 	// log_analytics service
 	RegisterDatasource("oci_log_analytics_log_analytics_entities_summary", tf_log_analytics.LogAnalyticsLogAnalyticsEntitiesSummaryDataSource())

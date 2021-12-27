@@ -25,6 +25,7 @@ import (
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
 	tf_dataintegration "github.com/terraform-providers/terraform-provider-oci/internal/service/dataintegration"
+	tf_datascience "github.com/terraform-providers/terraform-provider-oci/internal/service/datascience"
 	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/terraform-providers/terraform-provider-oci/internal/service/events"
@@ -123,6 +124,15 @@ func init() {
 	RegisterResource("oci_data_safe_user_assessment", tf_data_safe.DataSafeUserAssessmentResource())
 	RegisterResource("oci_data_safe_compare_user_assessment", tf_data_safe.DataSafeCompareUserAssessmentResource())
 	RegisterResource("oci_data_safe_on_prem_connector", tf_data_safe.DataSafeOnPremConnectorResource())
+
+	// datascience service
+	RegisterResource("oci_datascience_model_provenance", tf_datascience.DatascienceModelProvenanceResource())
+	RegisterResource("oci_datascience_model", tf_datascience.DatascienceModelResource())
+	RegisterResource("oci_datascience_notebook_session", tf_datascience.DatascienceNotebookSessionResource())
+	RegisterResource("oci_datascience_job", tf_datascience.DatascienceJobResource())
+	RegisterResource("oci_datascience_project", tf_datascience.DatascienceProjectResource())
+	RegisterResource("oci_datascience_model_deployment", tf_datascience.DatascienceModelDeploymentResource())
+	RegisterResource("oci_datascience_job_run", tf_datascience.DatascienceJobRunResource())
 
 	// email service
 	RegisterResource("oci_email_dkim", tf_email.EmailDkimResource())
