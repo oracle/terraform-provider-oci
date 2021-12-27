@@ -46,13 +46,13 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	//"file_storage":           fileStorageResourceGraph,
 	"functions": functionsResourceGraph,
 	//"golden_gate":            goldenGateResourceGraph,
-	"health_checks": healthChecksResourceGraph,
-	"integration":   integrationResourceGraph,
-	"jms":           jmsResourceGraph,
-	"kms":           kmsResourceGraph,
-	"load_balancer": loadBalancerResourceGraph,
-	//"log_analytics":          logAnalyticsResourceGraph,
+	"health_checks":    healthChecksResourceGraph,
+	"integration":      integrationResourceGraph,
+	"jms":              jmsResourceGraph,
+	"kms":              kmsResourceGraph,
+	"load_balancer":    loadBalancerResourceGraph,
 	"logging":          loggingResourceGraph,
+	"log_analytics":    logAnalyticsResourceGraph,
 	"management_agent": managementAgentResourceGraph,
 	"marketplace":      marketplaceResourceGraph,
 	"monitoring":       monitoringResourceGraph,
@@ -857,13 +857,12 @@ var loadBalancerResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var logAnalyticsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints},
 	},
 }
-*/
+
 var loggingResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLoggingLogGroupHints},

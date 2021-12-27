@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
+
 	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -585,17 +587,17 @@ func processObjectStorageReplicationPolicy(ctx *resourceDiscoveryContext, resour
 	return resources, nil
 }
 
-/*
 func processLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, resource := range resources {
 		namespace := resource.sourceAttributes["namespace"].(string)
 		logAnalyticsObjectCollectionRuleId := resource.id
-		resource.importId = getLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId, namespace)
+		resource.importId = log_analytics.GetLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId, namespace)
 	}
 
 	return resources, nil
 }
 
+/*
 func processNetworkLoadBalancerBackendSets(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, backendSet := range resources {
 		if backendSet.parent == nil {
@@ -868,7 +870,7 @@ func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta
 
 	request.RequestMetadata.RetryPolicy = GetRetryPolicy(true, "log_analytics")
 
-	response, err := ctx.clients.logAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
+	response, err := ctx.clients.LogAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
 	if err != nil {
 		return results, err
 	}
@@ -876,7 +878,7 @@ func findLogAnalyticsObjectCollectionRules(ctx *resourceDiscoveryContext, tfMeta
 	request.Page = response.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := ctx.clients.logAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
+		listResponse, err := ctx.clients.LogAnalyticsClient().ListLogAnalyticsObjectCollectionRules(context.Background(), request)
 		if err != nil {
 			return results, err
 		}

@@ -6,6 +6,8 @@ package resourcediscovery
 import (
 	"fmt"
 
+	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
+
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/apm_config"
 
 	tf_logging "github.com/terraform-providers/terraform-provider-oci/internal/service/logging"
@@ -67,6 +69,9 @@ func init() {
 	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
 	//exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
 	exportLoggingLogHints.getIdFn = getLoggingLogId
+	exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.getIdFn = getLogAnalyticsLogAnalyticsObjectCollectionRuleId
+	exportLogAnalyticsNamespaceScheduledTaskHints.getIdFn = getLogAnalyticsNamespaceScheduledTaskId
+	//exportLoggingLogHints.getIdFn = getLoggingLogId
 	//exportNetworkLoadBalancerBackendSetHints.getIdFn = getNetworkLoadBalancerBackendSetId
 	//exportNetworkLoadBalancerBackendHints.getIdFn = getNetworkLoadBalancerBackendId
 	//exportNetworkLoadBalancerListenerHints.getIdFn = getNetworkLoadBalancerListenerId
@@ -484,7 +489,6 @@ func getLoadBalancerRuleSetId(resource *OCIResource) (string, error) {
 	return tf_load_balancer.GetRuleSetCompositeId(loadBalancerId, name), nil
 }
 
-/*
 func getLogAnalyticsLogAnalyticsObjectCollectionRuleId(resource *OCIResource) (string, error) {
 
 	logAnalyticsObjectCollectionRuleId, ok := resource.sourceAttributes["id"].(string)
@@ -495,7 +499,7 @@ func getLogAnalyticsLogAnalyticsObjectCollectionRuleId(resource *OCIResource) (s
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find namespace for LogAnalytics LogAnalyticsObjectCollectionRule")
 	}
-	return getLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId, namespace), nil
+	return tf_log_analytics.GetLogAnalyticsObjectCollectionRuleCompositeId(logAnalyticsObjectCollectionRuleId, namespace), nil
 }
 
 func getLogAnalyticsNamespaceScheduledTaskId(resource *OCIResource) (string, error) {
@@ -508,9 +512,9 @@ func getLogAnalyticsNamespaceScheduledTaskId(resource *OCIResource) (string, err
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find scheduledTaskId for LogAnalytics NamespaceScheduledTask")
 	}
-	return getNamespaceScheduledTaskCompositeId(namespace, scheduledTaskId), nil
+	return tf_log_analytics.GetNamespaceScheduledTaskCompositeId(namespace, scheduledTaskId), nil
 }
-*/
+
 func getLoggingLogId(resource *OCIResource) (string, error) {
 
 	logGroupId := resource.parent.id

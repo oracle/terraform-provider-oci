@@ -16,22 +16,19 @@ import (
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
+	oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
 	oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
+	oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
+	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
+	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	oci_waas "github.com/oracle/oci-go-sdk/v54/waas"
 
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	//oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
-	//oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
-	//oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
-	//oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
-	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
-	//oci_database "github.com/oracle/oci-go-sdk/v54/database"
-	//oci_database_migration "github.com/oracle/oci-go-sdk/v54/databasemigration"
-	//oci_database_tools "github.com/oracle/oci-go-sdk/v54/databasetools"
-	//oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
+
 	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
@@ -55,7 +52,6 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
-	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 
 	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
@@ -68,13 +64,7 @@ import (
 	//oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	//oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
-	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
-	//oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
-	//oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
-	//oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
-	oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
-	//oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
-	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
+
 	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
@@ -2204,7 +2194,6 @@ var exportLoadBalancerRuleSetHints = &TerraformResourceHints{
 	resourceAbbreviation: "rule_set",
 }
 
-/*
 var exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints = &TerraformResourceHints{
 	resourceClass:          "oci_log_analytics_log_analytics_object_collection_rule",
 	datasourceClass:        "oci_log_analytics_log_analytics_object_collection_rules",
@@ -2248,7 +2237,7 @@ var exportLogAnalyticsLogAnalyticsResourceCategoriesManagementHints = &Terraform
 	resourceClass:        "oci_log_analytics_log_analytics_resource_categories_management",
 	resourceAbbreviation: "log_analytics_resource_categories_management",
 }
-*/
+
 var exportLoggingLogGroupHints = &TerraformResourceHints{
 	resourceClass:        "oci_logging_log_group",
 	datasourceClass:      "oci_logging_log_groups",
