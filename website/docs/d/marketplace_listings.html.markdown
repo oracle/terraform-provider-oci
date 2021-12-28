@@ -54,9 +54,9 @@ The following arguments are supported:
 * `compartment_id` - (Optional) The unique identifier for the compartment.
 * `is_featured` - (Optional) Indicates whether to show only featured listings. If this is set to `false` or is omitted, then all listings will be returned. 
 * `listing_id` - (Optional) The unique identifier for the listing.
-* `listing_types` - (Optional) The type of the listing
+* `listing_types` - (Optional) The type of the listing.
 * `name` - (Optional) The name of the listing.
-* `operating_systems` - (Optional) OS of the listing.
+* `operating_systems` - (Optional) The operating system of the listing.
 * `package_type` - (Optional) A filter to return only packages that match the given package type exactly. 
 * `pricing` - (Optional) Name of the pricing type. If multiple pricing types are provided, then any listing with one or more matching pricing models will be returned. 
 * `publisher_id` - (Optional) Limit results to just this publisher.
@@ -98,7 +98,7 @@ The following attributes are exported:
 * `links` - Links to reference material.
 	* `href` - The anchor tag.
 	* `rel` - Reference links to the previous page, next page, and other pages.
-* `listing_type` - In which catalog the listing should exist.
+* `listing_type` - The publisher category to which the listing belongs. The publisher category informs where the listing appears for use.
 * `long_description` - A long description of the listing.
 * `name` - The name of the listing.
 * `package_type` - The listing's package type.
@@ -107,7 +107,7 @@ The following attributes are exported:
 	* `contact_phone` - The phone number of the publisher.
 	* `description` - A description of the publisher.
 	* `hq_address` - The address of the publisher's headquarters.
-	* `id` - Unique identifier for the publisher.
+	* `id` - The unique identifier for the publisher.
 	* `links` - Reference links.
 		* `href` - The anchor tag.
 		* `rel` - Reference links to the previous page, next page, and other pages.
@@ -141,8 +141,8 @@ The following attributes are exported:
 * `support_links` - Links to support resources for the listing.
 	* `name` - Text that describes the resource.
 	* `url` - The URL of the resource.
-* `supported_operating_systems` - List of operating systems supported.
-	* `name` - name of the operating system
+* `supported_operating_systems` - The list of operating systems supported by the listing.
+	* `name` - The name of the operating system.
 * `system_requirements` - System requirements for the listing.
 * `tagline` - The tagline of the listing.
 * `time_released` - The release date of the listing.
