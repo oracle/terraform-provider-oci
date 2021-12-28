@@ -25,6 +25,7 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
+	oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
 	oci_waas "github.com/oracle/oci-go-sdk/v54/waas"
 	oci_waf "github.com/oracle/oci-go-sdk/v54/waf"
@@ -2714,6 +2715,7 @@ var exportSchServiceConnectorHints = &TerraformResourceHints{
 		string(oci_sch.LifecycleStateActive),
 	},
 }
+*/
 
 var exportStreamingConnectHarnessHints = &TerraformResourceHints{
 	resourceClass:        "oci_streaming_connect_harness",
@@ -2746,7 +2748,6 @@ var exportStreamingStreamHints = &TerraformResourceHints{
 		string(oci_streaming.StreamLifecycleStateActive),
 	},
 }
-*/
 var exportUsageProxySubscriptionRedeemableUserHints = &TerraformResourceHints{
 	resourceClass:          "oci_usage_proxy_subscription_redeemable_user",
 	datasourceClass:        "oci_usage_proxy_subscription_redeemable_users",
