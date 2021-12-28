@@ -5,6 +5,7 @@ package resourcediscovery
 
 import (
 	"fmt"
+	"net/url"
 
 	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
 
@@ -48,7 +49,7 @@ func init() {
 	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
 	//exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
 	//exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
-	//exportDnsRrsetHints.getIdFn = getDnsRrsetId
+	exportDnsRrsetHints.getIdFn = getDnsRrsetId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
 	exportIdentityCustomerSecretKeyHints.getIdFn = getIdentityCustomerSecretKeyId
@@ -267,7 +268,7 @@ func getDevopsRepositoryRefId(resource *OCIResource) (string, error) {
 	repositoryId := resource.parent.id
 	return getRepositoryRefCompositeId(refName, repositoryId), nil
 }
-
+*/
 func getDnsRrsetId(resource *OCIResource) (string, error) {
 
 	domain, ok := resource.sourceAttributes["domain"].(string)
@@ -282,7 +283,14 @@ func getDnsRrsetId(resource *OCIResource) (string, error) {
 	return getRrsetCompositeId(domain, rtype, zoneNameOrId), nil
 }
 
-*/
+func getRrsetCompositeId(domain string, rtype string, zoneNameOrId string) string {
+	domain = url.PathEscape(domain)
+	rtype = url.PathEscape(rtype)
+	zoneNameOrId = url.PathEscape(zoneNameOrId)
+	compositeId := "zoneNameOrId/" + zoneNameOrId + "/domain/" + domain + "/rtype/" + rtype
+	return compositeId
+}
+
 func getIdentityApiKeyId(resource *OCIResource) (string, error) {
 
 	fingerprint, ok := resource.sourceAttributes["fingerprint"].(string)

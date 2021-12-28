@@ -3,9 +3,13 @@ package resourcediscovery
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
 
@@ -21,7 +25,7 @@ import (
 )
 
 var loadBalancerCertificateNameMap map[string]map[string]string // helper map to generate references for certificate names, stores certificate name to certificate name interpolation
-/*
+
 func processDnsRrset(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 
 	for _, record := range resources {
@@ -40,13 +44,35 @@ func processDnsRrset(ctx *resourceDiscoveryContext, resources []*OCIResource) ([
 	return resources, nil
 }
 
+func parseRrsetCompositeId(compositeId string) (domain string, rtype string, zoneNameOrId string, scope string, viewId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match1, _ := regexp.MatchString("zoneNameOrId/.*/domain/.*/rtype/.*", compositeId)
+	match2, _ := regexp.MatchString("zoneNameOrId/.*/domain/.*/rtype/.*/scope/.*/viewId/.*", compositeId)
+	if match1 && len(parts) == 6 {
+		zoneNameOrId, _ = url.PathUnescape(parts[1])
+		domain, _ = url.PathUnescape(parts[3])
+		rtype, _ = url.PathUnescape(parts[5])
+	} else if match2 && len(parts) == 10 {
+		zoneNameOrId, _ = url.PathUnescape(parts[1])
+		domain, _ = url.PathUnescape(parts[3])
+		rtype, _ = url.PathUnescape(parts[5])
+		scope, _ = url.PathUnescape(parts[7])
+		viewId, _ = url.PathUnescape(parts[9])
+	} else {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+
+	return
+}
+
 func findDnsRrset(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssociation, parent *OCIResource, resourceGraph *TerraformResourceGraph) (resources []*OCIResource, err error) {
 	// Rrset is singular datasource only
 	// and need to use GetZoneRecordsRequest to list all records
 	zoneId := parent.id
 	request := oci_dns.GetZoneRecordsRequest{}
 	request.ZoneNameOrId = &zoneId
-	response, err := ctx.clients.dnsClient().GetZoneRecords(context.Background(), request)
+	response, err := ctx.clients.DnsClient().GetZoneRecords(context.Background(), request)
 
 	if err != nil {
 		return resources, err
@@ -82,6 +108,7 @@ func findDnsRrset(ctx *resourceDiscoveryContext, tfMeta *TerraformResourceAssoci
 	return resources, err
 }
 
+/*
 // Custom functions to alter behavior of resource discovery and resource HCL representation
 
 func getModelProvenanceId(resource *OCIResource) (string, error) {

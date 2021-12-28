@@ -185,13 +185,13 @@ func checkAndConvertMap(element interface{}) (map[string]interface{}, bool) {
 	}
 
 	if stringToStrinMap, isOk := element.(map[string]string); isOk {
-		return convertToObjectMap(stringToStrinMap), true
+		return ConvertToObjectMap(stringToStrinMap), true
 	}
 
 	return nil, false
 }
 
-func convertToObjectMap(stringTostring map[string]string) map[string]interface{} {
+func ConvertToObjectMap(stringTostring map[string]string) map[string]interface{} {
 	convertedMap := make(map[string]interface{}, len(stringTostring))
 	for key, value := range stringTostring {
 		convertedMap[key] = value

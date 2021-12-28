@@ -806,10 +806,10 @@ func init() {
 	//
 	exportKmsKeyHints.processDiscoveredResourcesFn = processKmsKey
 	exportKmsKeyVersionHints.processDiscoveredResourcesFn = processKmsKeyVersion
-	//
-	//exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
-	//exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
-	//
+
+	exportDnsRrsetHints.findResourcesOverrideFn = findDnsRrset
+	exportDnsRrsetHints.processDiscoveredResourcesFn = processDnsRrset
+
 	exportMysqlMysqlBackupHints.requireResourceRefresh = true
 	exportMysqlMysqlBackupHints.processDiscoveredResourcesFn = filterMysqlBackups
 	exportMysqlMysqlDbSystemHints.processDiscoveredResourcesFn = processMysqlDbSystem

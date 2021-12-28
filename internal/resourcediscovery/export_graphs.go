@@ -40,7 +40,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"dataintegration": dataintegrationResourceGraph,
 	//"datascience":            datascienceResourceGraph,
 	//"devops":                 devopsResourceGraph,
-	//"dns":                    dnsResourceGraph,
+	"dns":   dnsResourceGraph,
 	"email": emailResourceGraph,
 	//"events":                 eventsResourceGraph,
 	//"file_storage":           fileStorageResourceGraph,
@@ -597,7 +597,7 @@ var devopsResourceGraph = TerraformResourceGraph{
 		},
 	},
 }
-
+*/
 var dnsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDnsZoneHints},
@@ -614,7 +614,6 @@ var dnsResourceGraph = TerraformResourceGraph{
 		},
 	},
 }
-*/
 
 var emailResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
