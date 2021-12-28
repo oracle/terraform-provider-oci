@@ -24,6 +24,7 @@ import (
 	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
+	oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
 	oci_waas "github.com/oracle/oci-go-sdk/v54/waas"
 	oci_waf "github.com/oracle/oci-go-sdk/v54/waf"
@@ -2473,7 +2474,6 @@ var exportObjectStorageReplicationPolicyHints = &TerraformResourceHints{
 	resourceAbbreviation: "replication_policy",
 }
 
-/*
 var exportOceOceInstanceHints = &TerraformResourceHints{
 	resourceClass:          "oci_oce_oce_instance",
 	datasourceClass:        "oci_oce_oce_instances",
@@ -2484,8 +2484,6 @@ var exportOceOceInstanceHints = &TerraformResourceHints{
 		string(oci_oce.OceInstanceLifecycleStateActive),
 	},
 }
-
-*/
 
 var exportOcvpSddcHints = &TerraformResourceHints{
 	resourceClass:          "oci_ocvp_sddc",
