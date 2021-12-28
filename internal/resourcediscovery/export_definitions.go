@@ -15,6 +15,7 @@ import (
 	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
+	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
@@ -32,13 +33,6 @@ import (
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
 
-	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
-	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
-	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
-	//oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
-	//oci_datascience "github.com/oracle/oci-go-sdk/v54/datascience"
-	//oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
-	//oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
 	//oci_email "github.com/oracle/oci-go-sdk/v54/email"
 	//oci_events "github.com/oracle/oci-go-sdk/v54/events"
 	//oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
@@ -1605,7 +1599,7 @@ var exportDevopsRepositoryMirrorHints = &TerraformResourceHints{
 	resourceClass:        "oci_devops_repository_mirror",
 	resourceAbbreviation: "repository_mirror",
 }
-
+*/
 var exportDnsZoneHints = &TerraformResourceHints{
 	resourceClass:          "oci_dns_zone",
 	datasourceClass:        "oci_dns_zones",
@@ -1654,7 +1648,6 @@ var exportDnsRrsetHints = &TerraformResourceHints{
 	datasourceClass:      "oci_dns_rrset",
 	resourceAbbreviation: "rrset",
 }
-*/
 
 var exportEmailSuppressionHints = &TerraformResourceHints{
 	resourceClass:        "oci_email_suppression",

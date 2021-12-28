@@ -23,6 +23,7 @@ import (
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
 	tf_dataintegration "github.com/terraform-providers/terraform-provider-oci/internal/service/dataintegration"
+	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -428,4 +429,15 @@ func init() {
 	RegisterResource("oci_waf_web_app_firewall_policy", tf_waf.WafWebAppFirewallPolicyResource())
 	RegisterResource("oci_waf_network_address_list", tf_waf.WafNetworkAddressListResource())
 	RegisterResource("oci_waf_web_app_firewall", tf_waf.WafWebAppFirewallResource())
+
+	//DNS Service
+	RegisterResource("oci_dns_resolver_endpoint", tf_dns.DnsResolverEndpointResource())
+	RegisterResource("oci_dns_steering_policy_attachment", tf_dns.DnsSteeringPolicyAttachmentResource())
+	RegisterResource("oci_dns_tsig_key", tf_dns.DnsTsigKeyResource())
+	RegisterResource("oci_dns_view", tf_dns.DnsViewResource())
+	RegisterResource("oci_dns_resolver", tf_dns.DnsResolverResource())
+	RegisterResource("oci_dns_rrset", tf_dns.DnsRrsetResource())
+	RegisterResource("oci_dns_zone", tf_dns.DnsZoneResource())
+	RegisterResource("oci_dns_steering_policy", tf_dns.DnsSteeringPolicyResource())
+	RegisterResource("oci_dns_record", tf_dns.DnsRecordResource())
 }

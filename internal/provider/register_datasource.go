@@ -24,6 +24,7 @@ import (
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
 	tf_dataintegration "github.com/terraform-providers/terraform-provider-oci/internal/service/dataintegration"
+	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -815,4 +816,20 @@ func init() {
 	RegisterDatasource("oci_waf_network_address_lists", tf_waf.WafNetworkAddressListsDataSource())
 	RegisterDatasource("oci_waf_protection_capability_group_tags", tf_waf.WafProtectionCapabilityGroupTagsDataSource())
 
+	//DNS Service
+	RegisterDatasource("oci_dns_resolvers", tf_dns.DnsResolversDataSource())
+	RegisterDatasource("oci_dns_records", tf_dns.DnsRecordsDataSource())
+	RegisterDatasource("oci_dns_zones", tf_dns.DnsZonesDataSource())
+	RegisterDatasource("oci_dns_steering_policies", tf_dns.DnsSteeringPoliciesDataSource())
+	RegisterDatasource("oci_dns_steering_policy_attachment", tf_dns.DnsSteeringPolicyAttachmentDataSource())
+	RegisterDatasource("oci_dns_steering_policy_attachments", tf_dns.DnsSteeringPolicyAttachmentsDataSource())
+	RegisterDatasource("oci_dns_tsig_key", tf_dns.DnsTsigKeyDataSource())
+	RegisterDatasource("oci_dns_resolver", tf_dns.DnsResolverDataSource())
+	RegisterDatasource("oci_dns_tsig_keys", tf_dns.DnsTsigKeysDataSource())
+	RegisterDatasource("oci_dns_steering_policy", tf_dns.DnsSteeringPolicyDataSource())
+	RegisterDatasource("oci_dns_views", tf_dns.DnsViewsDataSource())
+	RegisterDatasource("oci_dns_rrset", tf_dns.DnsRrsetDataSource())
+	RegisterDatasource("oci_dns_resolver_endpoint", tf_dns.DnsResolverEndpointDataSource())
+	RegisterDatasource("oci_dns_view", tf_dns.DnsViewDataSource())
+	RegisterDatasource("oci_dns_resolver_endpoints", tf_dns.DnsResolverEndpointsDataSource())
 }
