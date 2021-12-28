@@ -44,13 +44,14 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"email": emailResourceGraph,
 	//"events":                 eventsResourceGraph,
 	//"file_storage":           fileStorageResourceGraph,
-	"functions": functionsResourceGraph,
-	//"golden_gate":            goldenGateResourceGraph,
-	"health_checks":    healthChecksResourceGraph,
-	"integration":      integrationResourceGraph,
-	"jms":              jmsResourceGraph,
-	"kms":              kmsResourceGraph,
-	"load_balancer":    loadBalancerResourceGraph,
+	"functions":     functionsResourceGraph,
+	"golden_gate":   goldenGateResourceGraph,
+	"health_checks": healthChecksResourceGraph,
+	"integration":   integrationResourceGraph,
+	"jms":           jmsResourceGraph,
+	"kms":           kmsResourceGraph,
+	"load_balancer": loadBalancerResourceGraph,
+	//"log_analytics":          logAnalyticsResourceGraph,
 	"logging":          loggingResourceGraph,
 	"log_analytics":    logAnalyticsResourceGraph,
 	"management_agent": managementAgentResourceGraph,
@@ -663,7 +664,6 @@ var functionsResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var goldenGateResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportGoldenGateDatabaseRegistrationHints},
@@ -671,8 +671,6 @@ var goldenGateResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportGoldenGateDeploymentBackupHints},
 	},
 }
-
-*/
 
 var healthChecksResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {

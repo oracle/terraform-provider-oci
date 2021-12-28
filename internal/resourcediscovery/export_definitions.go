@@ -15,6 +15,7 @@ import (
 	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
+	oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
 	oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
@@ -1770,7 +1771,6 @@ var exportFunctionsFunctionHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportGoldenGateDatabaseRegistrationHints = &TerraformResourceHints{
 	resourceClass:          "oci_golden_gate_database_registration",
 	datasourceClass:        "oci_golden_gate_database_registrations",
@@ -1812,8 +1812,6 @@ var exportGoldenGateDeploymentBackupHints = &TerraformResourceHints{
 		string(oci_golden_gate.LifecycleStateSucceeded),
 	},
 }
-
-*/
 
 var exportHealthChecksHttpMonitorHints = &TerraformResourceHints{
 	resourceClass:          "oci_health_checks_http_monitor",
