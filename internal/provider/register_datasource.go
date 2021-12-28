@@ -57,6 +57,7 @@ import (
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
+	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
@@ -882,6 +883,10 @@ func init() {
 	RegisterDatasource("oci_certificates_management_associations", tf_certificates_management.CertificatesManagementAssociationsDataSource())
 	RegisterDatasource("oci_certificates_management_certificate_version", tf_certificates_management.CertificatesManagementCertificateVersionDataSource())
 	RegisterDatasource("oci_certificates_management_certificate_authority_versions", tf_certificates_management.CertificatesManagementCertificateAuthorityVersionsDataSource())
+
+	// sch service
+	RegisterDatasource("oci_sch_service_connector", tf_sch.SchServiceConnectorDataSource())
+	RegisterDatasource("oci_sch_service_connectors", tf_sch.SchServiceConnectorsDataSource())
 
 	//Events Service
 	RegisterDatasource("oci_events_rule", tf_events.EventsRuleDataSource())

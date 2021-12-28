@@ -56,6 +56,7 @@ import (
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
+	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
@@ -475,4 +476,7 @@ func init() {
 
 	//Events Service
 	RegisterResource("oci_events_rule", tf_events.EventsRuleResource())
+	//sch service
+	RegisterResource("oci_sch_service_connector", tf_sch.SchServiceConnectorResource())
+
 }
