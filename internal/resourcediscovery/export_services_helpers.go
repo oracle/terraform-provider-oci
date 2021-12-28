@@ -150,7 +150,6 @@ func processContainerengineNodePool(ctx *resourceDiscoveryContext, resources []*
 	return resources, nil
 }
 
-/*
 func processStreamingStream(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, streamingStream := range resources {
 		// compartment_id conflict with stream_pool_id
@@ -162,7 +161,6 @@ func processStreamingStream(ctx *resourceDiscoveryContext, resources []*OCIResou
 	}
 	return resources, nil
 }
-*/
 func processNosqlIndex(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
 	for _, index := range resources {
 		if index.parent == nil {

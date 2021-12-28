@@ -71,10 +71,14 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"osmanagement": osmanagementResourceGraph,
 	//"sch":                    schResourceGraph,
 	//"streaming":              streamingResourceGraph,
-	"tagging":                taggingResourceGraph,
 	"vulnerability_scanning": vulnerabilityScanningResourceGraph,
 	"waas":                   waasResourceGraph,
 	"waf":                    wafResourceGraph,
+	"streaming":              streamingResourceGraph,
+	"tagging":                taggingResourceGraph,
+	//"vulnerability_scanning": vulnerabilityScanningResourceGraph,
+	//"waas":                   waasResourceGraph,
+	//"waf":                    wafResourceGraph,
 }
 
 var availabilityDomainResourceGraph = TerraformResourceGraph{
@@ -1081,7 +1085,7 @@ var schResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportSchServiceConnectorHints},
 	},
 }
-
+*/
 var streamingResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportStreamingConnectHarnessHints},
@@ -1089,7 +1093,7 @@ var streamingResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportStreamingStreamHints},
 	},
 }
-*/
+
 var usageProxyResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {},
 }

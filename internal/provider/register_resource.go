@@ -54,6 +54,7 @@ import (
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
+	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vulnerability_scanning "github.com/terraform-providers/terraform-provider-oci/internal/service/vulnerability_scanning"
 	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
@@ -444,4 +445,10 @@ func init() {
 
 	//OCE Service
 	RegisterResource("oci_oce_oce_instance", tf_oce.OceOceInstanceResource())
+
+	// streaming service
+	RegisterResource("oci_streaming_stream", tf_streaming.StreamingStreamResource())
+	RegisterResource("oci_streaming_stream_pool", tf_streaming.StreamingStreamPoolResource())
+	RegisterResource("oci_streaming_connect_harness", tf_streaming.StreamingConnectHarnessResource())
+
 }

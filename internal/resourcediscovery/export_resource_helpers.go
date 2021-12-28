@@ -796,7 +796,7 @@ func init() {
 	exportObjectStoragePreauthenticatedRequestHints.processDiscoveredResourcesFn = processObjectStoragePreauthenticatedRequest
 	exportObjectStorageReplicationPolicyHints.processDiscoveredResourcesFn = processObjectStorageReplicationPolicy
 
-	//exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
+	exportStreamingStreamHints.processDiscoveredResourcesFn = processStreamingStream
 
 	exportContainerengineNodePoolHints.processDiscoveredResourcesFn = processContainerengineNodePool
 

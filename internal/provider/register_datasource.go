@@ -56,6 +56,7 @@ import (
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
 	tf_service_catalog "github.com/terraform-providers/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
+	tf_streaming "github.com/terraform-providers/terraform-provider-oci/internal/service/streaming"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
 	tf_vulnerability_scanning "github.com/terraform-providers/terraform-provider-oci/internal/service/vulnerability_scanning"
@@ -837,4 +838,13 @@ func init() {
 	//Oce Service
 	RegisterDatasource("oci_oce_oce_instance", tf_oce.OceOceInstanceDataSource())
 	RegisterDatasource("oci_oce_oce_instances", tf_oce.OceOceInstancesDataSource())
+
+	// streaming service
+	RegisterDatasource("oci_streaming_streams", tf_streaming.StreamingStreamsDataSource())
+	RegisterDatasource("oci_streaming_stream_pool", tf_streaming.StreamingStreamPoolDataSource())
+	RegisterDatasource("oci_streaming_connect_harness", tf_streaming.StreamingConnectHarnessDataSource())
+	RegisterDatasource("oci_streaming_stream_pools", tf_streaming.StreamingStreamPoolsDataSource())
+	RegisterDatasource("oci_streaming_stream", tf_streaming.StreamingStreamDataSource())
+	RegisterDatasource("oci_streaming_connect_harnesses", tf_streaming.StreamingConnectHarnessesDataSource())
+
 }
