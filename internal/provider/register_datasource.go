@@ -56,6 +56,7 @@ import (
 	tf_service_manager_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/service_manager_proxy"
 	tf_usage_proxy "github.com/terraform-providers/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/terraform-providers/terraform-provider-oci/internal/service/vault"
+	tf_vulnerability_scanning "github.com/terraform-providers/terraform-provider-oci/internal/service/vulnerability_scanning"
 	tf_waas "github.com/terraform-providers/terraform-provider-oci/internal/service/waas"
 )
 
@@ -792,4 +793,14 @@ func init() {
 	RegisterDatasource("oci_waas_certificate", tf_waas.WaasCertificateDataSource())
 	RegisterDatasource("oci_waas_waas_policy", tf_waas.WaasWaasPolicyDataSource())
 	RegisterDatasource("oci_waas_http_redirects", tf_waas.WaasHttpRedirectsDataSource())
+
+	//Vulnerability Scanning service
+	RegisterDatasource("oci_vulnerability_scanning_host_scan_recipes", tf_vulnerability_scanning.VulnerabilityScanningHostScanRecipesDataSource())
+	RegisterDatasource("oci_vulnerability_scanning_host_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningHostScanRecipeDataSource())
+	RegisterDatasource("oci_vulnerability_scanning_container_scan_recipes", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipesDataSource())
+	RegisterDatasource("oci_vulnerability_scanning_container_scan_recipe", tf_vulnerability_scanning.VulnerabilityScanningContainerScanRecipeDataSource())
+	RegisterDatasource("oci_vulnerability_scanning_container_scan_target", tf_vulnerability_scanning.VulnerabilityScanningContainerScanTargetDataSource())
+	RegisterDatasource("oci_vulnerability_scanning_host_scan_targets", tf_vulnerability_scanning.VulnerabilityScanningHostScanTargetsDataSource())
+	RegisterDatasource("oci_vulnerability_scanning_host_scan_target", tf_vulnerability_scanning.VulnerabilityScanningHostScanTargetDataSource())
+	RegisterDatasource("oci_vulnerability_scanning_container_scan_targets", tf_vulnerability_scanning.VulnerabilityScanningContainerScanTargetsDataSource())
 }

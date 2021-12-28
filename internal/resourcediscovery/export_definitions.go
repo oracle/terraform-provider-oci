@@ -23,6 +23,7 @@ import (
 	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
+	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
 	oci_waas "github.com/oracle/oci-go-sdk/v54/waas"
 
 	//oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
@@ -2762,7 +2763,6 @@ var exportUsageProxySubscriptionRedeemableUserHints = &TerraformResourceHints{
 	resourceAbbreviation:   "subscription_redeemable_user",
 }
 
-/*
 var exportVulnerabilityScanningHostScanRecipeHints = &TerraformResourceHints{
 	resourceClass:          "oci_vulnerability_scanning_host_scan_recipe",
 	datasourceClass:        "oci_vulnerability_scanning_host_scan_recipes",
@@ -2810,7 +2810,7 @@ var exportVulnerabilityScanningContainerScanTargetHints = &TerraformResourceHint
 		string(oci_vulnerability_scanning.LifecycleStateActive),
 	},
 }
-*/
+
 var exportWaasAddressListHints = &TerraformResourceHints{
 	resourceClass:          "oci_waas_address_list",
 	datasourceClass:        "oci_waas_address_lists",
