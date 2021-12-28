@@ -46,6 +46,7 @@ import (
 	tf_mysql "github.com/terraform-providers/terraform-provider-oci/internal/service/mysql"
 	tf_nosql "github.com/terraform-providers/terraform-provider-oci/internal/service/nosql"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
+	tf_oce "github.com/terraform-providers/terraform-provider-oci/internal/service/oce"
 	tf_ocvp "github.com/terraform-providers/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
@@ -440,4 +441,7 @@ func init() {
 	RegisterResource("oci_dns_zone", tf_dns.DnsZoneResource())
 	RegisterResource("oci_dns_steering_policy", tf_dns.DnsSteeringPolicyResource())
 	RegisterResource("oci_dns_record", tf_dns.DnsRecordResource())
+
+	//OCE Service
+	RegisterResource("oci_oce_oce_instance", tf_oce.OceOceInstanceResource())
 }
