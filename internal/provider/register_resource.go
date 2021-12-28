@@ -26,6 +26,7 @@ import (
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
+	tf_golden_gate "github.com/terraform-providers/terraform-provider-oci/internal/service/golden_gate"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_identity_data_plane "github.com/terraform-providers/terraform-provider-oci/internal/service/identity_data_plane"
@@ -109,6 +110,11 @@ func init() {
 	RegisterResource("oci_functions_invoke_function", tf_functions.FunctionsInvokeFunctionResource())
 	RegisterResource("oci_functions_function", tf_functions.FunctionsFunctionResource())
 	RegisterResource("oci_functions_application", tf_functions.FunctionsApplicationResource())
+
+	// golden gate service
+	RegisterResource("oci_golden_gate_deployment", tf_golden_gate.GoldenGateDeploymentResource())
+	RegisterResource("oci_golden_gate_deployment_backup", tf_golden_gate.GoldenGateDeploymentBackupResource())
+	RegisterResource("oci_golden_gate_database_registration", tf_golden_gate.GoldenGateDatabaseRegistrationResource())
 
 	// identity service
 	RegisterResource("oci_health_checks_ping_monitor", tf_health_checks.HealthChecksPingMonitorResource())

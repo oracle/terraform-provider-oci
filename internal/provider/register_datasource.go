@@ -27,6 +27,7 @@ import (
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
+	tf_golden_gate "github.com/terraform-providers/terraform-provider-oci/internal/service/golden_gate"
 	tf_health_checks "github.com/terraform-providers/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_integration "github.com/terraform-providers/terraform-provider-oci/internal/service/integration"
@@ -143,6 +144,16 @@ func init() {
 	RegisterDatasource("oci_functions_functions", tf_functions.FunctionsFunctionsDataSource())
 	RegisterDatasource("oci_functions_application", tf_functions.FunctionsApplicationDataSource())
 	RegisterDatasource("oci_functions_function", tf_functions.FunctionsFunctionDataSource())
+
+	// golden_gate service
+	RegisterDatasource("oci_golden_gate_deployments", tf_golden_gate.GoldenGateDeploymentsDataSource())
+	RegisterDatasource("oci_golden_gate_deployment_upgrade", tf_golden_gate.GoldenGateDeploymentUpgradeDataSource())
+	RegisterDatasource("oci_golden_gate_deployment_upgrades", tf_golden_gate.GoldenGateDeploymentUpgradesDataSource())
+	RegisterDatasource("oci_golden_gate_deployment_backups", tf_golden_gate.GoldenGateDeploymentBackupsDataSource())
+	RegisterDatasource("oci_golden_gate_deployment", tf_golden_gate.GoldenGateDeploymentDataSource())
+	RegisterDatasource("oci_golden_gate_database_registration", tf_golden_gate.GoldenGateDatabaseRegistrationDataSource())
+	RegisterDatasource("oci_golden_gate_deployment_backup", tf_golden_gate.GoldenGateDeploymentBackupDataSource())
+	RegisterDatasource("oci_golden_gate_database_registrations", tf_golden_gate.GoldenGateDatabaseRegistrationsDataSource())
 
 	// identity service
 	RegisterDatasource("oci_identity_smtp_credentials", tf_identity.IdentitySmtpCredentialsDataSource())
