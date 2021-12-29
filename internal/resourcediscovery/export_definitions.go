@@ -18,6 +18,7 @@ import (
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
 	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
+	oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	oci_integration "github.com/oracle/oci-go-sdk/v54/integration"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
@@ -67,6 +68,7 @@ import (
 	//oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 
+	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	//oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
@@ -1698,7 +1700,6 @@ var exportEventsRuleHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportFileStorageFileSystemHints = &TerraformResourceHints{
 	resourceClass:        "oci_file_storage_file_system",
 	datasourceClass:      "oci_file_storage_file_systems",
@@ -1739,7 +1740,7 @@ var exportFileStorageSnapshotHints = &TerraformResourceHints{
 		string(oci_file_storage.SnapshotLifecycleStateActive),
 	},
 }
-*/
+
 var exportFunctionsApplicationHints = &TerraformResourceHints{
 	resourceClass:          "oci_functions_application",
 	datasourceClass:        "oci_functions_applications",

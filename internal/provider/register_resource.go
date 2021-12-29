@@ -28,6 +28,7 @@ import (
 	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/terraform-providers/terraform-provider-oci/internal/service/events"
+	tf_file_storage "github.com/terraform-providers/terraform-provider-oci/internal/service/file_storage"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_golden_gate "github.com/terraform-providers/terraform-provider-oci/internal/service/golden_gate"
@@ -128,6 +129,13 @@ func init() {
 	RegisterResource("oci_email_suppression", tf_email.EmailSuppressionResource())
 	RegisterResource("oci_email_email_domain", tf_email.EmailEmailDomainResource())
 	RegisterResource("oci_email_sender", tf_email.EmailSenderResource())
+
+	//file_storage service
+	RegisterResource("oci_file_storage_export", tf_file_storage.FileStorageExportResource())
+	RegisterResource("oci_file_storage_snapshot", tf_file_storage.FileStorageSnapshotResource())
+	RegisterResource("oci_file_storage_file_system", tf_file_storage.FileStorageFileSystemResource())
+	RegisterResource("oci_file_storage_export_set", tf_file_storage.FileStorageExportSetResource())
+	RegisterResource("oci_file_storage_mount_target", tf_file_storage.FileStorageMountTargetResource())
 
 	//function service
 	RegisterResource("oci_functions_invoke_function", tf_functions.FunctionsInvokeFunctionResource())
