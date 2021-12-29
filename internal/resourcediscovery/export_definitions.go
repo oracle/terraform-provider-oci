@@ -34,6 +34,7 @@ import (
 	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 	oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
 	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
+	oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
 	oci_sch "github.com/oracle/oci-go-sdk/v54/sch"
 	oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
@@ -2566,7 +2567,6 @@ var exportOperatorAccessControlOperatorControlAssignmentHints = &TerraformResour
 	},
 }
 
-/*
 var exportOpsiEnterpriseManagerBridgeHints = &TerraformResourceHints{
 	resourceClass:          "oci_opsi_enterprise_manager_bridge",
 	datasourceClass:        "oci_opsi_enterprise_manager_bridges",
@@ -2661,7 +2661,7 @@ var exportOpsiOperationsInsightsWarehouseRotateWarehouseWalletHints = &Terraform
 	resourceClass:        "oci_opsi_operations_insights_warehouse_rotate_warehouse_wallet",
 	resourceAbbreviation: "operations_insights_warehouse_rotate_warehouse_wallet",
 }
-*/
+
 var exportOptimizerProfileHints = &TerraformResourceHints{
 	resourceClass:          "oci_optimizer_profile",
 	datasourceClass:        "oci_optimizer_profiles",

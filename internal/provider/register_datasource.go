@@ -60,6 +60,7 @@ import (
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
+	tf_opsi "github.com/terraform-providers/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_resourcemanager "github.com/terraform-providers/terraform-provider-oci/internal/service/resourcemanager"
@@ -871,6 +872,26 @@ func init() {
 	RegisterDatasource("oci_log_analytics_log_analytics_log_groups", tf_log_analytics.LogAnalyticsLogAnalyticsLogGroupsDataSource())
 	RegisterDatasource("oci_log_analytics_log_analytics_object_collection_rule", tf_log_analytics.LogAnalyticsLogAnalyticsObjectCollectionRuleDataSource())
 	RegisterDatasource("oci_log_analytics_log_analytics_category", tf_log_analytics.LogAnalyticsLogAnalyticsCategoryDataSource())
+
+	// opsi service
+	RegisterDatasource("oci_opsi_operations_insights_warehouse", tf_opsi.OpsiOperationsInsightsWarehouseDataSource())
+	RegisterDatasource("oci_opsi_database_insights", tf_opsi.OpsiDatabaseInsightsDataSource())
+	RegisterDatasource("oci_opsi_exadata_insight", tf_opsi.OpsiExadataInsightDataSource())
+	RegisterDatasource("oci_opsi_awr_hubs", tf_opsi.OpsiAwrHubsDataSource())
+	RegisterDatasource("oci_opsi_database_insight", tf_opsi.OpsiDatabaseInsightDataSource())
+	RegisterDatasource("oci_opsi_enterprise_manager_bridge", tf_opsi.OpsiEnterpriseManagerBridgeDataSource())
+	RegisterDatasource("oci_opsi_host_insights", tf_opsi.OpsiHostInsightsDataSource())
+	RegisterDatasource("oci_opsi_operations_insights_warehouses", tf_opsi.OpsiOperationsInsightsWarehousesDataSource())
+	RegisterDatasource("oci_opsi_enterprise_manager_bridges", tf_opsi.OpsiEnterpriseManagerBridgesDataSource())
+	RegisterDatasource("oci_opsi_operations_insights_warehouse_user", tf_opsi.OpsiOperationsInsightsWarehouseUserDataSource())
+	RegisterDatasource("oci_opsi_operations_insights_warehouse_users", tf_opsi.OpsiOperationsInsightsWarehouseUsersDataSource())
+	RegisterDatasource("oci_opsi_host_insight", tf_opsi.OpsiHostInsightDataSource())
+	RegisterDatasource("oci_opsi_awr_hub_awr_snapshots", tf_opsi.OpsiAwrHubAwrSnapshotsDataSource())
+	RegisterDatasource("oci_opsi_operations_insights_warehouse_resource_usage_summary", tf_opsi.OpsiOperationsInsightsWarehouseResourceUsageSummaryDataSource())
+	RegisterDatasource("oci_opsi_awr_hub_awr_snapshot", tf_opsi.OpsiAwrHubAwrSnapshotDataSource())
+	RegisterDatasource("oci_opsi_awr_hub", tf_opsi.OpsiAwrHubDataSource())
+	RegisterDatasource("oci_opsi_exadata_insights", tf_opsi.OpsiExadataInsightsDataSource())
+	RegisterDatasource("oci_opsi_awr_hub_awr_sources_summary", tf_opsi.OpsiAwrHubAwrSourcesSummaryDataSource())
 
 	// osmanagement service
 	RegisterDatasource("oci_osmanagement_managed_instance", tf_osmanagement.OsmanagementManagedInstanceDataSource())
