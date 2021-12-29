@@ -29,6 +29,7 @@ import (
 	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/terraform-providers/terraform-provider-oci/internal/service/events"
+	tf_file_storage "github.com/terraform-providers/terraform-provider-oci/internal/service/file_storage"
 	tf_functions "github.com/terraform-providers/terraform-provider-oci/internal/service/functions"
 	tf_generic_artifacts_content "github.com/terraform-providers/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_golden_gate "github.com/terraform-providers/terraform-provider-oci/internal/service/golden_gate"
@@ -857,6 +858,14 @@ func init() {
 	RegisterDatasource("oci_dns_resolver_endpoint", tf_dns.DnsResolverEndpointDataSource())
 	RegisterDatasource("oci_dns_view", tf_dns.DnsViewDataSource())
 	RegisterDatasource("oci_dns_resolver_endpoints", tf_dns.DnsResolverEndpointsDataSource())
+
+	// file_storage service
+	RegisterDatasource("oci_file_storage_mount_targets", tf_file_storage.FileStorageMountTargetsDataSource())
+	RegisterDatasource("oci_file_storage_exports", tf_file_storage.FileStorageExportsDataSource())
+	RegisterDatasource("oci_file_storage_export_sets", tf_file_storage.FileStorageExportSetsDataSource())
+	RegisterDatasource("oci_file_storage_file_systems", tf_file_storage.FileStorageFileSystemsDataSource())
+	RegisterDatasource("oci_file_storage_snapshots", tf_file_storage.FileStorageSnapshotsDataSource())
+	RegisterDatasource("oci_file_storage_snapshot", tf_file_storage.FileStorageSnapshotDataSource())
 
 	//Oce Service
 	RegisterDatasource("oci_oce_oce_instance", tf_oce.OceOceInstanceDataSource())

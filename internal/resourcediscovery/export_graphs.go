@@ -43,7 +43,8 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"dns":    dnsResourceGraph,
 	"email":  emailResourceGraph,
 	"events": eventsResourceGraph,
-	//"file_storage":           fileStorageResourceGraph,
+	//"events":                 eventsResourceGraph,
+	"file_storage":  fileStorageResourceGraph,
 	"functions":     functionsResourceGraph,
 	"golden_gate":   goldenGateResourceGraph,
 	"health_checks": healthChecksResourceGraph,
@@ -94,27 +95,27 @@ var availabilityDomainResourceGraph = TerraformResourceGraph{
 		//		"availability_domain": "name",
 		//	},
 		//},
-		//{
-		//	TerraformResourceHints: exportFileStorageFileSystemHints,
-		//	datasourceQueryParams: map[string]string{
-		//		"availability_domain": "name",
-		//	},
-		//},
-		//{
-		//	TerraformResourceHints: exportFileStorageMountTargetHints,
-		//	datasourceQueryParams: map[string]string{
-		//		"availability_domain": "name",
-		//	},
-		//},
+		{
+			TerraformResourceHints: exportFileStorageFileSystemHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "name",
+			},
+		},
+		{
+			TerraformResourceHints: exportFileStorageMountTargetHints,
+			datasourceQueryParams: map[string]string{
+				"availability_domain": "name",
+			},
+		},
 	},
-	//"oci_file_storage_file_system": {
-	//	{
-	//		TerraformResourceHints: exportFileStorageSnapshotHints,
-	//		datasourceQueryParams: map[string]string{
-	//			"file_system_id": "id",
-	//		},
-	//	},
-	//},
+	"oci_file_storage_file_system": {
+		{
+			TerraformResourceHints: exportFileStorageSnapshotHints,
+			datasourceQueryParams: map[string]string{
+				"file_system_id": "id",
+			},
+		},
+	},
 }
 
 var aiAnomalyDetectionResourceGraph = TerraformResourceGraph{
@@ -640,13 +641,12 @@ var eventsResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var fileStorageResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFileStorageExportHints},
 	},
 }
-*/
+
 var functionsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFunctionsApplicationHints},
