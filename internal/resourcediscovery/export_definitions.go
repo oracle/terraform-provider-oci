@@ -19,6 +19,7 @@ import (
 	oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
 	oci_datascience "github.com/oracle/oci-go-sdk/v54/datascience"
+	oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
 	oci_dns "github.com/oracle/oci-go-sdk/v54/dns"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v54/filestorage"
 	oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
@@ -29,7 +30,10 @@ import (
 	oci_marketplace "github.com/oracle/oci-go-sdk/v54/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
+	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
+	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 	oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
+	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
 	oci_sch "github.com/oracle/oci-go-sdk/v54/sch"
 	oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
@@ -41,9 +45,9 @@ import (
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
 
+	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
-
 	//oci_data_safe "github.com/oracle/oci-go-sdk/v54/datasafe"
 	//oci_datascience "github.com/oracle/oci-go-sdk/v54/datascience"
 	//oci_devops "github.com/oracle/oci-go-sdk/v54/devops"
@@ -65,10 +69,6 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/v54/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
-	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
-	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
-
-	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
 	oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
 
 	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
@@ -78,10 +78,8 @@ import (
 	//oci_kms "github.com/oracle/oci-go-sdk/v54/keymanagement"
 	//oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
 	oci_limits "github.com/oracle/oci-go-sdk/v54/limits"
-	//oci_load_balancer "github.com/oracle/oci-go-sdk/v54/loadbalancer"
-	//oci_log_analytics "github.com/oracle/oci-go-sdk/v54/loganalytics"
-	//oci_logging "github.com/oracle/oci-go-sdk/v54/logging"
-	//oci_management_agent "github.com/oracle/oci-go-sdk/v54/managementagent"
+
+	//oci_monitoring "github.com/oracle/oci-go-sdk/v54/monitoring"
 	//oci_mysql "github.com/oracle/oci-go-sdk/v54/mysql"
 	//oci_network_load_balancer "github.com/oracle/oci-go-sdk/v54/networkloadbalancer"
 	//oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
@@ -92,6 +90,7 @@ import (
 
 	//oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
+	//oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
 	//oci_sch "github.com/oracle/oci-go-sdk/v54/sch"
 	//oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
 	//oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
@@ -1447,8 +1446,6 @@ var exportDatascienceJobRunHints = &TerraformResourceHints{
 		string(oci_datascience.JobRunLifecycleStateNeedsAttention),
 	},
 }
-
-/*
 var exportDevopsProjectHints = &TerraformResourceHints{
 	resourceClass:          "oci_devops_project",
 	datasourceClass:        "oci_devops_projects",
@@ -1606,7 +1603,7 @@ var exportDevopsRepositoryMirrorHints = &TerraformResourceHints{
 	resourceClass:        "oci_devops_repository_mirror",
 	resourceAbbreviation: "repository_mirror",
 }
-*/
+
 var exportDnsZoneHints = &TerraformResourceHints{
 	resourceClass:          "oci_dns_zone",
 	datasourceClass:        "oci_dns_zones",

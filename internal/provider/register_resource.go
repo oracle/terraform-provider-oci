@@ -28,6 +28,7 @@ import (
 	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
 	tf_dataintegration "github.com/terraform-providers/terraform-provider-oci/internal/service/dataintegration"
 	tf_datascience "github.com/terraform-providers/terraform-provider-oci/internal/service/datascience"
+	tf_devops "github.com/terraform-providers/terraform-provider-oci/internal/service/devops"
 	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/terraform-providers/terraform-provider-oci/internal/service/events"
@@ -474,6 +475,22 @@ func init() {
 	RegisterResource("oci_waf_web_app_firewall_policy", tf_waf.WafWebAppFirewallPolicyResource())
 	RegisterResource("oci_waf_network_address_list", tf_waf.WafNetworkAddressListResource())
 	RegisterResource("oci_waf_web_app_firewall", tf_waf.WafWebAppFirewallResource())
+
+	// devops service
+	RegisterResource("oci_devops_repository_mirror", tf_devops.DevopsRepositoryMirrorResource())
+	RegisterResource("oci_devops_deploy_environment", tf_devops.DevopsDeployEnvironmentResource())
+	RegisterResource("oci_devops_deploy_artifact", tf_devops.DevopsDeployArtifactResource())
+	RegisterResource("oci_devops_build_run", tf_devops.DevopsBuildRunResource())
+	RegisterResource("oci_devops_trigger", tf_devops.DevopsTriggerResource())
+	RegisterResource("oci_devops_project", tf_devops.DevopsProjectResource())
+	RegisterResource("oci_devops_connection", tf_devops.DevopsConnectionResource())
+	RegisterResource("oci_devops_deploy_pipeline", tf_devops.DevopsDeployPipelineResource())
+	RegisterResource("oci_devops_repository", tf_devops.DevopsRepositoryResource())
+	RegisterResource("oci_devops_build_pipeline_stage", tf_devops.DevopsBuildPipelineStageResource())
+	RegisterResource("oci_devops_repository_ref", tf_devops.DevopsRepositoryRefResource())
+	RegisterResource("oci_devops_build_pipeline", tf_devops.DevopsBuildPipelineResource())
+	RegisterResource("oci_devops_deploy_stage", tf_devops.DevopsDeployStageResource())
+	RegisterResource("oci_devops_deployment", tf_devops.DevopsDeploymentResource())
 
 	//DNS Service
 	RegisterResource("oci_dns_resolver_endpoint", tf_dns.DnsResolverEndpointResource())
