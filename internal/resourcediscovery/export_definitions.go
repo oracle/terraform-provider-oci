@@ -12,6 +12,7 @@ import (
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
+	oci_database_migration "github.com/oracle/oci-go-sdk/v54/databasemigration"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
@@ -1228,7 +1229,6 @@ var exportDatabaseCloudAutonomousVmClusterHints = &TerraformResourceHints{
 	},
 }
 
-/*
 var exportDatabaseMigrationMigrationHints = &TerraformResourceHints{
 	resourceClass:          "oci_database_migration_migration",
 	datasourceClass:        "oci_database_migration_migrations",
@@ -1252,7 +1252,6 @@ var exportDatabaseMigrationConnectionHints = &TerraformResourceHints{
 		string(oci_database_migration.LifecycleStatesActive),
 	},
 }
-*/
 
 var exportDatabaseToolsDatabaseToolsPrivateEndpointHints = &TerraformResourceHints{
 	resourceClass:          "oci_database_tools_database_tools_private_endpoint",

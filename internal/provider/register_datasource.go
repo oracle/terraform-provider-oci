@@ -22,6 +22,7 @@ import (
 	tf_data_safe "github.com/terraform-providers/terraform-provider-oci/internal/service/data_safe"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
 	tf_database_management "github.com/terraform-providers/terraform-provider-oci/internal/service/database_management"
+	tf_database_migration "github.com/terraform-providers/terraform-provider-oci/internal/service/database_migration"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
@@ -919,4 +920,18 @@ func init() {
 	//Events Service
 	RegisterDatasource("oci_events_rule", tf_events.EventsRuleDataSource())
 	RegisterDatasource("oci_events_rules", tf_events.EventsRulesDataSource())
+
+	//Database Migration Service
+	RegisterDatasource("oci_database_migration_migration", tf_database_migration.DatabaseMigrationMigrationDataSource())
+	RegisterDatasource("oci_database_migration_connection", tf_database_migration.DatabaseMigrationConnectionDataSource())
+	RegisterDatasource("oci_database_migration_agents", tf_database_migration.DatabaseMigrationAgentsDataSource())
+	RegisterDatasource("oci_database_migration_job_advisor_report", tf_database_migration.DatabaseMigrationJobAdvisorReportDataSource())
+	RegisterDatasource("oci_database_migration_jobs", tf_database_migration.DatabaseMigrationJobsDataSource())
+	RegisterDatasource("oci_database_migration_agent_images", tf_database_migration.DatabaseMigrationAgentImagesDataSource())
+	RegisterDatasource("oci_database_migration_agent", tf_database_migration.DatabaseMigrationAgentDataSource())
+	RegisterDatasource("oci_database_migration_migrations", tf_database_migration.DatabaseMigrationMigrationsDataSource())
+	RegisterDatasource("oci_database_migration_connections", tf_database_migration.DatabaseMigrationConnectionsDataSource())
+	RegisterDatasource("oci_database_migration_job_output", tf_database_migration.DatabaseMigrationJobOutputDataSource())
+	RegisterDatasource("oci_database_migration_migration_object_types", tf_database_migration.DatabaseMigrationMigrationObjectTypesDataSource())
+	RegisterDatasource("oci_database_migration_job", tf_database_migration.DatabaseMigrationJobDataSource())
 }

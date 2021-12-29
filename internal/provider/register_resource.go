@@ -21,6 +21,7 @@ import (
 	tf_data_safe "github.com/terraform-providers/terraform-provider-oci/internal/service/data_safe"
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
 	tf_database_management "github.com/terraform-providers/terraform-provider-oci/internal/service/database_management"
+	tf_database_migration "github.com/terraform-providers/terraform-provider-oci/internal/service/database_migration"
 	tf_database_tools "github.com/terraform-providers/terraform-provider-oci/internal/service/database_tools"
 	tf_datacatalog "github.com/terraform-providers/terraform-provider-oci/internal/service/datacatalog"
 	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
@@ -497,4 +498,10 @@ func init() {
 	//sch service
 	RegisterResource("oci_sch_service_connector", tf_sch.SchServiceConnectorResource())
 
+	//Database Migration Service
+	RegisterResource("oci_database_migration_agent", tf_database_migration.DatabaseMigrationAgentResource())
+	RegisterResource("oci_database_migration_migration", tf_database_migration.DatabaseMigrationMigrationResource())
+	RegisterResource("oci_database_migration_connection", tf_database_migration.DatabaseMigrationConnectionResource())
+	RegisterResource("oci_database_migration", tf_database_migration.DatabaseMigrationResource())
+	RegisterResource("oci_database_migration_job", tf_database_migration.DatabaseMigrationJobResource())
 }
