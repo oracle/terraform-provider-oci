@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"net/url"
 
+	tf_datascience "github.com/terraform-providers/terraform-provider-oci/internal/service/datascience"
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/devops"
+	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_log_analytics "github.com/terraform-providers/terraform-provider-oci/internal/service/log_analytics"
 
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/apm_config"
@@ -27,7 +30,6 @@ import (
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
 
 	tf_database "github.com/terraform-providers/terraform-provider-oci/internal/service/database"
-	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
 	tf_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/load_balancer"
 	network_load_balancer "github.com/terraform-providers/terraform-provider-oci/internal/service/network_load_balancer"
 	tf_objectstorage "github.com/terraform-providers/terraform-provider-oci/internal/service/objectstorage"
@@ -53,9 +55,11 @@ func init() {
 	exportDatabaseVmClusterNetworkHints.getIdFn = getDatabaseVmClusterNetworkId
 	exportDatacatalogDataAssetHints.getIdFn = getDatacatalogDataAssetId
 	exportDatacatalogConnectionHints.getIdFn = getDatacatalogConnectionId
-	//exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
-	//exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
+	exportDatascienceModelProvenanceHints.getIdFn = getDatascienceModelProvenanceId
+	exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
 	exportDnsRrsetHints.getIdFn = getDnsRrsetId
+	exportDevopsRepositoryRefHints.getIdFn = getDevopsRepositoryRefId
+	//exportDnsRrsetHints.getIdFn = getDnsRrsetId
 	exportIdentityApiKeyHints.getIdFn = getIdentityApiKeyId
 	exportIdentityAuthTokenHints.getIdFn = getIdentityAuthTokenId
 	exportIdentityCustomerSecretKeyHints.getIdFn = getIdentityCustomerSecretKeyId
@@ -257,11 +261,10 @@ func getDatacatalogConnectionId(resource *OCIResource) (string, error) {
 	return tf_datacatalog.GetConnectionCompositeId(catalogId, connectionKey, dataAssetKey), nil
 }
 
-/*
 func getDatascienceModelProvenanceId(resource *OCIResource) (string, error) {
 
 	modelId := resource.parent.id
-	return getModelProvenanceCompositeId(modelId), nil
+	return tf_datascience.GetModelProvenanceCompositeId(modelId), nil
 }
 
 func getDevopsRepositoryRefId(resource *OCIResource) (string, error) {
@@ -271,9 +274,9 @@ func getDevopsRepositoryRefId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find refName for Devops RepositoryRef")
 	}
 	repositoryId := resource.parent.id
-	return getRepositoryRefCompositeId(refName, repositoryId), nil
+	return devops.GetRepositoryRefCompositeId(refName, repositoryId), nil
 }
-*/
+
 func getDnsRrsetId(resource *OCIResource) (string, error) {
 
 	domain, ok := resource.sourceAttributes["domain"].(string)

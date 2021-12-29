@@ -29,6 +29,7 @@ import (
 	tf_dataflow "github.com/terraform-providers/terraform-provider-oci/internal/service/dataflow"
 	tf_dataintegration "github.com/terraform-providers/terraform-provider-oci/internal/service/dataintegration"
 	tf_datascience "github.com/terraform-providers/terraform-provider-oci/internal/service/datascience"
+	tf_devops "github.com/terraform-providers/terraform-provider-oci/internal/service/devops"
 	tf_dns "github.com/terraform-providers/terraform-provider-oci/internal/service/dns"
 	tf_email "github.com/terraform-providers/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/terraform-providers/terraform-provider-oci/internal/service/events"
@@ -803,6 +804,52 @@ func init() {
 	RegisterDatasource("oci_datascience_job_run", tf_datascience.DatascienceJobRunDataSource())
 	RegisterDatasource("oci_datascience_models", tf_datascience.DatascienceModelsDataSource())
 	RegisterDatasource("oci_datascience_notebook_session", tf_datascience.DatascienceNotebookSessionDataSource())
+
+	// devops service
+	RegisterDatasource("oci_devops_deploy_artifact", tf_devops.DevopsDeployArtifactDataSource())
+	RegisterDatasource("oci_devops_repository_diff", tf_devops.DevopsRepositoryDiffDataSource())
+	//RegisterDatasource("oci_devops_external_git_branch", tf_devops.DevopsExternalGitBranchDataSource())
+	RegisterDatasource("oci_devops_repository_diffs", tf_devops.DevopsRepositoryDiffsDataSource())
+	RegisterDatasource("oci_devops_deploy_pipelines", tf_devops.DevopsDeployPipelinesDataSource())
+	RegisterDatasource("oci_devops_repository_paths", tf_devops.DevopsRepositoryPathsDataSource())
+	RegisterDatasource("oci_devops_triggers", tf_devops.DevopsTriggersDataSource())
+	RegisterDatasource("oci_devops_build_runs", tf_devops.DevopsBuildRunsDataSource())
+	RegisterDatasource("oci_devops_build_pipeline_stages", tf_devops.DevopsBuildPipelineStagesDataSource())
+	RegisterDatasource("oci_devops_repository_path", tf_devops.DevopsRepositoryPathDataSource())
+	//	RegisterDatasource("oci_devops_repository_garbage_collection_statu", tf_devops.DevopsRepositoryGarbageCollectionStatuDataSource())
+	RegisterDatasource("oci_devops_deploy_stage", tf_devops.DevopsDeployStageDataSource())
+	RegisterDatasource("oci_devops_trigger", tf_devops.DevopsTriggerDataSource())
+	RegisterDatasource("oci_devops_project", tf_devops.DevopsProjectDataSource())
+	RegisterDatasource("oci_devops_deploy_environment", tf_devops.DevopsDeployEnvironmentDataSource())
+	RegisterDatasource("oci_devops_repository_mirror_records", tf_devops.DevopsRepositoryMirrorRecordsDataSource())
+	RegisterDatasource("oci_devops_deploy_artifacts", tf_devops.DevopsDeployArtifactsDataSource())
+	RegisterDatasource("oci_devops_repository_ref", tf_devops.DevopsRepositoryRefDataSource())
+	RegisterDatasource("oci_devops_projects", tf_devops.DevopsProjectsDataSource())
+	RegisterDatasource("oci_devops_repository_mirrorrecord", tf_devops.DevopsRepositoryMirrorrecordDataSource())
+	RegisterDatasource("oci_devops_repository_authors", tf_devops.DevopsRepositoryAuthorsDataSource())
+	RegisterDatasource("oci_devops_repository_object_content", tf_devops.DevopsRepositoryObjectContentDataSource())
+	RegisterDatasource("oci_devops_deployment", tf_devops.DevopsDeploymentDataSource())
+	RegisterDatasource("oci_devops_repository_archive_content", tf_devops.DevopsRepositoryArchiveContentDataSource())
+	RegisterDatasource("oci_devops_build_pipeline_stage", tf_devops.DevopsBuildPipelineStageDataSource())
+	RegisterDatasource("oci_devops_deploy_stages", tf_devops.DevopsDeployStagesDataSource())
+	RegisterDatasource("oci_devops_repository_commits", tf_devops.DevopsRepositoryCommitsDataSource())
+	RegisterDatasource("oci_devops_connections", tf_devops.DevopsConnectionsDataSource())
+	RegisterDatasource("oci_devops_repository_commit", tf_devops.DevopsRepositoryCommitDataSource())
+	RegisterDatasource("oci_devops_build_run", tf_devops.DevopsBuildRunDataSource())
+	RegisterDatasource("oci_devops_repository_object", tf_devops.DevopsRepositoryObjectDataSource())
+	RegisterDatasource("oci_devops_repository_file_line", tf_devops.DevopsRepositoryFileLineDataSource())
+	RegisterDatasource("oci_devops_connection", tf_devops.DevopsConnectionDataSource())
+	RegisterDatasource("oci_devops_deployments", tf_devops.DevopsDeploymentsDataSource())
+	RegisterDatasource("oci_devops_build_pipelines", tf_devops.DevopsBuildPipelinesDataSource())
+	RegisterDatasource("oci_devops_build_pipeline", tf_devops.DevopsBuildPipelineDataSource())
+	RegisterDatasource("oci_devops_deploy_environments", tf_devops.DevopsDeployEnvironmentsDataSource())
+	RegisterDatasource("oci_devops_repository", tf_devops.DevopsRepositoryDataSource())
+	RegisterDatasource("oci_devops_repository_mirror_record", tf_devops.DevopsRepositoryMirrorRecordDataSource())
+	RegisterDatasource("oci_devops_repository_refs", tf_devops.DevopsRepositoryRefsDataSource())
+	//	RegisterDatasource("oci_devops_external_git_repository", tf_devops.DevopsExternalGitRepositoryDataSource())
+	RegisterDatasource("oci_devops_repositories", tf_devops.DevopsRepositoriesDataSource())
+	RegisterDatasource("oci_devops_deploy_pipeline", tf_devops.DevopsDeployPipelineDataSource())
+	RegisterDatasource("oci_devops_repository_author", tf_devops.DevopsRepositoryAuthorDataSource())
 
 	// log_analytics service
 	RegisterDatasource("oci_log_analytics_log_analytics_entities_summary", tf_log_analytics.LogAnalyticsLogAnalyticsEntitiesSummaryDataSource())

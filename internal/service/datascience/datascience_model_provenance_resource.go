@@ -110,7 +110,7 @@ type DatascienceModelProvenanceResourceCrud struct {
 }
 
 func (s *DatascienceModelProvenanceResourceCrud) ID() string {
-	return getModelProvenanceCompositeId(s.D.Get("model_id").(string))
+	return GetModelProvenanceCompositeId(s.D.Get("model_id").(string))
 }
 
 func (s *DatascienceModelProvenanceResourceCrud) Create() error {
@@ -273,7 +273,7 @@ func (s *DatascienceModelProvenanceResourceCrud) SetData() error {
 	return nil
 }
 
-func getModelProvenanceCompositeId(modelId string) string {
+func GetModelProvenanceCompositeId(modelId string) string {
 	modelId = url.PathEscape(modelId)
 	compositeId := "models/" + modelId + "/provenance"
 	return compositeId

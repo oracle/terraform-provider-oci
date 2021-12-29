@@ -24,8 +24,6 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"artifacts":            artifactsResourceGraph,
 	"auto_scaling":         autoScalingResourceGraph,
 	"apm_synthetics":       apmSyntheticsResourceGraph,
-	//"artifacts":              artifactsResourceGraph,
-	//"auto_scaling":           autoScalingResourceGraph,
 	//"bastion":                bastionResourceGraph,
 	"bds":                   bdsResourceGraph,
 	"blockchain":            blockchainResourceGraph,
@@ -41,10 +39,10 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"dataflow":              dataflowResourceGraph,
 	"dataintegration":       dataintegrationResourceGraph,
 	"datascience":           datascienceResourceGraph,
-	//"devops":                 devopsResourceGraph,
-	"dns":    dnsResourceGraph,
-	"email":  emailResourceGraph,
-	"events": eventsResourceGraph,
+	"devops":                devopsResourceGraph,
+	"dns":                   dnsResourceGraph,
+	"email":                 emailResourceGraph,
+	"events":                eventsResourceGraph,
 	//"events":                 eventsResourceGraph,
 	"file_storage":  fileStorageResourceGraph,
 	"functions":     functionsResourceGraph,
@@ -569,7 +567,6 @@ var datascienceResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var devopsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDevopsProjectHints},
@@ -594,7 +591,7 @@ var devopsResourceGraph = TerraformResourceGraph{
 		},
 	},
 }
-*/
+
 var dnsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDnsZoneHints},
