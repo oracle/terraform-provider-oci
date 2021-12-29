@@ -60,6 +60,7 @@ import (
 	tf_oda "github.com/terraform-providers/terraform-provider-oci/internal/service/oda"
 	tf_ons "github.com/terraform-providers/terraform-provider-oci/internal/service/ons"
 	tf_operator_access_control "github.com/terraform-providers/terraform-provider-oci/internal/service/operator_access_control"
+	tf_opsi "github.com/terraform-providers/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/terraform-providers/terraform-provider-oci/internal/service/optimizer"
 	tf_osmanagement "github.com/terraform-providers/terraform-provider-oci/internal/service/osmanagement"
 	tf_sch "github.com/terraform-providers/terraform-provider-oci/internal/service/sch"
@@ -364,6 +365,17 @@ func init() {
 	//ONS Service
 	RegisterResource("oci_ons_notification_topic", tf_ons.OnsNotificationTopicResource())
 	RegisterResource("oci_ons_subscription", tf_ons.OnsSubscriptionResource())
+
+	// opsi service
+	RegisterResource("oci_opsi_operations_insights_warehouse", tf_opsi.OpsiOperationsInsightsWarehouseResource())
+	RegisterResource("oci_opsi_exadata_insight", tf_opsi.OpsiExadataInsightResource())
+	RegisterResource("oci_opsi_database_insight", tf_opsi.OpsiDatabaseInsightResource())
+	RegisterResource("oci_opsi_operations_insights_warehouse_rotate_warehouse_wallet", tf_opsi.OpsiOperationsInsightsWarehouseRotateWarehouseWalletResource())
+	RegisterResource("oci_opsi_operations_insights_warehouse_download_warehouse_wallet", tf_opsi.OpsiOperationsInsightsWarehouseDownloadWarehouseWalletResource())
+	RegisterResource("oci_opsi_enterprise_manager_bridge", tf_opsi.OpsiEnterpriseManagerBridgeResource())
+	RegisterResource("oci_opsi_operations_insights_warehouse_user", tf_opsi.OpsiOperationsInsightsWarehouseUserResource())
+	RegisterResource("oci_opsi_host_insight", tf_opsi.OpsiHostInsightResource())
+	RegisterResource("oci_opsi_awr_hub", tf_opsi.OpsiAwrHubResource())
 
 	// database_tools service
 	RegisterResource("oci_database_tools_database_tools_connection", tf_database_tools.DatabaseToolsDatabaseToolsConnectionResource())

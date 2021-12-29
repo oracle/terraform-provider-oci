@@ -68,7 +68,7 @@ var compartmentResourceGraphs = map[string]TerraformResourceGraph{
 	"ocvp":           ocvpResourceGraph,
 	"oda":            odaResourceGraph,
 	//"ons":                    onsResourceGraph,
-	//"opsi":                   opsiResourceGraph,
+	"opsi":         opsiResourceGraph,
 	"osmanagement": osmanagementResourceGraph,
 	"sch":          schResourceGraph,
 	//"streaming":              streamingResourceGraph,
@@ -1027,7 +1027,6 @@ var operatorAccessControlResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
 var opsiResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOpsiEnterpriseManagerBridgeHints},
@@ -1051,7 +1050,6 @@ var opsiResourceGraph = TerraformResourceGraph{
 		},
 	},
 }
-*/
 var optimizerResourceGraph = TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportOptimizerProfileHints},
