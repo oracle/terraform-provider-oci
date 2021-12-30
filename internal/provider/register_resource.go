@@ -13,6 +13,7 @@ import (
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
+	tf_certificates_management "github.com/terraform-providers/terraform-provider-oci/internal/service/certificates_management"
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_containerengine "github.com/terraform-providers/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/terraform-providers/terraform-provider-oci/internal/service/core"
@@ -451,4 +452,8 @@ func init() {
 	RegisterResource("oci_streaming_stream_pool", tf_streaming.StreamingStreamPoolResource())
 	RegisterResource("oci_streaming_connect_harness", tf_streaming.StreamingConnectHarnessResource())
 
+	//Certificates Management Service
+	RegisterResource("oci_certificates_management_certificate", tf_certificates_management.CertificatesManagementCertificateResource())
+	RegisterResource("oci_certificates_management_ca_bundle", tf_certificates_management.CertificatesManagementCaBundleResource())
+	RegisterResource("oci_certificates_management_certificate_authority", tf_certificates_management.CertificatesManagementCertificateAuthorityResource())
 }

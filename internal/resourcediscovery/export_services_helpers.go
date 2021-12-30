@@ -1217,156 +1217,156 @@ func processCoreVcns(ctx *resourceDiscoveryContext, resources []*OCIResource) ([
 	return resources, nil
 }
 
-//func processCertificateAuthorities(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-//	for _, resource := range resources {
-//		certificateAuthorityConfigMap := map[string]interface{}{}
-//		if configType, ok := resource.sourceAttributes["config_type"].(string); ok {
-//			certificateAuthorityConfigMap["config_type"] = configType
-//		}
-//
-//		if subjects, ok := resource.sourceAttributes["subject"].([]interface{}); ok {
-//			if subject, ok := subjects[0].(map[string]interface{}); ok {
-//				certificateAuthorityConfigMap["subject"] = []interface{}{subject}
-//			}
-//		}
-//
-//		if issuerCertificateAuthorityId, ok := resource.sourceAttributes["issuer_certificate_authority_id"].(string); ok {
-//			certificateAuthorityConfigMap["issuer_certificate_authority_id"] = issuerCertificateAuthorityId
-//		}
-//
-//		if signingAlgorithm, ok := resource.sourceAttributes["signing_algorithm"].(string); ok {
-//			certificateAuthorityConfigMap["signing_algorithm"] = signingAlgorithm
-//		}
-//
-//		if currentVersions, ok := resource.sourceAttributes["current_version"].([]interface{}); ok {
-//			if currentVersion, ok := currentVersions[0].(map[string]interface{}); ok {
-//				if validity, ok := currentVersion["validity"].([]interface{}); ok {
-//					validityMap := map[string]interface{}{}
-//					if timeOfValidityNotAfter, ok := validity[0].(map[string]interface{})["time_of_validity_not_after"]; ok {
-//						// Check if time is already in RFC3339Nano format
-//						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotAfter.(string))
-//						if err != nil {
-//							// parse time using format in time.String()
-//							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotAfter.(string))
-//							if err != nil {
-//								return resources, err
-//							}
-//							// Format to RFC3339Nano
-//							validityMap["time_of_validity_not_after"] = tmp.Format(time.RFC3339Nano)
-//						}
-//					}
-//					if timeOfValidityNotBefore, ok := validity[0].(map[string]interface{})["time_of_validity_not_before"]; ok {
-//						// Check if time is already in RFC3339Nano format
-//						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotBefore.(string))
-//						if err != nil {
-//							// parse time using format in time.String()
-//							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotBefore.(string))
-//							if err != nil {
-//								return resources, err
-//							}
-//							// Format to RFC3339Nano
-//							validityMap["time_of_validity_not_before"] = tmp.Format(time.RFC3339Nano)
-//						}
-//					}
-//
-//					certificateAuthorityConfigMap["validity"] = []interface{}{validityMap}
-//				}
-//
-//				if versionName, ok := currentVersion["version_name"].(string); ok {
-//					certificateAuthorityConfigMap["version_name"] = versionName
-//				}
-//			}
-//		}
-//
-//		resource.sourceAttributes["certificate_authority_config"] = []interface{}{certificateAuthorityConfigMap}
-//	}
-//
-//	return resources, nil
-//}
-//
-//func processCertificates(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
-//	for _, resource := range resources {
-//		certificateConfigMap := map[string]interface{}{}
-//		if configType, ok := resource.sourceAttributes["config_type"].(string); ok {
-//			certificateConfigMap["config_type"] = configType
-//		}
-//
-//		if profileType, ok := resource.sourceAttributes["certificate_profile_type"].(string); ok {
-//			certificateConfigMap["certificate_profile_type"] = profileType
-//		}
-//
-//		if csrPem, ok := resource.sourceAttributes["csr_pem"].(string); ok {
-//			certificateConfigMap["csr_pem"] = csrPem
-//		}
-//
-//		if issuerCertificateAuthorityId, ok := resource.sourceAttributes["issuer_certificate_authority_id"].(string); ok {
-//			certificateConfigMap["issuer_certificate_authority_id"] = issuerCertificateAuthorityId
-//		}
-//
-//		if keyAlgorithm, ok := resource.sourceAttributes["key_algorithm"].(string); ok {
-//			certificateConfigMap["key_algorithm"] = keyAlgorithm
-//		}
-//
-//		if signatureAlgorithm, ok := resource.sourceAttributes["signature_algorithm"].(string); ok {
-//			certificateConfigMap["signature_algorithm"] = signatureAlgorithm
-//		}
-//
-//		if subjects, ok := resource.sourceAttributes["subject"].([]interface{}); ok {
-//			if subject, ok := subjects[0].(map[string]interface{}); ok {
-//				certificateConfigMap["subject"] = []interface{}{subject}
-//			}
-//		}
-//
-//		if currentVersions, ok := resource.sourceAttributes["current_version"].([]interface{}); ok {
-//			if currentVersion, ok := currentVersions[0].(map[string]interface{}); ok {
-//				if validity, ok := currentVersion["validity"].([]interface{}); ok {
-//					validityMap := map[string]interface{}{}
-//					if timeOfValidityNotAfter, ok := validity[0].(map[string]interface{})["time_of_validity_not_after"]; ok {
-//						// Check if time is already in RFC3339Nano format
-//						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotAfter.(string))
-//						if err != nil {
-//							// parse time using format in time.String()
-//							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotAfter.(string))
-//							if err != nil {
-//								return resources, err
-//							}
-//							// Format to RFC3339Nano
-//							validityMap["time_of_validity_not_after"] = tmp.Format(time.RFC3339Nano)
-//						}
-//					}
-//					if timeOfValidityNotBefore, ok := validity[0].(map[string]interface{})["time_of_validity_not_before"]; ok {
-//						// Check if time is already in RFC3339Nano format
-//						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotBefore.(string))
-//						if err != nil {
-//							// parse time using format in time.String()
-//							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotBefore.(string))
-//							if err != nil {
-//								return resources, err
-//							}
-//							// Format to RFC3339Nano
-//							validityMap["time_of_validity_not_before"] = tmp.Format(time.RFC3339Nano)
-//						}
-//					}
-//
-//					certificateConfigMap["validity"] = []interface{}{validityMap}
-//				}
-//
-//				if versionName, ok := currentVersion["version_name"].(string); ok {
-//					certificateConfigMap["version_name"] = versionName
-//				}
-//
-//				if subjectAlternativeNames, ok := currentVersion["subject_alternative_names"].([]interface{}); ok {
-//					tmp := []interface{}{}
-//					for _, item := range subjectAlternativeNames {
-//						tmp = append(tmp, item)
-//					}
-//					certificateConfigMap["subject_alternative_names"] = tmp
-//				}
-//			}
-//		}
-//
-//		resource.sourceAttributes["certificate_config"] = []interface{}{certificateConfigMap}
-//	}
-//
-//	return resources, nil
-//}
+func processCertificateAuthorities(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		certificateAuthorityConfigMap := map[string]interface{}{}
+		if configType, ok := resource.sourceAttributes["config_type"].(string); ok {
+			certificateAuthorityConfigMap["config_type"] = configType
+		}
+
+		if subjects, ok := resource.sourceAttributes["subject"].([]interface{}); ok {
+			if subject, ok := subjects[0].(map[string]interface{}); ok {
+				certificateAuthorityConfigMap["subject"] = []interface{}{subject}
+			}
+		}
+
+		if issuerCertificateAuthorityId, ok := resource.sourceAttributes["issuer_certificate_authority_id"].(string); ok {
+			certificateAuthorityConfigMap["issuer_certificate_authority_id"] = issuerCertificateAuthorityId
+		}
+
+		if signingAlgorithm, ok := resource.sourceAttributes["signing_algorithm"].(string); ok {
+			certificateAuthorityConfigMap["signing_algorithm"] = signingAlgorithm
+		}
+
+		if currentVersions, ok := resource.sourceAttributes["current_version"].([]interface{}); ok {
+			if currentVersion, ok := currentVersions[0].(map[string]interface{}); ok {
+				if validity, ok := currentVersion["validity"].([]interface{}); ok {
+					validityMap := map[string]interface{}{}
+					if timeOfValidityNotAfter, ok := validity[0].(map[string]interface{})["time_of_validity_not_after"]; ok {
+						// Check if time is already in RFC3339Nano format
+						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotAfter.(string))
+						if err != nil {
+							// parse time using format in time.String()
+							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotAfter.(string))
+							if err != nil {
+								return resources, err
+							}
+							// Format to RFC3339Nano
+							validityMap["time_of_validity_not_after"] = tmp.Format(time.RFC3339Nano)
+						}
+					}
+					if timeOfValidityNotBefore, ok := validity[0].(map[string]interface{})["time_of_validity_not_before"]; ok {
+						// Check if time is already in RFC3339Nano format
+						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotBefore.(string))
+						if err != nil {
+							// parse time using format in time.String()
+							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotBefore.(string))
+							if err != nil {
+								return resources, err
+							}
+							// Format to RFC3339Nano
+							validityMap["time_of_validity_not_before"] = tmp.Format(time.RFC3339Nano)
+						}
+					}
+
+					certificateAuthorityConfigMap["validity"] = []interface{}{validityMap}
+				}
+
+				if versionName, ok := currentVersion["version_name"].(string); ok {
+					certificateAuthorityConfigMap["version_name"] = versionName
+				}
+			}
+		}
+
+		resource.sourceAttributes["certificate_authority_config"] = []interface{}{certificateAuthorityConfigMap}
+	}
+
+	return resources, nil
+}
+
+func processCertificates(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		certificateConfigMap := map[string]interface{}{}
+		if configType, ok := resource.sourceAttributes["config_type"].(string); ok {
+			certificateConfigMap["config_type"] = configType
+		}
+
+		if profileType, ok := resource.sourceAttributes["certificate_profile_type"].(string); ok {
+			certificateConfigMap["certificate_profile_type"] = profileType
+		}
+
+		if csrPem, ok := resource.sourceAttributes["csr_pem"].(string); ok {
+			certificateConfigMap["csr_pem"] = csrPem
+		}
+
+		if issuerCertificateAuthorityId, ok := resource.sourceAttributes["issuer_certificate_authority_id"].(string); ok {
+			certificateConfigMap["issuer_certificate_authority_id"] = issuerCertificateAuthorityId
+		}
+
+		if keyAlgorithm, ok := resource.sourceAttributes["key_algorithm"].(string); ok {
+			certificateConfigMap["key_algorithm"] = keyAlgorithm
+		}
+
+		if signatureAlgorithm, ok := resource.sourceAttributes["signature_algorithm"].(string); ok {
+			certificateConfigMap["signature_algorithm"] = signatureAlgorithm
+		}
+
+		if subjects, ok := resource.sourceAttributes["subject"].([]interface{}); ok {
+			if subject, ok := subjects[0].(map[string]interface{}); ok {
+				certificateConfigMap["subject"] = []interface{}{subject}
+			}
+		}
+
+		if currentVersions, ok := resource.sourceAttributes["current_version"].([]interface{}); ok {
+			if currentVersion, ok := currentVersions[0].(map[string]interface{}); ok {
+				if validity, ok := currentVersion["validity"].([]interface{}); ok {
+					validityMap := map[string]interface{}{}
+					if timeOfValidityNotAfter, ok := validity[0].(map[string]interface{})["time_of_validity_not_after"]; ok {
+						// Check if time is already in RFC3339Nano format
+						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotAfter.(string))
+						if err != nil {
+							// parse time using format in time.String()
+							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotAfter.(string))
+							if err != nil {
+								return resources, err
+							}
+							// Format to RFC3339Nano
+							validityMap["time_of_validity_not_after"] = tmp.Format(time.RFC3339Nano)
+						}
+					}
+					if timeOfValidityNotBefore, ok := validity[0].(map[string]interface{})["time_of_validity_not_before"]; ok {
+						// Check if time is already in RFC3339Nano format
+						tmp, err := time.Parse(time.RFC3339Nano, timeOfValidityNotBefore.(string))
+						if err != nil {
+							// parse time using format in time.String()
+							tmp, err = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", timeOfValidityNotBefore.(string))
+							if err != nil {
+								return resources, err
+							}
+							// Format to RFC3339Nano
+							validityMap["time_of_validity_not_before"] = tmp.Format(time.RFC3339Nano)
+						}
+					}
+
+					certificateConfigMap["validity"] = []interface{}{validityMap}
+				}
+
+				if versionName, ok := currentVersion["version_name"].(string); ok {
+					certificateConfigMap["version_name"] = versionName
+				}
+
+				if subjectAlternativeNames, ok := currentVersion["subject_alternative_names"].([]interface{}); ok {
+					tmp := []interface{}{}
+					for _, item := range subjectAlternativeNames {
+						tmp = append(tmp, item)
+					}
+					certificateConfigMap["subject_alternative_names"] = tmp
+				}
+			}
+		}
+
+		resource.sourceAttributes["certificate_config"] = []interface{}{certificateConfigMap}
+	}
+
+	return resources, nil
+}

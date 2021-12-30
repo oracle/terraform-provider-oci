@@ -13,6 +13,7 @@ import (
 	tf_bds "github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
 	tf_blockchain "github.com/terraform-providers/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/terraform-providers/terraform-provider-oci/internal/service/budget"
+	tf_certificates_management "github.com/terraform-providers/terraform-provider-oci/internal/service/certificates_management"
 	tf_cloud_guard "github.com/terraform-providers/terraform-provider-oci/internal/service/cloud_guard"
 	tf_computeinstanceagent "github.com/terraform-providers/terraform-provider-oci/internal/service/computeinstanceagent"
 	tf_containerengine "github.com/terraform-providers/terraform-provider-oci/internal/service/containerengine"
@@ -847,4 +848,17 @@ func init() {
 	RegisterDatasource("oci_streaming_stream", tf_streaming.StreamingStreamDataSource())
 	RegisterDatasource("oci_streaming_connect_harnesses", tf_streaming.StreamingConnectHarnessesDataSource())
 
+	//Certificates Management Service
+	RegisterDatasource("oci_certificates_management_certificate_authority", tf_certificates_management.CertificatesManagementCertificateAuthorityDataSource())
+	RegisterDatasource("oci_certificates_management_certificate_authority_version", tf_certificates_management.CertificatesManagementCertificateAuthorityVersionDataSource())
+	RegisterDatasource("oci_certificates_management_ca_bundle", tf_certificates_management.CertificatesManagementCaBundleDataSource())
+	RegisterDatasource("oci_certificates_management_certificates", tf_certificates_management.CertificatesManagementCertificatesDataSource())
+	RegisterDatasource("oci_certificates_management_certificate", tf_certificates_management.CertificatesManagementCertificateDataSource())
+	RegisterDatasource("oci_certificates_management_ca_bundles", tf_certificates_management.CertificatesManagementCaBundlesDataSource())
+	RegisterDatasource("oci_certificates_management_certificate_authorities", tf_certificates_management.CertificatesManagementCertificateAuthoritiesDataSource())
+	RegisterDatasource("oci_certificates_management_certificate_versions", tf_certificates_management.CertificatesManagementCertificateVersionsDataSource())
+	RegisterDatasource("oci_certificates_management_association", tf_certificates_management.CertificatesManagementAssociationDataSource())
+	RegisterDatasource("oci_certificates_management_associations", tf_certificates_management.CertificatesManagementAssociationsDataSource())
+	RegisterDatasource("oci_certificates_management_certificate_version", tf_certificates_management.CertificatesManagementCertificateVersionDataSource())
+	RegisterDatasource("oci_certificates_management_certificate_authority_versions", tf_certificates_management.CertificatesManagementCertificateAuthorityVersionsDataSource())
 }
