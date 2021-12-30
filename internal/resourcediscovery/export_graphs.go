@@ -231,8 +231,6 @@ var budgetResourceGraph = TerraformResourceGraph{
 	},
 }
 
-/*
-
 var certificatesManagementResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCertificatesManagementCaBundleHints},
@@ -240,8 +238,6 @@ var certificatesManagementResourceGraph = TerraformResourceGraph{
 		{TerraformResourceHints: exportCertificatesManagementCertificateHints},
 	},
 }
-
-*/
 
 var cloudGuardResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {

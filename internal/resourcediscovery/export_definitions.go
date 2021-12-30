@@ -10,6 +10,7 @@ import (
 	oci_apm "github.com/oracle/oci-go-sdk/v54/apmcontrolplane"
 	oci_artifacts "github.com/oracle/oci-go-sdk/v54/artifacts"
 	oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
+	oci_certificates_management "github.com/oracle/oci-go-sdk/v54/certificatesmanagement"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v54/containerengine"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v54/datacatalog"
 	oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
@@ -365,8 +366,6 @@ var exportBudgetAlertRuleHints = &TerraformResourceHints{
 	},
 }
 
-/*
-
 var exportCertificatesManagementCaBundleHints = &TerraformResourceHints{
 	resourceClass:          "oci_certificates_management_ca_bundle",
 	datasourceClass:        "oci_certificates_management_ca_bundles",
@@ -402,8 +401,6 @@ var exportCertificatesManagementCertificateHints = &TerraformResourceHints{
 		string(oci_certificates_management.CertificateLifecycleStateActive),
 	},
 }
-
-*/
 
 var exportCloudGuardTargetHints = &TerraformResourceHints{
 	resourceClass:          "oci_cloud_guard_target",

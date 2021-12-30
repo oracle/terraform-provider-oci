@@ -826,9 +826,9 @@ func init() {
 
 	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.findResourcesOverrideFn = findLogAnalyticsObjectCollectionRules
 	//exportLogAnalyticsLogAnalyticsObjectCollectionRuleHints.processDiscoveredResourcesFn = processLogAnalyticsObjectCollectionRules
-	//
-	//exportCertificatesManagementCertificateAuthorityHints.processDiscoveredResourcesFn = processCertificateAuthorities
-	//exportCertificatesManagementCertificateHints.processDiscoveredResourcesFn = processCertificates
+
+	exportCertificatesManagementCertificateAuthorityHints.processDiscoveredResourcesFn = processCertificateAuthorities
+	exportCertificatesManagementCertificateHints.processDiscoveredResourcesFn = processCertificates
 }
 
 /*
