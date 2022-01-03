@@ -34,7 +34,7 @@ import (
 	oci_nosql "github.com/oracle/oci-go-sdk/v54/nosql"
 	oci_oce "github.com/oracle/oci-go-sdk/v54/oce"
 	oci_ons "github.com/oracle/oci-go-sdk/v54/ons"
-	oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v54/operationsinsights"
 	oci_sch "github.com/oracle/oci-go-sdk/v54/sch"
 	oci_streaming "github.com/oracle/oci-go-sdk/v54/streaming"
 	oci_vulnerability_scanning "github.com/oracle/oci-go-sdk/v54/vulnerabilityscanning"
@@ -90,7 +90,7 @@ import (
 	oci_oda "github.com/oracle/oci-go-sdk/v54/oda"
 	oci_operator_access_control "github.com/oracle/oci-go-sdk/v54/operatoraccesscontrol"
 
-	//oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
+	//oci_opsi "github.com/oracle/oci-go-sdk/v54/operationsinsights"
 	oci_optimizer "github.com/oracle/oci-go-sdk/v54/optimizer"
 	//oci_osmanagement "github.com/oracle/oci-go-sdk/v54/osmanagement"
 	//oci_sch "github.com/oracle/oci-go-sdk/v54/sch"

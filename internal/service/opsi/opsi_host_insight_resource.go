@@ -19,7 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v54/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v54/opsi"
+	oci_opsi "github.com/oracle/oci-go-sdk/v54/operationsinsights"
 )
 
 func OpsiHostInsightResource() *schema.Resource {
