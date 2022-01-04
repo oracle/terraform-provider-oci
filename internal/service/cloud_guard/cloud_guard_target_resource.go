@@ -834,7 +834,8 @@ type CloudGuardTargetResourceCrud struct {
 }
 
 func (s *CloudGuardTargetResourceCrud) ID() string {
-	return *s.Res.Id
+	response := *s.Res
+	return *response.GetId()
 }
 
 func (s *CloudGuardTargetResourceCrud) CreatedPending() []string {
@@ -1051,64 +1052,65 @@ func (s *CloudGuardTargetResourceCrud) Delete() error {
 }
 
 func (s *CloudGuardTargetResourceCrud) SetData() error {
-	if s.Res.CompartmentId != nil {
-		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	response := *s.Res
+	if response.GetCompartmentId() != nil {
+		s.D.Set("compartment_id", response.GetCompartmentId())
 	}
 
-	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	if response.GetDefinedTags() != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(response.GetDefinedTags()))
 	}
 
-	if s.Res.Description != nil {
-		s.D.Set("description", *s.Res.Description)
+	if response.GetDescription() != nil {
+		s.D.Set("description", response.GetDescription())
 	}
 
-	if s.Res.DisplayName != nil {
-		s.D.Set("display_name", *s.Res.DisplayName)
+	if response.GetDisplayName() != nil {
+		s.D.Set("display_name", response.GetDisplayName())
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
+	s.D.Set("freeform_tags", response.GetFreeformTags())
 
-	s.D.Set("inherited_by_compartments", s.Res.InheritedByCompartments)
+	s.D.Set("inherited_by_compartments", response.GetInheritedByCompartments())
 
-	if s.Res.LifecyleDetails != nil {
-		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
+	if response.GetLifecyleDetails() != nil {
+		s.D.Set("lifecyle_details", response.GetLifecyleDetails())
 	}
 
-	if s.Res.RecipeCount != nil {
-		s.D.Set("recipe_count", *s.Res.RecipeCount)
+	if response.GetRecipeCount() != nil {
+		s.D.Set("recipe_count", response.GetRecipeCount())
 	}
 
-	s.D.Set("state", s.Res.LifecycleState)
+	s.D.Set("state", response.GetLifecycleState())
 
-	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	if response.GetSystemTags() != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(response.GetSystemTags()))
 	}
 
 	targetDetectorRecipes := []interface{}{}
-	for _, item := range s.Res.TargetDetectorRecipes {
+	for _, item := range response.GetTargetDetectorRecipes() {
 		targetDetectorRecipes = append(targetDetectorRecipes, TargetDetectorRecipeToMap(item))
 	}
 	s.D.Set("target_detector_recipes", targetDetectorRecipes)
 
-	if s.Res.TargetResourceId != nil {
-		s.D.Set("target_resource_id", *s.Res.TargetResourceId)
+	if response.GetTargetResourceId() != nil {
+		s.D.Set("target_resource_id", response.GetTargetResourceId())
 	}
 
-	s.D.Set("target_resource_type", s.Res.TargetResourceType)
+	//s.D.Set("target_resource_type", s.Res.TargetResourceType)
 
 	targetResponderRecipes := []interface{}{}
-	for _, item := range s.Res.TargetResponderRecipes {
+	for _, item := range response.GetTargetResponderRecipes() {
 		targetResponderRecipes = append(targetResponderRecipes, TargetResponderRecipeToMap(item))
 	}
 	s.D.Set("target_responder_recipes", targetResponderRecipes)
 
-	if s.Res.TimeCreated != nil {
-		s.D.Set("time_created", s.Res.TimeCreated.String())
+	if response.GetTimeCreated() != nil {
+		s.D.Set("time_created", response.GetTimeCreated().String())
 	}
 
-	if s.Res.TimeUpdated != nil {
-		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	if response.GetTimeUpdated() != nil {
+		s.D.Set("time_updated", response.GetTimeUpdated().String())
 	}
 
 	return nil

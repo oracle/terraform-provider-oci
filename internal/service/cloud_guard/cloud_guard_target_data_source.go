@@ -64,66 +64,67 @@ func (s *CloudGuardTargetDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(*s.Res.Id)
+	response := *s.Res
+	s.D.SetId(*response.GetId())
 
-	if s.Res.CompartmentId != nil {
-		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	if response.GetCompartmentId() != nil {
+		s.D.Set("compartment_id", response.GetCompartmentId())
 	}
 
-	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	if s.Res.GetDefinedTags() != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.GetDefinedTags()))
 	}
 
-	if s.Res.Description != nil {
-		s.D.Set("description", *s.Res.Description)
+	if s.Res.GetDescription() != nil {
+		s.D.Set("description", *s.Res.GetDescription())
 	}
 
-	if s.Res.DisplayName != nil {
-		s.D.Set("display_name", *s.Res.DisplayName)
+	if s.Res.GetDisplayName() != nil {
+		s.D.Set("display_name", *s.Res.GetDisplayName())
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
+	s.D.Set("freeform_tags", s.Res.GetFreeformTags())
 
-	s.D.Set("inherited_by_compartments", s.Res.InheritedByCompartments)
+	s.D.Set("inherited_by_compartments", s.Res.GetInheritedByCompartments())
 
-	if s.Res.LifecyleDetails != nil {
-		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
+	if s.Res.GetLifecyleDetails() != nil {
+		s.D.Set("lifecyle_details", *s.Res.GetLifecyleDetails())
 	}
 
-	if s.Res.RecipeCount != nil {
-		s.D.Set("recipe_count", *s.Res.RecipeCount)
+	if s.Res.GetRecipeCount() != nil {
+		s.D.Set("recipe_count", *s.Res.GetRecipeCount())
 	}
 
-	s.D.Set("state", s.Res.LifecycleState)
+	s.D.Set("state", s.Res.GetLifecycleState())
 
-	if s.Res.SystemTags != nil {
-		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	if s.Res.GetSystemTags() != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.GetSystemTags()))
 	}
 
 	targetDetectorRecipes := []interface{}{}
-	for _, item := range s.Res.TargetDetectorRecipes {
+	for _, item := range s.Res.GetTargetDetectorRecipes() {
 		targetDetectorRecipes = append(targetDetectorRecipes, TargetDetectorRecipeToMap(item))
 	}
 	s.D.Set("target_detector_recipes", targetDetectorRecipes)
 
-	if s.Res.TargetResourceId != nil {
-		s.D.Set("target_resource_id", *s.Res.TargetResourceId)
+	if s.Res.GetTargetResourceId() != nil {
+		s.D.Set("target_resource_id", *s.Res.GetTargetResourceId())
 	}
 
-	s.D.Set("target_resource_type", s.Res.TargetResourceType)
+	//s.D.Set("target_resource_type", s.Res.TargetResourceType())
 
 	targetResponderRecipes := []interface{}{}
-	for _, item := range s.Res.TargetResponderRecipes {
+	for _, item := range s.Res.GetTargetResponderRecipes() {
 		targetResponderRecipes = append(targetResponderRecipes, TargetResponderRecipeToMap(item))
 	}
 	s.D.Set("target_responder_recipes", targetResponderRecipes)
 
-	if s.Res.TimeCreated != nil {
-		s.D.Set("time_created", s.Res.TimeCreated.String())
+	if s.Res.GetTimeCreated() != nil {
+		s.D.Set("time_created", s.Res.GetTimeCreated().String())
 	}
 
-	if s.Res.TimeUpdated != nil {
-		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	if s.Res.GetTimeUpdated() != nil {
+		s.D.Set("time_updated", s.Res.GetTimeUpdated().String())
 	}
 
 	return nil
