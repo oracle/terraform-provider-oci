@@ -1,4 +1,4 @@
-## 4.58.0 (Unreleased)
+## 4.58.0 (January 05, 2022)
 
 ### Bug Fix
 - Reverting `ocpu_count` to be `optional` in `oci_database_cloud_vm_cluster`
