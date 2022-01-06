@@ -26,6 +26,36 @@ import (
 )
 
 var (
+	goldenGateDbSystemOption = map[string]interface{}{
+		"storage_management": acctest.Representation{RepType: acctest.Required, Create: `LVM`},
+	}
+
+	goldenGateDbSystemDbHomeRepresentation = map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: goldenGateDatabaseRepresentation},
+		"db_version": acctest.Representation{RepType: acctest.Required, Create: `21.3.0.0`},
+	}
+
+	goldenGateDatabaseRepresentation = map[string]interface{}{
+		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `myDB`},
+		"pdb_name":       acctest.Representation{RepType: acctest.Required, Create: `pdbName`},
+	}
+
+	kmsKeyId            = utils.GetEnvSettingWithBlankDefault("kms_key_ocid")
+	KmsKeyIdVariableStr = fmt.Sprintf("\nvariable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	DatabaseHomeConfig = `
+	data "oci_database_db_homes" "t" {
+	compartment_id = "${var.compartment_id}"
+	db_system_id = "${oci_database_db_system.t.id}"
+}`
+
+	DatabaseData = `
+	data "oci_database_databases" "t" {
+	compartment_id = "${var.compartment_id}"
+	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"	
+}`
+
 	ConnectionResourceConfigTarget = ConnectionResourceDependenciesTarget +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, connectionRepresentationTarget)
 
