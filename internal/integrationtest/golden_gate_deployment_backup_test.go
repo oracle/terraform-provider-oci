@@ -25,83 +25,90 @@ import (
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-var (
-	DeploymentBackupRequiredOnlyResource = DeploymentBackupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, deploymentBackupRepresentation)
-
-	DeploymentBackupResourceConfig = DeploymentBackupResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Update, deploymentBackupRepresentation)
-
-	deploymentBackupSingularDataSourceRepresentation = map[string]interface{}{
-		"deployment_backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_deployment_backup.test_deployment_backup.id}`},
-	}
-
-	deploymentBackupDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"deployment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `demoDeploymentBackup`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentBackupDataSourceFilterRepresentation}}
-	deploymentBackupDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_golden_gate_deployment_backup.test_deployment_backup.id}`}},
-	}
-
-	deploymentBackupRepresentation = map[string]interface{}{
-		"bucket":         acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"deployment_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_deployment.test_ggsdeployment.id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `demoDeploymentBackup`},
-		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
-		"object":         acctest.Representation{RepType: acctest.Required, Create: `object`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreGGSDefinedTagsChangesRepresentation2},
-	}
-
-	ignoreGGSDefinedTagsChangesRepresentation2 = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
-	}
-
-	DeploymentBackupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, vcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_ggsdeployment", acctest.Required, acctest.Create, goldenGateDeploymentRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, namespaceSingularDataSourceRepresentation)
-)
-
 // issue-routing-tag: golden_gate/default
 func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGoldenGateDeploymentBackupResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := acctest.ProviderTestConfig()
+	const (
+		COMPARTMENT_ID            = "compartment_id"
+		COMPARTMENT_ID_FOR_MOVE   = "compartment_id_for_move"
+		OBJECTSTORAGE_BUCKET_NAME = "objectstorage_bucket_name"
+		OBJECTSTORAGE_NAMESPACE   = "objectstorage_namespace"
+		TEST_DEPLOYMENT_ID        = "test_deployment_id"
+	)
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	var (
+		resourceName           = "oci_golden_gate_deployment_backup.test_deployment_backup"
+		datasourceName         = "data.oci_golden_gate_deployment_backups.test_deployment_backups"
+		singularDatasourceName = "data.oci_golden_gate_deployment_backup.test_deployment_backup"
 
-	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+		testCompartmentId    = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID)
+		compartmentIdForMove = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID_FOR_MOVE)
+		resId                string
+	)
 
-	resourceName := "oci_golden_gate_deployment_backup.test_deployment_backup"
-	datasourceName := "data.oci_golden_gate_deployment_backups.test_deployment_backups"
-	singularDatasourceName := "data.oci_golden_gate_deployment_backup.test_deployment_backup"
+	var (
+		DeploymentBackupResourceDependencies = ""
 
-	var resId, resId2 string
+		ignoreDefinedTagsChangesRepresentation = map[string]interface{}{
+			"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+		}
+
+		deploymentBackupRepresentation = map[string]interface{}{
+			"bucket":         acctest.Representation{RepType: acctest.Required, Create: `${var.objectstorage_bucket_name}`},
+			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+			"deployment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.test_deployment_id}`},
+			"display_name":   acctest.Representation{RepType: acctest.Required, Create: `demoDeploymentBackup`},
+			"namespace":      acctest.Representation{RepType: acctest.Required, Create: `${var.objectstorage_namespace}`},
+			"object":         acctest.Representation{RepType: acctest.Required, Create: `object`},
+			"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+			"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
+		}
+
+		deploymentBackupDataSourceFilterRepresentation = map[string]interface{}{
+			"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+			"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_golden_gate_deployment_backup.test_deployment_backup.id}`}},
+		}
+
+		deploymentBackupDataSourceRepresentation = map[string]interface{}{
+			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+			"deployment_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.test_deployment_id}`},
+			"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `demoDeploymentBackup`},
+			"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+			"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentBackupDataSourceFilterRepresentation}}
+
+		deploymentBackupSingularDataSourceRepresentation = map[string]interface{}{
+			"deployment_backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_deployment_backup.test_deployment_backup.id}`},
+		}
+
+		DeploymentBackupResourceConfig = DeploymentBackupResourceDependencies +
+			acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Update, deploymentBackupRepresentation)
+	)
+
+	config := acctest.ProviderTestConfig() +
+		makeVariableStr(COMPARTMENT_ID, t) +
+		makeVariableStr(COMPARTMENT_ID_FOR_MOVE, t) +
+		makeVariableStr(OBJECTSTORAGE_BUCKET_NAME, t) +
+		makeVariableStr(OBJECTSTORAGE_NAMESPACE, t) +
+		makeVariableStr(TEST_DEPLOYMENT_ID, t) +
+		DeploymentBackupResourceDependencies
+
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DeploymentBackupResourceDependencies+
+	acctest.SaveConfigContent(config+
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Create, deploymentBackupRepresentation), "goldengate", "deploymentBackup", t)
 
-	fmt.Printf("Terraform generated %s", config+compartmentIdVariableStr+DeploymentBackupResourceDependencies+
+	fmt.Printf("Terraform generated %s", config+
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Create, deploymentBackupRepresentation))
 
 	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentBackupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies +
+			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, deploymentBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -116,15 +123,16 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies,
+			Config: config,
 		},
+
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies +
+			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Create, deploymentBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -137,7 +145,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &testCompartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -148,14 +156,14 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DeploymentBackupResourceDependencies +
+			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(deploymentBackupRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_move}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdForMove),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -166,7 +174,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					var resId2, _ = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
@@ -177,11 +185,10 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DeploymentBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Update, deploymentBackupRepresentation),
+			Config: config + DeploymentBackupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -192,7 +199,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					var resId2, _ = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
@@ -200,14 +207,13 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backups", "test_deployment_backups", acctest.Optional, acctest.Update, deploymentBackupDataSourceRepresentation) +
-				compartmentIdVariableStr + DeploymentBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Update, deploymentBackupRepresentation),
+			Config: config + DeploymentBackupResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backups", "test_deployment_backups", acctest.Optional, acctest.Update, deploymentBackupDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -216,17 +222,17 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "deployment_backup_collection.0.items.#", "1"),
 			),
 		},
+
 		// verify singular datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, deploymentBackupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DeploymentBackupResourceConfig,
+			Config: config + DeploymentBackupResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, deploymentBackupSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_backup_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -242,10 +248,12 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
+
 		// remove singular datasource from previous step so that it doesn't conflict with import tests
 		{
-			Config: config + compartmentIdVariableStr + DeploymentBackupResourceConfig,
+			Config: config + DeploymentBackupResourceConfig,
 		},
+
 		// verify resource import
 		{
 			Config:                  config,
