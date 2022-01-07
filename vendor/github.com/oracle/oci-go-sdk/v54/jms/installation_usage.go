@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -43,10 +43,10 @@ type InstallationUsage struct {
 	// The approximate count of managed instances reporting this installation
 	ApproximateManagedInstanceCount *int `mandatory:"false" json:"approximateManagedInstanceCount"`
 
-	// Lower bound of the specified time period filter.
+	// Lower bound of the specified time period filter. JMS provides a view of the data that is _per day_. The query uses only the date element of the parameter.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// Upper bound of the specified time period filter.
+	// Upper bound of the specified time period filter. JMS provides a view of the data that is _per day_. The query uses only the date element of the parameter.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
 	// The date and time the resource was _first_ reported to JMS.

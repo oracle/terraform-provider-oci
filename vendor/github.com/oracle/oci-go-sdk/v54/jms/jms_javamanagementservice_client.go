@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -89,9 +89,10 @@ func (client *JavaManagementServiceClient) ConfigurationProvider() *common.Confi
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ChangeFleetCompartment.go.html to see an example of how to use ChangeFleetCompartment API.
+// A default retry strategy applies to this operation ChangeFleetCompartment()
 func (client JavaManagementServiceClient) ChangeFleetCompartment(ctx context.Context, request ChangeFleetCompartmentRequest) (response ChangeFleetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -149,9 +150,10 @@ func (client JavaManagementServiceClient) changeFleetCompartment(ctx context.Con
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/CreateFleet.go.html to see an example of how to use CreateFleet API.
+// A default retry strategy applies to this operation CreateFleet()
 func (client JavaManagementServiceClient) CreateFleet(ctx context.Context, request CreateFleetRequest) (response CreateFleetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -209,9 +211,10 @@ func (client JavaManagementServiceClient) createFleet(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteFleet.go.html to see an example of how to use DeleteFleet API.
+// A default retry strategy applies to this operation DeleteFleet()
 func (client JavaManagementServiceClient) DeleteFleet(ctx context.Context, request DeleteFleetRequest) (response DeleteFleetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -264,9 +267,10 @@ func (client JavaManagementServiceClient) deleteFleet(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetFleet.go.html to see an example of how to use GetFleet API.
+// A default retry strategy applies to this operation GetFleet()
 func (client JavaManagementServiceClient) GetFleet(ctx context.Context, request GetFleetRequest) (response GetFleetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -319,9 +323,10 @@ func (client JavaManagementServiceClient) getFleet(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetFleetAgentConfiguration.go.html to see an example of how to use GetFleetAgentConfiguration API.
+// A default retry strategy applies to this operation GetFleetAgentConfiguration()
 func (client JavaManagementServiceClient) GetFleetAgentConfiguration(ctx context.Context, request GetFleetAgentConfigurationRequest) (response GetFleetAgentConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -374,9 +379,10 @@ func (client JavaManagementServiceClient) getFleetAgentConfiguration(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client JavaManagementServiceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -430,9 +436,10 @@ func (client JavaManagementServiceClient) getWorkRequest(ctx context.Context, re
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListFleets.go.html to see an example of how to use ListFleets API.
+// A default retry strategy applies to this operation ListFleets()
 func (client JavaManagementServiceClient) ListFleets(ctx context.Context, request ListFleetsRequest) (response ListFleetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -485,9 +492,10 @@ func (client JavaManagementServiceClient) listFleets(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListJreUsage.go.html to see an example of how to use ListJreUsage API.
+// A default retry strategy applies to this operation ListJreUsage()
 func (client JavaManagementServiceClient) ListJreUsage(ctx context.Context, request ListJreUsageRequest) (response ListJreUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -540,9 +548,10 @@ func (client JavaManagementServiceClient) listJreUsage(ctx context.Context, requ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client JavaManagementServiceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -595,9 +604,10 @@ func (client JavaManagementServiceClient) listWorkRequestErrors(ctx context.Cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client JavaManagementServiceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -650,9 +660,10 @@ func (client JavaManagementServiceClient) listWorkRequestLogs(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client JavaManagementServiceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -705,9 +716,10 @@ func (client JavaManagementServiceClient) listWorkRequests(ctx context.Context, 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeApplicationUsage.go.html to see an example of how to use SummarizeApplicationUsage API.
+// A default retry strategy applies to this operation SummarizeApplicationUsage()
 func (client JavaManagementServiceClient) SummarizeApplicationUsage(ctx context.Context, request SummarizeApplicationUsageRequest) (response SummarizeApplicationUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -760,9 +772,10 @@ func (client JavaManagementServiceClient) summarizeApplicationUsage(ctx context.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeInstallationUsage.go.html to see an example of how to use SummarizeInstallationUsage API.
+// A default retry strategy applies to this operation SummarizeInstallationUsage()
 func (client JavaManagementServiceClient) SummarizeInstallationUsage(ctx context.Context, request SummarizeInstallationUsageRequest) (response SummarizeInstallationUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -815,9 +828,10 @@ func (client JavaManagementServiceClient) summarizeInstallationUsage(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeJreUsage.go.html to see an example of how to use SummarizeJreUsage API.
+// A default retry strategy applies to this operation SummarizeJreUsage()
 func (client JavaManagementServiceClient) SummarizeJreUsage(ctx context.Context, request SummarizeJreUsageRequest) (response SummarizeJreUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -870,9 +884,10 @@ func (client JavaManagementServiceClient) summarizeJreUsage(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeManagedInstanceUsage.go.html to see an example of how to use SummarizeManagedInstanceUsage API.
+// A default retry strategy applies to this operation SummarizeManagedInstanceUsage()
 func (client JavaManagementServiceClient) SummarizeManagedInstanceUsage(ctx context.Context, request SummarizeManagedInstanceUsageRequest) (response SummarizeManagedInstanceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -925,9 +940,10 @@ func (client JavaManagementServiceClient) summarizeManagedInstanceUsage(ctx cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeResourceInventory.go.html to see an example of how to use SummarizeResourceInventory API.
+// A default retry strategy applies to this operation SummarizeResourceInventory()
 func (client JavaManagementServiceClient) SummarizeResourceInventory(ctx context.Context, request SummarizeResourceInventoryRequest) (response SummarizeResourceInventoryResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -980,9 +996,10 @@ func (client JavaManagementServiceClient) summarizeResourceInventory(ctx context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateFleet.go.html to see an example of how to use UpdateFleet API.
+// A default retry strategy applies to this operation UpdateFleet()
 func (client JavaManagementServiceClient) UpdateFleet(ctx context.Context, request UpdateFleetRequest) (response UpdateFleetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1035,9 +1052,10 @@ func (client JavaManagementServiceClient) updateFleet(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateFleetAgentConfiguration.go.html to see an example of how to use UpdateFleetAgentConfiguration API.
+// A default retry strategy applies to this operation UpdateFleetAgentConfiguration()
 func (client JavaManagementServiceClient) UpdateFleetAgentConfiguration(ctx context.Context, request UpdateFleetAgentConfigurationRequest) (response UpdateFleetAgentConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
