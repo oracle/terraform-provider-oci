@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package common
@@ -60,6 +60,10 @@ const (
 	RegionMEAbudhabi1 Region = "me-abudhabi-1"
 	//RegionEUMilan1 region Milan
 	RegionEUMilan1 Region = "eu-milan-1"
+	//RegionEUStockholm1 region Stockholm
+	RegionEUStockholm1 Region = "eu-stockholm-1"
+	//RegionAFJohannesburg1 region Johannesburg
+	RegionAFJohannesburg1 Region = "af-johannesburg-1"
 	//RegionUSLangley1 region Langley
 	RegionUSLangley1 Region = "us-langley-1"
 	//RegionUSLuke1 region Luke
@@ -109,6 +113,8 @@ var shortNameRegion = map[string]Region{
 	"sin": RegionAPSingapore1,
 	"auh": RegionMEAbudhabi1,
 	"lin": RegionEUMilan1,
+	"arn": RegionEUStockholm1,
+	"jnb": RegionAFJohannesburg1,
 	"lfi": RegionUSLangley1,
 	"luf": RegionUSLuke1,
 	"ric": RegionUSGovAshburn1,
@@ -129,34 +135,36 @@ var realm = map[string]string{
 }
 
 var regionRealm = map[Region]string{
-	RegionAPChuncheon1: "oc1",
-	RegionAPHyderabad1: "oc1",
-	RegionAPMelbourne1: "oc1",
-	RegionAPMumbai1:    "oc1",
-	RegionAPOsaka1:     "oc1",
-	RegionAPSeoul1:     "oc1",
-	RegionAPSydney1:    "oc1",
-	RegionAPTokyo1:     "oc1",
-	RegionCAMontreal1:  "oc1",
-	RegionCAToronto1:   "oc1",
-	RegionEUAmsterdam1: "oc1",
-	RegionFRA:          "oc1",
-	RegionEUZurich1:    "oc1",
-	RegionMEJeddah1:    "oc1",
-	RegionMEDubai1:     "oc1",
-	RegionSASaopaulo1:  "oc1",
-	RegionUKCardiff1:   "oc1",
-	RegionLHR:          "oc1",
-	RegionIAD:          "oc1",
-	RegionPHX:          "oc1",
-	RegionSJC1:         "oc1",
-	RegionSAVinhedo1:   "oc1",
-	RegionSASantiago1:  "oc1",
-	RegionILJerusalem1: "oc1",
-	RegionEUMarseille1: "oc1",
-	RegionAPSingapore1: "oc1",
-	RegionMEAbudhabi1:  "oc1",
-	RegionEUMilan1:     "oc1",
+	RegionAPChuncheon1:    "oc1",
+	RegionAPHyderabad1:    "oc1",
+	RegionAPMelbourne1:    "oc1",
+	RegionAPMumbai1:       "oc1",
+	RegionAPOsaka1:        "oc1",
+	RegionAPSeoul1:        "oc1",
+	RegionAPSydney1:       "oc1",
+	RegionAPTokyo1:        "oc1",
+	RegionCAMontreal1:     "oc1",
+	RegionCAToronto1:      "oc1",
+	RegionEUAmsterdam1:    "oc1",
+	RegionFRA:             "oc1",
+	RegionEUZurich1:       "oc1",
+	RegionMEJeddah1:       "oc1",
+	RegionMEDubai1:        "oc1",
+	RegionSASaopaulo1:     "oc1",
+	RegionUKCardiff1:      "oc1",
+	RegionLHR:             "oc1",
+	RegionIAD:             "oc1",
+	RegionPHX:             "oc1",
+	RegionSJC1:            "oc1",
+	RegionSAVinhedo1:      "oc1",
+	RegionSASantiago1:     "oc1",
+	RegionILJerusalem1:    "oc1",
+	RegionEUMarseille1:    "oc1",
+	RegionAPSingapore1:    "oc1",
+	RegionMEAbudhabi1:     "oc1",
+	RegionEUMilan1:        "oc1",
+	RegionEUStockholm1:    "oc1",
+	RegionAFJohannesburg1: "oc1",
 
 	RegionUSLangley1: "oc2",
 	RegionUSLuke1:    "oc2",

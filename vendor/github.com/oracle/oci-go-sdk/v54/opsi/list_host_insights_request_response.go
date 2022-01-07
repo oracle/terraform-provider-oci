@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -33,7 +33,8 @@ type ListHostInsightsRequest struct {
 	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
 
 	// Filter by one or more platform types.
-	// Possible value is LINUX.
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
 	PlatformType []ListHostInsightsPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to
@@ -130,11 +131,15 @@ type ListHostInsightsPlatformTypeEnum string
 
 // Set of constants representing the allowable values for ListHostInsightsPlatformTypeEnum
 const (
-	ListHostInsightsPlatformTypeLinux ListHostInsightsPlatformTypeEnum = "LINUX"
+	ListHostInsightsPlatformTypeLinux   ListHostInsightsPlatformTypeEnum = "LINUX"
+	ListHostInsightsPlatformTypeSolaris ListHostInsightsPlatformTypeEnum = "SOLARIS"
+	ListHostInsightsPlatformTypeSunos   ListHostInsightsPlatformTypeEnum = "SUNOS"
 )
 
 var mappingListHostInsightsPlatformType = map[string]ListHostInsightsPlatformTypeEnum{
-	"LINUX": ListHostInsightsPlatformTypeLinux,
+	"LINUX":   ListHostInsightsPlatformTypeLinux,
+	"SOLARIS": ListHostInsightsPlatformTypeSolaris,
+	"SUNOS":   ListHostInsightsPlatformTypeSunos,
 }
 
 // GetListHostInsightsPlatformTypeEnumValues Enumerates the set of values for ListHostInsightsPlatformTypeEnum
