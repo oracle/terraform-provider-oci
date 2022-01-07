@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // NetworkLoadBalancer API
 //
-// A description of the network load balancer API
+// This describes the network load balancer API.
 //
 
 package networkloadbalancer
@@ -37,6 +37,9 @@ type ListenerSummary struct {
 	// operation.
 	// Example: `TCP`
 	Protocol ListenerProtocolsEnum `mandatory:"true" json:"protocol"`
+
+	// IP version associated with the listener.
+	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
 }
 
 func (m ListenerSummary) String() string {

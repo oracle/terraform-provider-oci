@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -28,6 +28,8 @@ type HostDetails struct {
 	HostName *string `mandatory:"true" json:"hostName"`
 
 	// Platform type.
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
 	PlatformType HostDetailsPlatformTypeEnum `mandatory:"true" json:"platformType"`
 
 	// The identifier of the agent.
@@ -46,11 +48,15 @@ type HostDetailsPlatformTypeEnum string
 
 // Set of constants representing the allowable values for HostDetailsPlatformTypeEnum
 const (
-	HostDetailsPlatformTypeLinux HostDetailsPlatformTypeEnum = "LINUX"
+	HostDetailsPlatformTypeLinux   HostDetailsPlatformTypeEnum = "LINUX"
+	HostDetailsPlatformTypeSolaris HostDetailsPlatformTypeEnum = "SOLARIS"
+	HostDetailsPlatformTypeSunos   HostDetailsPlatformTypeEnum = "SUNOS"
 )
 
 var mappingHostDetailsPlatformType = map[string]HostDetailsPlatformTypeEnum{
-	"LINUX": HostDetailsPlatformTypeLinux,
+	"LINUX":   HostDetailsPlatformTypeLinux,
+	"SOLARIS": HostDetailsPlatformTypeSolaris,
+	"SUNOS":   HostDetailsPlatformTypeSunos,
 }
 
 // GetHostDetailsPlatformTypeEnumValues Enumerates the set of values for HostDetailsPlatformTypeEnum

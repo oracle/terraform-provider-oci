@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -43,7 +43,8 @@ type SummarizeHostInsightResourceStatisticsRequest struct {
 	TimeIntervalEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeIntervalEnd"`
 
 	// Filter by one or more platform types.
-	// Possible value is LINUX.
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
 	PlatformType []SummarizeHostInsightResourceStatisticsPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -173,11 +174,15 @@ type SummarizeHostInsightResourceStatisticsPlatformTypeEnum string
 
 // Set of constants representing the allowable values for SummarizeHostInsightResourceStatisticsPlatformTypeEnum
 const (
-	SummarizeHostInsightResourceStatisticsPlatformTypeLinux SummarizeHostInsightResourceStatisticsPlatformTypeEnum = "LINUX"
+	SummarizeHostInsightResourceStatisticsPlatformTypeLinux   SummarizeHostInsightResourceStatisticsPlatformTypeEnum = "LINUX"
+	SummarizeHostInsightResourceStatisticsPlatformTypeSolaris SummarizeHostInsightResourceStatisticsPlatformTypeEnum = "SOLARIS"
+	SummarizeHostInsightResourceStatisticsPlatformTypeSunos   SummarizeHostInsightResourceStatisticsPlatformTypeEnum = "SUNOS"
 )
 
 var mappingSummarizeHostInsightResourceStatisticsPlatformType = map[string]SummarizeHostInsightResourceStatisticsPlatformTypeEnum{
-	"LINUX": SummarizeHostInsightResourceStatisticsPlatformTypeLinux,
+	"LINUX":   SummarizeHostInsightResourceStatisticsPlatformTypeLinux,
+	"SOLARIS": SummarizeHostInsightResourceStatisticsPlatformTypeSolaris,
+	"SUNOS":   SummarizeHostInsightResourceStatisticsPlatformTypeSunos,
 }
 
 // GetSummarizeHostInsightResourceStatisticsPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceStatisticsPlatformTypeEnum

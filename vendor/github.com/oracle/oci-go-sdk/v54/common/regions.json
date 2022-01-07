@@ -220,5 +220,17 @@
         "realmDomainComponent": "oraclecloud.com", 
         "regionIdentifier": "eu-milan-1", 
         "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "arn", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "eu-stockholm-1", 
+        "realmKey": "oc1"
+    }, 
+    {
+        "regionKey": "jnb", 
+        "realmDomainComponent": "oraclecloud.com", 
+        "regionIdentifier": "af-johannesburg-1", 
+        "realmKey": "oc1"
     }
 ]

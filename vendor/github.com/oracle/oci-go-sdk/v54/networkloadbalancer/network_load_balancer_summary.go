@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // NetworkLoadBalancer API
 //
-// A description of the network load balancer API
+// This describes the network load balancer API.
 //
 
 package networkloadbalancer
@@ -42,6 +42,9 @@ type NetworkLoadBalancerSummary struct {
 	// A message describing the current state in more detail.
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// IP version associated with the NLB.
+	NlbIpVersion NlbIpVersionEnum `mandatory:"false" json:"nlbIpVersion,omitempty"`
 
 	// The time the network load balancer was updated. An RFC3339 formatted date-time string.
 	// Example: `2020-05-01T22:10:29.600Z`

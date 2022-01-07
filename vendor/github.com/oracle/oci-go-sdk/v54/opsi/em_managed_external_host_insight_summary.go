@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -80,6 +80,8 @@ type EmManagedExternalHostInsightSummary struct {
 	ExadataInsightId *string `mandatory:"false" json:"exadataInsightId"`
 
 	// Platform type.
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS].
 	PlatformType EmManagedExternalHostInsightSummaryPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -182,11 +184,15 @@ type EmManagedExternalHostInsightSummaryPlatformTypeEnum string
 
 // Set of constants representing the allowable values for EmManagedExternalHostInsightSummaryPlatformTypeEnum
 const (
-	EmManagedExternalHostInsightSummaryPlatformTypeLinux EmManagedExternalHostInsightSummaryPlatformTypeEnum = "LINUX"
+	EmManagedExternalHostInsightSummaryPlatformTypeLinux   EmManagedExternalHostInsightSummaryPlatformTypeEnum = "LINUX"
+	EmManagedExternalHostInsightSummaryPlatformTypeSolaris EmManagedExternalHostInsightSummaryPlatformTypeEnum = "SOLARIS"
+	EmManagedExternalHostInsightSummaryPlatformTypeSunos   EmManagedExternalHostInsightSummaryPlatformTypeEnum = "SUNOS"
 )
 
 var mappingEmManagedExternalHostInsightSummaryPlatformType = map[string]EmManagedExternalHostInsightSummaryPlatformTypeEnum{
-	"LINUX": EmManagedExternalHostInsightSummaryPlatformTypeLinux,
+	"LINUX":   EmManagedExternalHostInsightSummaryPlatformTypeLinux,
+	"SOLARIS": EmManagedExternalHostInsightSummaryPlatformTypeSolaris,
+	"SUNOS":   EmManagedExternalHostInsightSummaryPlatformTypeSunos,
 }
 
 // GetEmManagedExternalHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for EmManagedExternalHostInsightSummaryPlatformTypeEnum

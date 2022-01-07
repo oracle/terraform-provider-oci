@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -40,6 +40,10 @@ type ListBackendSetsRequest struct {
 
 	// The sort order to use, either 'asc' (ascending) or 'desc' (descending).
 	SortOrder ListBackendSetsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// The field to sort by. Only one sort order can be provided. The default order for timeCreated is descending.
+	// The default order for displayName is ascending. If no value is specified, then timeCreated is the default.
+	SortBy ListBackendSetsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -114,6 +118,29 @@ var mappingListBackendSetsSortOrder = map[string]ListBackendSetsSortOrderEnum{
 func GetListBackendSetsSortOrderEnumValues() []ListBackendSetsSortOrderEnum {
 	values := make([]ListBackendSetsSortOrderEnum, 0)
 	for _, v := range mappingListBackendSetsSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListBackendSetsSortByEnum Enum with underlying type: string
+type ListBackendSetsSortByEnum string
+
+// Set of constants representing the allowable values for ListBackendSetsSortByEnum
+const (
+	ListBackendSetsSortByTimecreated ListBackendSetsSortByEnum = "timeCreated"
+	ListBackendSetsSortByDisplayname ListBackendSetsSortByEnum = "displayName"
+)
+
+var mappingListBackendSetsSortBy = map[string]ListBackendSetsSortByEnum{
+	"timeCreated": ListBackendSetsSortByTimecreated,
+	"displayName": ListBackendSetsSortByDisplayname,
+}
+
+// GetListBackendSetsSortByEnumValues Enumerates the set of values for ListBackendSetsSortByEnum
+func GetListBackendSetsSortByEnumValues() []ListBackendSetsSortByEnum {
+	values := make([]ListBackendSetsSortByEnum, 0)
+	for _, v := range mappingListBackendSetsSortBy {
 		values = append(values, v)
 	}
 	return values

@@ -1,10 +1,10 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // NetworkLoadBalancer API
 //
-// A description of the network load balancer API
+// This describes the network load balancer API.
 //
 
 package networkloadbalancer
@@ -14,15 +14,17 @@ type NetworkLoadBalancersProtocolSummaryEnum string
 
 // Set of constants representing the allowable values for NetworkLoadBalancersProtocolSummaryEnum
 const (
-	NetworkLoadBalancersProtocolSummaryAny NetworkLoadBalancersProtocolSummaryEnum = "ANY"
-	NetworkLoadBalancersProtocolSummaryTcp NetworkLoadBalancersProtocolSummaryEnum = "TCP"
-	NetworkLoadBalancersProtocolSummaryUdp NetworkLoadBalancersProtocolSummaryEnum = "UDP"
+	NetworkLoadBalancersProtocolSummaryAny       NetworkLoadBalancersProtocolSummaryEnum = "ANY"
+	NetworkLoadBalancersProtocolSummaryTcp       NetworkLoadBalancersProtocolSummaryEnum = "TCP"
+	NetworkLoadBalancersProtocolSummaryUdp       NetworkLoadBalancersProtocolSummaryEnum = "UDP"
+	NetworkLoadBalancersProtocolSummaryTcpAndUdp NetworkLoadBalancersProtocolSummaryEnum = "TCP_AND_UDP"
 )
 
 var mappingNetworkLoadBalancersProtocolSummary = map[string]NetworkLoadBalancersProtocolSummaryEnum{
-	"ANY": NetworkLoadBalancersProtocolSummaryAny,
-	"TCP": NetworkLoadBalancersProtocolSummaryTcp,
-	"UDP": NetworkLoadBalancersProtocolSummaryUdp,
+	"ANY":         NetworkLoadBalancersProtocolSummaryAny,
+	"TCP":         NetworkLoadBalancersProtocolSummaryTcp,
+	"UDP":         NetworkLoadBalancersProtocolSummaryUdp,
+	"TCP_AND_UDP": NetworkLoadBalancersProtocolSummaryTcpAndUdp,
 }
 
 // GetNetworkLoadBalancersProtocolSummaryEnumValues Enumerates the set of values for NetworkLoadBalancersProtocolSummaryEnum

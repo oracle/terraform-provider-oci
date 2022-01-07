@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2021, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2022, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -46,6 +46,9 @@ type CreateDataGuardAssociationDetails interface {
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	GetDatabaseSoftwareImageId() *string
 
+	// True if active Data Guard is enabled.
+	GetIsActiveDataGuardEnabled() *bool
+
 	// Specifies the `DB_UNIQUE_NAME` of the peer database to be created.
 	GetPeerDbUniqueName() *string
 
@@ -54,14 +57,15 @@ type CreateDataGuardAssociationDetails interface {
 }
 
 type createdataguardassociationdetails struct {
-	JsonData                []byte
-	DatabaseAdminPassword   *string                                             `mandatory:"true" json:"databaseAdminPassword"`
-	ProtectionMode          CreateDataGuardAssociationDetailsProtectionModeEnum `mandatory:"true" json:"protectionMode"`
-	TransportType           CreateDataGuardAssociationDetailsTransportTypeEnum  `mandatory:"true" json:"transportType"`
-	DatabaseSoftwareImageId *string                                             `mandatory:"false" json:"databaseSoftwareImageId"`
-	PeerDbUniqueName        *string                                             `mandatory:"false" json:"peerDbUniqueName"`
-	PeerSidPrefix           *string                                             `mandatory:"false" json:"peerSidPrefix"`
-	CreationType            string                                              `json:"creationType"`
+	JsonData                 []byte
+	DatabaseAdminPassword    *string                                             `mandatory:"true" json:"databaseAdminPassword"`
+	ProtectionMode           CreateDataGuardAssociationDetailsProtectionModeEnum `mandatory:"true" json:"protectionMode"`
+	TransportType            CreateDataGuardAssociationDetailsTransportTypeEnum  `mandatory:"true" json:"transportType"`
+	DatabaseSoftwareImageId  *string                                             `mandatory:"false" json:"databaseSoftwareImageId"`
+	IsActiveDataGuardEnabled *bool                                               `mandatory:"false" json:"isActiveDataGuardEnabled"`
+	PeerDbUniqueName         *string                                             `mandatory:"false" json:"peerDbUniqueName"`
+	PeerSidPrefix            *string                                             `mandatory:"false" json:"peerSidPrefix"`
+	CreationType             string                                              `json:"creationType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -79,6 +83,7 @@ func (m *createdataguardassociationdetails) UnmarshalJSON(data []byte) error {
 	m.ProtectionMode = s.Model.ProtectionMode
 	m.TransportType = s.Model.TransportType
 	m.DatabaseSoftwareImageId = s.Model.DatabaseSoftwareImageId
+	m.IsActiveDataGuardEnabled = s.Model.IsActiveDataGuardEnabled
 	m.PeerDbUniqueName = s.Model.PeerDbUniqueName
 	m.PeerSidPrefix = s.Model.PeerSidPrefix
 	m.CreationType = s.Model.CreationType
@@ -130,6 +135,11 @@ func (m createdataguardassociationdetails) GetTransportType() CreateDataGuardAss
 //GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m createdataguardassociationdetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
+}
+
+//GetIsActiveDataGuardEnabled returns IsActiveDataGuardEnabled
+func (m createdataguardassociationdetails) GetIsActiveDataGuardEnabled() *bool {
+	return m.IsActiveDataGuardEnabled
 }
 
 //GetPeerDbUniqueName returns PeerDbUniqueName
