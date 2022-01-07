@@ -63,9 +63,10 @@ The following attributes are exported:
 * `app_catalog_listing_id` - The ID of the listing resource associated with this listing package. For more information, see [AppCatalogListing](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListing/) in the Core Services API. 
 * `app_catalog_listing_resource_version` - The resource version of the listing resource associated with this listing package.
 * `description` - Description of this package.
+* `image_id` - The ID of the image corresponding to the package.
 * `listing_id` - The ID of the listing that the specified package belongs to.
-* `operating_system` - OS used by the listing.
-	* `name` - name of the operating system
+* `operating_system` - The operating system used by the listing.
+	* `name` - The name of the operating system.
 * `package_type` - The specified package's type.
 * `pricing` - The model for pricing.
 	* `currency` - The currency of the pricing model.
