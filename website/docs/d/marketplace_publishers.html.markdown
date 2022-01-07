@@ -43,6 +43,6 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `description` - A description of the publisher.
-* `id` - Unique identifier for the publisher.
+* `id` - The unique identifier for the publisher.
 * `name` - The name of the publisher.
 

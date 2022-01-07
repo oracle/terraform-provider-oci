@@ -43,6 +43,10 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"image_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"operating_system": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -59,10 +63,6 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 						},
 					},
 				},
-			},
-			"image_id": {
-				Type:     schema.TypeString,
-				Computed: true,
 			},
 			"package_type": {
 				Type:     schema.TypeString,
@@ -247,6 +247,7 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
+	
 	s.D.SetId(tfresource.GenerateDataSourceHashID("MarketplaceListingPackageDataSource-", MarketplaceListingPackageDataSource(), s.D))
 	switch v := (*s.Res).(type) {
 	case oci_marketplace.ImageListingPackage:
