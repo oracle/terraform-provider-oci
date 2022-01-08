@@ -79,6 +79,11 @@ func NetworkLoadBalancerNetworkLoadBalancerResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"nlb_ip_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"reserved_ips": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -113,6 +118,10 @@ func NetworkLoadBalancerNetworkLoadBalancerResource() *schema.Resource {
 
 						// Computed
 						"ip_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ip_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -284,7 +293,9 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) Create() error {
 			request.NetworkSecurityGroupIds = tmp
 		}
 	}
-
+	if nlbIpVersion, ok := s.D.GetOkExists("nlb_ip_version"); ok {
+		request.NlbIpVersion = oci_network_load_balancer.NlbIpVersionEnum(nlbIpVersion.(string))
+	}
 	if reservedIps, ok := s.D.GetOkExists("reserved_ips"); ok {
 		interfaces := reservedIps.([]interface{})
 		tmp := make([]oci_network_load_balancer.ReservedIp, len(interfaces))
@@ -496,7 +507,9 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.NetworkLoadBalancerId = &tmp
-
+	if nlbIpVersion, ok := s.D.GetOkExists("nlb_ip_version"); ok {
+		request.NlbIpVersion = oci_network_load_balancer.NlbIpVersionEnum(nlbIpVersion.(string))
+	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.UpdateNetworkLoadBalancer(context.Background(), request)
@@ -566,7 +579,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) SetData() error {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(utils.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
-
+	s.D.Set("nlb_ip_version", s.Res.NlbIpVersion)
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
@@ -594,7 +607,7 @@ func NetworkLoadBalancerIpAddressToMap(obj oci_network_load_balancer.IpAddress) 
 	if obj.IpAddress != nil {
 		result["ip_address"] = string(*obj.IpAddress)
 	}
-
+	result["ip_version"] = string(obj.IpVersion)
 	if obj.IsPublic != nil {
 		result["is_public"] = bool(*obj.IsPublic)
 	}
@@ -654,7 +667,7 @@ func NetworkLoadBalancerSummaryToMap(obj oci_network_load_balancer.NetworkLoadBa
 	} else {
 		result["network_security_group_ids"] = schema.NewSet(utils.LiteralTypeHashCodeForSets, networkSecurityGroupIds)
 	}
-
+	result["nlb_ip_version"] = string(obj.NlbIpVersion)
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.SubnetId != nil {
