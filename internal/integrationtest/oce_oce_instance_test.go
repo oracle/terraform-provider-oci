@@ -63,6 +63,8 @@ var (
 		"instance_license_type":    acctest.Representation{RepType: acctest.Optional, Create: `STARTER`, Update: `PREMIUM`},
 		"instance_usage_type":      acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY`, Update: `NONPRIMARY`},
 		"upgrade_schedule":         acctest.Representation{RepType: acctest.Optional, Create: `UPGRADE_IMMEDIATELY`},
+		"vanity_domains":           acctest.Representation{RepType: acctest.Optional, Create: []string{`mysite1.mycompany.com`, `mysite2.mycompany.com`}, Update: []string{`mysite3.mycompany.com`, `mysite2.mycompany.com`}},
+		"waf_primary_domain":       acctest.Representation{RepType: acctest.Optional, Create: `oracle.com`, Update: `java.com`},
 	}
 
 	OceInstanceResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", acctest.Required, acctest.Create, tenancySingularDataSourceRepresentation) +

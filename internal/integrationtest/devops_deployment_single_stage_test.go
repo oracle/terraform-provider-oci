@@ -37,6 +37,7 @@ var (
 		"description":                             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                               acctest.RepresentationGroup{acctest.Required, ignoreDefinedTagsDifferencesRepresentation},
 		"oke_cluster_deploy_environment_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_environment.test_deploy_kubernetes_environment.id}`},
 		"kubernetes_manifest_deploy_artifact_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_deploy_artifact.test_deploy_inline_artifact.id}`}},
 		"namespace":                               acctest.Representation{RepType: acctest.Optional, Create: `helloworld-demo`},
@@ -46,11 +47,12 @@ var (
 	deployOkeEnvironmentRepresentation = map[string]interface{}{
 		"deploy_environment_type": acctest.Representation{RepType: acctest.Required, Create: `OKE_CLUSTER`},
 		"project_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
-		"cluster_id":              acctest.Representation{RepType: acctest.Required, Create: `ocid1.cluster.oc1.phx.aaaaaaaaqu6xnflkdfghjvcp3dw7qwliqygtfmdw3yvbapudjcwkwfecjxxq`}, // TODO: Need to Create via terraform
+		"cluster_id":              acctest.Representation{RepType: acctest.Required, Create: `ocid1.cluster.oc1.iad.aaaaaaaalsoirfmjo7kiyneawyxoucafh2qzn2cik45bx7p3fc5f4wtseuca`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":               acctest.RepresentationGroup{acctest.Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
 
 	deployGenericArtifactSingleStageRepresentation = map[string]interface{}{
@@ -62,8 +64,8 @@ var (
 		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                  acctest.RepresentationGroup{acctest.Required, ignoreDefinedTagsDifferencesRepresentation},
 	}
-	repository_id_single_stage                                         = "ocid1.artifactrepository.oc1.phx.0.amaaaaaansx72maaj7g2xjtiuffscp7jouvkpttxnbjxuxr6q45mt7b5lqfq" // TODO: Need to Create via terraform
 	deployGenericArtifactDeployArtifactSingleStageSourceRepresentation = map[string]interface{}{
 		"deploy_artifact_source_type": acctest.Representation{RepType: acctest.Required, Create: `GENERIC_ARTIFACT`},
 		"repository_id":               acctest.Representation{RepType: acctest.Required, Create: repository_id},
@@ -172,6 +174,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "SINGLE_STAGE_DEPLOYMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -198,6 +201,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "SINGLE_STAGE_DEPLOYMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -222,7 +226,6 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "Accepted"),
 
 				resource.TestCheckResourceAttr(datasourceName, "deployment_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "deployment_collection.0.items.#", "0"),
@@ -241,6 +244,7 @@ func TestDevopsDeploymentResource_singleStageDeployment(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_type", "SINGLE_STAGE_DEPLOYMENT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

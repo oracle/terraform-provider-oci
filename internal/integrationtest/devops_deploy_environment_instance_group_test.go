@@ -39,7 +39,7 @@ var (
 	}
 	deployComputeInstanceGroupEnvironmentSelectorCollectionItemsRepresentation = map[string]interface{}{
 		"selector_type":        acctest.Representation{RepType: acctest.Required, Create: `INSTANCE_IDS`},
-		"compute_instance_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`ocid1.instance.oc1.phx.anuwcljtnsx72macffe5fbkzbj4eerle5ot56g2cexj3jvfsr242pye44ghq`}},
+		"compute_instance_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`ocid1.instance.oc1.iad.anuwcljtnsx72macffe5fbkzbj4eerle5ot56g2cexj3jvfsr242pye44ghq`}},
 	}
 )
 
@@ -95,6 +95,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -122,6 +123,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -163,6 +165,7 @@ func TestDevopsDeployEnvironmentResource_instanceGroup(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

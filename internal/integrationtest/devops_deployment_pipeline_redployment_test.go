@@ -108,6 +108,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_REDEPLOYMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -134,6 +135,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "deployment_type", "PIPELINE_REDEPLOYMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 
@@ -177,6 +179,7 @@ func TestDevopsDeploymentResource_pipelineRedeployment(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "deployment_type", "PIPELINE_REDEPLOYMENT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

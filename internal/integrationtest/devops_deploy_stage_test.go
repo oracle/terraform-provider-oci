@@ -55,6 +55,7 @@ var (
 		"description":                         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                           acctest.RepresentationGroup{acctest.Required, ignoreDefinedTagsDifferencesRepresentation},
 		"wait_criteria":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: deployStageWaitCriteriaRepresentation},
 	}
 
@@ -136,6 +137,7 @@ func TestDevopsDeployStageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttr(resourceName, "wait_criteria.#", "1"),
@@ -167,6 +169,7 @@ func TestDevopsDeployStageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttr(resourceName, "wait_criteria.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "wait_criteria.0.wait_duration", "PT5S"),
@@ -210,6 +213,7 @@ func TestDevopsDeployStageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
