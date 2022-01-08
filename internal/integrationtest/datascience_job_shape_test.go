@@ -26,7 +26,6 @@ var (
 
 // issue-routing-tag: datascience/default
 func TestDatascienceJobShapeResource_basic(t *testing.T) {
-	t.Skip("Skip this test until service fixes it")
 	httpreplay.SetScenario("TestDatascienceJobShapeResource_basic")
 	defer httpreplay.SaveScenario()
 

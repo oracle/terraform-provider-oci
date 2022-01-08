@@ -83,7 +83,6 @@ var (
 
 // issue-routing-tag: datascience/default
 func TestDatascienceJobRunResource_basic(t *testing.T) {
-	t.Skip("Skip this test until service fixes it")
 	httpreplay.SetScenario("TestDatascienceJobRunResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -211,7 +210,7 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "job_runs.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "job_runs.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "job_runs.0.created_by"),
-					resource.TestCheckResourceAttr(datasourceName, "job_runs.0.defined_tags.%", "3"),
+					resource.TestCheckResourceAttrSet(datasourceName, "job_runs.0.defined_tags.%"),
 					resource.TestCheckResourceAttr(datasourceName, "job_runs.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "job_runs.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "job_runs.0.id"),
