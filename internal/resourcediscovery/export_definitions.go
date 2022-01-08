@@ -46,6 +46,7 @@ import (
 	//oci_bds "github.com/oracle/oci-go-sdk/v54/bds"
 	oci_blockchain "github.com/oracle/oci-go-sdk/v54/blockchain"
 
+	oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
 	//oci_dataflow "github.com/oracle/oci-go-sdk/v54/dataflow"
 	//oci_dataintegration "github.com/oracle/oci-go-sdk/v54/dataintegration"
 	//oci_data_labeling_service "github.com/oracle/oci-go-sdk/v54/datalabelingservice"
@@ -60,7 +61,6 @@ import (
 	//oci_golden_gate "github.com/oracle/oci-go-sdk/v54/goldengate"
 	//oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_budget "github.com/oracle/oci-go-sdk/v54/budget"
-	oci_bastion "github.com/oracle/oci-go-sdk/v54/bastion"
 	oci_cloud_guard "github.com/oracle/oci-go-sdk/v54/cloudguard"
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 	oci_database "github.com/oracle/oci-go-sdk/v54/database"
@@ -321,7 +321,16 @@ var exportBdsBdsInstanceHints = &TerraformResourceHints{
 		string(oci_bds.BdsInstanceLifecycleStateActive),
 	},
 }
-
+var exportBdsBdsInstanceApiKeyHints = &TerraformResourceHints{
+	resourceClass:          "oci_bds_bds_instance_api_key",
+	datasourceClass:        "oci_bds_bds_instance_api_keys",
+	datasourceItemsAttr:    "bds_api_keys",
+	resourceAbbreviation:   "bds_instance_api_key",
+	requireResourceRefresh: true,
+	discoverableLifecycleStates: []string{
+		string(oci_bds.BdsApiKeyLifecycleStateActive),
+	},
+}
 var exportBlockchainBlockchainPlatformHints = &TerraformResourceHints{
 	resourceClass:          "oci_blockchain_blockchain_platform",
 	datasourceClass:        "oci_blockchain_blockchain_platforms",

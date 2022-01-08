@@ -15,16 +15,16 @@ var tenancyResourceGraphs = map[string]TerraformResourceGraph{
 }
 
 var compartmentResourceGraphs = map[string]TerraformResourceGraph{
-	"availability_domain":  availabilityDomainResourceGraph,
-	"ai_anomaly_detection": aiAnomalyDetectionResourceGraph,
-	"analytics":            analyticsResourceGraph,
-	"apigateway":           apigatewayResourceGraph,
-	"apm":                  apmResourceGraph,
-	"apm_config":           apmConfigResourceGraph,
-	"artifacts":            artifactsResourceGraph,
-	"auto_scaling":         autoScalingResourceGraph,
-	"apm_synthetics":       apmSyntheticsResourceGraph,
-	"bastion":                bastionResourceGraph,
+	"availability_domain":   availabilityDomainResourceGraph,
+	"ai_anomaly_detection":  aiAnomalyDetectionResourceGraph,
+	"analytics":             analyticsResourceGraph,
+	"apigateway":            apigatewayResourceGraph,
+	"apm":                   apmResourceGraph,
+	"apm_config":            apmConfigResourceGraph,
+	"artifacts":             artifactsResourceGraph,
+	"auto_scaling":          autoScalingResourceGraph,
+	"apm_synthetics":        apmSyntheticsResourceGraph,
+	"bastion":               bastionResourceGraph,
 	"bds":                   bdsResourceGraph,
 	"blockchain":            blockchainResourceGraph,
 	"cloud_guard":           cloudGuardResourceGraph,
@@ -186,6 +186,14 @@ var bastionResourceGraph = TerraformResourceGraph{
 var bdsResourceGraph = TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportBdsBdsInstanceHints},
+	},
+	"oci_bds_bds_instance": {
+		{
+			TerraformResourceHints: exportBdsBdsInstanceApiKeyHints,
+			datasourceQueryParams: map[string]string{
+				"bds_instance_id": "id",
+			},
+		},
 	},
 }
 

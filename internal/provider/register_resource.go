@@ -101,7 +101,7 @@ func init() {
 	// bds service
 	RegisterResource("oci_bds_auto_scaling_configuration", tf_bds.BdsAutoScalingConfigurationResource())
 	RegisterResource("oci_bds_bds_instance", tf_bds.BdsBdsInstanceResource())
-
+	RegisterResource("oci_bds_bds_instance_api_key", tf_bds.BdsBdsInstanceApiKeyResource())
 	//Blockchain Service
 	RegisterResource("oci_blockchain_blockchain_platform", tf_blockchain.BlockchainBlockchainPlatformResource())
 	RegisterResource("oci_blockchain_peer", tf_blockchain.BlockchainPeerResource())

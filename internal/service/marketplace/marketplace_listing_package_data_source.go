@@ -247,7 +247,7 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
-	
+
 	s.D.SetId(tfresource.GenerateDataSourceHashID("MarketplaceListingPackageDataSource-", MarketplaceListingPackageDataSource(), s.D))
 	switch v := (*s.Res).(type) {
 	case oci_marketplace.ImageListingPackage:

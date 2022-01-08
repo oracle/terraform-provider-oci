@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"net/url"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
+
 	tf_datascience "github.com/terraform-providers/terraform-provider-oci/internal/service/datascience"
 	"github.com/terraform-providers/terraform-provider-oci/internal/service/devops"
 	tf_identity "github.com/terraform-providers/terraform-provider-oci/internal/service/identity"
@@ -40,6 +42,7 @@ func init() {
 	exportApmConfigConfigHints.getIdFn = getApmConfigConfigId
 	exportArtifactsContainerRepositoryHints.getIdFn = getArtifactsContainerRepositoryId
 	exportArtifactsContainerImageSignatureHints.getIdFn = getArtifactsContainerImageSignatureId
+	exportBdsBdsInstanceApiKeyHints.getIdFn = getBdsBdsInstanceApiKeyId
 	exportArtifactsRepositoryHints.getIdFn = getArtifactsRepositoryId
 	exportApmSyntheticsScriptHints.getIdFn = getApmSyntheticsScriptId
 	exportApmSyntheticsMonitorHints.getIdFn = getApmSyntheticsMonitorId
@@ -162,6 +165,16 @@ func getArtifactsRepositoryId(resource *OCIResource) (string, error) {
 		return "", fmt.Errorf("[ERROR] unable to find repositoryId for Artifacts Respository")
 	}
 	return repositoryId, nil
+}
+
+func getBdsBdsInstanceApiKeyId(resource *OCIResource) (string, error) {
+
+	apiKeyId, ok := resource.sourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find apiKeyId for Bds BdsInstanceApiKey")
+	}
+	bdsInstanceId := resource.parent.id
+	return bds.GetBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId), nil
 }
 
 /*

@@ -17,6 +17,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/internal/service/bds"
+
 	oci_core "github.com/oracle/oci-go-sdk/v54/core"
 
 	tf_client "github.com/terraform-providers/terraform-provider-oci/internal/client"
@@ -829,6 +831,15 @@ func init() {
 
 	exportCertificatesManagementCertificateAuthorityHints.processDiscoveredResourcesFn = processCertificateAuthorities
 	exportCertificatesManagementCertificateHints.processDiscoveredResourcesFn = processCertificates
+	exportBdsBdsInstanceApiKeyHints.processDiscoveredResourcesFn = processBdsInstanceApiKeys
+}
+func processBdsInstanceApiKeys(ctx *resourceDiscoveryContext, resources []*OCIResource) ([]*OCIResource, error) {
+	for _, resource := range resources {
+		apiKeyId := resource.id
+		bdsInstanceId := resource.sourceAttributes["bds_instance_id"].(string)
+		resource.importId = bds.GetBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId)
+	}
+	return resources, nil
 }
 
 /*
