@@ -43,6 +43,7 @@ var (
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `UDP`, Update: `TCP`},
+		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
 	}
 
 	NlbListenerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, subnetRepresentation) +
@@ -66,6 +67,9 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_network_load_balancer_listener.test_listener"
 
 	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ListenerResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Create, nlbListenerRepresentation), "networkloadbalancer", "listener", t)
 
 	acctest.ResourceTest(t, testAccCheckNetworkLoadBalancerListenerDestroy, []resource.TestStep{
 		// verify Create
@@ -78,7 +82,29 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "port", "10"),
 				resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies,
+		},
+
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NlbListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Create, nlbListenerRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
@@ -97,6 +123,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Update, nlbListenerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "port", "11"),
@@ -131,7 +158,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
-
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "TCP"),

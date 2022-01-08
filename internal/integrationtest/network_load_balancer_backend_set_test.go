@@ -49,6 +49,7 @@ var (
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
+		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
 		"is_preserve_source":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	nlbBackendSetHealthCheckerRepresentation = map[string]interface{}{
@@ -143,8 +144,10 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ""),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_data", "SGVsbG9Xb3JsZA=="),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "3"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "0"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
@@ -285,6 +288,8 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "policy", "TWO_TUPLE"),
+				// getting a validation error. so this update of ipversion is not allowed and the expected error is thrown
+				//resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV6"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -420,6 +425,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.return_code", "204"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.url_path", "/urlPath2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_preserve_source", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "policy", "TWO_TUPLE"),

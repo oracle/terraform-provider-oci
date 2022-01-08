@@ -99,7 +99,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
-
+	s.D.Set("nlb_ip_version", s.Res.NlbIpVersion)
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {

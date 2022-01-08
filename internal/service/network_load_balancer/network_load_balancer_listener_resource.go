@@ -58,7 +58,11 @@ func NetworkLoadBalancerListenerResource() *schema.Resource {
 			},
 
 			// Optional
-
+			"ip_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			// Computed
 		},
 	}
@@ -115,7 +119,9 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Create() error {
 		tmp := defaultBackendSetName.(string)
 		request.DefaultBackendSetName = &tmp
 	}
-
+	if ipVersion, ok := s.D.GetOkExists("ip_version"); ok {
+		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
+	}
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -302,7 +308,9 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 		tmp := defaultBackendSetName.(string)
 		request.DefaultBackendSetName = &tmp
 	}
-
+	if ipVersion, ok := s.D.GetOkExists("ip_version"); ok {
+		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
+	}
 	if listenerName, ok := s.D.GetOkExists("name"); ok {
 		tmp := listenerName.(string)
 		request.ListenerName = &tmp
@@ -373,7 +381,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) SetData() error {
 	if s.Res.DefaultBackendSetName != nil {
 		s.D.Set("default_backend_set_name", *s.Res.DefaultBackendSetName)
 	}
-
+	s.D.Set("ip_version", s.Res.IpVersion)
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -413,7 +421,7 @@ func NlbListenerSummaryToMap(obj oci_network_load_balancer.ListenerSummary) map[
 	if obj.DefaultBackendSetName != nil {
 		result["default_backend_set_name"] = string(*obj.DefaultBackendSetName)
 	}
-
+	result["ip_version"] = string(obj.IpVersion)
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
