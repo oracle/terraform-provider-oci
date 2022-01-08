@@ -42,7 +42,7 @@ var (
 		// "display_name":    Representation{RepType: Optional, Create: `keyAlias`},
 		"state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		// "user_id":         Representation{RepType: Optional, Create: `${oci_identity_user.test_user.id}`},
-		"filter": acctest.RepresentationGroup{acctest.Required, bdsInstanceApiKeyDataSourceFilterRepresentation}}
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceApiKeyDataSourceFilterRepresentation}}
 	bdsInstanceApiKeyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_bds_bds_instance_api_key.test_bds_instance_api_key.id}`}},

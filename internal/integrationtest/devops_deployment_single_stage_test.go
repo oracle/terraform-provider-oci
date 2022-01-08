@@ -37,7 +37,7 @@ var (
 		"description":                             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":                               acctest.RepresentationGroup{acctest.Required, ignoreDefinedTagsDifferencesRepresentation},
+		"lifecycle":                               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 		"oke_cluster_deploy_environment_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_environment.test_deploy_kubernetes_environment.id}`},
 		"kubernetes_manifest_deploy_artifact_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_devops_deploy_artifact.test_deploy_inline_artifact.id}`}},
 		"namespace":                               acctest.Representation{RepType: acctest.Optional, Create: `helloworld-demo`},
@@ -52,7 +52,7 @@ var (
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":               acctest.RepresentationGroup{acctest.Required, ignoreDefinedTagsDifferencesRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
 	deployGenericArtifactSingleStageRepresentation = map[string]interface{}{
@@ -64,7 +64,7 @@ var (
 		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":                  acctest.RepresentationGroup{acctest.Required, ignoreDefinedTagsDifferencesRepresentation},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 	deployGenericArtifactDeployArtifactSingleStageSourceRepresentation = map[string]interface{}{
 		"deploy_artifact_source_type": acctest.Representation{RepType: acctest.Required, Create: `GENERIC_ARTIFACT`},

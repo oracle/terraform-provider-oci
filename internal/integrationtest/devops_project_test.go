@@ -44,7 +44,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_project.test_project.id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: devopsProjectName},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `Active`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: oci_devops.ProjectLifecycleStateActive},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: devopsProjectDataSourceFilterRepresentation}}
 	devopsProjectDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -131,6 +131,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", devopsProjectName),
 				resource.TestCheckResourceAttr(resourceName, "notification_config.#", "1"),
@@ -182,6 +183,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "name"),
 				resource.TestCheckResourceAttr(resourceName, "notification_config.#", "1"),
@@ -206,7 +208,6 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", devopsProjectName),
-				resource.TestCheckResourceAttr(datasourceName, "state", "Active"),
 
 				resource.TestCheckResourceAttr(datasourceName, "project_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "project_collection.0.items.#", "1"),
@@ -223,6 +224,7 @@ func TestDevopsProjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", devopsProjectName),
 				resource.TestCheckResourceAttr(singularDatasourceName, "notification_config.#", "1"),
