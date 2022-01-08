@@ -50,10 +50,6 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-			"ocpu_count": {
-				Type:     schema.TypeFloat,
-				Required: true,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -154,6 +150,11 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"ocpu_count": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
 			},
 			"scan_listener_port_tcp": {
 				Type:     schema.TypeInt,
@@ -433,14 +434,14 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.CpuCoreCount = &tmp
 	}
 
-	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
-		tmp := float32(ocpuCount.(float64))
-		request.OcpuCount = &tmp
-	}
-
 	if dataStoragePercentage, ok := s.D.GetOkExists("data_storage_percentage"); ok {
 		tmp := dataStoragePercentage.(int)
 		request.DataStoragePercentage = &tmp
+	}
+
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+		tmp := float32(ocpuCount.(float64))
+		request.OcpuCount = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -611,11 +612,6 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		request.CpuCoreCount = &tmp
 	}
 
-	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok && s.D.HasChange("ocpu_count") {
-		tmp := float32(ocpuCount.(float64))
-		request.OcpuCount = &tmp
-	}
-
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -649,6 +645,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok && s.D.HasChange("ocpu_count") {
+		tmp := float32(ocpuCount.(float64))
+		request.OcpuCount = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
