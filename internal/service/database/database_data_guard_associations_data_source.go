@@ -105,6 +105,10 @@ func (s *DatabaseDataGuardAssociationsDataSourceCrud) SetData() error {
 			dataGuardAssociation["id"] = *r.Id
 		}
 
+		if r.IsActiveDataGuardEnabled != nil {
+			dataGuardAssociation["is_active_data_guard_enabled"] = *r.IsActiveDataGuardEnabled
+		}
+
 		if r.LifecycleDetails != nil {
 			dataGuardAssociation["lifecycle_details"] = *r.LifecycleDetails
 		}

@@ -43,6 +43,7 @@ The following attributes are exported:
 * `apply_rate` - The rate at which redo logs are synced between the associated databases.  Example: `180 Mb per second` 
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the reporting database.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Data Guard association.
+* `is_active_data_guard_enabled` - True if active Data Guard is enabled.
 * `lifecycle_details` - Additional information about the current lifecycleState, if available. 
 * `peer_data_guard_association_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer database's Data Guard association.
 * `peer_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated peer database.

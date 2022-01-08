@@ -45,7 +45,19 @@ var (
 		"delete_standby_db_home_on_delete": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"protection_mode":                  acctest.Representation{RepType: acctest.Required, Create: `MAXIMUM_PERFORMANCE`},
 		"transport_type":                   acctest.Representation{RepType: acctest.Required, Create: `ASYNC`},
+		"is_active_data_guard_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
+
+	dataGuardAssociationRepresentationBaseForExadata = map[string]interface{}{
+		"depends_on":                       acctest.Representation{RepType: acctest.Required, Create: []string{"oci_database_db_system.test_db_system"}},
+		"database_admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"database_id":                      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
+		"delete_standby_db_home_on_delete": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"protection_mode":                  acctest.Representation{RepType: acctest.Required, Create: `MAXIMUM_PERFORMANCE`, Update: `MAXIMUM_AVAILABILITY`},
+		"transport_type":                   acctest.Representation{RepType: acctest.Required, Create: `ASYNC`, Update: `SYNC`},
+		"is_active_data_guard_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+
 	dataGuardAssociationRepresentationExistingDbSystem = acctest.RepresentationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
 		"depends_on":        acctest.Representation{RepType: acctest.Required, Create: []string{`oci_database_db_system.test_db_system`, `oci_database_db_system.test_db_system2`}},
 		"creation_type":     acctest.Representation{RepType: acctest.Required, Create: `ExistingDbSystem`},
@@ -57,7 +69,7 @@ var (
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `displayName`},
 		"hostname":               acctest.Representation{RepType: acctest.Required, Create: `hostname`},
 		"subnet_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"shape":                  acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
+		"shape":                  acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.2`},
 		"backup_network_nsg_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 	})
@@ -168,8 +180,8 @@ resource "oci_database_db_system" "test_db_system" {
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
 	disk_redundancy = "NORMAL"
-	shape = "VM.Standard2.1"
-	cpu_core_count = "1"
+	shape = "VM.Standard2.2"
+	cpu_core_count = "2"
 	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
 	domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
 	hostname = "myOracleDB"
@@ -234,7 +246,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
-				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.2"),
 				resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 
 				func(s *terraform.State) (err error) {
@@ -257,6 +269,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_active_data_guard_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_role"),
